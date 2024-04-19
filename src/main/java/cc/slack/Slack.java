@@ -77,7 +77,7 @@ public class Slack {
         message = message.substring(cmdManager.getPrefix().length());
 
         if (message.split("\\s")[0].equalsIgnoreCase("")) {
-            PrintUtil.message("This is §cZenith's§f prefix for ingame client commands. Type §c.help §fto get started.");
+            PrintUtil.message("This is §cSlack's§f prefix for ingame client commands. Type §c.help §fto get started.");
             return;
         }
 

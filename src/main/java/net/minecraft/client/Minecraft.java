@@ -650,8 +650,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
             try
             {
-                smallIcon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("zenith/textures/logo/16.png"));
-                bigIcon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("zenith/textures/logo/32.png"));
+                smallIcon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/16.png"));
+                bigIcon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/32.png"));
 
                 if (smallIcon != null && bigIcon != null)
                 {

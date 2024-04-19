@@ -14,6 +14,6 @@ public final class PrintUtil extends mc {
     }
 
     public static void message(String message) {
-        getPlayer().addChatMessage(new ChatComponentText("§cZenith §e» §f" + message));
+        getPlayer().addChatMessage(new ChatComponentText("§cSlack §e» §f" + message));
     }
 }

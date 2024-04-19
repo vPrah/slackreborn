@@ -33,7 +33,7 @@ public class HUD extends Module {
     @SuppressWarnings("unused")
     public void onRender(RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_2D) return;
-        Render2DUtil.drawImage(new ResourceLocation("zenith/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
+        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
         arraylistModes.getValue().onRender(e);
     }
 }
