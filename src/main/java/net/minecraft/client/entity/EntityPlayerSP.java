@@ -819,6 +819,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         if (this.isUsingItem() && !this.isRiding())
         {
+            // NoSlowEvent (I need Remake it)
             if (Zenith.getInstance().getModuleManager().getInstance(NoSlow.class).isToggle()) {
                 this.movementInput.moveStrafe *= 1F;
                 this.movementInput.moveForward *= 1F;

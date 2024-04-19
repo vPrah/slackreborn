@@ -22,14 +22,18 @@ public class ClickGUI<ClickGUIType extends GuiScreen> extends Module {
     private ClickGUIType clickgui;
     //private boolean isOpen;
 
+    public ClickGUI() {
+        addSettings(mode);
+    }
+
     @Override
     public void onEnable() {
         if (clickgui == null) {
-            switch (mode.getValue().toLowerCase()) {
-                case "new":
+            switch (mode.getValue()) {
+                case "New":
                     clickgui = (ClickGUIType) new TransparentClickGUI();
                     break;
-                case "old":
+                case "Old":
                     clickgui = (ClickGUIType) new ClickGui();
                     break;
                 default:
@@ -42,4 +46,6 @@ public class ClickGUI<ClickGUIType extends GuiScreen> extends Module {
         mc.getMinecraft().displayGuiScreen(/*isOpen ? null : */clickgui);
         toggle();
     }
+
+
 }

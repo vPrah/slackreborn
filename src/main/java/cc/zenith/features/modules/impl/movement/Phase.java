@@ -31,7 +31,7 @@ public class Phase extends Module {
     }
 
     @Listen
-    public void onMove(MoveEvent event) {
+    public void onMove(MoveEvent Event) {
         switch (mode.getValue().toLowerCase()) {
             case "clip":
             double yaw = Math.toRadians(mc.getPlayer().rotationYaw);
@@ -49,6 +49,8 @@ public class Phase extends Module {
                 insideBlock = false;
             }
             break;
+            case "":
+                break;
         }
     }
 

@@ -1,6 +1,7 @@
 package cc.zenith.features.modules.impl.player.nofalls;
 
 import cc.zenith.events.impl.network.PacketEvent;
+import cc.zenith.events.impl.player.MotionEvent;
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.events.impl.player.UpdateEvent;
 
@@ -27,6 +28,10 @@ public interface INoFall {
     }
 
     default void onUpdate(UpdateEvent event) {
+
+    }
+
+    default void onMotion(MotionEvent event) {
 
     }
 

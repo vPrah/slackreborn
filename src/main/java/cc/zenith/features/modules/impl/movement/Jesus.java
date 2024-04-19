@@ -28,18 +28,16 @@ public class Jesus extends Module {
 
     @Listen
     public void onMove(MoveEvent event) {
+        if (!mc.getPlayer().isInWater()) return;
+
         switch (mode.getValue().toLowerCase()) {
             case "vanilla":
-                if (mc.getPlayer().isInWater()) {
                     MovementUtil.setSpeed(event, 0.4f);
                     event.setY(0.01);
-                }
                 break;
             case "verus":
-                if (mc.getPlayer().isInWater()) {
                     MovementUtil.setSpeed(event, 0.40f);
                     event.setY(0.405f);
-                }
                 break;
         }
     }

@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import cc.zenith.events.impl.player.WorldEvent;
 import com.google.common.collect.Sets;
 import java.util.Random;
 import java.util.Set;
@@ -53,6 +54,7 @@ public class WorldClient extends World
     private final Set<ChunkCoordIntPair> previousActiveChunkSet = Sets.<ChunkCoordIntPair>newHashSet();
     private boolean playerUpdate = false;
 
+
     public WorldClient(NetHandlerPlayClient p_i45063_1_, WorldSettings p_i45063_2_, int p_i45063_3_, EnumDifficulty p_i45063_4_, Profiler p_i45063_5_)
     {
         super(new SaveHandlerMP(), new WorldInfo(p_i45063_2_, "MpServer"), WorldProvider.getProviderForDimension(p_i45063_3_), p_i45063_5_, true);
@@ -66,11 +68,16 @@ public class WorldClient extends World
         this.calculateInitialWeather();
         Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[] {this});
 
+
+
         if (this.mc.playerController != null && this.mc.playerController.getClass() == PlayerControllerMP.class)
         {
+
             this.mc.playerController = new PlayerControllerOF(this.mc, p_i45063_1_);
             CustomGuis.setPlayerControllerOF((PlayerControllerOF)this.mc.playerController);
         }
+
+        new WorldEvent().call();
     }
 
     /**

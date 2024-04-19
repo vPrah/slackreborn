@@ -11,9 +11,13 @@ public class VerusNofall implements INoFall {
 
 
     boolean spoof;
+    int packet1Count;
+    boolean packetModify;
 
     @Override
     public void onEnable() {
+        packetModify = false;
+        packet1Count = 0;
         spoof = false;
     }
 
@@ -24,19 +28,27 @@ public class VerusNofall implements INoFall {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().fallDistance - mc.getPlayer().motionY > 3F) {
-            mc.getPlayer().motionY = 0.0;
-            mc.getPlayer().motionX *= 0.5;
-            mc.getPlayer().motionZ *= 0.5;
+        if (mc.getPlayer().fallDistance - mc.getPlayer().motionY > 3) {
+            mc.getPlayer().motionY = 0.0D;
+            mc.getPlayer().motionX *= 0.5D;
+            mc.getPlayer().motionZ *= 0.5D;
             mc.getPlayer().fallDistance = 0F;
             spoof = true;
         }
+        if (mc.getPlayer().fallDistance / 3 > packet1Count) {
+            packet1Count = (int) (mc.getPlayer().fallDistance / 3);
+            packetModify = true;
+        }
+        if (mc.getPlayer().onGround) {
+            packet1Count = 0;
+        }
+
     }
 
     @Override
     public void onPacket(PacketEvent event) {
         if (spoof && event.getPacket() instanceof C03PacketPlayer) {
-            ((C03PacketPlayer) event.getPacket()).onGround = false;
+            ((C03PacketPlayer) event.getPacket()).onGround = true;
             spoof = false;
         }
     }

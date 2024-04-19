@@ -6,6 +6,7 @@ import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.utils.client.mc;
+import cc.zenith.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -14,7 +15,7 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class NoWeb extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Verus"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "FastFall", "Verus"});
 
     public NoWeb() {
         super();
@@ -31,13 +32,22 @@ public class NoWeb extends Module {
             case "vanilla":
                 mc.getPlayer().isInWeb = false;
                 break;
-            case "verus":
-                mc.getPlayer().jumpMovementFactor = (mc.getPlayer().movementInput.moveStrafe != 0f) ? 1.0f : 1.21f;
-                if (!mc.getGameSettings().keyBindSneak.isKeyDown()) {
-                    mc.getPlayer().motionY = 0.0;
+            case "fastfall":
+                if (mc.getPlayer().onGround) mc.getPlayer().jump();
+                if (mc.getPlayer().motionY > 0f) {
+                    mc.getPlayer().motionY -= mc.getPlayer().motionY * 2;
                 }
-                if (mc.getPlayer().onGround) {
-                    mc.getPlayer().jump();
+                break;
+            case "verus":
+                MovementUtil.strafe(1.00f);
+                if (!mc.getGameSettings().keyBindJump.isKeyDown() && !mc.getGameSettings().keyBindSneak.isKeyDown()) {
+                    mc.getPlayer().motionY = 0.00D;
+                }
+                if (mc.getGameSettings().keyBindJump.isKeyDown()) {
+                    mc.getPlayer().motionY = 4.42D;
+                }
+                if (mc.getGameSettings().keyBindSneak.isKeyDown()) {
+                    mc.getPlayer().motionY = -4.42D;
                 }
                 break;
         }

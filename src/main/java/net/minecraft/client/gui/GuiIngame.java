@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
+import cc.zenith.Zenith;
 import cc.zenith.events.impl.render.RenderEvent;
+import cc.zenith.features.modules.impl.player.Tweaks;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

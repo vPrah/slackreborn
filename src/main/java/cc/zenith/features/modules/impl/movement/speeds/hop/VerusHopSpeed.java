@@ -1,4 +1,4 @@
-package cc.zenith.features.modules.impl.movement.speeds.hops;
+package cc.zenith.features.modules.impl.movement.speeds.hop;
 
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.features.modules.impl.movement.speeds.ISpeed;

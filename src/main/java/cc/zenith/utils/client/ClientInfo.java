@@ -13,7 +13,7 @@ public class ClientInfo {
     public final VersionType type;
 
     public enum VersionType {
-        RELEASE, BETA, DEVELOPER
+        RELEASE, BETA, DEVELOPER, ALPHA
     }
 
     // Getters

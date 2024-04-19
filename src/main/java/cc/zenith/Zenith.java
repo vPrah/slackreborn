@@ -25,7 +25,7 @@ public class Zenith {
 
     @Getter
     private static final Zenith instance = new Zenith();
-    private final ClientInfo info = new ClientInfo("Zenith", "v1.0", ClientInfo.VersionType.DEVELOPER);
+    private final ClientInfo info = new ClientInfo("Zenith", "v0.0", ClientInfo.VersionType.ALPHA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
@@ -33,7 +33,7 @@ public class Zenith {
 
     public void start() {
         PrintUtil.print("Initializing " + info.getName());
-        Display.setTitle(info.getName() + " " + info.getVersion() + "-" + info.getType());
+        Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build");
 
         EventUtil.register(this);
         moduleManager.initialize();
@@ -44,7 +44,7 @@ public class Zenith {
 
         try {
             ViaMCP.create();
-            ViaMCP.INSTANCE.initAsyncSlider(); // For top left aligned slider
+            ViaMCP.INSTANCE.initAsyncSlider();
         } catch (Exception e) {
             e.printStackTrace();
         }
