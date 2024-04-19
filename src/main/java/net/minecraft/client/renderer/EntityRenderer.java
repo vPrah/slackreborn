@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer;
 
-import cc.zenith.events.impl.render.RenderEvent;
+import cc.slack.events.impl.render.RenderEvent;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
