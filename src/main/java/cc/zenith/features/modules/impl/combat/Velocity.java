@@ -22,7 +22,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Hypixel", "Cancel", "Intave"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Hypixel", "Cancel", "Intave", "Reverse", "JumpReset"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
@@ -62,16 +62,6 @@ public class Velocity extends Module {
                 case "cancel":
                     event.cancel();
                     break;
-                case "intave":
-                    if (mc.getPlayer().hurtTime == 9) {
-                        if (++jumped % 2 == 0 && mc.getPlayer().onGround && mc.getPlayer().isSprinting() && mc.getCurrentScreen() == null) {
-                            mc.getGameSettings().keyBindJump.pressed = true;
-                            jumped = 0;
-                        }
-                    } else {
-                        mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
-                    }
-                    break;
                 case "hypixel":
                     event.cancel();
                     mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
@@ -82,15 +72,38 @@ public class Velocity extends Module {
                     mc.getPlayer().motionX = packet.getMotionX() / 8000.0;
                     mc.getPlayer().motionZ = packet.getMotionZ() / 8000.0;
                     MovementUtil.strafe();
+                default:
+                    break;
             }
         }
     }
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mode.getValue().contains("Intave")) {
-            if (mc.getCurrentScreen() != null) {
-            }
+        switch (mode.getValue().toLowerCase()) {
+            case "intave":
+                if (mc.getCurrentScreen() == null) {
+                    if (mc.getPlayer().hurtTime == 9) {
+                        if (++jumped % 2 == 0 && mc.getPlayer().onGround && mc.getPlayer().isSprinting()) {
+                            mc.getGameSettings().keyBindJump.pressed = true;
+                            jumped = 0;
+                        }
+                    } else {
+                        mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
+                    }
+                }
+                break;
+            case "jumpreset":
+                if (mc.getCurrentScreen() == null) {
+                    if (mc.getPlayer().hurtTime > 6) {
+                        mc.getGameSettings().keyBindJump.pressed = true;
+                    } else if (mc.getPlayer().hurtTime == 5) {
+                        mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
+                    }
+                }
+                break;
+            default:
+                break;
         }
     }
 
