@@ -1,0 +1,291 @@
+package cc.zenith.features.modules.impl.combat;
+
+import cc.zenith.events.State;
+import cc.zenith.events.impl.game.TickEvent;
+import cc.zenith.events.impl.player.JumpEvent;
+import cc.zenith.events.impl.player.MotionEvent;
+import cc.zenith.events.impl.player.StrafeEvent;
+import cc.zenith.events.impl.player.UpdateEvent;
+import cc.zenith.events.impl.render.RenderEvent;
+import cc.zenith.features.modules.api.Category;
+import cc.zenith.features.modules.api.Module;
+import cc.zenith.features.modules.api.ModuleInfo;
+import cc.zenith.features.modules.api.settings.impl.BooleanValue;
+import cc.zenith.features.modules.api.settings.impl.ModeValue;
+import cc.zenith.features.modules.api.settings.impl.NumberValue;
+import cc.zenith.utils.client.MC;
+import cc.zenith.utils.network.PacketUtil;
+import cc.zenith.utils.other.MathUtil;
+import cc.zenith.utils.other.TimeUtil;
+import cc.zenith.utils.player.AttackUtil;
+import cc.zenith.utils.player.PlayerUtil;
+import cc.zenith.utils.player.RotationUtil;
+import com.google.common.base.Predicates;
+import io.github.nevalackin.radbus.Listen;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemSword;
+import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.util.*;
+import org.lwjgl.input.Keyboard;
+
+
+import java.security.SecureRandom;
+import java.util.*;
+import java.util.stream.Collectors;
+
+@ModuleInfo(
+        name = "KillAura",
+        category = Category.COMBAT,
+        key = Keyboard.KEY_R
+)
+public class KillAura extends Module {
+
+    private final NumberValue<Double> aimRange = new NumberValue<>("Aim Range", 7.0D, 3.0D, 12.0D, 0.01D);
+    private final NumberValue<Double> attackRange = new NumberValue<>("Attack Range", 3.0D, 3.0D, 7.0D, 0.01D);
+    private final ModeValue<AttackUtil.AttackPattern> attackPattern = new ModeValue<>("Pattern", AttackUtil.AttackPattern.values());
+    private final NumberValue<Integer> cps = new NumberValue<>("CPS", 18, 1, 30, 1);
+    private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft"});
+    private final BooleanValue rotationRand = new BooleanValue("Rotation Randomization", false);
+    private final BooleanValue moveFix = new BooleanValue("Move Fix", false);
+    private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
+    private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
+
+    private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Distance", "Health"});
+    private final BooleanValue teams = new BooleanValue("Teams", false);
+    private final BooleanValue playerTarget = new BooleanValue("Players", true);
+    private final BooleanValue animalTarget = new BooleanValue("Animals", true);
+    private final BooleanValue mobsTarget = new BooleanValue("Mobs", true);
+
+    private final TimeUtil timer = new TimeUtil();
+    private final TimeUtil rotationCenter = new TimeUtil();
+    private double rotationOffset;
+    private EntityLivingBase target;
+    private float[] rotations;
+    private long attackDelay;
+    private int queuedAttacks;
+    private boolean isBlocking;
+
+    public KillAura() {
+        super();
+        addSettings(aimRange, attackRange, attackPattern, cps, randomization, autoBlock, rotationRand, moveFix, keepSprint, rayCast, sortMode, teams, playerTarget, animalTarget, mobsTarget);
+    }
+
+    @Override
+    public void onEnable() {
+        rotations = new float[]{MC.getPlayer().rotationYaw, MC.getPlayer().rotationPitch};
+        attackDelay = AttackUtil.getAttackDelay(cps.getValue(), randomization.getValue(), attackPattern.getValue());
+        queuedAttacks = 0;
+        timer.reset();
+        rotationCenter.reset();
+    }
+
+    @Override
+    public void onDisable() {
+        if(isBlocking) unblock();
+    }
+
+    @Listen
+    public void onStrafe(StrafeEvent e) {
+        if (target != null && moveFix.getValue()) e.setYaw(rotations[0]);
+    }
+
+    @Listen
+    public void onJump(JumpEvent e) {
+        if (target != null && moveFix.getValue()) e.setYaw(rotations[0]);
+    }
+
+    @Listen
+    public void onMotion(MotionEvent e) {
+        if (target == null) {
+            rotations[0] = MC.getPlayer().rotationYaw;
+            rotations[1] = MC.getPlayer().rotationPitch;
+        } else {
+            e.setYaw(rotations[0]);
+            e.setPitch(rotations[1]);
+        }
+
+        if(e.getState() == State.PRE) {
+            if(canAutoBlock()) {
+                switch (autoBlock.getValue()) {
+                    case "Universocraft":
+                        if (!MC.getGameSettings().keyBindUseItem.isKeyDown()) {
+                            if (!isBlocking) {
+                                PacketUtil.send(new C08PacketPlayerBlockPlacement(MC.getPlayer().getCurrentEquippedItem()));
+                                isBlocking = true;
+                            }
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    @Listen
+    public void onRender(RenderEvent e) {
+        if(e.getState() != RenderEvent.State.RENDER_2D) return;
+        if (timer.reach(attackDelay) && target != null) {
+            queuedAttacks++;
+            timer.reset();
+            attackDelay = AttackUtil.getAttackDelay(cps.getValue(), randomization.getValue(), attackPattern.getValue());
+        }
+    }
+
+    @Listen
+    public void onTick(TickEvent e) {
+        if(e.getState() == State.PRE) {
+            target = getTarget();
+
+            if (target == null) {
+                attackDelay = 0;
+                return;
+            }
+
+            if (MC.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
+
+            rotations = calculateRotations(target);
+
+            if (e.getState() != State.PRE) return;
+
+            while (queuedAttacks > 0) {
+                attack(target);
+                queuedAttacks--;
+            }
+        } else {
+            if(isBlocking && autoBlock.getValue().equalsIgnoreCase("Universocraft")) {
+                isBlocking = false;
+            }
+        }
+    }
+
+    private void attack(EntityLivingBase target) {
+        EntityLivingBase rayCastedEntity = null;
+        if (rayCast.getValue()) rayCastedEntity = rayCast(attackRange.getValue(), rotations);
+
+        MC.getPlayer().swingItem();
+
+        if (MC.getPlayer().getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
+            return;
+
+        if (keepSprint.getValue()) {
+            MC.getPlayerController().syncCurrentPlayItem();
+            PacketUtil.send(new C02PacketUseEntity(rayCastedEntity == null ? target : rayCastedEntity, C02PacketUseEntity.Action.ATTACK));
+        } else {
+            MC.getPlayerController().attackEntity(MC.getPlayer(), rayCastedEntity == null ? target : rayCastedEntity);
+        }
+    }
+
+
+
+    private EntityLivingBase getTarget() {
+        if (MC.getPlayer() == null || MC.getWorld() == null) return null;
+        List<EntityLivingBase> targets = new ArrayList<>();
+
+        for (Entity entity : MC.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
+            if (entity instanceof EntityLivingBase) {
+                if (entity == MC.getPlayer()) continue;
+                if (entity instanceof EntityArmorStand) continue;
+                if (mobsTarget.getValue() && !(entity instanceof EntityMob)) continue;
+                if (animalTarget.getValue() && !(entity instanceof EntityAnimal)) continue;
+                if (playerTarget.getValue() && !(entity instanceof EntityPlayer)) continue;
+                if (entity instanceof EntityPlayer && teams.getValue() && !PlayerUtil.isOnSameTeam((EntityPlayer) entity))
+                    continue;
+                if (MC.getPlayer().getDistanceToEntity(entity) > aimRange.getValue()) continue;
+                targets.add((EntityLivingBase) entity);
+            }
+        }
+
+        switch (sortMode.getValue().toLowerCase()) {
+            case "distance":
+                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(MC.getPlayer())));
+                break;
+            case "health":
+                targets.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
+                break;
+        }
+
+        return targets.isEmpty() ? null : targets.get(0);
+    }
+
+    public EntityLivingBase rayCast(double range, float[] rotations) {
+        Vec3 eyes = MC.getPlayer().getPositionEyes(MC.getTimer().renderPartialTicks);
+        Vec3 look = MC.getPlayer().getVectorForRotation(rotations[1], rotations[0]);
+        Vec3 vec = eyes.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+        List<Entity> entities = MC.getWorld().getEntitiesInAABBexcluding(MC.getPlayer(), MC.getPlayer().getEntityBoundingBox().addCoord(
+                        look.xCoord * range, look.yCoord * range, look.zCoord * range).expand(1, 1, 1),
+                Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
+        EntityLivingBase raycastedEntity = null;
+
+        for (Entity ent : entities) {
+            if (!(ent instanceof EntityLivingBase)) return null;
+            EntityLivingBase entity = (EntityLivingBase) ent;
+            if (entity == MC.getPlayer()) continue;
+            final float borderSize = entity.getCollisionBorderSize();
+            final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+            final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(eyes, vec);
+
+            if (axisalignedbb.isVecInside(eyes)) {
+                if (range >= 0) {
+                    raycastedEntity = entity;
+                    range = 0;
+                }
+            } else if (movingobjectposition != null) {
+                final double distance = eyes.distanceTo(movingobjectposition.hitVec);
+
+                if (distance < range || range == 0) {
+                    if (entity == entity.ridingEntity) {
+                        if (range == 0) raycastedEntity = entity;
+                    } else {
+                        raycastedEntity = entity;
+                        range = distance;
+                    }
+                }
+            }
+        }
+
+        return raycastedEntity;
+    }
+
+    private float[] calculateRotations(Entity entity) {
+        final AxisAlignedBB bb = entity.getEntityBoundingBox();
+
+        if(rotationCenter.reach(1200) && rotationRand.getValue()) {
+            rotationOffset = new SecureRandom().nextDouble();
+            rotationCenter.reset();
+        }
+
+        final double distancedYaw = (entity.getDistanceToEntity(MC.getPlayer()) > attackRange.getValue() ? entity.getEyeHeight() : 2 * (entity.getDistanceToEntity(MC.getPlayer()) / 3.5));
+        final float[] newRots = RotationUtil.getRotations(
+                bb.minX + ((bb.maxX - bb.minX) / 2) + (rotationRand.getValue() ? (rotationOffset / 2) : 0),
+                bb.minY + distancedYaw,
+                bb.minZ + ((bb.maxZ - bb.minZ) / 2) + (rotationRand.getValue() ? (rotationOffset / 2) : 0));
+
+        final float pitchSpeed = (float) (MC.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(65.0, 85.0));
+        final float yawSpeed = (float) (MC.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(45.0, 65.0));
+
+        newRots[0] = RotationUtil.updateRots(rotations[0], (float) MathUtil.getRandomInRange(newRots[0] - 2.19782323, newRots[0] + 2.8972343), pitchSpeed);
+        newRots[1] = RotationUtil.updateRots(rotations[1], (float) MathUtil.getRandomInRange(newRots[1] - 3.13672842, newRots[1] + 3.8716793), yawSpeed);
+
+        newRots[1] = MathHelper.clamp_float(newRots[1], -90, 90);
+
+        return RotationUtil.applyGCD(newRots, rotations);
+    }
+
+    private void unblock() {
+        if (!MC.getGameSettings().keyBindUseItem.isKeyDown())
+            PacketUtil.send(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+        else
+            MC.getGameSettings().keyBindUseItem.setPressed(false);
+    }
+
+    private boolean canAutoBlock() {
+        return target != null && MC.getPlayer().getHeldItem() != null && MC.getPlayer().getHeldItem().getItem() instanceof ItemSword;
+    }
+}
