@@ -14,6 +14,13 @@ public class MovementUtil extends mc {
         setBaseSpeed(event, speed, yawDegrees, getPlayer().moveForward, getPlayer().moveStrafing);
     }
 
+    public static void minLimitStrafe(float speed) {
+        strafe();
+        if (getSpeed() < speed) {
+            strafe(speed);
+        }
+    }
+
     public static void strafe(){
         strafe((float) getSpeed());
     }
@@ -78,6 +85,10 @@ public class MovementUtil extends mc {
             rotationYaw += strafingYaw;
 
         return rotationYaw;
+    }
+
+    public static void resetMotion() {
+        getPlayer().motionX = getPlayer().motionZ = 0;
     }
 
     public static void resetMotion(boolean stopY) {

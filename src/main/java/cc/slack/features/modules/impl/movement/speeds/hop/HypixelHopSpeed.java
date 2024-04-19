@@ -14,14 +14,12 @@ public class HypixelHopSpeed implements ISpeed {
     public void onMove(MoveEvent event) {
         if (mc.getPlayer().onGround) {
             if (MovementUtil.isMoving()) {
-                event.setY((float) PlayerUtil.BASE_JUMP_HEIGHT);
-                if (MovementUtil.getSpeed(event) < 0.46) {
-                    MovementUtil.setSpeed(event, 0.46f);
-                } else {
-                    MovementUtil.setSpeed(event, MovementUtil.getSpeed(event));
-                }
+                mc.getPlayer().jump();
+                MovementUtil.minLimitStrafe(0.46f);
             }
         } else {
+            mc.getPlayer().motionX *= 1.001;
+            mc.getPlayer().motionZ *= 1.001;
         }
 
     }

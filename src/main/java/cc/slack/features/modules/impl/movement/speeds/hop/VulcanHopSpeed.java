@@ -29,13 +29,11 @@ public class VulcanHopSpeed implements ISpeed {
             mc.getTimer().timerSpeed = 1.25f;
             modifiedTimer = true;
 
-            MovementUtil.strafe();
-            if(MovementUtil.getSpeed() < 0.4849f) {
-                MovementUtil.strafe(0.4849f);
-            }
+            MovementUtil.minLimitStrafe(0.4849f);
+
         } else if (!MovementUtil.isMoving()) {
             mc.getTimer().timerSpeed = 1.00f;
-            MovementUtil.resetMotion(false);
+            MovementUtil.resetMotion();
         }
     }
 
