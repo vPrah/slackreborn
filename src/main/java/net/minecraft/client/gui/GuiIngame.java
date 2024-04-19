@@ -1,8 +1,8 @@
 package net.minecraft.client.gui;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.impl.render.RenderEvent;
-import cc.zenith.features.modules.impl.player.Tweaks;
+import cc.slack.Slack;
+import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.impl.player.Tweaks;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -866,7 +866,7 @@ public class GuiIngame extends Gui
      */
     private void renderBossHealth()
     {
-        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && !Zenith.getInstance().getModuleManager().getInstance(Tweaks.class).nobosshealth.getValue())
+        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).nobosshealth.getValue())
         {
             --BossStatus.statusBarTime;
             FontRenderer fontrenderer = this.mc.MCfontRenderer;

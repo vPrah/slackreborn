@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import cc.zenith.ui.alt.GuiAltLogin;
+import cc.slack.ui.alt.GuiAltLogin;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;

@@ -1,9 +1,9 @@
 package net.minecraft.client;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.State;
-import cc.zenith.events.impl.game.TickEvent;
-import cc.zenith.events.impl.input.KeyEvent;
+import cc.slack.Slack;
+import cc.slack.events.State;
+import cc.slack.events.impl.game.TickEvent;
+import cc.slack.events.impl.input.KeyEvent;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -551,7 +551,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         this.checkGLError("Post startup");
         this.ingameGUI = new GuiIngame(this);
 
-        Zenith.getInstance().start();
+        Slack.getInstance().start();
 
         if (this.serverName != null)
         {
@@ -596,7 +596,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Loading " + Zenith.getInstance().getInfo().getName() + " " + Zenith.getInstance().getInfo().getVersion() + "-" + Zenith.getInstance().getInfo().getType());
+        Display.setTitle("Loading " + Slack.getInstance().getInfo().getName() + " " + Slack.getInstance().getInfo().getVersion() + "-" + Slack.getInstance().getInfo().getType());
 
         try
         {
@@ -1008,7 +1008,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     {
         try
         {
-            Zenith.getInstance().shutdown();
+            Slack.getInstance().shutdown();
             logger.info("Stopping!");
 
             try

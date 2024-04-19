@@ -1,12 +1,12 @@
 package net.minecraft.client.entity;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.State;
-import cc.zenith.events.impl.game.ChatEvent;
-import cc.zenith.events.impl.player.MotionEvent;
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.impl.movement.NoSlow;
+import cc.slack.Slack;
+import cc.slack.events.State;
+import cc.slack.events.impl.game.ChatEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.movement.NoSlow;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -820,7 +820,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         if (this.isUsingItem() && !this.isRiding())
         {
             // NoSlowEvent (I need Remake it)
-            if (Zenith.getInstance().getModuleManager().getInstance(NoSlow.class).isToggle()) {
+            if (Slack.getInstance().getModuleManager().getInstance(NoSlow.class).isToggle()) {
                 this.movementInput.moveStrafe *= 1F;
                 this.movementInput.moveForward *= 1F;
                 setSprinting(true);

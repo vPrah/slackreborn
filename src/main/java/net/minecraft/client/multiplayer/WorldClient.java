@@ -1,6 +1,6 @@
 package net.minecraft.client.multiplayer;
 
-import cc.zenith.events.impl.player.WorldEvent;
+import cc.slack.events.impl.player.WorldEvent;
 import com.google.common.collect.Sets;
 import java.util.Random;
 import java.util.Set;
