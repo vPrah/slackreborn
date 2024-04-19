@@ -13,7 +13,7 @@ import cc.zenith.features.modules.impl.movement.speeds.ISpeed;
 import cc.zenith.features.modules.impl.movement.speeds.hop.HypixelHopSpeed;
 import cc.zenith.features.modules.impl.movement.speeds.hop.VerusHopSpeed;
 import cc.zenith.features.modules.impl.movement.speeds.hop.VulcanHopSpeed;
-import cc.zenith.features.modules.impl.movement.speeds.vanilla.VanillaSpeed;
+import cc.zenith.features.modules.impl.movement.speeds.vanilla.BhopSpeed;
 import cc.zenith.features.modules.impl.movement.speeds.yport.VulcanLowSpeed;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
@@ -28,7 +28,7 @@ public class Speed extends Module {
     private final ModeValue<ISpeed> mode = new ModeValue<>(new ISpeed[]{
 
             // Vanilla
-            new VanillaSpeed(),
+            new BhopSpeed(),
 
             // Verus
             new VerusHopSpeed(),
@@ -41,7 +41,7 @@ public class Speed extends Module {
             new VulcanHopSpeed()
     });
 
-    public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla-Speed", 1.0F, 3.0F, 12.0F, 0.10F);
+    public final NumberValue<Float> vanillaspeed = new NumberValue<>("Bhop-Speed", 1.0F, 0.0F, 2.0F, 0.01F);
 
 
     public Speed() {

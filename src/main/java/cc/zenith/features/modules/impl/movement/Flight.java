@@ -7,6 +7,7 @@ import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.events.impl.player.UpdateEvent;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.features.modules.api.settings.impl.MultiSelectValue;
+import cc.zenith.features.modules.api.settings.impl.NumberValue;
 import cc.zenith.features.modules.impl.movement.flights.IFlight;
 import cc.zenith.features.modules.impl.movement.flights.impl.*;
 import cc.zenith.features.modules.api.Category;
@@ -24,7 +25,13 @@ import org.lwjgl.input.Keyboard;
 )
 public class Flight extends Module {
 
-    private final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{new VanillaFlight(), new VerusJumpFlight(), new VerusFlight(), new VerusJumpFlight(), new ChunkFlight()});
+    private final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{
+            new VanillaFlight(),
+            new VerusJumpFlight(), new VerusFlight(),
+            new ChunkFlight()
+    });
+
+    public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla-Speed", 3.0F, 0.0F, 5.0F, 0.10F);
 
     public Flight() {
         super();
