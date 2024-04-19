@@ -1,7 +1,7 @@
-package cc.zenith.features.commands;
+package cc.slack.features.commands;
 
-import cc.zenith.features.commands.api.CMD;
-import cc.zenith.features.commands.impl.HelpCMD;
+import cc.slack.features.commands.api.CMD;
+import cc.slack.features.commands.impl.HelpCMD;
 import lombok.Getter;
 
 import java.util.ArrayList;

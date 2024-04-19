@@ -1,16 +1,16 @@
-package cc.zenith.features.modules;
+package cc.slack.features.modules;
 
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.Category;
 
-import cc.zenith.features.modules.impl.combat.*;
-import cc.zenith.features.modules.impl.exploit.*;
-import cc.zenith.features.modules.impl.movement.*;
-import cc.zenith.features.modules.impl.player.*;
-import cc.zenith.features.modules.impl.player.Timer;
-import cc.zenith.features.modules.impl.render.*;
-import cc.zenith.features.modules.impl.world.*;
-import cc.zenith.utils.other.PrintUtil;
+import cc.slack.features.modules.impl.combat.*;
+import cc.slack.features.modules.impl.exploit.*;
+import cc.slack.features.modules.impl.movement.*;
+import cc.slack.features.modules.impl.player.*;
+import cc.slack.features.modules.impl.player.Timer;
+import cc.slack.features.modules.impl.render.*;
+import cc.slack.features.modules.impl.world.*;
+import cc.slack.utils.other.PrintUtil;
 
 import java.util.*;
 

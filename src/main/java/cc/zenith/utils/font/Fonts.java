@@ -1,6 +1,6 @@
-package cc.zenith.utils.font;
+package cc.slack.utils.font;
 
-import cc.zenith.utils.other.PrintUtil;
+import cc.slack.utils.other.PrintUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
@@ -34,7 +34,7 @@ public class Fonts {
         PrintUtil.print("Initializing Font: " + fileName + " | Size: " + fontSize);
         Font output = null;
         try {
-            output = Font.createFont(Font.TRUETYPE_FONT, Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("zenith/fonts/" + fileName)).getInputStream());
+            output = Font.createFont(Font.TRUETYPE_FONT, Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("slack/fonts/" + fileName)).getInputStream());
             output = output.deriveFont(fontSize);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();

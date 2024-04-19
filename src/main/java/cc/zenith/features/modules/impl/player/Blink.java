@@ -1,12 +1,12 @@
-package cc.zenith.features.modules.impl.player;
+package cc.slack.features.modules.impl.player;
 
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.network.PacketUtil;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.Packet;
 import net.minecraft.network.handshake.client.C00Handshake;

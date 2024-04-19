@@ -1,7 +1,7 @@
-package cc.zenith.utils.player;
+package cc.slack.utils.player;
 
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.utils.client.mc;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.utils.client.mc;
 import net.minecraft.potion.Potion;
 
 public class MovementUtil extends mc {

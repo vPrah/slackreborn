@@ -1,12 +1,12 @@
-package cc.zenith.events;
+package cc.slack.events;
 
-import cc.zenith.Zenith;
+import cc.slack.Slack;
 
 public class Event {
     private boolean cancel;
 
     public Event call() {
-        Zenith.getInstance().getEventBus().publish(this);
+        Slack.getInstance().getEventBus().publish(this);
         return this;
     }
 

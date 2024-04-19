@@ -1,8 +1,8 @@
-package cc.zenith.features.modules.impl.movement.flights.impl;
+package cc.slack.features.modules.impl.movement.flights.impl;
 
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.impl.movement.flights.IFlight;
-import cc.zenith.utils.client.mc;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.movement.flights.IFlight;
+import cc.slack.utils.client.mc;
 
 public class ChunkFlight implements IFlight {
 

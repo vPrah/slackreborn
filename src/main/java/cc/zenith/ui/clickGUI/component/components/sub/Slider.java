@@ -1,10 +1,10 @@
-package cc.zenith.ui.clickGUI.component.components.sub;
+package cc.slack.ui.clickGUI.component.components.sub;
 
-import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.ui.clickGUI.component.Component;
-import cc.zenith.ui.clickGUI.component.components.Button;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.other.MathUtil;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.ui.clickGUI.component.Component;
+import cc.slack.ui.clickGUI.component.components.Button;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.other.MathUtil;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 

@@ -1,4 +1,4 @@
-package cc.zenith.utils.other;
+package cc.slack.utils.other;
 
 import java.math.BigDecimal;
 import java.math.MathContext;

@@ -1,17 +1,17 @@
-package cc.zenith;
+package cc.slack;
 
-import cc.zenith.events.Event;
-import cc.zenith.events.impl.game.ChatEvent;
-import cc.zenith.events.impl.input.KeyEvent;
-import cc.zenith.features.commands.CMDManager;
-import cc.zenith.features.commands.api.CMD;
-import cc.zenith.features.modules.ModuleManager;
-import cc.zenith.features.modules.impl.movement.Sprint;
-import cc.zenith.features.modules.impl.player.Tweaks;
-import cc.zenith.features.modules.impl.render.HUD;
-import cc.zenith.utils.client.ClientInfo;
-import cc.zenith.utils.EventUtil;
-import cc.zenith.utils.other.PrintUtil;
+import cc.slack.events.Event;
+import cc.slack.events.impl.game.ChatEvent;
+import cc.slack.events.impl.input.KeyEvent;
+import cc.slack.features.commands.CMDManager;
+import cc.slack.features.commands.api.CMD;
+import cc.slack.features.modules.ModuleManager;
+import cc.slack.features.modules.impl.movement.Sprint;
+import cc.slack.features.modules.impl.player.Tweaks;
+import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.utils.client.ClientInfo;
+import cc.slack.utils.EventUtil;
+import cc.slack.utils.other.PrintUtil;
 import de.florianmichael.viamcp.ViaMCP;
 import io.github.nevalackin.radbus.Listen;
 import io.github.nevalackin.radbus.PubSub;
@@ -22,11 +22,11 @@ import java.util.Arrays;
 
 @Getter
 @SuppressWarnings("unused")
-public class Zenith {
+public class Slack {
 
     @Getter
-    private static final Zenith instance = new Zenith();
-    private final ClientInfo info = new ClientInfo("Zenith", "v0.0", ClientInfo.VersionType.ALPHA);
+    private static final Slack instance = new Slack();
+    private final ClientInfo info = new ClientInfo("Slack", "v0.0", ClientInfo.VersionType.ALPHA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
@@ -77,7 +77,7 @@ public class Zenith {
         message = message.substring(cmdManager.getPrefix().length());
 
         if (message.split("\\s")[0].equalsIgnoreCase("")) {
-            PrintUtil.message("This is §cZenith's§f prefix for ingame client commands. Type §c.help §fto get started.");
+            PrintUtil.message("This is §cSlack's§f prefix for ingame client commands. Type §c.help §fto get started.");
             return;
         }
 

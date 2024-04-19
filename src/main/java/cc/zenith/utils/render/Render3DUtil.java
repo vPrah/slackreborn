@@ -1,6 +1,6 @@
-package cc.zenith.utils.render;
+package cc.slack.utils.render;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 
 public final class Render3DUtil extends mc {
 }

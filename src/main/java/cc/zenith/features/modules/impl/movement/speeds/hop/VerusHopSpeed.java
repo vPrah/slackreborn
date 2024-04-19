@@ -1,10 +1,10 @@
-package cc.zenith.features.modules.impl.movement.speeds.hop;
+package cc.slack.features.modules.impl.movement.speeds.hop;
 
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.features.modules.impl.movement.speeds.ISpeed;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.player.MovementUtil;
-import cc.zenith.utils.player.PlayerUtil;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.features.modules.impl.movement.speeds.ISpeed;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.player.PlayerUtil;
 
 public class VerusHopSpeed implements ISpeed {
 

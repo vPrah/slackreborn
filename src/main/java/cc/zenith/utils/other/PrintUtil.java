@@ -1,12 +1,12 @@
-package cc.zenith.utils.other;
+package cc.slack.utils.other;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 import net.minecraft.util.ChatComponentText;
 
 public final class PrintUtil extends mc {
 
     public static void print(String message) {
-        System.out.println("[Zenith] " + message);
+        System.out.println("[Slack] " + message);
     }
 
     public static void debugMessage(String message) {
@@ -14,6 +14,6 @@ public final class PrintUtil extends mc {
     }
 
     public static void message(String message) {
-        getPlayer().addChatMessage(new ChatComponentText("§cZenith §e» §f" + message));
+        getPlayer().addChatMessage(new ChatComponentText("§cSlack §e» §f" + message));
     }
 }

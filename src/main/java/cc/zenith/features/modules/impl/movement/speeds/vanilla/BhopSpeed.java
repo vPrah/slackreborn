@@ -1,11 +1,11 @@
-package cc.zenith.features.modules.impl.movement.speeds.vanilla;
+package cc.slack.features.modules.impl.movement.speeds.vanilla;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.impl.movement.Speed;
-import cc.zenith.features.modules.impl.movement.speeds.ISpeed;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.player.MovementUtil;
+import cc.slack.Slack;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.movement.Speed;
+import cc.slack.features.modules.impl.movement.speeds.ISpeed;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
 
 public class BhopSpeed implements ISpeed {
 
@@ -13,7 +13,7 @@ public class BhopSpeed implements ISpeed {
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().onGround && MovementUtil.isMoving()) {
             mc.getPlayer().jump();
-            MovementUtil.strafe(Zenith.getInstance().getModuleManager().getInstance(Speed.class).vanillaspeed.getValue());
+            MovementUtil.strafe(Slack.getInstance().getModuleManager().getInstance(Speed.class).vanillaspeed.getValue());
         }
         MovementUtil.strafe();
     }

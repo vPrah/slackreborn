@@ -1,4 +1,4 @@
-package cc.zenith.features.commands.api;
+package cc.slack.features.commands.api;
 
 import lombok.Getter;
 

@@ -1,4 +1,4 @@
-package cc.zenith.utils.player;
+package cc.slack.utils.player;
 
 import net.minecraft.util.MathHelper;
 

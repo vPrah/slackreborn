@@ -1,20 +1,20 @@
-package cc.zenith.features.modules.impl.movement;
+package cc.slack.features.modules.impl.movement;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.features.modules.impl.movement.speeds.ISpeed;
-import cc.zenith.features.modules.impl.movement.speeds.hop.HypixelHopSpeed;
-import cc.zenith.features.modules.impl.movement.speeds.hop.VerusHopSpeed;
-import cc.zenith.features.modules.impl.movement.speeds.hop.VulcanHopSpeed;
-import cc.zenith.features.modules.impl.movement.speeds.vanilla.BhopSpeed;
-import cc.zenith.features.modules.impl.movement.speeds.yport.VulcanLowSpeed;
+import cc.slack.Slack;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.impl.movement.speeds.ISpeed;
+import cc.slack.features.modules.impl.movement.speeds.hop.HypixelHopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.hop.VerusHopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.hop.VulcanHopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.vanilla.BhopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.yport.VulcanLowSpeed;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
 

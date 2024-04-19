@@ -1,7 +1,7 @@
 package net.minecraft.network;
 
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.utils.other.PrintUtil;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.utils.other.PrintUtil;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.viaversion.viaversion.api.connection.UserConnection;

@@ -1,9 +1,9 @@
-package cc.zenith.features.modules.impl.player.nofalls;
+package cc.slack.features.modules.impl.player.nofalls;
 
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.events.impl.player.MotionEvent;
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
 
 public interface INoFall {
     default void onEnable() {

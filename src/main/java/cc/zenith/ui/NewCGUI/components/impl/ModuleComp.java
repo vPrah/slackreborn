@@ -1,9 +1,9 @@
-package cc.zenith.ui.NewCGUI.components.impl;
+package cc.slack.ui.NewCGUI.components.impl;
 
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.ui.NewCGUI.components.Components;
-import cc.zenith.utils.other.PrintUtil;
-import cc.zenith.utils.render.Render2DUtil;
+import cc.slack.features.modules.api.Module;
+import cc.slack.ui.NewCGUI.components.Components;
+import cc.slack.utils.other.PrintUtil;
+import cc.slack.utils.render.Render2DUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.FontRenderer;

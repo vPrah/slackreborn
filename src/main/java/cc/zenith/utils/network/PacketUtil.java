@@ -1,6 +1,6 @@
-package cc.zenith.utils.network;
+package cc.slack.utils.network;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 import net.minecraft.network.Packet;
 
 public final class PacketUtil extends mc {

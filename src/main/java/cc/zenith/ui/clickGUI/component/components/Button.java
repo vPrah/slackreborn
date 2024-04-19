@@ -1,24 +1,24 @@
-package cc.zenith.ui.clickGUI.component.components;
+package cc.slack.ui.clickGUI.component.components;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
-import cc.zenith.features.modules.api.settings.Value;
-import cc.zenith.features.modules.api.settings.impl.BooleanValue;
-import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.ui.clickGUI.component.components.sub.Checkbox;
-import cc.zenith.ui.clickGUI.component.components.sub.Slider;
-import cc.zenith.utils.client.mc;
+import cc.slack.features.modules.api.settings.Value;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.ui.clickGUI.component.components.sub.Checkbox;
+import cc.slack.ui.clickGUI.component.components.sub.Slider;
+import cc.slack.utils.client.mc;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 
-import cc.zenith.ui.clickGUI.component.Component;
-import cc.zenith.ui.clickGUI.component.Frame;
-import cc.zenith.ui.clickGUI.component.components.sub.Keybind;
-import cc.zenith.ui.clickGUI.component.components.sub.ModeButton;
-import cc.zenith.features.modules.api.Module;
+import cc.slack.ui.clickGUI.component.Component;
+import cc.slack.ui.clickGUI.component.Frame;
+import cc.slack.ui.clickGUI.component.components.sub.Keybind;
+import cc.slack.ui.clickGUI.component.components.sub.ModeButton;
+import cc.slack.features.modules.api.Module;
 
 public class Button extends Component {
 

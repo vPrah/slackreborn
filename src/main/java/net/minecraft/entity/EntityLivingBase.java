@@ -1,7 +1,7 @@
 package net.minecraft.entity;
 
-import cc.zenith.events.impl.player.JumpEvent;
-import cc.zenith.utils.client.mc;
+import cc.slack.events.impl.player.JumpEvent;
+import cc.slack.utils.client.mc;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;

@@ -1,10 +1,10 @@
-package cc.zenith.features.modules.impl.player.nofalls.specials;
+package cc.slack.features.modules.impl.player.nofalls.specials;
 
 
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.impl.player.nofalls.INoFall;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.network.PacketUtil;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.player.nofalls.INoFall;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class VanillaNofall implements INoFall {

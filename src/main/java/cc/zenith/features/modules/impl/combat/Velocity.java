@@ -1,15 +1,15 @@
-package cc.zenith.features.modules.impl.combat;
+package cc.slack.features.modules.impl.combat;
 
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.features.modules.api.settings.impl.BooleanValue;
-import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.player.MovementUtil;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.PacketDirection;

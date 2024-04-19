@@ -1,4 +1,4 @@
-package cc.zenith.utils.render;
+package cc.slack.utils.render;
 
 import lombok.Getter;
 

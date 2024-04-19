@@ -1,9 +1,9 @@
-package cc.zenith.ui.clickGUI.component;
+package cc.slack.ui.clickGUI.component;
 
 import java.util.ArrayList;
 
-import cc.zenith.Zenith;
-import cc.zenith.utils.client.mc;
+import cc.slack.Slack;
+import cc.slack.utils.client.mc;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
@@ -12,9 +12,9 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
 //Your Imports
-import cc.zenith.ui.clickGUI.component.components.Button;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
+import cc.slack.ui.clickGUI.component.components.Button;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
 
 public class Frame {
 
@@ -41,7 +41,7 @@ public class Frame {
         this.isDragging = false;
         int tY = this.height;
 
-        for (Module mod : Zenith.getInstance().getModuleManager().getModulesByCategory(category)) {
+        for (Module mod : Slack.getInstance().getModuleManager().getModulesByCategory(category)) {
             Button modButton = new Button(mod, this, tY);
             this.components.add(modButton);
             tY += 12;

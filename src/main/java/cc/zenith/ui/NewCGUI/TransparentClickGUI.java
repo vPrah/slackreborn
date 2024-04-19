@@ -1,8 +1,8 @@
-package cc.zenith.ui.NewCGUI;
+package cc.slack.ui.NewCGUI;
 
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.ui.NewCGUI.components.Components;
-import cc.zenith.ui.NewCGUI.components.impl.CategoryComp;
+import cc.slack.features.modules.api.Category;
+import cc.slack.ui.NewCGUI.components.Components;
+import cc.slack.ui.NewCGUI.components.impl.CategoryComp;
 import net.minecraft.client.gui.GuiScreen;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,7 +26,7 @@ public class TransparentClickGUI extends GuiScreen {
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         super.drawScreen(mouseX, mouseY, partialTicks);
-        frames.forEach(categoryComp -> categoryComp.draw(cc.zenith.utils.client.mc.getFontRenderer(), mouseX, mouseY, partialTicks));
+        frames.forEach(categoryComp -> categoryComp.draw(cc.slack.utils.client.mc.getFontRenderer(), mouseX, mouseY, partialTicks));
     }
 
     @Override

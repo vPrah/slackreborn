@@ -1,6 +1,6 @@
-package cc.zenith.features.modules.api.settings.impl;
+package cc.slack.features.modules.api.settings.impl;
 
-import cc.zenith.features.modules.api.settings.Value;
+import cc.slack.features.modules.api.settings.Value;
 
 public class StringValue extends Value<String> {
 

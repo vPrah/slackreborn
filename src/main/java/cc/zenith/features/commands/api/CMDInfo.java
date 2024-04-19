@@ -1,4 +1,4 @@
-package cc.zenith.features.commands.api;
+package cc.slack.features.commands.api;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

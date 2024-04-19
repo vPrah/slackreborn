@@ -1,6 +1,6 @@
-package cc.zenith.ui.alt;
+package cc.slack.ui.alt;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;

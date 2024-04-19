@@ -1,6 +1,6 @@
-package cc.zenith.ui.NewCGUI.components;
+package cc.slack.ui.NewCGUI.components;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.FontRenderer;

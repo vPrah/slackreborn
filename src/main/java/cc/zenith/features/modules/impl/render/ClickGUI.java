@@ -1,12 +1,12 @@
-package cc.zenith.features.modules.impl.render;
+package cc.slack.features.modules.impl.render;
 
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.ui.NewCGUI.TransparentClickGUI;
-import cc.zenith.ui.clickGUI.ClickGui;
-import cc.zenith.utils.client.mc;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.ui.NewCGUI.TransparentClickGUI;
+import cc.slack.ui.clickGUI.ClickGui;
+import cc.slack.utils.client.mc;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 

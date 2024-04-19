@@ -1,8 +1,8 @@
-package cc.zenith.utils.player;
+package cc.slack.utils.player;
 
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.network.PacketUtil;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;

@@ -1,4 +1,4 @@
-package cc.zenith.utils.client;
+package cc.slack.utils.client;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;

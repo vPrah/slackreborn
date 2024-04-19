@@ -1,6 +1,6 @@
-package cc.zenith.utils.player;
+package cc.slack.utils.player;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;

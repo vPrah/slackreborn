@@ -1,13 +1,13 @@
-package cc.zenith.features.modules.impl.render;
+package cc.slack.features.modules.impl.render;
 
-import cc.zenith.events.impl.render.RenderEvent;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.features.modules.impl.render.hud.arraylist.IArraylist;
-import cc.zenith.features.modules.impl.render.hud.arraylist.impl.*;
-import cc.zenith.utils.render.Render2DUtil;
+import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
+import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
+import cc.slack.utils.render.Render2DUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Keyboard;
@@ -33,7 +33,7 @@ public class HUD extends Module {
     @SuppressWarnings("unused")
     public void onRender(RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_2D) return;
-        Render2DUtil.drawImage(new ResourceLocation("zenith/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
+        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
         arraylistModes.getValue().onRender(e);
     }
 }

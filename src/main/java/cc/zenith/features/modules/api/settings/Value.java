@@ -1,4 +1,4 @@
-package cc.zenith.features.modules.api.settings;
+package cc.slack.features.modules.api.settings;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

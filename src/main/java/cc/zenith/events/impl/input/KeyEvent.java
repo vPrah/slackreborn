@@ -1,6 +1,6 @@
-package cc.zenith.events.impl.input;
+package cc.slack.events.impl.input;
 
-import cc.zenith.events.Event;
+import cc.slack.events.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

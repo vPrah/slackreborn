@@ -1,11 +1,11 @@
-package cc.zenith.features.modules.impl.movement;
+package cc.slack.features.modules.impl.movement;
 
-import cc.zenith.events.impl.player.CollideEvent;
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.utils.client.mc;
+import cc.slack.events.impl.player.CollideEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;

@@ -1,8 +1,8 @@
-package cc.zenith.features.modules.impl.render;
+package cc.slack.features.modules.impl.render;
 
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
 
 @ModuleInfo(
         name = "ChestESP",

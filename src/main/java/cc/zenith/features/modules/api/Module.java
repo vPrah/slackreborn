@@ -1,7 +1,7 @@
-package cc.zenith.features.modules.api;
+package cc.slack.features.modules.api;
 
-import cc.zenith.features.modules.api.settings.Value;
-import cc.zenith.utils.EventUtil;
+import cc.slack.features.modules.api.settings.Value;
+import cc.slack.utils.EventUtil;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.ArrayList;

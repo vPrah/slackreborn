@@ -1,11 +1,11 @@
-package cc.zenith.ui.clickGUI;
+package cc.slack.ui.clickGUI;
 
 import java.io.IOException;
 import java.util.ArrayList;
 
 import net.minecraft.client.gui.GuiScreen;
-import cc.zenith.ui.clickGUI.component.Frame;
-import cc.zenith.features.modules.api.Category;
+import cc.slack.ui.clickGUI.component.Frame;
+import cc.slack.features.modules.api.Category;
 
 public class ClickGui extends GuiScreen {
 

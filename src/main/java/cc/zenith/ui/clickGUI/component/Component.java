@@ -1,4 +1,4 @@
-package cc.zenith.ui.clickGUI.component;
+package cc.slack.ui.clickGUI.component;
 
 public class Component {
 

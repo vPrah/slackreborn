@@ -1,15 +1,15 @@
-package cc.zenith.features.commands.impl;
+package cc.slack.features.commands.impl;
 
-import cc.zenith.Zenith;
-import cc.zenith.features.commands.api.CMD;
-import cc.zenith.features.commands.api.CMDInfo;
-import cc.zenith.utils.other.PrintUtil;
+import cc.slack.Slack;
+import cc.slack.features.commands.api.CMD;
+import cc.slack.features.commands.api.CMDInfo;
+import cc.slack.utils.other.PrintUtil;
 import net.minecraft.util.ChatFormatting;
 
 @CMDInfo(
         name = "Help",
         alias = "h",
-        description = "Displays all of Zenith's commands."
+        description = "Displays all of Slack's commands."
 )
 public class HelpCMD extends CMD {
 
@@ -21,7 +21,7 @@ public class HelpCMD extends CMD {
         }
 
         PrintUtil.message("Command list: ");
-        Zenith.getInstance().getCmdManager().getCommands().forEach(cmd -> PrintUtil.message(cmd.getName() + " - " + ChatFormatting.GRAY + cmd.getDescription()));
+        Slack.getInstance().getCmdManager().getCommands().forEach(cmd -> PrintUtil.message(cmd.getName() + " - " + ChatFormatting.GRAY + cmd.getDescription()));
     }
 
 }

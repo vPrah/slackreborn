@@ -1,6 +1,6 @@
-package cc.zenith.utils.player;
+package cc.slack.utils.player;
 
-import cc.zenith.utils.client.mc;
+import cc.slack.utils.client.mc;
 
 public class TimerUtil extends mc {
 

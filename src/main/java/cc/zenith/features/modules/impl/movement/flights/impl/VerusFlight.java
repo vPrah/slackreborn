@@ -1,15 +1,15 @@
-package cc.zenith.features.modules.impl.movement.flights.impl;
+package cc.slack.features.modules.impl.movement.flights.impl;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.State;
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.events.impl.player.MotionEvent;
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.features.modules.impl.movement.Flight;
-import cc.zenith.features.modules.impl.movement.flights.IFlight;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.player.MovementUtil;
-import cc.zenith.utils.player.TimerUtil;
+import cc.slack.Slack;
+import cc.slack.events.State;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.features.modules.impl.movement.Flight;
+import cc.slack.features.modules.impl.movement.flights.IFlight;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.player.TimerUtil;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -74,7 +74,7 @@ public class VerusFlight implements IFlight {
                 MovementUtil.setSpeed(event, moveSpeed);
 
                 if (mc.getPlayer().hurtTime == 0 && (mc.getPlayer().onGround || mc.getPlayer().isCollidedHorizontally))
-                    Zenith.getInstance().getModuleManager().getInstance(Flight.class).toggle();
+                    Slack.getInstance().getModuleManager().getInstance(Flight.class).toggle();
                 break;
         }
     }

@@ -1,6 +1,6 @@
-package cc.zenith.events.impl.render;
+package cc.slack.events.impl.render;
 
-import cc.zenith.events.Event;
+import cc.slack.events.Event;
 import lombok.Getter;
 import lombok.Setter;
 

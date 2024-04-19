@@ -1,4 +1,4 @@
-package cc.zenith.utils.network;
+package cc.slack.utils.network;
 
 import net.minecraft.network.Packet;
 

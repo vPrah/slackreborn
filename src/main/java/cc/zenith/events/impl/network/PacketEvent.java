@@ -1,6 +1,6 @@
-package cc.zenith.events.impl.network;
+package cc.slack.events.impl.network;
 
-import cc.zenith.events.Event;
+import cc.slack.events.Event;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import net.minecraft.network.PacketDirection;

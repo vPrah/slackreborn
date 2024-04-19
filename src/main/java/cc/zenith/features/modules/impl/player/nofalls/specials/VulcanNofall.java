@@ -1,15 +1,15 @@
-package cc.zenith.features.modules.impl.player.nofalls.specials;
+package cc.slack.features.modules.impl.player.nofalls.specials;
 
-import cc.zenith.Zenith;
-import cc.zenith.events.impl.network.PacketEvent;
-import cc.zenith.events.impl.player.MotionEvent;
-import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.impl.movement.Flight;
-import cc.zenith.features.modules.impl.player.nofalls.INoFall;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.network.PacketUtil;
-import cc.zenith.utils.player.PlayerUtil;
+import cc.slack.Slack;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.movement.Flight;
+import cc.slack.features.modules.impl.player.nofalls.INoFall;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.player.PlayerUtil;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class VulcanNofall implements INoFall {
@@ -30,7 +30,7 @@ public class VulcanNofall implements INoFall {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-//        if (Zenith.getInstance().getModuleManager().getInstance(Flight.class).isToggle()) return;
+//        if (Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle()) return;
     }
 
     @Override

@@ -1,9 +1,9 @@
-package cc.zenith.features.modules.impl.world;
+package cc.slack.features.modules.impl.world;
 
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(

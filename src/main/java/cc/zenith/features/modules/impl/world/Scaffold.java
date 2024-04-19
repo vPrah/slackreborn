@@ -1,13 +1,13 @@
-package cc.zenith.features.modules.impl.world;
+package cc.slack.features.modules.impl.world;
 
-import cc.zenith.events.State;
-import cc.zenith.events.impl.game.TickEvent;
-import cc.zenith.events.impl.player.MotionEvent;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.player.RotationUtil;
+import cc.slack.events.State;
+import cc.slack.events.impl.game.TickEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.player.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.material.Material;
 import net.minecraft.util.BlockPos;

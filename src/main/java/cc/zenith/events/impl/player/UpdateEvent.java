@@ -1,6 +1,6 @@
-package cc.zenith.events.impl.player;
+package cc.slack.events.impl.player;
 
-import cc.zenith.events.Event;
+import cc.slack.events.Event;
 
 public class UpdateEvent extends Event {
 }

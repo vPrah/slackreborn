@@ -1,7 +1,7 @@
-package cc.zenith.events.impl.player;
+package cc.slack.events.impl.player;
 
-import cc.zenith.events.Event;
-import cc.zenith.events.State;
+import cc.slack.events.Event;
+import cc.slack.events.State;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.entity.EntityPlayerSP;

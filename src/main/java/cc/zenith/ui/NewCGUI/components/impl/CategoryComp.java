@@ -1,10 +1,10 @@
-package cc.zenith.ui.NewCGUI.components.impl;
+package cc.slack.ui.NewCGUI.components.impl;
 
-import cc.zenith.Zenith;
-import cc.zenith.features.modules.api.Category;
-import cc.zenith.features.modules.api.Module;
-import cc.zenith.ui.NewCGUI.components.Components;
-import cc.zenith.utils.render.Render2DUtil;
+import cc.slack.Slack;
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
+import cc.slack.ui.NewCGUI.components.Components;
+import cc.slack.utils.render.Render2DUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.FontRenderer;
@@ -35,7 +35,7 @@ public class CategoryComp extends Components {
     @Override
     public void init() {
         int offsetY = 1;
-        for (Module module : Zenith.getInstance().getModuleManager().getModulesByCategoryABC(category)) {
+        for (Module module : Slack.getInstance().getModuleManager().getModulesByCategoryABC(category)) {
             ModuleComp moduleComp = new ModuleComp(module, this, offsetY);
             modules.add(moduleComp);
             ++offsetY;

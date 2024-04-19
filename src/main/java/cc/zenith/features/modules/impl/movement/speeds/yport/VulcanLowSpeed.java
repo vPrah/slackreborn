@@ -1,9 +1,9 @@
-package cc.zenith.features.modules.impl.movement.speeds.yport;
+package cc.slack.features.modules.impl.movement.speeds.yport;
 
-import cc.zenith.events.impl.player.UpdateEvent;
-import cc.zenith.features.modules.impl.movement.speeds.ISpeed;
-import cc.zenith.utils.client.mc;
-import cc.zenith.utils.player.MovementUtil;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.movement.speeds.ISpeed;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
 
 public class VulcanLowSpeed implements ISpeed {
 

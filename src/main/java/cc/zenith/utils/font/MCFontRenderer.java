@@ -1,4 +1,4 @@
-package cc.zenith.utils.font;
+package cc.slack.utils.font;
 
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.texture.DynamicTexture;

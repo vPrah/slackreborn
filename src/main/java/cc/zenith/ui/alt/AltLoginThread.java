@@ -1,4 +1,4 @@
-package cc.zenith.ui.alt;
+package cc.slack.ui.alt;
 
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
@@ -50,7 +50,7 @@ public final class AltLoginThread
             this.status = ChatFormatting.RED + "Login failed!";
         else {
             this.status = ChatFormatting.GREEN + "Logged in as " + auth.getUsername();
-            cc.zenith.utils.client.mc.getMinecraft().session = auth;
+            cc.slack.utils.client.mc.getMinecraft().session = auth;
         }
     }
 

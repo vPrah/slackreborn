@@ -5,8 +5,8 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
-import cc.zenith.events.impl.player.StrafeEvent;
-import cc.zenith.utils.client.mc;
+import cc.slack.events.impl.player.StrafeEvent;
+import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;

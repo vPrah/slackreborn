@@ -1,7 +1,7 @@
-package cc.zenith.events.impl.game;
+package cc.slack.events.impl.game;
 
-import cc.zenith.events.Event;
-import cc.zenith.events.State;
+import cc.slack.events.Event;
+import cc.slack.events.State;
 import lombok.Getter;
 import lombok.Setter;
 
