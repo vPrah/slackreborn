@@ -5,10 +5,9 @@ import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.item.ItemFood;
-import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 @ModuleInfo(
         name = "NoSlow",
@@ -25,7 +24,7 @@ public class NoSlow extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (MC.getPlayer().isUsingItem() && (MC.getPlayer().getHeldItem().item instanceof ItemFood)) {
+        if (mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) {
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
                     break;

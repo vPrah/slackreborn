@@ -1,6 +1,6 @@
 package cc.zenith.ui.NewCGUI.components;
 
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.FontRenderer;
@@ -14,7 +14,7 @@ public abstract class Components {
     private Components parent;
 
     public ScaledResolution getSR() {
-        return new ScaledResolution(MC.getMinecraft());
+        return new ScaledResolution(mc.getMinecraft());
     }
 
     public abstract void init();

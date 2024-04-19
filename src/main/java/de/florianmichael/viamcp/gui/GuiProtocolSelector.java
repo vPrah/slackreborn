@@ -17,7 +17,6 @@
  */
 package de.florianmichael.viamcp.gui;
 
-import cc.zenith.utils.client.MC;
 import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
 import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import de.florianmichael.viamcp.protocolinfo.ProtocolInfo;
@@ -113,10 +112,10 @@ public class GuiProtocolSelector extends GuiScreen {
 
         @Override
         protected void drawSlot(int i, int i1, int i2, int i3, int i4, int i5) {
-            drawCenteredString(MC.getFontRenderer(),(ViaLoadingBase.getInstance().getTargetVersion().getIndex() == i ? ChatFormatting.GREEN.toString() + ChatFormatting.BOLD : ChatFormatting.GRAY.toString()) + ViaLoadingBase.getProtocols().get(i).getName(), width / 2, i2 + 2, -1);
+            drawCenteredString(cc.zenith.utils.client.mc.getFontRenderer(),(ViaLoadingBase.getInstance().getTargetVersion().getIndex() == i ? ChatFormatting.GREEN.toString() + ChatFormatting.BOLD : ChatFormatting.GRAY.toString()) + ViaLoadingBase.getProtocols().get(i).getName(), width / 2, i2 + 2, -1);
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.5, 0.5, 0.5);
-            drawCenteredString(MC.getFontRenderer(), "PVN: " + ViaLoadingBase.getProtocols().get(i).getVersion(), width, (i2 + 2) * 2 + 20, -1);
+            drawCenteredString(cc.zenith.utils.client.mc.getFontRenderer(), "PVN: " + ViaLoadingBase.getProtocols().get(i).getVersion(), width, (i2 + 2) * 2 + 20, -1);
             GlStateManager.popMatrix();
         }
     }

@@ -5,7 +5,7 @@ import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -23,21 +23,21 @@ public class NoWeb extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (!MC.getPlayer().isInWeb) {
+        if (!mc.getPlayer().isInWeb) {
             return;
         }
 
         switch (mode.getValue().toLowerCase()) {
             case "vanilla":
-                MC.getPlayer().isInWeb = false;
+                mc.getPlayer().isInWeb = false;
                 break;
             case "verus":
-                MC.getPlayer().jumpMovementFactor = (MC.getPlayer().movementInput.moveStrafe != 0f) ? 1.0f : 1.21f;
-                if (!MC.getGameSettings().keyBindSneak.isKeyDown()) {
-                    MC.getPlayer().motionY = 0.0;
+                mc.getPlayer().jumpMovementFactor = (mc.getPlayer().movementInput.moveStrafe != 0f) ? 1.0f : 1.21f;
+                if (!mc.getGameSettings().keyBindSneak.isKeyDown()) {
+                    mc.getPlayer().motionY = 0.0;
                 }
-                if (MC.getPlayer().onGround) {
-                    MC.getPlayer().jump();
+                if (mc.getPlayer().onGround) {
+                    mc.getPlayer().jump();
                 }
                 break;
         }

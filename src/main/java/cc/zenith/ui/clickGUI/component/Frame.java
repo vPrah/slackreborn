@@ -3,7 +3,7 @@ package cc.zenith.ui.clickGUI.component;
 import java.util.ArrayList;
 
 import cc.zenith.Zenith;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
@@ -12,7 +12,6 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
 //Your Imports
-import cc.zenith.ui.clickGUI.ClickGui;
 import cc.zenith.ui.clickGUI.component.components.Button;
 import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
@@ -115,7 +114,7 @@ public class Frame {
     }
 
     public void updatePosition(int mouseX, int mouseY) {
-        ScaledResolution sr = new ScaledResolution(MC.getMinecraft());
+        ScaledResolution sr = new ScaledResolution(mc.getMinecraft());
 
         if (this.isDragging) {
             this.setX(MathHelper.clamp_int(mouseX - dragX, 0, sr.getScaledWidth() - getWidth()));

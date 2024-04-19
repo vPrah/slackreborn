@@ -3,10 +3,9 @@ package cc.zenith.features.modules.impl.movement.flights.impl;
 import cc.zenith.events.impl.network.PacketEvent;
 import cc.zenith.events.impl.player.CollideEvent;
 import cc.zenith.events.impl.player.MotionEvent;
-import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.events.impl.player.UpdateEvent;
 import cc.zenith.features.modules.impl.movement.flights.IFlight;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -16,7 +15,7 @@ public class VerusJumpFlight implements IFlight {
 
     @Override
     public void onEnable() {
-        startY = Math.floor(MC.getPlayer().posY);
+        startY = Math.floor(mc.getPlayer().posY);
     }
 
     @Override
@@ -25,10 +24,10 @@ public class VerusJumpFlight implements IFlight {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (MC.getPlayer().onGround) {
-            MC.getPlayer().jump();
+        if (mc.getPlayer().onGround) {
+            mc.getPlayer().jump();
         }
-        MC.getGameSettings().keyBindJump.pressed = false;
+        mc.getGameSettings().keyBindJump.pressed = false;
     }
 
     @Override

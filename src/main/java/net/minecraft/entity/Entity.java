@@ -6,7 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import cc.zenith.events.impl.player.StrafeEvent;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -1219,7 +1219,7 @@ public abstract class Entity implements ICommandSender
     public void moveFlying(float strafe, float forward, float friction)
     {
         StrafeEvent event = new StrafeEvent(strafe, forward, friction, this.rotationYaw);
-        if(this == MC.getPlayer()) event.call();
+        if(this == mc.getPlayer()) event.call();
         if(event.isCanceled()) return;
 
         float f = event.getStrafe() * event.getStrafe() + event.getForward() * event.getForward();

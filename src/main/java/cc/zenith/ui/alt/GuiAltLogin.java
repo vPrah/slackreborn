@@ -2,7 +2,6 @@ package cc.zenith.ui.alt;
 
 import java.io.IOException;
 
-import cc.zenith.utils.client.MC;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
@@ -39,13 +38,13 @@ public final class GuiAltLogin
         this.drawDefaultBackground();
         this.username.drawTextBox();
         this.password.drawTextBox();
-        this.drawCenteredString(MC.getFontRenderer(), "Alt Login", width / 2, 20, -1);
-        this.drawCenteredString(MC.getFontRenderer(), this.thread == null ? ChatFormatting.GRAY + "Idle..." : this.thread.getStatus(), width / 2, 29, -1);
+        this.drawCenteredString(cc.zenith.utils.client.mc.getFontRenderer(), "Alt Login", width / 2, 20, -1);
+        this.drawCenteredString(cc.zenith.utils.client.mc.getFontRenderer(), this.thread == null ? ChatFormatting.GRAY + "Idle..." : this.thread.getStatus(), width / 2, 29, -1);
         if (this.username.getText().isEmpty()) {
-            this.drawString(MC.getFontRenderer(), "Username / E-Mail", width / 2 - 96, 66, -7829368);
+            this.drawString(cc.zenith.utils.client.mc.getFontRenderer(), "Username / E-Mail", width / 2 - 96, 66, -7829368);
         }
         if (this.password.getText().isEmpty()) {
-            this.drawString(MC.getFontRenderer(), "Password", width / 2 - 96, 106, -7829368);
+            this.drawString(cc.zenith.utils.client.mc.getFontRenderer(), "Password", width / 2 - 96, 106, -7829368);
         }
         super.drawScreen(x2, y2, z2);
     }
@@ -55,8 +54,8 @@ public final class GuiAltLogin
         int var3 = height / 4 + 24;
         this.buttonList.add(new GuiButton(0, width / 2 - 100, var3 + 72 + 12, "Login"));
         this.buttonList.add(new GuiButton(1, width / 2 - 100, var3 + 72 + 12 + 24, "Back"));
-        this.username = new GuiTextField(var3, MC.getFontRenderer(), width / 2 - 100, 60, 200, 20);
-        this.password = new PasswordField(MC.getFontRenderer(), width / 2 - 100, 100, 200, 20);
+        this.username = new GuiTextField(var3, cc.zenith.utils.client.mc.getFontRenderer(), width / 2 - 100, 60, 200, 20);
+        this.password = new PasswordField(cc.zenith.utils.client.mc.getFontRenderer(), width / 2 - 100, 100, 200, 20);
         this.username.setFocused(true);
         Keyboard.enableRepeatEvents(true);
     }

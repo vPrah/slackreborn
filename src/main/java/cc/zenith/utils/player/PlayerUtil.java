@@ -1,7 +1,7 @@
 package cc.zenith.utils.player;
 
 import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import cc.zenith.utils.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
@@ -13,7 +13,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
-public class PlayerUtil extends MC {
+public class PlayerUtil extends mc {
 
     public static final double BASE_MOTION = 0.21585904623731839;
     public static final double BASE_MOTION_SPRINT = 0.28060730580133125;
@@ -23,6 +23,8 @@ public class PlayerUtil extends MC {
     public static final double BASE_GROUND_FRICTION = 0.587619839258055;
     public static final double SPEED_GROUND_BOOST = 2.016843005849186;
     public static final double MOVE_FRICTION = 0.9800000190734863;
+
+    public static final double BASE_JUMP_HEIGHT = 0.41999998688698;
 
     public static double getJumpHeight(double height) {
         if (getPlayer().isPotionActive(Potion.jump))

@@ -1,7 +1,7 @@
 package cc.zenith.events.impl.player;
 
 import cc.zenith.events.Event;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -23,17 +23,17 @@ public class MoveEvent extends Event {
     }
 
     public void setX(double x) {
-        MC.getPlayer().motionX = x;
+        mc.getPlayer().motionX = x;
         this.x = x;
     }
 
     public void setY(double y) {
-        MC.getPlayer().motionY = y;
+        mc.getPlayer().motionY = y;
         this.y = y;
     }
 
     public void setZ(double z) {
-        MC.getPlayer().motionZ = z;
+        mc.getPlayer().motionZ = z;
         this.z = z;
     }
 

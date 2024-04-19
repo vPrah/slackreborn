@@ -1,6 +1,6 @@
 package cc.zenith.utils.render;
 
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -10,14 +10,14 @@ import java.awt.*;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public final class Render2DUtil extends MC {
+public final class Render2DUtil extends mc {
 
     public static boolean mouseInArea(int mouseX, int mouseY, double x, double y, double width, double height) {
         return (mouseX >= x && mouseX <= (x + width)) && (mouseY >= y && mouseY <= (y + height));
     }
 
     public static void drawImage(ResourceLocation image, float x, float y, float width, float height, Color color) {
-        MC.getMinecraft().getTextureManager().bindTexture(image);
+        mc.getMinecraft().getTextureManager().bindTexture(image);
         final float f = 1.0f / width;
         final float f2 = 1.0f / height;
         glEnable(GL_BLEND);

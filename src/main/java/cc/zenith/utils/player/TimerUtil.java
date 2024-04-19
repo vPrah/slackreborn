@@ -1,8 +1,8 @@
 package cc.zenith.utils.player;
 
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 
-public class TimerUtil extends MC {
+public class TimerUtil extends mc {
 
     private static final float DEFAULT_TIMER = 1.0F;
 
@@ -31,7 +31,7 @@ public class TimerUtil extends MC {
         if (tick == 0)
             getTimer().timerSpeed = timer;
         else
-            getTimer().timerSpeed = MC.getPlayer().ticksExisted % tick == 0 ? timer : DEFAULT_TIMER;
+            getTimer().timerSpeed = mc.getPlayer().ticksExisted % tick == 0 ? timer : DEFAULT_TIMER;
     }
 
     private static boolean shouldTimer() {

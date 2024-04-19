@@ -2,8 +2,8 @@ package cc.zenith.features.modules.impl.movement.speeds.hops;
 
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.features.modules.impl.movement.speeds.ISpeed;
-import cc.zenith.utils.client.MC;
-import cc.zenith.utils.player.MoveUtil;
+import cc.zenith.utils.client.mc;
+import cc.zenith.utils.player.MovementUtil;
 import cc.zenith.utils.player.PlayerUtil;
 
 public class VerusHopSpeed implements ISpeed {
@@ -19,8 +19,8 @@ public class VerusHopSpeed implements ISpeed {
 
     @Override
     public void onMove(MoveEvent event) {
-        if (MC.getPlayer().onGround) {
-            if (MoveUtil.isMoving()) event.setY(0.42F);
+        if (mc.getPlayer().onGround) {
+            if (MovementUtil.isMoving()) event.setY(0.42F);
             moveSpeed = 0.68f;
             airTicks = 0;
         } else {
@@ -30,7 +30,7 @@ public class VerusHopSpeed implements ISpeed {
             airTicks++;
         }
 
-        MoveUtil.setSpeed(event, moveSpeed);
+        MovementUtil.setSpeed(event, moveSpeed);
         moveSpeed *= PlayerUtil.MOVE_FRICTION;
     }
 

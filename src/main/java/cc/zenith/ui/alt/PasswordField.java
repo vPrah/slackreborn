@@ -1,6 +1,6 @@
 package cc.zenith.ui.alt;
 
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -334,7 +334,7 @@ public class PasswordField extends Gui {
                 if (var5) {
                     var4.substring(0, var2);
                 }
-                var9 = MC.getFontRenderer().drawStringWithShadow(this.text.replaceAll("(?s).", "*"), var7, var8, var1);
+                var9 = mc.getFontRenderer().drawStringWithShadow(this.text.replaceAll("(?s).", "*"), var7, var8, var1);
             }
             final boolean var10 = this.cursorPosition < this.text.length() || this.text.length() >= this.getMaxStringLength();
             int var11 = var9;
@@ -345,13 +345,13 @@ public class PasswordField extends Gui {
                 --var9;
             }
             if (var4.length() > 0 && var5 && var2 < var4.length()) {
-                MC.getFontRenderer().drawStringWithShadow(var4.substring(var2), var9, var8, var1);
+                mc.getFontRenderer().drawStringWithShadow(var4.substring(var2), var9, var8, var1);
             }
             if (var6) {
                 if (var10) {
                     Gui.drawRect(var11, var8 - 1, var11 + 1, var8 + 1 + this.fontRenderer.FONT_HEIGHT, -3092272);
                 } else {
-                    MC.getFontRenderer().drawStringWithShadow("_", var11, var8, var1);
+                    mc.getFontRenderer().drawStringWithShadow("_", var11, var8, var1);
                 }
             }
             if (var3 != var2) {

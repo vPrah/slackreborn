@@ -7,8 +7,8 @@ import cc.zenith.events.impl.player.MotionEvent;
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.features.modules.impl.movement.Flight;
 import cc.zenith.features.modules.impl.movement.flights.IFlight;
-import cc.zenith.utils.client.MC;
-import cc.zenith.utils.player.MoveUtil;
+import cc.zenith.utils.client.mc;
+import cc.zenith.utils.player.MovementUtil;
 import cc.zenith.utils.player.TimerUtil;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -37,12 +37,12 @@ public class VerusFlight implements IFlight {
             case 0:
                 event.setZeroXZ();
 
-                if (hops >= 4 && MC.getPlayer().onGround) {
+                if (hops >= 4 && mc.getPlayer().onGround) {
                     stage++;
                     return;
                 }
 
-                if (MC.getPlayer().onGround) {
+                if (mc.getPlayer().onGround) {
                     event.setY(0.42f);
                     ticks = 0;
                     hops++;
@@ -54,12 +54,12 @@ public class VerusFlight implements IFlight {
                 TimerUtil.reset();
                 event.setZeroXZ();
 
-                if (MC.getPlayer().hurtTime > 0) {
+                if (mc.getPlayer().hurtTime > 0) {
                     ticks = 0;
                     moveSpeed = 0.525;
                     stage++;
                     event.setY(0.42f);
-                    MoveUtil.setSpeed(event, moveSpeed);
+                    MovementUtil.setSpeed(event, moveSpeed);
                 }
                 break;
             case 2:
@@ -71,9 +71,9 @@ public class VerusFlight implements IFlight {
                 moveSpeed -= moveSpeed / 159.0;
                 ticks++;
 
-                MoveUtil.setSpeed(event, moveSpeed);
+                MovementUtil.setSpeed(event, moveSpeed);
 
-                if (MC.getPlayer().hurtTime == 0 && (MC.getPlayer().onGround || MC.getPlayer().isCollidedHorizontally))
+                if (mc.getPlayer().hurtTime == 0 && (mc.getPlayer().onGround || mc.getPlayer().isCollidedHorizontally))
                     Zenith.getInstance().getModuleManager().getInstance(Flight.class).toggle();
                 break;
         }
@@ -82,7 +82,7 @@ public class VerusFlight implements IFlight {
     @Override
     public void onMotion(MotionEvent event) {
         if (event.getState() != State.PRE) return;
-        event.setYaw(MoveUtil.getDirection());
+        event.setYaw(MovementUtil.getDirection());
     }
 
     @Override

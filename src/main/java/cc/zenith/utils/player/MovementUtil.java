@@ -1,11 +1,10 @@
 package cc.zenith.utils.player;
 
 import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.MathHelper;
 
-public class MoveUtil extends MC {
+public class MovementUtil extends mc {
 
     public static void setSpeed(MoveEvent event, double speed) {
         setBaseSpeed(event, speed, getPlayer().rotationYaw, getPlayer().moveForward, getPlayer().moveStrafing);
@@ -13,6 +12,17 @@ public class MoveUtil extends MC {
 
     public static void setSpeed(MoveEvent event, double speed, float yawDegrees) {
         setBaseSpeed(event, speed, yawDegrees, getPlayer().moveForward, getPlayer().moveStrafing);
+    }
+
+    public static void strafe(){
+        strafe((float) getSpeed());
+    }
+
+    public static void strafe(float speed) {
+        final float yaw = getDirection();
+
+        getPlayer().motionX = Math.cos(Math.toRadians(yaw + 90.0f)) * speed;
+        getPlayer().motionZ = Math.cos(Math.toRadians(yaw)) * speed;
     }
 
     private static void setBaseSpeed(MoveEvent event, double speed, float yaw, double forward, double strafing) {
@@ -41,7 +51,7 @@ public class MoveUtil extends MC {
                     getPlayer().motionX = finalX;
                     getPlayer().motionZ = finalZ;
                 } else
-                    MoveUtil.resetMotion(false);
+                    MovementUtil.resetMotion(false);
             }
         }
     }
@@ -73,6 +83,25 @@ public class MoveUtil extends MC {
     public static void resetMotion(boolean stopY) {
         getPlayer().motionX = getPlayer().motionZ = 0;
         if (stopY) getPlayer().motionY = 0;
+    }
+
+    public static double getSpeed() {
+        return Math.hypot(getPlayer().motionX, getPlayer().motionZ);
+    }
+
+    public static double getSpeed(MoveEvent event) {
+        return Math.hypot(event.getX(), event.getZ());
+    }
+
+    public static double getBaseMoveSpeed() {
+        double baseSpeed = 0.2873;
+
+        if (getPlayer().isPotionActive(Potion.moveSpeed)) {
+            double amplifier = getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+            baseSpeed *= 1.0 + 0.2 * (amplifier + 1);
+        }
+
+        return baseSpeed;
     }
 
 }

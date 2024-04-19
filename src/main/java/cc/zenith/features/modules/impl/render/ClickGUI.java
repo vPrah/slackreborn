@@ -6,7 +6,7 @@ import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.ui.NewCGUI.TransparentClickGUI;
 import cc.zenith.ui.clickGUI.ClickGui;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.client.gui.GuiScreen;
 import org.lwjgl.input.Keyboard;
 
@@ -39,7 +39,7 @@ public class ClickGUI<ClickGUIType extends GuiScreen> extends Module {
 
         //isOpen = !isOpen;
 
-        MC.getMinecraft().displayGuiScreen(/*isOpen ? null : */clickgui);
+        mc.getMinecraft().displayGuiScreen(/*isOpen ? null : */clickgui);
         toggle();
     }
 }

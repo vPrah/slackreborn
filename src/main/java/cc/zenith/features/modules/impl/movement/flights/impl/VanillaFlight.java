@@ -2,21 +2,21 @@ package cc.zenith.features.modules.impl.movement.flights.impl;
 
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.features.modules.impl.movement.flights.IFlight;
-import cc.zenith.utils.client.MC;
-import cc.zenith.utils.player.MoveUtil;
+import cc.zenith.utils.client.mc;
+import cc.zenith.utils.player.MovementUtil;
 
 public class VanillaFlight implements IFlight {
 
     @Override
     public void onDisable() {
-        MoveUtil.resetMotion(true);
+        MovementUtil.resetMotion(true);
     }
 
     @Override
     public void onMove(MoveEvent event) {
-        event.setY((MC.getGameSettings().keyBindJump.isKeyDown() ? 1 * 3.32 :
-                MC.getGameSettings().keyBindSneak.isKeyDown() ? -1 * 3.32 : 0));
-        MoveUtil.setSpeed(event, 3.5);
+        event.setY((mc.getGameSettings().keyBindJump.isKeyDown() ? 1 * 3.32 :
+                mc.getGameSettings().keyBindSneak.isKeyDown() ? -1 * 3.32 : 0));
+        MovementUtil.setSpeed(event, 3.5);
     }
 
     @Override

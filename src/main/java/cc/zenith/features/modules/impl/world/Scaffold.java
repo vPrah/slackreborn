@@ -6,7 +6,7 @@ import cc.zenith.events.impl.player.MotionEvent;
 import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import cc.zenith.utils.player.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.material.Material;
@@ -32,7 +32,7 @@ public class Scaffold extends Module {
 
     @Listen
     public void onMotion(MotionEvent event) {
-        yaw = MC.getPlayer().rotationYaw + 180;
+        yaw = mc.getPlayer().rotationYaw + 180;
         event.setYaw(yaw);
         event.setPitch(81.5f);
     }
@@ -40,10 +40,10 @@ public class Scaffold extends Module {
     @Listen
     public void onTick(TickEvent event) {
         if (event.getState() != State.PRE) return;
-        BlockPos below = new BlockPos(MC.getPlayer().posX, MC.getPlayer().posY - 1, MC.getPlayer().posZ);
-        if(MC.getWorld().getBlockState(below).getBlock().getMaterial() == Material.air) return;
+        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        if(mc.getWorld().getBlockState(below).getBlock().getMaterial() == Material.air) return;
         EnumFacing facing = RotationUtil.getEnumDirection(yaw);
 
-        MC.getPlayerController().onPlayerRightClick(MC.getPlayer(), MC.getWorld(), MC.getPlayer().getHeldItem(), below, EnumFacing.WEST, new Vec3(0.5, 0.5, 0.5));
+        mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), below, EnumFacing.WEST, new Vec3(0.5, 0.5, 0.5));
     }
 }

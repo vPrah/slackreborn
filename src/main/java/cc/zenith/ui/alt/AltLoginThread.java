@@ -1,6 +1,5 @@
 package cc.zenith.ui.alt;
 
-import cc.zenith.utils.client.MC;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
@@ -51,7 +50,7 @@ public final class AltLoginThread
             this.status = ChatFormatting.RED + "Login failed!";
         else {
             this.status = ChatFormatting.GREEN + "Logged in as " + auth.getUsername();
-            MC.getMinecraft().session = auth;
+            cc.zenith.utils.client.mc.getMinecraft().session = auth;
         }
     }
 

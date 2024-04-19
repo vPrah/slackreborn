@@ -5,7 +5,7 @@ import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -24,23 +24,23 @@ public class Step extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (MC.getPlayer().isCollidedHorizontally && MC.getPlayer().onGround) {
+        if (mc.getPlayer().isCollidedHorizontally && mc.getPlayer().onGround) {
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
-                    MC.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(MC.getPlayer().posX, MC.getPlayer().posY + 0.42f, MC.getPlayer().posZ, MC.getPlayer().onGround));
-                    MC.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(MC.getPlayer().posX, MC.getPlayer().posY + 0.72f, MC.getPlayer().posZ, MC.getPlayer().onGround));
-                    MC.getPlayer().stepHeight = 1f;
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.42f, mc.getPlayer().posZ, mc.getPlayer().onGround));
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.72f, mc.getPlayer().posZ, mc.getPlayer().onGround));
+                    mc.getPlayer().stepHeight = 1f;
                     break;
                 case "verus":
-                    MC.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(MC.getPlayer().posX, MC.getPlayer().posY + 0.42f, MC.getPlayer().posZ, MC.getPlayer().onGround));
-                    MC.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(MC.getPlayer().posX, MC.getPlayer().posY + 0.85f, MC.getPlayer().posZ, MC.getPlayer().onGround));
-                    MC.getPlayer().stepHeight = 1f;
-                    MC.getTimer().timerSpeed = 0.91f;
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.42f, mc.getPlayer().posZ, mc.getPlayer().onGround));
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.85f, mc.getPlayer().posZ, mc.getPlayer().onGround));
+                    mc.getPlayer().stepHeight = 1f;
+                    mc.getTimer().timerSpeed = 0.91f;
                     break;
             }
         } else {
-            MC.getPlayer().stepHeight = 0.5f;
-            MC.getTimer().timerSpeed = 1f;
+            mc.getPlayer().stepHeight = 0.5f;
+            mc.getTimer().timerSpeed = 1f;
         }
     }
 }

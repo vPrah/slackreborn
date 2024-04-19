@@ -2,14 +2,12 @@ package cc.zenith.features.modules.impl.movement;
 
 import cc.zenith.events.impl.player.CollideEvent;
 import cc.zenith.events.impl.player.MoveEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
 import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.BlockAir;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.util.AxisAlignedBB;
 
 
@@ -23,12 +21,12 @@ public class AirJump extends Module {
 
     @Override
     public void onEnable() {
-        startY = MC.getPlayer().posY;
+        startY = mc.getPlayer().posY;
     }
 
     @Listen
     public void onMove(MoveEvent event) {
-        if (MC.getGameSettings().keyBindJump.isPressed() && MC.getPlayer().onGround) {
+        if (mc.getGameSettings().keyBindJump.isPressed() && mc.getPlayer().onGround) {
             event.setY(0.42F);
         }
     }

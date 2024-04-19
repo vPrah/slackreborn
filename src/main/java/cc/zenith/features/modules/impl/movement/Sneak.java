@@ -5,8 +5,7 @@ import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
-import cc.zenith.utils.player.MoveUtil;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 
@@ -24,11 +23,11 @@ public class Sneak extends Module {
 
     @Override
     public void onEnable() {
-        if (MC.getPlayer() == null)
+        if (mc.getPlayer() == null)
             return;
 
         if ("vanilla".equalsIgnoreCase(mode.getValue())) {
-            MC.getNetHandler().addToSendQueue(new C0BPacketEntityAction(MC.getPlayer(), C0BPacketEntityAction.Action.START_SNEAKING));
+            mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.getPlayer(), C0BPacketEntityAction.Action.START_SNEAKING));
         }
     }
 
@@ -36,14 +35,14 @@ public class Sneak extends Module {
     public void onMotion(MotionEvent event) {
         switch (mode.getValue().toLowerCase()) {
             case "legit":
-                MC.getGameSettings().keyBindSneak.pressed = true;
+                mc.getGameSettings().keyBindSneak.pressed = true;
                 break;
         }
     }
 
     @Override
     public void onDisable() {
-        if (MC.getPlayer() == null)
+        if (mc.getPlayer() == null)
             return;
         super.onDisable();
     }

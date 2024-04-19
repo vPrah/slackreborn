@@ -8,7 +8,7 @@ import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import cc.zenith.utils.other.PrintUtil;
 import cc.zenith.utils.other.TimeUtil;
 import cc.zenith.utils.player.TimerUtil;
@@ -50,12 +50,12 @@ public class Timer extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (mode.getValue().toLowerCase()) {
             case "balance":
-                if (MC.getPlayer() != null && MC.getPlayer().ticksExisted % 20 == 0) {
+                if (mc.getPlayer() != null && mc.getPlayer().ticksExisted % 20 == 0) {
                     PrintUtil.debugMessage("Balance: " + balance);
                 }
                 break;
             case "normal":
-                MC.getTimer().timerSpeed = speed.getValue();
+                mc.getTimer().timerSpeed = speed.getValue();
                 break;
         }
     }

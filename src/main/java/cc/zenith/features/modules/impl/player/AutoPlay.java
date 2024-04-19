@@ -5,7 +5,7 @@ import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S02PacketChat;
 
@@ -33,17 +33,17 @@ public class AutoPlay extends Module {
                     if (((S02PacketChat) event.getPacket()).getChatComponent().getUnformattedText().contains("Jugar de nuevo")) {
                         switch (univalue.getValue()) {
                             case "Skywars":
-                                MC.getPlayer().sendChatMessage("/skywars random");
+                                mc.getPlayer().sendChatMessage("/skywars random");
                                 break;
                             case "Bedwars":
-                                MC.getPlayer().sendChatMessage("/bedwars random");
+                                mc.getPlayer().sendChatMessage("/bedwars random");
                                 break;
                         }
                     }
                     break;
                 case "Librecraft":
                     if (((S02PacketChat) event.getPacket()).getChatComponent().getUnformattedText().contains("¡Partida finalizada!")) {
-                        MC.getPlayer().sendChatMessage("/saliryentrar");
+                        mc.getPlayer().sendChatMessage("/saliryentrar");
                     }
                     break;
             }

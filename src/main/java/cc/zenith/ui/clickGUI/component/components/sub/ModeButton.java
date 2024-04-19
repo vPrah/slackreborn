@@ -1,7 +1,7 @@
 package cc.zenith.ui.clickGUI.component.components.sub;
 
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import cc.zenith.ui.clickGUI.component.Component;
@@ -42,7 +42,7 @@ public class ModeButton extends Component {
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         String prefix = set.getName() == null ? "Mode: " : set.getName() + " Mode: ";
-        MC.getFontRenderer().drawStringWithShadow(prefix + set.getValue().toString(), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
+        mc.getFontRenderer().drawStringWithShadow(prefix + set.getValue().toString(), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
         GL11.glPopMatrix();
     }
 

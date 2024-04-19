@@ -5,9 +5,8 @@ import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import cc.zenith.utils.network.PacketUtil;
-import cc.zenith.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.Packet;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -51,7 +50,7 @@ public class Blink extends Module {
         });
 
         serverPackets.forEach(packet -> {
-            packet.processPacket(MC.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
+            packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
             serverPackets.remove(packet);
         });
     }
@@ -69,7 +68,7 @@ public class Blink extends Module {
                 }
                 break;
             case INCOMING:
-                if (MC.getPlayer() == null || MC.getWorld() == null) return;
+                if (mc.getPlayer() == null || mc.getWorld() == null) return;
                 if (mode.getValue().equalsIgnoreCase("serverside")) {
                     if (!(event.getPacket() instanceof S00PacketDisconnect ||
                             event.getPacket() instanceof S00PacketServerInfo || event.getPacket() instanceof S3EPacketTeams ||

@@ -6,9 +6,7 @@ import cc.zenith.features.modules.api.Module;
 import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.utils.client.MC;
-import cc.zenith.utils.network.PacketUtil;
-import cc.zenith.utils.player.MoveUtil;
+import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -36,18 +34,18 @@ public class Phase extends Module {
     public void onMove(MoveEvent event) {
         switch (mode.getValue().toLowerCase()) {
             case "clip":
-            double yaw = Math.toRadians(MC.getPlayer().rotationYaw);
-            if (MC.getPlayer().isCollidedHorizontally) {
+            double yaw = Math.toRadians(mc.getPlayer().rotationYaw);
+            if (mc.getPlayer().isCollidedHorizontally) {
                 insideBlock = true;
-                MC.getPlayer().setPosition(
-                        MC.getPlayer().posX + -Math.sin(yaw) * 0.005,
-                        MC.getPlayer().posY,
-                        MC.getPlayer().posZ + Math.cos(yaw) * 0.005);
+                mc.getPlayer().setPosition(
+                        mc.getPlayer().posX + -Math.sin(yaw) * 0.005,
+                        mc.getPlayer().posY,
+                        mc.getPlayer().posZ + Math.cos(yaw) * 0.005);
             } else if (insideBlock) {
-                MC.getPlayer().setPosition(
-                        MC.getPlayer().posX + -Math.sin(yaw) * offset.getValue(),
-                        MC.getPlayer().posY,
-                        MC.getPlayer().posZ + Math.cos(yaw) * offset.getValue());
+                mc.getPlayer().setPosition(
+                        mc.getPlayer().posX + -Math.sin(yaw) * offset.getValue(),
+                        mc.getPlayer().posY,
+                        mc.getPlayer().posZ + Math.cos(yaw) * offset.getValue());
                 insideBlock = false;
             }
             break;

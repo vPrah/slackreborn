@@ -1,12 +1,9 @@
 package cc.zenith.ui.clickGUI.component.components.sub;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-
 import cc.zenith.features.modules.api.settings.impl.NumberValue;
 import cc.zenith.ui.clickGUI.component.Component;
 import cc.zenith.ui.clickGUI.component.components.Button;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import cc.zenith.utils.other.MathUtil;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
@@ -39,7 +36,7 @@ public class Slider extends Component {
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        MC.getFontRenderer().drawStringWithShadow(this.set.getName() + ": " + this.set.getValue(), (parent.parent.getX() * 2 + 15), (parent.parent.getY() + offset + 2) * 2 + 5, -1);
+        mc.getFontRenderer().drawStringWithShadow(this.set.getName() + ": " + this.set.getValue(), (parent.parent.getX() * 2 + 15), (parent.parent.getY() + offset + 2) * 2 + 5, -1);
 
         GL11.glPopMatrix();
     }

@@ -1,12 +1,12 @@
 package cc.zenith.utils.player;
 
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 
-public class RotationUtil extends MC {
+public class RotationUtil extends mc {
 
     public static float[] getNeededRotations(final Vec3 vec) {
         final Vec3 playerVector = new Vec3(getPlayer().posX, getPlayer().posY + getPlayer().getEyeHeight(), getPlayer().posZ);
@@ -77,7 +77,7 @@ public class RotationUtil extends MC {
     }
 
     public static float[] applyGCD(final float[] rotations, final float[] prevRots) {
-        final float mouseSensitivity = (float) (MC.getGameSettings().mouseSensitivity * (1 + Math.random() / 10000000) * 0.6F + 0.2F);
+        final float mouseSensitivity = (float) (mc.getGameSettings().mouseSensitivity * (1 + Math.random() / 10000000) * 0.6F + 0.2F);
         final double multiplier = mouseSensitivity * mouseSensitivity * mouseSensitivity * 8.0F * 0.15D;
         final float yaw = prevRots[0] + (float) (Math.round((rotations[0] - prevRots[0]) / multiplier) * multiplier);
         final float pitch = prevRots[1] + (float) (Math.round((rotations[1] - prevRots[1]) / multiplier) * multiplier);

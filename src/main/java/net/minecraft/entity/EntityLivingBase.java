@@ -1,7 +1,7 @@
 package net.minecraft.entity;
 
 import cc.zenith.events.impl.player.JumpEvent;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
@@ -12,8 +12,6 @@ import java.util.Map;
 import java.util.Random;
 import java.util.UUID;
 
-import com.viaversion.viaversion.api.protocol.version.ProtocolVersion;
-import de.florianmichael.vialoadingbase.ViaLoadingBase;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -173,7 +171,7 @@ public abstract class EntityLivingBase extends Entity
     /** Whether the DataWatcher needs to be updated with the active potions */
     private boolean potionsNeedUpdate = true;
 
-    /** is only being set, has no uses as of MC 1.1 */
+    /** is only being set, has no uses as of mc 1.1 */
     private EntityLivingBase entityLivingToAttack;
     private int revengeTimer;
     private EntityLivingBase lastAttacker;
@@ -1570,7 +1568,7 @@ public abstract class EntityLivingBase extends Entity
     protected void jump()
     {
         JumpEvent event = new JumpEvent(this.rotationYaw);
-        if(this == MC.getPlayer() && event.call().isCanceled()) return;
+        if(this == mc.getPlayer() && event.call().isCanceled()) return;
 
         this.motionY = this.getJumpUpwardsMotion();
 

@@ -9,12 +9,11 @@ import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.features.modules.api.settings.impl.NumberValue;
 import cc.zenith.ui.clickGUI.component.components.sub.Checkbox;
 import cc.zenith.ui.clickGUI.component.components.sub.Slider;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 
-import cc.zenith.ui.clickGUI.ClickGui;
 import cc.zenith.ui.clickGUI.component.Component;
 import cc.zenith.ui.clickGUI.component.Frame;
 import cc.zenith.ui.clickGUI.component.components.sub.Keybind;
@@ -71,9 +70,9 @@ public class Button extends Component {
         Gui.drawRect(parent.getX(), this.parent.getY() + this.offset, parent.getX() + parent.getWidth(), this.parent.getY() + 12 + this.offset, this.isHovered ? (this.mod.isToggle() ? new Color(0xFF222222).darker().getRGB() : 0xFF222222) : (this.mod.isToggle() ? new Color(14, 14, 14).getRGB() : 0xFF111111));
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        MC.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, this.mod.isToggle() ? 0x999999 : -1);
+        mc.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, this.mod.isToggle() ? 0x999999 : -1);
         if (this.subcomponents.size() > 2)
-            MC.getFontRenderer().drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
+            mc.getFontRenderer().drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
         GL11.glPopMatrix();
         if (this.open) {
             if (!this.subcomponents.isEmpty()) {

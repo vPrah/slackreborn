@@ -1,9 +1,9 @@
 package cc.zenith.utils.network;
 
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.network.Packet;
 
-public final class PacketUtil extends MC {
+public final class PacketUtil extends mc {
 
     public static void send(Packet<?> packet) {
         getNetHandler().getNetworkManager().sendPacket(packet);

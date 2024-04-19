@@ -2,7 +2,7 @@ package cc.zenith.ui.clickGUI.component.components.sub;
 
 import cc.zenith.ui.clickGUI.component.Component;
 import cc.zenith.ui.clickGUI.component.components.Button;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
@@ -34,7 +34,7 @@ public class Keybind extends Component {
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        MC.getFontRenderer().drawStringWithShadow(binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
+        mc.getFontRenderer().drawStringWithShadow(binding ? "Press a key..." : ("Key: " + Keyboard.getKeyName(this.parent.mod.getKey())), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
         GL11.glPopMatrix();
     }
 

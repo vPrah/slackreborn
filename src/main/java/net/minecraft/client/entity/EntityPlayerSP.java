@@ -7,7 +7,6 @@ import cc.zenith.events.impl.player.MotionEvent;
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.events.impl.player.UpdateEvent;
 import cc.zenith.features.modules.impl.movement.NoSlow;
-import cc.zenith.utils.client.MC;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

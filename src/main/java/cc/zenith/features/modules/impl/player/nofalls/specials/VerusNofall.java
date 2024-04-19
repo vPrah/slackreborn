@@ -4,7 +4,7 @@ import cc.zenith.events.impl.network.PacketEvent;
 import cc.zenith.events.impl.player.MoveEvent;
 import cc.zenith.events.impl.player.UpdateEvent;
 import cc.zenith.features.modules.impl.player.nofalls.INoFall;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 public class VerusNofall implements INoFall {
@@ -24,11 +24,11 @@ public class VerusNofall implements INoFall {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (MC.getPlayer().fallDistance - MC.getPlayer().motionY > 3F) {
-            MC.getPlayer().motionY = 0.0;
-            MC.getPlayer().motionX *= 0.5;
-            MC.getPlayer().motionZ *= 0.5;
-            MC.getPlayer().fallDistance = 0F;
+        if (mc.getPlayer().fallDistance - mc.getPlayer().motionY > 3F) {
+            mc.getPlayer().motionY = 0.0;
+            mc.getPlayer().motionX *= 0.5;
+            mc.getPlayer().motionZ *= 0.5;
+            mc.getPlayer().fallDistance = 0F;
             spoof = true;
         }
     }

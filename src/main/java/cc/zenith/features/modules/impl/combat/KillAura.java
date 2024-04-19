@@ -5,7 +5,6 @@ import cc.zenith.events.impl.game.TickEvent;
 import cc.zenith.events.impl.player.JumpEvent;
 import cc.zenith.events.impl.player.MotionEvent;
 import cc.zenith.events.impl.player.StrafeEvent;
-import cc.zenith.events.impl.player.UpdateEvent;
 import cc.zenith.events.impl.render.RenderEvent;
 import cc.zenith.features.modules.api.Category;
 import cc.zenith.features.modules.api.Module;
@@ -13,7 +12,7 @@ import cc.zenith.features.modules.api.ModuleInfo;
 import cc.zenith.features.modules.api.settings.impl.BooleanValue;
 import cc.zenith.features.modules.api.settings.impl.ModeValue;
 import cc.zenith.features.modules.api.settings.impl.NumberValue;
-import cc.zenith.utils.client.MC;
+import cc.zenith.utils.client.mc;
 import cc.zenith.utils.network.PacketUtil;
 import cc.zenith.utils.other.MathUtil;
 import cc.zenith.utils.other.TimeUtil;
@@ -80,7 +79,7 @@ public class KillAura extends Module {
 
     @Override
     public void onEnable() {
-        rotations = new float[]{MC.getPlayer().rotationYaw, MC.getPlayer().rotationPitch};
+        rotations = new float[]{mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
         attackDelay = AttackUtil.getAttackDelay(cps.getValue(), randomization.getValue(), attackPattern.getValue());
         queuedAttacks = 0;
         timer.reset();
@@ -105,8 +104,8 @@ public class KillAura extends Module {
     @Listen
     public void onMotion(MotionEvent e) {
         if (target == null) {
-            rotations[0] = MC.getPlayer().rotationYaw;
-            rotations[1] = MC.getPlayer().rotationPitch;
+            rotations[0] = mc.getPlayer().rotationYaw;
+            rotations[1] = mc.getPlayer().rotationPitch;
         } else {
             e.setYaw(rotations[0]);
             e.setPitch(rotations[1]);
@@ -116,9 +115,9 @@ public class KillAura extends Module {
             if(canAutoBlock()) {
                 switch (autoBlock.getValue()) {
                     case "Universocraft":
-                        if (!MC.getGameSettings().keyBindUseItem.isKeyDown()) {
+                        if (!mc.getGameSettings().keyBindUseItem.isKeyDown()) {
                             if (!isBlocking) {
-                                PacketUtil.send(new C08PacketPlayerBlockPlacement(MC.getPlayer().getCurrentEquippedItem()));
+                                PacketUtil.send(new C08PacketPlayerBlockPlacement(mc.getPlayer().getCurrentEquippedItem()));
                                 isBlocking = true;
                             }
                         }
@@ -148,7 +147,7 @@ public class KillAura extends Module {
                 return;
             }
 
-            if (MC.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
+            if (mc.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
 
             rotations = calculateRotations(target);
 
@@ -169,42 +168,42 @@ public class KillAura extends Module {
         EntityLivingBase rayCastedEntity = null;
         if (rayCast.getValue()) rayCastedEntity = rayCast(attackRange.getValue(), rotations);
 
-        MC.getPlayer().swingItem();
+        mc.getPlayer().swingItem();
 
-        if (MC.getPlayer().getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
+        if (mc.getPlayer().getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
             return;
 
         if (keepSprint.getValue()) {
-            MC.getPlayerController().syncCurrentPlayItem();
+            mc.getPlayerController().syncCurrentPlayItem();
             PacketUtil.send(new C02PacketUseEntity(rayCastedEntity == null ? target : rayCastedEntity, C02PacketUseEntity.Action.ATTACK));
         } else {
-            MC.getPlayerController().attackEntity(MC.getPlayer(), rayCastedEntity == null ? target : rayCastedEntity);
+            mc.getPlayerController().attackEntity(mc.getPlayer(), rayCastedEntity == null ? target : rayCastedEntity);
         }
     }
 
 
 
     private EntityLivingBase getTarget() {
-        if (MC.getPlayer() == null || MC.getWorld() == null) return null;
+        if (mc.getPlayer() == null || mc.getWorld() == null) return null;
         List<EntityLivingBase> targets = new ArrayList<>();
 
-        for (Entity entity : MC.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
+        for (Entity entity : mc.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
             if (entity instanceof EntityLivingBase) {
-                if (entity == MC.getPlayer()) continue;
+                if (entity == mc.getPlayer()) continue;
                 if (entity instanceof EntityArmorStand) continue;
                 if (mobsTarget.getValue() && !(entity instanceof EntityMob)) continue;
                 if (animalTarget.getValue() && !(entity instanceof EntityAnimal)) continue;
                 if (playerTarget.getValue() && !(entity instanceof EntityPlayer)) continue;
                 if (entity instanceof EntityPlayer && teams.getValue() && !PlayerUtil.isOnSameTeam((EntityPlayer) entity))
                     continue;
-                if (MC.getPlayer().getDistanceToEntity(entity) > aimRange.getValue()) continue;
+                if (mc.getPlayer().getDistanceToEntity(entity) > aimRange.getValue()) continue;
                 targets.add((EntityLivingBase) entity);
             }
         }
 
         switch (sortMode.getValue().toLowerCase()) {
             case "distance":
-                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(MC.getPlayer())));
+                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.getPlayer())));
                 break;
             case "health":
                 targets.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
@@ -215,10 +214,10 @@ public class KillAura extends Module {
     }
 
     public EntityLivingBase rayCast(double range, float[] rotations) {
-        Vec3 eyes = MC.getPlayer().getPositionEyes(MC.getTimer().renderPartialTicks);
-        Vec3 look = MC.getPlayer().getVectorForRotation(rotations[1], rotations[0]);
+        Vec3 eyes = mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks);
+        Vec3 look = mc.getPlayer().getVectorForRotation(rotations[1], rotations[0]);
         Vec3 vec = eyes.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
-        List<Entity> entities = MC.getWorld().getEntitiesInAABBexcluding(MC.getPlayer(), MC.getPlayer().getEntityBoundingBox().addCoord(
+        List<Entity> entities = mc.getWorld().getEntitiesInAABBexcluding(mc.getPlayer(), mc.getPlayer().getEntityBoundingBox().addCoord(
                         look.xCoord * range, look.yCoord * range, look.zCoord * range).expand(1, 1, 1),
                 Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         EntityLivingBase raycastedEntity = null;
@@ -226,7 +225,7 @@ public class KillAura extends Module {
         for (Entity ent : entities) {
             if (!(ent instanceof EntityLivingBase)) return null;
             EntityLivingBase entity = (EntityLivingBase) ent;
-            if (entity == MC.getPlayer()) continue;
+            if (entity == mc.getPlayer()) continue;
             final float borderSize = entity.getCollisionBorderSize();
             final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
             final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(eyes, vec);
@@ -261,14 +260,14 @@ public class KillAura extends Module {
             rotationCenter.reset();
         }
 
-        final double distancedYaw = (entity.getDistanceToEntity(MC.getPlayer()) > attackRange.getValue() ? entity.getEyeHeight() : 2 * (entity.getDistanceToEntity(MC.getPlayer()) / 3.5));
+        final double distancedYaw = (entity.getDistanceToEntity(mc.getPlayer()) > attackRange.getValue() ? entity.getEyeHeight() : 2 * (entity.getDistanceToEntity(mc.getPlayer()) / 3.5));
         final float[] newRots = RotationUtil.getRotations(
                 bb.minX + ((bb.maxX - bb.minX) / 2) + (rotationRand.getValue() ? (rotationOffset / 2) : 0),
                 bb.minY + distancedYaw,
                 bb.minZ + ((bb.maxZ - bb.minZ) / 2) + (rotationRand.getValue() ? (rotationOffset / 2) : 0));
 
-        final float pitchSpeed = (float) (MC.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(65.0, 85.0));
-        final float yawSpeed = (float) (MC.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(45.0, 65.0));
+        final float pitchSpeed = (float) (mc.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(65.0, 85.0));
+        final float yawSpeed = (float) (mc.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(45.0, 65.0));
 
         newRots[0] = RotationUtil.updateRots(rotations[0], (float) MathUtil.getRandomInRange(newRots[0] - 2.19782323, newRots[0] + 2.8972343), pitchSpeed);
         newRots[1] = RotationUtil.updateRots(rotations[1], (float) MathUtil.getRandomInRange(newRots[1] - 3.13672842, newRots[1] + 3.8716793), yawSpeed);
@@ -279,13 +278,13 @@ public class KillAura extends Module {
     }
 
     private void unblock() {
-        if (!MC.getGameSettings().keyBindUseItem.isKeyDown())
+        if (!mc.getGameSettings().keyBindUseItem.isKeyDown())
             PacketUtil.send(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
         else
-            MC.getGameSettings().keyBindUseItem.setPressed(false);
+            mc.getGameSettings().keyBindUseItem.setPressed(false);
     }
 
     private boolean canAutoBlock() {
-        return target != null && MC.getPlayer().getHeldItem() != null && MC.getPlayer().getHeldItem().getItem() instanceof ItemSword;
+        return target != null && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword;
     }
 }
