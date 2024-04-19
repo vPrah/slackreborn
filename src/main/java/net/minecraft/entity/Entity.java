@@ -98,15 +98,18 @@ public abstract class Entity implements ICommandSender
 
     /** Entity rotation Yaw */
     public float rotationYaw;
+    public float prevRotationYaw;
 
     /** Entity rotation Pitch */
     public float rotationPitch;
-    public float prevRotationYaw;
     public float prevRotationPitch;
 
     /** Axis aligned bounding box. */
     private AxisAlignedBB boundingBox;
+
+    /** Entity On Ground**/
     public boolean onGround;
+    public int offGroundTicks;
 
     /**
      * True if after a move this entity has collided with something on X- or Z-axis
@@ -813,6 +816,11 @@ public abstract class Entity implements ICommandSender
             this.isCollidedHorizontally = d3 != x || d5 != z;
             this.isCollidedVertically = d4 != y;
             this.onGround = this.isCollidedVertically && d4 < 0.0D;
+            if (this.onGround) {
+                this.offGroundTicks = 0;
+            } else {
+                this.offGroundTicks++;
+            }
             this.isCollided = this.isCollidedHorizontally || this.isCollidedVertically;
             int i = MathHelper.floor_double(this.posX);
             int j = MathHelper.floor_double(this.posY - 0.20000000298023224D);

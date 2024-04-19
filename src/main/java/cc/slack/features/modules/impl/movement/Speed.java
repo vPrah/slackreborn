@@ -3,18 +3,19 @@ package cc.slack.features.modules.impl.movement;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.features.modules.impl.movement.speeds.hop.HypixelHopSpeed;
-import cc.slack.features.modules.impl.movement.speeds.hop.VerusHopSpeed;
-import cc.slack.features.modules.impl.movement.speeds.hop.VulcanHopSpeed;
-import cc.slack.features.modules.impl.movement.speeds.vanilla.VanillaSpeed;
-import cc.slack.features.modules.impl.movement.speeds.yport.VulcanLowSpeed;
+import cc.slack.features.modules.impl.movement.speeds.hop.*;
+import cc.slack.features.modules.impl.movement.speeds.vanilla.*;
+import cc.slack.features.modules.impl.movement.speeds.lowhops.*;
+import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.settings.GameSettings;
 import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
@@ -42,6 +43,7 @@ public class Speed extends Module {
 
     public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla-Speed", 1.0F, 3.0F, 12.0F, 0.10F);
 
+    private final BooleanValue jumpFix = new BooleanValue("JumpFix", true);
 
     public Speed() {
         super();
@@ -55,6 +57,7 @@ public class Speed extends Module {
 
     @Override
     public void onDisable() {
+        if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump); }
         mode.getValue().onDisable();
     }
 
@@ -65,6 +68,7 @@ public class Speed extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
+        if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = false; }
         mode.getValue().onUpdate(event);
     }
 
