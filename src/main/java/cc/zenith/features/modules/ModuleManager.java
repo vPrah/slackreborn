@@ -42,6 +42,7 @@ public class ModuleManager {
                     new AutoPlay(),
                     new FastEat(),
                     new Phase(),
+                    new Tweaks(),
 
                     // World
                     new Scaffold(),

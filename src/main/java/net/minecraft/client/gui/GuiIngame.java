@@ -866,7 +866,7 @@ public class GuiIngame extends Gui
      */
     private void renderBossHealth()
     {
-        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0)
+        if (BossStatus.bossName != null && BossStatus.statusBarTime > 0 && Zenith.getInstance().getModuleManager().getInstance(Tweaks.class).nobosshealth.getValue())
         {
             --BossStatus.statusBarTime;
             FontRenderer fontrenderer = this.mc.MCfontRenderer;

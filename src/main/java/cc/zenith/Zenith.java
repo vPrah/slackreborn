@@ -7,6 +7,7 @@ import cc.zenith.features.commands.CMDManager;
 import cc.zenith.features.commands.api.CMD;
 import cc.zenith.features.modules.ModuleManager;
 import cc.zenith.features.modules.impl.movement.Sprint;
+import cc.zenith.features.modules.impl.player.Tweaks;
 import cc.zenith.features.modules.impl.render.HUD;
 import cc.zenith.utils.client.ClientInfo;
 import cc.zenith.utils.EventUtil;
@@ -41,6 +42,8 @@ public class Zenith {
 
         moduleManager.getInstance(HUD.class).toggle();
         moduleManager.getInstance(Sprint.class).toggle();
+        moduleManager.getInstance(Tweaks.class).toggle();
+
 
         try {
             ViaMCP.create();

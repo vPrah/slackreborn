@@ -9,7 +9,7 @@ import cc.zenith.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
-        name = "VanillaTweaks",
+        name = "Tweaks",
         category = Category.PLAYER
 )
 public class Tweaks extends Module {
