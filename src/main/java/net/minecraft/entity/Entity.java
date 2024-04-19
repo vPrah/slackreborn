@@ -5,8 +5,10 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
-import cc.zenith.events.impl.player.StrafeEvent;
-import cc.zenith.utils.client.mc;
+import cc.slack.Slack;
+import cc.slack.events.impl.player.StrafeEvent;
+import cc.slack.features.modules.impl.combat.Hitbox;
+import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -2037,7 +2039,11 @@ public abstract class Entity implements ICommandSender
 
     public float getCollisionBorderSize()
     {
+        if (Slack.getInstance().getModuleManager().getInstance(Hitbox.class).isToggle()) {
+            return 0.1f + Slack.getInstance().getModuleManager().getInstance(Hitbox.class).hitboxSize.getValue();
+        }
         return 0.1F;
+
     }
 
     /**

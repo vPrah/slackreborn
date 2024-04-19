@@ -21,37 +21,42 @@ public class ModuleManager {
         try {
             addModules(
                     // Combat
+                    new Hitbox(),
                     new KillAura(),
                     new Velocity(),
 
                     // Movement
+
+                    new AirJump(),
                     new Flight(),
+                    new InvMove(),
+                    new Jesus(),
+                    new NoSlow(),
+                    new NoWeb(),
+                    new Phase(),
+                    new Sneak(),
                     new Speed(),
                     new Sprint(),
-                    new Jesus(),
-                    new AirJump(),
-                    new NoWeb(),
-                    new Sneak(),
                     new Step(),
-                    new NoSlow(),
 
                     // Player
-                    new Timer(),
-                    new Blink(),
-                    new NoFall(),
                     new AutoPlay(),
+                    new Blink(),
                     new FastEat(),
-                    new Phase(),
+                    new NoFall(),
+                    new Timer(),
                     new Tweaks(),
 
                     // World
                     new Scaffold(),
+                    new Stealer(),
 
                     // Exploit
                     new Disabler(),
                     new Kick(),
 
                     // Render
+                    new ChestESP(),
                     new ClickGUI(),
                     new HUD()
             );

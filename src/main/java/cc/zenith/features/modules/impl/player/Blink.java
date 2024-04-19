@@ -14,7 +14,7 @@ import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.login.server.S00PacketDisconnect;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.server.S19PacketEntityStatus;
-import net.minecraft.network.play.server.S29PacketSoundEffect;
+import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
 import net.minecraft.network.play.server.S3EPacketTeams;
 import net.minecraft.network.status.server.S00PacketServerInfo;
@@ -72,7 +72,7 @@ public class Blink extends Module {
                 if (mode.getValue().equalsIgnoreCase("serverside")) {
                     if (!(event.getPacket() instanceof S00PacketDisconnect ||
                             event.getPacket() instanceof S00PacketServerInfo || event.getPacket() instanceof S3EPacketTeams ||
-                            event.getPacket() instanceof S19PacketEntityStatus || event.getPacket() instanceof S29PacketSoundEffect ||
+                            event.getPacket() instanceof S19PacketEntityStatus || event.getPacket() instanceof S02PacketChat ||
                             event.getPacket() instanceof S3BPacketScoreboardObjective)) {
                         serverPackets.add(event.getPacket());
                         event.cancel();
