@@ -2,12 +2,8 @@ package cc.slack.features.modules.impl.movement.flights.impl;
 
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.UpdateEvent;
-import cc.slack.features.modules.api.Module;
-import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.client.mc;
-import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;
 
