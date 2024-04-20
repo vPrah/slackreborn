@@ -492,7 +492,8 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.mc.pointedEntity = null;
             double d0 = this.mc.playerController.getBlockReachDistance();
             if (Slack.getInstance().getModuleManager().getInstance(Reach.class).isToggle()) {
-                d0 = Slack.getInstance().getModuleManager().getInstance(Reach.class).getReach();
+                // todo: revert to getReach()
+                d0 = Slack.getInstance().getModuleManager().getInstance(Reach.class).reach.getValue();
             }
             this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks);
             double d1 = d0;
