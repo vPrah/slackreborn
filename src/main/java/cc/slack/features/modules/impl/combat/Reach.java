@@ -17,6 +17,11 @@ public class Reach extends Module {
     public final NumberValue<Double> reach = new NumberValue<>("Reach", 3.1D, 3D, 6D, 0.01D);
     public final NumberValue<Double> chance = new NumberValue<>("Chance", 1D, 0D, 1D, 0.01D);
 
+    public Reach() {
+        super();
+        addSettings(reach, chance);
+    }
+
     public double getReach() {
         double rnd = MathHelper.getRandomDoubleInRange(new Random(), 0, 1);
         if (rnd > chance.getValue()) {

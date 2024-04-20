@@ -20,6 +20,7 @@ public class Tweaks extends Module {
     float prevGamma = -1F;
 
     public Tweaks() {
+        super();
         addSettings(fullbright, nobosshealth);
     }
 
