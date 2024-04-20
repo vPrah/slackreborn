@@ -1,6 +1,8 @@
 package net.minecraft.client.renderer;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.impl.combat.Reach;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -199,7 +201,32 @@ public class EntityRenderer implements IResourceManagerReloadListener
     private double cameraYaw;
     private double cameraPitch;
     private ShaderGroup theShaderGroup;
-    private static final ResourceLocation[] shaderResourceLocations = new ResourceLocation[] {new ResourceLocation("shaders/post/notch.json"), new ResourceLocation("shaders/post/fxaa.json"), new ResourceLocation("shaders/post/art.json"), new ResourceLocation("shaders/post/bumpy.json"), new ResourceLocation("shaders/post/blobs2.json"), new ResourceLocation("shaders/post/pencil.json"), new ResourceLocation("shaders/post/color_convolve.json"), new ResourceLocation("shaders/post/deconverge.json"), new ResourceLocation("shaders/post/flip.json"), new ResourceLocation("shaders/post/invert.json"), new ResourceLocation("shaders/post/ntsc.json"), new ResourceLocation("shaders/post/outline.json"), new ResourceLocation("shaders/post/phosphor.json"), new ResourceLocation("shaders/post/scan_pincushion.json"), new ResourceLocation("shaders/post/sobel.json"), new ResourceLocation("shaders/post/bits.json"), new ResourceLocation("shaders/post/desaturate.json"), new ResourceLocation("shaders/post/green.json"), new ResourceLocation("shaders/post/blur.json"), new ResourceLocation("shaders/post/wobble.json"), new ResourceLocation("shaders/post/blobs.json"), new ResourceLocation("shaders/post/antialias.json"), new ResourceLocation("shaders/post/creeper.json"), new ResourceLocation("shaders/post/spider.json")};
+    private static final ResourceLocation[] shaderResourceLocations = new ResourceLocation[] {
+            new ResourceLocation("shaders/post/notch.json"),
+            new ResourceLocation("shaders/post/fxaa.json"),
+            new ResourceLocation("shaders/post/art.json"),
+            new ResourceLocation("shaders/post/bumpy.json"),
+            new ResourceLocation("shaders/post/blobs2.json"),
+            new ResourceLocation("shaders/post/pencil.json"),
+            new ResourceLocation("shaders/post/color_convolve.json"),
+            new ResourceLocation("shaders/post/deconverge.json"),
+            new ResourceLocation("shaders/post/flip.json"),
+            new ResourceLocation("shaders/post/invert.json"),
+            new ResourceLocation("shaders/post/ntsc.json"),
+            new ResourceLocation("shaders/post/outline.json"),
+            new ResourceLocation("shaders/post/phosphor.json"),
+            new ResourceLocation("shaders/post/scan_pincushion.json"),
+            new ResourceLocation("shaders/post/sobel.json"),
+            new ResourceLocation("shaders/post/bits.json"),
+            new ResourceLocation("shaders/post/desaturate.json"),
+            new ResourceLocation("shaders/post/green.json"),
+            new ResourceLocation("shaders/post/blur.json"),
+            new ResourceLocation("shaders/post/wobble.json"),
+            new ResourceLocation("shaders/post/blobs.json"),
+            new ResourceLocation("shaders/post/antialias.json"),
+            new ResourceLocation("shaders/post/creeper.json"),
+            new ResourceLocation("shaders/post/spider.json")
+    };
     public static final int shaderCount = shaderResourceLocations.length;
     private int shaderIndex;
     private boolean useShader;
@@ -464,6 +491,9 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.mc.mcProfiler.startSection("pick");
             this.mc.pointedEntity = null;
             double d0 = this.mc.playerController.getBlockReachDistance();
+            if (Slack.getInstance().getModuleManager().getInstance(Reach.class).isToggle()) {
+                d0 = Slack.getInstance().getModuleManager().getInstance(Reach.class).getReach();
+            }
             this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks);
             double d1 = d0;
             Vec3 vec3 = entity.getPositionEyes(partialTicks);
@@ -490,7 +520,10 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.pointedEntity = null;
             Vec3 vec33 = null;
             float f = 1.0F;
-            List<Entity> list = this.mc.theWorld.getEntitiesInAABBexcluding(entity, entity.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f, f, f), Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>()
+            List<Entity> list = this.mc.theWorld.getEntitiesInAABBexcluding(
+                    entity,
+                    entity.getEntityBoundingBox().addCoord(vec31.xCoord * d0, vec31.yCoord * d0, vec31.zCoord * d0).expand(f, f, f),
+                    Predicates.and(EntitySelectors.NOT_SPECTATING, new Predicate<Entity>()
             {
                 public boolean apply(Entity p_apply_1_)
                 {
