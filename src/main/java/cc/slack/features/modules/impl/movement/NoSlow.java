@@ -20,10 +20,11 @@ public class NoSlow extends Module {
 
     private final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "NCPLatest", "Switch"});
 
-    public final NumberValue<Float> slowdown = new NumberValue<>("SpeedMultiplier", 1f, 0.2f,1f, 0.01f);
+    public final NumberValue<Float> strafeMultiplier = new NumberValue<>("MoveStrafeMultiplier", 1f, 0.2f,1f, 0.10f);
+    public final NumberValue<Float> forwardMultiplier = new NumberValue<>("ForwardMultiplier", 1f, 0.2f,1f, 0.10f);
 
     public NoSlow() {
-        addSettings(mode);
+        addSettings(mode, strafeMultiplier, forwardMultiplier);
     }
 
     @Listen
