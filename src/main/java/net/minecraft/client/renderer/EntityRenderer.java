@@ -491,9 +491,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             this.mc.mcProfiler.startSection("pick");
             this.mc.pointedEntity = null;
             double d0 = this.mc.playerController.getBlockReachDistance();
-//            if (Slack.getInstance().getModuleManager().getInstance(Reach.class).isToggle()) {
-//                d0 = Slack.getInstance().getModuleManager().getInstance(Reach.class).getReach();
-//            }
             this.mc.objectMouseOver = entity.rayTrace(d0, partialTicks);
             double d1 = d0;
             Vec3 vec3 = entity.getPositionEyes(partialTicks);
@@ -579,10 +576,15 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 }
             }
 
-            if (this.pointedEntity != null && flag && vec3.distanceTo(vec33) > 3.0D)
-            {
-                this.pointedEntity = null;
-                this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, null, new BlockPos(vec33));
+            if (this.pointedEntity != null && flag) {
+                double combatReach = 3.0D;
+                if (Slack.getInstance().getModuleManager().getInstance(Reach.class).isToggle()) {
+                    combatReach = Slack.getInstance().getModuleManager().getInstance(Reach.class).getReach();
+                }
+                if (vec3.distanceTo(vec33) > combatReach) {
+                    this.pointedEntity = null;
+                    this.mc.objectMouseOver = new MovingObjectPosition(MovingObjectPosition.MovingObjectType.MISS, vec33, null, new BlockPos(vec33));
+                }
             }
 
             if (this.pointedEntity != null && (d2 < d1 || this.mc.objectMouseOver == null))
