@@ -1,5 +1,6 @@
 package net.minecraft.client.multiplayer;
 
+import cc.slack.events.impl.player.AttackEvent;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -496,6 +497,10 @@ public class PlayerControllerMP
      */
     public void attackEntity(EntityPlayer playerIn, Entity targetEntity)
     {
+        AttackEvent event = new AttackEvent(targetEntity);
+        if (targetEntity == null || event.call().isCanceled()) {
+            return;
+        }
         this.syncCurrentPlayItem();
         this.netClientHandler.addToSendQueue(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.ATTACK));
 

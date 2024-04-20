@@ -23,7 +23,9 @@ public class ModuleManager {
                     new Hitbox(),
                     new Reach(),
                     new KillAura(),
+                    new Reach(),
                     new Velocity(),
+                    new Wtap(),
 
                     // Movement
 
