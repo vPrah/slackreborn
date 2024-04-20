@@ -22,7 +22,7 @@ import org.lwjgl.input.Keyboard;
 )
 public class Flight extends Module {
 
-    private final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{new VanillaFlight(), new VerusJumpFlight(), new VerusFlight(), new VerusJumpFlight(), new ChunkFlight()});
+    private final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{new VanillaFlight(), new VerusJumpFlight(), new VerusFlight(), new VerusJumpFlight(), new ChunkFlight(), new CollideFlight()});
 
     public Flight() {
         super();
