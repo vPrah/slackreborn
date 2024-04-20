@@ -4,7 +4,7 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -29,11 +29,13 @@ public class Blink extends Module {
 
     private final CopyOnWriteArrayList<Packet> clientPackets = new CopyOnWriteArrayList<>();
     private final CopyOnWriteArrayList<Packet> serverPackets = new CopyOnWriteArrayList<>();
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Clientside", "Serverside"});
+
+    private final BooleanValue outbound = new BooleanValue("Outbound", true);
+    private final BooleanValue inbound = new BooleanValue("Inbound", false);
 
     public Blink() {
         super();
-        addSettings(mode);
+        addSettings(outbound, inbound);
     }
 
     @Override
@@ -59,7 +61,7 @@ public class Blink extends Module {
     public void onPacket(PacketEvent event) {
         switch (event.getDirection()) {
             case OUTGOING:
-                if (mode.getValue().equalsIgnoreCase("clientside")) {
+                if (outbound.getValue()) {
                     if (!(event.getPacket() instanceof C00PacketKeepAlive || event.getPacket() instanceof C00Handshake ||
                             event.getPacket() instanceof C00PacketLoginStart)) {
                         clientPackets.add(event.getPacket());
@@ -69,7 +71,7 @@ public class Blink extends Module {
                 break;
             case INCOMING:
                 if (mc.getPlayer() == null || mc.getWorld() == null) return;
-                if (mode.getValue().equalsIgnoreCase("serverside")) {
+                if (inbound.getValue()) {
                     if (!(event.getPacket() instanceof S00PacketDisconnect ||
                             event.getPacket() instanceof S00PacketServerInfo || event.getPacket() instanceof S3EPacketTeams ||
                             event.getPacket() instanceof S19PacketEntityStatus || event.getPacket() instanceof S02PacketChat ||
