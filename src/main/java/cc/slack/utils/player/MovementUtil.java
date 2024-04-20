@@ -2,6 +2,7 @@ package cc.slack.utils.player;
 
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.utils.client.mc;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.potion.Potion;
 
 public class MovementUtil extends mc {
@@ -113,6 +114,15 @@ public class MovementUtil extends mc {
         }
 
         return baseSpeed;
+    }
+
+    public static void updateBinds() {
+        mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
+        mc.getGameSettings().keyBindSprint.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSprint);
+        mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
+        mc.getGameSettings().keyBindRight.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindRight);
+        mc.getGameSettings().keyBindBack.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindBack);
+        mc.getGameSettings().keyBindLeft.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft);
     }
 
 }
