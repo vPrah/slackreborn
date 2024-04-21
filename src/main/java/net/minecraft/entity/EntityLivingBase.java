@@ -1,6 +1,8 @@
 package net.minecraft.entity;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.player.JumpEvent;
+import cc.slack.features.modules.impl.player.Tweaks;
 import cc.slack.utils.client.mc;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -186,7 +188,7 @@ public abstract class EntityLivingBase extends Entity
     private float landMovementFactor;
 
     /** Number of ticks since last jump */
-    private int jumpTicks;
+    public int jumpTicks;
     private float absorptionAmount;
 
     public float renderPitch, prevRenderPitch;
@@ -2010,27 +2012,19 @@ public abstract class EntityLivingBase extends Entity
         this.worldObj.theProfiler.endSection();
         this.worldObj.theProfiler.startSection("jump");
 
-        if (this.isJumping)
-        {
-            if (this.isInWater())
-            {
+        if (this.isJumping) {
+            if (this.isInWater()) {
                 this.updateAITick();
-            }
-            else if (this.isInLava())
-            {
+            } else if (this.isInLava()) {
                 this.handleJumpLava();
-            }
-            else if (this.onGround && this.jumpTicks == 0)
-            {
+            } else if (this.onGround && this.jumpTicks == 0) {
                 this.jump();
                 this.jumpTicks = 10;
             }
         }
-        else
-        {
+        else {
             this.jumpTicks = 0;
         }
-
         this.worldObj.theProfiler.endSection();
         this.worldObj.theProfiler.startSection("travel");
         this.moveStrafing *= 0.98F;
