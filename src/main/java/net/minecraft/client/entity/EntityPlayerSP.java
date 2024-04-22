@@ -7,6 +7,7 @@ import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.NoSlow;
+import cc.slack.utils.player.RotationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;
@@ -58,6 +59,8 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
+
+import java.util.Random;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -196,6 +199,28 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdateWalkingPlayer()
     {
+        if (RotationUtil.isEnabled) {
+            // primative rotationUtil implementation
+            this.rotationYaw = RotationUtil.clientRotation[0];
+            this.rotationPitch = RotationUtil.clientRotation[0];
+            this.rotationYaw += (new Random()).nextFloat(-0.5F, 0.5F) * RotationUtil.randomizeAmount;
+            this.rotationPitch += (new Random()).nextFloat(-0.5F, 0.5F) * RotationUtil.randomizeAmount;
+
+            float[] gcdFix = RotationUtil.applyGCD(new float[]{this.rotationYaw, this.rotationPitch}, new float[] {this.lastReportedYaw, this.lastReportedPitch});
+            this.rotationYaw = gcdFix[0];
+            this.rotationPitch = gcdFix[1];
+
+            if (RotationUtil.keepRotationTicks <= 0) {
+                RotationUtil.isEnabled = false;
+            } else {
+                RotationUtil.keepRotationTicks--;
+            }
+        } else {
+            RotationUtil.clientRotation[0] = this.rotationYaw;
+            RotationUtil.clientRotation[1] = this.rotationPitch;
+            RotationUtil.keepRotationTicks = 0;
+            RotationUtil.randomizeAmount = 0F;
+        }
         final MotionEvent event = new MotionEvent(
                 this.posX, this.posY, this.posZ,
                 this.rotationYaw, this.rotationPitch,

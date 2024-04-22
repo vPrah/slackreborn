@@ -8,6 +8,27 @@ import net.minecraft.util.Vec3;
 
 public class RotationUtil extends mc {
 
+    // actual chaning of rotations + keep rot ticks + randomization in EntityPlayerSP.java
+
+    public static boolean isEnabled = false;
+    public static float[] clientRotation = new float[]{0.0F, 0.0F};
+    public static float keepRotationTicks = 0;
+    public static float randomizeAmount = 0.0F;
+
+
+    public static void setClientRotation(final float[] targetRotation) {
+        setClientRotation(targetRotation, 0);
+    }
+
+    public static void setClientRotation(final float[] targetRotation, int keepRotation) {
+        if (!isEnabled || keepRotationTicks <= 0) {
+            isEnabled = true;
+            keepRotationTicks = keepRotation;
+            clientRotation = targetRotation;
+        }
+    }
+
+
     public static float[] getNeededRotations(final Vec3 vec) {
         final Vec3 playerVector = new Vec3(getPlayer().posX, getPlayer().posY + getPlayer().getEyeHeight(), getPlayer().posZ);
         final double y = vec.yCoord - playerVector.yCoord;
