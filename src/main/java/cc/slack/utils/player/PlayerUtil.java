@@ -25,6 +25,7 @@ public class PlayerUtil extends mc {
     public static final double MOVE_FRICTION = 0.9800000190734863;
 
     public static final double BASE_JUMP_HEIGHT = 0.41999998688698;
+    public static final double HEAD_HITTER_MOTIONY = -0.07840000152;
 
     public static double getJumpHeight(double height) {
         if (getPlayer().isPotionActive(Potion.jump))

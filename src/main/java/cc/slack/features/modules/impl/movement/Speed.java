@@ -36,6 +36,9 @@ public class Speed extends Module {
             // Hypixel
             new HypixelHopSpeed(),
 
+            // NCP
+            new NCPHopSpeed(),
+
             // Vulcan
             new VulcanLowSpeed(),
             new VulcanHopSpeed()

@@ -4,7 +4,6 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
 
 public class HypixelHopSpeed implements ISpeed {
 

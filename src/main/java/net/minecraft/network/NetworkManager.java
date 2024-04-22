@@ -1,6 +1,7 @@
 package net.minecraft.network;
 
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.utils.player.BlinkUtil;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -156,6 +157,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
                 PacketEvent packetEvent = new PacketEvent(packet, PacketDirection.INCOMING);
                 if(packetEvent.call().isCanceled()) return;
 
+                if (BlinkUtil.handlePacket(packetEvent)) return;
+
                 packet.processPacket(this.packetListener);
             }
             catch (ThreadQuickExitException var4)
@@ -246,6 +249,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
         PacketEvent packetEvent = new PacketEvent(inPacket, PacketDirection.OUTGOING);
         if(packetEvent.call().isCanceled()) return;
+
+        if (BlinkUtil.handlePacket(packetEvent)) return;
 
         if (enumconnectionstate1 != enumconnectionstate)
         {
