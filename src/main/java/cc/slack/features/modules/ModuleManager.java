@@ -21,7 +21,6 @@ public class ModuleManager {
             addModules(
                     // Combat
                     new Hitbox(),
-                    new Reach(),
                     new KillAura(),
                     new Reach(),
                     new Velocity(),
