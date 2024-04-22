@@ -18,7 +18,7 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 public class NoSlow extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "NCPLatest", "Switch"});
+    private final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "Vulcan", "NCPLatest", "Switch"});
 
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("MoveStrafeMultiplier", 1f, 0.2f,1f, 0.10f);
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("ForwardMultiplier", 1f, 0.2f,1f, 0.10f);
@@ -31,6 +31,7 @@ public class NoSlow extends Module {
     public void onUpdate (UpdateEvent event) {
         if (mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) {
             switch (mode.getValue().toLowerCase()) {
+                case "vulcan":
                 case "vanilla":
                     break;
                 case "ncplatest":

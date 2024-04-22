@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.input.KeyEvent;
+import cc.slack.features.modules.impl.world.FastPlace;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -1523,6 +1524,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         if (!this.playerController.func_181040_m())
         {
             this.rightClickDelayTimer = 4;
+            if (Slack.getInstance().getModuleManager().getInstance(FastPlace.class).isToggle()) {
+                this.rightClickDelayTimer = Slack.getInstance().getModuleManager().getInstance(FastPlace.class).placeDelay.getValue();
+            }
             boolean flag = true;
             ItemStack itemstack = this.thePlayer.inventory.getCurrentItem();
 

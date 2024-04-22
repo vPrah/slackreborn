@@ -50,6 +50,7 @@ public class ModuleManager {
                     new Tweaks(),
 
                     // World
+                    new FastPlace(),
                     new Scaffold(),
                     new Stealer(),
 
