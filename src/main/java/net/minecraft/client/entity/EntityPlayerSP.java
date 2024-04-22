@@ -203,8 +203,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
             // primative rotationUtil implementation
             this.rotationYaw = RotationUtil.clientRotation[0];
             this.rotationPitch = RotationUtil.clientRotation[0];
-            this.rotationYaw += (new Random()).nextFloat(-0.5F, 0.5F) * RotationUtil.randomizeAmount;
-            this.rotationPitch += (new Random()).nextFloat(-0.5F, 0.5F) * RotationUtil.randomizeAmount;
+            this.rotationYaw += (new Random()).nextFloat() * RotationUtil.randomizeAmount;
+            this.rotationPitch += (new Random()).nextFloat() * RotationUtil.randomizeAmount;
 
             float[] gcdFix = RotationUtil.applyGCD(new float[]{this.rotationYaw, this.rotationPitch}, new float[] {this.lastReportedYaw, this.lastReportedPitch});
             this.rotationYaw = gcdFix[0];

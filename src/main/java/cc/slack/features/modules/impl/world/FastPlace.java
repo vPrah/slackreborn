@@ -11,4 +11,8 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 )
 public class FastPlace extends Module {
     public final NumberValue<Integer> placeDelay = new NumberValue<>("PlaceDelay", 1, 0, 4, 1);
+
+    public FastPlace() {
+        addSettings(placeDelay);
+    }
 }
