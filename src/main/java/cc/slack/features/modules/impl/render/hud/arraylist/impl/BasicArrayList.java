@@ -10,6 +10,8 @@ import cc.slack.utils.font.Fonts;
 
 import java.awt.*;
 
+import static net.minecraft.client.gui.Gui.drawRect;
+
 /**
  * @author skelton
  * @see HUD
@@ -18,11 +20,11 @@ import java.awt.*;
 public class BasicArrayList implements IArraylist {
     @Override
     public void onRender(RenderEvent event) {
-        int y = 1;
+        int y = 3;
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (!module.isToggle()) continue;
-            Fonts.apple18.drawStringWithShadow(module.getDisplayName(), event.getWidth() - Fonts.apple18.getStringWidth(module.getDisplayName()), y, Color.WHITE.getRGB());
-            y += mc.getFontRenderer().FONT_HEIGHT;
+            Fonts.apple18.drawStringWithShadow(module.getDisplayName(), event.getWidth() - Fonts.apple18.getStringWidth(module.getDisplayName()) - 3, y, 0x5499C7);
+            y += Fonts.apple18.getHeight() + 2;
         }
     }
 

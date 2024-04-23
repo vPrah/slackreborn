@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
+import cc.slack.utils.font.Fonts;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
@@ -37,9 +38,9 @@ public class HUD extends Module {
     public void onRender(RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_2D) return;
             if (watermarkvalue.getValue()) {
-                drawRect(2, 2, 85, 14, 0x80000000);
-                Minecraft.getMinecraft().MCfontRenderer.drawString("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
-                Minecraft.getMinecraft().MCfontRenderer.drawString(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
+                drawRect(2, 2, 80, 14, 0x80000000);
+                Fonts.apple18.drawString("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
+                Fonts.apple18.drawString(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
             }
 //        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
         arraylistModes.getValue().onRender(e);
