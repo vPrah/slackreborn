@@ -15,6 +15,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
+import cc.slack.utils.other.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.PlayerUtil;
@@ -165,7 +166,7 @@ public class KillAura extends Module {
 
     private void attack(EntityLivingBase target) {
         EntityLivingBase rayCastedEntity = null;
-        if (rayCast.getValue()) rayCastedEntity = rayCast(attackRange.getValue(), rotations);
+        if (rayCast.getValue()) rayCastedEntity = RaycastUtil.rayCast(attackRange.getValue(), rotations);
 
         mc.getPlayer().swingItem();
 
@@ -234,45 +235,6 @@ public class KillAura extends Module {
         }
 
         return targets.isEmpty() ? null : targets.get(0);
-    }
-
-    public EntityLivingBase rayCast(double range, float[] rotations) {
-        Vec3 eyes = mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks);
-        Vec3 look = mc.getPlayer().getVectorForRotation(rotations[1], rotations[0]);
-        Vec3 vec = eyes.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
-        List<Entity> entities = mc.getWorld().getEntitiesInAABBexcluding(mc.getPlayer(), mc.getPlayer().getEntityBoundingBox().addCoord(
-                        look.xCoord * range, look.yCoord * range, look.zCoord * range).expand(1, 1, 1),
-                Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
-        EntityLivingBase raycastedEntity = null;
-
-        for (Entity ent : entities) {
-            if (!(ent instanceof EntityLivingBase)) return null;
-            EntityLivingBase entity = (EntityLivingBase) ent;
-            if (entity == mc.getPlayer()) continue;
-            final float borderSize = entity.getCollisionBorderSize();
-            final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
-            final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(eyes, vec);
-
-            if (axisalignedbb.isVecInside(eyes)) {
-                if (range >= 0) {
-                    raycastedEntity = entity;
-                    range = 0;
-                }
-            } else if (movingobjectposition != null) {
-                final double distance = eyes.distanceTo(movingobjectposition.hitVec);
-
-                if (distance < range || range == 0) {
-                    if (entity == entity.ridingEntity) {
-                        if (range == 0) raycastedEntity = entity;
-                    } else {
-                        raycastedEntity = entity;
-                        range = distance;
-                    }
-                }
-            }
-        }
-
-        return raycastedEntity;
     }
 
     private float[] calculateRotations(Entity entity) {

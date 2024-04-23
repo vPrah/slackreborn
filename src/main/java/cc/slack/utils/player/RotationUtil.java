@@ -116,4 +116,5 @@ public class RotationUtil extends mc {
     public static EnumFacing getEnumDirection(float yaw) {
         return EnumFacing.getHorizontal(MathHelper.floor_double((double)(yaw * 4.0F / 360.0F) + 0.5D) & 3);
     }
+
 }
