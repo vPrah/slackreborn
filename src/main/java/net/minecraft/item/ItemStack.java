@@ -170,7 +170,7 @@ public final class ItemStack
     }
 
     /**
-     * Called when the item in use count reach 0, e.g. item food eaten. Return the new ItemStack. Args : world, entity
+     * Called when the item in use count hasReached 0, e.g. item food eaten. Return the new ItemStack. Args : world, entity
      */
     public ItemStack onItemUseFinish(World worldIn, EntityPlayer playerIn)
     {

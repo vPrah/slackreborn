@@ -18,13 +18,13 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 public class NoSlow extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "Vulcan", "NCPLatest", "Switch"});
+    private final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Switch"});
 
-    public final NumberValue<Float> strafeMultiplier = new NumberValue<>("MoveStrafeMultiplier", 1f, 0.2f,1f, 0.10f);
-    public final NumberValue<Float> forwardMultiplier = new NumberValue<>("ForwardMultiplier", 1f, 0.2f,1f, 0.10f);
+    public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
+    public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
 
     public NoSlow() {
-        addSettings(mode, strafeMultiplier, forwardMultiplier);
+        addSettings(mode, forwardMultiplier, strafeMultiplier,);
     }
 
     @Listen
@@ -34,7 +34,7 @@ public class NoSlow extends Module {
                 case "vulcan":
                 case "vanilla":
                     break;
-                case "ncplatest":
+                case "ncp latest":
                 case "switch":
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));

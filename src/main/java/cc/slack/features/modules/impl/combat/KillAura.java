@@ -20,7 +20,6 @@ import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.player.RotationUtil;
-import com.google.common.base.Predicates;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -129,7 +128,7 @@ public class KillAura extends Module {
     @Listen
     public void onRender(RenderEvent e) {
         if(e.getState() != RenderEvent.State.RENDER_2D) return;
-        if (timer.reach(attackDelay) && target != null) {
+        if (timer.hasReached(attackDelay) && target != null) {
             queuedAttacks++;
             timer.reset();
             attackDelay = AttackUtil.getAttackDelay(cps.getValue(), randomization.getValue(), attackPattern.getValue());
@@ -240,7 +239,7 @@ public class KillAura extends Module {
     private float[] calculateRotations(Entity entity) {
         final AxisAlignedBB bb = entity.getEntityBoundingBox();
 
-        if(rotationCenter.reach(1200) && rotationRand.getValue()) {
+        if(rotationCenter.hasReached(1200) && rotationRand.getValue()) {
             rotationOffset = new SecureRandom().nextDouble();
             rotationCenter.reset();
         }

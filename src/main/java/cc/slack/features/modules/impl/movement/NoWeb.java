@@ -15,7 +15,7 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class NoWeb extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "FastFall", "Verus"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Fast Fall", "Verus"});
 
     public NoWeb() {
         super();
@@ -32,7 +32,7 @@ public class NoWeb extends Module {
             case "vanilla":
                 mc.getPlayer().isInWeb = false;
                 break;
-            case "fastfall":
+            case "fast fall":
                 if (mc.getPlayer().onGround) mc.getPlayer().jump();
                 if (mc.getPlayer().motionY > 0f) {
                     mc.getPlayer().motionY -= mc.getPlayer().motionY * 2;

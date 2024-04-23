@@ -16,7 +16,7 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 )
 public class InvMove extends Module {
 
-    private static BooleanValue noOpen = new BooleanValue("CancelInventoryOpen", false);
+    private static BooleanValue noOpen = new BooleanValue("Cancel Inventory Open", false);
 
     public InvMove() {
         super();

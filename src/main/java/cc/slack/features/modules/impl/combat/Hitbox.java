@@ -14,6 +14,7 @@ public class Hitbox extends Module {
     public final NumberValue<Float> hitboxSize = new NumberValue<>("Expand", 0.1f, 0f, 1f, 0.01f);
 
     public Hitbox() {
+        super();
         addSettings(hitboxSize);
     }
 

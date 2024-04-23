@@ -84,7 +84,7 @@ public class Timer extends Module {
     public void onRender(RenderEvent event) {
         if (event.state != RenderEvent.State.RENDER_2D) return;
         if (mode.getValue().equalsIgnoreCase("balance")) {
-            if (timer.reach(50)) {
+            if (timer.hasReached(50)) {
                 balance--;
                 timer.reset();
             }

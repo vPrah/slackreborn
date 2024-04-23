@@ -8,7 +8,7 @@ public class TimeUtil {
         reset();
     }
 
-    public boolean reach(long milliseconds) {
+    public boolean hasReached(long milliseconds) {
         return elapsed() > milliseconds;
     }
 

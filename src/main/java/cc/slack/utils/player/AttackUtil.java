@@ -21,10 +21,10 @@ public class AttackUtil {
         return 0;
     }
 
-    public static double getOldRandomization(double mu, double sigma) {
+    public static double getOldRandomization(double cps, double sigma) {
         double rnd = MathHelper.getRandomDoubleInRange(new Random(), 0, 1);
         double normal = Math.sqrt(-2 * (Math.log(rnd) / Math.log(Math.E))) * Math.sin(2 * Math.PI * rnd);
-        return mu + sigma * normal;
+        return cps + sigma * normal;
     }
 
     public static double getNewRandomization(double cps, double rand) {
