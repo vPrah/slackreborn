@@ -29,6 +29,7 @@ public class Speed extends Module {
 
             // Vanilla
             new VanillaSpeed(),
+            new StrafeSpeed(),
 
             // Verus
             new VerusHopSpeed(),
