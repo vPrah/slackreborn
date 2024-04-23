@@ -1,24 +1,17 @@
-package cc.slack.utils.skid;
+package cc.slack.utils.player;
 
-import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.skid.timer.MSTimer;
-import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-
 import java.util.Arrays;
 import java.util.List;
 
 
 public final class InventoryUtils extends mc {
 
-    public static final MSTimer CLICK_TIMER = new MSTimer();
     public static final List<Block> BLOCK_BLACKLIST = Arrays.asList(
             Blocks.enchanting_table,
             Blocks.chest,
@@ -40,7 +33,6 @@ public final class InventoryUtils extends mc {
             Blocks.standing_banner,
             Blocks.wall_banner,
             Blocks.redstone_torch,
-            // recently added
             Blocks.gravel,
             Blocks.cactus,
             Blocks.bed,
@@ -83,54 +75,46 @@ public final class InventoryUtils extends mc {
         return -1;
     }
 
-    public static boolean hasSpaceHotbar() {
+    public static boolean isHotbarFull() {
         for (int i = 36; i < 45; i++) {
-            final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
-
-            if (itemStack == null)
-                return true;
+            if (mc.getPlayer().inventoryContainer.getSlot(i).getStack() == null)
+                return false;
         }
-        return false;
+        return true;
     }
 
-    public static int findAutoBlockBlock() {
-        for (int i = 36; i < 45; i++) {
-            final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+    public static int pickHotarBlock(boolean biggestStack) {
+        if (biggestStack) {
+            int currentStackSize = 0;
+            int currentSlot = 36;
+            for (int i = 36; i < 45; i++) {
+                final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
 
-            if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > 0) {
-                final ItemBlock itemBlock = (ItemBlock) itemStack.getItem();
-                final Block block = itemBlock.getBlock();
+                if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > currentStackSize) {
+                    final Block block = ((ItemBlock) itemStack.getItem()).getBlock();
 
-                if (block.isFullCube() && !BLOCK_BLACKLIST.contains(block))
-                    return i;
+                    if (block.isFullCube() && !BLOCK_BLACKLIST.contains(block)) {
+                        currentStackSize = itemStack.stackSize;
+                        currentSlot = i;
+                    }
+                }
+            }
+
+            if (currentStackSize > 0) {
+                return currentSlot;
+            }
+        } else {
+            for (int i = 36; i < 45; i++) {
+                final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+
+                if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > 0) {
+                    final Block block = ((ItemBlock) itemStack.getItem()).getBlock();
+
+                    if (block.isFullCube() && !BLOCK_BLACKLIST.contains(block))
+                        return i;
+                }
             }
         }
-/*
-        for(int i = 36; i < 45; i++) {
-            final ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
-
-            if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > 0) {
-                final ItemBlock itemBlock = (ItemBlock) itemStack.getItem();
-                final Block block = itemBlock.getBlock();
-
-                if (!BLOCK_BLACKLIST.contains(block))
-                    return i;
-            }
-        }
-*/
         return -1;
-    }
-
-//    @Listen
-//    public void onClick(final ClickWindowEvent event) {
-//        CLICK_TIMER.reset();
-//    }
-
-    @Listen
-    public void onPacket(final PacketEvent event) {
-        final Packet packet = event.getPacket();
-
-        if (packet instanceof C08PacketPlayerBlockPlacement)
-            CLICK_TIMER.reset();
     }
 }

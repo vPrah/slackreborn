@@ -1,4 +1,4 @@
-package cc.slack.utils.skid;
+package cc.slack.utils.other;
 
 import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;

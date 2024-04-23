@@ -51,7 +51,8 @@ public class KillAura extends Module {
     private final ModeValue<AttackUtil.AttackPattern> attackPattern = new ModeValue<>("Pattern", AttackUtil.AttackPattern.values());
     private final NumberValue<Integer> cps = new NumberValue<>("CPS", 18, 1, 30, 1);
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft", "Blatant", "Vanilla"});
+    // TODO: add universal / blink ab when can confirm blink utils are working
     private final BooleanValue rotationRand = new BooleanValue("Rotation Randomization", false);
     private final BooleanValue moveFix = new BooleanValue("Move Fix", false);
     private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
@@ -116,10 +117,7 @@ public class KillAura extends Module {
                 switch (autoBlock.getValue()) {
                     case "Universocraft":
                         if (!mc.getGameSettings().keyBindUseItem.isKeyDown()) {
-                            if (!isBlocking) {
-                                PacketUtil.send(new C08PacketPlayerBlockPlacement(mc.getPlayer().getCurrentEquippedItem()));
-                                isBlocking = true;
-                            }
+                            block();
                         }
                         break;
                 }
@@ -144,6 +142,7 @@ public class KillAura extends Module {
 
             if (target == null) {
                 attackDelay = 0;
+                unblock();
                 return;
             }
 
@@ -151,12 +150,12 @@ public class KillAura extends Module {
 
             rotations = calculateRotations(target);
 
-            if (e.getState() != State.PRE) return;
-
+            preAttack();
             while (queuedAttacks > 0) {
                 attack(target);
                 queuedAttacks--;
             }
+            postAttack();
         } else {
             if(isBlocking && autoBlock.getValue().equalsIgnoreCase("Universocraft")) {
                 isBlocking = false;
@@ -176,11 +175,35 @@ public class KillAura extends Module {
         if (keepSprint.getValue()) {
             mc.getPlayerController().syncCurrentPlayItem();
             PacketUtil.send(new C02PacketUseEntity(rayCastedEntity == null ? target : rayCastedEntity, C02PacketUseEntity.Action.ATTACK));
+            if (mc.getPlayer().fallDistance > 0 && !mc.getPlayer().onGround) {
+                mc.getPlayer().onCriticalHit(rayCastedEntity == null ? target : rayCastedEntity);
+            }
         } else {
             mc.getPlayerController().attackEntity(mc.getPlayer(), rayCastedEntity == null ? target : rayCastedEntity);
         }
     }
 
+    private void preAttack() {
+        switch (autoBlock.getValue().toLowerCase()) {
+            case "blatant":
+                unblock();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void postAttack() {
+        switch (autoBlock.getValue().toLowerCase()) {
+            case "blatant":
+                block();
+                break;
+            case "vanilla":
+                block();
+            default:
+                break;
+        }
+    }
 
 
     private EntityLivingBase getTarget() {
@@ -277,11 +300,19 @@ public class KillAura extends Module {
         return RotationUtil.applyGCD(newRots, rotations);
     }
 
+    private void block() {
+        if (isBlocking) return;
+        // code for interact, recode to add it soon. mc.getPlayerController().interactWithEntitySendPacket(mc.getPlayer(), target);
+        PacketUtil.send(new C08PacketPlayerBlockPlacement(mc.getPlayer().getCurrentEquippedItem()));
+        isBlocking = true;
+    }
+
     private void unblock() {
         if (!mc.getGameSettings().keyBindUseItem.isKeyDown())
             PacketUtil.send(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
         else
             mc.getGameSettings().keyBindUseItem.setPressed(false);
+        isBlocking = false;
     }
 
     private boolean canAutoBlock() {
