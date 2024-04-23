@@ -9,6 +9,8 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.features.modules.impl.combat.Hitbox;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.player.RotationUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockFence;
 import net.minecraft.block.BlockFenceGate;
@@ -17,6 +19,7 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
@@ -51,6 +54,9 @@ import net.minecraft.util.Vec3;
 import net.minecraft.world.Explosion;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.round;
 
 public abstract class Entity implements ICommandSender
 {
@@ -1228,7 +1234,28 @@ public abstract class Entity implements ICommandSender
      */
     public void moveFlying(float strafe, float forward, float friction)
     {
-        StrafeEvent event = new StrafeEvent(strafe, forward, friction, this.rotationYaw);
+        float movingYaw = this.rotationYaw;
+        if (RotationUtil.isEnabled) {
+            if (RotationUtil.strafeFix) {
+                movingYaw = RotationUtil.clientRotation[0];
+                if (!RotationUtil.strictStrafeFix) {
+                    int strafeYaw = round((MovementUtil.getDirection(movingYaw, mc.getPlayer().moveForward, mc.getPlayer().moveStrafing) - mc.getPlayer().rotationYaw) / 45);
+                    if (strafeYaw > 4) {
+                        strafeYaw -= 8;
+                    }
+                    if (strafeYaw < -4) {
+                        strafeYaw += 8;
+                    }
+                    mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
+                    mc.getGameSettings().keyBindRight.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                    mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
+                    mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                }
+            } else {
+                movingYaw = mc.getPlayer().rotationYaw;
+            }
+        }
+        StrafeEvent event = new StrafeEvent(strafe, forward, friction, movingYaw);
         if(this == mc.getPlayer()) event.call();
         if(event.isCanceled()) return;
 

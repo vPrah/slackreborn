@@ -15,6 +15,13 @@ public class RotationUtil extends mc {
     public static float keepRotationTicks = 0;
     public static float randomizeAmount = 0.0F;
 
+    public static boolean strafeFix = true;
+    public static boolean strictStrafeFix = false;
+
+    public static void setStrafeFix(boolean enabled, boolean strict) {
+        strafeFix = enabled;
+        strictStrafeFix = strict;
+    }
 
     public static void setClientRotation(final float[] targetRotation) {
         setClientRotation(targetRotation, 0);

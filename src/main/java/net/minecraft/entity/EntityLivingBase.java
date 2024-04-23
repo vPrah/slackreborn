@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.JumpEvent;
 import cc.slack.features.modules.impl.player.Tweaks;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.RotationUtil;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.common.collect.Maps;
@@ -1574,7 +1575,11 @@ public abstract class EntityLivingBase extends Entity
      */
     protected void jump()
     {
-        JumpEvent event = new JumpEvent(this.rotationYaw);
+        float jumpYaw = this.rotationYaw;
+        if (RotationUtil.isEnabled && RotationUtil.strafeFix) {
+            jumpYaw = RotationUtil.clientRotation[0];
+        }
+        JumpEvent event = new JumpEvent(jumpYaw);
         if(this == mc.getPlayer() && event.call().isCanceled()) return;
 
         this.motionY = this.getJumpUpwardsMotion();
