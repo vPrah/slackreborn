@@ -76,6 +76,7 @@ public abstract class EntityLivingBase extends Entity
      * The amount of time remaining this entity should act 'hurt'. (Visual appearance of red tint)
      */
     public int hurtTime;
+    public int ticksSinceLastDamage;
 
     /** What the hurt time was max set to last. */
     public int maxHurtTime;
@@ -346,6 +347,7 @@ public abstract class EntityLivingBase extends Entity
         {
             --this.hurtTime;
         }
+        --this.ticksSinceLastDamage;
 
         if (this.hurtResistantTime > 0 && !(this instanceof EntityPlayerMP))
         {
@@ -919,6 +921,7 @@ public abstract class EntityLivingBase extends Entity
                     this.hurtResistantTime = this.maxHurtResistantTime;
                     this.damageEntity(source, amount);
                     this.hurtTime = this.maxHurtTime = 10;
+                    this.ticksSinceLastDamage = 0;
                 }
 
                 this.attackedAtYaw = 0.0F;
@@ -1184,6 +1187,7 @@ public abstract class EntityLivingBase extends Entity
     public void performHurtAnimation()
     {
         this.hurtTime = this.maxHurtTime = 10;
+        this.ticksSinceLastDamage = 0;
         this.attackedAtYaw = 0.0F;
     }
 
@@ -1363,6 +1367,7 @@ public abstract class EntityLivingBase extends Entity
             this.limbSwingAmount = 1.5F;
             this.hurtResistantTime = this.maxHurtResistantTime;
             this.hurtTime = this.maxHurtTime = 10;
+            this.ticksSinceLastDamage = 0;
             this.attackedAtYaw = 0.0F;
             String s = this.getHurtSound();
 
