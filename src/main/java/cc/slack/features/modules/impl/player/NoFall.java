@@ -9,9 +9,8 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
-import cc.slack.features.modules.impl.player.nofalls.specials.VanillaNofall;
-import cc.slack.features.modules.impl.player.nofalls.specials.VerusNofall;
-import cc.slack.features.modules.impl.player.nofalls.specials.VulcanNofall;
+import cc.slack.features.modules.impl.player.nofalls.basics.*;
+import cc.slack.features.modules.impl.player.nofalls.specials.*;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 
@@ -21,7 +20,7 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class NoFall extends Module {
 
-    private final ModeValue<INoFall> mode = new ModeValue<>(new INoFall[]{new VanillaNofall(), new VulcanNofall(), new VerusNofall()});
+    private final ModeValue<INoFall> mode = new ModeValue<>(new INoFall[]{new VanillaNofall(), new AlwaysGroundNofall(), new NoGroundNofall(), new VulcanNofall(), new VerusNofall()});
 
 
     public NoFall() {
