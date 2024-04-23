@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.input.KeyEvent;
+import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.world.FastPlace;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1452,7 +1453,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             this.leftClickCounter = 0;
         }
 
-        if (this.leftClickCounter <= 0 && !this.thePlayer.isUsingItem())
+        if (this.leftClickCounter <= 0 && (!this.thePlayer.isUsingItem() || Slack.getInstance().getModuleManager().getInstance(MultiAction.class).isToggle()))
         {
             if (leftClick && this.objectMouseOver != null && this.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK)
             {

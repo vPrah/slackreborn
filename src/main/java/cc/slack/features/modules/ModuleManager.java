@@ -56,6 +56,7 @@ public class ModuleManager {
                     // Exploit
                     new Disabler(),
                     new Kick(),
+                    new MultiAction(),
 
                     // Render
                     new ChestESP(),
