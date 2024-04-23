@@ -18,6 +18,7 @@ public class Sneak extends Module {
     private final ModeValue<String> mode = new ModeValue<>(new String[]{"Legit", "Vanilla"});
 
     public Sneak() {
+        super();
         addSettings(mode);
     }
 

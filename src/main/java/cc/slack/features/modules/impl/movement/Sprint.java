@@ -4,6 +4,7 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.potion.Potion;
@@ -16,6 +17,14 @@ import net.minecraft.potion.Potion;
 public class Sprint extends Module {
 
     //   Split Like This Cuz I Don't Want A Long Af Boolean
+// shut up no one asked
+
+    private final BooleanValue omniSprint = new BooleanValue("OmniSprint", false);
+
+    public Sprint() {
+        super();
+        addSettings(omniSprint);
+    }
 
     private boolean hasPotion() {
         return !(mc.getPlayer().isPotionActive(Potion.confusion) ||
@@ -30,7 +39,7 @@ public class Sprint extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent e) {
-        mc.getPlayer().setSprinting(mc.getPlayer().moveForward > 0 && isMoving() && hasPotion());
+        mc.getPlayer().setSprinting((omniSprint.getValue() || mc.getPlayer().moveForward > 0) && isMoving() && hasPotion());
     }
 
 }
