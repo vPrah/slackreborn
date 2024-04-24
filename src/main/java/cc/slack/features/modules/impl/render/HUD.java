@@ -47,22 +47,22 @@ public class HUD extends Module {
 
             switch (watermarksmodes.getValue()) {
                 case "Classic":
-                    Fonts.apple18.drawString("S", 4, 4, 0x5499C7);
-                    Fonts.apple18.drawString("lack", 10, 4, -1);
+                    Fonts.apple18.drawStringWithShadow("S", 4, 4, 0x5499C7);
+                    Fonts.apple18.drawStringWithShadow("lack", 10, 4, -1);
                     break;
                 case "Backgrounded":
                 drawRect(2, 2, 80, 14, 0x80000000);
-                Fonts.apple18.drawString("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
-                Fonts.apple18.drawString(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
+                Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
                 break;
             }
             if (fpsdraw.getValue()) {
-                Fonts.apple20.drawString("FPS:  " , 4, 490, 0x5D0C1D);
-                Fonts.apple18.drawString(""+Minecraft.getDebugFPS(), 25, 490, -1);
+                Fonts.apple20.drawStringWithShadow("FPS:  " , 4, 490, 0x5D0C1D);
+                Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, 490, -1);
             }
 
             if (bpsdraw.getValue()) {
-                Fonts.apple20.drawString("BPS:  ", 50, 490, 0x5D0C1D);
+                Fonts.apple20.drawStringWithShadow("BPS:  ", 50, 490, 0x5D0C1D);
 
             }
 
