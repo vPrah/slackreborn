@@ -8,7 +8,7 @@ import net.minecraft.util.Vec3;
 
 public class RotationUtil extends mc {
 
-    // actual chaning of rotations + keep rot ticks + randomization in EntityPlayerSP.java
+    // actual changing of rotations + keep rot ticks + randomization in EntityPlayerSP.java
 
     public static boolean isEnabled = false;
     public static float[] clientRotation = new float[]{0.0F, 0.0F};
@@ -21,6 +21,13 @@ public class RotationUtil extends mc {
     public static void setStrafeFix(boolean enabled, boolean strict) {
         strafeFix = enabled;
         strictStrafeFix = strict;
+    }
+
+    public static void disable() {
+        isEnabled = false;
+        keepRotationTicks = 0;
+        strafeFix = false;
+        strictStrafeFix = true;
     }
 
     public static void setClientRotation(final float[] targetRotation) {
