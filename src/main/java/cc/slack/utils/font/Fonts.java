@@ -23,6 +23,8 @@ public class Fonts {
     public static final MCFontRenderer axi45 = new MCFontRenderer(fontFromTTF("axi.ttf", 45), true, false);
 
     public static final MCFontRenderer apple18 = new MCFontRenderer(fontFromTTF("apple.ttf", 18), true, false);
+    public static final MCFontRenderer apple20 = new MCFontRenderer(fontFromTTF("apple.ttf", 20), true, false);
+
     public static final MCFontRenderer apple24 = new MCFontRenderer(fontFromTTF("apple.ttf", 24), true, false);
     //public static final MCFontRenderer hearts18 = new MCFontRenderer(fontFromTTF("hearts.ttf",18), true, true);
     public static final MCFontRenderer Arial18 = new MCFontRenderer(new Font("Arial", Font.PLAIN, 18), true, true);
