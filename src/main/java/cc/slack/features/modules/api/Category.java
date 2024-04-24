@@ -11,7 +11,9 @@ public enum Category {
     PLAYER(new Color(35, 213, 106)),
     WORLD(new Color(106, 213, 35)),
     EXPLOIT(new Color(213, 35, 35)),
-    RENDER(new Color(106, 35, 213));
+    RENDER(new Color(106, 35, 213)),
+    OTHER(new Color(102, 30, 200)),
+    GHOST(new Color(0,0,0));
 
     final String name;
     final String icon;
