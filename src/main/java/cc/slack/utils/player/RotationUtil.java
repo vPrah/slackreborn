@@ -76,6 +76,10 @@ public class RotationUtil extends mc {
         };
     }
 
+    public static float[] getRotations(Vec3 vec) {
+        return getRotations(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
     public static float[] getRotations(double x, double y, double z) {
         final Vec3 lookVec = getPlayer().getPositionEyes(1.0f);
         final double dx = lookVec.xCoord - x;

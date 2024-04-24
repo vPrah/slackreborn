@@ -13,17 +13,23 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
+import cc.slack.utils.player.InventoryUtils;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.player.RotationUtil;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.Rotations;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static java.lang.Math.round;
 
@@ -60,7 +66,10 @@ public class Scaffold extends Module {
      */
     float yaw;
 
+    boolean hasBlock = false;
     float[] blockRotation = new float[] {0f, 0f};
+    BlockPos blockPlacement = new BlockPos(0,0,0);
+    EnumFacing blockPlacementFace = EnumFacing.DOWN;
     double jumpGround = 0.0;
 
     @Override
@@ -75,9 +84,22 @@ public class Scaffold extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
+        if (!pickBlock()) {
+            RotationUtil.disable();
+        }
         setSprint();
         setMovementCorrection();
         updatePlayerRotations();
+        startSearch();
+        placeBlock();
+    }
+
+    private boolean pickBlock() {
+        if (InventoryUtils.pickHotarBlock(true) != -1) {
+            mc.getPlayer().inventory.currentItem = InventoryUtils.pickHotarBlock(true);
+            return true;
+        }
+        return false;
     }
 
     private void setSprint() {
@@ -162,15 +184,49 @@ public class Scaffold extends Module {
         }
     }
 
+    private void startSearch() {
+        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        List<BlockPos> searchQueue = new ArrayList<>();
 
+        searchQueue.add(below.north());
+        searchQueue.add(below.east());
+        searchQueue.add(below.south());
+        searchQueue.add(below.west());
 
-//    @Listen
-//    public void onTick(TickEvent event) {
-//        if (event.getState() != State.PRE) return;
-//        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
-//        if(mc.getWorld().getBlockState(below).getBlock().getMaterial() == Material.air) return;
-//        EnumFacing facing = RotationUtil.getEnumDirection(yaw);
-//
-//        mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), below, EnumFacing.WEST, new Vec3(0.5, 0.5, 0.5));
-//    }
+        searchQueue.add(below.north().east());
+        searchQueue.add(below.north().west());
+        searchQueue.add(below.south().east());
+        searchQueue.add(below.south().west());
+
+        for (int i = 0; i < searchQueue.size(); i++)
+        {
+            if (searchBlock(searchQueue.get(i))) {
+                hasBlock = true;
+                return;
+            }
+        }
+    }
+
+    private boolean searchBlock(BlockPos block) {
+        if (BlockUtils.isFullBlock(block)) {
+            blockRotation = BlockUtils.getFaceRotation(BlockUtils.getHorizontalFacingEnum(block), block);
+            blockPlacement = block.add(BlockUtils.getHorizontalFacingEnum(block).getDirectionVec());
+            blockPlacementFace = BlockUtils.getHorizontalFacingEnum(block);
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private void placeBlock() {
+        if (!hasBlock) return;
+        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        if(!BlockUtils.isReplaceable(below)) return;
+
+        Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5);
+
+        mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlacement, blockPlacementFace, hitVec);
+        mc.getPlayer().swingItem();
+        hasBlock = false;
+    }
 }
