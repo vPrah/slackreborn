@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.combat;
+package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.events.impl.player.AttackEvent;
 import cc.slack.events.impl.player.UpdateEvent;
@@ -11,7 +11,7 @@ import net.minecraft.client.settings.GameSettings;
 
 @ModuleInfo(
         name = "Wtap",
-        category = Category.COMBAT
+        category = Category.GHOST
 )
 public class Wtap extends Module {
 

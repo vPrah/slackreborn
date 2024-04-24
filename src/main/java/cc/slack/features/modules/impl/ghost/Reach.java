@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.combat;
+package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -10,7 +10,7 @@ import java.util.Random;
 
 @ModuleInfo(
         name = "Reach",
-        category = Category.COMBAT
+        category = Category.GHOST
 )
 public class Reach extends Module {
 

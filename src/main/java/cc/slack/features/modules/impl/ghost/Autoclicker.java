@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.combat;
+package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
@@ -17,7 +17,7 @@ import net.minecraft.client.settings.KeyBinding;
 
 @ModuleInfo(
         name = "Autoclicker",
-        category = Category.COMBAT
+        category = Category.GHOST
 )
 public class Autoclicker extends Module {
 
