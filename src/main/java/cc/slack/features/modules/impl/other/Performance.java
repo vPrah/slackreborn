@@ -16,11 +16,11 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class Performance extends Module {
 
-    public ModeValue<String> performancemode = new ModeValue<>("Performance-Mode", new String[]{"Simple", "Extreme"});
+    public ModeValue<String> performancemode = new ModeValue<>("Mode", new String[]{"Simple", "Extreme"});
     public BooleanValue garbagevalue = new BooleanValue("MemoryFix", false);
 
     public Performance() {
-        addSettings(performancemode);
+        addSettings(performancemode, garbagevalue);
     }
 
     @Override
