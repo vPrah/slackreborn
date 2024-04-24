@@ -5,7 +5,12 @@ import cc.slack.features.modules.api.Category;
 
 import cc.slack.features.modules.impl.combat.*;
 import cc.slack.features.modules.impl.exploit.*;
+import cc.slack.features.modules.impl.ghost.Autoclicker;
+import cc.slack.features.modules.impl.ghost.JumpReset;
+import cc.slack.features.modules.impl.ghost.Reach;
+import cc.slack.features.modules.impl.ghost.Wtap;
 import cc.slack.features.modules.impl.movement.*;
+import cc.slack.features.modules.impl.other.Performance;
 import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.player.Timer;
 import cc.slack.features.modules.impl.render.*;
@@ -22,9 +27,7 @@ public class ModuleManager {
                     // Combat
                     new Hitbox(),
                     new KillAura(),
-                    new Reach(),
                     new Velocity(),
-                    new Wtap(),
 
                     // Movement
 
@@ -39,6 +42,9 @@ public class ModuleManager {
                     new Speed(),
                     new Sprint(),
                     new Step(),
+
+                    // Other
+                    new Performance(),
 
                     // Player
                     new AutoPlay(),
@@ -61,10 +67,17 @@ public class ModuleManager {
                     // Render
                     new ChestESP(),
                     new ClickGUI(),
-                    new HUD()
+                    new HUD(),
+
+                    // Ghost
+                    new JumpReset(),
+                    new Wtap(),
+                    new Reach(),
+                    new Autoclicker()
+
             );
         } catch (Exception e) {
-            e.printStackTrace();
+            // Shut Up Exception
         }
     }
 
