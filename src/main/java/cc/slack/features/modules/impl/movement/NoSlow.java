@@ -7,7 +7,9 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import de.gerrygames.viarewind.utils.ChatUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.item.ItemFood;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
@@ -24,7 +26,7 @@ public class NoSlow extends Module {
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
 
     public NoSlow() {
-        addSettings(mode, forwardMultiplier, strafeMultiplier,);
+        addSettings(mode, forwardMultiplier, strafeMultiplier);
     }
 
     @Listen

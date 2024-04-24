@@ -26,16 +26,15 @@ public class Velocity extends Module {
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
-
     private final NumberValue<Integer> velocityTick = new NumberValue<>("Velocity Tick", 5, 0, 20, 1);
-
+    private final BooleanValue onlyground = new BooleanValue("OnlyGround", false);
     private final BooleanValue noFire = new BooleanValue("NoFire", false);
 
     int jumped = 0;
 
     public Velocity() {
         super();
-        addSettings(mode, vertical, horizontal, velocityTick, noFire);
+        addSettings(mode, vertical, horizontal, velocityTick, onlyground, noFire);
     }
 
     @Listen
@@ -43,6 +42,10 @@ public class Velocity extends Module {
         if (mc.getPlayer() == null || mc.getWorld() == null) return;
         if (event.getDirection() != PacketDirection.OUTGOING) return;
         if (noFire.getValue() && mc.getPlayer().isBurning()) return;
+
+        if (onlyground.getValue() && !mc.getPlayer().onGround) {
+            return;
+        }
 
         if (event.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) event.getPacket()).getEntityID() == mc.getPlayer().getEntityId()) {
             S12PacketEntityVelocity packet = event.getPacket();
@@ -83,6 +86,11 @@ public class Velocity extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
+        if (mc.getPlayer().isInWater() || mc.getPlayer().isInLava() || mc.getPlayer().isInWeb || onlyground.getValue() && !mc.getPlayer().onGround) {
+            return;
+        }
+
+
         switch (mode.getValue().toLowerCase()) {
             case "intave":
                 if (mc.getPlayer().hurtTime == 9) {
