@@ -63,6 +63,7 @@ public class ModuleManager {
                     new MultiAction(),
 
                     // Render
+                    new Ambience(),
                     new ChestESP(),
                     new ClickGUI(),
                     new HUD(),
