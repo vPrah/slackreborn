@@ -2,7 +2,7 @@ package net.minecraft.client.gui;
 
 import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.features.modules.impl.player.Tweaks;
+import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;

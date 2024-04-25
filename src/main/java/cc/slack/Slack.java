@@ -7,7 +7,7 @@ import cc.slack.features.commands.CMDManager;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.movement.Sprint;
-import cc.slack.features.modules.impl.player.Tweaks;
+import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.EventUtil;
