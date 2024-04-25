@@ -1108,7 +1108,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
     }
 
     /**
-     * Handles pickin up an ItemStack or dropping one in your inventory or an open (non-creative) container
+     * Handles picking up an ItemStack or dropping one in your inventory or an open (non-creative) container
      */
     public void handleSetSlot(S2FPacketSetSlot packetIn)
     {

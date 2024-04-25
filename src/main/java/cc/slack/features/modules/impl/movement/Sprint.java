@@ -1,10 +1,12 @@
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.potion.Potion;
@@ -39,6 +41,7 @@ public class Sprint extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent e) {
+        if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
         mc.getPlayer().setSprinting((omniSprint.getValue() || mc.getPlayer().moveForward > 0) && isMoving() && hasPotion());
     }
 

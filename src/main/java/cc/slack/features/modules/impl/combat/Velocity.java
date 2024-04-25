@@ -22,7 +22,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Intave", "Jump"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Intave"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
@@ -99,13 +99,6 @@ public class Velocity extends Module {
                         jumped = 0;
                     }
                 } else {
-                    mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
-                }
-                break;
-            case "jump":
-                if (mc.getPlayer().hurtTime >= 8) {
-                    mc.getGameSettings().keyBindJump.pressed = true;
-                } else if (mc.getCurrentScreen() == null){
                     mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
                 }
                 break;

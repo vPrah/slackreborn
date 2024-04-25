@@ -40,6 +40,9 @@ public class Performance extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
+        if (garbagevalue.getValue() && mc.getPlayer().ticksExisted % 200 == 0) {
+            System.gc();
+        }
         switch (performancemode.getValue()) {
             case "Simple":
                 mc.getMinecraft().gameSettings.fancyGraphics = false;

@@ -88,7 +88,7 @@ public class BlinkUtil extends mc {
     }
 
     public static void releasePackets() {
-        releasePackets(false, true);
+        releasePackets(true, true);
     }
 
     public static void releasePackets(boolean releaseInbound, boolean releaseOutgoing) {
@@ -105,6 +105,8 @@ public class BlinkUtil extends mc {
                 clientPackets.remove(packet);
             });
         }
+
+        clearPackets();
     }
     
     public static boolean handlePacket(PacketEvent event) {

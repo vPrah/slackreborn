@@ -92,6 +92,10 @@ public class Vec3
         return new Vec3(this.xCoord + x, this.yCoord + y, this.zCoord + z);
     }
 
+    public Vec3 multiply(double scalar) {
+        return new Vec3(this.xCoord * scalar, this.yCoord * scalar, this.zCoord * scalar);
+    }
+
     /**
      * Euclidean distance between this and the specified vector, returned as double.
      */

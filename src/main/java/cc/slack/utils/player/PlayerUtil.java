@@ -27,9 +27,13 @@ public class PlayerUtil extends mc {
     public static final double BASE_JUMP_HEIGHT = 0.41999998688698;
     public static final double HEAD_HITTER_MOTIONY = -0.07840000152;
 
+    public static double getJumpHeight() {
+        return getJumpHeight(BASE_JUMP_HEIGHT);
+    }
+
     public static double getJumpHeight(double height) {
         if (getPlayer().isPotionActive(Potion.jump))
-            return height + (getPlayer().getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F;
+            return height + (getPlayer().getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1;
 
         return height;
     }

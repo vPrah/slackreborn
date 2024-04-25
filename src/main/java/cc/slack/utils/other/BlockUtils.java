@@ -1,14 +1,12 @@
 package cc.slack.utils.other;
 
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.RotationUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import net.minecraft.world.World;
 
 import java.util.HashMap;
@@ -42,12 +40,12 @@ public class BlockUtils extends mc {
         return material != null && material.isReplaceable();
     }
 
-    public IBlockState getState(BlockPos blockPos) {
+    public static IBlockState getState(BlockPos blockPos) {
         World mc = Minecraft.getMinecraft().theWorld;
         return mc.getBlockState(blockPos);
     }
 
-    public boolean canBeClicked(BlockPos blockPos) {
+    public static boolean canBeClicked(BlockPos blockPos) {
         return (getBlock(blockPos) != null && Objects.requireNonNull(getBlock(blockPos)).canCollideCheck(getState(blockPos), false)) &&
                 mc.getWorld().getWorldBorder().contains(blockPos);
     }
@@ -56,14 +54,50 @@ public class BlockUtils extends mc {
         return Block.getBlockById(id).getLocalizedName();
     }
 
-    public boolean isFullBlock(BlockPos blockPos) {
+    public static boolean isFullBlock(BlockPos blockPos) {
         AxisAlignedBB axisAlignedBB = getBlock(blockPos) != null ? getBlock(blockPos).getCollisionBoundingBox(mc.getWorld(), blockPos, getState(blockPos)) : null;
         if (axisAlignedBB == null) return false;
         return axisAlignedBB.maxX - axisAlignedBB.minX == 1.0 && axisAlignedBB.maxY - axisAlignedBB.minY == 1.0 && axisAlignedBB.maxZ - axisAlignedBB.minZ == 1.0;
     }
 
-    public double getCenterDistance(BlockPos blockPos) {
+    public static double getCenterDistance(BlockPos blockPos) {
         return mc.getPlayer().getDistance(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+    }
+
+    public static float[] getCenterRotation(BlockPos blockPos) {
+        return RotationUtil.getRotations(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+    }
+
+    public static float[] getFaceRotation(EnumFacing face, BlockPos blockPos) {
+        Vec3i faceVec = face.getDirectionVec();
+        Vec3 blockFaceVec = new Vec3(faceVec.getX() * 0.5, faceVec.getY() * 0.5, faceVec.getZ() * 0.5);
+        blockFaceVec.add(blockPos.toVec3());
+        blockFaceVec.addVector(0.5, 0.5, 0.5);
+        return RotationUtil.getRotations(blockFaceVec);
+
+    }
+
+    public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos) {
+        double dx = mc.getPlayer().posX - (blockPos.getX() + 0.5);
+        double dz = mc.getPlayer().posZ - (blockPos.getZ() + 0.5);
+
+        if (dx > 0) {
+            if (dz > dx) {
+                return EnumFacing.SOUTH;
+            } else if (-dz > dx) {
+                return EnumFacing.NORTH;
+            } else {
+                return EnumFacing.EAST;
+            }
+        } else {
+            if (dz > -dx) {
+                return EnumFacing.SOUTH;
+            } else if (dz < dx) {
+                return EnumFacing.NORTH;
+            } else {
+                return EnumFacing.WEST;
+            }
+        }
     }
 
     public static Map<BlockPos, Block> searchBlocks(int radius) {
@@ -84,7 +118,7 @@ public class BlockUtils extends mc {
         return blocks;
     }
 
-    public boolean collideBlock(AxisAlignedBB axisAlignedBB, Function<Block, Boolean> collide) {
+    public static boolean collideBlock(AxisAlignedBB axisAlignedBB, Function<Block, Boolean> collide) {
         for (int x = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minX); x <
                 MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().maxX) + 1; x++) {
             for (int z = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minZ); z <
@@ -99,7 +133,7 @@ public class BlockUtils extends mc {
         return true;
     }
 
-    public boolean collideBlockIntersects(AxisAlignedBB axisAlignedBB, Predicate<Block> collide) {
+    public static boolean collideBlockIntersects(AxisAlignedBB axisAlignedBB, Predicate<Block> collide) {
         for (int x = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minX); x <
                 MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().maxX) + 1; x++) {
             for (int z = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minZ); z <
