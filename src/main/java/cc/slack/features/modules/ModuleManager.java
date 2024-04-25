@@ -64,6 +64,7 @@ public class ModuleManager {
 
                     // Render
                     new Ambience(),
+                    new Bobbing(),
                     new ChestESP(),
                     new ClickGUI(),
                     new HUD(),
