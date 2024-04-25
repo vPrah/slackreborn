@@ -41,6 +41,7 @@ public class ModuleManager {
 
                     // Other
                     new Performance(),
+                    new Tweaks(),
 
                     // Player
                     new AutoPlay(),
@@ -48,7 +49,6 @@ public class ModuleManager {
                     new FastEat(),
                     new NoFall(),
                     new TimerModule(),
-                    new Tweaks(),
 
                     // World
                     new FastPlace(),
