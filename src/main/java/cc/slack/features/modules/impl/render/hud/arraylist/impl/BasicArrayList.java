@@ -1,3 +1,5 @@
+// Slack Client (discord.gg/slackclient)
+
 package cc.slack.features.modules.impl.render.hud.arraylist.impl;
 
 import cc.slack.Slack;

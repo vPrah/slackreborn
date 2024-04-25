@@ -1,3 +1,5 @@
+// Slack Client (discord.gg/slackclient)
+
 package cc.slack.features.modules.impl.movement.speeds;
 
 import cc.slack.events.impl.network.PacketEvent;
