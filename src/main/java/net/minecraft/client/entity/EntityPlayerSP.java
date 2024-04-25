@@ -199,6 +199,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdateWalkingPlayer()
     {
+        final float realYaw = this.rotationYaw;
+        final float realPitch = this.rotationPitch;
         if (RotationUtil.isEnabled) {
             // primative rotationUtil implementation
             this.rotationYaw = RotationUtil.clientRotation[0];
@@ -227,6 +229,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.lastReportedYaw, this.lastReportedPitch,
                 this.onGround, mc.thePlayer);
         event.call();
+
+        this.rotationYaw = realYaw;
+        this.rotationPitch = realPitch;
 
         boolean flag = this.isSprinting();
 
