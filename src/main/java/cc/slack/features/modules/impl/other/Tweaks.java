@@ -11,6 +11,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -20,15 +21,17 @@ import io.github.nevalackin.radbus.Listen;
 public class Tweaks extends Module {
 
 
-    public final BooleanValue noachievement = new BooleanValue("NoAchievement", true);
-    public final BooleanValue noblockhitdelay = new BooleanValue("NoBlockHitDelay", false);
-    public final BooleanValue noclickdelay = new BooleanValue("NoClickDelay", false);
-    public final BooleanValue nojumpdelay = new BooleanValue("NoJumpDelay", false);
-    public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("JumpDelayTicks", 0, 0, 10, 1);
-    public final BooleanValue nobosshealth = new BooleanValue("NoBossHealth", false);
-    private final BooleanValue fullbright = new BooleanValue("FullBright", false);
+    public final BooleanValue noachievement = new BooleanValue("No Achievement", true);
+    public final BooleanValue noblockhitdelay = new BooleanValue("No Block Hit Delay", false);
+    public final BooleanValue noclickdelay = new BooleanValue("No Click Delay", true);
+    public final BooleanValue nojumpdelay = new BooleanValue("No Jump Delay", false);
+    public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("Jump Delay Ticks", 0, 0, 10, 1);
+    public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
+    private final BooleanValue fullbright = new BooleanValue("FullBright", true);
+    private final BooleanValue exitGUIFix = new BooleanValue("Exit Gui Fix", true);
 
     float prevGamma = -1F;
+    boolean wasGUI = false;
 
     public Tweaks() {
         super();
@@ -45,6 +48,17 @@ public class Tweaks extends Module {
         } else if (prevGamma != -1f) {
             mc.getGameSettings().gammaSetting = prevGamma;
             prevGamma = -1f;
+        }
+
+        if (exitGUIFix.getValue()) {
+            if (mc.getCurrentScreen() == null) {
+                if (wasGUI) {
+                    MovementUtil.updateBinds();
+                }
+                wasGUI = false;
+            } else {
+                wasGUI = true;
+            }
         }
     }
 

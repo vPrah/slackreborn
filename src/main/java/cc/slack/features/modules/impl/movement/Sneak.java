@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 
 
@@ -47,6 +48,14 @@ public class Sneak extends Module {
     public void onDisable() {
         if (mc.getPlayer() == null)
             return;
+        switch (mode.getValue().toLowerCase()) {
+            case "legit":
+                mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak);
+                break;
+            case "vanilla":
+                mc.getNetHandler().addToSendQueue(new C0BPacketEntityAction(mc.getPlayer(), C0BPacketEntityAction.Action.STOP_SNEAKING));
+                break;
+        }
         super.onDisable();
     }
 }
