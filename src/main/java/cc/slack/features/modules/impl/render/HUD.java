@@ -58,13 +58,13 @@ public class HUD extends Module {
                 break;
             }
             if (fpsdraw.getValue()) {
-                Fonts.apple20.drawStringWithShadow("FPS:  " , 4, 490, 0x5D0C1D);
+                Fonts.apple18.drawStringWithShadow("FPS:  " , 4, 490, 0x5499C7);
                 Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, 490, -1);
             }
 
             if (bpsdraw.getValue()) {
-                Fonts.apple20.drawStringWithShadow("BPS:  ", 50, 490, 0x5D0C1D);
-                Fonts.apple18.drawStringWithShadow(""+getBPS(), 25, 490, -1);
+                Fonts.apple18.drawStringWithShadow("BPS:  ", 50, 490, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(""+getBPS(), 71, 490, -1);
 
             }
 
