@@ -17,6 +17,7 @@ import io.github.nevalackin.radbus.Listen;
 public class Tweaks extends Module {
 
 
+    public final BooleanValue noachievement = new BooleanValue("NoAchievement", true);
     public final BooleanValue nojumpdelay = new BooleanValue("NoJumpDelay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("JumpDelayTicks", 0, 0, 10, 1);
     public final BooleanValue nobosshealth = new BooleanValue("NoBossHealth", false);
@@ -26,13 +27,11 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(nojumpdelay, fullbright, nobosshealth);
+        addSettings(noachievement, nojumpdelay, fullbright, nobosshealth);
     }
 
     @Override
-    public void onEnable() {
-        prevGamma = mc.getGameSettings().gammaSetting;
-    }
+    public void onEnable() {prevGamma = mc.getGameSettings().gammaSetting;}
 
     @Listen
     public void onUpdate (UpdateEvent event) {

@@ -1,5 +1,7 @@
 package net.minecraft.client.gui.achievement;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.other.Tweaks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -70,7 +72,7 @@ public class GuiAchievement extends Gui
 
     public void updateAchievementWindow()
     {
-        if (this.theAchievement != null && this.notificationTime != 0L && Minecraft.getMinecraft().thePlayer != null)
+        if (this.theAchievement != null && this.notificationTime != 0L && Minecraft.getMinecraft().thePlayer != null && !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noachievement.getValue())
         {
             double d0 = (double)(Minecraft.getSystemTime() - this.notificationTime) / 3000.0D;
 
