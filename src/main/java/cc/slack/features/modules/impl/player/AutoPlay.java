@@ -23,8 +23,7 @@ public class AutoPlay extends Module {
 
     public AutoPlay() {
         super();
-        addSettings(mode);
-        addSettings(univalue);
+        addSettings(mode, univalue);
     }
 
     @Listen
