@@ -47,10 +47,7 @@ public class Scaffold extends Module {
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
     private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Off"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
-
-    public Scaffold() {
-        addSettings(rotationMode, keepRotationTicks, sprintMode, strafeFix, towerMode, towerNoMove);
-    }
+    
 
     /*
     TODO:
