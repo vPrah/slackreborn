@@ -17,7 +17,6 @@ import cc.slack.utils.player.InventoryUtils;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.player.RotationUtil;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;

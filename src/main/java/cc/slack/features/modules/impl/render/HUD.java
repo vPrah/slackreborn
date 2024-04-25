@@ -12,7 +12,6 @@ import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
-import com.sun.org.apache.xpath.internal.operations.Mod;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
