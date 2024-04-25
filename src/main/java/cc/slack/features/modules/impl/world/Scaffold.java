@@ -212,13 +212,25 @@ public class Scaffold extends Module {
                 return;
             }
         }
+
+        for (int i = 0; i < searchQueue.size(); i++)
+        {
+            if (searchBlock(searchQueue.get(i).down())) {
+                hasBlock = true;
+                return;
+            }
+        }
     }
 
     private boolean searchBlock(BlockPos block) {
         if (BlockUtils.isFullBlock(block)) {
-            blockRotation = BlockUtils.getFaceRotation(BlockUtils.getHorizontalFacingEnum(block), block);
-            blockPlacement = block.add(BlockUtils.getHorizontalFacingEnum(block).getDirectionVec());
-            blockPlacementFace = BlockUtils.getHorizontalFacingEnum(block);
+            EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block);
+            if (block.getY() <= mc.getPlayer().posY - 1.5) {
+                placeFace = EnumFacing.UP;
+            }
+            blockRotation = BlockUtils.getFaceRotation(placeFace, block);
+            blockPlacement = block.add(placeFace.getDirectionVec());
+            blockPlacementFace = placeFace;
             return true;
         } else {
             return false;
