@@ -1,6 +1,7 @@
 package cc.slack.features.modules.impl.other;
 
 import cc.slack.events.impl.game.TickEvent;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -18,6 +19,7 @@ public class Tweaks extends Module {
 
 
     public final BooleanValue noachievement = new BooleanValue("NoAchievement", true);
+    public final BooleanValue noblockhitdelay = new BooleanValue("NoBlockHitDelay", false);
     public final BooleanValue noclickdelay = new BooleanValue("NoClickDelay", false);
     public final BooleanValue nojumpdelay = new BooleanValue("NoJumpDelay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("JumpDelayTicks", 0, 0, 10, 1);
@@ -28,7 +30,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noclickdelay, nojumpdelay, noJumpDelayTicks, fullbright, nobosshealth);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks);
     }
 
     @Override
@@ -43,6 +45,9 @@ public class Tweaks extends Module {
             prevGamma = -1f;
         }
     }
+
+    @Listen
+    public void onMotion (MotionEvent event) { if (noblockhitdelay.getValue()) { mc.getPlayerController().blockHitDelay = 0; } }
 
     @Override
     public void onDisable() {
