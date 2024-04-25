@@ -44,6 +44,7 @@ public class ModuleManager {
                     new Tweaks(),
 
                     // Player
+                    new AntiVoid(),
                     new AutoPlay(),
                     new Blink(),
                     new FastEat(),
