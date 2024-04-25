@@ -35,9 +35,6 @@ public class Performance extends Module {
                 PrintUtil.message("Performance Mode EXTREME is enabled successfully");
                 break;
         }
-        if (garbagevalue.getValue()) {
-            System.gc();
-        }
     }
 
     @Listen
