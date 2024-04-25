@@ -5,14 +5,10 @@ import cc.slack.features.modules.api.Category;
 
 import cc.slack.features.modules.impl.combat.*;
 import cc.slack.features.modules.impl.exploit.*;
-import cc.slack.features.modules.impl.ghost.Autoclicker;
-import cc.slack.features.modules.impl.ghost.JumpReset;
-import cc.slack.features.modules.impl.ghost.Reach;
-import cc.slack.features.modules.impl.ghost.Wtap;
+import cc.slack.features.modules.impl.ghost.*;
 import cc.slack.features.modules.impl.movement.*;
-import cc.slack.features.modules.impl.other.Performance;
+import cc.slack.features.modules.impl.other.*;
 import cc.slack.features.modules.impl.player.*;
-import cc.slack.features.modules.impl.player.Timer;
 import cc.slack.features.modules.impl.render.*;
 import cc.slack.features.modules.impl.world.*;
 
@@ -51,7 +47,7 @@ public class ModuleManager {
                     new Blink(),
                     new FastEat(),
                     new NoFall(),
-                    new Timer(),
+                    new TimerModule(),
                     new Tweaks(),
 
                     // World
@@ -70,10 +66,11 @@ public class ModuleManager {
                     new HUD(),
 
                     // Ghost
+                    new Autoclicker(),
                     new JumpReset(),
-                    new Wtap(),
                     new Reach(),
-                    new Autoclicker()
+                    new Stap(),
+                    new Wtap()
 
             );
         } catch (Exception e) {

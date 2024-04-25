@@ -20,7 +20,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
         name = "Timer",
         category = Category.PLAYER
 )
-public class Timer extends Module {
+public class TimerModule extends Module {
 
     private final ModeValue<String> mode = new ModeValue<>(new String[]{"Normal", "Balance"});
     private final NumberValue<Float> speed = new NumberValue<>("Speed", 1.5f, 0.1f, 10.0f, 0.25f);
@@ -29,7 +29,7 @@ public class Timer extends Module {
     private boolean balancing;
     private final TimeUtil timer = new TimeUtil();
 
-    public Timer() {
+    public TimerModule() {
         super();
         addSettings(mode, speed);
     }

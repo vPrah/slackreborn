@@ -15,6 +15,7 @@ import net.minecraft.client.settings.GameSettings;
 public class JumpReset extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
+        if (mc.getCurrentScreen() != null) return;
         if (mc.getPlayer().hurtTime >= 8) {
             mc.getGameSettings().keyBindJump.pressed = true;
         }
