@@ -5,7 +5,6 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.BlinkUtil;
@@ -22,7 +21,7 @@ import net.minecraft.util.Vec3;
 public class AntiVoid extends Module {
 
 
-    private final ModeValue<String> antivoidMode = new ModeValue<>("mode", new String[] {"Universal", "SelfTP"});
+    private final ModeValue<String> antivoidMode = new ModeValue<>("mode", new String[] {"Universal", "Self TP"});
 
     private double groundX = 0.0;
     private double groundY = 0.0;
@@ -66,7 +65,7 @@ public class AntiVoid extends Module {
                     if (isOverVoid()) {
                         universalStarted = true;
                         universalFlag = false;
-                        BlinkUtil.enable(true, false);
+                        BlinkUtil.enable(false, true);
                         groundX = mc.getPlayer().posX;
                         groundY = mc.getPlayer().posY;
                         groundZ = mc.getPlayer().posZ;

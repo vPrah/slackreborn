@@ -12,6 +12,6 @@ public class SpoofGroundNofall implements INoFall {
     }
 
     public String toString() {
-        return "AlwaysGround";
+        return "Spoof Ground";
     }
 }

@@ -49,6 +49,7 @@ public class ModuleManager {
                     new Blink(),
                     new FastEat(),
                     new NoFall(),
+                    new TestBlink(),
                     new TimerModule(),
 
                     // World

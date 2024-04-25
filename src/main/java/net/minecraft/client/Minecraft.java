@@ -1163,6 +1163,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         if (this.isFramerateLimitBelowMax())
         {
             this.mcProfiler.startSection("fpslimit_wait");
+            // tickbase here??
             Display.sync(this.getLimitFramerate());
             this.mcProfiler.endSection();
         }
@@ -2734,6 +2735,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     {
         return theMinecraft;
     }
+
+    public static void setMinecraft(Minecraft mc) { theMinecraft = mc; }
 
     public ListenableFuture<Object> scheduleResourcesRefresh()
     {

@@ -12,6 +12,6 @@ public class NoGroundNofall implements INoFall {
     }
 
     public String toString() {
-        return "NoGround";
+        return "No Ground";
     }
 }
