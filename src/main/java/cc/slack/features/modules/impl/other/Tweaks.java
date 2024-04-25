@@ -18,6 +18,7 @@ public class Tweaks extends Module {
 
 
     public final BooleanValue noachievement = new BooleanValue("NoAchievement", true);
+    public final BooleanValue noclickdelay = new BooleanValue("NoClickDelay", false);
     public final BooleanValue nojumpdelay = new BooleanValue("NoJumpDelay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("JumpDelayTicks", 0, 0, 10, 1);
     public final BooleanValue nobosshealth = new BooleanValue("NoBossHealth", false);
@@ -27,7 +28,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, nojumpdelay, fullbright, nobosshealth);
+        addSettings(noachievement, noclickdelay, nojumpdelay, noJumpDelayTicks, fullbright, nobosshealth);
     }
 
     @Override

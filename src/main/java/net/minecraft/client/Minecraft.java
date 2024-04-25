@@ -5,6 +5,7 @@ import cc.slack.events.State;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.input.KeyEvent;
 import cc.slack.features.modules.impl.exploit.MultiAction;
+import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
@@ -1448,7 +1449,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
     private void sendClickBlockToController(boolean leftClick)
     {
-        if (!leftClick)
+
+
+        if (!leftClick || Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() &&  !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noclickdelay.getValue() && this.objectMouseOver != null)
         {
             this.leftClickCounter = 0;
         }
