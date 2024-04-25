@@ -77,6 +77,11 @@ public class Scaffold extends Module {
     EnumFacing blockPlacementFace = EnumFacing.DOWN;
     double jumpGround = 0.0;
 
+    public Scaffold() {
+        super();
+        addSettings(rotationMode, keepRotationTicks, sprintMode, strafeFix, towerMode, towerNoMove);
+    }
+
     @Override
     public void onEnable() {
 

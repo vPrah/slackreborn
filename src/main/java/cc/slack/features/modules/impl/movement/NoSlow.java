@@ -27,6 +27,7 @@ public class NoSlow extends Module {
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
 
     public NoSlow() {
+        super();
         addSettings(mode, forwardMultiplier, strafeMultiplier);
     }
 
