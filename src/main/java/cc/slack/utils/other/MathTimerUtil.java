@@ -3,7 +3,7 @@ package cc.slack.utils.other;
 import java.util.function.BooleanSupplier;
 import java.util.function.LongSupplier;
 
-public class ForRealUtil {
+public class MathTimerUtil {
 
     // Last time in milliseconds
     private long lastMs;
@@ -19,11 +19,11 @@ public class ForRealUtil {
      *
      * @param lasts The duration of the cooldown in milliseconds
      */
-    public ForRealUtil(long lasts) {
+    public MathTimerUtil(long lasts) {
         this.lastMs = lasts;
     }
 
-    public ForRealUtil() {
+    public MathTimerUtil() {
         lastMs = System.currentTimeMillis();
     }
 
