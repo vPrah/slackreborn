@@ -47,7 +47,7 @@ public class HUD extends Module {
 
     public HUD() {
         super();
-        addSettings(arraylistModes, watermarksmodes, fpsdraw, bpsdraw);
+        addSettings(arraylistModes, watermarksmodes, fpsdraw, bpsdraw, scaffoldDraw);
     }
 
     @Listen
