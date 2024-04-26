@@ -55,6 +55,8 @@ public class HUD extends Module {
     public void onRender(RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_2D) return;
 
+        arraylistModes.getValue().onRender(e);
+
             switch (watermarksmodes.getValue()) {
                 case "Classic":
                     Fonts.apple18.drawStringWithShadow("S", 4, 4, 0x5499C7);
@@ -94,7 +96,6 @@ public class HUD extends Module {
             }
 
 //        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
-        arraylistModes.getValue().onRender(e);
     }
 
     private Double getBPS() {
