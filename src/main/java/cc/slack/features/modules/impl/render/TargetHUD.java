@@ -45,7 +45,7 @@ public class TargetHUD extends Module {
     public void onUpdate(UpdateEvent event) {
         ticksSinceAttack++;
 
-        if (ticksSinceAttack > 24) {
+        if (ticksSinceAttack > 20) {
             player = null;
         }
     }
@@ -55,11 +55,7 @@ public class TargetHUD extends Module {
             if (event.getPacket() instanceof C02PacketUseEntity) {
                 C02PacketUseEntity wrapper = (C02PacketUseEntity) event.getPacket();
                 if (wrapper.getEntityFromWorld(mc.getWorld()) instanceof EntityPlayer && wrapper.getAction() == C02PacketUseEntity.Action.ATTACK) {
-                    if (ticksSinceAttack > 24) {
-                        ticksSinceAttack = 0;
-                    } else if (ticksSinceAttack > 4) {
-                        ticksSinceAttack = 4;
-                    }
+                    ticksSinceAttack = 0;
                     player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
                 }
             }
@@ -73,22 +69,14 @@ public class TargetHUD extends Module {
         int x = (sr.getScaledWidth() / 2) + posX.getValue(), y = (sr.getScaledHeight() / 2) + posY.getValue();
         if (player == null)
             return;
-
-        double alpha = 1D;
-        if (ticksSinceAttack < 4) {
-            alpha = (ticksSinceAttack / 3);
-        } else if (ticksSinceAttack > 19) {
-            alpha = (ticksSinceAttack - 20) / 4;
-        }
-
-        drawRect(x, y, 120, 40, new Color(0, 0, 0, (int) (120 * alpha)).getRGB());
-        mc.getFontRenderer().drawString(player.getCommandSenderName(), x + 45, y + 8, new Color(54, 99, 200, (int) (255 * alpha)).getRGB());
+        drawRect(x, y, 120, 40, new Color(0, 0, 0, 120).getRGB());
+        mc.getFontRenderer().drawString(player.getCommandSenderName(), x + 45, y + 8, 0x5499C7);
         double offset = -(player.hurtTime * 20);
         Color color = new Color(255, (int) (255 + offset), (int) (255 + offset));
-        GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, color.getAlpha() * (float) alpha / 255F);
+        GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F, color.getAlpha() / 255F);
         mc.getTextureManager().bindTexture(((AbstractClientPlayer) player).getLocationSkin());
         Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 3, 3, 3, 3, 30, 30, 24, 24);
-        GlStateManager.color(1, 1, 1, 1 * (float) alpha);
+        GlStateManager.color(1, 1, 1, 1);
 
         drawRect(x + 45, y + 20, 70, 15, new Color(255, 255, 255, 120).getRGB());
 
