@@ -8,6 +8,7 @@ import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
 import net.minecraft.client.renderer.EntityRenderer;
+import net.minecraft.client.renderer.texture.TextureManager;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -61,6 +62,8 @@ public class mc {
     public static List<EntityPlayer> getLoadedPlayers() {
         return getWorld().playerEntities;
     }
+
+    public static TextureManager getTextureManager() { return getMinecraft().getTextureManager(); }
 
     public static List<EntityLivingBase> getLivingEntities(Predicate<EntityLivingBase> validator) {
         List<EntityLivingBase> entities = new ArrayList<>();

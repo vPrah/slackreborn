@@ -9,6 +9,7 @@ import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.movement.Sprint;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.TargetHUD;
 import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.EventUtil;
 import cc.slack.utils.other.PrintUtil;
@@ -43,6 +44,7 @@ public class Slack {
         moduleManager.getInstance(HUD.class).toggle();
         moduleManager.getInstance(Sprint.class).toggle();
         moduleManager.getInstance(Tweaks.class).toggle();
+        moduleManager.getInstance(TargetHUD.class).toggle();
 
 
         try {

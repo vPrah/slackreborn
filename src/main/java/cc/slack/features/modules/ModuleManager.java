@@ -67,6 +67,7 @@ public class ModuleManager {
                     new Bobbing(),
                     new ChestESP(),
                     new ClickGUI(),
+                    new TargetHUD(),
                     new HUD(),
 
                     // Ghost
