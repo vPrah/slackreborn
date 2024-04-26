@@ -2,9 +2,6 @@
 
 package cc.slack.features.modules.impl.world;
 
-import cc.slack.events.State;
-import cc.slack.events.impl.game.TickEvent;
-import cc.slack.events.impl.player.JumpEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -20,12 +17,9 @@ import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.player.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
-import net.minecraft.util.Rotations;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
 
@@ -102,6 +96,7 @@ public class Scaffold extends Module {
         startSearch();
         placeBlock();
     }
+
 
     private boolean pickBlock() {
         if (InventoryUtils.pickHotarBlock(true) != -1) {
