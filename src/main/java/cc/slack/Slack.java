@@ -51,7 +51,7 @@ public class Slack {
             ViaMCP.create();
             ViaMCP.INSTANCE.initAsyncSlider();
         } catch (Exception e) {
-            e.printStackTrace();
+            // Dont more StrackTrace
         }
     }
 
