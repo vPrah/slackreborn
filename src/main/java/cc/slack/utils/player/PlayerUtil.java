@@ -6,7 +6,13 @@ import cc.slack.utils.network.PacketUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.enchantment.Enchantment;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
+import net.minecraft.item.ItemAxe;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
@@ -124,6 +130,62 @@ public class PlayerUtil extends mc {
 
             PacketUtil.sendNoEvent(new C03PacketPlayer(true));
         }
+    }
+
+    public static ItemStack getBestSword() {
+        int size = mc.getPlayer().inventoryContainer.getInventory().size();
+        ItemStack lastSword = null;
+        for (int i = 0; i < size; i++) {
+            ItemStack stack = mc.getPlayer().inventoryContainer.getInventory().get(i);
+            if (stack != null && stack.getItem() instanceof ItemSword)
+                if (lastSword == null) {
+                    lastSword = stack;
+                } else if (isBetterSword(stack, lastSword)) {
+                    lastSword = stack;
+                }
+        }
+        return lastSword;
+    }
+
+
+    public static ItemStack getBestAxe() {
+        int size = mc.getPlayer().inventoryContainer.getInventory().size();
+        ItemStack lastAxe = null;
+        for (int i = 0; i < size; i++) {
+            ItemStack stack = mc.getPlayer().inventoryContainer.getInventory().get(i);
+            if (stack != null && stack.getItem() instanceof ItemAxe)
+                if (lastAxe == null) {
+                    lastAxe = stack;
+                } else if (isBetterTool(stack, lastAxe, Blocks.planks)) {
+                    lastAxe = stack;
+                }
+        }
+        return lastAxe;
+    }
+
+
+    public static boolean isBetterTool(ItemStack better, ItemStack than, Block versus) {
+        return (getToolDigEfficiency(better, versus) > getToolDigEfficiency(than, versus));
+    }
+
+    public static boolean isBetterSword(ItemStack better, ItemStack than) {
+        return (getSwordDamage((ItemSword) better.getItem(), better) > getSwordDamage((ItemSword) than.getItem(),
+                than));
+    }
+
+    public static float getSwordDamage(ItemSword sword, ItemStack stack) {
+        float base = sword.getMaxDamage();
+        return base + EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack) * 1.25F;
+    }
+
+    public static float getToolDigEfficiency(ItemStack stack, Block block) {
+        float f = stack.getStrVsBlock(block);
+        if (f > 1.0F) {
+            int i = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, stack);
+            if (i > 0)
+                f += (i * i + 1);
+        }
+        return f;
     }
 
 }
