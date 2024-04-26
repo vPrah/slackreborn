@@ -55,6 +55,7 @@ public class ModuleManager {
                     // World
                     new FastPlace(),
                     new Scaffold(),
+                    new InvManager(),
                     new Stealer(),
 
                     // Exploit
