@@ -10,8 +10,10 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.player.BlinkUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
-
+import net.minecraft.client.settings.GameSettings;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 
 @ModuleInfo(
@@ -21,18 +23,21 @@ import java.io.IOException;
 public class TestBlink extends Module {
 
 
+    List<GameSettings> inputReplay = new ArrayList<>();
     private Minecraft startingMC = mc.getMinecraft();
     private int ticks = 0;
 
     @Override
     public void onEnable() {
         BlinkUtil.enable(true, true);
+        inputReplay.clear();
         startingMC = mc.getMinecraft();
         ticks = 0;
     }
 
     @Listen
     public void onUpdate(UpdateEvent event) {
+        inputReplay.add(mc.getGameSettings());
         ticks++;
     }
 
@@ -45,6 +50,7 @@ public class TestBlink extends Module {
                 BlinkUtil.disable(true);
             }
             try {
+                mc.getMinecraft().gameSettings = inputReplay.get(i);
                 mc.getMinecraft().runTick();
             } catch (IOException ignored) {
                 // womp womp
