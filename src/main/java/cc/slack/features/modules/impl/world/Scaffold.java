@@ -94,6 +94,7 @@ public class Scaffold extends Module {
     public void onUpdate(UpdateEvent event) {
         if (!pickBlock()) {
             RotationUtil.disable();
+            return;
         }
         setSprint();
         setMovementCorrection();
