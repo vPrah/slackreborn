@@ -1,6 +1,7 @@
 package cc.slack.utils.player;
 
 import cc.slack.utils.client.mc;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.MathHelper;
@@ -94,6 +95,13 @@ public class RotationUtil extends mc {
                 (float) yaw + 90,
                 (float) pitch
         };
+    }
+
+    public static double getRotationDifferenceToEntity(Entity e) {
+        float[] entityRotation = getRotations(e.posX, e.posY, e.posZ);
+        final double yawDif = mc.getPlayer().rotationYaw - entityRotation[0];
+        final double pitchDif = mc.getPlayer().rotationPitch - entityRotation[1];
+        return Math.sqrt(yawDif * yawDif + pitchDif * pitchDif);
     }
 
     public static float[] getRotations(final float[] lastRotations, final float smoothing, final Vec3 start, final Vec3 dst) {

@@ -60,7 +60,7 @@ public class KillAura extends Module {
     private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
     private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
 
-    private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Distance", "Health"});
+    private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"FOV", "Distance", "Health", "Hurt Ticks"});
     private final BooleanValue teams = new BooleanValue("Teams", false);
     private final BooleanValue playerTarget = new BooleanValue("Players", true);
     private final BooleanValue animalTarget = new BooleanValue("Animals", true);
@@ -227,11 +227,17 @@ public class KillAura extends Module {
         }
 
         switch (sortMode.getValue().toLowerCase()) {
+            case "fov":
+                targets.sort(Comparator.comparingDouble(entity -> RotationUtil.getRotationDifferenceToEntity(entity)));
+                break;
             case "distance":
                 targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.getPlayer())));
                 break;
             case "health":
                 targets.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
+                break;
+            case "hurt ticks":
+                targets.sort(Comparator.comparingDouble(EntityLivingBase::getHurtTime));
                 break;
         }
 

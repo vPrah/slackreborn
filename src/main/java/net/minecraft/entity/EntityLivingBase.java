@@ -864,6 +864,7 @@ public abstract class EntityLivingBase extends Entity
         return this.dataWatcher.getWatchableObjectFloat(6);
     }
 
+
     public void setHealth(float health)
     {
         this.dataWatcher.updateObject(6, MathHelper.clamp_float(health, 0.0F, this.getMaxHealth()));
@@ -1005,6 +1006,8 @@ public abstract class EntityLivingBase extends Entity
             }
         }
     }
+
+    public int getHurtTime() { return this.hurtTime; }
 
     /**
      * Renders broken item particles using the given ItemStack
