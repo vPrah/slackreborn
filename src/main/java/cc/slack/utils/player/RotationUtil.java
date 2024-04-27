@@ -2,12 +2,13 @@ package cc.slack.utils.player;
 
 import cc.slack.utils.client.mc;
 import net.minecraft.entity.Entity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 
 public class RotationUtil extends mc {
+
+    public enum TargetRotation {
+        EDGE, CENTER, OPTIMAL, MIDDLE, TOPHALF
+    }
 
     // actual changing of rotations + keep rot ticks + randomization in EntityPlayerSP.java
 
@@ -62,6 +63,38 @@ public class RotationUtil extends mc {
 
     public static Vec3 getBlockVecCenter(final BlockPos pos) {
         return (new Vec3(pos)).addVector(0.5D, 0.5D, 0.5D);
+    }
+
+    public static float[] getTargetRotations(AxisAlignedBB aabb, TargetRotation mode, double random) {
+        double minX = 0.0, maxX = 1.0;
+        double minY = 0.0, maxY = 1.0;
+        double minZ = 0.0, maxZ = 1.0;
+
+        switch (mode) {
+            case EDGE:
+                break;
+            case CENTER:
+                minX = 0.5; maxX = 0.5;
+                minY = 0.5; maxY = 0.5;
+                minZ = 0.5; maxZ = 0.5;
+                break;
+            case MIDDLE:
+                minX = 0.4; maxX = 0.6;
+                minY = 0.4; maxY = 0.6;
+                minZ = 0.4; maxZ = 0.6;
+                break;
+            case OPTIMAL:
+                break;
+            case TOPHALF:
+                minX = 0.1; maxX = 0.9;
+                minY = 0.5; maxY = 0.9;
+                minZ = 0.1; maxZ = 0.9;
+                break;
+        }
+
+        // TODO: finish, its not finished
+        return new float[] { 0f ,0f };
+
     }
 
     public static float[] getRotations(final Vec3 start, final Vec3 dst) {
