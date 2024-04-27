@@ -32,7 +32,7 @@ import java.util.ArrayList;
 )
 public class InvManager extends Module {
 
-    private final NumberValue<Long> managerDelayvalue = new NumberValue<>("Delay", 150L, 0L, 300L, 1L);
+    private final NumberValue<Long> managerDelayvalue = new NumberValue<>("Delay", 150L, 0L, 300L, 25L);
     private final BooleanValue openInvvalue = new BooleanValue("Open Inventory", true);
     private final  BooleanValue autoArmorvalue = new BooleanValue("AutoArmor", false);
     private final BooleanValue noTrashvalue = new BooleanValue("No Trash", true);

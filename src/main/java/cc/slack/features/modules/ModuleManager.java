@@ -68,6 +68,7 @@ public class ModuleManager {
                     new Bobbing(),
                     new ChestESP(),
                     new ClickGUI(),
+                    new ESP(),
                     new TargetHUD(),
                     new HUD(),
 
