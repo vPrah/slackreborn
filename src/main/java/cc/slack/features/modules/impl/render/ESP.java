@@ -34,6 +34,7 @@ public class ESP extends Module {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for (Entity entity : mc.getWorld().loadedEntityList) {
+            if (entity.getEntityId() == mc.getPlayer().getEntityId()) continue;
             final RenderManager renderManager = mc.getMinecraft().getRenderManager();
             final Timer timer = mc.getTimer();
 
