@@ -39,7 +39,7 @@ public class HUD extends Module {
     private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
     private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
 
-    private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
+    private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", false);
 
     private double lastBPS = 0.0;
 
@@ -88,7 +88,7 @@ public class HUD extends Module {
 
                 if (scaffoldTicks == 0) return;
                 ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-                mc.getFontRenderer().drawString("Blocks " + String.valueOf(mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem).getStack().stackSize),
+                mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem).getStack().stackSize,
                         sr.getScaledWidth() / 1.95f,
                         sr.getScaledHeight() / 2F + 20F - (( 5 - scaffoldTicks) * 5F),
                         new Color(255, 255, 255, scaffoldTicks * 51).getRGB(),

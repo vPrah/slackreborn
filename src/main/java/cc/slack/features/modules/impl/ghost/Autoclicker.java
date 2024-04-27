@@ -35,8 +35,8 @@ public class Autoclicker extends Module {
         addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword);
     }
 
-    private TimeUtil leftClickTimer = new TimeUtil();
-    private long leftClickDelay = 0l;
+    private final TimeUtil leftClickTimer = new TimeUtil();
+    private long leftClickDelay = 0L;
 
     @Listen
     public void onRender(RenderEvent event) {
