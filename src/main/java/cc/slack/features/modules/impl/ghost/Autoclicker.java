@@ -26,13 +26,13 @@ public class Autoclicker extends Module {
     public final NumberValue<Float> targetCPS = new NumberValue<>("Target CPS", 11f, 0f, 30f, 0.1f);
 
     public final NumberValue<Float> randomizeAmount = new NumberValue<>("Randomization Amount", 2.5f, 0f, 30f, 0.1f);
-    public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"OLD", "NEW"});
+    public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"OLD", "NEW", "EXTRA"});
 
     public final BooleanValue onlySword = new BooleanValue("Only Sword", false);
 
     public Autoclicker() {
         super();
-        addSettings(targetCPS, randomizeAmount, randomizeMode);
+        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword);
     }
 
     private TimeUtil leftClickTimer = new TimeUtil();
@@ -59,6 +59,8 @@ public class Autoclicker extends Module {
                 return (long) (1000 / AttackUtil.getOldRandomization(cps, rand));
             case "new":
                 return (long) (1000 / AttackUtil.getNewRandomization(cps, rand));
+            case "extra":
+                return (long) (1000 / AttackUtil.getExtraRandomization(cps, rand));
         }
         return 0L;
     }
