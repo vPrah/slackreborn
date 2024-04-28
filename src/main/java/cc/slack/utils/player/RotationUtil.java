@@ -1,8 +1,11 @@
 package cc.slack.utils.player;
 
 import cc.slack.utils.client.mc;
+import cc.slack.utils.other.MathUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.*;
+
+import java.util.Random;
 
 public class RotationUtil extends mc {
 
@@ -61,9 +64,6 @@ public class RotationUtil extends mc {
         };
     }
 
-    public static Vec3 getBlockVecCenter(final BlockPos pos) {
-        return (new Vec3(pos)).addVector(0.5D, 0.5D, 0.5D);
-    }
 
     public static float[] getTargetRotations(AxisAlignedBB aabb, TargetRotation mode, double random) {
         double minX = 0.0, maxX = 1.0;
@@ -92,9 +92,43 @@ public class RotationUtil extends mc {
                 break;
         }
 
-        // TODO: finish, its not finished
-        return new float[] { 0f ,0f };
+        double x, y, z;
+        Vec3 rotPoint = new Vec3(aabb.minX, aabb.minY, aabb.minZ);
+        if (mode == TargetRotation.OPTIMAL) {
+            rotPoint = new Vec3(
+                    Math.max(aabb.minX, Math.min(aabb.maxX, mc.getPlayer().posX)),
+                    Math.max(aabb.minY, Math.min(aabb.maxY, mc.getPlayer().posY)),
+                    Math.max(aabb.minZ, Math.min(aabb.maxZ, mc.getPlayer().posZ)));
+        } else {
+            double minRotDiff = 180D;
+            double currentRotDiff;
+            for (x = minX; x <= maxX; x += 0.1) {
+                for (y = minY; y <= maxY; y += 0.1) {
+                    for (z = minZ; z <= maxZ; z += 0.1) {
+                        currentRotDiff = getRotationDifference(
+                                MathUtil.interpolate(aabb.maxX, aabb.minX, x),
+                                MathUtil.interpolate(aabb.maxY, aabb.minY, z),
+                                MathUtil.interpolate(aabb.maxZ, aabb.minZ, z)
+                        );
+                        if (currentRotDiff < minRotDiff) {
+                            minRotDiff = currentRotDiff;
+                            rotPoint = new Vec3(
+                                    MathUtil.interpolate(aabb.maxX, aabb.minX, x),
+                                    MathUtil.interpolate(aabb.maxY, aabb.minY, z),
+                                    MathUtil.interpolate(aabb.maxZ, aabb.minZ, z));
+                        }
+                    }
+                }
+            }
+        }
 
+        final double randX = MathHelper.getRandomDoubleInRange(new Random(), -random, random);
+        final double randY = MathHelper.getRandomDoubleInRange(new Random(), -random, random);
+        final double randZ = MathHelper.getRandomDoubleInRange(new Random(), -random, random);
+
+        rotPoint.addVector(randX, randY, randZ);
+
+        return getRotations(rotPoint);
     }
 
     public static float[] getRotations(final Vec3 start, final Vec3 dst) {
@@ -129,11 +163,26 @@ public class RotationUtil extends mc {
                 (float) pitch
         };
     }
+    
 
-    public static double getRotationDifferenceToEntity(Entity e) {
+    public static double getRotationDifference(Entity e) {
         float[] entityRotation = getRotations(e.posX, e.posY, e.posZ);
-        final double yawDif = mc.getPlayer().rotationYaw - entityRotation[0];
-        final double pitchDif = mc.getPlayer().rotationPitch - entityRotation[1];
+        return getRotationDifference(entityRotation);
+    }
+
+    public static double getRotationDifference(Vec3 e) {
+        float[] entityRotation = getRotations(e.xCoord, e.yCoord, e.zCoord);
+        return getRotationDifference(entityRotation);
+    }
+
+    public static double getRotationDifference(double x, double y, double z) {
+        float[] entityRotation = getRotations(x, y, z);
+        return getRotationDifference(entityRotation);
+    }
+
+    public static double getRotationDifference(float[] e) {
+        final double yawDif = MathHelper.wrapAngleTo180_double(mc.getPlayer().rotationYaw - e[0]);
+        final double pitchDif = MathHelper.wrapAngleTo180_double(mc.getPlayer().rotationPitch - e[1]);
         return Math.sqrt(yawDif * yawDif + pitchDif * pitchDif);
     }
 

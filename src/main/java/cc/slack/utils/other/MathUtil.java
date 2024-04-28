@@ -41,6 +41,7 @@ public class MathUtil {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
+
     public static float interpolate(float newValue, float oldValue, float partialTicks) {
         return oldValue + (newValue - oldValue) * partialTicks;
     }
@@ -48,6 +49,11 @@ public class MathUtil {
     public static double interpolate(double newValue, double oldValue, float partialTicks) {
         return oldValue + (newValue - oldValue) * partialTicks;
     }
+
+    public static double interpolate(double newValue, double oldValue, double partialTicks) {
+        return oldValue + (newValue - oldValue) * partialTicks;
+    }
+
 
     public static double lerp(double oldValue, double newValue, double partialTicks) {
         return oldValue + partialTicks * (newValue - oldValue);

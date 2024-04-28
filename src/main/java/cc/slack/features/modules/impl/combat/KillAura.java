@@ -228,7 +228,7 @@ public class KillAura extends Module {
 
         switch (sortMode.getValue().toLowerCase()) {
             case "fov":
-                targets.sort(Comparator.comparingDouble(entity -> RotationUtil.getRotationDifferenceToEntity(entity)));
+                targets.sort(Comparator.comparingDouble(RotationUtil::getRotationDifference));
                 break;
             case "distance":
                 targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.getPlayer())));
