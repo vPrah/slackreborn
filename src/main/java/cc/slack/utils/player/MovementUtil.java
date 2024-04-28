@@ -68,6 +68,15 @@ public class MovementUtil extends mc {
         return getPlayer() != null && (getPlayer().moveForward != 0 || getPlayer().moveStrafing != 0);
     }
 
+    public static boolean isBindsMoving() {
+        return getPlayer() != null && (
+                GameSettings.isKeyDown(mc.getGameSettings().keyBindForward) ||
+                GameSettings.isKeyDown(mc.getGameSettings().keyBindRight) ||
+                GameSettings.isKeyDown(mc.getGameSettings().keyBindBack) ||
+                GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft)
+        );
+    }
+
     public static float getDirection() {
         return getDirection(getPlayer().rotationYaw, getPlayer().moveForward, getPlayer().moveStrafing);
     }

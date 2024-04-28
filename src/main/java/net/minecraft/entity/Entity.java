@@ -1239,17 +1239,24 @@ public abstract class Entity implements ICommandSender
             if (RotationUtil.strafeFix) {
                 movingYaw = RotationUtil.clientRotation[0];
                 if (!RotationUtil.strictStrafeFix) {
-                    int strafeYaw = round((MovementUtil.getBindsDirection(RotationUtil.clientRotation[0]) - mc.getPlayer().rotationYaw) / 45);
-                    if (strafeYaw > 4) {
-                        strafeYaw -= 8;
+                    if (MovementUtil.isBindsMoving()) {
+                        int strafeYaw = round((MovementUtil.getBindsDirection(RotationUtil.clientRotation[0]) - mc.getPlayer().rotationYaw) / 45);
+                        if (strafeYaw > 4) {
+                            strafeYaw -= 8;
+                        }
+                        if (strafeYaw < -4) {
+                            strafeYaw += 8;
+                        }
+                        mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
+                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                        mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
+                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                    } else {
+                        mc.getGameSettings().keyBindForward.pressed = false;
+                        mc.getGameSettings().keyBindRight.pressed = false;
+                        mc.getGameSettings().keyBindBack.pressed = false;
+                        mc.getGameSettings().keyBindLeft.pressed = false;
                     }
-                    if (strafeYaw < -4) {
-                        strafeYaw += 8;
-                    }
-                    mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
-                    mc.getGameSettings().keyBindRight.pressed = strafeYaw >= 1 && strafeYaw <= 3;
-                    mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
-                    mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= -3 && strafeYaw <= -1;
                 }
             } else {
                 movingYaw = mc.getPlayer().rotationYaw;

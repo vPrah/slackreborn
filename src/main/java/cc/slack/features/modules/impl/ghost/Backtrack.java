@@ -10,7 +10,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.settings.GameSettings;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketDirection;
@@ -53,7 +52,7 @@ public class Backtrack extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (currentTick.size() != 0) {
+        if (!currentTick.isEmpty()) {
             packetCache.add(currentTick);
             currentTick.clear();
         }
