@@ -44,11 +44,9 @@ public class TestBlink extends Module {
     @Override
     public void onDisable() {
         BlinkUtil.clearPackets(false, true);
+        BlinkUtil.setConfig(true, false);
         Minecraft.setMinecraft(startingMC);
         for (int i = 1; i <= ticks; i++) {
-            if (i == ticks) {
-                BlinkUtil.disable(true);
-            }
             try {
                 mc.getMinecraft().gameSettings = inputReplay.get(i);
                 mc.getMinecraft().runTick();
@@ -56,6 +54,7 @@ public class TestBlink extends Module {
                 // womp womp
             }
         }
+        BlinkUtil.disable(true);
     }
 
 

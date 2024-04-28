@@ -113,7 +113,7 @@ public class BlinkUtil extends mc {
         final Packet packet = event.getPacket();
 
         if (isBlinking()) {
-            if (event.getDirection() == PacketDirection.INCOMING) {
+            if (event.getDirection() == PacketDirection.INCOMING && BLINK_INBOUND) {
                 if (!(packet instanceof S00PacketDisconnect ||
                         packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                         packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
@@ -121,7 +121,7 @@ public class BlinkUtil extends mc {
                     serverPackets.add(packet);
                     return true;
                 }
-            } else if (event.getDirection() == PacketDirection.OUTGOING) {
+            } else if (event.getDirection() == PacketDirection.OUTGOING && BLINK_OUTBOUND) {
                 if (!(packet instanceof C00PacketKeepAlive || packet instanceof C00Handshake ||
                         packet instanceof C00PacketLoginStart)) {
                     clientPackets.add(packet);
