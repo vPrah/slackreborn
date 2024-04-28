@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import cc.slack.utils.player.RotationUtil;
 import com.google.common.collect.Lists;
 import java.nio.FloatBuffer;
 import java.util.List;
@@ -207,6 +208,11 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                     this.renderHeadPitch = f7;
                     this.renderScaleFactor = f4;
                     this.renderPartialTicks = partialTicks;
+                }
+
+                if (entity ==  Minecraft.getMinecraft().thePlayer) {
+                    this.renderHeadYaw = RotationUtil.clientRotation[0];
+                    this.renderHeadPitch = RotationUtil.clientRotation[1];
                 }
 
                 if (this.renderOutlines)
