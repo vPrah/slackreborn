@@ -88,6 +88,28 @@ public class MovementUtil extends mc {
         return rotationYaw;
     }
 
+    public static float getBindsDirection(float rotationYaw) {
+        int moveForward = 0;
+        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindForward)) moveForward++;
+        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindBack)) moveForward--;
+
+        int moveStrafing = 0;
+        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindRight)) moveStrafing++;
+        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft)) moveStrafing--;
+
+        boolean reversed = moveForward < 0;
+        double strafingYaw = 90 * (moveForward > 0 ? .5 : reversed ? -.5 : 1);
+
+        if (reversed)
+            rotationYaw += 180.f;
+        if (moveStrafing > 0)
+            rotationYaw += strafingYaw;
+        else if (moveStrafing < 0)
+            rotationYaw -= strafingYaw;
+
+        return rotationYaw;
+    }
+
     public static void resetMotion() {
         getPlayer().motionX = getPlayer().motionZ = 0;
     }

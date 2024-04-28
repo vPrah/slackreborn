@@ -163,7 +163,7 @@ public class RotationUtil extends mc {
                 (float) pitch
         };
     }
-    
+
 
     public static double getRotationDifference(Entity e) {
         float[] entityRotation = getRotations(e.posX, e.posY, e.posZ);

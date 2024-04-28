@@ -25,7 +25,7 @@ public class Autoclicker extends Module {
 
     public final NumberValue<Float> targetCPS = new NumberValue<>("Target CPS", 11f, 0f, 30f, 0.1f);
 
-    public final NumberValue<Float> randomizeAmount = new NumberValue<>("Randomization Amount", 2.5f, 0f, 30f, 0.1f);
+    public final NumberValue<Float> randomizeAmount = new NumberValue<>("Randomization Amount", 1.5f, 0f, 4f, 0.1f);
     public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"OLD", "NEW", "EXTRA"});
 
     public final BooleanValue onlySword = new BooleanValue("Only Sword", false);
