@@ -90,7 +90,7 @@ public class HUD extends Module {
                 ScaledResolution sr = mc.getScaledResolution();
                 mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem).getStack().stackSize,
                         sr.getScaledWidth() / 1.95f,
-                        sr.getScaledHeight() / 2F + 20F - (( 5 - scaffoldTicks) * 5F),
+                        sr.getScaledHeight() / 2F - (( 5 - scaffoldTicks) * 5F),
                         new Color(255, 255, 255, scaffoldTicks * 51).getRGB(),
                         true);
             }

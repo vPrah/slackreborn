@@ -108,6 +108,17 @@ public class BlinkUtil extends mc {
 
         clearPackets();
     }
+
+    public static int getSize() {
+        return getSize(true, true);
+    }
+
+    public static int getSize(boolean sizeInbound, boolean sizeOutgoing) {
+        int size = 0;
+        if (sizeInbound) size += serverPackets.size();
+        if (sizeOutgoing) size += clientPackets.size();
+        return size;
+    }
     
     public static boolean handlePacket(PacketEvent event) {
         final Packet packet = event.getPacket();
