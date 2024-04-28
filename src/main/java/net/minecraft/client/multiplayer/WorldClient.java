@@ -1,6 +1,7 @@
 package net.minecraft.client.multiplayer;
 
 import cc.slack.events.impl.player.WorldEvent;
+import cc.slack.utils.player.BlinkUtil;
 import com.google.common.collect.Sets;
 import java.util.Random;
 import java.util.Set;
@@ -78,6 +79,7 @@ public class WorldClient extends World
         }
 
         new WorldEvent().call();
+        BlinkUtil.disable(false);
     }
 
     /**

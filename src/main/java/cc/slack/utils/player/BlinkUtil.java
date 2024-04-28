@@ -3,7 +3,6 @@ package cc.slack.utils.player;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
-import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.handshake.client.C00Handshake;
@@ -129,6 +128,7 @@ public class BlinkUtil extends mc {
                         packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                         packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
                         packet instanceof S3BPacketScoreboardObjective)) {
+
                     serverPackets.add(packet);
                     return true;
                 }
