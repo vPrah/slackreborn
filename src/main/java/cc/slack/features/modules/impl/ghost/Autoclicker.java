@@ -3,9 +3,11 @@
 package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
@@ -30,16 +32,18 @@ public class Autoclicker extends Module {
 
     public final BooleanValue onlySword = new BooleanValue("Only Sword", false);
 
+    public final ModeValue<String> autoblockMode = new ModeValue<>("Autoblock", new String[]{"Off", "Click", "Normal", "BlockHit"});
+
     public Autoclicker() {
         super();
-        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword);
+        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode);
     }
 
     private final TimeUtil leftClickTimer = new TimeUtil();
     private long leftClickDelay = 0L;
 
     @Listen
-    public void onUpdate(UpdateEvent event) {
+    public void onRender(RenderEvent event) {
         if (
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack)
                 && (!onlySword.getValue() || mc.getPlayer().getHeldItem().item instanceof ItemSword)
@@ -49,7 +53,23 @@ public class Autoclicker extends Module {
                 leftClickTimer.reset();
                 leftClickDelay = updateDelay(targetCPS.getValue(), randomizeAmount.getValue());
                 KeyBinding.onTick(mc.getGameSettings().keyBindAttack.getKeyCode());
+                if (autoblockMode.getValue().equals("Click")) KeyBinding.onTick(mc.getGameSettings().keyBindUseItem.getKeyCode());
             }
+            boolean rightMouseDown = GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem);
+            switch (autoblockMode.getValue().toLowerCase()) {
+                case "off":
+                    break;
+                case "click":
+                    rightMouseDown = false;
+                    break;
+                case "normal":
+                    rightMouseDown = leftClickTimer.elapsed() > 0.1 * leftClickDelay && leftClickTimer.elapsed() < 0.65 * leftClickDelay;
+                    break;
+                case "blockhit":
+                    rightMouseDown = leftClickTimer.elapsed() < 0.5 * leftClickDelay;
+                    break;
+            }
+            mc.getGameSettings().keyBindUseItem.pressed = rightMouseDown;
         }
     }
 

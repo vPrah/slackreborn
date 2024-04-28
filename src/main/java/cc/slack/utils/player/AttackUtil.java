@@ -13,7 +13,7 @@ public class AttackUtil {
     public static boolean inCombat = false;
     public static Entity combatTarget = null;
     public static final TimeUtil combatTimer = new TimeUtil();
-    public static final Long combatDuration = 600L;
+    public static final long combatDuration = 600L;
 
 
     public enum AttackPattern {
