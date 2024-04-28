@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer;
 
+import cc.slack.utils.player.ItemSpoofUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -563,6 +564,7 @@ public class ItemRenderer
         this.prevEquippedProgress = this.equippedProgress;
         EntityPlayer entityplayer = this.mc.thePlayer;
         ItemStack itemstack = entityplayer.inventory.getCurrentItem();
+        if (ItemSpoofUtil.isEnabled) itemstack = mc.thePlayer.inventory.getStackInSlot(ItemSpoofUtil.renderSlot);
         boolean flag = false;
 
         if (this.itemToRender != null && itemstack != null)
@@ -577,6 +579,7 @@ public class ItemRenderer
                     {
                         this.itemToRender = itemstack;
                         this.equippedItemSlot = entityplayer.inventory.currentItem;
+                        if (ItemSpoofUtil.isEnabled) this.equippedItemSlot = ItemSpoofUtil.renderSlot;
                         return;
                     }
                 }

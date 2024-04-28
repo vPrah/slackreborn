@@ -7,6 +7,7 @@ import cc.slack.events.impl.input.KeyEvent;
 import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
+import cc.slack.utils.player.ItemSpoofUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -2047,7 +2048,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                     }
                     else
                     {
-                        this.thePlayer.inventory.currentItem = l;
+                        if (ItemSpoofUtil.isEnabled) {
+                            ItemSpoofUtil.renderSlot = l;
+                        } else {
+                            this.thePlayer.inventory.currentItem = l;
+                        }
                     }
                 }
             }

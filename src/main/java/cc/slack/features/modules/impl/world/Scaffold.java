@@ -12,12 +12,10 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
-import cc.slack.utils.player.InventoryUtils;
-import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.player.*;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
@@ -42,6 +40,8 @@ public class Scaffold extends Module {
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
     private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Off"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
+
+    private final BooleanValue spoofSlot = new BooleanValue("Spoof Item Slot", false);
 
 
     /*
@@ -79,6 +79,11 @@ public class Scaffold extends Module {
 
     }
 
+    @Override
+    public void onDisable() {
+        ItemSpoofUtil.stopSpoofing();
+    }
+
     @Listen
     public void onMotion(MotionEvent event) {
         runTowerMove();
@@ -100,9 +105,14 @@ public class Scaffold extends Module {
 
     private boolean pickBlock() {
         if (InventoryUtils.pickHotarBlock(true) != -1) {
-            mc.getPlayer().inventory.currentItem = InventoryUtils.pickHotarBlock(true);
+            if (spoofSlot.getValue()) {
+                ItemSpoofUtil.startSpoofing(InventoryUtils.pickHotarBlock(true));
+            } else {
+                mc.getPlayer().inventory.currentItem = InventoryUtils.pickHotarBlock(true);
+            }
             return true;
         }
+        ItemSpoofUtil.stopSpoofing();
         return false;
     }
 

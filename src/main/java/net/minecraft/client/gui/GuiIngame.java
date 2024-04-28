@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.utils.player.ItemSpoofUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Lists;
@@ -358,7 +359,10 @@ public class GuiIngame extends Gui
             float f = this.zLevel;
             this.zLevel = -90.0F;
             this.drawTexturedModalRect(i - 91, sr.getScaledHeight() - 22, 0, 0, 182, 22);
-            this.drawTexturedModalRect(i - 91 - 1 + entityplayer.inventory.currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
+
+            int currentItem = entityplayer.inventory.currentItem;
+            if (ItemSpoofUtil.isEnabled) currentItem = ItemSpoofUtil.renderSlot;
+            this.drawTexturedModalRect(i - 91 - 1 + currentItem * 20, sr.getScaledHeight() - 22 - 1, 0, 22, 24, 22);
             this.zLevel = f;
             GlStateManager.enableRescaleNormal();
             GlStateManager.enableBlend();
