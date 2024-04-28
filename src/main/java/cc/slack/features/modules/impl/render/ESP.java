@@ -6,6 +6,7 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
@@ -25,6 +26,8 @@ import static org.lwjgl.opengl.GL11.*;
         category = Category.RENDER
 )
 public class ESP extends Module {
+
+    private final BooleanValue rotateYaw = new BooleanValue("Rotate With Yaw", true);
 
     private static final Map<String, Map<Integer, Boolean>> glCapMap = new HashMap<>();
 
@@ -62,55 +65,72 @@ public class ESP extends Module {
 
             glLineWidth(1F);
             enableGlCap(GL_LINE_SMOOTH);
-            glColor(255, 255, 255, 95);
-            drawSelectionBoundingBox(axisAlignedBB);
+            GlStateManager.color(1,1,1,1);
+            drawSelectionBoundingBox(axisAlignedBB, entity);
 
             GlStateManager.resetColor();
             glDepthMask(true);
-            resetCaps();
+            
+            
+            String scale = "COMMON";
+            if(!glCapMap.containsKey(scale)) {
+                return;
+            }
+            Map<Integer, Boolean> map = glCapMap.get(scale);
+            map.forEach(ESP::setGlState);
+            map.clear();
         }
 
     }
 
-    public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
+    public static void drawSelectionBoundingBox(AxisAlignedBB aabb, Entity entity) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 
         worldrenderer.begin(GL_LINE_STRIP, DefaultVertexFormats.POSITION_TEX);
 
+        double minX = aabb.minX;
+        double maxX = aabb.maxX;
+        
+        double minY = aabb.minY;
+        double maxY = aabb.maxY;
+        
+        double minZ = aabb.minZ;
+        double maxZ = aabb.maxZ;
+        
         // Lower Rectangle
-        worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
-        worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).endVertex();
-        worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).endVertex();
-        worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).endVertex();
-        worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
+        worldrenderer.pos(minX, minY, minZ).endVertex();
+        worldrenderer.pos(minX, minY, maxZ).endVertex();
+        worldrenderer.pos(maxX, minY, maxZ).endVertex();
+        worldrenderer.pos(maxX, minY, minZ).endVertex();
+        worldrenderer.pos(minX, minY, minZ).endVertex();
 
         // Upper Rectangle
-        worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
-        worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
-        worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).endVertex();
-        worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).endVertex();
-        worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
+        worldrenderer.pos(minX, maxY, minZ).endVertex();
+        worldrenderer.pos(minX, maxY, maxZ).endVertex();
+        worldrenderer.pos(maxX, maxY, maxZ).endVertex();
+        worldrenderer.pos(maxX, maxY, minZ).endVertex();
+        worldrenderer.pos(minX, maxY, minZ).endVertex();
 
-        // Upper Rectangle
-        worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
-        worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).endVertex();
+        // Vertical bars
+        worldrenderer.pos(minX, maxY, maxZ).endVertex();
+        worldrenderer.pos(minX, minY, maxZ).endVertex();
 
-        worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).endVertex();
-        worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).endVertex();
+        worldrenderer.pos(maxX, minY, maxZ).endVertex();
+        worldrenderer.pos(maxX, maxY, maxZ).endVertex();
 
-        worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).endVertex();
-        worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).endVertex();
+        worldrenderer.pos(maxX, maxY, minZ).endVertex();
+        worldrenderer.pos(maxX, minY, minZ).endVertex();
+
+        glTranslated((minX + maxX) / -2, 0.0 , (minX + maxX) / -2);
+        glRotated(entity.rotationYaw, 0, 1, 0);
+        glTranslated((minX + maxX) / 2, 0.0 , (minX + maxX) / 2);
 
         tessellator.draw();
     }
-
-    public static void enableGlCap(final int cap, final String scale) {
-        setGlCap(cap, true, scale);
-    }
-
+    
     public static void enableGlCap(final int cap) {
-        enableGlCap(cap, "COMMON");
+        setGlCap(cap, true, "COMMON");
     }
 
 
@@ -125,7 +145,10 @@ public class ESP extends Module {
             glCapMap.put(scale, new HashMap<>());
         }
         glCapMap.get(scale).put(cap, glGetBoolean(cap));
-        setGlState(cap, state);
+        if (state)
+            glEnable(cap);
+        else
+            glDisable(cap);
     }
 
     public static void setGlState(final int cap, final boolean state) {
@@ -133,23 +156,6 @@ public class ESP extends Module {
             glEnable(cap);
         else
             glDisable(cap);
-    }
-
-    public static void glColor(final int red, final int green, final int blue, final int alpha) {
-        GlStateManager.color(red / 255F, green / 255F, blue / 255F, alpha / 255F);
-    }
-
-    public static void resetCaps(final String scale) {
-        if(!glCapMap.containsKey(scale)) {
-            return;
-        }
-        Map<Integer, Boolean> map = glCapMap.get(scale);
-        map.forEach(ESP::setGlState);
-        map.clear();
-    }
-
-    public static void resetCaps() {
-        resetCaps("COMMON");
     }
 
 }
