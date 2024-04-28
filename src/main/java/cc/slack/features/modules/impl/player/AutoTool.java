@@ -40,11 +40,10 @@ public class AutoTool extends Module {
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayerController().isHittingBlock) {
             if (switchTimer.hasReached((long) delay.getValue())) {
-                int bestTool = PlayerUtil.getBestHotbarTool(BlockUtils.getBlock(mc.getPlayer().rayTrace(4.5, mc.getTimer().renderPartialTicks).getBlockPos())) {
-                    if (bestTool != mc.getPlayer().inventory.currentItem) {
-                        ItemSpoofUtil.startSpoofing(bestTool);
-                        isSpoofing = true;
-                    }
+                int bestTool = PlayerUtil.getBestHotbarTool(BlockUtils.getBlock(mc.getPlayer().rayTrace(4.5, mc.getTimer().renderPartialTicks).getBlockPos()));
+                if (bestTool != mc.getPlayer().inventory.currentItem) {
+                    ItemSpoofUtil.startSpoofing(bestTool);
+                    isSpoofing = true;
                 }
             }
         } else {

@@ -26,7 +26,6 @@ public class ModuleManager {
                     new Velocity(),
 
                     // Movement
-
                     new AirJump(),
                     new Flight(),
                     new InvMove(),
