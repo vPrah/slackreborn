@@ -26,7 +26,7 @@ public class Autoclicker extends Module {
     public final NumberValue<Float> targetCPS = new NumberValue<>("Target CPS", 11f, 0f, 30f, 0.1f);
 
     public final NumberValue<Float> randomizeAmount = new NumberValue<>("Randomization Amount", 1.5f, 0f, 4f, 0.1f);
-    public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"OLD", "NEW", "EXTRA"});
+    public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"NONE", "OLD", "NEW", "EXTRA"});
 
     public final BooleanValue onlySword = new BooleanValue("Only Sword", false);
 
@@ -55,6 +55,8 @@ public class Autoclicker extends Module {
 
     private long updateDelay(Float cps, Float rand) {
         switch (randomizeMode.getValue().toLowerCase()) {
+            case "none":
+                return (long) (1000 / cps);
             case "old":
                 return (long) (1000 / AttackUtil.getOldRandomization(cps, rand));
             case "new":
