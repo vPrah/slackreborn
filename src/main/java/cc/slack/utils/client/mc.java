@@ -4,6 +4,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.GuiScreen;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.multiplayer.WorldClient;
 import net.minecraft.client.network.NetHandlerPlayClient;
@@ -67,6 +68,8 @@ public class mc {
     public static TextureManager getTextureManager() { return getMinecraft().getTextureManager(); }
 
     public static RenderManager getRenderManager() { return getMinecraft().getRenderManager(); }
+
+    public static ScaledResolution getScaledResolution() { return new ScaledResolution(getMinecraft()); }
 
     public static List<EntityLivingBase> getLivingEntities(Predicate<EntityLivingBase> validator) {
         List<EntityLivingBase> entities = new ArrayList<>();

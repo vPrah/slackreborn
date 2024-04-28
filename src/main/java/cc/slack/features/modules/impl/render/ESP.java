@@ -35,7 +35,7 @@ public class ESP extends Module {
 
         for (Entity entity : mc.getWorld().loadedEntityList) {
             if (entity.getEntityId() == mc.getPlayer().getEntityId()) continue;
-            final RenderManager renderManager = mc.getMinecraft().getRenderManager();
+            final RenderManager renderManager = mc.getRenderManager();
             final Timer timer = mc.getTimer();
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);

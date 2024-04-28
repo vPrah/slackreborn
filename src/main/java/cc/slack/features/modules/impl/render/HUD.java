@@ -87,7 +87,7 @@ public class HUD extends Module {
                 }
 
                 if (scaffoldTicks == 0) return;
-                ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+                ScaledResolution sr = mc.getScaledResolution();
                 mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem).getStack().stackSize,
                         sr.getScaledWidth() / 1.95f,
                         sr.getScaledHeight() / 2F + 20F - (( 5 - scaffoldTicks) * 5F),
