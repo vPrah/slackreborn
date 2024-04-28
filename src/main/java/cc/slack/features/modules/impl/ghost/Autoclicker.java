@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.ghost;
 
-import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
@@ -39,7 +39,7 @@ public class Autoclicker extends Module {
     private long leftClickDelay = 0L;
 
     @Listen
-    public void onRender(RenderEvent event) {
+    public void onUpdate(UpdateEvent event) {
         if (
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack)
                 && (!onlySword.getValue() || mc.getPlayer().getHeldItem().item instanceof ItemSword)

@@ -9,7 +9,7 @@ public class TimeUtil {
     }
 
     public boolean hasReached(long milliseconds) {
-        return elapsed() > milliseconds;
+        return elapsed() >= milliseconds;
     }
 
     public void resetWithOffset(long offset) {
