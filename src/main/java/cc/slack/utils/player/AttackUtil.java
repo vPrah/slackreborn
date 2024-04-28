@@ -1,11 +1,20 @@
 package cc.slack.utils.player;
 
+import cc.slack.utils.other.TimeUtil;
+import net.minecraft.entity.Entity;
 import net.minecraft.util.MathHelper;
 
 import java.security.SecureRandom;
 import java.util.Random;
 
 public class AttackUtil {
+
+    // impl in playercontrollermp and entityplayersp
+    public static boolean inCombat = false;
+    public static Entity combatTarget = null;
+    public static final TimeUtil combatTimer = new TimeUtil();
+    public static final Long combatDuration = 600L;
+
 
     public enum AttackPattern {
         OLD, NEW, EXTRA

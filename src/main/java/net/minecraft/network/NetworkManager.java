@@ -2,6 +2,7 @@ package net.minecraft.network;
 
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.utils.player.BlinkUtil;
+import cc.slack.utils.player.RotationUtil;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.viaversion.viaversion.api.connection.UserConnection;
@@ -33,6 +34,8 @@ import java.net.SocketAddress;
 import java.util.Queue;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 import javax.crypto.SecretKey;
+
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.CryptManager;
@@ -247,6 +250,12 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
         final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState).get();
 
+        if (inPacket instanceof C03PacketPlayer) {
+            if (RotationUtil.isEnabled) {
+                ((C03PacketPlayer) inPacket).yaw = RotationUtil.clientRotation[0];
+                ((C03PacketPlayer) inPacket).pitch = RotationUtil.clientRotation[1];
+            }
+        }
         PacketEvent packetEvent = new PacketEvent(inPacket, PacketDirection.OUTGOING);
         if(packetEvent.call().isCanceled()) return;
 
@@ -301,6 +310,13 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     private void dispatchPacketNoEvent(final Packet inPacket, final GenericFutureListener <? extends Future <? super Void >> [] futureListeners) {
         final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
         final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState).get();
+
+        if (inPacket instanceof C03PacketPlayer) {
+            if (RotationUtil.isEnabled) {
+                ((C03PacketPlayer) inPacket).yaw = RotationUtil.clientRotation[0];
+                ((C03PacketPlayer) inPacket).pitch = RotationUtil.clientRotation[1];
+            }
+        }
 
         if (enumconnectionstate1 != enumconnectionstate)
         {

@@ -7,6 +7,7 @@ import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.NoSlow;
+import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.RotationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -181,6 +182,11 @@ public class EntityPlayerSP extends AbstractClientPlayer
         {
             new UpdateEvent().call();
             super.onUpdate();
+
+            if (AttackUtil.combatTimer.hasReached(AttackUtil.combatDuration)) {
+                AttackUtil.inCombat = false;
+                AttackUtil.combatTarget = null;
+            }
 
             if (this.isRiding())
             {

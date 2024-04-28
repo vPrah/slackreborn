@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.AttackUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
@@ -47,18 +48,15 @@ public class TargetHUD extends Module {
         if (mc.getCurrentScreen() instanceof GuiChat) {
             ticksSinceAttack = 10;
             player = mc.getPlayer();
+        } else if (AttackUtil.inCombat) {
+            ticksSinceAttack = 18;
+            player = (EntityPlayer) AttackUtil.combatTarget;
         }
         ticksSinceAttack++;
 
         if (ticksSinceAttack > 20) {
             player = null;
         }
-    }
-
-    @Listen
-    public void onAttack(AttackEvent event) {
-        ticksSinceAttack = 0;
-        player = (EntityPlayer) event.getTargetEntity();
     }
 
     @Listen

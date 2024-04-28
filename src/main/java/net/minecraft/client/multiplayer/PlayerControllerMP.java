@@ -1,6 +1,7 @@
 package net.minecraft.client.multiplayer;
 
 import cc.slack.events.impl.player.AttackEvent;
+import cc.slack.utils.player.AttackUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
@@ -508,6 +509,10 @@ public class PlayerControllerMP
         {
             playerIn.attackTargetEntityWithCurrentItem(targetEntity);
         }
+
+        AttackUtil.inCombat = true;
+        AttackUtil.combatTarget = targetEntity;
+        AttackUtil.combatTimer.reset();
     }
 
     /**
