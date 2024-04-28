@@ -46,6 +46,7 @@ public class ModuleManager {
                     // Player
                     new AntiVoid(),
                     new AutoPlay(),
+                    new AutoTool(),
                     new Blink(),
                     new FastEat(),
                     new NoFall(),
@@ -54,8 +55,8 @@ public class ModuleManager {
 
                     // World
                     new FastPlace(),
-                    new Scaffold(),
                     new InvManager(),
+                    new Scaffold(),
                     new Stealer(),
 
                     // Exploit
@@ -69,11 +70,12 @@ public class ModuleManager {
                     new ChestESP(),
                     new ClickGUI(),
                     new ESP(),
-                    new TargetHUD(),
                     new HUD(),
+                    new TargetHUD(),
 
                     // Ghost
                     new Autoclicker(),
+                    new Backtrack(),
                     new JumpReset(),
                     new Reach(),
                     new Stap(),

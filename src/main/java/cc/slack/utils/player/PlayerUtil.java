@@ -163,6 +163,19 @@ public class PlayerUtil extends mc {
         return lastAxe;
     }
 
+    public static int getBestHotbarTool(Block target) {
+        int bestTool = mc.getPlayer().inventory.currentItem;
+        for (int i = 36; i < 45; i++) {
+            final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+            if (itemStack != null) {
+                if (isBetterTool(itemStack,  mc.getPlayer().inventoryContainer.getSlot(bestTool).getStack(), target)) {
+                    bestTool = i;
+                }
+            }
+        }
+        return bestTool;
+    }
+
 
     public static boolean isBetterTool(ItemStack better, ItemStack than, Block versus) {
         return (getToolDigEfficiency(better, versus) > getToolDigEfficiency(than, versus));
