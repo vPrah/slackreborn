@@ -101,7 +101,7 @@ public final class InventoryUtils extends mc {
             }
 
             if (currentStackSize > 0) {
-                return currentSlot;
+                return currentSlot - 36;
             }
         } else {
             for (int i = 36; i < 45; i++) {
@@ -111,7 +111,7 @@ public final class InventoryUtils extends mc {
                     final Block block = ((ItemBlock) itemStack.getItem()).getBlock();
 
                     if (block.isFullCube() && !BLOCK_BLACKLIST.contains(block))
-                        return i;
+                        return i - 36;
                 }
             }
         }

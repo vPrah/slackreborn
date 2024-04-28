@@ -192,6 +192,8 @@ public class Scaffold extends Module {
         BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
         List<BlockPos> searchQueue = new ArrayList<>();
 
+        searchQueue.add(below.down());
+
         searchQueue.add(below.north());
         searchQueue.add(below.east());
         searchQueue.add(below.south());
