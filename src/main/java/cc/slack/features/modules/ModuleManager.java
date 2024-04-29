@@ -74,6 +74,7 @@ public class ModuleManager {
 
                     // Ghost
                     new Autoclicker(),
+                    new LegitAutoTool(),
                     new Backtrack(),
                     new JumpReset(),
                     new Reach(),
