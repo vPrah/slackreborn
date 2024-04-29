@@ -1,7 +1,6 @@
 package cc.slack.features.modules.impl.render;
 
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.AttackEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
@@ -9,12 +8,10 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.player.AttackUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -45,6 +42,7 @@ public class TargetHUD extends Module {
     }
 
     @Listen
+    @SuppressWarnings("unused")
     public void onUpdate(UpdateEvent event) {
         ticksSinceAttack++;
 
