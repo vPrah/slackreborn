@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 public class mc {
+
     public static Minecraft getMinecraft() {
         return Minecraft.getMinecraft();
     }

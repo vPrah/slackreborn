@@ -60,6 +60,8 @@ public class Tweaks extends Module {
                 wasGUI = true;
             }
         }
+
+        if (noclickdelay.getValue()) mc.getMinecraft().leftClickCounter = 0;
     }
 
     @Listen

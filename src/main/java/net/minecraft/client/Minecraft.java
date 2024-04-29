@@ -243,7 +243,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public EntityRenderer entityRenderer;
 
     /** Mouse left click counter */
-    private int leftClickCounter;
+    public int leftClickCounter;
 
     /** Display width */
     private int tempDisplayWidth;
@@ -1453,7 +1453,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     {
 
 
-        if (!leftClick || Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() &&  !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noclickdelay.getValue() && this.objectMouseOver != null)
+        if (!leftClick || (Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noclickdelay.getValue()) && this.objectMouseOver != null)
         {
             this.leftClickCounter = 0;
         }
