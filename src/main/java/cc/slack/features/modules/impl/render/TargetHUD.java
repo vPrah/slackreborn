@@ -1,5 +1,6 @@
 package cc.slack.features.modules.impl.render;
 
+import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.AttackEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
@@ -45,17 +46,21 @@ public class TargetHUD extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getCurrentScreen() instanceof GuiChat) {
-            ticksSinceAttack = 10;
-            player = mc.getPlayer();
-        } else if (AttackUtil.inCombat) {
-            ticksSinceAttack = 18;
-            player = (EntityPlayer) AttackUtil.combatTarget;
-        }
         ticksSinceAttack++;
 
         if (ticksSinceAttack > 20) {
             player = null;
+        }
+    }
+
+    @Listen
+    public void onPacket(PacketEvent event) {
+        if (event.getPacket() instanceof C02PacketUseEntity) {
+            C02PacketUseEntity wrapper = event.getPacket();
+            if (wrapper.getEntityFromWorld(mc.getWorld()) instanceof EntityPlayer && wrapper.getAction() == C02PacketUseEntity.Action.ATTACK) {
+                ticksSinceAttack = 0;
+                player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
+            }
         }
     }
 
