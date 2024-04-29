@@ -35,6 +35,7 @@ public class Sneak extends Module {
         }
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onMotion(MotionEvent event) {
         switch (mode.getValue().toLowerCase()) {

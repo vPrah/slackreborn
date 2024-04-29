@@ -41,6 +41,7 @@ public class Sprint extends Module {
                 !mc.getPlayer().isSneaking() && (!mc.getPlayer().isUsingItem());
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent e) {
         if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;

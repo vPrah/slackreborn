@@ -24,6 +24,7 @@ public class NoWeb extends Module {
         addSettings(mode);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (!mc.getPlayer().isInWeb) {

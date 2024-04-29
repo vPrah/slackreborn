@@ -2,7 +2,6 @@
 
 package cc.slack.features.modules.impl.movement;
 
-import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -10,8 +9,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.block.BlockAir;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 
 

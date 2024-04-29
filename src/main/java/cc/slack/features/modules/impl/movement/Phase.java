@@ -32,6 +32,7 @@ public class Phase extends Module {
         insideBlock = false;
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onMove(MoveEvent Event) {
         switch (mode.getValue().toLowerCase()) {

@@ -19,11 +19,13 @@ public class Stap extends Module {
 
     private int ticks;
 
+    @SuppressWarnings("unused")
     @Listen
     public void onAttack(AttackEvent event) {
         ticks = 2;
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         switch (ticks) {

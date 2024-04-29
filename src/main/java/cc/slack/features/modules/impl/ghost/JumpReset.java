@@ -15,6 +15,7 @@ import net.minecraft.client.settings.GameSettings;
         category = Category.GHOST
 )
 public class JumpReset extends Module {
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (mc.getCurrentScreen() != null) return;

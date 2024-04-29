@@ -33,6 +33,7 @@ public class AirJump extends Module {
         }
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onCollide(CollideEvent event) {
         if (event.getBlock() instanceof BlockAir && event.getY() <= startY)
