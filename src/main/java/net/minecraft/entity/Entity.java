@@ -597,17 +597,14 @@ public abstract class Entity implements ICommandSender
         return this.worldObj.getCollidingBoundingBoxes(this, bb).isEmpty() && !this.worldObj.isAnyLiquid(bb);
     }
 
+    public void moveEntity(double x, double y, double z) {
+        moveEntity(x, y, z, false);
+    }
     /**
      * Tries to moves the entity by the passed in displacement. Args: x, y, z
      */
-    public void moveEntity(double x, double y, double z)
+    public void moveEntity(double x, double y, double z, boolean safewalk)
     {
-        final MoveEvent moveEvent = new MoveEvent(x, y, z, false);
-        if (this.getEntityId() == mc.getPlayer().getEntityId())
-            moveEvent.call();
-        x = moveEvent.getX();
-        y = moveEvent.getY();
-        z = moveEvent.getZ();
         if (this.noClip)
         {
             this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, y, z));
@@ -634,7 +631,7 @@ public abstract class Entity implements ICommandSender
             double d3 = x;
             double d4 = y;
             double d5 = z;
-            boolean flag = ((this.onGround && this.isSneaking()) || moveEvent.safewalk) && this instanceof EntityPlayer;
+            boolean flag = ((this.onGround && this.isSneaking()) || safewalk) && this instanceof EntityPlayer;
 
             if (flag)
             {
