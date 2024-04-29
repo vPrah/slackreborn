@@ -20,7 +20,7 @@ public class Basic2ArrayList implements IArraylist {
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (!module.isToggle()) continue;
             Gui.drawRect(((int) event.getWidth()) - 1, 0, ((int) event.getWidth()), mc.getFontRenderer().FONT_HEIGHT, Color.WHITE.getRGB());
-            Fonts.axi18.drawString(module.getDisplayName(), event.getWidth() - mc.getFontRenderer().getStringWidth(module.getDisplayName()) - 4, y, Color.WHITE.getRGB());
+            Fonts.SFBold18.drawString(module.getDisplayName(), event.getWidth() - mc.getFontRenderer().getStringWidth(module.getDisplayName()) - 4, y, Color.WHITE.getRGB());
             y += mc.getFontRenderer().FONT_HEIGHT;
         }
     }
