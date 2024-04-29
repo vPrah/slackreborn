@@ -603,7 +603,7 @@ public abstract class Entity implements ICommandSender
     public void moveEntity(double x, double y, double z)
     {
         final MoveEvent moveEvent = new MoveEvent(x, y, z, false);
-        if (this.entityUniqueID == mc.getPlayer().entityUniqueID)
+        if (this.getEntityId() == mc.getPlayer().getEntityId())
             moveEvent.call();
         x = moveEvent.getX();
         y = moveEvent.getY();
