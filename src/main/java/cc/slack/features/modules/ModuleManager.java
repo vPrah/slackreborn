@@ -1,3 +1,5 @@
+// Slack Client (discord.gg/slackclient)
+
 package cc.slack.features.modules;
 
 import cc.slack.features.modules.api.Module;
@@ -21,6 +23,7 @@ public class ModuleManager {
         try {
             addModules(
                     // Combat
+                    new Criticals(),
                     new Hitbox(),
                     new KillAura(),
                     new Velocity(),

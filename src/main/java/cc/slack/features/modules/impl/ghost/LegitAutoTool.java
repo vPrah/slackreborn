@@ -1,4 +1,6 @@
-package cc.slack.features.modules.impl.player;
+// Slack Client (discord.gg/slackclient)
+
+package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.render.RenderEvent;

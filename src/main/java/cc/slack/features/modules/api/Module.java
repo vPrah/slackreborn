@@ -1,3 +1,5 @@
+// Slack Client (discord.gg/slackclient)
+
 package cc.slack.features.modules.api;
 
 import cc.slack.features.modules.api.settings.Value;

@@ -51,7 +51,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> aimRange = new NumberValue<>("Aim Range", 7.0D, 3.0D, 12.0D, 0.01D);
     private final NumberValue<Double> attackRange = new NumberValue<>("Attack Range", 3.0D, 3.0D, 7.0D, 0.01D);
     private final ModeValue<AttackUtil.AttackPattern> attackPattern = new ModeValue<>("Pattern", AttackUtil.AttackPattern.values());
-    private final NumberValue<Integer> cps = new NumberValue<>("CPS", 18, 1, 30, 1);
+    private final NumberValue<Integer> cps = new NumberValue<>("CPS", 14, 1, 30, 1);
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
     private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft", "Blatant", "Vanilla"});
     // TODO: add universal / blink ab when can confirm blink utils are working

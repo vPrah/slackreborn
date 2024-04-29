@@ -1,3 +1,5 @@
+// Slack Client (discord.gg/slackclient)
+
 package cc.slack.features.modules.api;
 
 import org.lwjgl.input.Keyboard;

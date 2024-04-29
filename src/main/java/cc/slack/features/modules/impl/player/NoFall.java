@@ -22,7 +22,17 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class NoFall extends Module {
 
-    private final ModeValue<INoFall> mode = new ModeValue<>(new INoFall[]{new VanillaNofall(), new SpoofGroundNofall(), new HypixelBlinkNofall(), new NoGroundNofall(), new VulcanNofall(), new VerusNofall()});
+    private final ModeValue<INoFall> mode = new ModeValue<>(new INoFall[]{
+            // basic nofalls
+            new VanillaNofall(),
+            new SpoofGroundNofall(),
+            new NoGroundNofall(),
+
+            // special nofalls
+            new HypixelBlinkNofall(),
+            new VulcanNofall(),
+            new VerusNofall()
+    });
 
 
     public NoFall() {
