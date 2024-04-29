@@ -49,6 +49,7 @@ public class ModuleManager {
                     // Player
                     new AntiVoid(),
                     new AutoTool(),
+                    new AutoPlay(),
                     new Blink(),
                     new FastEat(),
                     new NoFall(),
@@ -62,7 +63,6 @@ public class ModuleManager {
                     new Stealer(),
 
                     // Exploit
-                    new AutoPlay(),
                     new Disabler(),
                     new Kick(),
                     new MultiAction(),
@@ -87,6 +87,7 @@ public class ModuleManager {
                     new Backtrack(),
                     new JumpReset(),
                     new Reach(),
+                    new PearlAntiVoid(),
                     new Stap(),
                     new Wtap()
 

@@ -92,6 +92,15 @@ public class PlayerUtil extends mc {
         return false;
     }
 
+    public static boolean isBlockUnderP(int offset) {
+        for (int i = (int) (mc.getPlayer().posY - offset); i > 0; i--) {
+            BlockPos pos = new BlockPos(mc.getPlayer().posX, i, mc.getPlayer().posZ);
+            if (!(mc.getWorld().getBlockState(pos).getBlock() instanceof BlockAir))
+                return true;
+        }
+        return false;
+    }
+
     public static boolean isOnLiquid() {
         boolean onLiquid = false;
         AxisAlignedBB playerBB = getPlayer().getEntityBoundingBox();

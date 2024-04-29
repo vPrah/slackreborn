@@ -3,6 +3,8 @@
 package cc.slack.features.modules.impl.render;
 
 import cc.slack.Slack;
+import cc.slack.events.impl.network.DisconnectEvent;
+import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -14,10 +16,12 @@ import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.network.play.server.S40PacketDisconnect;
 
 
 import java.awt.*;

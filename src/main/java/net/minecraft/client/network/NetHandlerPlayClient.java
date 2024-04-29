@@ -1,5 +1,6 @@
 package net.minecraft.client.network;
 
+import cc.slack.events.impl.network.DisconnectEvent;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -771,6 +772,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleDisconnect(S40PacketDisconnect packetIn)
     {
+        new DisconnectEvent().call();
+
         this.netManager.closeChannel(packetIn.getReason());
     }
 
