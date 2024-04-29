@@ -28,7 +28,7 @@ public class TimerModule extends Module {
     private final NumberValue<Float> speed = new NumberValue<>("Speed", 1.5f, 0.1f, 10.0f, 0.25f);
 
     private int balance;
-    private boolean balancing;
+    public boolean balancing;
     private final TimeUtil timer = new TimeUtil();
 
     public TimerModule() {
