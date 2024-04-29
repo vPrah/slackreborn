@@ -2,7 +2,9 @@
 
 package cc.slack.features.modules.impl.world;
 
+import cc.slack.events.State;
 import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -35,9 +37,18 @@ public class Scaffold extends Module {
 
     private final ModeValue<String> rotationMode = new ModeValue<>("Rotation Mode", new String[] {"Vanilla", "Hypixel"});
     private final NumberValue<Integer> keepRotationTicks = new NumberValue<>("Keep Rotation Length", 1, 0, 10, 1);
+
+    private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
+    private final ModeValue<String> placeTiming = new ModeValue<>("Placement Timing", new String[] {"Legit", "Pre", "Post"});
+
     private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Off"});
+    private final NumberValue<Double> speedModifier = new NumberValue<>("Speed Modifier", 1.0, 0.0, 2.0, 0.01);
+
+    private final ModeValue<String> safewalkMode = new ModeValue<>("Safewalk", new String[] {"Ground", "Always", "Sneak", "Off"});
+
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
-    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Off"});
+
+    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Static", "Off"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
 
     private final BooleanValue spoofSlot = new BooleanValue("Spoof Item Slot", false);
@@ -45,16 +56,16 @@ public class Scaffold extends Module {
 
     /*
     TODO:
-    eagle / safewalk
+    eagle / safewalk √
     rotations mode backwards
-    rotations raycast check
-    impl towers
-    setmotion / speed modifier (easy)
-    place timing (easy)
+    rotations raycast check √
+    impl towers √
+    setmotion / speed modifier (easy) √
+    place timing (easy) √
     samey (should be easy)
     timer (easy)
-    block counter (easy)
-    spoof pick block (easy)
+    block counter (easy) √
+    spoof pick block (easy) √
     switch block (med)
     expand (med) (shift / add search area)
     down scaffold (med) (play with samey ylevel and enum facing)
@@ -70,7 +81,7 @@ public class Scaffold extends Module {
 
     public Scaffold() {
         super();
-        addSettings(rotationMode, keepRotationTicks, sprintMode, strafeFix, towerMode, towerNoMove);
+        addSettings(rotationMode, keepRotationTicks, sprintMode, safewalkMode, strafeFix, towerMode, towerNoMove, spoofSlot);
     }
 
     @Override
@@ -85,7 +96,32 @@ public class Scaffold extends Module {
 
     @Listen
     public void onMotion(MotionEvent event) {
-        runTowerMove();
+        if (event.getState() == State.PRE) {
+            if (placeTiming.getValue() == "Pre") placeBlock();
+        } else {
+            if (placeTiming.getValue() == "Post") placeBlock();
+        }
+    }
+
+    @Listen
+    public void onMove(MoveEvent event) {
+        switch (safewalkMode.getValue().toLowerCase()) {
+            case "ground":
+                event.safewalk = event.safewalk || mc.getPlayer().onGround;
+                break;
+            case "always":
+                event.safewalk = true;
+                break;
+            case "sneak":
+                mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak) || mc.getWorld().rayTraceBlocks(
+                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
+                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY - 1.4, mc.getPlayer().posZ),
+                        false, true, false) == null;
+                break;
+            default:
+                break;
+
+        }
     }
 
     @Listen
@@ -96,9 +132,10 @@ public class Scaffold extends Module {
         }
         setSprint();
         setMovementCorrection();
+        runTowerMove();
         updatePlayerRotations();
         startSearch();
-        placeBlock();
+        if (placeTiming.getValue() == "Legit") placeBlock();
     }
 
 
@@ -161,6 +198,9 @@ public class Scaffold extends Module {
     private void runTowerMove() {
         if (!GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) || (towerNoMove.getValue() && MovementUtil.isMoving()))
         switch (towerMode.getValue().toLowerCase()) {
+            case "static":
+                mc.getPlayer().motionY = 0.42;
+                break;
             case "vanilla":
                 if (mc.getPlayer().onGround) {
                     jumpGround = mc.getPlayer().posY;
@@ -180,6 +220,7 @@ public class Scaffold extends Module {
                         mc.getPlayer().onGround = true;
                         break;
                 }
+                break;
             case "vulcan":
                 if (mc.getPlayer().onGround) {
                     jumpGround = mc.getPlayer().posY;
@@ -189,6 +230,7 @@ public class Scaffold extends Module {
                     mc.getPlayer().motionY = 0.36;
                     jumpGround = mc.getPlayer().posY;
                 }
+                break;
             case "off":
                 if (mc.getPlayer().onGround) {
                     mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
@@ -247,6 +289,25 @@ public class Scaffold extends Module {
 
     private void placeBlock() {
         if (!hasBlock) return;
+        boolean canContinue = true;
+        switch (raycastMode.getValue().toLowerCase()) {
+            case "normal":
+                canContinue = mc.getWorld().rayTraceBlocks(
+                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
+                        mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks).multiply(3),
+                        false, true, false).getBlockPos() == blockPlacement;
+            case "strict":
+                // overflew intended
+                canContinue = canContinue && mc.getWorld().rayTraceBlocks(
+                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
+                        mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks).multiply(3),
+                        false, true, false).sideHit == blockPlacementFace;
+                break;
+            default:
+                break;
+        }
+        if (!canContinue) return;
+
         BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
         if(!BlockUtils.isReplaceable(below)) return;
 
@@ -254,6 +315,9 @@ public class Scaffold extends Module {
 
         mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlacement, blockPlacementFace, hitVec);
         mc.getPlayer().swingItem();
+
+        mc.getPlayer().motionX *= speedModifier.getValue();
+        mc.getPlayer().motionZ *= speedModifier.getValue();
         hasBlock = false;
     }
 }

@@ -112,7 +112,7 @@ public class AntiVoid extends Module {
         return mc.getWorld().rayTraceBlocks(
                 new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
                 new Vec3(mc.getPlayer().posX, mc.getPlayer().posY - 40, mc.getPlayer().posZ),
-                true, true, false) != null;
+                true, true, false) == null;
     }
 
 

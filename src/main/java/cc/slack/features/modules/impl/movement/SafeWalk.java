@@ -25,6 +25,10 @@ public class SafeWalk extends Module {
     private final BooleanValue overEdge = new BooleanValue("Only Over Edge", true);
     private final BooleanValue avoidJump = new BooleanValue("Avoid During Jump", true);
 
+    public SafeWalk() {
+        addSettings(offGround, overEdge, avoidJump);
+    }
+
     @Listen
     public void onMove(MoveEvent event) {
         if (!isOverEdge() && overEdge.getValue()) return;
@@ -36,7 +40,7 @@ public class SafeWalk extends Module {
         return mc.getWorld().rayTraceBlocks(
                 new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
                 new Vec3(mc.getPlayer().posX, mc.getPlayer().posY - 2, mc.getPlayer().posZ),
-                true, true, false) != null;
+                true, true, false) == null;
     }
 
 
