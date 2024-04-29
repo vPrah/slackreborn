@@ -114,10 +114,7 @@ public class Scaffold extends Module {
                 event.safewalk = true;
                 break;
             case "sneak":
-                mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak) || mc.getWorld().rayTraceBlocks(
-                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
-                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY - 1.4, mc.getPlayer().posZ),
-                        false, true, false) == null;
+                mc.getGameSettings().keyBindSneak.pressed = PlayerUtil.isOverAir();
                 break;
             default:
                 break;

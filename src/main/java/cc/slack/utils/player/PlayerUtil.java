@@ -3,6 +3,7 @@ package cc.slack.utils.player;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.other.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
@@ -18,6 +19,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PlayerUtil extends mc {
 
@@ -61,6 +65,14 @@ public class PlayerUtil extends mc {
         }
 
         return baseSpeed;
+    }
+
+    public static boolean isOverAir(double x, double y, double z) {
+        return BlockUtils.isAir(new BlockPos(x, y - 1, z));
+    }
+
+    public static boolean isOverAir() {
+         return isOverAir(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ);
     }
 
     public static boolean isOnSameTeam(EntityPlayer entity) {

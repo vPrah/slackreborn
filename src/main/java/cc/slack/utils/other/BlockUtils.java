@@ -40,6 +40,11 @@ public class BlockUtils extends mc {
         return material != null && material.isReplaceable();
     }
 
+    public static boolean isAir(BlockPos blockPos) {
+        Material material = getMaterial(blockPos);
+        return  material == Material.air;
+    }
+
     public static IBlockState getState(BlockPos blockPos) {
         World mc = Minecraft.getMinecraft().theWorld;
         return mc.getBlockState(blockPos);

@@ -23,6 +23,7 @@ public class ModuleManager {
         try {
             addModules(
                     // Combat
+                    new AimBot(),
                     new AntiFireball(),
                     new Criticals(),
                     new Hitbox(),
@@ -82,6 +83,7 @@ public class ModuleManager {
                     new Autoclicker(),
                     new LegitMode(),
                     new LegitAutoTool(),
+                    new LegitScaffold(),
                     new Backtrack(),
                     new JumpReset(),
                     new Reach(),
