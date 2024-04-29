@@ -23,6 +23,7 @@ public class ModuleManager {
         try {
             addModules(
                     // Combat
+                    new AntiFireball(),
                     new Criticals(),
                     new Hitbox(),
                     new KillAura(),

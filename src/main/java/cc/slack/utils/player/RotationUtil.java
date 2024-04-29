@@ -144,6 +144,8 @@ public class RotationUtil extends mc {
         };
     }
 
+    public static float[] getRotations(Entity entity) { return getRotations(entity.posX, entity.posY, entity.posZ); }
+
     public static float[] getRotations(Vec3 vec) {
         return getRotations(vec.xCoord, vec.yCoord, vec.zCoord);
     }
