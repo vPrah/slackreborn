@@ -47,7 +47,6 @@ public class ModuleManager {
 
                     // Player
                     new AntiVoid(),
-                    new AutoPlay(),
                     new AutoTool(),
                     new Blink(),
                     new FastEat(),
@@ -62,6 +61,7 @@ public class ModuleManager {
                     new Stealer(),
 
                     // Exploit
+                    new AutoPlay(),
                     new Disabler(),
                     new Kick(),
                     new MultiAction(),
@@ -78,6 +78,7 @@ public class ModuleManager {
                     new TargetHUD(),
 
                     // Ghost
+                    new AimAssist(),
                     new Autoclicker(),
                     new LegitMode(),
                     new LegitAutoTool(),
