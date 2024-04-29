@@ -18,7 +18,6 @@ import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import org.lwjgl.input.Keyboard;
 
 
 import java.awt.*;
