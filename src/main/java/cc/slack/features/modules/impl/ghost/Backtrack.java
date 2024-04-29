@@ -36,7 +36,7 @@ public class Backtrack extends Module {
     private int ticksSinceAttack = 0;
     private int backtrackTicks = 0;
     private boolean enabled = false;
-    private EntityPlayer player;
+    public EntityPlayer player;
 
     List<List<Packet>> packetCache = new ArrayList<>();
     List<Packet> currentTick = new ArrayList<>();
@@ -50,6 +50,7 @@ public class Backtrack extends Module {
         currentTick.clear();
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (!currentTick.isEmpty()) {
