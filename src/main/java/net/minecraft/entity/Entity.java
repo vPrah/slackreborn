@@ -1505,6 +1505,10 @@ public abstract class Entity implements ICommandSender
      */
     public Vec3 getLook(float partialTicks)
     {
+        if (RotationUtil.isEnabled) {
+            float[] clientRot = RotationUtil.clientRotation;
+            return this.getVectorForRotation(clientRot[1], clientRot[0]);
+        }
         if (partialTicks == 1.0F)
         {
             return this.getVectorForRotation(this.rotationPitch, this.rotationYaw);

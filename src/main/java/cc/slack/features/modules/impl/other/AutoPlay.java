@@ -43,7 +43,7 @@ public class AutoPlay extends Module {
         if (event.getPacket() instanceof S02PacketChat) {
             switch (mode.getValue()) {
                 case "Hypixel":
-                    process(((S02PacketChat) event.getPacket()).getChatComponent();
+                    process(((S02PacketChat) event.getPacket()).getChatComponent());
                     break;
                 case "Universocraft":
                     if (((S02PacketChat) event.getPacket()).getChatComponent().getUnformattedText().contains("Jugar de nuevo")) {

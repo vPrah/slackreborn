@@ -19,6 +19,7 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 import org.lwjgl.input.Keyboard;
 
@@ -290,18 +291,21 @@ public class Scaffold extends Module {
     private void placeBlock() {
         if (!hasBlock) return;
         boolean canContinue = true;
+        MovingObjectPosition raytraced = mc.getWorld().rayTraceBlocks(
+                mc.getPlayer().getPositionEyes(1f),
+                mc.getPlayer().getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
+                false, true, false);
         switch (raycastMode.getValue().toLowerCase()) {
             case "normal":
-                canContinue = mc.getWorld().rayTraceBlocks(
-                        mc.getPlayer().getPositionEyes(1f),
-                        mc.getPlayer().getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
-                        false, true, false).getBlockPos() == blockPlacement;
+                if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+                    canContinue = false;
+                    break;
+                } else {
+                    canContinue = raytraced.getBlockPos() == blockPlacement;
+                }
             case "strict":
                 // overflow intended
-                canContinue = canContinue && mc.getWorld().rayTraceBlocks(
-                        mc.getPlayer().getPositionEyes(1f),
-                        mc.getPlayer().getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
-                        false, true, false).sideHit == blockPlacementFace;
+                canContinue = canContinue && raytraced.sideHit == blockPlacementFace;
                 break;
             default:
                 break;

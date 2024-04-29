@@ -47,6 +47,15 @@ public class RotationUtil extends mc {
         }
     }
 
+    public static void setPlayerRotation(float[] targetRotation) {
+        targetRotation = applyGCD(targetRotation, new float[] {mc.getPlayer().prevRotationYaw, mc.getPlayer().prevRotationPitch} );
+        mc.getPlayer().prevRotationYaw = mc.getPlayer().rotationYaw;
+        mc.getPlayer().prevRotationPitch = mc.getPlayer().rotationPitch;
+
+        mc.getPlayer().rotationYaw = targetRotation[0];
+        mc.getPlayer().rotationPitch = targetRotation[1];
+    }
+
 
     public static float[] getNeededRotations(final Vec3 vec) {
         final Vec3 playerVector = new Vec3(getPlayer().posX, getPlayer().posY + getPlayer().getEyeHeight(), getPlayer().posZ);
@@ -173,10 +182,11 @@ public class RotationUtil extends mc {
 
 
     public static Vec3 getNormalRotVector(float yaw, float pitch) {
-        return new Vec3(
-                Math.cos(yaw) * Math.cos(pitch),
-                -Math.sin(pitch),
-                -Math.sin(yaw) * Math.cos(pitch));
+        float f = MathHelper.cos(-yaw * 0.017453292F - (float)Math.PI);
+        float f1 = MathHelper.sin(-yaw * 0.017453292F - (float)Math.PI);
+        float f2 = -MathHelper.cos(-pitch * 0.017453292F);
+        float f3 = MathHelper.sin(-pitch * 0.017453292F);
+        return new Vec3(f1 * f2, f3, f * f2);
     }
 
 
@@ -234,6 +244,17 @@ public class RotationUtil extends mc {
         if (f > speed) f = speed;
         if (f < -speed) f = -speed;
         return from + f;
+    }
+
+    public static float[] getLimitedRotation(float[] from, float[] to, float speed) {
+        final double yawDif = MathHelper.wrapAngleTo180_double(from[0] - to[0]);
+        final double pitchDif = MathHelper.wrapAngleTo180_double(from[1] - to[1]);
+        final double rotDif = Math.sqrt(yawDif * yawDif + pitchDif * pitchDif);
+
+        final double yawLimit = yawDif * speed / rotDif;
+        final double pitchLimit = pitchDif * speed / rotDif;
+
+        return new float[]{updateRots(from[0], to[0], (float) yawLimit), updateRots(from[1], to[1], (float) pitchLimit)};
     }
 
     public static EnumFacing getEnumDirection(float yaw) {
