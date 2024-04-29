@@ -18,13 +18,14 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 )
 public class InvMove extends Module {
 
-    private static BooleanValue noOpen = new BooleanValue("Cancel Inventory Open", false);
+    private static final BooleanValue noOpen = new BooleanValue("Cancel Inventory Open", false);
 
     public InvMove() {
         super();
         addSettings(noOpen);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         MovementUtil.updateBinds();
