@@ -55,7 +55,7 @@ public class HypixelBlinkNofall implements INoFall {
         if (!spoof) return;
 
         ScaledResolution sr = mc.getScaledResolution();
-        Fonts.apple18.drawStringWithShadow("Blinking " + BlinkUtil.getSize(), sr.getScaledWidth() / 2 + 10, sr.getScaledHeight() / 2 - 10,  0xffffff);
+        Fonts.apple18.drawStringWithShadow("Blinking " + BlinkUtil.getSize(), (float) sr.getScaledWidth() / 2 + 10, (float) sr.getScaledHeight() / 2 - 10,  0xffffff);
     }
 
     public String toString() {

@@ -2,10 +2,7 @@
 
 package cc.slack.features.modules.impl.player.nofalls.specials;
 
-import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
@@ -20,26 +17,6 @@ public class VulcanNofall implements INoFall {
     public void onEnable() {
         count = 0;
         isFixed = false;
-    }
-
-    @Override
-    public void onDisable() {
-
-    }
-
-    @Override
-    public void onUpdate(UpdateEvent event) {
-//        if (Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle()) return;
-    }
-
-    @Override
-    public void onPacket(PacketEvent event) {
-
-    }
-
-    @Override
-    public void onMove(MoveEvent event) {
-
     }
 
     @Override

@@ -24,11 +24,6 @@ public class VerusNofall implements INoFall {
     }
 
     @Override
-    public void onDisable() {
-
-    }
-
-    @Override
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().fallDistance - mc.getPlayer().motionY > 3) {
             mc.getPlayer().motionY = 0.0D;
@@ -53,11 +48,6 @@ public class VerusNofall implements INoFall {
             ((C03PacketPlayer) event.getPacket()).onGround = true;
             spoof = false;
         }
-    }
-
-    @Override
-    public void onMove(MoveEvent event) {
-
     }
 
     public String toString() {
