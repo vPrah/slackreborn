@@ -165,6 +165,19 @@ public class RotationUtil extends mc {
     }
 
 
+    public static Vec3 getNormalRotVector(float[] rotation) {
+        return getNormalRotVector(rotation[0], rotation[1]);
+    }
+
+
+    public static Vec3 getNormalRotVector(float yaw, float pitch) {
+        return new Vec3(
+                Math.cos(yaw) * Math.cos(pitch),
+                -Math.sin(pitch),
+                -Math.sin(yaw) * Math.cos(pitch));
+    }
+
+
     public static double getRotationDifference(Entity e) {
         float[] entityRotation = getRotations(e.posX, e.posY, e.posZ);
         return getRotationDifference(entityRotation);

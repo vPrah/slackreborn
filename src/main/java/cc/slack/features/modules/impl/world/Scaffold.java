@@ -293,14 +293,14 @@ public class Scaffold extends Module {
         switch (raycastMode.getValue().toLowerCase()) {
             case "normal":
                 canContinue = mc.getWorld().rayTraceBlocks(
-                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
-                        mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks).multiply(3),
+                        mc.getPlayer().getPositionEyes(1f),
+                        mc.getPlayer().getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
                         false, true, false).getBlockPos() == blockPlacement;
             case "strict":
-                // overflew intended
+                // overflow intended
                 canContinue = canContinue && mc.getWorld().rayTraceBlocks(
-                        new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
-                        mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks).multiply(3),
+                        mc.getPlayer().getPositionEyes(1f),
+                        mc.getPlayer().getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
                         false, true, false).sideHit == blockPlacementFace;
                 break;
             default:
