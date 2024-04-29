@@ -30,15 +30,12 @@ public class ModuleManager {
                     new Velocity(),
 
                     // Movement
-                    new AirJump(),
                     new Flight(),
                     new InvMove(),
                     new Jesus(),
                     new NoSlow(),
                     new NoWeb(),
-                    new Phase(),
                     new SafeWalk(),
-                    new Sneak(),
                     new Speed(),
                     new Sprint(),
                     new Step(),
@@ -67,6 +64,7 @@ public class ModuleManager {
                     new Disabler(),
                     new Kick(),
                     new MultiAction(),
+                    new Phase(),
 
                     // Render
                     new Ambience(),

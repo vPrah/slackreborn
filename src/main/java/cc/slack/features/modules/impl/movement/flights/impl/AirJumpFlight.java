@@ -1,0 +1,42 @@
+// Slack Client (discord.gg/slackclient)
+
+package cc.slack.features.modules.impl.movement.flights.impl;
+
+import cc.slack.events.impl.player.CollideEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.movement.flights.IFlight;
+import cc.slack.utils.client.mc;
+import io.github.nevalackin.radbus.Listen;
+import net.minecraft.block.BlockAir;
+import net.minecraft.util.AxisAlignedBB;
+
+
+public class AirJumpFlight implements IFlight {
+
+
+    double startY;
+
+    @Override
+    public void onEnable() {
+        startY = Math.floor(mc.getPlayer().posY);
+    }
+
+    @Override
+    public void onCollide(CollideEvent event) {
+        if (event.getBlock() instanceof BlockAir && event.getY() <= startY)
+            event.setBoundingBox(AxisAlignedBB.fromBounds(event.getX(), event.getY(), event.getZ(), event.getX() + 1, startY, event.getZ() + 1));
+    }
+
+    @Override
+    public void onMove(MoveEvent event) {
+        if (mc.getGameSettings().keyBindJump.isPressed() && mc.getPlayer().onGround) {
+            event.setY(0.42F);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Air Jump";
+    }
+}
