@@ -2,7 +2,6 @@
 
 package cc.slack.features.modules.impl.combat;
 
-import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -22,6 +21,7 @@ import net.minecraft.network.play.client.C0APacketAnimation;
 )
 public class AntiFireball extends Module {
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         for (Entity entity : mc.getWorld().loadedEntityList) {
