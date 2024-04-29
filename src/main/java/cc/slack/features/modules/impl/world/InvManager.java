@@ -62,6 +62,7 @@ public class InvManager extends Module {
     }
 
     @Listen
+    @SuppressWarnings("unused")
     public void onUpdate(UpdateEvent event) {
         if (!timer.reached(managerDelayvalue.getValue())) {
             closeInventory();

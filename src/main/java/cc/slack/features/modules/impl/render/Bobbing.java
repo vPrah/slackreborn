@@ -1,7 +1,6 @@
 package cc.slack.features.modules.impl.render;
 
 import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
@@ -26,6 +25,7 @@ public class Bobbing extends Module {
     }
 
     @Listen
+    @SuppressWarnings("unused")
     public void onMotion (MotionEvent event) {
         if (custombobbing.getValue() && mc.getPlayer().onGround && !nobobvalue.getValue() && MovementUtil.isMoving()) {
             mc.getPlayer().cameraYaw = bobbingvalue.getValue();

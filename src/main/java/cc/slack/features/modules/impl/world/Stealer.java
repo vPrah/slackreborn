@@ -54,6 +54,7 @@ public class Stealer extends Module {
         addSettings(openDelaymax, openDelaymin, stealDelaymax, stealDelaymin, autoClose, autocloseDelaymax, autocloseDelaymin);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
 

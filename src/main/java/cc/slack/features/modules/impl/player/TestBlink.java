@@ -36,6 +36,7 @@ public class TestBlink extends Module {
     }
 
     @Listen
+    @SuppressWarnings("unused")
     public void onUpdate(UpdateEvent event) {
         inputReplay.add(mc.getGameSettings());
         ticks++;

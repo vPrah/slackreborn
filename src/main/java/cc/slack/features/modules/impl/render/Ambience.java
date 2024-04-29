@@ -5,7 +5,6 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
@@ -31,6 +30,7 @@ public class Ambience extends Module {
     }
 
     @Listen
+    @SuppressWarnings("unused")
     public void onUpdate (UpdateEvent event) {
         switch (timemode.getValue()) {
             case "Sun":
