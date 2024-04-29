@@ -81,7 +81,7 @@ public class Scaffold extends Module {
 
     public Scaffold() {
         super();
-        addSettings(rotationMode, keepRotationTicks, sprintMode, safewalkMode, strafeFix, towerMode, towerNoMove, spoofSlot);
+        addSettings(rotationMode, keepRotationTicks, raycastMode, placeTiming, sprintMode, speedModifier, safewalkMode, strafeFix, towerMode, towerNoMove, spoofSlot);
     }
 
     @Override
