@@ -21,7 +21,7 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 public class NoSlow extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Switch", "Place"});
+    public final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
@@ -46,6 +46,11 @@ public class NoSlow extends Module {
                     break;
                 case "place":
                     mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().inventory.getCurrentItem()));
+                    break;
+                case "c08 tick":
+                    if (mc.getPlayer().ticksExisted % 3 == 0) {
+                        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
+                    }
                     break;
             }
         }
