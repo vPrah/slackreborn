@@ -21,6 +21,10 @@ public class AimAssist extends Module {
     private float prevSens;
     private boolean wasHovering = false;
 
+    public AimAssist() {
+        addSettings(lowerSens);
+    }
+
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (lowerSens.getValue()) {
