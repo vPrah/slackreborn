@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.Callable;
 
 import cc.slack.Slack;
+import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.features.modules.impl.combat.Hitbox;
 import cc.slack.utils.client.mc;
@@ -601,6 +602,11 @@ public abstract class Entity implements ICommandSender
      */
     public void moveEntity(double x, double y, double z)
     {
+        final MoveEvent moveEvent = new MoveEvent(x, y, z, false);
+        moveEvent.call();
+        x = moveEvent.getX();
+        y = moveEvent.getY();
+        z = moveEvent.getZ();
         if (this.noClip)
         {
             this.setEntityBoundingBox(this.getEntityBoundingBox().offset(x, y, z));
@@ -627,7 +633,7 @@ public abstract class Entity implements ICommandSender
             double d3 = x;
             double d4 = y;
             double d5 = z;
-            boolean flag = this.onGround && this.isSneaking() && this instanceof EntityPlayer;
+            boolean flag = ((this.onGround && this.isSneaking()) || moveEvent.safewalk) && this instanceof EntityPlayer;
 
             if (flag)
             {

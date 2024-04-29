@@ -10,6 +10,7 @@ import lombok.Getter;
 public class MoveEvent extends Event {
 
     private double x, y, z;
+    public boolean safewalk = false;
 
     public void setZero() {
         setX(0);

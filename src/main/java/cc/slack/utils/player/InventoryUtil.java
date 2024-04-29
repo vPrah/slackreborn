@@ -10,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public final class InventoryUtils extends mc {
+public final class InventoryUtil extends mc {
 
     public static final List<Block> BLOCK_BLACKLIST = Arrays.asList(
             Blocks.enchanting_table,

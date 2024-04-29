@@ -33,6 +33,7 @@ public class ModuleManager {
                     new NoSlow(),
                     new NoWeb(),
                     new Phase(),
+                    new SafeWalk(),
                     new Sneak(),
                     new Speed(),
                     new Sprint(),

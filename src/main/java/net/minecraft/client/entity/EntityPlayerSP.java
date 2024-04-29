@@ -337,13 +337,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.rotationPitch = realPitch;
     }
 
-    @Override
-    public void moveEntity(double x, double y, double z) {
-        final MoveEvent moveEvent = new MoveEvent(x, y, z);
-        moveEvent.call();
-        super.moveEntity(moveEvent.getX(), moveEvent.getY(), moveEvent.getZ());
-    }
-
     /**
      * Called when player presses the drop item key
      */

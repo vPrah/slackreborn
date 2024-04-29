@@ -15,7 +15,6 @@ import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.item.Item;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.Vec3;
@@ -104,11 +103,11 @@ public class Scaffold extends Module {
 
 
     private boolean pickBlock() {
-        if (InventoryUtils.pickHotarBlock(true) != -1) {
+        if (InventoryUtil.pickHotarBlock(true) != -1) {
             if (spoofSlot.getValue()) {
-                ItemSpoofUtil.startSpoofing(InventoryUtils.pickHotarBlock(true));
+                ItemSpoofUtil.startSpoofing(InventoryUtil.pickHotarBlock(true));
             } else {
-                mc.getPlayer().inventory.currentItem = InventoryUtils.pickHotarBlock(true);
+                mc.getPlayer().inventory.currentItem = InventoryUtil.pickHotarBlock(true);
             }
             return true;
         }
