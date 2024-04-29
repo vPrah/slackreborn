@@ -5,6 +5,7 @@ import cc.slack.events.State;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.input.KeyEvent;
 import cc.slack.features.modules.impl.exploit.MultiAction;
+import cc.slack.features.modules.impl.ghost.LegitMode;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
 import cc.slack.utils.player.ItemSpoofUtil;
@@ -643,7 +644,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
     }
 
-    private void setWindowIcon()
+    public void setWindowIcon()
     {
         Util.EnumOS util$enumos = Util.getOSType();
 
@@ -656,7 +657,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
                 smallIcon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/16.png"));
                 bigIcon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/32.png"));
-
                 if (smallIcon != null && bigIcon != null)
                 {
                     Display.setIcon(new ByteBuffer[] {this.readImageToBuffer(smallIcon), this.readImageToBuffer(bigIcon)});
