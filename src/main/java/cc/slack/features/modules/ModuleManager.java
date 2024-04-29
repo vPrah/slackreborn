@@ -42,6 +42,7 @@ public class ModuleManager {
 
                     // Other
                     new Performance(),
+                    new Targets(),
                     new Tweaks(),
 
                     // Player

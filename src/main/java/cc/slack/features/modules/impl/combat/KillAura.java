@@ -75,10 +75,7 @@ public class KillAura extends Module {
     private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
 
     private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"FOV", "Distance", "Health", "Hurt Ticks"});
-    private final BooleanValue teams = new BooleanValue("Teams", false);
-    private final BooleanValue playerTarget = new BooleanValue("Players", true);
-    private final BooleanValue animalTarget = new BooleanValue("Animals", true);
-    private final BooleanValue mobsTarget = new BooleanValue("Mobs", true);
+
 
     private final TimeUtil timer = new TimeUtil();
     private final TimeUtil rotationCenter = new TimeUtil();
@@ -92,7 +89,7 @@ public class KillAura extends Module {
 
     public KillAura() {
         super();
-        addSettings(aimRange, attackRange, attackPattern, cps, randomization, autoBlock, blinkMode, interactAutoblock, rotationRand, minRotationSpeed, maxRotationSpeed, moveFix, keepSprint, rayCast, sortMode, teams, playerTarget, animalTarget, mobsTarget);
+        addSettings(aimRange, attackRange, attackPattern, cps, randomization, autoBlock, blinkMode, interactAutoblock, rotationRand, minRotationSpeed, maxRotationSpeed, moveFix, keepSprint, rayCast, sortMode);
     }
 
     @Override
@@ -157,7 +154,7 @@ public class KillAura extends Module {
     @Listen
     public void onTick(TickEvent e) {
         if(e.getState() == State.PRE) {
-            target = getTarget();
+            target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());
 
             if (target == null) {
                 attackDelay = 0;
@@ -294,43 +291,6 @@ public class KillAura extends Module {
             default:
                 break;
         }
-    }
-
-
-    private EntityLivingBase getTarget() {
-        if (mc.getPlayer() == null || mc.getWorld() == null) return null;
-        List<EntityLivingBase> targets = new ArrayList<>();
-
-        for (Entity entity : mc.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
-            if (entity instanceof EntityLivingBase) {
-                if (entity == mc.getPlayer()) continue;
-                if (entity instanceof EntityArmorStand) continue;
-                if (mobsTarget.getValue() && !(entity instanceof EntityMob)) continue;
-                if (animalTarget.getValue() && !(entity instanceof EntityAnimal)) continue;
-                if (playerTarget.getValue() && !(entity instanceof EntityPlayer)) continue;
-                if (entity instanceof EntityPlayer && teams.getValue() && !PlayerUtil.isOnSameTeam((EntityPlayer) entity))
-                    continue;
-                if (mc.getPlayer().getDistanceToEntity(entity) > aimRange.getValue()) continue;
-                targets.add((EntityLivingBase) entity);
-            }
-        }
-
-        switch (sortMode.getValue().toLowerCase()) {
-            case "fov":
-                targets.sort(Comparator.comparingDouble(RotationUtil::getRotationDifference));
-                break;
-            case "distance":
-                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.getPlayer())));
-                break;
-            case "health":
-                targets.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
-                break;
-            case "hurt ticks":
-                targets.sort(Comparator.comparingDouble(EntityLivingBase::getHurtTime));
-                break;
-        }
-
-        return targets.isEmpty() ? null : targets.get(0);
     }
 
     private float[] calculateRotations(Entity entity) {

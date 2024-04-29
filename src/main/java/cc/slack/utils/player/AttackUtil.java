@@ -1,11 +1,20 @@
 package cc.slack.utils.player;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.other.Targets;
+import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityArmorStand;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
 import java.security.SecureRandom;
-import java.util.Random;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class AttackUtil {
 
@@ -100,4 +109,45 @@ public class AttackUtil {
         double rand2 = getOldRandomization(cps + (randOffset2 * rand), rand * (0.2 + (randOffset2 * 0.4)));
         return (3 * rand1 + rand2) / 4;
     }
+
+    public static EntityLivingBase getTarget(double range, String sort) {
+        final Targets targets = Slack.getInstance().getModuleManager().getInstance(Targets.class);
+        return getTarget(range, sort, targets.teams.getValue(), targets.mobsTarget.getValue(), targets.animalTarget.getValue(), targets.playerTarget.getValue());
+    }
+
+    public static EntityLivingBase getTarget(double range, String sort, boolean team, boolean mobs, boolean animals, boolean players) {
+        if (mc.getPlayer() == null || mc.getWorld() == null) return null;
+        List<EntityLivingBase> targets = new ArrayList<>();
+
+        for (Entity entity : mc.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
+            if (entity instanceof EntityLivingBase) {
+                if (entity == mc.getPlayer()) continue;
+                if (entity instanceof EntityArmorStand) continue;
+                if (mobs && !(entity instanceof EntityMob)) continue;
+                if (animals && !(entity instanceof EntityAnimal)) continue;
+                if (players && !(entity instanceof EntityPlayer)) continue;
+                if (entity instanceof EntityPlayer && team && !PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
+                if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
+                targets.add((EntityLivingBase) entity);
+            }
+        }
+
+        switch (sort.toLowerCase()) {
+            case "fov":
+                targets.sort(Comparator.comparingDouble(RotationUtil::getRotationDifference));
+                break;
+            case "distance":
+                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.getPlayer())));
+                break;
+            case "health":
+                targets.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
+                break;
+            case "hurt ticks":
+                targets.sort(Comparator.comparingDouble(EntityLivingBase::getHurtTime));
+                break;
+        }
+
+        return targets.isEmpty() ? null : targets.get(0);
+    }
+
 }
