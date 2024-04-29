@@ -39,36 +39,3 @@ public class LegitMode extends Module {
         }
     }
 }
-
-
-
-
-
-
-
-
-//public class LegitMode extends Module {
-//
-//    @Override
-//    public void onEnable() {
-//        Display.setTitle("Minecraft 1.8.8");
-//        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).isToggle()) {
-//            Slack.getInstance().getModuleManager().getInstance(HUD.class).toggle();
-//        }
-//        if (Slack.getInstance().getModuleManager().getInstance(TargetHUD.class).isToggle()) {
-//            Slack.getInstance().getModuleManager().getInstance(TargetHUD.class).toggle();
-//        }
-//        if (Slack.getInstance().getModuleManager().getInstance(ESP.class).isToggle()) {
-//            Slack.getInstance().getModuleManager().getInstance(ESP.class).toggle();
-//        }
-//        if (Slack.getInstance().getModuleManager().getInstance(ChestESP.class).isToggle()) {
-//            Slack.getInstance().getModuleManager().getInstance(ChestESP.class).toggle();
-//        }
-//
-//    }
-//
-//    @Override
-//    public void onDisable() {
-//        Display.setTitle(Slack.getInstance().getInfo().getName() + " " + Slack.getInstance().getInfo().getVersion() +  " | " + Slack.getInstance().getInfo().getType() + " Build");
-//    }
-//}
