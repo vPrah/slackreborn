@@ -39,7 +39,7 @@ public class Fonts {
             output = Font.createFont(Font.TRUETYPE_FONT, Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("slack/fonts/" + fileName)).getInputStream());
             output = output.deriveFont(fontSize);
         } catch (FontFormatException | IOException e) {
-            e.printStackTrace();
+            // No More
         }
         return output;
     }

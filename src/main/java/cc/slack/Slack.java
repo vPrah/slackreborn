@@ -27,7 +27,7 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    private final ClientInfo info = new ClientInfo("Slack", "v0.0", ClientInfo.VersionType.ALPHA);
+    private final ClientInfo info = new ClientInfo("Slack", "v0.01", ClientInfo.VersionType.ALPHA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
