@@ -40,6 +40,7 @@ public class Autoclicker extends Module {
     private final TimeUtil leftClickTimer = new TimeUtil();
     private long leftClickDelay = 0L;
 
+    @SuppressWarnings("unused")
     @Listen
     public void onRender(RenderEvent event) {
         if (
