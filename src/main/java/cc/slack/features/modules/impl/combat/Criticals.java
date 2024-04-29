@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.impl.combat;
 
+import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.AttackEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -12,6 +13,7 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
@@ -21,7 +23,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 public class Criticals extends Module {
 
     public final ModeValue<String> criticalMode = new ModeValue<>("Mode", new String[] {"Edit", "Vulcan", "Packet", "Mini"});
-    public final BooleanValue onlyGround = new BooleanValue("Only Ground", true)
+    public final BooleanValue onlyGround = new BooleanValue("Only Ground", true);
     
     public Criticals() {
         super();
@@ -49,6 +51,16 @@ public class Criticals extends Module {
                 sendPacket(0.0, false);
                 break;    
         }   
+    }
+
+    @Listen
+    public void onPacket(PacketEvent event) {
+        if (event.getPacket() instanceof C03PacketPlayer) {
+            if (spoof) {
+                ((C03PacketPlayer) event.getPacket()).onGround = false;
+                spoof = false;
+            }
+        }
     }
 
     private void sendPacket(double yOffset, boolean ground) {
