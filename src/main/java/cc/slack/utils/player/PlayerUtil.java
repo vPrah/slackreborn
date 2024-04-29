@@ -167,7 +167,7 @@ public class PlayerUtil extends mc {
         int bestTool = mc.getPlayer().inventory.currentItem;
         for (int i = 36; i < 45; i++) {
             final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
-            if (itemStack != null) {
+            if (itemStack != null && mc.getPlayer().inventoryContainer.getSlot(bestTool).getStack() != null) {
                 if (isBetterTool(itemStack,  mc.getPlayer().inventoryContainer.getSlot(bestTool).getStack(), target)) {
                     bestTool = i;
                 }
