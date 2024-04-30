@@ -48,6 +48,7 @@ public class TimerModule extends Module {
         TimerUtil.reset();
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         switch (mode.getValue().toLowerCase()) {

@@ -30,6 +30,7 @@ public class FastEat extends Module {
 
     double startY;
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().isUsingItem() && (mc.getPlayer().getItemInUse().getItem() instanceof ItemFood || mc.getPlayer().getItemInUse().getItem() instanceof ItemPotion || mc.getPlayer().getItemInUse().getItem() instanceof ItemBucketMilk)) {

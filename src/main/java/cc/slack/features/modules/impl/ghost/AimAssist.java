@@ -16,7 +16,7 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class AimAssist extends Module {
 
-    private BooleanValue lowerSens = new BooleanValue("Lower Sensitivity On Target", true);
+    private final BooleanValue lowerSens = new BooleanValue("Lower Sensitivity On Target", true);
 
     private float prevSens;
     private boolean wasHovering = false;
@@ -25,6 +25,7 @@ public class AimAssist extends Module {
         addSettings(lowerSens);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (lowerSens.getValue()) {

@@ -16,7 +16,6 @@ import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
-import net.minecraft.network.play.server.S40PacketDisconnect;
 import net.minecraft.util.Vec3;
 
 @ModuleInfo(
@@ -35,7 +34,7 @@ public class PearlAntiVoid extends Module {
     double y;
     double z;
     boolean wait;
-    private NumberValue<Integer> fall = new NumberValue<>("Min fall distance", 5, 0, 10, 1);
+    private final NumberValue<Integer> fall = new NumberValue<>("Min fall distance", 5, 0, 10, 1);
 
     public PearlAntiVoid() {
         addSettings(fall);

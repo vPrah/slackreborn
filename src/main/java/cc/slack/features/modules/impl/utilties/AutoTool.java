@@ -6,20 +6,14 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.ItemSpoofUtil;
-import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.item.ItemBucketMilk;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemPotion;
-import net.minecraft.network.play.client.C03PacketPlayer;
+
 
 @ModuleInfo(
         name = "AutoTool",
@@ -36,6 +30,7 @@ public class AutoTool extends Module {
     private final TimeUtil switchTimer = new TimeUtil();
     private boolean isSpoofing = false;
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayerController().isHittingBlock) {

@@ -122,6 +122,7 @@ public class Scaffold extends Module {
         }
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (!pickBlock()) {
@@ -194,46 +195,47 @@ public class Scaffold extends Module {
     }
 
     private void runTowerMove() {
-        if (!GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) || (towerNoMove.getValue() && MovementUtil.isMoving()))
-        switch (towerMode.getValue().toLowerCase()) {
-            case "static":
-                mc.getPlayer().motionY = 0.42;
-                break;
-            case "vanilla":
-                if (mc.getPlayer().onGround) {
-                    jumpGround = mc.getPlayer().posY;
+        if (!GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) || (towerNoMove.getValue() && MovementUtil.isMoving())) {
+            switch (towerMode.getValue().toLowerCase()) {
+                case "static":
                     mc.getPlayer().motionY = 0.42;
-                }
-
-                switch ((int) round(mc.getPlayer().posY - jumpGround * 100)) {
-                    case 42:
-                        mc.getPlayer().motionY = 0.33;
-                        break;
-                    case 75:
-                        mc.getPlayer().motionY = 0.25;
-                        break;
-                    case 100:
+                    break;
+                case "vanilla":
+                    if (mc.getPlayer().onGround) {
                         jumpGround = mc.getPlayer().posY;
                         mc.getPlayer().motionY = 0.42;
-                        mc.getPlayer().onGround = true;
-                        break;
-                }
-                break;
-            case "vulcan":
-                if (mc.getPlayer().onGround) {
-                    jumpGround = mc.getPlayer().posY;
-                    mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
-                }
-                if (mc.getPlayer().posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
-                    mc.getPlayer().motionY = 0.36;
-                    jumpGround = mc.getPlayer().posY;
-                }
-                break;
-            case "off":
-                if (mc.getPlayer().onGround) {
-                    mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
-                }
-                break;
+                    }
+
+                    switch ((int) round(mc.getPlayer().posY - jumpGround * 100)) {
+                        case 42:
+                            mc.getPlayer().motionY = 0.33;
+                            break;
+                        case 75:
+                            mc.getPlayer().motionY = 0.25;
+                            break;
+                        case 100:
+                            jumpGround = mc.getPlayer().posY;
+                            mc.getPlayer().motionY = 0.42;
+                            mc.getPlayer().onGround = true;
+                            break;
+                    }
+                    break;
+                case "vulcan":
+                    if (mc.getPlayer().onGround) {
+                        jumpGround = mc.getPlayer().posY;
+                        mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
+                    }
+                    if (mc.getPlayer().posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
+                        mc.getPlayer().motionY = 0.36;
+                        jumpGround = mc.getPlayer().posY;
+                    }
+                    break;
+                case "off":
+                    if (mc.getPlayer().onGround) {
+                        mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
+                    }
+                    break;
+            }
         }
     }
 

@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.RotationUtil;
@@ -21,13 +20,13 @@ import net.minecraft.entity.EntityLivingBase;
 )
 public class AimBot extends Module {
 
-    private BooleanValue silent = new BooleanValue("Silent Aimbot", false);
-    private BooleanValue silentMoveFix = new BooleanValue("Silent Aimbot Move Fix", true);
+    private final BooleanValue silent = new BooleanValue("Silent Aimbot", false);
+    private final BooleanValue silentMoveFix = new BooleanValue("Silent Aimbot Move Fix", true);
 
-    private NumberValue<Integer> fov = new NumberValue<>("FOV", 80, 0, 180, 5);
-    private NumberValue<Float> aimRange = new NumberValue<>("Aim Range", 4.5f, 0f, 8f, 0.1f);
+    private final NumberValue<Integer> fov = new NumberValue<>("FOV", 80, 0, 180, 5);
+    private final NumberValue<Float> aimRange = new NumberValue<>("Aim Range", 4.5f, 0f, 8f, 0.1f);
 
-    private NumberValue<Integer> aimSpeed = new NumberValue<>("Aim Speed", 10, 0, 180, 1);
+    private final NumberValue<Integer> aimSpeed = new NumberValue<>("Aim Speed", 10, 0, 180, 1);
 
     public boolean isSilent;
     private EntityLivingBase target = null;
@@ -36,6 +35,7 @@ public class AimBot extends Module {
         addSettings(silent, silentMoveFix, fov, aimRange, aimSpeed);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
        target = AttackUtil.getTarget(aimRange.getValue(), "fov");
@@ -54,7 +54,7 @@ public class AimBot extends Module {
        float [] clientRotation = RotationUtil.getLimitedRotation(
                RotationUtil.clientRotation,
                targetRotation,
-               (float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, aimSpeed.getValue() / 5)
+               (float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5)
        );
 
        if (silent.getValue()) {

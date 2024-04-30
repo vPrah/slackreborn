@@ -50,6 +50,7 @@ public class AntiVoid extends Module {
         if (antivoidMode.getValue() == "Universal") BlinkUtil.disable();
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         switch (antivoidMode.getValue().toLowerCase()) {
