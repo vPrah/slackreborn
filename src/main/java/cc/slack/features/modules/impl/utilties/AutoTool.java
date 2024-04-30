@@ -23,7 +23,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
         name = "AutoTool",
-        category = Category.UTILTIES
+        category = Category.UTILITIES
 )
 public class AutoTool extends Module {
 

@@ -14,7 +14,7 @@ import net.minecraft.util.IChatComponent;
 
 @ModuleInfo(
         name = "AutoPlay",
-        category = Category.UTILTIES
+        category = Category.UTILITIES
 )
 public class AutoPlay extends Module {
 
