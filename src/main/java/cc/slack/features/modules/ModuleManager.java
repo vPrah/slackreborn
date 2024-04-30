@@ -44,6 +44,8 @@ public class ModuleManager {
                     new Step(),
 
                     // Other
+                    new AntiBot(),
+                    new AutoPlay(),
                     new Performance(),
                     new Targets(),
                     new Tweaks(),
