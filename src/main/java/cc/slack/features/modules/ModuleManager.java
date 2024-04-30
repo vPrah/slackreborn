@@ -12,6 +12,8 @@ import cc.slack.features.modules.impl.movement.*;
 import cc.slack.features.modules.impl.other.*;
 import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.render.*;
+import cc.slack.features.modules.impl.utilties.AutoPlay;
+import cc.slack.features.modules.impl.utilties.AutoTool;
 import cc.slack.features.modules.impl.world.*;
 
 import java.util.*;
@@ -48,8 +50,6 @@ public class ModuleManager {
 
                     // Player
                     new AntiVoid(),
-                    new AutoTool(),
-                    new AutoPlay(),
                     new Blink(),
                     new FastEat(),
                     new NoFall(),
@@ -89,7 +89,11 @@ public class ModuleManager {
                     new Reach(),
                     new PearlAntiVoid(),
                     new Stap(),
-                    new Wtap()
+                    new Wtap(),
+
+                    // Utilities
+                    new AutoTool(),
+                    new AutoPlay()
 
             );
         } catch (Exception e) {

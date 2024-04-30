@@ -15,7 +15,8 @@ public enum Category {
     EXPLOIT(new Color(213, 35, 35)),
     RENDER(new Color(106, 35, 213)),
     OTHER(new Color(102, 30, 200)),
-    GHOST(new Color(0,0,0));
+    GHOST(new Color(0,0,0)),
+    UTILTIES(new Color(0, 128, 128));
 
     final String name;
     final String icon;
