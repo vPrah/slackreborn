@@ -11,6 +11,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.settings.GameSettings;
 
 @ModuleInfo(
         name = "Performance",
@@ -42,23 +43,28 @@ public class Performance extends Module {
         if (garbagevalue.getValue() && mc.getPlayer().ticksExisted % 200 == 0) {
             System.gc();
         }
-        switch (performancemode.getValue()) {
+        configureGSettings(performancemode.getValue());
+    }
+
+    private void configureGSettings(String mode) {
+        GameSettings settings = mc.getMinecraft().gameSettings;
+        switch (mode) {
             case "Simple":
-                mc.getMinecraft().gameSettings.fancyGraphics = false;
-                mc.getMinecraft().gameSettings.ofFastRender = true;
+                settings.fancyGraphics = false;
+                settings.ofFastRender = true;
                 break;
             case "Extreme":
-                mc.getMinecraft().gameSettings.clouds = 0;
-                mc.getMinecraft().gameSettings.ofCloudsHeight = 0F;
-                mc.getMinecraft().gameSettings.fancyGraphics = false;
-                mc.getMinecraft().gameSettings.mipmapLevels = 0;
-                mc.getMinecraft().gameSettings.particleSetting = 2;
-                mc.getMinecraft().gameSettings.ofDynamicLights = 0;
-                mc.getMinecraft().gameSettings.ofSmoothBiomes = false;
-                mc.getMinecraft().gameSettings.field_181151_V = false;
-                mc.getMinecraft().gameSettings.ofTranslucentBlocks = 1;
-                mc.getMinecraft().gameSettings.ofDroppedItems = 1;
-                mc.getMinecraft().gameSettings.ofFastRender = true;
+                settings.clouds = 0;
+                settings.ofCloudsHeight = 0F;
+                settings.fancyGraphics = false;
+                settings.mipmapLevels = 0;
+                settings.particleSetting = 2;
+                settings.ofDynamicLights = 0;
+                settings.ofSmoothBiomes = false;
+                settings.field_181151_V = false;
+                settings.ofTranslucentBlocks = 1;
+                settings.ofDroppedItems = 1;
+                settings.ofFastRender = true;
                 break;
         }
     }
