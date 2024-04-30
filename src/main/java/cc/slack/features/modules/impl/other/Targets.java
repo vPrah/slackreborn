@@ -13,10 +13,10 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 )
 public class Targets extends Module {
 
-    public final BooleanValue teams = new BooleanValue("Teams", true);
-    public final BooleanValue playerTarget = new BooleanValue("Players", true);
+    public final BooleanValue teams = new BooleanValue("Teams", false);
+    public final BooleanValue playerTarget = new BooleanValue("Players", false);
     public final BooleanValue animalTarget = new BooleanValue("Animals", false);
-    public final BooleanValue mobsTarget = new BooleanValue("Mobs", true);
+    public final BooleanValue mobsTarget = new BooleanValue("Mobs", false);
 
     public Targets() {
         addSettings(teams, playerTarget, animalTarget, mobsTarget);
