@@ -1,6 +1,6 @@
 // Slack Client (discord.gg/slackclient)
 
-package cc.slack.features.modules.impl.player;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -23,7 +23,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
         name = "AutoTool",
-        category = Category.PLAYER
+        category = Category.UTILTIES
 )
 public class AutoTool extends Module {
 

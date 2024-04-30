@@ -1,6 +1,6 @@
 // Slack Client (discord.gg/slackclient)
 
-package cc.slack.features.modules.impl.other;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
@@ -14,7 +14,7 @@ import net.minecraft.util.IChatComponent;
 
 @ModuleInfo(
         name = "AutoPlay",
-        category = Category.OTHER
+        category = Category.UTILTIES
 )
 public class AutoPlay extends Module {
 
