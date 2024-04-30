@@ -40,29 +40,32 @@ public class AutoPlay extends Module {
 
     @Listen
     public void onPacket(PacketEvent event) {
-        if (event.getPacket() instanceof S02PacketChat) {
-            switch (mode.getValue()) {
-                case "Hypixel":
-                    process(((S02PacketChat) event.getPacket()).getChatComponent());
-                    break;
-                case "Universocraft":
-                    if (((S02PacketChat) event.getPacket()).getChatComponent().getUnformattedText().contains("Jugar de nuevo")) {
-                        switch (univalue.getValue()) {
-                            case "Skywars":
-                                mc.getPlayer().sendChatMessage("/skywars random");
-                                break;
-                            case "Bedwars":
-                                mc.getPlayer().sendChatMessage("/bedwars random");
-                                break;
-                        }
+        if (!(event.getPacket() instanceof S02PacketChat)) return;
+
+        IChatComponent chatComponent = ((S02PacketChat) event.getPacket()).getChatComponent();
+        String unformattedText = chatComponent.getUnformattedText();
+
+        switch (mode.getValue()) {
+            case "Hypixel":
+                process(chatComponent);
+                break;
+            case "Universocraft":
+                if (unformattedText.contains("Jugar de nuevo") || unformattedText.contains("Ha ganado")) {
+                    switch (univalue.getValue()) {
+                        case "Skywars":
+                            mc.getPlayer().sendChatMessage("/skywars random");
+                            break;
+                        case "Bedwars":
+                            mc.getPlayer().sendChatMessage("/bedwars random");
+                            break;
                     }
-                    break;
-                case "Librecraft":
-                    if (((S02PacketChat) event.getPacket()).getChatComponent().getUnformattedText().contains("¡Partida finalizada!")) {
-                        mc.getPlayer().sendChatMessage("/saliryentrar");
-                    }
-                    break;
-            }
+                }
+                break;
+            case "Librecraft":
+                if (unformattedText.contains("¡Partida finalizada!")) {
+                    mc.getPlayer().sendChatMessage("/saliryentrar");
+                }
+                break;
         }
     }
 }
