@@ -275,11 +275,14 @@ public class Scaffold extends Module {
     private boolean searchBlock(BlockPos block) {
         if (BlockUtils.isFullBlock(block)) {
             EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block);
-            if (block.getY() <= mc.getPlayer().posY - 1.5) {
+            if (block.getY() <= mc.getPlayer().posY - 1) {
                 placeFace = EnumFacing.UP;
             }
             blockRotation = BlockUtils.getFaceRotation(placeFace, block);
             blockPlacement = block.add(placeFace.getDirectionVec());
+            if (!BlockUtils.isReplaceable(blockPlacement)) {
+                return false;
+            }
             blockPlacementFace = placeFace;
             return true;
         } else {
