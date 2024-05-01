@@ -129,7 +129,7 @@ public class AttackUtil {
                 if (players && !(entity instanceof EntityPlayer)) continue;
                 if (entity instanceof EntityPlayer && team && !PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
                 if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
-                if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot(entity)) continue;
+                if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) continue;
                 targets.add((EntityLivingBase) entity);
             }
         }
