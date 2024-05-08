@@ -3,6 +3,7 @@ package net.minecraft.client.renderer;
 import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.ghost.Reach;
+import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -702,7 +703,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float partialTicks)
     {
-        if (this.mc.getRenderViewEntity() instanceof EntityLivingBase)
+        if (this.mc.getRenderViewEntity() instanceof EntityLivingBase && !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).nohurtcam.getValue())
         {
             EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
             float f = (float)entitylivingbase.hurtTime - partialTicks;
