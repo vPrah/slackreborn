@@ -317,7 +317,7 @@ public class GuiIngame extends Gui
 
         ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
 
-        if (scoreobjective1 != null)
+        if (scoreobjective1 != null && !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noscoreboard.getValue())
         {
             this.renderScoreboard(scoreobjective1, scaledresolution);
         }

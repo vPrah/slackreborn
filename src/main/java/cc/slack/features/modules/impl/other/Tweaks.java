@@ -26,6 +26,7 @@ public class Tweaks extends Module {
     public final BooleanValue nojumpdelay = new BooleanValue("No Jump Delay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("Jump Delay Ticks", 0, 0, 10, 1);
     public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
+    public final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
     private final BooleanValue fullbright = new BooleanValue("FullBright", true);
     private final BooleanValue exitGUIFix = new BooleanValue("Exit Gui Fix", true);
 
@@ -34,12 +35,13 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noblockhitdelay, noclickdelay, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, noscoreboard, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks);
     }
 
     @Override
     public void onEnable() {prevGamma = mc.getGameSettings().gammaSetting;}
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (fullbright.getValue()) {
@@ -63,6 +65,7 @@ public class Tweaks extends Module {
         if (noclickdelay.getValue()) mc.getMinecraft().leftClickCounter = 0;
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onMotion (MotionEvent event) { if (noblockhitdelay.getValue()) { mc.getPlayerController().blockHitDelay = 0; } }
 
