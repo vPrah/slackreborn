@@ -233,7 +233,7 @@ public class GameSettings
     public int ofDynamicLights = 3;
     public boolean ofCustomEntityModels = true;
     public boolean ofCustomGuis = true;
-    public boolean ofShowGlErrors = true;
+    public boolean ofShowGlErrors = false;
     public int ofScreenshotSize = 1;
     public int ofAnimatedWater = 0;
     public int ofAnimatedLava = 0;

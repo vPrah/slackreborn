@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -19,11 +20,12 @@ import net.minecraft.client.settings.GameSettings;
 )
 public class Performance extends Module {
 
-    public ModeValue<String> performancemode = new ModeValue<>("Mode", new String[]{"Simple", "Extreme"});
+    public ModeValue<String> performancemode = new ModeValue<>("Mode", new String[]{"None", "Simple", "Extreme"});
+    public NumberValue<Integer> chunkupdates = new NumberValue<>("Chunk Updates", 1,1,10,1);
     public BooleanValue garbagevalue = new BooleanValue("MemoryFix", false);
 
     public Performance() {
-        addSettings(performancemode, garbagevalue);
+        addSettings(performancemode, chunkupdates, garbagevalue);
     }
 
     @Override
@@ -48,10 +50,12 @@ public class Performance extends Module {
 
     private void configureGSettings(String mode) {
         GameSettings settings = mc.getMinecraft().gameSettings;
+
+        settings.ofChunkUpdates = chunkupdates.getValue();
+
         switch (mode) {
             case "Simple":
                 settings.fancyGraphics = false;
-                settings.ofFastRender = true;
                 break;
             case "Extreme":
                 settings.clouds = 0;
@@ -64,7 +68,6 @@ public class Performance extends Module {
                 settings.field_181151_V = false;
                 settings.ofTranslucentBlocks = 1;
                 settings.ofDroppedItems = 1;
-                settings.ofFastRender = true;
                 break;
         }
     }
