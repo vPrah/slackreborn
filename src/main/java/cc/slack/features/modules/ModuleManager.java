@@ -91,7 +91,7 @@ public class ModuleManager {
                     new Reach(),
                     new PearlAntiVoid(),
                     new Stap(),
-                    new WaterBucket(),
+                    new LegitNofall(),
                     new Wtap(),
 
                     // Utilities

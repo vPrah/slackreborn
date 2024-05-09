@@ -13,6 +13,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockSign;
 import net.minecraft.entity.player.InventoryPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -23,15 +24,15 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
 @ModuleInfo(
-        name = "WaterBucket",
+        name = "LegitNofall",
         category = Category.GHOST
 )
-public class WaterBucket extends Module {
+public class LegitNofall extends Module {
 
     private final BooleanValue silentAim = new BooleanValue("Silent Aim", true);
     private final BooleanValue switchToItem = new BooleanValue("Switch to Item", true);
 
-    public WaterBucket() {
+    public LegitNofall() {
         addSettings(silentAim, switchToItem);
     }
 
@@ -39,7 +40,7 @@ public class WaterBucket extends Module {
     public void onMotion (MotionEvent e) {
         if(e.getState() == State.PRE) {
             MovingObjectPosition rayCast = wrayCast(mc.getPlayerController().getBlockReachDistance(), e.getYaw(), 90);
-            if (inPosition() && rayCast != null && rayCast.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && holdWaterBucket(switchToItem.getValue())) {
+            if (inPosition() && rayCast != null && rayCast.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && holdWaterBucket(switchToItem.getValue()) || inPosition() && rayCast != null && rayCast.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && holdSpiderweb(switchToItem.getValue())) {
                 if (silentAim.getValue()) {
                     e.setPitch(90);
                 } else {
@@ -55,6 +56,21 @@ public class WaterBucket extends Module {
     }
 
     private boolean holdWaterBucket(boolean setSlot) {
+        if (this.containsItem(mc.getPlayer().getHeldItem(), Item.getItemFromBlock(Blocks.web))) {
+            return true;
+        } else {
+            for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
+                if (this.containsItem(mc.getPlayer().inventory.mainInventory[i], Item.getItemFromBlock(Blocks.web)) && setSlot) {
+                    mc.getPlayer().inventory.currentItem = i;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    private boolean holdSpiderweb(boolean setSlot) {
         if (this.containsItem(mc.getPlayer().getHeldItem(), Items.water_bucket)) {
             return true;
         } else {
