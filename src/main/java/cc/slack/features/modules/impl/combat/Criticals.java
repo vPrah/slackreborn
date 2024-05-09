@@ -22,7 +22,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 )
 public class Criticals extends Module {
 
-    public final ModeValue<String> criticalMode = new ModeValue<>("Mode", new String[] {"Edit", "Vulcan", "Packet", "Mini"});
+    public final ModeValue<String> criticalMode = new ModeValue<>(new String[] {"Edit", "Vulcan", "Packet", "Mini"});
     public final BooleanValue onlyGround = new BooleanValue("Only Ground", true);
     
     public Criticals() {

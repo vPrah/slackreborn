@@ -24,7 +24,7 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>("Mode", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Vulcan", "NCP Latest", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);

@@ -20,7 +20,7 @@ import net.minecraft.client.settings.GameSettings;
 )
 public class Performance extends Module {
 
-    public ModeValue<String> performancemode = new ModeValue<>("Mode", new String[]{"None", "Simple", "Extreme"});
+    public ModeValue<String> performancemode = new ModeValue<>(new String[]{"None", "Simple", "Extreme"});
     public NumberValue<Integer> chunkupdates = new NumberValue<>("Chunk Updates", 1,1,10,1);
     public BooleanValue garbagevalue = new BooleanValue("MemoryFix", false);
 

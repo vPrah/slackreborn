@@ -20,9 +20,9 @@ import net.minecraft.network.play.server.S2BPacketChangeGameState;
 )
 public class Ambience extends Module {
 
-    public ModeValue<String> timemode = new ModeValue<>("Time Mode", new String[]{"None","Sun", "Night", "Custom"});
+    public ModeValue<String> timemode = new ModeValue<>("Time", new String[]{"None","Sun", "Night", "Custom"});
     private final NumberValue<Integer> customtime = new NumberValue<>("Custom Time", 5, 1, 24, 1);
-    public ModeValue<String> weathermode = new ModeValue<>("Weather Mode", new String[]{"None", "Clear", "Rain", "Thunder"});
+    public ModeValue<String> weathermode = new ModeValue<>("Weather", new String[]{"None", "Clear", "Rain", "Thunder"});
     private final NumberValue<Float> weatherstrength = new NumberValue<>("Weather Strength", 1F, 0F, 1F,  0.01F);
 
 

@@ -33,7 +33,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 public class HUD extends Module {
     private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[]{new BasicArrayList(), new Basic2ArrayList()});
 
-    private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark-Modes", new String[]{"Classic", "Backgrounded"});
+    private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[]{"Classic", "Backgrounded"});
 
     private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
     private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
