@@ -13,7 +13,7 @@ import net.minecraft.util.Vec3;
 
 
 @ModuleInfo(
-        name = "AirJump",
+        name = "SafeWalk",
         category = Category.MOVEMENT
 )
 public class SafeWalk extends Module {

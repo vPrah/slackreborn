@@ -6,6 +6,7 @@ import cc.slack.events.impl.game.ChatEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.RotationUtil;
@@ -855,8 +856,9 @@ public class EntityPlayerSP extends AbstractClientPlayer
         float f = 0.8F;
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
+        boolean usingItem = this.isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
-        if (this.isUsingItem() && !this.isRiding())
+        if (usingItem && !this.isRiding())
         {
             // NoSlowEvent (I need Remake it)
             if (Slack.getInstance().getModuleManager().getInstance(NoSlow.class).isToggle()) {

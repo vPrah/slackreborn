@@ -195,7 +195,7 @@ public class Scaffold extends Module {
     }
 
     private void runTowerMove() {
-        if (!GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) || (towerNoMove.getValue() && MovementUtil.isMoving())) {
+        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving())) {
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":
                     mc.getPlayer().motionY = 0.42;
@@ -275,7 +275,7 @@ public class Scaffold extends Module {
     private boolean searchBlock(BlockPos block) {
         if (BlockUtils.isFullBlock(block)) {
             EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block);
-            if (block.getY() <= mc.getPlayer().posY - 1) {
+            if (block.getY() <= mc.getPlayer().posY - 2) {
                 placeFace = EnumFacing.UP;
             }
             blockRotation = BlockUtils.getFaceRotation(placeFace, block);

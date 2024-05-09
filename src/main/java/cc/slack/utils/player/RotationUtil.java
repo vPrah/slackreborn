@@ -116,14 +116,14 @@ public class RotationUtil extends mc {
                     for (z = minZ; z <= maxZ; z += 0.1) {
                         currentRotDiff = getRotationDifference(
                                 MathUtil.interpolate(aabb.maxX, aabb.minX, x),
-                                MathUtil.interpolate(aabb.maxY, aabb.minY, z),
+                                MathUtil.interpolate(aabb.maxY, aabb.minY, y),
                                 MathUtil.interpolate(aabb.maxZ, aabb.minZ, z)
                         );
                         if (currentRotDiff < minRotDiff) {
                             minRotDiff = currentRotDiff;
                             rotPoint = new Vec3(
                                     MathUtil.interpolate(aabb.maxX, aabb.minX, x),
-                                    MathUtil.interpolate(aabb.maxY, aabb.minY, z),
+                                    MathUtil.interpolate(aabb.maxY, aabb.minY, y),
                                     MathUtil.interpolate(aabb.maxZ, aabb.minZ, z));
                         }
                     }

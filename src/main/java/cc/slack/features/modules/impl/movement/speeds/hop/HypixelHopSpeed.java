@@ -6,6 +6,7 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.player.PlayerUtil;
 
 public class HypixelHopSpeed implements ISpeed {
 
@@ -17,6 +18,7 @@ public class HypixelHopSpeed implements ISpeed {
             if (MovementUtil.isMoving()) {
                 mc.getPlayer().jump();
                 MovementUtil.minLimitStrafe(0.46f);
+                mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
             }
         } else {
             mc.getPlayer().motionX *= 1.001;

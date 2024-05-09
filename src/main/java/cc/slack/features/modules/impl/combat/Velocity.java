@@ -49,7 +49,7 @@ public class Velocity extends Module {
             return;
         }
 
-        if (event.getPacket() instanceof S12PacketEntityVelocity && ((S12PacketEntityVelocity) event.getPacket()).getEntityID() == mc.getPlayer().getEntityId()) {
+        if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
             switch (mode.getValue().toLowerCase()) {
                 case "motion":
@@ -88,7 +88,7 @@ public class Velocity extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().isInWater() || mc.getPlayer().isInLava() || mc.getPlayer().isInWeb || onlyground.getValue() && !mc.getPlayer().onGround) {
+        if (mc.getPlayer().isInWater() || mc.getPlayer().isInLava() || mc.getPlayer().isInWeb || (onlyground.getValue() && !mc.getPlayer().onGround)) {
             return;
         }
 
@@ -105,8 +105,8 @@ public class Velocity extends Module {
                 }
                 break;
             case "hypixeldamagestrafe":
-                if (mc.getPlayer().hurtTime == 9) {
-                    MovementUtil.strafe((float) MovementUtil.getSpeed() * 0.85f);
+                if (mc.getPlayer().hurtTime == 8) {
+                    MovementUtil.strafe((float) MovementUtil.getSpeed() * 0.75f);
                 }
                 break;
             case "tick":

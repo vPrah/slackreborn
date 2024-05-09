@@ -496,7 +496,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
             double d1 = d0;
             Vec3 vec3 = entity.getPositionEyes(partialTicks);
             boolean flag = false;
-            int i = 3;
 
             if (this.mc.playerController.extendedReach())
             {
@@ -580,7 +579,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
             if (this.pointedEntity != null && flag) {
                 double combatReach = 3.0D;
                 if (Slack.getInstance().getModuleManager().getInstance(Reach.class).isToggle()) {
-                    combatReach = Slack.getInstance().getModuleManager().getInstance(Reach.class).getReach();
+                    combatReach = Slack.getInstance().getModuleManager().getInstance(Reach.class).combatReach;
                 }
                 if (vec3.distanceTo(vec33) > combatReach) {
                     this.pointedEntity = null;

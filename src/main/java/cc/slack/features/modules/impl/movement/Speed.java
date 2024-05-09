@@ -47,9 +47,9 @@ public class Speed extends Module {
             new VulcanHopSpeed()
     });
 
-    public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla Speed", 1.0F, 3.0F, 12.0F, 0.10F);
+    public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla Speed", 1.0F, 0.0F, 3.0F, 0.01F);
 
-    private final BooleanValue jumpFix = new BooleanValue("Jump Fix", true);
+    public final BooleanValue jumpFix = new BooleanValue("Jump Fix", true);
 
     public Speed() {
         super();

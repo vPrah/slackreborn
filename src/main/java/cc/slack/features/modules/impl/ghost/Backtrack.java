@@ -103,7 +103,11 @@ public class Backtrack extends Module {
     private void releaseFirst() {
         if (packetCache.isEmpty()) return;
         packetCache.get(0).forEach(packet -> {
-            packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
+            try {
+                packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
+            } catch ( Exception e) {
+
+            }
             packetCache.get(0).remove(packet);
         });
         packetCache.remove(0);

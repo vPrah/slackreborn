@@ -84,7 +84,7 @@ public class KillAura extends Module {
     private float[] rotations;
     private long attackDelay;
     private int queuedAttacks;
-    private boolean isBlocking;
+    public boolean isBlocking;
     private boolean wasBlink;
 
     public KillAura() {
@@ -123,6 +123,8 @@ public class KillAura extends Module {
         if (target == null) {
             rotations[0] = mc.getPlayer().rotationYaw;
             rotations[1] = mc.getPlayer().rotationPitch;
+            e.setYaw(rotations[0]);
+            e.setPitch(rotations[1]);
         } else {
             e.setYaw(rotations[0]);
             e.setPitch(rotations[1]);

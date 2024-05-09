@@ -2,15 +2,17 @@
 
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.item.ItemFood;
+import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
@@ -34,7 +36,9 @@ public class NoSlow extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) {
+        boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
+
+        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword)) {
             switch (mode.getValue().toLowerCase()) {
                 case "vulcan":
                 case "vanilla":
