@@ -47,6 +47,7 @@ public class ModuleManager {
                     new AntiBot(),
                     new AutoPlay(),
                     new Performance(),
+                    new RemoveEffect(),
                     new Targets(),
                     new Tweaks(),
 
