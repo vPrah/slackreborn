@@ -12,6 +12,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
@@ -38,7 +39,7 @@ public class NoSlow extends Module {
     public void onUpdate (UpdateEvent event) {
         boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
-        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword)) {
+        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) {
             switch (mode.getValue().toLowerCase()) {
                 case "vulcan":
                 case "vanilla":
