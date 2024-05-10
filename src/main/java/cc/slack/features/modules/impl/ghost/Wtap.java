@@ -10,6 +10,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
+import cc.slack.utils.other.TimeUtil;
 
 @ModuleInfo(
         name = "Wtap",
@@ -18,11 +19,15 @@ import net.minecraft.client.settings.GameSettings;
 public class Wtap extends Module {
 
     private int ticks;
+    private final TimeUtil wtapTimer = new TimeUtil();
 
     @SuppressWarnings("unused")
     @Listen
     public void onAttack(AttackEvent event) {
-        ticks = 2;
+        if (wtapTimer.hasReached(500L)) {
+            wtapTimer.reset();
+            ticks = 2;
+        }
     }
 
     @SuppressWarnings("unused")
