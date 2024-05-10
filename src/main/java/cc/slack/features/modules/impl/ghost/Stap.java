@@ -10,7 +10,8 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
-
+import cc.slack.utils.other.TimeUtil;
+            
 @ModuleInfo(
         name = "Stap",
         category = Category.GHOST
@@ -18,11 +19,15 @@ import net.minecraft.client.settings.GameSettings;
 public class Stap extends Module {
 
     private int ticks;
+    private final TimeUtil wtapTimer = new TimeUtil();
 
     @SuppressWarnings("unused")
     @Listen
     public void onAttack(AttackEvent event) {
-        ticks = 2;
+        if (wtapTimer.hasReached(500L)) {
+            wtapTimer.reset();
+            ticks = 2;
+        }
     }
 
     @SuppressWarnings("unused")
@@ -31,7 +36,7 @@ public class Stap extends Module {
         switch (ticks) {
             case 2:
                 mc.getGameSettings().keyBindForward.pressed = false;
-                mc.getGameSettings().keyBindBack.pressed = false;
+                mc.getGameSettings().keyBindBack.pressed = true;
                 ticks--;
                 break;
             case 1:
