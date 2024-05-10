@@ -6,19 +6,30 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.util.MathHelper;
 
 @ModuleInfo(
         name = "JumpReset",
         category = Category.GHOST
 )
 public class JumpReset extends Module {
+
+    public final NumberValue<Double> chance = new NumberValue<>("Chance", 1D, 0D, 1D, 0.01D);
+    
+    boolean enable;
+    
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (mc.getCurrentScreen() != null) return;
+        if (mc.getPlayer().hurtTime == 10) {
+            enable = MathHelper.getRandomDoubleInRange(new Random(), 0, 1) <= chance.getValue();
+        }
+        if (enable) return;
         if (mc.getPlayer().hurtTime >= 8) {
             mc.getGameSettings().keyBindJump.pressed = true;
         }
