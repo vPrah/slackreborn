@@ -31,9 +31,10 @@ public class LegitNofall extends Module {
 
     private final BooleanValue silentAim = new BooleanValue("Silent Aim", true);
     private final BooleanValue switchToItem = new BooleanValue("Switch to Item", true);
+    private final NumberValue<Float> minFallDist = new NumberValue<>("Minimum fall dist", 5f, 3f, 20f. 0.5f);
 
     public LegitNofall() {
-        addSettings(silentAim, switchToItem);
+        addSettings(silentAim, switchToItem, minFallDist);
     }
 
     @Listen
@@ -52,7 +53,7 @@ public class LegitNofall extends Module {
     }
 
     private boolean inPosition() {
-        return !mc.getPlayer().capabilities.isFlying && !mc.getPlayer().capabilities.isCreativeMode && !mc.getPlayer().onGround && mc.getPlayer().motionY < -0.6D && !mc.getPlayer().isInWater() && fallDistance() <= 2;
+        return !mc.getPlayer().capabilities.isFlying && !mc.getPlayer().capabilities.isCreativeMode && !mc.getPlayer().onGround && mc.getPlayer().motionY < -0.6D && !mc.getPlayer().isInWater() && fallDistance() <= 2 && mc.getPlayer().fallDistance <= minFallDist.getValue();
     }
 
     private boolean holdWaterBucket(boolean setSlot) {
