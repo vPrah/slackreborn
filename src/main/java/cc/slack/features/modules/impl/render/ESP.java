@@ -62,7 +62,11 @@ public class ESP extends Module {
 
             glLineWidth(1F);
             enableGlCap(GL_LINE_SMOOTH);
-            glColor(255, 255, 255, 95);
+            if (entity.hurtTime > 1) {
+                glColor(255, 10, 10, 95);
+            } else {
+                glColor(255, 255, 255, 95);
+            }
             drawSelectionBoundingBox(axisAlignedBB);
 
             GlStateManager.resetColor();
