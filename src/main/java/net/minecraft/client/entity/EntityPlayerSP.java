@@ -236,6 +236,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
                 this.lastReportedYaw, this.lastReportedPitch,
                 this.onGround, mc.thePlayer);
         event.call();
+        this.rotationYaw = realYaw;
+        this.rotationPitch = realPitch;
 
         boolean flag = this.isSprinting();
 
@@ -333,9 +335,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
         event.setState(State.POST);
         event.call();
-
-        this.rotationYaw = realYaw;
-        this.rotationPitch = realPitch;
     }
 
     @Override

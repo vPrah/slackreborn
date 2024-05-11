@@ -66,6 +66,8 @@ public class RaycastUtil {
         final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
         final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(eyes, vec);
 
+        if (movingobjectposition == null) return null;
+
         return movingobjectposition.hitVec;
     }
 }

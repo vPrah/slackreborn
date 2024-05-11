@@ -41,6 +41,10 @@ public class Backtrack extends Module {
     List<List<Packet>> packetCache = new ArrayList<>();
     List<Packet> currentTick = new ArrayList<>();
 
+    public Backtrack() {
+        addSettings(maxDelay, backtrackTime);
+    }
+
     @Override
     public void onEnable() {
         ticksSinceAttack = 0;
@@ -102,14 +106,13 @@ public class Backtrack extends Module {
 
     private void releaseFirst() {
         if (packetCache.isEmpty()) return;
-        packetCache.get(0).forEach(packet -> {
+        for (Packet packet : packetCache.get(0)) {
             try {
                 packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
             } catch ( Exception e) {
 
             }
-            packetCache.get(0).remove(packet);
-        });
+        }
         packetCache.remove(0);
     }
 }

@@ -54,7 +54,7 @@ public class LegitNofall extends Module {
     }
 
     private boolean inPosition() {
-        return !mc.getPlayer().capabilities.isFlying && !mc.getPlayer().capabilities.isCreativeMode && !mc.getPlayer().onGround && mc.getPlayer().motionY < -0.6D && !mc.getPlayer().isInWater() && fallDistance() <= 2 && mc.getPlayer().fallDistance <= minFallDist.getValue();
+        return !mc.getPlayer().capabilities.isFlying && !mc.getPlayer().capabilities.isCreativeMode && !mc.getPlayer().onGround && mc.getPlayer().motionY < -0.6D && !mc.getPlayer().isInWater() && fallDistance() <= 2 && mc.getPlayer().fallDistance >= minFallDist.getValue();
     }
 
     private boolean holdWaterBucket(boolean setSlot) {

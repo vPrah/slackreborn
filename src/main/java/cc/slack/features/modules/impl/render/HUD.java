@@ -74,13 +74,13 @@ public class HUD extends Module {
                     break;
             }
             if (fpsdraw.getValue()) {
-                Fonts.apple18.drawStringWithShadow("FPS:  " , 4, 490, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, 490, -1);
+                Fonts.apple18.drawStringWithShadow("FPS:  " , 4, 60, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, 60, -1);
             }
 
             if (bpsdraw.getValue()) {
-                Fonts.apple18.drawStringWithShadow("BPS:  ", 50, 490, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(""+getBPS(), 71, 490, -1);
+                Fonts.apple18.drawStringWithShadow("BPS:  ", 50, 60, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(""+getBPS(), 71, 60, -1);
 
             }
 
@@ -95,8 +95,8 @@ public class HUD extends Module {
                 ScaledResolution sr = mc.getScaledResolution();
                 mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem).getStack().stackSize,
                         sr.getScaledWidth() / 1.95f,
-                        sr.getScaledHeight() / 2F - (( 5 - scaffoldTicks) * 5F),
-                        new Color(255, 255, 255, scaffoldTicks * 51).getRGB(),
+                        sr.getScaledHeight() / 2F,
+                        new Color(255, 255, 255).getRGB(),
                         true);
             }
 

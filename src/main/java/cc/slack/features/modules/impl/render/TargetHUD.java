@@ -27,8 +27,8 @@ import java.awt.*;
 )
 public class TargetHUD extends Module {
 
-    private final NumberValue<Integer> posX = new NumberValue<>("Pos-X", 100, -100, 5000, 10);
-    private final NumberValue<Integer> posY = new NumberValue<>("Pos-Y", 10, -100, 5000, 10);
+    private final NumberValue<Integer> posX = new NumberValue<>("Pos-X", 100, -100, 500, 10);
+    private final NumberValue<Integer> posY = new NumberValue<>("Pos-Y", 10, -100, 500, 10);
 
 
     public TargetHUD() {
@@ -83,7 +83,7 @@ public class TargetHUD extends Module {
 
         drawRect(x + 45, y + 20, 70, 15, new Color(255, 255, 255, 120).getRGB());
 
-        drawRect(x + 45, y + 20, (int) (70 * (player.getHealth() / player.getMaxHealth())), 15,0x5499C7);
+        drawRect(x + 45, y + 20, (int) (70 * (player.getHealth() / player.getMaxHealth())), 15, new Color(90, 90, 90, 200).getRGB());
 
         String s = (int) ((player.getHealth() / player.getMaxHealth()) * 100) + "%";
         mc.getFontRenderer().drawString(s, x + 45 + (70 / 2) - (mc.getFontRenderer().getStringWidth(s) / 2),
