@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.ghost;
 
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
@@ -37,7 +37,10 @@ public class AimBot extends Module {
 
     @SuppressWarnings("unused")
     @Listen
-    public void onUpdate (UpdateEvent event) {
+    public void onRender (RenderEvent event) {
+
+       if (event.getState() != RenderEvent.State.RENDER_3D) return;
+
        target = AttackUtil.getTarget(aimRange.getValue(), "fov");
        if (target == null) {
            if (isSilent) {
@@ -59,7 +62,7 @@ public class AimBot extends Module {
 
        if (silent.getValue()) {
            RotationUtil.setClientRotation(clientRotation, 1);
-           if (silentMoveFix.getValue()) RotationUtil.setStrafeFix(true, false);
+           RotationUtil.setStrafeFix(silentMoveFix.getValue(), false);
        } else {
            RotationUtil.setPlayerRotation(clientRotation);
        }

@@ -62,7 +62,7 @@ public class ESP extends Module {
 
             glLineWidth(1F);
             enableGlCap(GL_LINE_SMOOTH);
-            if (entity.hurtTime > 1) {
+            if (entity.hurtResistantTime > 1) {
                 glColor(255, 10, 10, 95);
             } else {
                 glColor(255, 255, 255, 95);

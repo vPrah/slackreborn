@@ -856,7 +856,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         float f = 0.8F;
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
-        boolean usingItem = this.isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
+        boolean usingItem = this.isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
         if (usingItem && !this.isRiding())
         {

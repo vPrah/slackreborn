@@ -11,6 +11,7 @@ import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.MathHelper;
+import java.util.Random;
 
 @ModuleInfo(
         name = "JumpReset",

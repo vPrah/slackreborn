@@ -1,5 +1,8 @@
 package net.minecraft.client.renderer;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.combat.KillAura;
+import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.utils.player.ItemSpoofUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -353,6 +356,11 @@ public class ItemRenderer
                 else if (abstractclientplayer.getItemInUseCount() > 0)
                 {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
+                    if (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle()) {
+                        if (Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock) {
+                            enumaction = EnumAction.BLOCK;
+                        }
+                    }
 
                     switch (enumaction)
                     {
@@ -367,8 +375,26 @@ public class ItemRenderer
                             break;
 
                         case BLOCK:
-                            this.transformFirstPersonItem(f, 0.0F);
-                            this.func_178103_d();
+                            if (Slack.getInstance().getModuleManager().getInstance(Animations.class).isToggle()) {
+                                switch (Slack.getInstance().getModuleManager().getInstance(Animations.class).blockStyle.getValue()) {
+                                    case "1.8":
+                                        this.transformFirstPersonItem(f, 0.0F);
+                                        this.func_178103_d();
+                                        break;
+                                    case "1.7":
+                                        this.transformFirstPersonItem(f, f1);
+                                        this.func_178103_d();
+                                        break;
+                                    case "Slide":
+                                        this.transformFirstPersonItem(0.3f, f1);
+                                        this.func_178103_d();
+                                        break;
+                                }
+                            } else {
+                                this.transformFirstPersonItem(f, f1);
+                                this.func_178103_d();
+                                break;
+                            }
                             break;
 
                         case BOW:

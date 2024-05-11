@@ -21,15 +21,10 @@ import cc.slack.utils.other.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.BlinkUtil;
-import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.player.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
@@ -39,8 +34,6 @@ import org.lwjgl.input.Keyboard;
 
 
 import java.security.SecureRandom;
-import java.util.*;
-import java.util.stream.Collectors;
 
 @ModuleInfo(
         name = "KillAura",
@@ -59,9 +52,11 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft", "Blatant", "Vanilla", "Basic", "Blink"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft", "Blatant", "Vanilla", "Basic", "Blink", "Fake"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
+    private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
+    private final BooleanValue renderBlocking = new BooleanValue("Render Blocking", true);
 
     // rotation
     private final BooleanValue rotationRand = new BooleanValue("Rotation Randomization", false);
@@ -81,15 +76,18 @@ public class KillAura extends Module {
     private final TimeUtil rotationCenter = new TimeUtil();
     private double rotationOffset;
     private EntityLivingBase target;
+    private EntityLivingBase rayCastedEntity;
     private float[] rotations;
     private long attackDelay;
     private int queuedAttacks;
     public boolean isBlocking;
     private boolean wasBlink;
 
+    public boolean renderBlock;
+
     public KillAura() {
         super();
-        addSettings(aimRange, attackRange, attackPattern, cps, randomization, autoBlock, blinkMode, interactAutoblock, rotationRand, minRotationSpeed, maxRotationSpeed, moveFix, keepSprint, rayCast, sortMode);
+        addSettings(aimRange, attackRange, attackPattern, cps, randomization, autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, rotationRand, minRotationSpeed, maxRotationSpeed, moveFix, keepSprint, rayCast, sortMode);
     }
 
     @Override
@@ -155,6 +153,7 @@ public class KillAura extends Module {
 
     @Listen
     public void onTick(TickEvent e) {
+
         if(e.getState() == State.PRE) {
             target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());
 
@@ -165,19 +164,22 @@ public class KillAura extends Module {
                     wasBlink = false;
                     BlinkUtil.disable();
                 }
+                renderBlock = false;
                 return;
             }
 
             if (mc.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
+            renderBlock = mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() && (renderBlocking.getValue() || isBlocking);
 
             rotations = calculateRotations(target);
 
-            if (preAttack()) return;
+            if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
+                if (preAttack()) return;
             while (queuedAttacks > 0) {
                 attack(target);
                 queuedAttacks--;
             }
-            postAttack();
+            if (canAutoBlock()) postAttack();
         } else {
             if(isBlocking && autoBlock.getValue().equalsIgnoreCase("Universocraft")) {
                 isBlocking = false;
@@ -186,7 +188,7 @@ public class KillAura extends Module {
     }
 
     private void attack(EntityLivingBase target) {
-        EntityLivingBase rayCastedEntity = null;
+        rayCastedEntity = null;
         if (rayCast.getValue()) rayCastedEntity = RaycastUtil.rayCast(attackRange.getValue(), rotations);
 
         mc.getPlayer().swingItem();
@@ -326,8 +328,10 @@ public class KillAura extends Module {
 
     private void block(boolean interact) {
         if (isBlocking) return;
+        EntityLivingBase targetEntity = rayCastedEntity == null ? target : rayCastedEntity;
         if (interact) {
-            mc.getPlayerController().interactWithEntitySendPacket(mc.getPlayer(), target);
+            PacketUtil.send(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
+            PacketUtil.send(new C02PacketUseEntity(targetEntity, RaycastUtil.rayCastHitVec(targetEntity, aimRange.getValue(), rotations)));
         }
         PacketUtil.send(new C08PacketPlayerBlockPlacement(mc.getPlayer().getCurrentEquippedItem()));
         isBlocking = true;
@@ -342,6 +346,6 @@ public class KillAura extends Module {
     }
 
     private boolean canAutoBlock() {
-        return target != null && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword;
+        return target != null && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword && mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue();
     }
 }

@@ -32,7 +32,7 @@ public class LegitNofall extends Module {
 
     private final BooleanValue silentAim = new BooleanValue("Silent Aim", true);
     private final BooleanValue switchToItem = new BooleanValue("Switch to Item", true);
-    private final NumberValue<Float> minFallDist = new NumberValue<>("Minimum fall dist", 5f, 3f, 20f. 0.5f);
+    private final NumberValue<Float> minFallDist = new NumberValue<>("Minimum fall dist", 5f, 3f, 20f, 0.5f);
 
     public LegitNofall() {
         addSettings(silentAim, switchToItem, minFallDist);

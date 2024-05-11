@@ -25,7 +25,6 @@ public class ModuleManager {
         try {
             addModules(
                     // Combat
-                    new AimBot(),
                     new AntiFireball(),
                     new Criticals(),
                     new Hitbox(),
@@ -72,6 +71,7 @@ public class ModuleManager {
                     new Phase(),
 
                     // Render
+                    new Animations(),
                     new Ambience(),
                     new Bobbing(),
                     new ChestESP(),
@@ -82,6 +82,7 @@ public class ModuleManager {
                     new TargetHUD(),
 
                     // Ghost
+                    new AimBot(),
                     new AimAssist(),
                     new Autoclicker(),
                     new LegitMode(),
