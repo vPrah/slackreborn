@@ -3,6 +3,7 @@
 package cc.slack.features.modules.impl.render;
 
 import cc.slack.Slack;
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -50,6 +51,11 @@ public class HUD extends Module {
     }
 
     @Listen
+    public void onUpdate(UpdateEvent e) {
+        arraylistModes.getValue().onUpdate(e);
+    }
+
+    @Listen
     @SuppressWarnings("unused")
     public void onRender(RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_2D) return;
@@ -62,10 +68,10 @@ public class HUD extends Module {
                     Fonts.apple18.drawStringWithShadow("lack", 10, 4, -1);
                     break;
                 case "Backgrounded":
-                drawRect(2, 2, 80, 14, 0x80000000);
-                Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
-                break;
+                    drawRect(2, 2, 80, 14, 0x80000000);
+                    Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
+                    Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
+                    break;
             }
             if (fpsdraw.getValue()) {
                 Fonts.apple18.drawStringWithShadow("FPS:  " , 4, 490, 0x5499C7);
