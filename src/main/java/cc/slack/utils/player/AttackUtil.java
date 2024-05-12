@@ -124,10 +124,8 @@ public class AttackUtil {
             if (entity instanceof EntityLivingBase) {
                 if (entity == mc.getPlayer()) continue;
                 if (entity instanceof EntityArmorStand) continue;
-                if (mobs && !(entity instanceof EntityMob)) continue;
-                if (animals && !(entity instanceof EntityAnimal)) continue;
-                if (players && !(entity instanceof EntityPlayer)) continue;
-                if (entity instanceof EntityPlayer && team && !PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
+                if ((mobs && !(entity instanceof EntityMob)) || (animals && !(entity instanceof EntityAnimal)) ||  (players && !(entity instanceof EntityPlayer))) continue;
+                if (entity instanceof EntityPlayer && !team && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
                 if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
                 if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) continue;
                 targets.add((EntityLivingBase) entity);
