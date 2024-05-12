@@ -31,10 +31,11 @@ public class Autoclicker extends Module {
     public final BooleanValue onlySword = new BooleanValue("Only Sword", false);
 
     public final ModeValue<String> autoblockMode = new ModeValue<>("Autoblock", new String[]{"Off", "Click", "Normal", "BlockHit"});
+    public final BooleanValue autoblockOnClick = new BooleanValue("Block On Mouse Down", true);
 
     public Autoclicker() {
         super();
-        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode);
+        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode, autoblockOnClick);
     }
 
     private final TimeUtil leftClickTimer = new TimeUtil();
@@ -65,10 +66,10 @@ public class Autoclicker extends Module {
                     rightMouseDown = leftClickTimer.elapsed() > 0.1 * leftClickDelay && leftClickTimer.elapsed() < 0.65 * leftClickDelay;
                     break;
                 case "blockhit":
-                    rightMouseDown = leftClickTimer.elapsed() < 0.5 * leftClickDelay;
+                    rightMouseDown = leftClickTimer.elapsed() < 0.4 * leftClickDelay;
                     break;
             }
-            mc.getGameSettings().keyBindUseItem.pressed = rightMouseDown;
+            mc.getGameSettings().keyBindUseItem.pressed = rightMouseDown && (!autoblockOnClick.getValue() || GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem));
         }
     }
 

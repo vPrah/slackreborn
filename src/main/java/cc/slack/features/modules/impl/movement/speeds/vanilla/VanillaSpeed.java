@@ -18,6 +18,9 @@ public class VanillaSpeed implements ISpeed {
             MovementUtil.strafe(Slack.getInstance().getModuleManager().getInstance(Speed.class).vanillaspeed.getValue());
         }
         MovementUtil.strafe();
+        if (!Slack.getInstance().getModuleManager().getInstance(Speed.class).vanillaGround.getValue()) {
+            MovementUtil.strafe(Slack.getInstance().getModuleManager().getInstance(Speed.class).vanillaspeed.getValue());
+        }
     }
 
     @Override

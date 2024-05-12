@@ -6,6 +6,7 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
@@ -25,6 +26,12 @@ import static org.lwjgl.opengl.GL11.*;
         category = Category.RENDER
 )
 public class ESP extends Module {
+
+    private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 1f, 1f, 3f, 0.1f);
+
+    public ESP() {
+        addSettings(lineWidth);
+    }
 
     private static final Map<String, Map<Integer, Boolean>> glCapMap = new HashMap<>();
 
@@ -60,7 +67,7 @@ public class ESP extends Module {
                     entityBox.maxZ - entity.posZ + z + 0.05D
             );
 
-            glLineWidth(1F);
+            glLineWidth(lineWidth.getValue());
             enableGlCap(GL_LINE_SMOOTH);
             if (entity.hurtResistantTime > 1) {
                 glColor(255, 10, 10, 95);

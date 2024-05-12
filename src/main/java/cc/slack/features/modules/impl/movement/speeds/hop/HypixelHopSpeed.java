@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.movement.speeds.hop;
 
-import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
@@ -13,7 +13,7 @@ public class HypixelHopSpeed implements ISpeed {
 
 
     @Override
-    public void onMove(MoveEvent event) {
+    public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().onGround) {
             if (MovementUtil.isMoving()) {
                 mc.getPlayer().jump();

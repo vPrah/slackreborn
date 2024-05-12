@@ -32,6 +32,8 @@ public class Speed extends Module {
             // Vanilla
             new VanillaSpeed(),
             new StrafeSpeed(),
+            new GroundStrafeSpeed(),
+            new LegitSpeed(),
 
             // Verus
             new VerusHopSpeed(),
@@ -48,12 +50,14 @@ public class Speed extends Module {
     });
 
     public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla Speed", 1.0F, 0.0F, 3.0F, 0.01F);
+    public final BooleanValue vanillaGround = new BooleanValue("Vanilla Only Ground", false);
+
 
     public final BooleanValue jumpFix = new BooleanValue("Jump Fix", true);
 
     public Speed() {
         super();
-        addSettings(mode, vanillaspeed);
+        addSettings(mode, vanillaspeed, vanillaGround, jumpFix);
     }
 
     @Override
