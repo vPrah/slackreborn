@@ -7,7 +7,12 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.other.TimeUtil;
+import cc.slack.utils.player.AttackUtil;
+import cc.slack.utils.player.ItemSpoofUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.item.ItemStack;
@@ -15,10 +20,20 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.util.MovingObjectPosition;
 
 @ModuleInfo(
-        name = "LegitAutoTool",
+        name = "AutoTool",
         category = Category.GHOST
 )
-public class LegitAutoTool extends Module {
+public class AutoTool extends Module {
+
+    private final BooleanValue noCombat = new BooleanValue("No Combat", true);
+    private final NumberValue<Integer> delay = new NumberValue<>("Switch Delay", 100, 0, 600, 20);
+    private final BooleanValue spoof = new BooleanValue("Spoof Item", false);
+
+    public AutoTool(){
+        addSettings(noCombat, delay, spoof);
+    }
+
+    private final TimeUtil switchTimer = new TimeUtil();
 
     @SuppressWarnings("unused")
     private int prevItem = 0;
@@ -32,7 +47,9 @@ public class LegitAutoTool extends Module {
 
         if (!mc.getGameSettings().keyBindUseItem.isKeyDown() && mc.getGameSettings().keyBindAttack.isKeyDown()
                 && mc.getMinecraft().objectMouseOver != null
-                && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
+                && !(AttackUtil.inCombat && noCombat.getValue())
+                && (switchTimer.hasReached((long) delay.getValue()))) {
 
             int bestSpeed = 0;
             bestSlot = -1;
@@ -56,13 +73,22 @@ public class LegitAutoTool extends Module {
                 }
 
                 if (bestSlot != -1) {
-                    mc.getPlayer().inventory.currentItem = bestSlot;
+                    if (spoof.getValue()) {
+                        ItemSpoofUtil.startSpoofing(bestSlot);
+                    } else {
+                        mc.getPlayer().inventory.currentItem = bestSlot;
+                    }
                 }
             }
             isMining = true;
         } else {
+            switchTimer.reset();
             if (isMining) {
                 isMining = false;
+                if (spoof.getValue()) {
+                    ItemSpoofUtil.stopSpoofing();
+                }
+                mc.getPlayer().inventory.currentItem = prevItem;
             } else {
                 prevItem = mc.getPlayer().inventory.currentItem;
             }

@@ -27,6 +27,10 @@ public class LegitScaffold extends Module {
     private boolean shouldSneak = false;
     private final TimeUtil sneakTimer = new TimeUtil();
 
+    public LegitScaffold() {
+        addSettings(sneakTime, onlyGround, holdSneak);
+    }
+
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {

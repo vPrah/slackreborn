@@ -13,7 +13,6 @@ import cc.slack.features.modules.impl.other.*;
 import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.render.*;
 import cc.slack.features.modules.impl.utilties.AutoPlay;
-import cc.slack.features.modules.impl.utilties.AutoTool;
 import cc.slack.features.modules.impl.world.*;
 
 import java.util.*;
@@ -86,7 +85,7 @@ public class ModuleManager {
                     new AimAssist(),
                     new Autoclicker(),
                     new LegitMode(),
-                    new LegitAutoTool(),
+                    new AutoTool(),
                     new LegitScaffold(),
                     new Backtrack(),
                     new JumpReset(),
