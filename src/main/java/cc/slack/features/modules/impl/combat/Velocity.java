@@ -35,14 +35,12 @@ public class Velocity extends Module {
     int jumped = 0;
 
     public Velocity() {
-        super();
         addSettings(mode, vertical, horizontal, velocityTick, onlyground, noFire);
     }
 
     @Listen
     public void onPacket(PacketEvent event) {
         if (mc.getPlayer() == null || mc.getWorld() == null) return;
-        if (event.getDirection() != PacketDirection.OUTGOING) return;
         if (noFire.getValue() && mc.getPlayer().isBurning()) return;
 
         if (onlyground.getValue() && !mc.getPlayer().onGround) {
@@ -88,7 +86,7 @@ public class Velocity extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().isInWater() || mc.getPlayer().isInLava() || mc.getPlayer().isInWeb || (onlyground.getValue() && !mc.getPlayer().onGround)) {
+        if (mc.getPlayer().isInWater() || mc.getPlayer().isInLava() || mc.getPlayer().isInWeb) {
             return;
         }
 
@@ -104,7 +102,7 @@ public class Velocity extends Module {
                     mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
                 }
                 break;
-            case "hypixeldamagestrafe":
+            case "hypixel damage strafe":
                 if (mc.getPlayer().hurtTime == 8) {
                     MovementUtil.strafe((float) MovementUtil.getSpeed() * 0.75f);
                 }

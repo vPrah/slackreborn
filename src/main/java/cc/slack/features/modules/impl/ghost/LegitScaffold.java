@@ -31,6 +31,11 @@ public class LegitScaffold extends Module {
         addSettings(sneakTime, onlyGround, holdSneak);
     }
 
+    @Override
+    public void onDisable() {
+        mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak);
+    }
+
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
