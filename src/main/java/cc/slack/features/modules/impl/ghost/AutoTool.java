@@ -26,7 +26,7 @@ import net.minecraft.util.MovingObjectPosition;
 public class AutoTool extends Module {
 
     private final BooleanValue noCombat = new BooleanValue("No Combat", true);
-    private final NumberValue<Integer> delay = new NumberValue<>("Switch Delay", 100, 0, 600, 20);
+    private final NumberValue<Integer> delay = new NumberValue<>("Switch Delay", 10, 0, 60, 1);
     private final BooleanValue spoof = new BooleanValue("Spoof Item", false);
 
     public AutoTool(){

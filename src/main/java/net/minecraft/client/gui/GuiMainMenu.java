@@ -1,5 +1,6 @@
 package net.minecraft.client.gui;
 
+import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
@@ -539,15 +540,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
         }
 
-        GlStateManager.pushMatrix();
-        GlStateManager.translate((float)(this.width / 2 + 90), 70.0F, 0.0F);
-        GlStateManager.rotate(-20.0F, 0.0F, 0.0F, 1.0F);
-        float f = 1.8F - MathHelper.abs(MathHelper.sin((float)(Minecraft.getSystemTime() % 1000L) / 1000.0F * (float)Math.PI * 2.0F) * 0.1F);
-        f = f * 100.0F / (float)(this.fontRendererObj.getStringWidth(this.splashText) + 32);
-        GlStateManager.scale(f, f, f);
-        this.drawCenteredString(this.fontRendererObj, this.splashText, 0, -8, -256);
-        GlStateManager.popMatrix();
-        String s = "Minecraft 1.8.9";
+
+        String s = Slack.getInstance().info.getName() + " " + Slack.getInstance().info.getVersion() + " | " + Slack.getInstance().info.getType() + " Build";
 
         if (Reflector.FMLCommonHandler_getBrandings.exists())
         {
@@ -574,8 +568,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         }
 
-        String s2 = "Copyright Mojang AB. Do not distribute!";
-        this.drawString(this.fontRendererObj, s2, this.width - this.fontRendererObj.getStringWidth(s2) - 2, this.height - 10, -1);
+        String s2 = Slack.getInstance().changelog;
+        this.drawString(this.fontRendererObj, s2, 2, 20, -1);
 
         if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0)
         {

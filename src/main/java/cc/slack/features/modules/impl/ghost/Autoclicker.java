@@ -53,7 +53,7 @@ public class Autoclicker extends Module {
                 leftClickTimer.reset();
                 leftClickDelay = updateDelay(targetCPS.getValue(), randomizeAmount.getValue());
                 KeyBinding.onTick(mc.getGameSettings().keyBindAttack.getKeyCode());
-                if (autoblockMode.getValue().equals("Click")) KeyBinding.onTick(mc.getGameSettings().keyBindUseItem.getKeyCode());
+                if (autoblockMode.getValue().equals("Click") && (!autoblockOnClick.getValue() || GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem))) KeyBinding.onTick(mc.getGameSettings().keyBindUseItem.getKeyCode());
             }
             boolean rightMouseDown = GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem);
             switch (autoblockMode.getValue().toLowerCase()) {

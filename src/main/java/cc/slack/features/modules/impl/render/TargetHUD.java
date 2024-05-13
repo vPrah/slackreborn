@@ -83,7 +83,7 @@ public class TargetHUD extends Module {
 
         drawRect(x + 45, y + 20, 70, 15, new Color(255, 255, 255, 120).getRGB());
 
-        drawRect(x + 45, y + 20, (int) (70 * (player.getHealth() / player.getMaxHealth())), 15, new Color(90, 90, 90, 200).getRGB());
+        drawRect(x + 45, y + 20, (int) (70 * (player.getHealth() / player.getMaxHealth())), 15, new Color(90, 150, 200, 200).getRGB());
 
         String s = (int) ((player.getHealth() / player.getMaxHealth()) * 100) + "%";
         mc.getFontRenderer().drawString(s, x + 45 + (70 / 2) - (mc.getFontRenderer().getStringWidth(s) / 2),

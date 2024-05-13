@@ -28,11 +28,13 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    private final ClientInfo info = new ClientInfo("Slack", "v0.01", ClientInfo.VersionType.ALPHA);
+    public final ClientInfo info = new ClientInfo("Slack", "v0.01", ClientInfo.VersionType.ALPHA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
     private final CMDManager cmdManager = new CMDManager();
+
+    public final String changelog = "Release v0.01:\n-Added all modules (56)";
 
     public void start() {
         PrintUtil.print("Initializing " + info.getName());

@@ -68,19 +68,19 @@ public class HUD extends Module {
                     Fonts.apple18.drawStringWithShadow("lack", 10, 4, -1);
                     break;
                 case "Backgrounded":
-                    drawRect(2, 2, 80, 14, 0x80000000);
+                    drawRect(2, 2, 80, 15, 0x80000000);
                     Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
                     Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
                     break;
             }
             if (fpsdraw.getValue()) {
-                Fonts.apple18.drawStringWithShadow("FPS:  " , 4, 60, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, 60, -1);
+                Fonts.apple18.drawStringWithShadow("FPS:  " , 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
             }
 
             if (bpsdraw.getValue()) {
-                Fonts.apple18.drawStringWithShadow("BPS:  ", 50, 60, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(""+getBPS(), 71, 60, -1);
+                Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
 
             }
 
@@ -93,7 +93,8 @@ public class HUD extends Module {
 
                 if (scaffoldTicks == 0) return;
                 ScaledResolution sr = mc.getScaledResolution();
-                mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem).getStack().stackSize,
+                if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null)
+                    mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize,
                         sr.getScaledWidth() / 1.95f,
                         sr.getScaledHeight() / 2F,
                         new Color(255, 255, 255).getRGB(),
@@ -103,10 +104,10 @@ public class HUD extends Module {
 //        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
     }
 
-    private Double getBPS() {
+    private String getBPS() {
         double currentBPS = ((double) round((MovementUtil.getSpeed() * 20) * 100)) / 100;
         double avgBPS = (lastBPS + currentBPS) / 2;
         lastBPS = currentBPS;
-        return avgBPS;
+        return String.format("%.2f", currentBPS);
     }
 }

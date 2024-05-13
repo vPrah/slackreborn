@@ -50,7 +50,7 @@ public class AimBot extends Module {
            return;
        }
 
-       float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.MIDDLE, 0.1);
+       float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.MIDDLE, 0);
 
        if (RotationUtil.getRotationDifference(targetRotation) > fov.getValue()) return;
 

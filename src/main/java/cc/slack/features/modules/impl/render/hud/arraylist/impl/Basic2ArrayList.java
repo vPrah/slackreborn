@@ -13,7 +13,7 @@ import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -27,14 +27,14 @@ public class Basic2ArrayList implements IArraylist {
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (module.isToggle()) modules.add(module.getDisplayName());
         }
-        Collections.sort(modules);
+        modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
     }
 
     @Override
     public void onRender(RenderEvent event) {
         int y = 1;
         for (String module : modules) {
-            Gui.drawRect(((int) event.getWidth()) - 1, 0, ((int) event.getWidth()), mc.getFontRenderer().FONT_HEIGHT, Color.WHITE.getRGB());
+            Gui.drawRect(((int) event.getWidth()) - 1, y, ((int) event.getWidth()), mc.getFontRenderer().FONT_HEIGHT, Color.WHITE.getRGB());
             Fonts.SFBold18.drawString(module, event.getWidth() - Fonts.SFBold18.getStringWidth(module) - 4, y, Color.WHITE.getRGB());
             y += mc.getFontRenderer().FONT_HEIGHT;
         }
