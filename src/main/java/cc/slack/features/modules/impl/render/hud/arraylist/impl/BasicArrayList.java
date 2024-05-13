@@ -6,19 +6,13 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
-import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
-/**
- * @author skelton
- * @see HUD
- * @since 30/4/2023 15:59
- */
 public class BasicArrayList implements IArraylist {
 
     List<String> modules = new ArrayList<>();
@@ -29,7 +23,7 @@ public class BasicArrayList implements IArraylist {
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (module.isToggle()) modules.add(module.getDisplayName());
         }
-        Collections.sort(modules);
+        modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
     }
 
     @Override
