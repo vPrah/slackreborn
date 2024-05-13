@@ -13,7 +13,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 )
 public class Animations extends Module {
 
-    public final ModeValue<String> blockStyle = new ModeValue<>("Block Animation", new String[]{"1.8", "1.7", "Slide"});
+    public final ModeValue<String> blockStyle = new ModeValue<>("Block Animation", new String[]{"1.7", "1.8", "Slide"});
 
     public Animations() {
         addSettings(blockStyle);
