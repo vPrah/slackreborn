@@ -20,6 +20,8 @@ import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftSessionService;
 import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
+
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -670,6 +672,22 @@ public class Minecraft implements IThreadListener, IPlayerUsage
             {
                 IOUtils.closeQuietly(smallIcon);
                 IOUtils.closeQuietly(bigIcon);
+            }
+        } else {
+            try
+            {
+                InputStream icon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/32.png"));
+                if (icon != null) {
+                    try {
+                        Class<?> Application = Class.forName("com.apple.eawt.Application");
+                        Application.getMethod("setDockIconImage", Image.class).invoke(Application.getMethod("getApplication").invoke(null), ImageIO.read(icon));
+                    } catch (Exception e) { System.err.println("[ IconUtils ] Error setting dock icon: " + e.getMessage()); }
+                    IOUtils.closeQuietly(icon);
+                } else { System.err.println("[ IconUtils ] Icon file could not be found"); }
+            }
+            catch (IOException ioexception)
+            {
+                logger.error("Couldn\'t set icon", ioexception);
             }
         }
     }
