@@ -2,7 +2,9 @@
 
 package cc.slack.features.modules.impl.player;
 
+import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -23,7 +25,7 @@ import net.minecraft.util.Vec3;
 public class AntiVoid extends Module {
 
 
-    private final ModeValue<String> antivoidMode = new ModeValue<>("mode", new String[] {"Universal", "Self TP"});
+    private final ModeValue<String> antivoidMode = new ModeValue<>("mode", new String[] {"Universal", "Self TP", "Polar"});
 
     private double groundX = 0.0;
     private double groundY = 0.0;
@@ -49,6 +51,7 @@ public class AntiVoid extends Module {
     public void onDisable() {
         if (antivoidMode.getValue() == "Universal") BlinkUtil.disable();
     }
+    
 
     @SuppressWarnings("unused")
     @Listen

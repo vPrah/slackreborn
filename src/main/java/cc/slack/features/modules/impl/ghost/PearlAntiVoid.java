@@ -1,6 +1,7 @@
 package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.events.State;
+import cc.slack.events.impl.network.DisconnectEvent;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.features.modules.api.Category;
@@ -8,6 +9,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.item.ItemEnderPearl;
@@ -44,6 +46,11 @@ public class PearlAntiVoid extends Module {
     public void onDisable() {
         mc.getTimer().timerSpeed = 1.0f;
         mc.getPlayer().isDead = false;
+    }
+
+    @Listen
+    public void onDisconnect (DisconnectEvent event) {
+        PrintUtil.print("XD");
     }
 
     @Listen

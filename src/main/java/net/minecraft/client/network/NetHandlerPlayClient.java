@@ -772,9 +772,8 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
      */
     public void handleDisconnect(S40PacketDisconnect packetIn)
     {
-        new DisconnectEvent().call();
-
         this.netManager.closeChannel(packetIn.getReason());
+        new DisconnectEvent().call();
     }
 
     /**

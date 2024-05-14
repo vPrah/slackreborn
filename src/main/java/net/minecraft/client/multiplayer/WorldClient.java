@@ -67,6 +67,7 @@ public class WorldClient extends World
         this.mapStorage = new SaveDataMemoryStorage();
         this.calculateInitialSkylight();
         this.calculateInitialWeather();
+        new WorldEvent().call();
         Reflector.postForgeBusEvent(Reflector.WorldEvent_Load_Constructor, new Object[] {this});
 
 
@@ -77,8 +78,6 @@ public class WorldClient extends World
             this.mc.playerController = new PlayerControllerOF(this.mc, p_i45063_1_);
             CustomGuis.setPlayerControllerOF((PlayerControllerOF)this.mc.playerController);
         }
-
-        new WorldEvent().call();
         BlinkUtil.disable(false);
     }
 
