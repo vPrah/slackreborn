@@ -9,9 +9,13 @@ import net.minecraft.network.Packet;
 @Getter
 @AllArgsConstructor
 public class PacketEvent extends Event {
-    private final Packet packet;
+    private Packet packet;
     private final PacketDirection direction;
 
+
+    public void setPacket(Packet<?> packet) {
+        this.packet = packet;
+    }
     public <T extends Packet> T getPacket() {
         return (T) packet;
     }

@@ -67,6 +67,7 @@ public class ModuleManager {
                     // Exploit
                     new Disabler(),
                     new Kick(),
+                    new ChatBypass(),
                     new MultiAction(),
                     new Phase(),
 
