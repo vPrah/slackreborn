@@ -12,6 +12,7 @@ import cc.slack.features.modules.impl.movement.*;
 import cc.slack.features.modules.impl.other.*;
 import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.render.*;
+import cc.slack.features.modules.impl.utilties.AutoLogin;
 import cc.slack.features.modules.impl.utilties.AutoPlay;
 import cc.slack.features.modules.impl.world.*;
 
@@ -84,6 +85,7 @@ public class ModuleManager {
                     new AimBot(),
                     new AimAssist(),
                     new Autoclicker(),
+                    new AutoTool(),
                     new LegitMode(),
                     new AutoTool(),
                     new LegitScaffold(),
@@ -96,8 +98,8 @@ public class ModuleManager {
                     new Wtap(),
 
                     // Utilities
-                    new AutoTool(),
-                    new AutoPlay()
+                    new AutoPlay(),
+                    new AutoLogin()
 
             );
         } catch (Exception e) {
