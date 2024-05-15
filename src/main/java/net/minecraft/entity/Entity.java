@@ -1244,7 +1244,7 @@ public abstract class Entity implements ICommandSender
                 movingYaw = RotationUtil.clientRotation[0];
                 if (!RotationUtil.strictStrafeFix) {
                     if (MovementUtil.isBindsMoving()) {
-                        int strafeYaw = round((MovementUtil.getBindsDirection(RotationUtil.clientRotation[0]) - mc.getPlayer().rotationYaw) / 45);
+                        int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) / 45);
                         if (strafeYaw > 4) {
                             strafeYaw -= 8;
                         }

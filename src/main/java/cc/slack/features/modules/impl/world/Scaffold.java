@@ -307,7 +307,9 @@ public class Scaffold extends Module {
                 }
             case "strict":
                 // overflow intended
-                canContinue = canContinue && raytraced.sideHit == blockPlacementFace;
+                if (raytraced.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+                    canContinue = canContinue && raytraced.sideHit == blockPlacementFace;
+                }
                 break;
             default:
                 break;

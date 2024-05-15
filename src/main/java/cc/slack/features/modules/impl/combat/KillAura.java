@@ -282,6 +282,7 @@ public class KillAura extends Module {
                 break;
             case "vanilla":
                 block();
+                break;
             case "blink":
                 if (blinkMode.getValue().equals("Blatant")) {
                     block();

@@ -781,9 +781,6 @@ public class EntityPlayerSP extends AbstractClientPlayer
     public void onLivingUpdate()
     {
         this.renderPitch = this.rotationPitch;
-        if (RotationUtil.isEnabled) {
-            this.renderPitch = RotationUtil.clientRotation[1];
-        }
 
         if (this.sprintingTicksLeft > 0)
         {
