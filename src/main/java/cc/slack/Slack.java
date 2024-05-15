@@ -35,7 +35,9 @@ public class Slack {
     private final ModuleManager moduleManager = new ModuleManager();
     private final CMDManager cmdManager = new CMDManager();
 
-    public final String changelog = "Release v0.01:\n-Added all modules (56)";
+    public final String changelog = "Release v0.01:" +
+            "\r\n-Added all modules (56)" +
+            "\r\n-Added SexModule";
 
     public void start() {
         PrintUtil.print("Initializing " + info.getName());

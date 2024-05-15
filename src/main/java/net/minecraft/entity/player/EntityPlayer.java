@@ -1,5 +1,7 @@
 package net.minecraft.entity.player;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.ghost.KeepSprint;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;
@@ -1354,7 +1356,7 @@ public abstract class EntityPlayer extends EntityLivingBase
 
                     if (flag2)
                     {
-                        if (i > 0)
+                        if (i > 0 && !Slack.getInstance().getModuleManager().getInstance(KeepSprint.class).isToggle())
                         {
                             targetEntity.addVelocity(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F, 0.1D, MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F);
                             this.motionX *= 0.6D;

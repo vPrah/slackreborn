@@ -93,6 +93,7 @@ public class ModuleManager {
                     new Backtrack(),
                     new JumpReset(),
                     new Reach(),
+                    new KeepSprint(),
                     new PearlAntiVoid(),
                     new Stap(),
                     new LegitNofall(),
