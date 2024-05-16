@@ -89,6 +89,7 @@ public class ModuleManager {
                     new AutoTool(),
                     new Backtrack(),
                     new JumpReset(),
+                    new KeepSprint(),
                     new LegitMode(),
                     new LegitNofall(),
                     new LegitScaffold(),
