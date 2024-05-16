@@ -63,18 +63,18 @@ public class ConfigCMD extends CMD {
     }
 
     private void configsMessage() {
-        PrintUtil.message("§b§lSlack configs:");
+        PrintUtil.message("§f§lSlack configs:");
         for (String str : ConfigManager.getConfigList()) {
-            PrintUtil.message("§3 " + str);
+            PrintUtil.message("§e " + str);
         }
     }
 
     private void commandsMessage() {
-        PrintUtil.message("§c§lConfig commands:");
-        PrintUtil.message("§4§o .config save [config name]");
-        PrintUtil.message("§4§o .config load [config name]");
-        PrintUtil.message("§4§o .config delete [config name]");
-        PrintUtil.message("§4§o .config list");
+        PrintUtil.message("§f§lConfig commands:");
+        PrintUtil.message("§f .config save [config name]");
+        PrintUtil.message("§f .config load [config name]");
+        PrintUtil.message("§f .config delete [config name]");
+        PrintUtil.message("§f .config list");
     }
 
 }
