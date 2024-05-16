@@ -7,19 +7,18 @@ import cc.slack.utils.client.mc;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
+import java.util.*;
 
 @Getter
 @Setter
 public class ConfigManager extends mc {
-/*
     public static final Map<String, Config> configs = new HashMap<>();
 
-    private static final File configFolder = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/Configs");
+    private static final File configFolder = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/configs");
 
     private Config activeConfig;
+
+    public static String currentConfig = "default";
 
     private static void refresh() {
         for (File file : Objects.requireNonNull(configFolder.listFiles())) {
@@ -32,7 +31,10 @@ public class ConfigManager extends mc {
     }
 
     public void init() {
-        configFolder.mkdirs();
+        if (!configFolder.mkdirs()) {
+            PrintUtil.print("Failed to make config folder");
+            return;
+        }
 
         refresh();
 
@@ -44,37 +46,53 @@ public class ConfigManager extends mc {
     }
 
     public void stop() {
-        if (getConfig("default") == null) {
-            Config config = new Config("default");
+        if (getConfig(currentConfig) == null) {
+            Config config = new Config(currentConfig);
             config.write();
-        } else getConfig("default").write();
+        } else getConfig(currentConfig).write();
     }
 
     public static Config getConfig(String name) {
         return configs.keySet().stream().filter(key -> key.equalsIgnoreCase(name)).findFirst().map(configs::get).orElse(null);
     }
 
+    public static Set<String> getConfigList() {
+        return configs.keySet();
+    }
+
     public static void saveConfig(String configName){
-        if (getConfig(configName) == null) {
-            Config config = new Config(configName);
-            config.write();
-        } else getConfig(configName).write();
+        if (configName == "default") {
+            PrintUtil.message("Cannot save config as 'default'.");
+            return;
+        }
+        try {
+            if (getConfig(configName) == null) {
+                Config config = new Config(configName);
+                config.write();
+            } else getConfig(configName).write();
+        } catch (Exception e) {
+            PrintUtil.print("Failed to save config.");
+            PrintUtil.print(e.getMessage());
+        }
 
         PrintUtil.print("Saved config " + configName + ".");
     }
 
-    public boolean delete(String configName) {
+    public static boolean delete(String configName) {
         Config existingConfig = getConfig(configName);
 
-        if (existingConfig != null) {
-            File configFile = new File(existingConfig.getDirectory().toString());
+        if (configName == "default" || configName == currentConfig || existingConfig == null) {
+            PrintUtil.message("Cannot delete config: " + configName + ".");
+            return false;
+        }
 
-            if (configFile.exists()) {
-                boolean deleted = configFile.delete();
-                if (!deleted) {
-                    System.err.println("Error: Unable to delete the config file");
-                    return false;
-                }
+        File configFile = new File(existingConfig.getDirectory().toString());
+
+        if (configFile.exists()) {
+            boolean deleted = configFile.delete();
+            if (!deleted) {
+                PrintUtil.print("Error: Unable to delete the config file");
+                return false;
             }
         }
         return true;
@@ -90,5 +108,4 @@ public class ConfigManager extends mc {
             PrintUtil.print("Failed to load config.");
         }
     }
-*/
 }

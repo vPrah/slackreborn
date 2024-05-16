@@ -7,6 +7,7 @@ public final class PrintUtil extends mc {
 
     public static void print(String message) {
         System.out.println("[Slack] " + message);
+        message(message);
     }
 
     public static void debugMessage(String message) {

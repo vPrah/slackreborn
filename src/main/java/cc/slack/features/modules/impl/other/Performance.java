@@ -42,7 +42,7 @@ public class Performance extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (garbagevalue.getValue() && mc.getPlayer().ticksExisted % 200 == 0) {
+        if (garbagevalue.getValue() && mc.getPlayer().ticksExisted % 5000 == 0) {
             System.gc();
         }
         configureGSettings(performancemode.getValue());

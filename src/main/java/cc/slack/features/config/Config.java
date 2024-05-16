@@ -81,7 +81,7 @@ public class Config extends mc {
         JsonObject config = FileUtil.readJsonFromFile(
                 new File(directory, name + ".json"
                 ).getAbsolutePath());
-
+        ConfigManager.currentConfig = name;
         for (Map.Entry<String, JsonElement> entry : config.entrySet()) {
             Slack.getInstance().getModuleManager().getModules().forEach(module -> {
                 if (entry.getKey().equalsIgnoreCase(module.getName())) {
