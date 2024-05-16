@@ -14,6 +14,7 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
@@ -50,6 +51,11 @@ public class TargetHUD extends Module {
 
         if (ticksSinceAttack > 20) {
             player = null;
+        }
+
+        if (mc.getCurrentScreen() instanceof GuiChat) {
+            player = (EntityPlayer) mc.getPlayer();
+            ticksSinceAttack = 0;
         }
     }
 
