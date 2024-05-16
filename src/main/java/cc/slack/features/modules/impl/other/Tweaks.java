@@ -36,7 +36,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noblockhitdelay, noclickdelay, noscoreboard, nohurtcam, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, noscoreboard, nohurtcam, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix);
     }
 
     @Override

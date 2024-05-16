@@ -7,6 +7,7 @@ import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.player.JumpEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.StrafeEvent;
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -152,38 +153,34 @@ public class KillAura extends Module {
     }
 
     @Listen
-    public void onTick(TickEvent e) {
+    public void onUpdate(UpdateEvent e) {
+        target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());
 
-        if(e.getState() == State.PRE) {
-            target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());
-
-            if (target == null) {
-                attackDelay = 0;
-                unblock();
-                if (wasBlink) {
-                    wasBlink = false;
-                    BlinkUtil.disable();
-                }
-                renderBlock = false;
-                return;
+        if (target == null) {
+            attackDelay = 0;
+            unblock();
+            if (wasBlink) {
+                wasBlink = false;
+                BlinkUtil.disable();
             }
+            renderBlock = false;
+            return;
+        }
 
-            if (mc.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
-            renderBlock = mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() && (renderBlocking.getValue() || isBlocking);
+        if (mc.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
+        renderBlock = canAutoBlock() && (renderBlocking.getValue() || isBlocking);
 
-            rotations = calculateRotations(target);
+        rotations = calculateRotations(target);
 
-            if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
-                if (preAttack()) return;
-            while (queuedAttacks > 0) {
-                attack(target);
-                queuedAttacks--;
-            }
-            if (canAutoBlock()) postAttack();
-        } else {
-            if(isBlocking && autoBlock.getValue().equalsIgnoreCase("Universocraft")) {
-                isBlocking = false;
-            }
+        if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
+            if (preAttack()) return;
+        while (queuedAttacks > 0) {
+            attack(target);
+            queuedAttacks--;
+        }
+        if (canAutoBlock()) postAttack();
+        if(isBlocking && autoBlock.getValue().equalsIgnoreCase("Universocraft")) {
+            isBlocking = false;
         }
     }
 

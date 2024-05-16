@@ -7,6 +7,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -17,16 +18,18 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 )
 public class Step extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "NCP", "Verus", "Vulcan"});
+    private final ModeValue<String> mode = new ModeValue<>("Step Mode", new String[]{"Vanilla", "NCP", "Verus", "Vulcan"});
+    private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0f, 2f, 0.05f);
 
 
     public Step() {
-        addSettings(mode);
+        addSettings(mode, timerSpeed);
     }
 
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().isCollidedHorizontally && mc.getPlayer().onGround) {
+            mc.getTimer().timerSpeed = timerSpeed.getValue();
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
                     mc.getPlayer().stepHeight = 1f;
