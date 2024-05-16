@@ -299,16 +299,23 @@ public class Scaffold extends Module {
                 false, true, false);
         switch (raycastMode.getValue().toLowerCase()) {
             case "normal":
-                if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+                if (raytraced == null) {
                     canContinue = false;
                     break;
+                }
+                if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
+                    canContinue = false;
                 } else {
                     canContinue = raytraced.getBlockPos() == blockPlacement;
                 }
+                break;
             case "strict":
-                // overflow intended
+                if (raytraced == null) {
+                    canContinue = false;
+                    break;
+                }
                 if (raytraced.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    canContinue = canContinue && raytraced.sideHit == blockPlacementFace;
+                    canContinue = raytraced.getBlockPos() == blockPlacement && raytraced.sideHit == blockPlacementFace;
                 }
                 break;
             default:

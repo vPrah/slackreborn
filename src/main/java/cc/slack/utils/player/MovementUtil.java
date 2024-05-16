@@ -78,6 +78,7 @@ public class MovementUtil extends mc {
     }
 
     public static float getDirection() {
+        if (RotationUtil.isEnabled && RotationUtil.strafeFix) return getBindsDirection(getPlayer().rotationYaw);
         return getDirection(getPlayer().rotationYaw, getPlayer().moveForward, getPlayer().moveStrafing);
     }
 

@@ -389,7 +389,7 @@ public class ItemRenderer
                                         this.func_178103_d();
                                         break;
                                     case "Slide":
-                                        this.transformFirstPersonItem(0.3f, f1);
+                                        this.transformFirstPersonItem(0.7f, f1);
                                         this.func_178103_d();
                                         break;
                                 }

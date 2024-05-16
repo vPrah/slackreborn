@@ -9,6 +9,7 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
 import cc.slack.utils.player.AttackUtil;
+import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.RotationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
@@ -221,6 +222,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
             if (RotationUtil.keepRotationTicks <= 0) {
                 RotationUtil.isEnabled = false;
+                if (RotationUtil.strafeFix) {
+                    MovementUtil.updateBinds();
+                    RotationUtil.strafeFix = false;
+                }
             } else {
                 RotationUtil.keepRotationTicks--;
             }

@@ -41,8 +41,6 @@ public class HUD extends Module {
 
     private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", false);
 
-    private double lastBPS = 0.0;
-
     private int scaffoldTicks = 0;
 
     public HUD() {
@@ -96,9 +94,9 @@ public class HUD extends Module {
             if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
                 String displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
                 drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2,
-                        (int) (sr.getScaledHeight() * 3f / 4F - mc.getFontRenderer().FONT_HEIGHT / 2f - 2f),
+                        (int) (sr.getScaledHeight() * 3f / 4F - 2f),
                         (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2,
-                        (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT / 2f + 2f),
+                        (int) (sr.getScaledHeight() * 3f / 4F + 2f),
                         0x80000000);
                 mc.getFontRenderer().drawString(displayString,
                         (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f,
@@ -113,8 +111,6 @@ public class HUD extends Module {
 
     private String getBPS() {
         double currentBPS = ((double) round((MovementUtil.getSpeed() * 20) * 100)) / 100;
-        double avgBPS = (lastBPS + currentBPS) / 2;
-        lastBPS = currentBPS;
         return String.format("%.2f", currentBPS);
     }
 }
