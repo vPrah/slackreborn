@@ -158,7 +158,8 @@ public class KillAura extends Module {
 
         if (target == null) {
             attackDelay = 0;
-            unblock();
+            if (isBlocking)
+                unblock();
             if (wasBlink) {
                 wasBlink = false;
                 BlinkUtil.disable();
@@ -339,7 +340,7 @@ public class KillAura extends Module {
         if (!mc.getGameSettings().keyBindUseItem.isKeyDown())
             PacketUtil.send(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
         else
-            mc.getGameSettings().keyBindUseItem.setPressed(false);
+            if (canAutoBlock()) mc.getGameSettings().keyBindUseItem.setPressed(false);
         isBlocking = false;
     }
 
