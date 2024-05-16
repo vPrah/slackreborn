@@ -11,11 +11,15 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemSword;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 
 @ModuleInfo(
         name = "NoSlow",
@@ -24,7 +28,7 @@ import net.minecraft.network.play.client.C09PacketHeldItemChange;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Vulcan", "NCP Latest", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Vulcan", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
@@ -45,6 +49,7 @@ public class NoSlow extends Module {
                 case "vanilla":
                     break;
                 case "ncp latest":
+                    break;
                 case "switch":
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
@@ -57,6 +62,14 @@ public class NoSlow extends Module {
                         mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
                     }
                     break;
+                case "hypixel": {
+                    if (mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword) {
+                        PacketUtil.sendBlocking(true, false);
+                        if (mc.getPlayer().isUsingItem() || mc.getPlayer().isBlocking() || mc.getPlayer().ticksExisted % 3 != 0)
+                            break;
+                        PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                    }
+                }
             }
         }
     }
