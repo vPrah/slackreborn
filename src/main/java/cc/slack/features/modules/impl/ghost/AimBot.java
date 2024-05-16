@@ -12,6 +12,7 @@ import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 
 @ModuleInfo(
@@ -57,7 +58,7 @@ public class AimBot extends Module {
        float [] clientRotation = RotationUtil.getLimitedRotation(
                RotationUtil.clientRotation,
                targetRotation,
-               (float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5)
+               ((float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5)) * 20 / Minecraft.getDebugFPS()
        );
 
        if (silent.getValue()) {

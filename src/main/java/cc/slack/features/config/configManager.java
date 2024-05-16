@@ -2,16 +2,13 @@ package cc.slack.features.config;
 
 import cc.slack.utils.other.PrintUtil;
 import lombok.Getter;
-import lombok.Setter;
-import cc.slack.utils.client.mc;
 import net.minecraft.client.Minecraft;
 
 import java.io.File;
 import java.util.*;
 
 @Getter
-@Setter
-public class ConfigManager extends mc {
+public class configManager {
     public static final Map<String, Config> configs = new HashMap<>();
 
     private static final File configFolder = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/configs");
@@ -30,7 +27,7 @@ public class ConfigManager extends mc {
         }
     }
 
-    public void init() {
+    public static void init() {
         if (!configFolder.mkdirs()) {
             PrintUtil.print("Failed to make config folder");
             return;
@@ -45,7 +42,7 @@ public class ConfigManager extends mc {
         } else getConfig("default").read();
     }
 
-    public void stop() {
+    public static void stop() {
         if (getConfig(currentConfig) == null) {
             Config config = new Config(currentConfig);
             config.write();

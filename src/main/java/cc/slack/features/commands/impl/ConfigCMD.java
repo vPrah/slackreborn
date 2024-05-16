@@ -2,7 +2,7 @@ package cc.slack.features.commands.impl;
 
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.commands.api.CMDInfo;
-import cc.slack.features.config.ConfigManager;
+import cc.slack.features.config.configManager;
 import cc.slack.utils.other.PrintUtil;
 
 @CMDInfo(
@@ -22,7 +22,7 @@ public class ConfigCMD extends CMD {
             case 1:
                 switch (args[0]) {
                     case "save":
-                        ConfigManager.saveConfig(ConfigManager.currentConfig);
+                        configManager.saveConfig(configManager.currentConfig);
                     case "load":
                     case "delete":
                         commandsMessage();
@@ -35,11 +35,11 @@ public class ConfigCMD extends CMD {
             case 2:
                 switch (args[0]) {
                     case "save":
-                        ConfigManager.saveConfig(args[1]);
+                        configManager.saveConfig(args[1]);
                     case "load":
-                        ConfigManager.loadConfig(args[1]);
+                        configManager.loadConfig(args[1]);
                     case "delete":
-                        ConfigManager.delete(args[1]);
+                        configManager.delete(args[1]);
                     case "list":
                         configsMessage();
                         break;
@@ -48,11 +48,11 @@ public class ConfigCMD extends CMD {
             default:
                 switch (args[0]) {
                     case "save":
-                        ConfigManager.saveConfig(args.toString().substring(4).replace(' ', '_'));
+                        configManager.saveConfig(args.toString().substring(4).replace(' ', '_'));
                     case "load":
-                        ConfigManager.loadConfig(args.toString().substring(4).replace(' ', '_'));
+                        configManager.loadConfig(args.toString().substring(4).replace(' ', '_'));
                     case "delete":
-                        ConfigManager.delete(args.toString().substring(4).replace(' ', '_'));
+                        configManager.delete(args.toString().substring(4).replace(' ', '_'));
                     case "list":
                         configsMessage();
                         break;
@@ -64,7 +64,7 @@ public class ConfigCMD extends CMD {
 
     private void configsMessage() {
         PrintUtil.message("§f§lSlack configs:");
-        for (String str : ConfigManager.getConfigList()) {
+        for (String str : configManager.getConfigList()) {
             PrintUtil.message("§e " + str);
         }
     }

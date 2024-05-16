@@ -7,6 +7,7 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
@@ -28,14 +29,16 @@ import net.minecraft.util.EnumFacing;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Vulcan", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> mode = new ModeValue<>("Bypass Mode", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
 
+    public final BooleanValue onEat = new BooleanValue("Eating NoSlow", true);
+
     public NoSlow() {
         super();
-        addSettings(mode, forwardMultiplier, strafeMultiplier);
+        addSettings(mode, forwardMultiplier, strafeMultiplier, onEat);
     }
 
     @SuppressWarnings("unused")
@@ -43,7 +46,7 @@ public class NoSlow extends Module {
     public void onUpdate (UpdateEvent event) {
         boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
-        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) {
+        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
             switch (mode.getValue().toLowerCase()) {
                 case "vulcan":
                 case "vanilla":

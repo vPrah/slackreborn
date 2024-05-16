@@ -5,6 +5,7 @@ import cc.slack.events.impl.game.ChatEvent;
 import cc.slack.events.impl.input.KeyEvent;
 import cc.slack.features.commands.CMDManager;
 import cc.slack.features.commands.api.CMD;
+import cc.slack.features.config.configManager;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.movement.Sprint;
 import cc.slack.features.modules.impl.other.Targets;
@@ -46,6 +47,7 @@ public class Slack {
         EventUtil.register(this);
         moduleManager.initialize();
         cmdManager.initialize();
+        configManager.init();
 
 
         // Default Modules
@@ -67,6 +69,7 @@ public class Slack {
 
     public void shutdown() {
         EventUtil.unRegister(this);
+        configManager.stop();
     }
 
     // Event Stuff
