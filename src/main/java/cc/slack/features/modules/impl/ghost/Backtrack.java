@@ -61,10 +61,12 @@ public class Backtrack extends Module {
             packetCache.add(currentTick);
             currentTick.clear();
         }
-        if (ticksSinceAttack < maxDelay.getValue()) {
-            ticksSinceAttack ++;
-        } else {
-            releaseFirst();
+        if (enabled) {
+            if (ticksSinceAttack < maxDelay.getValue()) {
+                ticksSinceAttack ++;
+            } else {
+                releaseFirst();
+            }
         }
         if (backtrackTicks > 0) {
             backtrackTicks --;
@@ -91,6 +93,7 @@ public class Backtrack extends Module {
                 if (wrapper.getEntityFromWorld(mc.getWorld()) instanceof EntityPlayer && wrapper.getAction() == C02PacketUseEntity.Action.ATTACK) {
                     if (backtrackTicks == 0) ticksSinceAttack = 0;
                     backtrackTicks = backtrackTime.getValue();
+                    enabled = true;
                     player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
                 }
             }
@@ -99,7 +102,10 @@ public class Backtrack extends Module {
                     packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                     packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
                     packet instanceof S3BPacketScoreboardObjective) && mc.getPlayer().ticksExisted > 4) {
-                currentTick.add(packet);
+                if (enabled) {
+                    currentTick.add(packet);
+                    event.cancel();
+                }
             }
         }
     }
