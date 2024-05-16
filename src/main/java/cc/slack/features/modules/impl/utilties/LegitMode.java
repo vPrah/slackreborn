@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.ghost;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.api.Category;
@@ -16,7 +16,7 @@ import java.io.File;
 
 @ModuleInfo(
         name = "LegitMode",
-        category = Category.GHOST
+        category = Category.UTILITIES
 )
 public class LegitMode extends Module {
 
