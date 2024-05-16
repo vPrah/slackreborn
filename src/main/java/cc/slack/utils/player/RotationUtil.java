@@ -49,9 +49,6 @@ public class RotationUtil extends mc {
 
     public static void setPlayerRotation(float[] targetRotation) {
         targetRotation = applyGCD(targetRotation, new float[] {mc.getPlayer().prevRotationYaw, mc.getPlayer().prevRotationPitch} );
-        mc.getPlayer().prevRotationYaw = mc.getPlayer().rotationYaw;
-        mc.getPlayer().prevRotationPitch = mc.getPlayer().rotationPitch;
-
         mc.getPlayer().rotationYaw = targetRotation[0];
         mc.getPlayer().rotationPitch = targetRotation[1];
     }

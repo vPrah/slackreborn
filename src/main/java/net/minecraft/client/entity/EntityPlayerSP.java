@@ -212,7 +212,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
         if (RotationUtil.isEnabled) {
             // primative rotationUtil implementation
             this.rotationYaw = RotationUtil.clientRotation[0];
-            this.rotationPitch = RotationUtil.clientRotation[0];
+            this.rotationPitch = RotationUtil.clientRotation[1];
             this.rotationYaw += (new Random()).nextFloat() * RotationUtil.randomizeAmount;
             this.rotationPitch += (new Random()).nextFloat() * RotationUtil.randomizeAmount;
 
