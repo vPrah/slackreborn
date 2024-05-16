@@ -15,7 +15,7 @@ import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
 
 @ModuleInfo(
-        name = "Aimbience",
+        name = "Ambience",
         category = Category.RENDER
 )
 public class Ambience extends Module {

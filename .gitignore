@@ -3,23 +3,11 @@
 /target
 
 # Workspace
-/workspace/assets/skins
-/workspace/resourcepacks
-/workspace/shaderpacks
-/workspace/screenshots
-/workspace/crash-reports
-/workspace/usercache.json
-/workspace/saves
-/workspace/logs
-/workspace/options.txt
-/workspace/optionsof.txt
-/workspace/optionsshaders.txt
-/workspace/servers.dat
-/workspace/ViaMCP
-
+workspace/
 
 # Other Shit
 MavenMCP.iml
 workspace/servers.dat
 .DS_Store
 .DS_Store
+logs/

@@ -65,9 +65,9 @@ public class ModuleManager {
                     new Stealer(),
 
                     // Exploit
+                    new ChatBypass(),
                     new Disabler(),
                     new Kick(),
-                    new ChatBypass(),
                     new MultiAction(),
                     new Phase(),
 
@@ -77,9 +77,9 @@ public class ModuleManager {
                     new Bobbing(),
                     new ChestESP(),
                     new ClickGUI(),
-                    new Projectiles(),
                     new ESP(),
                     new HUD(),
+                    new Projectiles(),
                     new TargetHUD(),
 
                     // Ghost
@@ -87,16 +87,14 @@ public class ModuleManager {
                     new AimAssist(),
                     new Autoclicker(),
                     new AutoTool(),
-                    new LegitMode(),
-                    new AutoTool(),
-                    new LegitScaffold(),
                     new Backtrack(),
                     new JumpReset(),
-                    new Reach(),
-                    new KeepSprint(),
-                    new PearlAntiVoid(),
-                    new Stap(),
+                    new LegitMode(),
                     new LegitNofall(),
+                    new LegitScaffold(),
+                    new PearlAntiVoid(),
+                    new Reach(),
+                    new Stap(),
                     new Wtap(),
 
                     // Utilities

@@ -347,20 +347,23 @@ public class ItemRenderer
             GlStateManager.enableRescaleNormal();
             GlStateManager.pushMatrix();
 
+            boolean killauraBlock = false;
+            if (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle()) {
+                if (Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock) {
+                    killauraBlock = true;
+                }
+            }
+
             if (this.itemToRender != null)
             {
                 if (this.itemToRender.getItem() instanceof ItemMap)
                 {
                     this.renderItemMap(abstractclientplayer, f2, f, f1);
                 }
-                else if (abstractclientplayer.getItemInUseCount() > 0)
+                else if (abstractclientplayer.getItemInUseCount() > 0 || killauraBlock)
                 {
                     EnumAction enumaction = this.itemToRender.getItemUseAction();
-                    if (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle()) {
-                        if (Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock) {
-                            enumaction = EnumAction.BLOCK;
-                        }
-                    }
+                    if (killauraBlock) enumaction = EnumAction.BLOCK;
 
                     switch (enumaction)
                     {

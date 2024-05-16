@@ -62,44 +62,51 @@ public class HUD extends Module {
 
         arraylistModes.getValue().onRender(e);
 
-            switch (watermarksmodes.getValue()) {
-                case "Classic":
-                    Fonts.apple18.drawStringWithShadow("S", 4, 4, 0x5499C7);
-                    Fonts.apple18.drawStringWithShadow("lack", 10, 4, -1);
-                    break;
-                case "Backgrounded":
-                    drawRect(2, 2, 80, 15, 0x80000000);
-                    Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 4, 0x5499C7);
-                    Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 4, -1);
-                    break;
+        switch (watermarksmodes.getValue()) {
+            case "Classic":
+                Fonts.apple18.drawStringWithShadow("S", 4, 4, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow("lack", 10, 4, -1);
+                break;
+            case "Backgrounded":
+                drawRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+                Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+                Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+                break;
+        }
+        if (fpsdraw.getValue()) {
+            Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+            Fonts.apple18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
+        }
+
+        if (bpsdraw.getValue()) {
+            Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+            Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
+
+        }
+
+        if (scaffoldDraw.getValue()) {
+            if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
+                if (scaffoldTicks < 5) scaffoldTicks++;
+            } else {
+                if (scaffoldTicks > 0) scaffoldTicks--;
             }
-            if (fpsdraw.getValue()) {
-                Fonts.apple18.drawStringWithShadow("FPS:  " , 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(""+Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
-            }
 
-            if (bpsdraw.getValue()) {
-                Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
-
-            }
-
-            if (scaffoldDraw.getValue()) {
-                if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
-                    if (scaffoldTicks < 5) scaffoldTicks++;
-                } else {
-                    if (scaffoldTicks > 0) scaffoldTicks--;
-                }
-
-                if (scaffoldTicks == 0) return;
-                ScaledResolution sr = mc.getScaledResolution();
-                if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null)
-                    mc.getFontRenderer().drawString("Blocks " + mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize,
-                        sr.getScaledWidth() / 1.95f,
-                        sr.getScaledHeight() / 2F,
+            if (scaffoldTicks == 0) return;
+            ScaledResolution sr = mc.getScaledResolution();
+            if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+                String displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
+                drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2,
+                        (int) (sr.getScaledHeight() * 3f / 4F - mc.getFontRenderer().FONT_HEIGHT / 2f - 2f),
+                        (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2,
+                        (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT / 2f + 2f),
+                        0x80000000);
+                mc.getFontRenderer().drawString(displayString,
+                        (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f,
+                        sr.getScaledHeight() * 3f / 4F,
                         new Color(255, 255, 255).getRGB(),
-                        true);
+                        false);
             }
+        }
 
 //        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
     }

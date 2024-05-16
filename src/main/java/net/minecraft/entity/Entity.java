@@ -1244,7 +1244,7 @@ public abstract class Entity implements ICommandSender
                 movingYaw = RotationUtil.clientRotation[0];
                 if (!RotationUtil.strictStrafeFix) {
                     if (MovementUtil.isBindsMoving()) {
-                        int strafeYaw = round((MovementUtil.getBindsDirection(RotationUtil.clientRotation[0]) - mc.getPlayer().rotationYaw) / 45);
+                        int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) / 45);
                         if (strafeYaw > 4) {
                             strafeYaw -= 8;
                         }
@@ -1252,9 +1252,9 @@ public abstract class Entity implements ICommandSender
                             strafeYaw += 8;
                         }
                         mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
-                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
                         mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
-                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
                     } else {
                         mc.getGameSettings().keyBindForward.pressed = false;
                         mc.getGameSettings().keyBindRight.pressed = false;
