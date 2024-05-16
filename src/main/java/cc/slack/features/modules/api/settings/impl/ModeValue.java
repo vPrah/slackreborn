@@ -41,6 +41,16 @@ public class ModeValue<T> extends Value<T> {
         return choices.get(currentIndex);
     }
 
+    public int getIndex() {
+        List<T> choices = Arrays.asList(this.modes);
+        return choices.indexOf(getValue());
+    }
+
+    public void setIndex(Integer index) {
+        List<T> choices = Arrays.asList(this.modes);
+        setValue(choices.get(index));
+    }
+
     public boolean is(T mode) {
         for (T m : modes) {
             if (m instanceof String) {

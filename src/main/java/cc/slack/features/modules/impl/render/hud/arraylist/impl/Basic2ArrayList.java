@@ -13,6 +13,7 @@ import net.minecraft.client.gui.Gui;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
@@ -28,6 +29,7 @@ public class Basic2ArrayList implements IArraylist {
             if (module.isToggle()) modules.add(module.getDisplayName());
         }
         modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
+        Collections.reverse(modules);
     }
 
     @Override

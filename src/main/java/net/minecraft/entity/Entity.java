@@ -1252,9 +1252,9 @@ public abstract class Entity implements ICommandSender
                             strafeYaw += 8;
                         }
                         mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
-                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
                         mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
-                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
                     } else {
                         mc.getGameSettings().keyBindForward.pressed = false;
                         mc.getGameSettings().keyBindRight.pressed = false;

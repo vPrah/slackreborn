@@ -47,6 +47,15 @@ public abstract class Module {
         onToggled();
     }
 
+    public Value getValueByName(String n) {
+        for (Value m : setting) {
+            if (m.getName().equals(n))
+                return m;
+        }
+
+        return null;
+    }
+
     public void addSettings(Value... settings) {
         setting.addAll(Arrays.asList(settings));
     }

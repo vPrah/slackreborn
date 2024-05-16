@@ -1,6 +1,8 @@
 package cc.slack.features.config;
 
 import cc.slack.Slack;
+import cc.slack.features.modules.api.settings.Value;
+import cc.slack.features.modules.api.settings.impl.*;
 import cc.slack.utils.other.FileUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -11,100 +13,123 @@ import net.minecraft.client.Minecraft;
 
 import java.awt.*;
 import java.io.File;
+import cc.slack.features.modules.api.Module;
 import java.util.Map;
 
 @Getter
 @Setter
 public class Config extends mc {
 
-//    private final File directory = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/Configs");
-//
-//    private final String name;
-//
-//    public Config(String name) {
-//        this.name = name;
-//    }
-//
-//    public void write() {
-//        JsonObject jsonObject = new JsonObject();
-//
-//        Slack.getInstance().getModuleManager().getModules(module -> {
-//            JsonObject mObject = new JsonObject();
-//
-//            mObject.addProperty("state", module.isEnabled());
-//            mObject.addProperty("hide", module.isVisible());
-//            mObject.addProperty("bind", module.getKeyBind());
-//
-//            JsonObject vObject = new JsonObject();
-//
-//            module.ge.forEach(property -> {
-//                if (property instanceof BooleanProperty)
-//                    vObject.addProperty(property.getName(), ((BooleanProperty) property).isEnabled());
-//
-//                if (property instanceof ModeProperty)
-//                    vObject.addProperty(property.getName(), ((ModeProperty) property).getMode());
-//
-//                if (property instanceof NumberProperty)
-//                    vObject.addProperty(property.getName(), ((NumberProperty) property).getValue());
-//
-//                if (property instanceof ColorProperty) {
-//                    vObject.addProperty(property.getName(),((ColorProperty) property).getColor().getRGB());
-//                }
-//
-//                if (property instanceof InputProperty) {
-//                    vObject.addProperty(property.getName(), ((InputProperty) property).getInput());
-//                }
-//            });
-//
-//            mObject.add("values", vObject);
-//            jsonObject.add(module.getName(), mObject);
-//        });
-//
-//        FileUtil.writeJsonToFile(jsonObject, new File(directory, name + ".json").getAbsolutePath());
-//    }
-//    public void read() {
-//        JsonObject config = FileUtil.readJsonFromFile(
-//                new File(directory, name + ".json"
-//                ).getAbsolutePath());
-//
-//        for (Map.Entry<String, JsonElement> entry : config.entrySet()) {
-//            Actinium.INSTANCE.getModuleManager().get.forEach(module -> {
-//                if (entry.getKey().equalsIgnoreCase(module.getName())) {
-//                    JsonObject json = (JsonObject) entry.getValue();
-//
-//                    module.setEnabled(json.get("state").getAsBoolean());
-//                    module.setVisible(json.get("hide").getAsBoolean());
-//                    module.setKeyBind(json.get("bind").getAsInt());
-//
-//                    JsonObject values = json.get("values").getAsJsonObject();
-//                    for (Map.Entry<String, JsonElement> value : values.entrySet()) {
-//                        if (module.getValueByName(value.getKey()) != null) {
-//                            try {
-//                                Property v = module.getValueByName(value.getKey());
-//
-//                                if (v instanceof BooleanProperty)
-//                                    ((BooleanProperty) v).setEnabled(value.getValue().getAsBoolean());
-//
-//                                if (v instanceof ModeProperty)
-//                                    ((ModeProperty) v).setMode(value.getValue().getAsString());
-//
-//                                if (v instanceof NumberProperty)
-//                                    ((NumberProperty) v).setValue(value.getValue().getAsDouble());
-//
-//                                if (v instanceof ColorProperty) {
-//                                    ((ColorProperty) v).setColor(new Color(value.getValue().getAsInt()));
-//                                }
-//                                if (v instanceof InputProperty) {
-//                                    ((InputProperty) v).setInput(value.getValue().getAsString());
-//                                    ((InputProperty) v).getImString().set(value.getValue().getAsString());
-//                                }
-//                            } catch (Exception e) {
-//                                // Empty Catch Block
-//                            }
-//                        }
-//                    }
-//                }
-//            });
-//        }
-//    }
+    private final File directory = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/Configs");
+
+    private final String name;
+
+    public Config(String name) {
+        this.name = name;
+    }
+
+    public void write() {
+        JsonObject jsonObject = new JsonObject();
+
+        for (Module module : Slack.getInstance().getModuleManager().getModules()) {
+            JsonObject moduleJson = new JsonObject();
+
+            moduleJson.addProperty("state", module.isToggle());
+            moduleJson.addProperty("bind", module.getKey());
+
+            JsonObject valueJson = new JsonObject();
+
+            module.getSetting().forEach(property -> {
+                if (property instanceof BooleanValue)
+                    valueJson.addProperty(property.getName(), ((BooleanValue) property).getValue());
+
+                if (property instanceof ModeValue)
+                    valueJson.addProperty(property.getName(), ((ModeValue) property).getIndex());
+
+                if (property instanceof NumberValue) {
+                    if (((NumberValue) property).getMinimum() instanceof Integer) {
+                        valueJson.addProperty(property.getName(), (Integer) (property.getValue()));
+                    }
+                    if (((NumberValue) property).getMinimum() instanceof Float) {
+                        valueJson.addProperty(property.getName(), (Float) (property.getValue()));
+                    }
+                    if (((NumberValue) property).getMinimum() instanceof Double) {
+                        valueJson.addProperty(property.getName(), (Double) (property.getValue()));
+                    }
+                }
+
+                if (property instanceof ColorValue) {
+                    valueJson.addProperty(property.getName(),((ColorValue) property).getValue().getRGB());
+                }
+
+                if (property instanceof StringValue) {
+                    valueJson.addProperty(property.getName(), ((StringValue) property).getValue());
+                }
+
+                if (property instanceof SubCatagory) {
+                    valueJson.addProperty(property.getName(), ((SubCatagory) property).getValue());
+                }
+            });
+
+            moduleJson.add("values", valueJson);
+            jsonObject.add(module.getName(), moduleJson);
+        }
+
+        FileUtil.writeJsonToFile(jsonObject, new File(directory, name + ".json").getAbsolutePath());
+    }
+    public void read() {
+        JsonObject config = FileUtil.readJsonFromFile(
+                new File(directory, name + ".json"
+                ).getAbsolutePath());
+
+        for (Map.Entry<String, JsonElement> entry : config.entrySet()) {
+            Slack.getInstance().getModuleManager().getModules().forEach(module -> {
+                if (entry.getKey().equalsIgnoreCase(module.getName())) {
+                    JsonObject json = (JsonObject) entry.getValue();
+
+                    module.setToggle(json.get("state").getAsBoolean());
+                    module.setKey(json.get("bind").getAsInt());
+
+                    JsonObject values = json.get("values").getAsJsonObject();
+                    for (Map.Entry<String, JsonElement> value : values.entrySet()) {
+                        if (module.getValueByName(value.getKey()) != null) {
+                            try {
+                                Value v = module.getValueByName(value.getKey());
+
+                                if (v instanceof BooleanValue)
+                                    ((BooleanValue) v).setValue(value.getValue().getAsBoolean());
+
+                                if (v instanceof ModeValue)
+                                    ((ModeValue) v).setIndex(value.getValue().getAsInt());
+
+                                if (v instanceof NumberValue) {
+                                    if (((NumberValue) v).getMinimum() instanceof Integer)
+                                        v.setValue(value.getValue().getAsInt());
+                                    if (((NumberValue) v).getMinimum() instanceof Float)
+                                        v.setValue(value.getValue().getAsFloat());
+                                    if (((NumberValue) v).getMinimum() instanceof Double)
+                                        v.setValue(value.getValue().getAsDouble());
+                                }
+
+                                if (v instanceof ColorValue) {
+                                    v.setValue(new Color(value.getValue().getAsInt()));
+                                }
+
+                                if (v instanceof StringValue) {
+                                    v.setValue(value.getValue().getAsString());
+                                }
+
+                                if (v instanceof SubCatagory) {
+                                    v.setValue(value.getValue().getAsBoolean());
+                                }
+
+                            } catch (Exception e) {
+                                // Empty Catch Block
+                            }
+                        }
+                    }
+                }
+            });
+        }
+    }
 }

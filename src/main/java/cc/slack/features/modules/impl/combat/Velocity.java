@@ -49,37 +49,39 @@ public class Velocity extends Module {
 
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
-            switch (mode.getValue().toLowerCase()) {
-                case "motion":
-                    if (horizontal.getValue() == 0) {
+            if (packet.getEntityID() == mc.getPlayer().getEntityId()) {
+                switch (mode.getValue().toLowerCase()) {
+                    case "motion":
+                        if (horizontal.getValue() == 0) {
+                            event.cancel();
+                            mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                        } else if (vertical.getValue() == 0) {
+                            event.cancel();
+                            mc.getPlayer().motionX = packet.getMotionX() * horizontal.getValue().doubleValue() / 100 / 8000.0;
+                            mc.getPlayer().motionZ = packet.getMotionZ() * horizontal.getValue().doubleValue() / 100 / 8000.0;
+                        } else {
+                            packet.setMotionX(packet.getMotionX() * (horizontal.getValue() / 100));
+                            packet.setMotionY(packet.getMotionY() * (vertical.getValue() / 100));
+                            packet.setMotionZ(packet.getMotionZ() * (horizontal.getValue() / 100));
+                        }
+                        break;
+                    case "cancel":
+                        event.cancel();
+                        break;
+                    case "hypixel":
                         event.cancel();
                         mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
-                    } else if (vertical.getValue() == 0) {
+                        break;
+                    case "reverse":
                         event.cancel();
-                        mc.getPlayer().motionX = packet.getMotionX() * horizontal.getValue().doubleValue() / 100 / 8000.0;
-                        mc.getPlayer().motionZ = packet.getMotionZ() * horizontal.getValue().doubleValue() / 100 / 8000.0;
-                    } else {
-                        packet.setMotionX(packet.getMotionX() * (horizontal.getValue() / 100));
-                        packet.setMotionY(packet.getMotionY() * (vertical.getValue() / 100));
-                        packet.setMotionZ(packet.getMotionZ() * (horizontal.getValue() / 100));
-                    }
-                    break;
-                case "cancel":
-                    event.cancel();
-                    break;
-                case "hypixel":
-                    event.cancel();
-                    mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
-                    break;
-                case "reverse":
-                    event.cancel();
-                    mc.getPlayer().motionY = packet.getMotionY() / 8000.0;
-                    mc.getPlayer().motionX = packet.getMotionX() / 8000.0;
-                    mc.getPlayer().motionZ = packet.getMotionZ() / 8000.0;
-                    MovementUtil.strafe();
-                    break;
-                default:
-                    break;
+                        mc.getPlayer().motionY = packet.getMotionY() / 8000.0;
+                        mc.getPlayer().motionX = packet.getMotionX() / 8000.0;
+                        mc.getPlayer().motionZ = packet.getMotionZ() / 8000.0;
+                        MovementUtil.strafe();
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }
