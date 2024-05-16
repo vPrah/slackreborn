@@ -40,10 +40,10 @@ public class LegitScaffold extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (mc.getCurrentScreen() != null) return;
-        if (PlayerUtil.isOverAir() && (!onlyGround.getValue() || mc.getPlayer().onGround) && mc.getPlayer().motionY < 0.1) {
-            sneakTimer.reset();
-        }
         shouldSneak = !sneakTimer.hasReached((long) sneakTime.getValue());
+        if (PlayerUtil.isOverAir() && (!onlyGround.getValue() || mc.getPlayer().onGround) && mc.getPlayer().motionY < 0.1) {
+            shouldSneak = true;
+        }
 
         if (holdSneak.getValue()) {
             mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak) && shouldSneak;

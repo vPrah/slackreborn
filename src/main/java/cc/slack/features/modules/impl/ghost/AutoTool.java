@@ -51,7 +51,6 @@ public class AutoTool extends Module {
                 && !(AttackUtil.inCombat && noCombat.getValue())
                 && (switchTimer.hasReached((long) delay.getValue()))) {
 
-            int bestSpeed = 0;
             bestSlot = -1;
 
             if (!isMining) {
@@ -60,6 +59,7 @@ public class AutoTool extends Module {
 
             Block block = mc.getWorld().getBlockState(mc.getMinecraft().objectMouseOver.getBlockPos()).getBlock();
 
+            float bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
             for (int i = 0; i <= 8; i++) {
                 ItemStack item = mc.getPlayer().inventory.getStackInSlot(i);
                 if (item == null)
@@ -68,7 +68,7 @@ public class AutoTool extends Module {
                 float speed = item.getStrVsBlock(block);
 
                 if (speed > bestSpeed) {
-                    bestSpeed = (int) speed;
+                    bestSpeed = speed;
                     bestSlot = i;
                 }
 
