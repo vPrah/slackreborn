@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.api;
 
+import cc.slack.Slack;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.utils.EventUtil;
 import lombok.Getter;
@@ -40,9 +41,11 @@ public abstract class Module {
         if (toggle) {
             EventUtil.register(this);
             onEnable();
+            Slack.getInstance().addNotification("Enabled module: " + name + ".", " ", 2000L);
         } else {
             EventUtil.unRegister(this);
             onDisable();
+            Slack.getInstance().addNotification("Disabled module: " + name + ".", " ", 2000L);
         }
         onToggled();
     }

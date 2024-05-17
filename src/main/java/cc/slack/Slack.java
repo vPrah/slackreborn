@@ -109,4 +109,8 @@ public class Slack {
             PrintUtil.message("\"" + message + "\" is not a recognized command. Use §c.help §fto get other commands.");
         }
     }
+
+    public void addNotification(String bigText, String smallText, Long duration) {
+        instance.getModuleManager().getInstance(HUD.class).addNotification(bigText, smallText, duration);
+    }
 }
