@@ -81,6 +81,7 @@ public class ModuleManager {
                     new ESP(),
                     new HUD(),
                     new Projectiles(),
+                    new Cape(),
                     new TargetHUD(),
 
                     // Ghost
