@@ -55,6 +55,7 @@ public class ModuleManager {
                     new AntiVoid(),
                     new Blink(),
                     new FastEat(),
+                    new SpeedMine(),
                     new NoFall(),
                     new TestBlink(),
                     new TimerModule(),
@@ -82,6 +83,8 @@ public class ModuleManager {
                     new HUD(),
                     new Projectiles(),
                     new Cape(),
+                    new XRay(),
+                    new FreeLook(),
                     new TargetHUD(),
 
                     // Ghost
