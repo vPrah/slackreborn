@@ -140,7 +140,7 @@ public class HUD extends Module {
 
             for (Integer i : removeList) {
                 notText.remove(i);
-                notEnd.remove(i)
+                notEnd.remove(i);
                 notStart.remove(i);
                 notDetailed.remove(i);
             }
