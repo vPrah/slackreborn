@@ -30,6 +30,9 @@ public class ConfigCMD extends CMD {
                     case "list":
                         configsMessage();
                         break;
+                    default:
+                        commandsMessage();
+                        break;
                 }
                 break;
             case 2:
@@ -43,18 +46,27 @@ public class ConfigCMD extends CMD {
                     case "list":
                         configsMessage();
                         break;
+                    default:
+                        commandsMessage();
+                        break;
                 }
                 break;
             default:
                 switch (args[0]) {
                     case "save":
                         configManager.saveConfig(args.toString().substring(4).replace(' ', '_'));
+                        break;
                     case "load":
                         configManager.loadConfig(args.toString().substring(4).replace(' ', '_'));
+                        break;
                     case "delete":
                         configManager.delete(args.toString().substring(4).replace(' ', '_'));
+                        break;
                     case "list":
                         configsMessage();
+                        break;
+                    default:
+                        commandsMessage();
                         break;
                 }
                 break;

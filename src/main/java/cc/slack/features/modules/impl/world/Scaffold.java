@@ -76,6 +76,7 @@ public class Scaffold extends Module {
 
     boolean hasBlock = false;
     float[] blockRotation = new float[] {0f, 0f};
+    BlockPos blockPlace = new BlockPos(0,0,0);
     BlockPos blockPlacement = new BlockPos(0,0,0);
     EnumFacing blockPlacementFace = EnumFacing.DOWN;
     double jumpGround = 0.0;
@@ -279,6 +280,7 @@ public class Scaffold extends Module {
                 placeFace = EnumFacing.UP;
             }
             blockRotation = BlockUtils.getFaceRotation(placeFace, block);
+            blockPlace = block;
             blockPlacement = block.add(placeFace.getDirectionVec());
             if (!BlockUtils.isReplaceable(blockPlacement)) {
                 return false;
@@ -328,7 +330,7 @@ public class Scaffold extends Module {
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5));
 
-        mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlacement, blockPlacementFace, hitVec);
+        mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlace, blockPlacementFace, hitVec);
         mc.getPlayer().swingItem();
 
         mc.getPlayer().motionX *= speedModifier.getValue();

@@ -20,7 +20,7 @@ import java.util.Map;
 @Setter
 public class Config extends mc {
 
-    private final File directory = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/Configs");
+    private final File directory = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/configs");
 
     private final String name;
 

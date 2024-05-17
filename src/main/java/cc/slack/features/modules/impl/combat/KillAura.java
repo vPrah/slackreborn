@@ -53,7 +53,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Universocraft", "Blatant", "Vanilla", "Basic", "Blink", "Fake"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Blink"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -128,18 +128,6 @@ public class KillAura extends Module {
             e.setYaw(rotations[0]);
             e.setPitch(rotations[1]);
         }
-
-        if(e.getState() == State.PRE) {
-            if(canAutoBlock()) {
-                switch (autoBlock.getValue()) {
-                    case "Universocraft":
-                        if (!mc.getGameSettings().keyBindUseItem.isKeyDown()) {
-                            block();
-                        }
-                        break;
-                }
-            }
-        }
     }
 
     @Listen
@@ -169,7 +157,7 @@ public class KillAura extends Module {
         }
 
         if (mc.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
-        renderBlock = canAutoBlock() && (renderBlocking.getValue() || isBlocking);
+        renderBlock = canAutoBlock() && (renderBlocking.getValue() || isBlocking || autoBlock.getValue().equals("Fake")) && (!autoBlock.getValue().equals("None"));
 
         rotations = calculateRotations(target);
 
@@ -180,9 +168,6 @@ public class KillAura extends Module {
             queuedAttacks--;
         }
         if (canAutoBlock()) postAttack();
-        if(isBlocking && autoBlock.getValue().equalsIgnoreCase("Universocraft")) {
-            isBlocking = false;
-        }
     }
 
     private void attack(EntityLivingBase target) {
