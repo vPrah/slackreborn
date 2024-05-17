@@ -17,7 +17,6 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
-import jdk.internal.net.http.common.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
@@ -49,7 +48,8 @@ public class HUD extends Module {
 
     private int scaffoldTicks = 0;
 
-    private ArrayList<Pair<String, Long>> notQueue = new ArrayList<>();
+    private ArrayList<String> notText = new ArrayList<>();
+    private ArrayList<Long> notEnd = new ArrayList<>();
     private ArrayList<Long> notStart = new ArrayList<>();
     private ArrayList<String> notDetailed = new ArrayList<>();
 
@@ -118,20 +118,20 @@ public class HUD extends Module {
 
         if (notification.getValue()) {
             int y = mc.getScaledResolution().getScaledHeight() - 10;
-            for (int i = 0; i < notQueue.size(); i++) {
-                double x = getXpos(notStart.get(i), notQueue.get(i).second );
+            for (int i = 0; i < notText.size(); i++) {
+                double x = getXpos(notStart.get(i), notEnd.get(i) );
                 y -= (int) (Math.pow((1 - x), 2) * 19);
 
                 renderNotification(
                         (int) (mc.getScaledResolution().getScaledWidth() - 10 + 100 * x),
                         y,
-                        notQueue.get(i).first, notDetailed.get(i));
+                        notText.get(i), notDetailed.get(i));
             }
 
             ArrayList<Integer> removeList = new ArrayList();
 
-            for (int i = 0; i < notQueue.size(); i++) {
-                if (System.currentTimeMillis() > notQueue.get(i).second) {
+            for (int i = 0; i < notText.size(); i++) {
+                if (System.currentTimeMillis() > notEnd.get(i)) {
                     removeList.add(i);
                 }
             }
@@ -139,12 +139,14 @@ public class HUD extends Module {
             Collections.reverse(removeList);
 
             for (Integer i : removeList) {
-                notQueue.remove(i);
+                notText.remove(i);
+                notEnd.remove(i)
                 notStart.remove(i);
                 notDetailed.remove(i);
             }
         } else {
-            notQueue.clear();
+            notText.clear();
+            notEnd.clear();
             notStart.clear();
             notDetailed.clear();
         }
@@ -182,7 +184,8 @@ public class HUD extends Module {
 
     public void addNotification(String bigText, String smallText, Long duration) {
         if (!notification.getValue()) return;
-        notQueue.add(new Pair<>(bigText, System.currentTimeMillis() + duration));
+        notText.add(bigText);
+        notEnd.add(System.currentTimeMillis() + duration);
         notStart.add( System.currentTimeMillis());
         notDetailed.add(smallText);
     }
