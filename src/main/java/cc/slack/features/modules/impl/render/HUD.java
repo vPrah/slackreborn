@@ -17,14 +17,18 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
+import jdk.internal.net.http.common.Pair;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
 
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 import static java.lang.Math.round;
 import static net.minecraft.client.gui.Gui.drawRect;
+
 
 @ModuleInfo(
         name = "HUD",
@@ -36,6 +40,8 @@ public class HUD extends Module {
 
     private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[]{"Classic", "Backgrounded"});
 
+    public final BooleanValue notification = new BooleanValue("Notificatons", true);
+
     private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
     private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
 
@@ -43,9 +49,13 @@ public class HUD extends Module {
 
     private int scaffoldTicks = 0;
 
+    private ArrayList<Pair<String, Long>> notQueue = new ArrayList<>();
+    private ArrayList<Long> notStart = new ArrayList<>();
+    private ArrayList<String> notDetailed = new ArrayList<>();
+
     public HUD() {
         super();
-        addSettings(arraylistModes, watermarksmodes, fpsdraw, bpsdraw, scaffoldDraw);
+        addSettings(arraylistModes, watermarksmodes, notification, fpsdraw, bpsdraw, scaffoldDraw);
     }
 
     @Listen
@@ -96,7 +106,7 @@ public class HUD extends Module {
                 drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2,
                         (int) (sr.getScaledHeight() * 3f / 4F - 2f),
                         (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2,
-                        (int) (sr.getScaledHeight() * 3f / 4F + 2f),
+                        (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f),
                         0x80000000);
                 mc.getFontRenderer().drawString(displayString,
                         (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f,
@@ -106,11 +116,74 @@ public class HUD extends Module {
             }
         }
 
+        if (notification.getValue()) {
+            int y = mc.getScaledResolution().getScaledHeight() - 10;
+            for (int i = 0; i < notQueue.size(); i++) {
+                double x = getXpos(notStart.get(i), notQueue.get(i).second );
+                y -= (int) (Math.pow((1 - x), 2) * 19);
+
+                renderNotification(
+                        (int) (mc.getScaledResolution().getScaledWidth() - 10 + 100 * x),
+                        y,
+                        notQueue.get(i).first, notDetailed.get(i));
+            }
+
+            ArrayList<Integer> removeList = new ArrayList();
+
+            for (int i = 0; i < notQueue.size(); i++) {
+                if (System.currentTimeMillis() > notQueue.get(i).second) {
+                    removeList.add(i);
+                }
+            }
+
+            Collections.reverse(removeList);
+
+            for (Integer i : removeList) {
+                notQueue.remove(i);
+                notStart.remove(i);
+                notDetailed.remove(i);
+            }
+        } else {
+            notQueue.clear();
+            notStart.clear();
+            notDetailed.clear();
+        }
+
 //        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
     }
 
     private String getBPS() {
         double currentBPS = ((double) round((MovementUtil.getSpeed() * 20) * 100)) / 100;
         return String.format("%.2f", currentBPS);
+    }
+
+    private void renderNotification(int x, int y, String bigText, String smallText) {
+        drawRect(x - 6 - mc.getFontRenderer().getStringWidth(bigText),
+                y - 6 - mc.getFontRenderer().FONT_HEIGHT,
+                x,
+                y,
+                new Color(50,50,50).getRGB());
+        mc.getFontRenderer().drawString(
+                bigText,
+                x - 3 - mc.getFontRenderer().getStringWidth(bigText),
+                y - 3 - mc.getFontRenderer().FONT_HEIGHT,
+                new Color(255,255,255).getRGB());
+    }
+
+    private double getXpos(Long startTime, Long endTime) {
+        if (endTime - System.currentTimeMillis() < 300L) {
+            return Math.pow( 1 - (endTime - System.currentTimeMillis()) / 300f, 3);
+        } else if (System.currentTimeMillis() - startTime < 300L) {
+            return 1 - Math.pow(System.currentTimeMillis() - startTime / 300f, 3);
+        } else {
+            return 0.0;
+        }
+    }
+
+    public void addNotification(String bigText, String smallText, Long duration) {
+        if (!notification.getValue()) return;
+        notQueue.add(new Pair<>(bigText, System.currentTimeMillis() + duration));
+        notStart.add( System.currentTimeMillis());
+        notDetailed.add(smallText);
     }
 }

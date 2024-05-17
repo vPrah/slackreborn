@@ -48,39 +48,41 @@ public class AutoTool extends Module {
         if (!mc.getGameSettings().keyBindUseItem.isKeyDown() && mc.getGameSettings().keyBindAttack.isKeyDown()
                 && mc.getMinecraft().objectMouseOver != null
                 && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
-                && !(AttackUtil.inCombat && noCombat.getValue())
-                && (switchTimer.hasReached((long) delay.getValue()))) {
+                && !(AttackUtil.inCombat && noCombat.getValue())) {
 
-            bestSlot = -1;
+            if (switchTimer.hasReached((long) delay.getValue())) {
 
-            if (!isMining) {
-                prevItem = mc.getPlayer().inventory.currentItem;
-            }
+                bestSlot = -1;
 
-            Block block = mc.getWorld().getBlockState(mc.getMinecraft().objectMouseOver.getBlockPos()).getBlock();
-
-            float bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
-            for (int i = 0; i <= 8; i++) {
-                ItemStack item = mc.getPlayer().inventory.getStackInSlot(i);
-                if (item == null)
-                    continue;
-
-                float speed = item.getStrVsBlock(block);
-
-                if (speed > bestSpeed) {
-                    bestSpeed = speed;
-                    bestSlot = i;
+                if (!isMining) {
+                    prevItem = mc.getPlayer().inventory.currentItem;
                 }
 
-                if (bestSlot != -1) {
-                    if (spoof.getValue()) {
-                        ItemSpoofUtil.startSpoofing(bestSlot);
-                    } else {
-                        mc.getPlayer().inventory.currentItem = bestSlot;
+                Block block = mc.getWorld().getBlockState(mc.getMinecraft().objectMouseOver.getBlockPos()).getBlock();
+
+                float bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
+                for (int i = 0; i <= 8; i++) {
+                    ItemStack item = mc.getPlayer().inventory.getStackInSlot(i);
+                    if (item == null)
+                        continue;
+
+                    float speed = item.getStrVsBlock(block);
+
+                    if (speed > bestSpeed) {
+                        bestSpeed = speed;
+                        bestSlot = i;
+                    }
+
+                    if (bestSlot != -1) {
+                        if (spoof.getValue()) {
+                            ItemSpoofUtil.startSpoofing(bestSlot);
+                        } else {
+                            mc.getPlayer().inventory.currentItem = bestSlot;
+                        }
                     }
                 }
+                isMining = true;
             }
-            isMining = true;
         } else {
             switchTimer.reset();
             if (isMining) {
