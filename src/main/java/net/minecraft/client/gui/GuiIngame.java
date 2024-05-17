@@ -3,6 +3,7 @@ package net.minecraft.client.gui;
 import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.ItemSpoofUtil;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
@@ -81,8 +82,8 @@ public class GuiIngame extends Gui
     private final GuiSpectator spectatorGui;
     private final GuiPlayerTabOverlay overlayPlayerList;
     private int field_175195_w;
-    private String field_175201_x = "";
-    private String field_175200_y = "";
+    private String titleText = "";
+    private String subtitleText = "";
     private int field_175199_z;
     private int field_175192_A;
     private int field_175193_B;
@@ -132,7 +133,10 @@ public class GuiIngame extends Gui
 
         ItemStack itemstack = this.mc.thePlayer.inventory.armorItemInSlot(3);
 
-        if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin))
+        if (this.mc.gameSettings.thirdPersonView == 0 && itemstack != null && itemstack.getItem() == Item.getItemFromBlock(Blocks.pumpkin) && !(
+                Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() &&
+                        Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noPumpkin.getValue()
+                ))
         {
             this.renderPumpkinOverlay(scaledresolution);
         }
@@ -281,18 +285,33 @@ public class GuiIngame extends Gui
 
             if (i2 > 8)
             {
+                boolean customTitle = Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Tweaks.class).customTitle.getValue();
                 GlStateManager.pushMatrix();
-                GlStateManager.translate((float)(i / 2), (float)(j / 2), 0.0F);
+                if (customTitle) {
+                    GlStateManager.translate((float)(i / 2), (float)(j / 4), 0.0F);
+                } else {
+                    GlStateManager.translate((float) (i / 2), (float) (j / 2), 0.0F);
+                }
                 GlStateManager.enableBlend();
                 GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(4.0F, 4.0F, 4.0F);
                 int j2 = i2 << 24 & -16777216;
-                this.getFontRenderer().drawString(this.field_175201_x, (float)(-this.getFontRenderer().getStringWidth(this.field_175201_x) / 2), -10.0F, 16777215 | j2, true);
+                if (customTitle) {
+                    GlStateManager.scale(3.0F, 3.0F, 3.0F);
+                    Fonts.apple18.drawStringWithShadow(this.titleText, -Fonts.apple18.getStringWidth(this.titleText)/2f, -10, 16777215 | j2);
+                } else {
+                    GlStateManager.scale(4.0F, 4.0F, 4.0F);
+                    this.getFontRenderer().drawString(this.titleText, (float) (-this.getFontRenderer().getStringWidth(this.titleText) / 2), -10.0F, 16777215 | j2, true);
+                }
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
-                GlStateManager.scale(2.0F, 2.0F, 2.0F);
-                this.getFontRenderer().drawString(this.field_175200_y, (float)(-this.getFontRenderer().getStringWidth(this.field_175200_y) / 2), 5.0F, 16777215 | j2, true);
+                if (customTitle) {
+                    GlStateManager.scale(1.5F, 1.5F, 1.5F);
+                    Fonts.apple18.drawStringWithShadow(this.subtitleText, -Fonts.apple18.getStringWidth(this.subtitleText)/2f, 5, 16777215 | j2);
+                } else {
+                    GlStateManager.scale(2.0F, 2.0F, 2.0F);
+                    this.getFontRenderer().drawString(this.subtitleText, (float) (-this.getFontRenderer().getStringWidth(this.subtitleText) / 2), 5.0F, 16777215 | j2, true);
+                }
                 GlStateManager.popMatrix();
                 GlStateManager.disableBlend();
                 GlStateManager.popMatrix();
@@ -1053,8 +1072,8 @@ public class GuiIngame extends Gui
 
             if (this.field_175195_w <= 0)
             {
-                this.field_175201_x = "";
-                this.field_175200_y = "";
+                this.titleText = "";
+                this.subtitleText = "";
             }
         }
 
@@ -1100,18 +1119,18 @@ public class GuiIngame extends Gui
     {
         if (title == null && subTitle == null && fadeInTime < 0 && displayTime < 0 && fadeOutTime < 0)
         {
-            this.field_175201_x = "";
-            this.field_175200_y = "";
+            this.titleText = "";
+            this.subtitleText = "";
             this.field_175195_w = 0;
         }
         else if (title != null)
         {
-            this.field_175201_x = title;
+            this.titleText = title;
             this.field_175195_w = this.field_175199_z + this.field_175192_A + this.field_175193_B;
         }
         else if (subTitle != null)
         {
-            this.field_175200_y = subTitle;
+            this.subtitleText = subTitle;
         }
         else
         {
