@@ -41,6 +41,7 @@ public class NoSlow extends Module {
         addSettings(mode, forwardMultiplier, strafeMultiplier, onEat);
     }
 
+
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
