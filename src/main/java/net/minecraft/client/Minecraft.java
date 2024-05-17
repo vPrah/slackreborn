@@ -675,7 +675,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         } else {
             try
             {
-                InputStream icon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/mac.png"));
+                InputStream icon = this.mcDefaultResourcePack.getInputStream(new ResourceLocation("slack/textures/logo/32.png"));
                 if (icon != null) {
                     try {
                         Class<?> Application = Class.forName("com.apple.eawt.Application");
