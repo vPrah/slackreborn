@@ -18,37 +18,42 @@ import net.minecraft.util.MovingObjectPosition;
 )
 public class SpeedMine extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Instant", "NCP"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Percent", "Instant", "NCP"});
+    private final NumberValue<Double> percent = new NumberValue<>("Percent", 0.8D, 0D, 1D, 0.05D);
     private final NumberValue<Double> speed = new NumberValue<>("Speed", 1.0D, 0.1D, 2.0D, 0.1D);
 
     public SpeedMine() {
-        addSettings(mode, speed);
+        addSettings(mode, percent, speed);
     }
 
     @Listen
     public void onUpdate (UpdateEvent event) {
+        boolean isValid = mc.getGameSettings().keyBindAttack.pressed && (mc.getMinecraft().objectMouseOver != null &&
+                        mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK &&
+                        mc.getMinecraft().objectMouseOver.getBlockPos() != null);
         switch (mode.getValue()) {
             case "Vanilla":
-                mc.getPlayerController().curBlockDamageMP *= speed.getValue();
-            break;
-            case "Instant":
-                if (mc.getPlayerController().curBlockDamageMP > 0 &&
-                        mc.getGameSettings().keyBindAttack.pressed && mc.getMinecraft().objectMouseOver != null &&
-                        mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK &&
-                        mc.getMinecraft().objectMouseOver.getBlockPos() != null) {
-                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK,
-                            mc.getMinecraft().objectMouseOver.getBlockPos(), mc.getMinecraft().objectMouseOver.sideHit));
+                if (mc.getPlayerController().curBlockDamageMP * speed.getValue() > 1) {
+                    mc.getPlayerController().curBlockDamageMP = 1f;
                 }
-            break;
+                break;
+            case "Instant":
+                if (isValid) {
+                    mc.getPlayerController().curBlockDamageMP = 1f;
+                }
+                break;
+            case "Percent":
+                if (mc.getPlayerController().curBlockDamageMP >= percent.getValue()) {
+                    mc.getPlayerController().curBlockDamageMP = 1f;
+                }
+                break;
             case "NCP":
-                if (mc.getGameSettings().keyBindAttack.pressed && (mc.getMinecraft().objectMouseOver != null &&
-                        mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK &&
-                        mc.getMinecraft().objectMouseOver.getBlockPos() != null)) {
+                if (isValid) {
                     if (mc.getPlayerController().curBlockDamageMP >= 0.5f && !mc.getPlayer().isDead) {
                         mc.getPlayerController().curBlockDamageMP += (MathUtil.getDifference(mc.getPlayerController().curBlockDamageMP, 1.0f) * 0.7f);
                     }
                 }
-            break;
+                break;
         }
     }
 
