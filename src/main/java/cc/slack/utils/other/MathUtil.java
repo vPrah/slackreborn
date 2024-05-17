@@ -41,6 +41,15 @@ public class MathUtil {
         return ThreadLocalRandom.current().nextInt(min, max);
     }
 
+    public static float getDifference(float base, float yaw) {
+        float bigger;
+        if (base >= yaw)
+            bigger = base - yaw;
+        else
+            bigger = yaw - base;
+        return bigger;
+    }
+
 
     public static float interpolate(float newValue, float oldValue, float partialTicks) {
         return oldValue + (newValue - oldValue) * partialTicks;

@@ -3,7 +3,9 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.player.CollideEvent;
+import cc.slack.features.modules.impl.render.XRay;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;
@@ -467,6 +469,10 @@ public class Block
 
     public boolean shouldSideBeRendered(IBlockAccess worldIn, BlockPos pos, EnumFacing side)
     {
+        if (Slack.getInstance().getModuleManager().getInstance(XRay.class).isToggle()) {
+            return Slack.getInstance().getModuleManager().getInstance(XRay.class).shouldRenderBlock(this);
+        }
+
         return side == EnumFacing.DOWN && this.minY > 0.0D ? true : (side == EnumFacing.UP && this.maxY < 1.0D ? true : (side == EnumFacing.NORTH && this.minZ > 0.0D ? true : (side == EnumFacing.SOUTH && this.maxZ < 1.0D ? true : (side == EnumFacing.WEST && this.minX > 0.0D ? true : (side == EnumFacing.EAST && this.maxX < 1.0D ? true : !worldIn.getBlockState(pos).getBlock().isOpaqueCube())))));
     }
 
