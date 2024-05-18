@@ -1,8 +1,11 @@
 package net.minecraft.client.gui;
 
 import cc.slack.Slack;
+import cc.slack.events.State;
 import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.events.impl.render.RenderScoreboard;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.features.modules.impl.render.ScoreboardModule;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.ItemSpoofUtil;
 import com.google.common.base.Predicate;
@@ -336,9 +339,19 @@ public class GuiIngame extends Gui
 
         ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
 
-        if (scoreobjective1 != null && !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noscoreboard.getValue())
+        if (scoreobjective1 != null && !Slack.getInstance().getModuleManager().getInstance(ScoreboardModule.class).noscoreboard.getValue())
         {
+            final RenderScoreboard event = new RenderScoreboard(State.PRE);
+            event.call();
             this.renderScoreboard(scoreobjective1, scaledresolution);
+            final RenderScoreboard event2 = new RenderScoreboard(State.POST);
+            event2.call();
+            if (event.isCanceled()) {
+                return;
+            }
+            if (event2.isCanceled()) {
+                return;
+            }
         }
 
         GlStateManager.enableBlend();

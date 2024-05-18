@@ -86,6 +86,7 @@ public class ModuleManager {
                     new Projectiles(),
                     new Cape(),
                     new XRay(),
+                    new ScoreboardModule(),
                     new FreeLook(),
                     new TargetHUD(),
 

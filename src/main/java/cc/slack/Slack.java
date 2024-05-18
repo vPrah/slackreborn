@@ -12,6 +12,7 @@ import cc.slack.features.modules.impl.other.Targets;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.ScoreboardModule;
 import cc.slack.features.modules.impl.render.TargetHUD;
 import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.EventUtil;
@@ -30,7 +31,7 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    public final ClientInfo info = new ClientInfo("Slack", "v0.01", ClientInfo.VersionType.ALPHA);
+    public final ClientInfo info = new ClientInfo("Slack", "v0.1", ClientInfo.VersionType.ALPHA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
@@ -51,6 +52,7 @@ public class Slack {
 
 
         // Default Modules
+        moduleManager.getInstance(ScoreboardModule.class).toggle();
         moduleManager.getInstance(Animations.class).toggle();
         moduleManager.getInstance(HUD.class).toggle();
         moduleManager.getInstance(Sprint.class).toggle();

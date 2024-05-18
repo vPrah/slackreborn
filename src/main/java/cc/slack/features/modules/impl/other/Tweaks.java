@@ -26,7 +26,6 @@ public class Tweaks extends Module {
     public final BooleanValue nojumpdelay = new BooleanValue("No Jump Delay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("Jump Delay Ticks", 0, 0, 10, 1);
     public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
-    public final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
     public final BooleanValue nohurtcam = new BooleanValue("No Hurt Cam", false);
     private final BooleanValue fullbright = new BooleanValue("FullBright", true);
     private final BooleanValue exitGUIFix = new BooleanValue("Exit Gui Fix", true);
@@ -38,7 +37,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noblockhitdelay, noclickdelay, noscoreboard, nohurtcam, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, nohurtcam, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
     }
 
     @Override
