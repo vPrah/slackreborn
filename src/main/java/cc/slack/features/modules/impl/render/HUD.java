@@ -120,12 +120,11 @@ public class HUD extends Module {
             int y = mc.getScaledResolution().getScaledHeight() - 10;
             for (int i = 0; i < notText.size(); i++) {
                 double x = getXpos(notStart.get(i), notEnd.get(i) );
-                y -= (int) (Math.pow((1 - x), 2) * 19);
-
                 renderNotification(
                         (int) (mc.getScaledResolution().getScaledWidth() - 10 + 100 * x),
                         y,
                         notText.get(i), notDetailed.get(i));
+                 y -= (int) (Math.pow((1 - x), 2) * 19);
             }
 
             ArrayList<Integer> removeList = new ArrayList();
