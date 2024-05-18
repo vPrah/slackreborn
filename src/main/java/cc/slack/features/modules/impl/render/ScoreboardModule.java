@@ -16,8 +16,8 @@ import net.minecraft.client.renderer.GlStateManager;
 public class ScoreboardModule extends Module {
 
     public final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
-    private final NumberValue<Double> x = new NumberValue<>("PosX", 0.0D, -300.0D, 300.0D, 0.1D);
-    private final NumberValue<Double> y = new NumberValue<>("PosY", 30.0D, -300.0D, 300.0D, 0.1D);
+    private final NumberValue<Double> x = new NumberValue<>("PosX", 0.0D, -1000.0D, 1000.0D, 0.1D);
+    private final NumberValue<Double> y = new NumberValue<>("PosY", 30.0D, -1000.0D, 1000.0D, 0.1D);
 
 
     public ScoreboardModule() {
