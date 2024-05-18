@@ -49,6 +49,7 @@ public class ModuleManager {
                     new AutoPlay(),
                     new Performance(),
                     new RemoveEffect(),
+                    new Killsults(),
                     new Targets(),
                     new Tweaks(),
 
