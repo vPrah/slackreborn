@@ -55,6 +55,7 @@ public class ModuleManager {
 
                     // Player
                     new AntiVoid(),
+                    new AutoRespawn(),
                     new Blink(),
                     new FastEat(),
                     new SpeedMine(),
