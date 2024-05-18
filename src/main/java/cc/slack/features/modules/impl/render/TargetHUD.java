@@ -54,7 +54,7 @@ public class TargetHUD extends Module {
         }
 
         if (mc.getCurrentScreen() instanceof GuiChat) {
-            player = (EntityPlayer) mc.getPlayer();
+            player = mc.getPlayer();
             ticksSinceAttack = 0;
         }
     }

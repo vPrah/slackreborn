@@ -47,6 +47,7 @@ public class AutoLogin extends Module {
         }
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onTick (TickEvent event) {
         if (timeUtil.hasReached(1500L) && text != null && !text.equals("")) {
