@@ -8,7 +8,6 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
-import mc;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.RotationUtil;
