@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.events.impl.render.RenderEvent;
+import io.github.nevalackin.radbus.Listen;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import java.util.ArrayList;
@@ -27,7 +28,7 @@ public class ChestESP extends Module {
             Slack.getInstance().getModuleManager().getInstance(ESP.class).drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + 1, bp.getZ() + 1));
         }
 
-        chestBoundingBoxes.clear()
+        chestBoundingBoxes.clear();
     }
     
 }
