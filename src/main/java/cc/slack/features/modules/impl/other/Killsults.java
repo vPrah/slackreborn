@@ -28,7 +28,7 @@ public class Killsults extends Module {
     @Listen
     public void onPacket (PacketEvent event) {
         if (event.getPacket() instanceof S02PacketChat) {
-            final S02PacketChat packet = (S02PacketChat)event.getPacket();
+            final S02PacketChat packet = event.getPacket();
             final String message = packet.getChatComponent().getUnformattedText();
             switch (mode.getValue()){
                 case "Universocraft":
