@@ -1,5 +1,4 @@
 package cc.slack.features.modules.impl.utilties;
-import cc.slack.features.modules.api.settings.impl.StringValue;
 
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.network.PacketEvent;
@@ -21,8 +20,6 @@ import org.apache.commons.lang3.StringUtils;
 )
 public class AutoLogin extends Module {
 
-    private final StringValue password = new StringValue("Password", "DglaMaska13");
-
     private String text;
     private final TimeUtil timeUtil;
 
@@ -37,11 +34,11 @@ public class AutoLogin extends Module {
             final S02PacketChat s02PacketChat = (S02PacketChat)packet;
             String text = s02PacketChat.getChatComponent().getUnformattedText();
             if (StringUtils.containsIgnoreCase(text, "/register") || StringUtils.containsIgnoreCase(text, "/register password password") || text.equalsIgnoreCase("/register <password> <password>")) {
-                this.text = "/register "  + password.getValue() + " "  + password.getValue();
+                this.text = "/register DglaMaska13 DglaMaska13";
                 timeUtil.reset();
             }
             else if (StringUtils.containsIgnoreCase(text, "/login password") || StringUtils.containsIgnoreCase(text, "/login") || text.equalsIgnoreCase("/login <password>")) {
-                this.text = "/login " + password.getValue();
+                this.text = "/login DglaMaska13";
                 timeUtil.reset();
             }
         }
