@@ -71,6 +71,7 @@ public class ModuleManager {
                     new ChatBypass(),
                     new Disabler(),
                     new Kick(),
+                    new Regen(),
                     new MultiAction(),
                     new Phase(),
 
