@@ -25,9 +25,11 @@ public class FreeLook extends Module {
             stop();
         }
         if (Keyboard.isKeyDown(getKey())) {
-            freeLookingactivated = true;
-            FreeLookUtil.setFreelooking(true);
-            mc.getGameSettings().thirdPersonView = 1;
+            if (!freeLookingactivated) {
+                freeLookingactivated = true;
+                FreeLookUtil.enable();
+                mc.getGameSettings().thirdPersonView = 1;
+            }
         } else if (freeLookingactivated) {
             stop();
         }

@@ -1,5 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
+import cc.slack.utils.render.FreeLookUtil;
 import com.google.common.collect.Maps;
 import java.util.Collections;
 import java.util.Map;
@@ -275,8 +276,13 @@ public class RenderManager
         }
         else
         {
-            this.playerViewY = livingPlayerIn.prevRotationYaw + (livingPlayerIn.rotationYaw - livingPlayerIn.prevRotationYaw) * partialTicks;
-            this.playerViewX = livingPlayerIn.prevRotationPitch + (livingPlayerIn.rotationPitch - livingPlayerIn.prevRotationPitch) * partialTicks;
+            if (FreeLookUtil.freelooking) {
+                this.playerViewY = FreeLookUtil.cameraYaw;
+                this.playerViewX = FreeLookUtil.cameraPitch;
+            } else {
+                this.playerViewY = livingPlayerIn.prevRotationYaw + (livingPlayerIn.rotationYaw - livingPlayerIn.prevRotationYaw) * partialTicks;
+                this.playerViewX = livingPlayerIn.prevRotationPitch + (livingPlayerIn.rotationPitch - livingPlayerIn.prevRotationPitch) * partialTicks;
+            }
         }
 
         if (optionsIn.thirdPersonView == 2)

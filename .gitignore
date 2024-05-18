@@ -11,3 +11,4 @@ workspace/servers.dat
 .DS_Store
 .DS_Store
 logs/
+src/main/.DS_Store

@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.ghost.Reach;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.utils.render.FreeLookUtil;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
 import com.google.gson.JsonSyntaxException;
@@ -1332,13 +1333,21 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.smoothCamPartialTicks = p_181560_1_;
                 f2 = this.smoothCamFilterX * f4;
                 f3 = this.smoothCamFilterY * f4;
-                this.mc.thePlayer.setAngles(f2, f3 * (float)i);
+                if (FreeLookUtil.freelooking) {
+                    FreeLookUtil.overrideMouse(f2, f3 * (float)i);
+                } else {
+                    this.mc.thePlayer.setAngles(f2, f3 * (float)i);
+                }
             }
             else
             {
+                if (FreeLookUtil.freelooking) {
+                    FreeLookUtil.overrideMouse(f2, f3 * (float)i);
+                } else {
+                    this.mc.thePlayer.setAngles(f2, f3 * (float)i);
+                }
                 this.smoothCamYaw = 0.0F;
                 this.smoothCamPitch = 0.0F;
-                this.mc.thePlayer.setAngles(f2, f3 * (float)i);
             }
         }
 
