@@ -8,6 +8,7 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
+import mc;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.RotationUtil;
@@ -64,6 +65,9 @@ import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
 
 import java.util.Random;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.round;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -207,6 +211,30 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdateWalkingPlayer()
     {
+        if (RotationUtil.isEnabled) {
+            if (RotationUtil.strafeFix) {
+                if (!RotationUtil.strictStrafeFix) {
+                    if (MovementUtil.isBindsMoving()) {
+                        int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw)) / 45);
+                        if (strafeYaw > 4) {
+                            strafeYaw -= 8;
+                        }
+                        if (strafeYaw < -4) {
+                            strafeYaw += 8;
+                        }
+                        mc.gameSettings.keyBindForward.pressed = abs(strafeYaw) <= 1;
+                        mc.gameSettings.keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                        mc.gameSettings.keyBindBack.pressed = abs(strafeYaw) >= 3;
+                        mc.gameSettings.keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                    } else {
+                        mc.gameSettings.keyBindForward.pressed = false;
+                        mc.gameSettings.keyBindRight.pressed = false;
+                        mc.gameSettings.keyBindBack.pressed = false;
+                        mc.gameSettings.keyBindLeft.pressed = false;
+                    }
+                }
+            }
+        }
         final float realYaw = this.rotationYaw;
         final float realPitch = this.rotationPitch;
         if (RotationUtil.isEnabled) {

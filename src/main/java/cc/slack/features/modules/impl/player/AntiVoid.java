@@ -25,7 +25,7 @@ import net.minecraft.util.Vec3;
 public class AntiVoid extends Module {
 
 
-    private final ModeValue<String> antivoidMode = new ModeValue<>("mode", new String[] {"Universal", "Self TP", "Polar"});
+    private final ModeValue<String> antivoidMode = new ModeValue<>(new String[] {"Universal", "Self TP", "Polar"});
 
     private double groundX = 0.0;
     private double groundY = 0.0;
@@ -63,11 +63,11 @@ public class AntiVoid extends Module {
                         BlinkUtil.disable();
                         universalStarted = false;
                         universalFlag = false;
-                    } else if (mc.getPlayer().fallDistance > 8 && !universalFlag) {
+                    } else if (mc.getPlayer().fallDistance > 8f && !universalFlag) {
                         universalFlag = true;
                         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(groundX, groundY + 1, groundZ, false));
                     }
-                } else if (mc.getPlayer().fallDistance > 0 && !mc.getPlayer().onGround && mc.getPlayer().motionY < 0) {
+                } else if (mc.getPlayer().fallDistance > 0f && !mc.getPlayer().onGround && mc.getPlayer().motionY < 0) {
                     if (isOverVoid()) {
                         universalStarted = true;
                         universalFlag = false;
@@ -78,13 +78,13 @@ public class AntiVoid extends Module {
                     }
                 }
                 break;
-            case "selftp":
+            case "self tp":
                 if (mc.getPlayer().onGround) {
                     groundX = mc.getPlayer().posX;
                     groundY = mc.getPlayer().posY;
                     groundZ = mc.getPlayer().posZ;
                     triedTP = false;
-                } else if (mc.getPlayer().fallDistance > 5 && !triedTP) {
+                } else if (mc.getPlayer().fallDistance > 5f && !triedTP) {
                     mc.getPlayer().setPosition(groundX, groundY, groundZ);
                     mc.getPlayer().fallDistance = 0;
                     mc.getPlayer().motionX = 0;
