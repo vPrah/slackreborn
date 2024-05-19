@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.player;
+package cc.slack.features.modules.impl.other;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -9,7 +9,7 @@ import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
         name = "AutoRespawn",
-        category = Category.PLAYER
+        category = Category.OTHER
 )
 public class AutoRespawn extends Module {
 

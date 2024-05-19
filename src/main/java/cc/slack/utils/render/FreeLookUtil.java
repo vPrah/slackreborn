@@ -31,8 +31,8 @@ public class FreeLookUtil extends mc {
         return freelooking ? this.cameraPitch : mc.getPlayer().prevRotationPitch;
     }
 
-    public static void setFreelooking(boolean freelooking) {
-        freelooking = freelooking;
+    public static void setFreelooking(boolean setFreelook) {
+        freelooking = setFreelook;
     }
 
     public static void enable() {

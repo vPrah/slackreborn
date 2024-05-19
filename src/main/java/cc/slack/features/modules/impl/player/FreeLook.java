@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.render;
+package cc.slack.features.modules.impl.player;
 
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.features.modules.api.Category;
@@ -11,12 +11,17 @@ import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
         name = "FreeLook",
-        category = Category.RENDER,
-        key = Keyboard.KEY_X
+        category = Category.PLAYER,
+        key = Keyboard.KEY_LSHIFT
 )
 public class FreeLook extends Module {
 
     private boolean freeLookingactivated;
+
+    @Override
+    public void onDisable() {
+        freeLookingactivated = false;
+    }
 
     @SuppressWarnings("unused")
     @Listen

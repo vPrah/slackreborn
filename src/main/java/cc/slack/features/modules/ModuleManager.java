@@ -47,6 +47,7 @@ public class ModuleManager {
                     // Other
                     new AntiBot(),
                     new AutoPlay(),
+                    new AutoRespawn(),
                     new Performance(),
                     new RemoveEffect(),
                     new Killsults(),
@@ -55,9 +56,9 @@ public class ModuleManager {
 
                     // Player
                     new AntiVoid(),
-                    new AutoRespawn(),
                     new Blink(),
                     new FastEat(),
+                    new FreeLook(),
                     new SpeedMine(),
                     new NoFall(),
                     new TestBlink(),
@@ -81,16 +82,15 @@ public class ModuleManager {
                     new Animations(),
                     new Ambience(),
                     new Bobbing(),
+                    new Cape(),
                     new ChestESP(),
                     new ClickGUI(),
                     new ESP(),
                     new HUD(),
                     new Projectiles(),
-                    new Cape(),
-                    new XRay(),
                     new ScoreboardModule(),
-                    new FreeLook(),
                     new TargetHUD(),
+                    new XRay(),
 
                     // Ghost
                     new AimBot(),

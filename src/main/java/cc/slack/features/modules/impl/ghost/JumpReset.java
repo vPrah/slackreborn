@@ -22,7 +22,11 @@ public class JumpReset extends Module {
     public final NumberValue<Double> chance = new NumberValue<>("Chance", 1D, 0D, 1D, 0.01D);
     
     boolean enable;
-    
+
+    public JumpReset() {
+        addSettings(chance);
+    }
+
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {

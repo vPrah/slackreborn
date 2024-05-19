@@ -2,6 +2,7 @@ package net.minecraft.client.renderer;
 
 import cc.slack.Slack;
 import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.impl.ghost.AimAssist;
 import cc.slack.features.modules.impl.ghost.Reach;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.utils.render.FreeLookUtil;
@@ -1314,7 +1315,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         if (this.mc.inGameHasFocus && flag)
         {
             this.mc.mouseHelper.mouseXYChange();
-            float f = this.mc.gameSettings.mouseSensitivity * 0.6F + 0.2F;
+            float f = Slack.getInstance().getModuleManager().getInstance(AimAssist.class).getSens() * 0.6F + 0.2F;
             float f1 = f * f * f * 8.0F;
             float f2 = (float)this.mc.mouseHelper.deltaX * f1;
             float f3 = (float)this.mc.mouseHelper.deltaY * f1;

@@ -26,12 +26,12 @@ public class AimAssist extends Module {
     private final NumberValue<Float> lowerSensAmount = new NumberValue<>("Lowered Sensitity Percentage", 0.6f, 0f, 1f, 0.1f);
     private final BooleanValue accelSens = new BooleanValue("Dynamic Acceleration", true);
 
-    private float prevSens;
-    private boolean wasHovering = false;
-
     private float prevDist, currDist;
     private float[] prevRot;
     private boolean wasAccel = false;
+
+    private float sens;
+    private float gameSens;
 
     public AimAssist() {
         addSettings(lowerSens, lowerSensAmount, accelSens);
@@ -40,34 +40,23 @@ public class AimAssist extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
+        gameSens = mc.getGameSettings().mouseSensitivity;
         if (lowerSens.getValue() && !wasAccel) {
             if (mc.getMinecraft().objectMouseOver.entityHit != null) {
-                if (!wasHovering) {
-                    wasHovering = true;
-                    prevSens = mc.getGameSettings().mouseSensitivity;
-                    mc.getGameSettings().mouseSensitivity = prevSens * lowerSensAmount.getValue();
-                }
-            } else {
-                if (wasHovering) {
-                    wasHovering = false;
-                    mc.getGameSettings().mouseSensitivity = prevSens;
-                }
+                sens = gameSens * lowerSensAmount.getValue();
             }
         }
         if (accelSens.getValue()) {
             if (mc.getMinecraft().objectMouseOver.entityHit == null) {
                 EntityLivingBase target = AttackUtil.getTarget(4.0, "FOV");
-                if (target == null) {
-                    wasAccel = false;
-                    mc.getGameSettings().mouseSensitivity = prevSens;
-                } else {
+                if (target != null) {
                     if (wasAccel) {
                         prevDist = currDist;
                         currDist = (float) RotationUtil.getRotationDifference((Entity) target);
                         if (RotationUtil.getRotationDifference(prevRot) * 0.7 < currDist - prevDist) {
-                            mc.getGameSettings().mouseSensitivity = prevSens * 1.2f;
+                            sens = gameSens * 1.2f;
                         } else {
-                            mc.getGameSettings().mouseSensitivity = prevSens;
+                            sens = gameSens;
                         }
 
                         prevRot = new float[] {mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
@@ -76,19 +65,17 @@ public class AimAssist extends Module {
                         prevDist = (float) RotationUtil.getRotationDifference((Entity) target);
                         currDist = prevDist;
                         wasAccel = true;
-                        prevSens = mc.getGameSettings().mouseSensitivity;
                     }
-                }
-            } else {
-                if (wasHovering) {
-                    prevSens = prevSens / 1.2f;
-                } else {
-                    if (wasAccel) {
-                        mc.getGameSettings().mouseSensitivity = prevSens;
-                    }
-                    prevSens = mc.getGameSettings().mouseSensitivity;
                 }
             }
+        }
+    }
+
+    public float getSens() {
+        if (isToggle()) {
+            return sens;
+        } else {
+            return mc.getGameSettings().mouseSensitivity;
         }
     }
 }

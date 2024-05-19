@@ -38,6 +38,8 @@ public class LegitNofall extends Module {
         addSettings(silentAim, switchToItem, minFallDist);
     }
 
+    private float prevPitch;
+
     @Listen
     public void onMotion (MotionEvent e) {
         if(e.getState() == State.PRE) {
@@ -46,9 +48,15 @@ public class LegitNofall extends Module {
                 if (silentAim.getValue()) {
                     e.setPitch(90);
                 } else {
+                    prevPitch = mc.getPlayer().rotationPitch;
                     mc.getPlayer().rotationPitch = 90;
                 }
                 sendPlace();
+            }
+            if (mc.getPlayer().onGround && mc.getPlayer().isInWater()) {
+                sendPlace();
+                if (!silentAim.getValue())
+                    mc.getPlayer().rotationPitch = prevPitch;
             }
         }
     }
