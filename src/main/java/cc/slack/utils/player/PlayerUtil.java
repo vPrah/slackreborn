@@ -7,6 +7,7 @@ import cc.slack.utils.other.BlockUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.player.EntityPlayer;
@@ -151,6 +152,20 @@ public class PlayerUtil extends mc {
 
             PacketUtil.sendNoEvent(new C03PacketPlayer(true));
         }
+    }
+
+    public static String getRemoteIp() {
+        String serverIp = "Idling";
+
+        if (mc.getMinecraft().isIntegratedServerRunning()) {
+            serverIp = "SinglePlayer";
+        } else if (mc.getWorld() != null && mc.getWorld().isRemote) {
+            final ServerData serverData = mc.getMinecraft().getCurrentServerData();
+            if(serverData != null)
+                serverIp = serverData.serverIP;
+        }
+
+        return serverIp;
     }
 
     public static ItemStack getBestSword() {

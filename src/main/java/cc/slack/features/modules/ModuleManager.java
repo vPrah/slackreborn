@@ -51,6 +51,7 @@ public class ModuleManager {
                     new AutoRespawn(),
                     new Performance(),
                     new RemoveEffect(),
+                    new RichPresence(),
                     new Killsults(),
                     new Targets(),
                     new Tweaks(),
