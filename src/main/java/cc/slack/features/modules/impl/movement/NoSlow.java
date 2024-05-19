@@ -45,9 +45,10 @@ public class NoSlow extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
+        if (mc.getPlayer() == null) return;
         boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
-        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
+        if (usingItem && mc.getPlayer().getHeldItem() != null && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
             switch (mode.getValue().toLowerCase()) {
                 case "vulcan":
                 case "vanilla":
