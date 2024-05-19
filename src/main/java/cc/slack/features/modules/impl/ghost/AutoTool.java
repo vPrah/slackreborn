@@ -44,21 +44,31 @@ public class AutoTool extends Module {
     @Listen
     public void onRender (RenderEvent event) {
         if(event.getState() != RenderEvent.State.RENDER_3D) return;
-
-        if (!mc.getGameSettings().keyBindUseItem.isKeyDown() && mc.getGameSettings().keyBindAttack.isKeyDown()
+        getTool(!mc.getGameSettings().keyBindUseItem.isKeyDown() && mc.getGameSettings().keyBindAttack.isKeyDown()
                 && mc.getMinecraft().objectMouseOver != null
                 && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
-                && !(AttackUtil.inCombat && noCombat.getValue())) {
+                && !(AttackUtil.inCombat && noCombat.getValue()),  mc.getWorld().getBlockState(mc.getMinecraft().objectMouseOver.getBlockPos()).getBlock(), delay.getValue(), spoof.getValue());
 
-            if (switchTimer.hasReached((long) delay.getValue())) {
+    }
+
+    @Listen
+    public void onPacket (PacketEvent event) {
+        if (event.getPacket() instanceof C02PacketUseEntity) {
+            C02PacketUseEntity C02 = event.getPacket();
+            if (C02.getAction() == C02PacketUseEntity.Action.ATTACK)
+                isMining = false;
+        }
+    }
+
+    public void getTool (Boolean enabled, Block block, Integer delay, Boolean spoof) {
+        if (enabled) {
+            if (switchTimer.hasReached(delay)) {
 
                 bestSlot = -1;
 
                 if (!isMining) {
                     prevItem = mc.getPlayer().inventory.currentItem;
                 }
-
-                Block block = mc.getWorld().getBlockState(mc.getMinecraft().objectMouseOver.getBlockPos()).getBlock();
 
                 float bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
                 for (int i = 0; i <= 8; i++) {
@@ -74,7 +84,7 @@ public class AutoTool extends Module {
                     }
 
                     if (bestSlot != -1) {
-                        if (spoof.getValue()) {
+                        if (spoof) {
                             ItemSpoofUtil.startSpoofing(bestSlot);
                         } else {
                             mc.getPlayer().inventory.currentItem = bestSlot;
@@ -87,23 +97,13 @@ public class AutoTool extends Module {
             switchTimer.reset();
             if (isMining) {
                 isMining = false;
-                if (spoof.getValue()) {
+                if (spoof) {
                     ItemSpoofUtil.stopSpoofing();
                 }
                 mc.getPlayer().inventory.currentItem = prevItem;
             } else {
                 prevItem = mc.getPlayer().inventory.currentItem;
             }
-        }
-
-    }
-
-    @Listen
-    public void onPacket (PacketEvent event) {
-        if (event.getPacket() instanceof C02PacketUseEntity) {
-            C02PacketUseEntity C02 = event.getPacket();
-            if (C02.getAction() == C02PacketUseEntity.Action.ATTACK)
-                isMining = false;
         }
     }
 

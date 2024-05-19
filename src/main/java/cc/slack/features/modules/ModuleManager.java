@@ -66,6 +66,7 @@ public class ModuleManager {
                     new TimerModule(),
 
                     // World
+                    new Breaker(),
                     new FastPlace(),
                     new InvManager(),
                     new Scaffold(),

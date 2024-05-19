@@ -3,6 +3,7 @@ package cc.slack.utils.other;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.RotationUtil;
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
@@ -35,9 +36,18 @@ public class BlockUtils extends mc {
         return null;
     }
 
+    public static float getHardness(BlockPos blockPos) {
+        return getBlock(blockPos).getPlayerRelativeBlockHardness(mc.getPlayer(), mc.getWorld(), blockPos);
+    }
+
     public static boolean isReplaceable(BlockPos blockPos) {
         Material material = getMaterial(blockPos);
         return material != null && material.isReplaceable();
+    }
+
+    public static boolean isReplaceableNotBed(BlockPos blockPos) {
+        Material material = getMaterial(blockPos);
+        return material != null && material.isReplaceable() && !(getBlock(blockPos) instanceof BlockBed) ;
     }
 
     public static boolean isAir(BlockPos blockPos) {
@@ -80,6 +90,10 @@ public class BlockUtils extends mc {
         blockFaceVec.addVector(0.5, 0.5, 0.5);
         return RotationUtil.getRotations(blockFaceVec);
 
+    }
+
+    public static int getAbsoluteValue(BlockPos blockPos) {
+        return blockPos.getX() + blockPos.getY() * 1000 + blockPos.getZ() * 200000;
     }
 
     public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos) {

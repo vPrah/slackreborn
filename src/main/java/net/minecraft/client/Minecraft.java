@@ -8,6 +8,8 @@ import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
 import cc.slack.utils.player.ItemSpoofUtil;
+import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.player.RotationUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Queues;
@@ -187,6 +189,9 @@ import org.lwjgl.opengl.GLContext;
 import org.lwjgl.opengl.OpenGLException;
 import org.lwjgl.opengl.PixelFormat;
 import org.lwjgl.util.glu.GLU;
+
+import static java.lang.Math.abs;
+import static java.lang.Math.round;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
@@ -1738,6 +1743,30 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         if (!this.isGamePaused && this.theWorld != null)
         {
             this.playerController.updateController();
+            if (RotationUtil.isEnabled) {
+                if (RotationUtil.strafeFix) {
+                    if (!RotationUtil.strictStrafeFix) {
+                        if (MovementUtil.isBindsMoving()) {
+                            int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(this.thePlayer.rotationYaw)) / 45);
+                            if (strafeYaw > 4) {
+                                strafeYaw -= 8;
+                            }
+                            if (strafeYaw < -4) {
+                                strafeYaw += 8;
+                            }
+                            this.gameSettings.keyBindForward.pressed = abs(strafeYaw) <= 1;
+                            this.gameSettings.keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                            this.gameSettings.keyBindBack.pressed = abs(strafeYaw) >= 3;
+                            this.gameSettings.keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                        } else {
+                            this.gameSettings.keyBindForward.pressed = false;
+                            this.gameSettings.keyBindRight.pressed = false;
+                            this.gameSettings.keyBindBack.pressed = false;
+                            this.gameSettings.keyBindLeft.pressed = false;
+                        }
+                    }
+                }
+            }
         }
 
         this.mcProfiler.endStartSection("textures");
