@@ -46,7 +46,7 @@ public class Autoclicker extends Module {
     public void onRender(RenderEvent event) {
         if (
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack)
-                && (!onlySword.getValue() || mc.getPlayer().getHeldItem().getItem() instanceof ItemSword)
+                && (!onlySword.getValue() || (mc.getPlayer().getHeldItem() != null? mc.getPlayer().getHeldItem().getItem() instanceof ItemSword : false))
                 && !mc.getPlayerController().isHittingBlock
         ) {
             if (leftClickTimer.hasReached(leftClickDelay)) {
