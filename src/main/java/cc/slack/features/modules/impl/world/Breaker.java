@@ -78,6 +78,9 @@ public class Breaker extends Module {
                 mc.getWorld().sendBlockBreakProgress(mc.getPlayer().getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
                 mc.getPlayer().swingItem();
 
+                RotationUtil.setClientRotation(BlockUtils.getCenterRotation(currentBlock));
+                RotationUtil.setStrafeFix(true, false);
+
                 if (breakingProgress > 1) {
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
                     mc.getPlayerController().onPlayerDestroyBlock(currentBlock, EnumFacing.DOWN );
@@ -86,9 +89,6 @@ public class Breaker extends Module {
                     currentBlock = null;
                     switchTimer.reset();
                 }
-
-                RotationUtil.setClientRotation(BlockUtils.getCenterRotation(currentBlock));
-                RotationUtil.setStrafeFix(true, false);
             }
         }
     }
@@ -99,7 +99,7 @@ public class Breaker extends Module {
         if (currentBlock == null) return;
         BlockPos bp = currentBlock;
 
-        Slack.getInstance().getModuleManager().getInstance(ESP.class).drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + breakingProgress, bp.getZ() + 1));
+        ESP.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + breakingProgress, bp.getZ() + 1));
     }
 
     private void findTargetBlock() {

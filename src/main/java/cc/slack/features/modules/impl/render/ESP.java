@@ -83,7 +83,7 @@ public class ESP extends Module {
 
     }
 
-    public void drawAABB(AxisAlignedBB boundingBox) {
+    public static void drawAABB(AxisAlignedBB boundingBox) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         enableGlCap(GL_BLEND);
         disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
@@ -96,7 +96,7 @@ public class ESP extends Module {
         resetCaps();
     }
 
-    public void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
+    public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
 

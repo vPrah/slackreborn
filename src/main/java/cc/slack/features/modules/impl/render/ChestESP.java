@@ -27,7 +27,7 @@ public class ChestESP extends Module {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for (BlockPos bp : chestBoundingBoxes) {
-            Slack.getInstance().getModuleManager().getInstance(ESP.class).drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + 1, bp.getZ() + 1));
+            ESP.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + 1, bp.getZ() + 1));
         }
 
         chestBoundingBoxes.clear();
