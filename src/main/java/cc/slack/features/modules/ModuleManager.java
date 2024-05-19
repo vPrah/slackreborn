@@ -15,6 +15,7 @@ import cc.slack.features.modules.impl.render.*;
 import cc.slack.features.modules.impl.utilties.AutoLogin;
 import cc.slack.features.modules.impl.utilties.AutoPlay;
 import cc.slack.features.modules.impl.utilties.LegitMode;
+import cc.slack.features.modules.impl.utilties.PacketDebugger;
 import cc.slack.features.modules.impl.world.*;
 
 import java.util.*;
@@ -110,7 +111,8 @@ public class ModuleManager {
                     // Utilities
                     new AutoPlay(),
                     new AutoLogin(),
-                    new LegitMode()
+                    new LegitMode(),
+                    new PacketDebugger()
 
             );
         } catch (Exception e) {
