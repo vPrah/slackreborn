@@ -475,7 +475,8 @@ public class Block
         }
 
         if (Slack.getInstance().getModuleManager().getInstance(ChestESP.class).isToggle()) {
-            Slack.getInstance().getModuleManager().getInstance(ChestESP.class).chestBoundingBoxes.add(pos);
+            if (Slack.getInstance().getModuleManager().getInstance(ChestESP.class).isChest(this))
+                Slack.getInstance().getModuleManager().getInstance(ChestESP.class).chestBoundingBoxes.add(pos);
         }
 
         return side == EnumFacing.DOWN && this.minY > 0.0D ? true : (side == EnumFacing.UP && this.maxY < 1.0D ? true : (side == EnumFacing.NORTH && this.minZ > 0.0D ? true : (side == EnumFacing.SOUTH && this.maxZ < 1.0D ? true : (side == EnumFacing.WEST && this.minX > 0.0D ? true : (side == EnumFacing.EAST && this.maxX < 1.0D ? true : !worldIn.getBlockState(pos).getBlock().isOpaqueCube())))));

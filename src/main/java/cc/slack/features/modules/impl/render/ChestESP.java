@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.events.impl.render.RenderEvent;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
 import java.util.ArrayList;
@@ -19,6 +20,8 @@ public class ChestESP extends Module {
 
     public ArrayList<BlockPos> chestBoundingBoxes = new ArrayList();
 
+    private final Integer[] chestIDS = new Integer[]{54, 130, 146};
+
     @Listen
     public void onRender(RenderEvent event) {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
@@ -28,6 +31,14 @@ public class ChestESP extends Module {
         }
 
         chestBoundingBoxes.clear();
+    }
+
+    public boolean isChest(Block block) {
+        for (int id : chestIDS) {
+            if (block != Block.getBlockById(id)) continue;
+            return true;
+        }
+        return false;
     }
     
 }
