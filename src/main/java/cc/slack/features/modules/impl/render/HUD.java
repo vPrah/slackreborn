@@ -44,7 +44,7 @@ public class HUD extends Module {
     private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
     private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
 
-    private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", false);
+    private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
 
     private int scaffoldTicks = 0;
 
@@ -137,7 +137,7 @@ public class HUD extends Module {
 
             Collections.reverse(removeList);
 
-            for (Integer i : removeList) {
+            for (int i : removeList) {
                 notText.remove(i);
                 notEnd.remove(i);
                 notStart.remove(i);

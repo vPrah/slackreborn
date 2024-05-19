@@ -32,7 +32,7 @@ public class PacketDebugger extends Module {
         super();
         addSettings(printTime, printFields);
         for (Class c : packetsList) {
-            settingsList.add(new BooleanValue(c.getName(), false));
+            settingsList.add(new BooleanValue(c.getName().replace("net.minecraft.network.play.server.", "").replace("net.minecraft.network.play.client.", ""), false));
             addSettings(settingsList.get(settingsList.size()-1));
         }
     }
