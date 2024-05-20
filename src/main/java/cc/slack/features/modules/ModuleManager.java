@@ -12,10 +12,7 @@ import cc.slack.features.modules.impl.movement.*;
 import cc.slack.features.modules.impl.other.*;
 import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.render.*;
-import cc.slack.features.modules.impl.utilties.AutoLogin;
-import cc.slack.features.modules.impl.utilties.AutoPlay;
-import cc.slack.features.modules.impl.utilties.LegitMode;
-import cc.slack.features.modules.impl.utilties.PacketDebugger;
+import cc.slack.features.modules.impl.utilties.*;
 import cc.slack.features.modules.impl.world.*;
 
 import java.util.*;
@@ -112,6 +109,7 @@ public class ModuleManager {
                     new Wtap(),
 
                     // Utilities
+                    new AutoConfig(),
                     new AutoPlay(),
                     new AutoLogin(),
                     new LegitMode(),

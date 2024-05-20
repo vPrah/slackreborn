@@ -124,7 +124,7 @@ public class AttackUtil {
         if (patternIndex >= recordedTimings.length) {
             patternIndex = 0;
         }
-        return 1000.0/(MathUtil.interpolate(1000/(cps + rand),1000/cps, recordedTimings[patternIndex]/150.0));
+        return MathUtil.interpolate(cps - rand/2, cps + rand, recordedTimings[patternIndex]/164.0);
     }
 
     public static double getPattern2Randomization(double cps, double rand) {
@@ -133,7 +133,7 @@ public class AttackUtil {
         if (patternIndex >= recordedTimings.length) {
             patternIndex = 0;
         }
-        return 1000.0/(MathUtil.interpolate(1000/(cps + rand),1000/cps, recordedTimings[patternIndex]/164.0));
+        return MathUtil.interpolate(cps - rand/2, cps + rand, recordedTimings[patternIndex]/164.0);
     }
 
     public static EntityLivingBase getTarget(double range, String sort) {
@@ -149,7 +149,7 @@ public class AttackUtil {
             if (entity instanceof EntityLivingBase) {
                 if (entity == mc.getPlayer()) continue;
                 if (entity instanceof EntityArmorStand) continue;
-                if ((mobs && !(entity instanceof EntityMob)) || (animals && !(entity instanceof EntityAnimal)) ||  (players && !(entity instanceof EntityPlayer))) continue;
+                if ((!mobs && (entity instanceof EntityMob)) || (!animals && (entity instanceof EntityAnimal)) ||  (!players && (entity instanceof EntityPlayer))) continue;
                 if (entity instanceof EntityPlayer && !team && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
                 if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
                 if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) continue;

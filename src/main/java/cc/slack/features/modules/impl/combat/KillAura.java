@@ -108,29 +108,6 @@ public class KillAura extends Module {
     }
 
     @Listen
-    public void onStrafe(StrafeEvent e) {
-        if (target != null && moveFix.getValue()) e.setYaw(rotations[0]);
-    }
-
-    @Listen
-    public void onJump(JumpEvent e) {
-        if (target != null && moveFix.getValue()) e.setYaw(rotations[0]);
-    }
-
-    @Listen
-    public void onMotion(MotionEvent e) {
-        if (target == null) {
-            rotations[0] = mc.getPlayer().rotationYaw;
-            rotations[1] = mc.getPlayer().rotationPitch;
-            e.setYaw(rotations[0]);
-            e.setPitch(rotations[1]);
-        } else {
-            e.setYaw(rotations[0]);
-            e.setPitch(rotations[1]);
-        }
-    }
-
-    @Listen
     public void onRender(RenderEvent e) {
         if(e.getState() != RenderEvent.State.RENDER_2D) return;
         if (timer.hasReached(attackDelay) && target != null) {
@@ -153,6 +130,7 @@ public class KillAura extends Module {
                 BlinkUtil.disable();
             }
             renderBlock = false;
+            rotations = new float[]{mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
             return;
         }
 
@@ -160,6 +138,9 @@ public class KillAura extends Module {
         renderBlock = canAutoBlock() && (renderBlocking.getValue() || isBlocking || autoBlock.getValue().equals("Fake")) && (!autoBlock.getValue().equals("None"));
 
         rotations = calculateRotations(target);
+
+        RotationUtil.setClientRotation(rotations, 1);
+        RotationUtil.setStrafeFix(moveFix.getValue(), false);
 
         if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
             if (preAttack()) return;

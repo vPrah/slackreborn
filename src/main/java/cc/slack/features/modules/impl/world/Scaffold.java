@@ -196,7 +196,7 @@ public class Scaffold extends Module {
     }
 
     private void runTowerMove() {
-        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving())) {
+        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving()) && mc.getCurrentScreen() == null) {
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":
                     mc.getPlayer().motionY = 0.42;

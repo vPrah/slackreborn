@@ -29,8 +29,8 @@ public class Velocity extends Module {
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
     private final NumberValue<Integer> velocityTick = new NumberValue<>("Velocity Tick", 5, 0, 20, 1);
-    private final BooleanValue onlyground = new BooleanValue("OnlyGround", false);
-    private final BooleanValue noFire = new BooleanValue("NoFire", false);
+    private final BooleanValue onlyground = new BooleanValue("Only Ground", false);
+    private final BooleanValue noFire = new BooleanValue("No Fire", false);
 
     int jumped = 0;
 

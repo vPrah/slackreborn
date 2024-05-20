@@ -19,7 +19,7 @@ public class ModeValue<T> extends Value<T> {
     }
 
     public ModeValue(T[] modes) {
-        super(null, modes[0], null);
+        super("Mode: ", modes[0], null);
         this.modes = modes;
     }
 
