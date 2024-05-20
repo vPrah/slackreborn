@@ -341,6 +341,7 @@ public class ItemRenderer
             float f1 = abstractclientplayer.getSwingProgress(partialTicks);
             float f2 = abstractclientplayer.prevRotationPitch + (abstractclientplayer.rotationPitch - abstractclientplayer.prevRotationPitch) * partialTicks;
             float f3 = abstractclientplayer.prevRotationYaw + (abstractclientplayer.rotationYaw - abstractclientplayer.prevRotationYaw) * partialTicks;
+            final float f5 = MathHelper.sin((float)(MathHelper.sqrt_float(f2) * 3.1));
             this.func_178101_a(f2, f3);
             this.func_178109_a(abstractclientplayer);
             this.func_178110_a((EntityPlayerSP)abstractclientplayer, partialTicks);
@@ -390,6 +391,14 @@ public class ItemRenderer
                                         break;
                                     case "Slide":
                                         this.transformFirstPersonItem(0.7f, f1);
+                                        this.func_178103_d();
+                                        break;
+
+                                    case "Exhibition":
+                                        GL11.glTranslated(0.0, 0.0, 0.0);
+                                        this.transformFirstPersonItem(-0.1f, 1.0f);
+                                        GlStateManager.rotate(-f5 * 50.0f / 2.0f, f5 / 2.0f, -0.0f, 4.0f);
+                                        GlStateManager.rotate(-f5 * 30.0f, 1.0f, f5 / 2.0f, -0.0f);
                                         this.func_178103_d();
                                         break;
                                 }
