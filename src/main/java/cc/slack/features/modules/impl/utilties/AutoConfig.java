@@ -144,7 +144,7 @@ public class AutoConfig extends Module {
                 break;
 
         }
-        Slack.getInstance().addNotification("Loaded auto config: " + mode.getValue() + ".", " ", 4000L);
+        Slack.getInstance().addNotification("Loaded auto config: " + mode.getValue() + ".", " ", 4000L, Slack.NotificationStyle.SUCCESS);
         setToggle(false);
     }
 }

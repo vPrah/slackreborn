@@ -52,6 +52,8 @@ public class HUD extends Module {
     private ArrayList<Long> notEnd = new ArrayList<>();
     private ArrayList<Long> notStart = new ArrayList<>();
     private ArrayList<String> notDetailed = new ArrayList<>();
+    private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
+
 
     public HUD() {
         super();
@@ -99,20 +101,21 @@ public class HUD extends Module {
                 if (scaffoldTicks > 0) scaffoldTicks--;
             }
 
-            if (scaffoldTicks == 0) return;
-            ScaledResolution sr = mc.getScaledResolution();
-            if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-                String displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
-                drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2,
-                        (int) (sr.getScaledHeight() * 3f / 4F - 2f),
-                        (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2,
-                        (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f),
-                        0x80000000);
-                mc.getFontRenderer().drawString(displayString,
-                        (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f,
-                        sr.getScaledHeight() * 3f / 4F,
-                        new Color(255, 255, 255).getRGB(),
-                        false);
+            if (scaffoldTicks != 0) {
+                ScaledResolution sr = mc.getScaledResolution();
+                if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+                    String displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
+                    drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2,
+                            (int) (sr.getScaledHeight() * 3f / 4F - 2f),
+                            (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2,
+                            (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f),
+                            0x80000000);
+                    mc.getFontRenderer().drawString(displayString,
+                            (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f,
+                            sr.getScaledHeight() * 3f / 4F,
+                            new Color(255, 255, 255).getRGB(),
+                            false);
+                }
             }
         }
 
@@ -121,10 +124,10 @@ public class HUD extends Module {
             for (int i = 0; i < notText.size(); i++) {
                 double x = getXpos(notStart.get(i), notEnd.get(i) );
                 renderNotification(
-                        (int) (mc.getScaledResolution().getScaledWidth() - 10 + 100 * x),
+                        (int) (mc.getScaledResolution().getScaledWidth() - 10 + 160 * x),
                         y,
-                        notText.get(i), notDetailed.get(i));
-                 y -= (int) (Math.pow((1 - x), 2) * 19);
+                        notText.get(i), notDetailed.get(i), notStyle.get(i));
+                 y -= (int) (Math.pow((1 - x), 0.5) * 19);
             }
 
             ArrayList<Integer> removeList = new ArrayList();
@@ -142,12 +145,14 @@ public class HUD extends Module {
                 notEnd.remove(i);
                 notStart.remove(i);
                 notDetailed.remove(i);
+                notStyle.remove(i);
             }
         } else {
             notText.clear();
             notEnd.clear();
             notStart.clear();
             notDetailed.clear();
+            notStyle.clear();
         }
 
 //        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
@@ -158,12 +163,26 @@ public class HUD extends Module {
         return String.format("%.2f", currentBPS);
     }
 
-    private void renderNotification(int x, int y, String bigText, String smallText) {
+    private void renderNotification(int x, int y, String bigText, String smallText, Slack.NotificationStyle style) {
+        int color = new Color(50,50,50).getRGB();
+        switch (style) {
+            case GRAY:
+                break;
+            case SUCCESS:
+                color = new Color(23, 138, 29).getRGB();
+                break;
+            case FAIL:
+                color = new Color(148, 36, 24).getRGB();
+                break;
+            case WARN:
+                color = new Color(156, 128, 37).getRGB();
+                break;
+        }
         drawRect(x - 6 - mc.getFontRenderer().getStringWidth(bigText),
                 y - 6 - mc.getFontRenderer().FONT_HEIGHT,
                 x,
                 y,
-                new Color(50,50,50).getRGB());
+                color);
         mc.getFontRenderer().drawString(
                 bigText,
                 x - 3 - mc.getFontRenderer().getStringWidth(bigText),
@@ -181,11 +200,12 @@ public class HUD extends Module {
         }
     }
 
-    public void addNotification(String bigText, String smallText, Long duration) {
+    public void addNotification(String bigText, String smallText, Long duration, Slack.NotificationStyle style) {
         if (!notification.getValue()) return;
         notText.add(bigText);
         notEnd.add(System.currentTimeMillis() + duration);
         notStart.add( System.currentTimeMillis());
         notDetailed.add(smallText);
+        notStyle.add(style);
     }
 }

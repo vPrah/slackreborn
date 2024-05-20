@@ -41,11 +41,11 @@ public abstract class Module {
         if (toggle) {
             EventUtil.register(this);
             onEnable();
-            Slack.getInstance().addNotification("Enabled module: " + name + ".", " ", 2000L);
+            Slack.getInstance().addNotification("Enabled module: " + name + ".", " ", 2000L, Slack.NotificationStyle.SUCCESS);
         } else {
             EventUtil.unRegister(this);
             onDisable();
-            Slack.getInstance().addNotification("Disabled module: " + name + ".", " ", 2000L);
+            Slack.getInstance().addNotification("Disabled module: " + name + ".", " ", 2000L, Slack.NotificationStyle.FAIL);
         }
         onToggled();
     }

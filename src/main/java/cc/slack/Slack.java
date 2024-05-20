@@ -25,6 +25,7 @@ import lombok.Getter;
 import org.lwjgl.opengl.Display;
 
 import java.util.Arrays;
+import java.util.EnumMap;
 
 @Getter
 @SuppressWarnings("unused")
@@ -53,8 +54,6 @@ public class Slack {
 
 
         // Default Modules
-        moduleManager.getInstance(RichPresence.class).toggle();
-        moduleManager.getInstance(ScoreboardModule.class).toggle();
         moduleManager.getInstance(Animations.class).toggle();
         moduleManager.getInstance(HUD.class).toggle();
         moduleManager.getInstance(Sprint.class).toggle();
@@ -114,7 +113,11 @@ public class Slack {
         }
     }
 
-    public void addNotification(String bigText, String smallText, Long duration) {
-        instance.getModuleManager().getInstance(HUD.class).addNotification(bigText, smallText, duration);
+    public enum NotificationStyle {
+        GRAY, SUCCESS, FAIL, WARN
+    }
+
+    public void addNotification(String bigText, String smallText, Long duration, NotificationStyle style) {
+        instance.getModuleManager().getInstance(HUD.class).addNotification(bigText, smallText, duration, style);
     }
 }
