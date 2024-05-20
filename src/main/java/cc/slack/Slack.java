@@ -8,7 +8,6 @@ import cc.slack.features.commands.api.CMD;
 import cc.slack.features.config.configManager;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.movement.Sprint;
-import cc.slack.features.modules.impl.other.RichPresence;
 import cc.slack.features.modules.impl.other.Targets;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Animations;
@@ -53,7 +52,6 @@ public class Slack {
 
 
         // Default Modules
-        moduleManager.getInstance(RichPresence.class).toggle();
         moduleManager.getInstance(ScoreboardModule.class).toggle();
         moduleManager.getInstance(Animations.class).toggle();
         moduleManager.getInstance(HUD.class).toggle();
