@@ -80,7 +80,6 @@ public class TickBase extends Module {
 
         } else {
             clear();
-            return;
         }
 
     }

@@ -54,6 +54,7 @@ public class Slack {
 
 
         // Default Modules
+        moduleManager.getInstance(RichPresence.class).toggle();
         moduleManager.getInstance(Animations.class).toggle();
         moduleManager.getInstance(HUD.class).toggle();
         moduleManager.getInstance(Sprint.class).toggle();
