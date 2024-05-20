@@ -1,6 +1,8 @@
 package cc.slack.utils.render;
 
 import cc.slack.utils.client.mc;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
@@ -33,4 +35,50 @@ public final class Render2DUtil extends mc {
         tessellator.draw();
         glDisable(GL_BLEND);
     }
+
+    public void drawRect(int x, int y, int width, int height, int color) {
+        Gui.drawRect(x, y, x + width, y + height, color);
+    }
+
+    public static void drawRoundedCornerRect(float x, float y, float x1, float y1, float radius, Color color) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_TEXTURE_2D);
+        final boolean hasCull = glIsEnabled(GL_CULL_FACE);
+        glDisable(GL_CULL_FACE);
+
+        glColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        glBegin(GL_POLYGON);
+
+        float xRadius = (float) Math.min((x1 - x) * 0.5, radius);
+        float yRadius = (float) Math.min((y1 - y) * 0.5, radius);
+        polygonCircle(x + xRadius,y + yRadius, xRadius, yRadius,180,270);
+        polygonCircle(x1 - xRadius,y + yRadius, xRadius, yRadius,90,180);
+        polygonCircle(x1 - xRadius,y1 - yRadius, xRadius, yRadius,0,90);
+        polygonCircle(x + xRadius,y1 - yRadius, xRadius, yRadius,270,360);
+
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+        setGlState(GL_CULL_FACE, hasCull);
+
+    }
+
+    public static void polygonCircle(float x, float y, float xRadius, float yRadius, int start, int end) {
+        for(int i = end; i >= start; i -= 4) {
+            glVertex2d(x + Math.sin(i * Math.PI / 180.0D) * xRadius, y + Math.cos(i * Math.PI / 180.0D) * yRadius);
+        }
+    }
+
+    public static void glColor(final int red, final int green, final int blue, final int alpha) {
+        GlStateManager.color(red / 255F, green / 255F, blue / 255F, alpha / 255F);
+    }
+
+    public static void setGlState(final int cap, final boolean state) {
+        if (state)
+            glEnable(cap);
+        else
+            glDisable(cap);
+    }
+
 }

@@ -16,6 +16,7 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.render.Render3DUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -99,7 +100,7 @@ public class Breaker extends Module {
         if (currentBlock == null) return;
         BlockPos bp = currentBlock;
 
-        ESP.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + breakingProgress, bp.getZ() + 1));
+        Render3DUtil.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + breakingProgress, bp.getZ() + 1));
     }
 
     private void findTargetBlock() {

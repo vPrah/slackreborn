@@ -68,8 +68,8 @@ public class configManager {
                 config.write();
             } else getConfig(configName).write();
         } catch (Exception e) {
-            PrintUtil.print("Failed to save config.");
-            PrintUtil.print(e.getMessage());
+            PrintUtil.message("Failed to save config.");
+            PrintUtil.message(e.getMessage());
         }
 
         PrintUtil.print("Saved config " + configName + ".");
@@ -88,7 +88,7 @@ public class configManager {
         if (configFile.exists()) {
             boolean deleted = configFile.delete();
             if (!deleted) {
-                PrintUtil.print("Error: Unable to delete the config file");
+                PrintUtil.message("Error: Unable to delete the config file");
                 return false;
             }
         }
@@ -99,10 +99,10 @@ public class configManager {
         refresh();
 
         if (getConfig(configName) != null) {
-            PrintUtil.print("Loaded config " + configName + ".");
+            PrintUtil.message("Loaded config " + configName + ".");
             getConfig(configName).read();
         } else {
-            PrintUtil.print("Failed to load config.");
+            PrintUtil.message("Failed to load config.");
         }
     }
 }
