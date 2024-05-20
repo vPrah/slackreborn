@@ -70,9 +70,10 @@ public class configManager {
         } catch (Exception e) {
             PrintUtil.message("Failed to save config.");
             PrintUtil.message(e.getMessage());
+            return;
         }
 
-        PrintUtil.print("Saved config " + configName + ".");
+        PrintUtil.message("Saved config " + configName + ".");
     }
 
     public static boolean delete(String configName) {

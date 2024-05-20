@@ -29,7 +29,7 @@ import net.minecraft.util.EnumFacing;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>("Bypass Mode", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);

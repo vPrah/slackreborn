@@ -84,11 +84,27 @@ public class Breaker extends Module {
 
                 if (breakingProgress > 1) {
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
+                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
+
                     mc.getPlayerController().onPlayerDestroyBlock(currentBlock, EnumFacing.DOWN );
                     mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
-                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
+                    if (currentBlock == targetBlock) {
+                        targetBlock = null;
+                    }
                     currentBlock = null;
                     switchTimer.reset();
+                } else {
+                    if (BlockUtils.getCenterDistance(currentBlock) > radiusDist.getValue()) {
+                        currentBlock = null;
+                    }
+                    if (BlockUtils.getCenterDistance(targetBlock) > radiusDist.getValue()) {
+                        currentBlock = null;
+                        targetBlock = null;
+                    }
+                    if (currentBlock == null) {
+                        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.ABORT_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
+                        mc.getWorld().sendBlockBreakProgress(mc.getPlayer().getEntityId(), currentBlock, 0);
+                    }
                 }
             }
         }

@@ -41,7 +41,7 @@ public class ModeButton extends Component {
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        String prefix = set.getName() == null ? "Mode: " : set.getName() + " Mode: ";
+        String prefix = set.getName() == "Mode: " ? "Mode: " : set.getName() + " Mode: ";
         mc.getFontRenderer().drawStringWithShadow(prefix + set.getValue().toString(), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
         GL11.glPopMatrix();
     }
