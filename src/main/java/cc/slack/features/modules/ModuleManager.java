@@ -31,6 +31,7 @@ public class ModuleManager {
                     new Criticals(),
                     new Hitbox(),
                     new KillAura(),
+                    new TickBase(),
                     new FastBow(),
                     new Velocity(),
 
