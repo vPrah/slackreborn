@@ -26,16 +26,17 @@ public class Autoclicker extends Module {
     public final NumberValue<Float> targetCPS = new NumberValue<>("Target CPS", 11f, 0f, 30f, 0.1f);
 
     public final NumberValue<Float> randomizeAmount = new NumberValue<>("Randomization Amount", 1.5f, 0f, 4f, 0.1f);
-    public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"NONE", "OLD", "NEW", "EXTRA"});
+    public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"NEW", "OLD", "EXTRA", "PATTERN1", "PATTERN2", "NONE"});
 
     public final BooleanValue onlySword = new BooleanValue("Only Sword", false);
 
     public final ModeValue<String> autoblockMode = new ModeValue<>("Autoblock", new String[]{"Off", "Click", "Normal", "BlockHit"});
     public final BooleanValue autoblockOnClick = new BooleanValue("Block On Mouse Down", true);
+    public final BooleanValue triggerBot = new BooleanValue("Trigger Bot", false);
 
     public Autoclicker() {
         super();
-        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode, autoblockOnClick);
+        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode, autoblockOnClick, triggerBot);
     }
 
     private final TimeUtil leftClickTimer = new TimeUtil();
@@ -45,7 +46,7 @@ public class Autoclicker extends Module {
     @Listen
     public void onRender(RenderEvent event) {
         if (
-                GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack)
+                (GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack) || (triggerBot.getValue() && mc.getMinecraft().objectMouseOver.entityHit != null))
                 && (!onlySword.getValue() || (mc.getPlayer().getHeldItem() != null? mc.getPlayer().getHeldItem().getItem() instanceof ItemSword : false))
                 && !mc.getPlayerController().isHittingBlock
         ) {

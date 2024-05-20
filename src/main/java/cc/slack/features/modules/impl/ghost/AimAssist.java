@@ -41,19 +41,19 @@ public class AimAssist extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         gameSens = mc.getGameSettings().mouseSensitivity;
-        if (lowerSens.getValue() && !wasAccel) {
+        if (lowerSens.getValue()) {
             if (mc.getMinecraft().objectMouseOver.entityHit != null) {
                 sens = gameSens * lowerSensAmount.getValue();
             }
         }
         if (accelSens.getValue()) {
             if (mc.getMinecraft().objectMouseOver.entityHit == null) {
-                EntityLivingBase target = AttackUtil.getTarget(4.0, "FOV");
+                EntityLivingBase target = AttackUtil.getTarget(4.6, "FOV");
                 if (target != null) {
                     if (wasAccel) {
                         prevDist = currDist;
                         currDist = (float) RotationUtil.getRotationDifference((Entity) target);
-                        if (RotationUtil.getRotationDifference(prevRot) * 0.7 < currDist - prevDist) {
+                        if (RotationUtil.getRotationDifference(prevRot) * 0.6 < prevDist - currDist) {
                             sens = gameSens * 1.2f;
                         } else {
                             sens = gameSens;
