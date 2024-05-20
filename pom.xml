@@ -252,6 +252,14 @@
             <artifactId>snakeyaml</artifactId>
             <version>2.0</version>
         </dependency>
+        <dependency>
+            <groupId>net.akiria</groupId>
+            <artifactId>discord-rpc</artifactId>
+            <version>LATEST</version>
+            <type>jar</type>
+            <scope>system</scope>
+            <systemPath>${basedir}/lib/discord-rpc.jar</systemPath>
+        </dependency>
 
     </dependencies>
 

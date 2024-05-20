@@ -2,13 +2,11 @@ package cc.slack.features.modules.impl.other;
 
 import cc.slack.Slack;
 import cc.slack.events.impl.game.TickEvent;
-import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.arikia.dev.drpc.DiscordEventHandlers;
 import net.arikia.dev.drpc.DiscordRPC;
