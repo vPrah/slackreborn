@@ -24,7 +24,9 @@ public class AimBot extends Module {
     private final BooleanValue silent = new BooleanValue("Silent Aimbot", false);
     private final BooleanValue silentMoveFix = new BooleanValue("Silent Aimbot Move Fix", true);
 
-    private final NumberValue<Integer> fov = new NumberValue<>("FOV", 80, 0, 180, 5);
+    private final NumberValue<Integer> fov = new NumberValue<>("Max FOV", 80, 0, 180, 5);
+    private final NumberValue<Integer> minFov = new NumberValue<>("Min FOV", 20, 0, 180, 2);
+
     private final NumberValue<Float> aimRange = new NumberValue<>("Aim Range", 4.5f, 0f, 8f, 0.1f);
 
     private final NumberValue<Integer> aimSpeed = new NumberValue<>("Aim Speed", 10, 0, 180, 1);
@@ -33,7 +35,7 @@ public class AimBot extends Module {
     private EntityLivingBase target = null;
 
     public AimBot() {
-        addSettings(silent, silentMoveFix, fov, aimRange, aimSpeed);
+        addSettings(silent, silentMoveFix, fov, minFov, aimRange, aimSpeed);
     }
 
     @SuppressWarnings("unused")
@@ -51,9 +53,10 @@ public class AimBot extends Module {
            return;
        }
 
-       float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.MIDDLE, 0);
+       float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.CENTER, 0);
 
        if (RotationUtil.getRotationDifference(targetRotation) > fov.getValue()) return;
+       if (RotationUtil.getRotationDifference(targetRotation) < minFov.getValue()) return;
 
        float [] clientRotation = RotationUtil.getLimitedRotation(
                RotationUtil.clientRotation,

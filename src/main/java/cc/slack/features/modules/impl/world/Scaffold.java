@@ -207,7 +207,7 @@ public class Scaffold extends Module {
                         mc.getPlayer().motionY = 0.42;
                     }
 
-                    switch ((int) round(mc.getPlayer().posY - jumpGround * 100)) {
+                    switch ((int) round((mc.getPlayer().posY - jumpGround) * 100)) {
                         case 42:
                             mc.getPlayer().motionY = 0.33;
                             break;
@@ -242,6 +242,8 @@ public class Scaffold extends Module {
 
     private void startSearch() {
         BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        if(!BlockUtils.isReplaceable(below)) return;
+
         List<BlockPos> searchQueue = new ArrayList<>();
 
         searchQueue.add(below.down());
