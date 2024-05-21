@@ -14,6 +14,8 @@ import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.combat.Velocity;
 import cc.slack.features.modules.impl.ghost.*;
 import cc.slack.features.modules.impl.movement.*;
+import cc.slack.features.modules.impl.movement.speeds.hop.HypixelHopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.vanilla.LegitSpeed;
 import cc.slack.features.modules.impl.player.AntiVoid;
 import cc.slack.features.modules.impl.player.FastEat;
 import cc.slack.features.modules.impl.player.NoFall;
@@ -62,7 +64,7 @@ public class AutoConfig extends Module {
                 sc.getValueByName("Movement Correction").setValue(true);
                 sc.getValueByName("Tower Mode").setValue("Off");
 
-                sp.getValueByName("Mode: ").setValue("Hypixel Hop");
+                sp.getValueByName("Mode: ").setValue(new HypixelHopSpeed());
                 sp.getValueByName("Jump Fix").setValue(true);
 
                 mm.getInstance(AntiVoid.class).getValueByName("Mode: ").setValue("Universal");
@@ -139,7 +141,7 @@ public class AutoConfig extends Module {
                 mm.getInstance(FastPlace.class).setToggle(false);
                 mm.getInstance(LegitScaffold.class).setToggle(false);
 
-                sp.getValueByName("Mode: ").setValue("Legit");
+                sp.getValueByName("Mode: ").setValue(new LegitSpeed());
 
                 break;
 
