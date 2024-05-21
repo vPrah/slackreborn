@@ -48,10 +48,6 @@ public class PearlAntiVoid extends Module {
         mc.getPlayer().isDead = false;
     }
 
-    @Listen
-    public void onDisconnect (DisconnectEvent event) {
-        PrintUtil.print("XD");
-    }
 
     @Listen
     public void onPacket(final PacketEvent e) {
@@ -141,6 +137,12 @@ public class PearlAntiVoid extends Module {
         } catch (NullPointerException ex) {
 
         }
+    }
+
+    @Listen
+    public void onDisconnect (DisconnectEvent event) {
+        toggle();
+        PrintUtil.print("XD");
     }
 
 }
