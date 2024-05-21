@@ -44,7 +44,7 @@ public class Killsults extends Module {
     }
 
     public void sendInsult() {
-        final String[] insultslist = { "U r a piece of yyshit", "Slack > All minecraft clients", "Do you know how to use your hands?", "DG chews me", "Bro, he is using FDP" };
+        final String[] insultslist = { "U r a piece of poop", "Slack > All minecraft clients", "Do you know how to use your hands?", "DG chews me", "Bro, he is using FDP", "Slack just mogged you", "Sniped by nerdy gyatt"};
         final int randomIndex = ThreadLocalRandom.current().nextInt(0, insultslist.length);
         mc.getPlayer().sendChatMessage(insultslist[randomIndex]);
     }

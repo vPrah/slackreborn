@@ -6,6 +6,7 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.render.Render3DUtil;
@@ -25,9 +26,10 @@ import static org.lwjgl.opengl.GL11.*;
 public class ESP extends Module {
 
     private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 1f, 1f, 3f, 0.1f);
+    private final BooleanValue rotateYaw = new BooleanValue("Yaw Rotate", false);
 
     public ESP() {
-        addSettings(lineWidth);
+        addSettings(lineWidth, rotateYaw);
     }
 
     @Listen
@@ -68,7 +70,10 @@ public class ESP extends Module {
             } else {
                 glColor(255, 255, 255, 95);
             }
+            glPushMatrix();
+            if (rotateYaw.getValue()) glRotated(entity.rotationYaw, 0, 1, 0);
             Render3DUtil.drawSelectionBoundingBox(axisAlignedBB);
+            glPopMatrix();
 
             GlStateManager.resetColor();
             glDepthMask(true);

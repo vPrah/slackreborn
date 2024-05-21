@@ -109,6 +109,12 @@ public class AntiVoid extends Module {
                     }
                 }
                 break;
+            case "polar":
+                if (event.getPacket() instanceof C03PacketPlayer) {
+                    if (mc.getPlayer().fallDistance > 7 && isOverVoid()) {
+                        event.cancel();
+                    }
+                }
         }
     }
 
