@@ -7,9 +7,6 @@ import net.minecraft.util.*;
 
 import java.util.Random;
 
-import static java.lang.Math.abs;
-import static java.lang.Math.round;
-
 public class RotationUtil extends mc {
 
     public enum TargetRotation {
@@ -54,33 +51,6 @@ public class RotationUtil extends mc {
         targetRotation = applyGCD(targetRotation, new float[] {mc.getPlayer().prevRotationYaw, mc.getPlayer().prevRotationPitch} );
         mc.getPlayer().rotationYaw = targetRotation[0];
         mc.getPlayer().rotationPitch = targetRotation[1];
-    }
-    
-    public static void updateStrafeFixBinds() {
-        if (isEnabled) {
-            if (strafeFix) {
-                if (!strictStrafeFix) {
-                    if (MovementUtil.isBindsMoving()) {
-                        int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) / 45);
-                        if (strafeYaw > 4) {
-                            strafeYaw -= 8;
-                        }
-                        if (strafeYaw < -4) {
-                            strafeYaw += 8;
-                        }
-                        mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
-                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
-                        mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
-                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
-                    } else {
-                        mc.getGameSettings().keyBindForward.pressed = false;
-                        mc.getGameSettings().keyBindRight.pressed = false;
-                        mc.getGameSettings().keyBindBack.pressed = false;
-                        mc.getGameSettings().keyBindLeft.pressed = false;
-                    }
-                }
-            }
-        }
     }
 
 

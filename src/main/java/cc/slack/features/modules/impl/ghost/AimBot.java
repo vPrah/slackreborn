@@ -2,7 +2,6 @@
 
 package cc.slack.features.modules.impl.ghost;
 
-import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -41,7 +40,9 @@ public class AimBot extends Module {
 
     @SuppressWarnings("unused")
     @Listen
-    public void onUpdate (UpdateEvent event) {
+    public void onRender (RenderEvent event) {
+
+       if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
        target = AttackUtil.getTarget(aimRange.getValue(), "fov");
        if (target == null) {
@@ -60,7 +61,7 @@ public class AimBot extends Module {
        float [] clientRotation = RotationUtil.getLimitedRotation(
                RotationUtil.clientRotation,
                targetRotation,
-               ((float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5))
+               ((float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5)) * 20 / Minecraft.getDebugFPS()
        );
 
        if (silent.getValue()) {

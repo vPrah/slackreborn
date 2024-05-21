@@ -1744,7 +1744,30 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         if (!this.isGamePaused && this.theWorld != null)
         {
             this.playerController.updateController();
-            RotationUtil.updateStrafeFixBinds();
+            if (RotationUtil.isEnabled) {
+                if (RotationUtil.strafeFix) {
+                    if (!RotationUtil.strictStrafeFix) {
+                        if (MovementUtil.isBindsMoving()) {
+                            int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(this.thePlayer.rotationYaw)) / 45);
+                            if (strafeYaw > 4) {
+                                strafeYaw -= 8;
+                            }
+                            if (strafeYaw < -4) {
+                                strafeYaw += 8;
+                            }
+                            this.gameSettings.keyBindForward.pressed = abs(strafeYaw) <= 1;
+                            this.gameSettings.keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                            this.gameSettings.keyBindBack.pressed = abs(strafeYaw) >= 3;
+                            this.gameSettings.keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                        } else {
+                            this.gameSettings.keyBindForward.pressed = false;
+                            this.gameSettings.keyBindRight.pressed = false;
+                            this.gameSettings.keyBindBack.pressed = false;
+                            this.gameSettings.keyBindLeft.pressed = false;
+                        }
+                    }
+                }
+            }
         }
 
         this.mcProfiler.endStartSection("textures");
