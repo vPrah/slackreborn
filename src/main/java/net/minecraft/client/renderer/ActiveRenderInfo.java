@@ -2,6 +2,9 @@ package net.minecraft.client.renderer;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+
+import cc.slack.Slack;
+import cc.slack.utils.render.FreeLookUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;
@@ -63,6 +66,10 @@ public class ActiveRenderInfo
         int i = p_74583_1_ ? 1 : 0;
         float f2 = entityplayerIn.rotationPitch;
         float f3 = entityplayerIn.rotationYaw;
+        if (FreeLookUtil.freelooking) {
+            f2 = FreeLookUtil.cameraPitch;
+            f3 = FreeLookUtil.cameraYaw;
+        }
         rotationX = MathHelper.cos(f3 * (float)Math.PI / 180.0F) * (float)(1 - i * 2);
         rotationZ = MathHelper.sin(f3 * (float)Math.PI / 180.0F) * (float)(1 - i * 2);
         rotationYZ = -rotationZ * MathHelper.sin(f2 * (float)Math.PI / 180.0F) * (float)(1 - i * 2);
