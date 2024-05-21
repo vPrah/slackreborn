@@ -11,8 +11,7 @@ import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
         name = "FreeLook",
-        category = Category.PLAYER,
-        key = Keyboard.KEY_LSHIFT
+        category = Category.PLAYER
 )
 public class FreeLook extends Module {
 
