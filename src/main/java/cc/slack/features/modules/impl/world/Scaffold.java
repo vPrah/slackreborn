@@ -231,6 +231,19 @@ public class Scaffold extends Module {
                         jumpGround = mc.getPlayer().posY;
                     }
                     break;
+                case "watchdog":
+                    MovementUtil.strafe(0.2f - (float) (1.0E-4f + Math.random() * 0.001f));
+                    if (mc.getPlayer().onGround) {
+                        mc.getPlayer().jump();
+                    }
+                    if (mc.getPlayer().offGroundTicks == 1 && PlayerUtil.isOverAir()) {
+                        mc.getPlayer().motionY -= 0.02;
+                    } else if (mc.getPlayer().offGroundTicks == 4 && !PlayerUtil.isOverAir()) {
+                        mc.getPlayer().motionY -= 0.33;
+                    } else if (mc.getPlayer().offGroundTicks == 8) {
+                        mc.getPlayer().offGroundTicks = 0;
+                    }
+                    break;
                 case "off":
                     if (mc.getPlayer().onGround) {
                         mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
