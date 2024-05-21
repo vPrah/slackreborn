@@ -4,7 +4,6 @@ import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.input.KeyEvent;
-import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
@@ -2342,10 +2341,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void loadWorld(WorldClient worldClientIn)
     {
-        new WorldEvent(worldClientIn).call();
-        if (worldClientIn != theWorld) {
-            entityRenderer.getMapItemRenderer().clearLoadedMaps();
-        }
         this.loadWorld(worldClientIn, "");
     }
 

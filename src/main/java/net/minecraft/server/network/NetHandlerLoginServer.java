@@ -1,6 +1,5 @@
 package net.minecraft.server.network;
 
-import cc.slack.events.impl.network.DisconnectEvent;
 import com.google.common.base.Charsets;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.exceptions.AuthenticationUnavailableException;
@@ -89,7 +88,6 @@ public class NetHandlerLoginServer implements INetHandlerLoginServer, ITickable
         {
             logger.info("Disconnecting " + this.getConnectionInfo() + ": " + reason);
             ChatComponentText chatcomponenttext = new ChatComponentText(reason);
-            new DisconnectEvent(DisconnectEvent.Side.Server).call();
             this.networkManager.sendPacket(new S00PacketDisconnect(chatcomponenttext));
             this.networkManager.closeChannel(chatcomponenttext);
         }
