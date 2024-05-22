@@ -5,6 +5,7 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.ghost.AimAssist;
 import cc.slack.features.modules.impl.ghost.Reach;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.ui.menu.MainMenu;
 import cc.slack.utils.render.FreeLookUtil;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -2719,10 +2720,16 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 this.mc.ingameGUI.getChatGUI().printChatMessage(chatcomponenttext1);
             }
         }
-
+/* default
         if (this.mc.currentScreen instanceof GuiMainMenu)
         {
             this.updateMainMenu((GuiMainMenu)this.mc.currentScreen);
+        }
+*/
+
+        if (this.mc.currentScreen instanceof MainMenu)
+        {
+            this.updateMainMenu((MainMenu)this.mc.currentScreen);
         }
 
         if (this.updatedWorld != world)
@@ -2760,7 +2767,42 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
     }
 
-    private void updateMainMenu(GuiMainMenu p_updateMainMenu_1_)
+    /* default
+        private void updateMainMenu(GuiMainMenu p_updateMainMenu_1_)
+    {
+        try
+        {
+            String s = null;
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new Date());
+            int i = calendar.get(5);
+            int j = calendar.get(2) + 1;
+
+            if (i == 8 && j == 4)
+            {
+                s = "Happy birthday, OptiFine!";
+            }
+
+            if (i == 14 && j == 8)
+            {
+                s = "Happy birthday, sp614x!";
+            }
+
+            if (s == null)
+            {
+                return;
+            }
+
+            Reflector.setFieldValue(p_updateMainMenu_1_, Reflector.GuiMainMenu_splashText, s);
+        }
+        catch (Throwable var6)
+        {
+            ;
+        }
+    }
+     */
+
+    private void updateMainMenu(MainMenu p_updateMainMenu_1_)
     {
         try
         {

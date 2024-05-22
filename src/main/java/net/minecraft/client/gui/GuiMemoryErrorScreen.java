@@ -1,6 +1,8 @@
 package net.minecraft.client.gui;
 
 import java.io.IOException;
+
+import cc.slack.ui.menu.MainMenu;
 import net.minecraft.client.resources.I18n;
 
 public class GuiMemoryErrorScreen extends GuiScreen
@@ -23,7 +25,9 @@ public class GuiMemoryErrorScreen extends GuiScreen
     {
         if (button.id == 0)
         {
-            this.mc.displayGuiScreen(new GuiMainMenu());
+
+            this.mc.displayGuiScreen(new MainMenu());
+           // this.mc.displayGuiScreen(new GuiMainMenu()); default
         }
         else if (button.id == 1)
         {

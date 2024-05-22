@@ -1,5 +1,7 @@
 package net.minecraft.client.gui;
 
+import cc.slack.ui.menu.MainMenu;
+import cc.slack.ui.menu.MainMenuButton;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -69,6 +71,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
      */
     public int height;
     protected CopyOnWriteArrayList<GuiButton> buttonList = new CopyOnWriteArrayList<>();
+    protected CopyOnWriteArrayList<MainMenuButton> menuList = new CopyOnWriteArrayList<>();
     protected CopyOnWriteArrayList<GuiLabel> labelList = new CopyOnWriteArrayList<>();
     public boolean allowUserInput;
 
@@ -81,6 +84,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
      * The button that was just pressed.
      */
     private GuiButton selectedButton;
+    private MainMenuButton selectedMenuButton;
     private int eventButton;
     private long lastMouseEvent;
 
@@ -96,6 +100,9 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
      */
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         this.buttonList.forEach(guiButton -> guiButton.drawButton(this.mc, mouseX, mouseY));
+
+        this.menuList.forEach(MainMenuButton -> MainMenuButton.drawButton(this.mc, mouseX, mouseY));
+
         this.labelList.forEach(guiLabel -> guiLabel.drawLabel(this.mc, mouseX, mouseY));
     }
 
@@ -400,6 +407,14 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
                     this.actionPerformed(guibutton);
                 }
             }
+
+            for (MainMenuButton guibuttonMenu : this.menuList) {
+                if (guibuttonMenu.mousePressed(this.mc, mouseX, mouseY)) {
+                    this.selectedMenuButton = guibuttonMenu;
+                    guibuttonMenu.playPressSound(this.mc.getSoundHandler());
+                    this.actionPerformedMenu(guibuttonMenu);
+                }
+            }
         }
     }
 
@@ -426,6 +441,10 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
     protected void actionPerformed(GuiButton button) throws IOException {
     }
 
+    protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
+    }
+
+
     /**
      * Causes the screen to lay out its subcomponents again. This is the equivalent of the Java call
      * Container.validate()
@@ -437,6 +456,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
         this.width = width;
         this.height = height;
         this.buttonList.clear();
+        this.menuList.clear();
         this.initGui();
     }
 

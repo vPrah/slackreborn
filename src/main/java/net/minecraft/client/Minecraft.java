@@ -7,6 +7,7 @@ import cc.slack.events.impl.input.KeyEvent;
 import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
+import cc.slack.ui.menu.MainMenu;
 import cc.slack.utils.player.ItemSpoofUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.RotationUtil;
@@ -570,7 +571,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
         else
         {
-            this.displayGuiScreen(new GuiMainMenu());
+            this.displayGuiScreen(new MainMenu());
+           // this.displayGuiScreen(new GuiMainMenu()); default
         }
 
         this.renderEngine.deleteTexture(this.mojangLogo);
@@ -976,7 +978,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         if (guiScreenIn == null && this.theWorld == null)
         {
-            guiScreenIn = new GuiMainMenu();
+            guiScreenIn = new MainMenu();
+        //    guiScreenIn = new GuiMainMenu(); default
         }
         else if (guiScreenIn == null && this.thePlayer.getHealth() <= 0.0F)
         {

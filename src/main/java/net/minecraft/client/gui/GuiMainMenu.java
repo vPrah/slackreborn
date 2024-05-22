@@ -2,6 +2,7 @@ package net.minecraft.client.gui;
 
 import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
+import cc.slack.ui.menu.MainMenuButton;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import java.io.BufferedReader;
@@ -45,6 +46,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
     /** The splash message. */
     private String splashText;
+    private MainMenuButton buttonResetDemoMenu;
 
     /** Timer used to rotate the panorama, increases every tick. */
     private int panoramaTimer;
@@ -90,9 +92,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
     /** Minecraft Realms button. */
     private GuiButton realmsButton;
+    private MainMenuButton realmsButtonMenu;
     private boolean field_183502_L;
     private GuiScreen field_183503_M;
     private GuiButton modButton;
+    private MainMenuButton modButtonMenu;
     private GuiScreen modUpdateNotification;
 
     public GuiMainMenu()
@@ -216,6 +220,8 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         this.buttonList.add(new GuiButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options")));
         this.buttonList.add(new GuiButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit")));
+        this.menuList.add(new MainMenuButton(0, this.width / 2 - 100, j + 72 + 12, 98, 20, I18n.format("menu.options")));
+        this.menuList.add(new MainMenuButton(4, this.width / 2 + 2, j + 72 + 12, 98, 20, I18n.format("menu.quit")));
         this.buttonList.add(new GuiButtonLanguage(5, this.width / 2 - 124, j + 72 + 12));
 
         synchronized (this.threadLock)
@@ -240,6 +246,10 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         this.buttonList.add(new GuiButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
         this.buttonList.add(new GuiButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
         this.buttonList.add(new GuiButton(6, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Alt Manager"));
+
+        this.menuList.add(new MainMenuButton(1, this.width / 2 - 100, p_73969_1_, I18n.format("menu.singleplayer")));
+        this.menuList.add(new MainMenuButton(2, this.width / 2 - 100, p_73969_1_ + p_73969_2_, I18n.format("menu.multiplayer")));
+        this.menuList.add(new MainMenuButton(6, this.width / 2 - 100, p_73969_1_ + p_73969_2_ * 2, "Alt Manager"));
     }
 
     /**
@@ -273,6 +283,39 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
         }
 
         if (button.id == 6)
+        {
+            this.mc.displayGuiScreen(new GuiAltLogin(this));
+        }
+    }
+
+    protected void actionPerformedMenu(MainMenuButton buttonMenuMenu) throws IOException
+    {
+        if (buttonMenuMenu.id == 0)
+        {
+            this.mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+        }
+
+        if (buttonMenuMenu.id == 5)
+        {
+            this.mc.displayGuiScreen(new GuiLanguage(this, this.mc.gameSettings, this.mc.getLanguageManager()));
+        }
+
+        if (buttonMenuMenu.id == 1)
+        {
+            this.mc.displayGuiScreen(new GuiSelectWorld(this));
+        }
+
+        if (buttonMenuMenu.id == 2)
+        {
+            this.mc.displayGuiScreen(new GuiMultiplayer(this));
+        }
+
+        if (buttonMenuMenu.id == 4)
+        {
+            this.mc.shutdown();
+        }
+
+        if (buttonMenuMenu.id == 6)
         {
             this.mc.displayGuiScreen(new GuiAltLogin(this));
         }
@@ -576,6 +619,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
             this.drawString(this.fontRendererObj, this.openGLWarning1, this.field_92022_t, this.field_92021_u, -1);
             this.drawString(this.fontRendererObj, this.openGLWarning2, (this.width - this.field_92024_r) / 2, this.buttonList.get(0).yPosition - 12, -1);
+            this.drawString(this.fontRendererObj, this.openGLWarning2, (this.width - this.field_92024_r) / 2, this.menuList.get(0).yPosition - 12, -1);
         }
 
         super.drawScreen(mouseX, mouseY, partialTicks);
