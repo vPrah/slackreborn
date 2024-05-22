@@ -5,6 +5,7 @@ import cc.slack.utils.client.mc;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -23,6 +24,8 @@ public final class Render3DUtil extends mc {
         glDepthMask(false);
         glLineWidth(1.5f);
         enableGlCap(GL_LINE_SMOOTH);
+        final RenderManager renderManager = mc.getRenderManager();
+        boundingBox.offset(-renderManager.renderPosX, - renderManager.renderPosY, - renderManager.renderPosZ);
         drawSelectionBoundingBox(boundingBox);
         GlStateManager.resetColor();
         glDepthMask(true);

@@ -66,6 +66,9 @@ public class AimAssist extends Module {
                         currDist = prevDist;
                         wasAccel = true;
                     }
+                } else {
+                    sens = gameSens;
+                    wasAccel = false;
                 }
             }
         }

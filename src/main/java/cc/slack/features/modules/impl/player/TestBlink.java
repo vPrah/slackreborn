@@ -49,7 +49,7 @@ public class TestBlink extends Module {
         Minecraft.setMinecraft(startingMC);
         for (int i = 1; i <= ticks; i++) {
             try {
-                mc.getMinecraft().gameSettings = inputReplay.get(i);
+                //mc.getMinecraft().gameSettings = inputReplay.get(i);
                 mc.getMinecraft().runTick();
             } catch (IOException ignored) {
                 // womp womp
