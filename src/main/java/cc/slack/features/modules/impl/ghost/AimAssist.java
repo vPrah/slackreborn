@@ -11,7 +11,6 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.RotationUtil;
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
