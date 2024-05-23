@@ -14,6 +14,8 @@ import java.util.List;
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
     private final int particlesDensity = 2000;
+
+    private final ResourceLocation imageResource = new ResourceLocation("slack/textures/logo/128.png");
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpeg"));
@@ -28,6 +30,9 @@ public class MainMenu extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
+        mc.getTextureManager().bindTexture(imageResource);
+
+        drawModalRectWithCustomSizedTexture( this.width / 2 - 50, this.height / 2 - 50, 0, 0, 100, 100, 100, 100);
         for (Particle particle : particles) {
             particle.update();
             particle.render(mc);
