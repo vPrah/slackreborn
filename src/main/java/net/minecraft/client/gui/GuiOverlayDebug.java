@@ -312,7 +312,7 @@ public class GuiOverlayDebug extends Gui
         return i2 << 24 | j2 << 16 | k2 << 8 | l2;
     }
 
-    private static long bytesToMb(long bytes)
+    public static long bytesToMb(long bytes)
     {
         return bytes / 1024L / 1024L;
     }

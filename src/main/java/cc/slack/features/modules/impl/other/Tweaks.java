@@ -2,6 +2,8 @@
 
 package cc.slack.features.modules.impl.other;
 
+import cc.slack.Slack;
+import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -35,6 +37,8 @@ public class Tweaks extends Module {
     float prevGamma = -1F;
     boolean wasGUI = false;
 
+    public String status = "";
+
     public Tweaks() {
         super();
         addSettings(noachievement, noblockhitdelay, noclickdelay, nohurtcam, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
@@ -46,6 +50,7 @@ public class Tweaks extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
+
         if (fullbright.getValue()) {
             if (mc.getGameSettings().gammaSetting <= 100f) mc.getGameSettings().gammaSetting++;
         } else if (prevGamma != -1f) {
@@ -65,6 +70,15 @@ public class Tweaks extends Module {
         }
 
         if (noclickdelay.getValue()) mc.getMinecraft().leftClickCounter = 0;
+    }
+
+    @Listen
+    public void onTick (TickEvent event) {
+        if (Slack.getInstance().getModuleManager().getInstance(RichPresence.class).started.get()) {
+            status = "ON";
+        } else {
+            status = "OFF";
+        }
     }
 
     @SuppressWarnings("unused")

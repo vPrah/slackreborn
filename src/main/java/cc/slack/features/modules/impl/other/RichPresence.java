@@ -24,9 +24,10 @@ import net.arikia.dev.drpc.DiscordRichPresence;
 public class RichPresence extends Module {
 
     private final BooleanValue showNickname = new BooleanValue("Show Nickname", true);
-    private final AtomicBoolean started = new AtomicBoolean(false);
+    public final AtomicBoolean started = new AtomicBoolean(false);
     private ScheduledExecutorService scheduler = Executors.newSingleThreadScheduledExecutor();
     private final StringBuilder str2 = new StringBuilder();
+
 
     public RichPresence() {
         addSettings(showNickname);
@@ -40,6 +41,7 @@ public class RichPresence extends Module {
 
     @Listen
     public void onTick(TickEvent event) {
+
         if (showNickname.getValue()) {
             String playerName = mc.getPlayer() != null ? mc.getPlayer().getNameClear() : mc.getMinecraft().session.getUsername();
             str2.setLength(0);

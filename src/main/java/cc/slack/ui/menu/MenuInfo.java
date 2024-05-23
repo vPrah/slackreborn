@@ -1,15 +1,26 @@
 package cc.slack.ui.menu;
 
 import cc.slack.Slack;
+import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.impl.other.RichPresence;
+import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.clickGUI.ClickGui;
+import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;
+import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.src.Config;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.Objects;
+
+import static net.minecraft.client.gui.GuiOverlayDebug.bytesToMb;
 
 public class MenuInfo extends GuiScreen {
 
@@ -23,6 +34,84 @@ public class MenuInfo extends GuiScreen {
         GlStateManager.translate(-(width/1.69f), -(height/1.77),0);
         GlStateManager.popMatrix();
         Gui.drawRect(398, 100, 608 , 400, new Color(0,0,0,170).getRGB());
+        Gui.drawRect(98, 100, 308 , 400, new Color(0,0,0,170).getRGB());
+        Gui.drawRect(698, 100, 908 , 400, new Color(0,0,0,170).getRGB());
+
+        long i = Runtime.getRuntime().maxMemory();
+        long j = Runtime.getRuntime().totalMemory();
+        long k = Runtime.getRuntime().freeMemory();
+        long l = j - k;
+
+
+        // Client detailed information
+        Fonts.axi35.drawString("Detailed Information", 707, 120, -1);
+
+
+        if (Objects.equals(Slack.getInstance().info.getType(), "Release")) {
+            Fonts.apple20.drawString("Type: ", 707, 160, -1);
+            Fonts.apple20.drawString(Slack.getInstance().info.getType(), 735, 160, new Color(0, 200, 0).getRGB());
+        } else if (Objects.equals(Slack.getInstance().info.getType(), "Beta")) {
+            Fonts.apple20.drawString("Type: ", 707, 160, -1);
+            Fonts.apple20.drawString(Slack.getInstance().info.getType(), 735, 160, new Color(185, 0, 54).getRGB());
+        } else {
+            Fonts.apple20.drawString("Type: ", 707, 160, -1);
+            Fonts.apple20.drawString(Slack.getInstance().info.getType(), 735, 160, new Color(31, 48, 189).getRGB());
+        }
+
+
+        Fonts.apple20.drawString("Version: ", 707, 180, -1);
+        Fonts.apple20.drawString(Slack.getInstance().info.getVersion(), 747, 180, new Color(0, 200, 0).getRGB());
+
+
+        if (Objects.equals(Slack.getInstance().getModuleManager().getInstance(Tweaks.class).status, "OFF")) {
+            Fonts.apple20.drawString("RPC Status: ", 707, 200, -1);
+            Fonts.apple20.drawString(Slack.getInstance().getModuleManager().getInstance(Tweaks.class).status, 763, 200, new Color(200, 0, 0).getRGB());
+        } else {
+            Fonts.apple20.drawString("RPC Status: ", 707, 200, -1);
+            Fonts.apple20.drawString(Slack.getInstance().getModuleManager().getInstance(Tweaks.class).status, 763, 200, new Color(0, 200, 0).getRGB());
+
+        }
+        Fonts.apple20.drawString("Module Manager Status: ", 707, 220, -1);
+        Fonts.apple20.drawString("ON", 820, 220, new Color(0, 200, 0).getRGB());
+
+
+        Fonts.apple20.drawString("Config Manager Status: ", 707, 240, -1);
+        Fonts.apple20.drawString("ON", 815, 240, new Color(0, 200, 0).getRGB());
+
+        Fonts.apple20.drawString("CMD Manager Status: ", 707, 260, -1);
+        Fonts.apple20.drawString("ON", 807, 260, new Color(0, 200, 0).getRGB());
+
+        if (Objects.equals(Slack.getInstance().info.getVersion(), "Release")) {
+            Fonts.apple20.drawString("Client Build Status: ", 707, 280, -1);
+            Fonts.apple20.drawString("Stable", 807, 280, new Color(0, 200, 0).getRGB());
+        } else {
+            Fonts.apple20.drawString("Client Build Status: ", 707, 280, -1);
+            Fonts.apple20.drawString("Unstable", 795, 280, new Color(200, 0, 0).getRGB());
+        }
+
+
+
+
+
+
+        // Client Things Menu
+        Fonts.axi35.drawString("Client", 475, 120, -1);
+
+
+        // System Spect Font
+
+        Fonts.axi35.drawString("System Specs", 140, 120, -1);
+        Fonts.apple20.drawString("GPU: ", 105, 160, -1);
+        Fonts.apple18.drawString(Config.openGlRenderer, 105, 180, -1);
+        Fonts.apple20.drawString("CPU: ", 105, 200, -1);
+        Fonts.apple18.drawString(OpenGlHelper.func_183029_j(), 105, 220, -1);
+
+        // Memory Info Font
+        Fonts.axi35.drawString("Memory Info", 140, 260, -1);
+        Fonts.apple20.drawString("Total Memory (RAM): ", 105, 300, -1);
+        Fonts.apple18.drawString(String.valueOf(String.format("% 2d%% %03dMB/%03dMB", l * 100L / i, bytesToMb(l), bytesToMb(i))), 200, 300, -1);
+        Fonts.apple20.drawString("Allocated Memory (RAM): ", 105, 320, -1);
+        Fonts.apple18.drawString(String.valueOf(String.format("% 2d%% %03dMB", j * 100L / i, bytesToMb(j))), 220, 320, -1);
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
@@ -31,11 +120,13 @@ public class MenuInfo extends GuiScreen {
 
     @Override
     public void initGui() {
+
         this.menuList.add(new MainMenuButton(1, + 405, height / 2 - 40, "Show ClickGUI"));
-        this.menuList.add(new MainMenuButton(2, + 405, height / 2 - 15, "Join Discord Server"));
-        this.menuList.add(new MainMenuButton(3, + 405, height / 2 + 10, "Check Website"));
-        this.menuList.add(new MainMenuButton(4, + 405, height / 2 + 35, "Github Org"));
-        this.menuList.add(new MainMenuButton(5, + 405, height / 2 + 60, "Developers Team"));
+        this.menuList.add(new MainMenuButton(2, + 405, height / 2 - 15, "Open Config Folder"));
+        this.menuList.add(new MainMenuButton(3, + 405, height / 2 + 10, "Join Discord Server"));
+        this.menuList.add(new MainMenuButton(4, + 405, height / 2 + 35, "Check Website"));
+        this.menuList.add(new MainMenuButton(5, + 405, height / 2 + 60, "Github Org"));
+        this.menuList.add(new MainMenuButton(6, + 405, height / 2 + 85, "Developers Team"));
 
 
         super.initGui();
@@ -46,22 +137,26 @@ public class MenuInfo extends GuiScreen {
         super.actionPerformedMenu(buttonMenu);
 
         if(buttonMenu.id == 1) {
-            mc.displayGuiScreen(new ClickGui());
+
         }
 
         if(buttonMenu.id == 2) {
-            FileUtil.showURL(Slack.getInstance().DiscordServer);
+            mc.displayGuiScreen(new ClickGui());
         }
 
         if(buttonMenu.id == 3) {
-            FileUtil.showURL(Slack.getInstance().Website);
+            FileUtil.showURL(Slack.getInstance().DiscordServer);
         }
 
         if(buttonMenu.id == 4) {
-            FileUtil.showURL(Slack.getInstance().GitOrg);
+            FileUtil.showURL(Slack.getInstance().Website);
         }
 
         if(buttonMenu.id == 5) {
+            FileUtil.showURL(Slack.getInstance().GitOrg);
+        }
+
+        if(buttonMenu.id == 6) {
             // I need a menu with All developers of Slack Client (With their information)
         }
     }
