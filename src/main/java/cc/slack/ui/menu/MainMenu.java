@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.utils.font.Fonts;
 import net.minecraft.client.gui.*;
+import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
@@ -30,9 +31,12 @@ public class MainMenu extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
+        GlStateManager.pushMatrix();
+        GlStateManager.scale(3 , 3, 3);
         mc.getTextureManager().bindTexture(imageResource);
-
         drawModalRectWithCustomSizedTexture( this.width / 2 - 50, this.height / 2 - 50, 0, 0, 100, 100, 100, 100);
+        GlStateManager.popMatrix();
+
         for (Particle particle : particles) {
             particle.update();
             particle.render(mc);
