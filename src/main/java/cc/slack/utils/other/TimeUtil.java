@@ -2,7 +2,7 @@ package cc.slack.utils.other;
 
 public class TimeUtil {
 
-    private long currentMs;
+    public long currentMs;
 
     public TimeUtil() {
         reset();
