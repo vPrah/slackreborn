@@ -33,7 +33,7 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    public final ClientInfo info = new ClientInfo("Slack", "v0.1", ClientInfo.VersionType.ALPHA);
+    public final ClientInfo info = new ClientInfo("Slack", "v0.1", ClientInfo.VersionType.DEVELOPER);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
