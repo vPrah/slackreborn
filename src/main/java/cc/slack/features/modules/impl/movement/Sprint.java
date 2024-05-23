@@ -13,6 +13,7 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import de.gerrygames.viarewind.utils.ChatUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 
 
@@ -22,32 +23,17 @@ import net.minecraft.potion.Potion;
 )
 public class Sprint extends Module {
 
-    //   Split Like This Cuz I Don't Want A Long Af Boolean
-// shut up no one asked
-
     private final BooleanValue omniSprint = new BooleanValue("OmniSprint", false);
 
     public Sprint() {
-        super();
         addSettings(omniSprint);
+        EntityPlayerSP.class
     }
 
-    private boolean hasPotion() {
-        return !(mc.getPlayer().isPotionActive(Potion.confusion) ||
-                mc.getPlayer().isPotionActive(Potion.blindness));
-    }
-
-    private boolean isMoving() {
-        return !mc.getPlayer().isCollidedHorizontally &&
-                (mc.getPlayer().getFoodStats().getFoodLevel() > 6 || mc.getPlayer().capabilities.allowFlying) &&
-                !mc.getPlayer().isSneaking() && (!mc.getPlayer().isUsingItem());
-    }
-
-    @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent e) {
         if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
-        mc.getPlayer().setSprinting((omniSprint.getValue() || mc.getPlayer().moveForward > 0) && isMoving() && hasPotion());
+        mc.getPlayer().setSprinting(omniSprint.getValue());
     }
 
 }

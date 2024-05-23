@@ -1,5 +1,7 @@
 package net.minecraft.client.entity;
 
+import java.util.Random;
+
 import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.game.ChatEvent;
@@ -8,6 +10,7 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
+import cc.slack.features.modules.impl.movement.Sprint;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.RotationUtil;
@@ -62,11 +65,6 @@ import net.minecraft.util.MovementInput;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.IInteractionObject;
 import net.minecraft.world.World;
-
-import java.util.Random;
-
-import static java.lang.Math.abs;
-import static java.lang.Math.round;
 
 public class EntityPlayerSP extends AbstractClientPlayer
 {
@@ -860,8 +858,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
         float f = 0.8F;
         boolean flag2 = this.movementInput.moveForward >= f;
         this.movementInput.updatePlayerMoveState();
+        final Sprint sprint = Slack.getInstance().getModuleManager().getInstance(Sprint.class);
         boolean usingItem = this.isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
-
         if (usingItem && !this.isRiding())
         {
             // NoSlowEvent (I need Remake it)
@@ -883,22 +881,20 @@ public class EntityPlayerSP extends AbstractClientPlayer
         this.pushOutOfBlocks(this.posX + (double)this.width * 0.35D, this.getEntityBoundingBox().minY + 0.5D, this.posZ + (double)this.width * 0.35D);
         boolean flag3 = (float)this.getFoodStats().getFoodLevel() > 6.0F || this.capabilities.allowFlying;
 
-        if (this.onGround && !flag1 && !flag2 && this.movementInput.moveForward >= f && !this.isSprinting() && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness))
-        {
-            if (this.sprintToggleTimer <= 0 && !this.mc.gameSettings.keyBindSprint.isKeyDown())
-            {
-                this.sprintToggleTimer = 7;
-            }
-            else
-            {
-                this.setSprinting(true);
-            }
-        }
+		if (onGround && !flag1 && !flag2 && movementInput.moveForward >= f && !isSprinting() && flag3 && !isUsingItem()
+				&& !isPotionActive(Potion.blindness)) {
+			if (sprintToggleTimer <= 0 && (!mc.gameSettings.keyBindSprint.isKeyDown() || !sprint.isToggle())) {
+				sprintToggleTimer = 7;
+			} else {
+				setSprinting(true);
+			}
+		}
 
-        if (!this.isSprinting() && this.movementInput.moveForward >= f && flag3 && !this.isUsingItem() && !this.isPotionActive(Potion.blindness) && this.mc.gameSettings.keyBindSprint.isKeyDown())
-        {
-            this.setSprinting(true);
-        }
+		if (!isSprinting() && movementInput.moveForward >= f && flag3 && !isUsingItem()
+				&& !isPotionActive(Potion.blindness)
+				&& (mc.gameSettings.keyBindSprint.isKeyDown() || sprint.isToggle())) {
+			setSprinting(true);
+		}
 
         if (this.isSprinting() && (this.movementInput.moveForward < f || this.isCollidedHorizontally || !flag3))
         {
