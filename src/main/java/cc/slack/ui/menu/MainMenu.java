@@ -15,7 +15,7 @@ public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
     private final int particlesDensity = 2000;
 
-    private final ResourceLocation imageResource = new ResourceLocation("slack/textures/logo/128.png");
+    private final ResourceLocation imageResource = new ResourceLocation("slack/menu/menulogo.png");
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpeg"));
