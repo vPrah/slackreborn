@@ -137,11 +137,12 @@ public class MenuInfo extends GuiScreen {
         super.actionPerformedMenu(buttonMenu);
 
         if(buttonMenu.id == 1) {
+            mc.displayGuiScreen(new ClickGui());
 
         }
 
         if(buttonMenu.id == 2) {
-            mc.displayGuiScreen(new ClickGui());
+
         }
 
         if(buttonMenu.id == 3) {
