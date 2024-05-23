@@ -4,14 +4,16 @@ import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.utils.font.Fonts;
 import net.minecraft.client.gui.*;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainMenu extends GuiScreen {
-
+    private List<Particle> particles = new ArrayList<>();
+    private final int particlesDensity = 2000;
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpeg"));
@@ -26,12 +28,23 @@ public class MainMenu extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
+        for (Particle particle : particles) {
+            particle.update();
+            particle.render(mc);
+        }
     }
 
 
 
     @Override
     public void initGui() {
+
+        int numberOfParticles = (this.width * this.height) / particlesDensity;
+        particles.clear();
+        for (int i = 0; i < numberOfParticles; i++) {
+            particles.add(new Particle(this.width, this.height));
+        }
+
         this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
         this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
         this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
