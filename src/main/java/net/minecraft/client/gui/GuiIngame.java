@@ -338,20 +338,10 @@ public class GuiIngame extends Gui
         }
 
         ScoreObjective scoreobjective1 = scoreobjective != null ? scoreobjective : scoreboard.getObjectiveInDisplaySlot(1);
-
-        if (scoreobjective1 != null && !Slack.getInstance().getModuleManager().getInstance(ScoreboardModule.class).noscoreboard.getValue())
+        
+        if (scoreobjective1 != null)
         {
-            final RenderScoreboard event = new RenderScoreboard(State.PRE);
-            event.call();
             this.renderScoreboard(scoreobjective1, scaledresolution);
-            final RenderScoreboard event2 = new RenderScoreboard(State.POST);
-            event2.call();
-            if (event.isCanceled()) {
-                return;
-            }
-            if (event2.isCanceled()) {
-                return;
-            }
         }
 
         GlStateManager.enableBlend();
@@ -550,62 +540,72 @@ public class GuiIngame extends Gui
         }
     }
 
-    private void renderScoreboard(ScoreObjective p_180475_1_, ScaledResolution p_180475_2_)
+    private void renderScoreboard(ScoreObjective objective, ScaledResolution scaledRes)
     {
-        Scoreboard scoreboard = p_180475_1_.getScoreboard();
-        Collection<Score> collection = scoreboard.getSortedScores(p_180475_1_);
-        List<Score> list = Lists.newArrayList(Iterables.filter(collection, new Predicate<Score>()
+    	GlStateManager.resetColor();
+    	RenderScoreboard event = new RenderScoreboard(State.PRE);
+    	Slack.getInstance().getEventBus().publish(event);
+
+        if (!event.isCanceled())
         {
-            public boolean apply(Score p_apply_1_)
+            Scoreboard scoreboard = objective.getScoreboard();
+            Collection<Score> collection = scoreboard.getSortedScores(objective);
+            List<Score> list = Lists.newArrayList(Iterables.filter(collection, new Predicate<Score>()
             {
-                return p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#");
-            }
-        }));
+                public boolean apply(Score p_apply_1_)
+                {
+                    return p_apply_1_.getPlayerName() != null && !p_apply_1_.getPlayerName().startsWith("#");
+                }
+            }));
 
-        if (list.size() > 15)
-        {
-            collection = Lists.newArrayList(Iterables.skip(list, collection.size() - 15));
-        }
-        else
-        {
-            collection = list;
-        }
-
-        int i = this.getFontRenderer().getStringWidth(p_180475_1_.getDisplayName());
-
-        for (Score score : collection)
-        {
-            ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
-            String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, score.getPlayerName()) + ": " + ChatFormatting.RED + score.getScorePoints();
-            i = Math.max(i, this.getFontRenderer().getStringWidth(s));
-        }
-
-        int i1 = collection.size() * this.getFontRenderer().FONT_HEIGHT;
-        int j1 = p_180475_2_.getScaledHeight() / 2 + i1 / 3;
-        int k1 = 3;
-        int l1 = p_180475_2_.getScaledWidth() - i - k1;
-        int j = 0;
-
-        for (Score score1 : collection)
-        {
-            ++j;
-            ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
-            String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
-            String s2 = ChatFormatting.RED + "" + score1.getScorePoints();
-            int k = j1 - j * this.getFontRenderer().FONT_HEIGHT;
-            int l = p_180475_2_.getScaledWidth() - k1 + 2;
-            drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
-            this.getFontRenderer().drawString(s1, l1, k, 553648127);
-            this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
-
-            if (j == collection.size())
+            if (list.size() > 15)
             {
-                String s3 = p_180475_1_.getDisplayName();
-                drawRect(l1 - 2, k - this.getFontRenderer().FONT_HEIGHT - 1, l, k - 1, 1610612736);
-                drawRect(l1 - 2, k - 1, l, k, 1342177280);
-                this.getFontRenderer().drawString(s3, l1 + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, k - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                collection = Lists.newArrayList(Iterables.skip(list, collection.size() - 15));
+            }
+            else
+            {
+                collection = list;
+            }
+
+            int i = this.getFontRenderer().getStringWidth(objective.getDisplayName());
+
+            for (Score score : collection)
+            {
+                ScorePlayerTeam scoreplayerteam = scoreboard.getPlayersTeam(score.getPlayerName());
+                String s = ScorePlayerTeam.formatPlayerName(scoreplayerteam, score.getPlayerName()) + ": " + ChatFormatting.RED + score.getScorePoints();
+                i = Math.max(i, this.getFontRenderer().getStringWidth(s));
+            }
+
+            int i1 = collection.size() * this.getFontRenderer().FONT_HEIGHT;
+            int j1 = scaledRes.getScaledHeight() / 2 + i1 / 3;
+            int k1 = 3;
+            int l1 = scaledRes.getScaledWidth() - i - k1;
+            int j = 0;
+
+            for (Score score1 : collection)
+            {
+                ++j;
+                ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
+                String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
+                String s2 = ChatFormatting.RED + "" + score1.getScorePoints();
+                int k = j1 - j * this.getFontRenderer().FONT_HEIGHT;
+                int l = scaledRes.getScaledWidth() - k1 + 2;
+                drawRect(l1 - 2, k, l, k + this.getFontRenderer().FONT_HEIGHT, 1342177280);
+                this.getFontRenderer().drawString(s1, l1, k, 553648127);
+                this.getFontRenderer().drawString(s2, l - this.getFontRenderer().getStringWidth(s2), k, 553648127);
+
+                if (j == collection.size())
+                {
+                    String s3 = objective.getDisplayName();
+                    drawRect(l1 - 2, k - this.getFontRenderer().FONT_HEIGHT - 1, l, k - 1, 1610612736);
+                    drawRect(l1 - 2, k - 1, l, k, 1342177280);
+                    this.getFontRenderer().drawString(s3, l1 + i / 2 - this.getFontRenderer().getStringWidth(s3) / 2, k - this.getFontRenderer().FONT_HEIGHT, 553648127);
+                }
             }
         }
+
+        event.setState(State.POST);
+        Slack.getInstance().getEventBus().publish(event);
     }
 
     private void renderPlayerStats(ScaledResolution p_180477_1_)

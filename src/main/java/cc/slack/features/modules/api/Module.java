@@ -2,14 +2,16 @@
 
 package cc.slack.features.modules.api;
 
-import cc.slack.Slack;
-import cc.slack.features.modules.api.settings.Value;
-import cc.slack.utils.EventUtil;
-import lombok.Getter;
-import lombok.Setter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import cc.slack.Slack;
+import cc.slack.features.modules.api.settings.Value;
+import cc.slack.utils.EventUtil;
+import cc.slack.utils.drag.DragUtil;
+import lombok.Getter;
+import lombok.Setter;
 
 @Getter
 @Setter
@@ -28,6 +30,7 @@ public abstract class Module {
     public void onToggled() {}
     public void onEnable() {}
     public void onDisable() {}
+	public void setXYPosition(double x, double y) { }
 
     public void toggle() {
         setToggle(!toggle);
@@ -58,6 +61,10 @@ public abstract class Module {
 
         return null;
     }
+    
+	public DragUtil getPosition(){
+		return null;
+	}
 
     public void addSettings(Value... settings) {
         setting.addAll(Arrays.asList(settings));

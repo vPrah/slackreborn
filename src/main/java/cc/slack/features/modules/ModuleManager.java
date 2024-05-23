@@ -2,9 +2,15 @@
 
 package cc.slack.features.modules;
 
-import cc.slack.features.modules.api.Module;
-import cc.slack.features.modules.api.Category;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
+import cc.slack.features.modules.api.Category;
+import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.combat.*;
 import cc.slack.features.modules.impl.exploit.*;
 import cc.slack.features.modules.impl.ghost.*;
@@ -15,10 +21,9 @@ import cc.slack.features.modules.impl.render.*;
 import cc.slack.features.modules.impl.utilties.*;
 import cc.slack.features.modules.impl.world.*;
 
-import java.util.*;
-
 public class ModuleManager {
     private final Map<Class<? extends Module>, Module> modules = new LinkedHashMap<>();
+    private final Map<Class<? extends Module>, Module> draggable = new LinkedHashMap<>();
 
     public void initialize() {
         try {
@@ -116,6 +121,11 @@ public class ModuleManager {
                     new PacketDebugger()
 
             );
+            
+    		for(Module m : modules.values()) {
+    			draggable.put(m.getClass(), m);
+    		}
+    		
         } catch (Exception e) {
             // Shut Up Exception
         }
@@ -123,6 +133,10 @@ public class ModuleManager {
 
     public List<Module> getModules() {
         return new ArrayList<>(modules.values());
+    }
+    
+    public List<Module> getDraggable() {
+    	return new ArrayList<>(draggable.values());
     }
 
     public <T extends Module> T getInstance(Class<T> clazz) {
