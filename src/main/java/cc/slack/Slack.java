@@ -43,6 +43,10 @@ public class Slack {
             "\r\n-Added all modules (56)" +
             "\r\n-Added SexModule";
 
+    public final String GitOrg = "https://github.com/DGVPSH";
+    public final String DiscordServer = "https://discord.gg/nwR9AyjnK8";
+    public final String Website = "https://slackclient.github.io/";
+
     public void start() {
         PrintUtil.print("Initializing " + info.getName());
         Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build");
