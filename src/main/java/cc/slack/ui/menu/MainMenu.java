@@ -1,6 +1,8 @@
 package cc.slack.ui.menu;
 
+import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
+import cc.slack.utils.font.Fonts;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -14,12 +16,13 @@ public class MainMenu extends GuiScreen {
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpeg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
-        GlStateManager.pushMatrix();
-        GlStateManager.translate(width/2f, height/2f - mc.MCfontRenderer.FONT_HEIGHT/2f, 0);
-        GlStateManager.scale(3, 3, 1);
-        GlStateManager.translate(-(width/1.69f), -(height/1.77),0);
-        GlStateManager.popMatrix();
+
         Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,170).getRGB());
+    //     GlStateManager.pushMatrix();
+
+     //   GlStateManager.scale(1.4 , 1.4, 1.4);
+        Fonts.axi35.drawString(Slack.getInstance().info.name + " Client", 16, 30, -1);
+   //     GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
