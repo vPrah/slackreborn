@@ -62,7 +62,7 @@ public class Autoclicker extends Module {
 				leftDelay = updateDelay(targetCPS.getValue(), randomizeAmount.getValue());
 				KeyBinding.setKeyBindState(mc.getGameSettings().keyBindAttack.getKeyCode(), true);
 				KeyBinding.onTick(mc.getGameSettings().keyBindAttack.getKeyCode());
-			} else if (leftTimer.getCurrentMs() > leftDelay * 1000) {
+			} else if (leftTimer.currentMs > leftDelay * 1000) {
 				KeyBinding.setKeyBindState(mc.getGameSettings().keyBindAttack.getKeyCode(), false);
 			}
 		}

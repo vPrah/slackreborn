@@ -1,11 +1,13 @@
 package cc.slack.utils.font;
 
+import cc.slack.Slack;
 import cc.slack.utils.other.PrintUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.io.IOException;
+
 
 public class Fonts {
     public static final MCFontRenderer IconFont = new MCFontRenderer(fontFromTTF("guiicons.ttf", 24), true, true);
@@ -33,7 +35,9 @@ public class Fonts {
     public static final MCFontRenderer Checkmark = new MCFontRenderer(fontFromTTF("checkmark.ttf", 24), true, false);
 
     private static Font fontFromTTF(String fileName, float fontSize) {
-        PrintUtil.print("Initializing Font: " + fileName + " | Size: " + fontSize);
+        if (Slack.getInstance().info.type == cc.slack.utils.client.ClientInfo.VersionType.DEVELOPER) {
+            PrintUtil.print("Initializing Font: " + fileName + " | Size: " + fontSize);
+        }
         Font output = null;
         try {
             output = Font.createFont(Font.TRUETYPE_FONT, Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("slack/fonts/" + fileName)).getInputStream());

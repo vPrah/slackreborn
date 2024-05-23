@@ -7,7 +7,10 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
+import java.awt.*;
 import java.io.*;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 public class FileUtil extends mc {
 
@@ -60,6 +63,16 @@ public class FileUtil extends mc {
             e.printStackTrace();
         }
         return stringBuilder.toString();
+    }
+
+    public static void showURL(String url) {
+        try {
+            if (Desktop.getDesktop().isSupported(Desktop.Action.BROWSE)) {
+                Desktop.getDesktop().browse(new URI(url));
+            }
+        } catch (IOException | URISyntaxException e) {
+            e.printStackTrace();
+        }
     }
 
 }

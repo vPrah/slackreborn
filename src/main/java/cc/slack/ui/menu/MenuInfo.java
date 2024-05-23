@@ -1,6 +1,9 @@
 package cc.slack.ui.menu;
 
+import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
+import cc.slack.ui.clickGUI.ClickGui;
+import cc.slack.utils.other.FileUtil;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -8,7 +11,7 @@ import net.minecraft.util.ResourceLocation;
 import java.awt.*;
 import java.io.IOException;
 
-public class MainMenu extends GuiScreen {
+public class MenuInfo extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -19,22 +22,21 @@ public class MainMenu extends GuiScreen {
         GlStateManager.scale(3, 3, 1);
         GlStateManager.translate(-(width/1.69f), -(height/1.77),0);
         GlStateManager.popMatrix();
-        Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,170).getRGB());
+        Gui.drawRect(398, 100, 608 , 400, new Color(0,0,0,170).getRGB());
         super.drawScreen(mouseX, mouseY, partialTicks);
 
 
     }
 
 
-
     @Override
     public void initGui() {
-        this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
-        this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
-        this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
-        this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
-        this.menuList.add(new MainMenuButton(5, - 30, height / 2 + 60, "Shutdown"));
-        this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 210, "Client Information"));
+        this.menuList.add(new MainMenuButton(1, + 405, height / 2 - 40, "Show ClickGUI"));
+        this.menuList.add(new MainMenuButton(2, + 405, height / 2 - 15, "Join Discord Server"));
+        this.menuList.add(new MainMenuButton(3, + 405, height / 2 + 10, "Check Website"));
+        this.menuList.add(new MainMenuButton(4, + 405, height / 2 + 35, "Github Org"));
+        this.menuList.add(new MainMenuButton(5, + 405, height / 2 + 60, "Developers Team"));
+
 
         super.initGui();
     }
@@ -44,27 +46,24 @@ public class MainMenu extends GuiScreen {
         super.actionPerformedMenu(buttonMenu);
 
         if(buttonMenu.id == 1) {
-            mc.displayGuiScreen(new GuiSelectWorld(this));
+            mc.displayGuiScreen(new ClickGui());
         }
 
         if(buttonMenu.id == 2) {
-            mc.displayGuiScreen(new GuiMultiplayer(this));
+            FileUtil.showURL(Slack.getInstance().DiscordServer);
         }
 
         if(buttonMenu.id == 3) {
-            mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+            FileUtil.showURL(Slack.getInstance().Website);
         }
 
         if(buttonMenu.id == 4) {
-            mc.displayGuiScreen(new GuiAltLogin(this));
+            FileUtil.showURL(Slack.getInstance().GitOrg);
         }
 
         if(buttonMenu.id == 5) {
-            mc.shutdown();
-        }
-
-        if(buttonMenu.id == 6) {
-            mc.displayGuiScreen(new MenuInfo());
+            // I need a menu with All developers of Slack Client (With their information)
         }
     }
+
 }

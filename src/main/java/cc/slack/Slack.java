@@ -33,7 +33,7 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    public final ClientInfo info = new ClientInfo("Slack", "v0.1", ClientInfo.VersionType.ALPHA);
+    public final ClientInfo info = new ClientInfo("Slack", "v0.1", ClientInfo.VersionType.DEVELOPER);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
@@ -42,6 +42,10 @@ public class Slack {
     public final String changelog = "Release v0.01:" +
             "\r\n-Added all modules (56)" +
             "\r\n-Added SexModule";
+
+    public final String GitOrg = "https://github.com/DGVPSH";
+    public final String DiscordServer = "https://discord.gg/nwR9AyjnK8";
+    public final String Website = "https://slackclient.github.io/";
 
     public void start() {
         PrintUtil.print("Initializing " + info.getName());

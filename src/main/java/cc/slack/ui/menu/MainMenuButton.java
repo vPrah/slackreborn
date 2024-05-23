@@ -56,6 +56,8 @@ public class MainMenuButton extends Gui
         this.displayString = buttonText;
     }
 
+
+
     /**
      * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over this button and 2 if it IS hovering over
      * this button.
