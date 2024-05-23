@@ -104,7 +104,7 @@ public class TargetHUD extends Module {
                         y + 20 + (15 / 2) - (mc.getFontRenderer().FONT_HEIGHT / 2) + 1, -1);
                 break;
             case "classic2":
-                drawRect(x, y, 120, 40, new Color(0, 0, 0, 120).getRGB());
+                drawRect(x, y, 120, 50, new Color(0, 0, 0, 120).getRGB());
 
                 mc.getFontRenderer().drawString(targetName, x + 35, y + 8, 0x5499C7);
                 mc.getFontRenderer().drawString(String.format("%.2f", player.getHealth()), x + 35, y + 18, 0x5499C7);
