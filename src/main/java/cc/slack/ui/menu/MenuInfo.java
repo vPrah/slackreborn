@@ -1,15 +1,10 @@
 package cc.slack.ui.menu;
 
 import cc.slack.Slack;
-import cc.slack.events.impl.player.UpdateEvent;
-import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.features.modules.impl.other.RichPresence;
 import cc.slack.features.modules.impl.other.Tweaks;
-import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.clickGUI.ClickGui;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;
-import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
