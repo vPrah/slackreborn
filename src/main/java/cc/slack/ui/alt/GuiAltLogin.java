@@ -2,11 +2,20 @@ package cc.slack.ui.alt;
 
 import java.io.IOException;
 
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.UIManager;
+import javax.swing.filechooser.FileNameExtensionFilter;
+
+import org.lwjgl.input.Keyboard;
+
+import cc.slack.ui.alt.cookie.CookieUtil;
+import cc.slack.ui.alt.cookie.LoginData;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ChatFormatting;
-import org.lwjgl.input.Keyboard;
+import net.minecraft.util.Session;
 
 public final class GuiAltLogin
         extends GuiScreen {
@@ -25,6 +34,49 @@ public final class GuiAltLogin
             case 1: {
                 this.mc.displayGuiScreen(this.previousScreen);
                 break;
+            }
+            case 2: {
+			    new Thread(() -> {
+			    	//status = ChatFormatting.YELLOW + "Waiting for login...";
+
+			        try {
+			            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+			        } catch (Exception e) {
+			            e.printStackTrace();
+			            return;
+			        }
+
+			        JDialog dialog = new JDialog();
+			        dialog.setAlwaysOnTop(true);
+
+			        JFileChooser chooser = new JFileChooser();
+			        FileNameExtensionFilter filter = new FileNameExtensionFilter("Text Files", "txt");
+			        chooser.setFileFilter(filter);
+
+			        dialog.add(chooser);
+
+			        int returnVal = chooser.showOpenDialog(null);
+			        if (returnVal == JFileChooser.APPROVE_OPTION) {
+			            try {
+			                //status = ChatFormatting.YELLOW + "Logging in...";
+			                LoginData loginData = CookieUtil.instance.loginWithCookie(chooser.getSelectedFile());
+
+			                if (loginData == null) {
+			                  //status = ChatFormatting.RED + "Failed to login with cookie!";
+			                    return;
+			                }
+
+			                //status = ChatFormatting.GREEN + "Logged in to " + loginData.username;
+			                this.mc.setSession(
+			                        new Session(loginData.username, loginData.uuid, loginData.mcToken, "legacy"));
+			            } catch (Exception e) {
+			                throw new RuntimeException(e);
+			            } finally {
+			                dialog.dispose();
+			            }
+			        }
+			    }).start();
+				break;
             }
             case 0: {
                 this.thread = new AltLoginThread(this.username.getText(), this.password.getText());
@@ -53,7 +105,8 @@ public final class GuiAltLogin
     public void initGui() {
         int var3 = height / 4 + 24;
         this.buttonList.add(new GuiButton(0, width / 2 - 100, var3 + 72 + 12, "Login"));
-        this.buttonList.add(new GuiButton(1, width / 2 - 100, var3 + 72 + 12 + 24, "Back"));
+        this.buttonList.add(new GuiButton(2, width / 2 - 100, var3 + 72 + 12 + 24, "Cookie Login"));
+        this.buttonList.add(new GuiButton(1, width / 2 - 100, var3 + 72 + 12 + 48, "Back"));
         this.username = new GuiTextField(var3, cc.slack.utils.client.mc.getFontRenderer(), width / 2 - 100, 60, 200, 20);
         this.password = new PasswordField(cc.slack.utils.client.mc.getFontRenderer(), width / 2 - 100, 100, 200, 20);
         this.username.setFocused(true);
@@ -67,6 +120,7 @@ public final class GuiAltLogin
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
         if (character == '\t') {
             if (!this.username.isFocused() && !this.password.isFocused()) {
                 this.username.setFocused(true);
@@ -75,9 +129,11 @@ public final class GuiAltLogin
                 this.password.setFocused(!this.username.isFocused());
             }
         }
+        
         if (character == '\r') {
             this.actionPerformed(this.buttonList.get(0));
         }
+        
         this.username.textboxKeyTyped(character, key);
         this.password.textboxKeyTyped(character, key);
     }

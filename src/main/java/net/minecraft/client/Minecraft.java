@@ -3025,7 +3025,11 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         return this.session;
     }
 
-    public PropertyMap func_181037_M()
+    public void setSession(Session session) {
+		this.session = session;
+	}
+
+	public PropertyMap func_181037_M()
     {
         if (this.field_181038_N.isEmpty())
         {
