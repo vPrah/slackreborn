@@ -27,7 +27,6 @@ public class Sprint extends Module {
 
     public Sprint() {
         addSettings(omniSprint);
-        EntityPlayerSP.class
     }
 
     @Listen
