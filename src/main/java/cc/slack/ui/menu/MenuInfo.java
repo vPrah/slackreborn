@@ -5,6 +5,7 @@ import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.ui.clickGUI.ClickGui;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;
+import cc.slack.utils.render.Render3DUtil;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.OpenGlHelper;
@@ -28,9 +29,12 @@ public class MenuInfo extends GuiScreen {
         GlStateManager.scale(3, 3, 1);
         GlStateManager.translate(-(width/1.69f), -(height/1.77),0);
         GlStateManager.popMatrix();
-        Gui.drawRect(398, 100, 608 , 400, new Color(0,0,0,170).getRGB());
-        Gui.drawRect(98, 100, 308 , 400, new Color(0,0,0,170).getRGB());
-        Gui.drawRect(698, 100, 908 , 400, new Color(0,0,0,170).getRGB());
+        Render3DUtil.drawRoundedRect(398F, 100F, 608F, 400F, 8F, new Color(0,0,0,170).getRGB());
+//        Gui.drawRect(398, 100, 608 , 400, new Color(0,0,0,170).getRGB());
+        Render3DUtil.drawRoundedRect(98F, 100F, 308F, 400F, 8F, new Color(0,0,0,170).getRGB());
+//        Gui.drawRect(98, 100, 308 , 400, new Color(0,0,0,170).getRGB());
+        Render3DUtil.drawRoundedRect(698F, 100F, 908F, 400F, 8F, new Color(0,0,0,170).getRGB());
+//        Gui.drawRect(698, 100, 908 , 400, new Color(0,0,0,170).getRGB());
 
         long i = Runtime.getRuntime().maxMemory();
         long j = Runtime.getRuntime().totalMemory();
