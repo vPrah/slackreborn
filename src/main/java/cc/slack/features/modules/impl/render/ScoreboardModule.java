@@ -12,7 +12,9 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
+import cc.slack.utils.render.Render3DUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -24,6 +26,7 @@ import net.minecraft.util.ChatFormatting;
 public class ScoreboardModule extends Module {
 
 	private final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
+	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 	private final NumberValue<Double> posX = new NumberValue<>("PosX", 0.0D, -1000.0D, 1000.0D, 0.1D);
 	private final NumberValue<Double> posY = new NumberValue<>("PosY", 30.0D, -1000.0D, 1000.0D, 0.1D);
 
@@ -64,7 +67,11 @@ public class ScoreboardModule extends Module {
 		}
 
 		int height = collection.size() * 9 + 16;
-		mc.getCurrentScreen().drawRect(pos[0], pos[1], (pos[0] + width), pos[1] + height, 1342177280);
+		if (roundedValue.getValue()) {
+			Render3DUtil.drawRoundedRect((float) pos[0], (float) pos[1], (float) (pos[0] + width + 5), (float) (pos[1] + height + 5), 8F, 1342177280);
+		} else {
+		Gui.drawRect(pos[0], pos[1], (pos[0] + width + 5), pos[1] + height, 1342177280);
+		}
 
 		mc.getFontRenderer().drawStringWithShadow(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - mc.getFontRenderer().getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1);
 		int j = 0;
