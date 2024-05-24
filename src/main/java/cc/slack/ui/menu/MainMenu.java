@@ -22,7 +22,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,170).getRGB());
+        Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
     //     GlStateManager.pushMatrix();
 
      //   GlStateManager.scale(1.4 , 1.4, 1.4);
