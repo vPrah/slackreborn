@@ -357,6 +357,10 @@ public class ItemRenderer
 
             if (this.itemToRender != null)
             {
+
+                Animations animations = Slack.getInstance().getModuleManager().getInstance(Animations.class);
+                GlStateManager.translate(-(animations.xValue.getValue()), -(animations.yValue.getValue()), -(animations.zValue.getValue()));
+
                 if (this.itemToRender.getItem() instanceof ItemMap)
                 {
                     this.renderItemMap(abstractclientplayer, f2, f, f1);
@@ -379,6 +383,7 @@ public class ItemRenderer
                             break;
 
                         case BLOCK:
+                            float var15 = MathHelper.sin(MathHelper.sqrt_float(f1) * (float) Math.PI);
                             if (Slack.getInstance().getModuleManager().getInstance(Animations.class).isToggle()) {
                                 switch (Slack.getInstance().getModuleManager().getInstance(Animations.class).blockStyle.getValue()) {
                                     case "1.8":
@@ -389,19 +394,22 @@ public class ItemRenderer
                                         this.transformFirstPersonItem(f, f1);
                                         this.func_178103_d();
                                         break;
-                                    case "Slide":
-                                        this.transformFirstPersonItem(0.7f, f1);
+                                    case "Astolfo":
+                                        GlStateManager.rotate(System.currentTimeMillis() % 360, 0, 0, -0.1f);
+                                        this.transformFirstPersonItem(f / 1.6f, 0);
                                         this.func_178103_d();
                                         break;
-                                    case "Slack":
-                                        this.transformFirstPersonItem(0.0f, 0.0f);
-                                        this.func_178103_d();
+                                    case "Lucky":
+                                        transformFirstPersonItem(f, 0.0F);
+                                        func_178103_d();
+                                        GL11.glTranslated(-0.3D, 0.3D, 0.0D);
+                                        GL11.glRotatef(-var15 * 70.0F / 2.0F, -8.0F, 0.0F, 9.0F);
+                                        GL11.glRotatef(-var15 * 70.0F, 1.0F, -0.4F, -0.0F);
                                         break;
                                     case "Exhibition":
-                                        GL11.glTranslated(0.0, 0.0, 0.0);
-                                        this.transformFirstPersonItem(-0.1f, 1.0f);
-                                        GlStateManager.rotate(-f5 * 50.0f / 2.0f, f5 / 2.0f, -0.0f, 4.0f);
-                                        GlStateManager.rotate(-f5 * 30.0f, 1.0f, f5 / 2.0f, -0.0f);
+                                        this.transformFirstPersonItem(f / 2.0F, 0.0F);
+                                        GL11.glRotatef(-var15 * 40.0F / 2.0F, var15 / 2.0F, -0.0F, 9.0F);
+                                        GL11.glRotatef(-var15 * 30.0F, 1.0F, var15 / 2.0F, -0.0F);
                                         this.func_178103_d();
                                         break;
                                 }

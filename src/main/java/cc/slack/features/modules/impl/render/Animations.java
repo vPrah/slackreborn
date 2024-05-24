@@ -14,12 +14,16 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 )
 public class Animations extends Module {
 
-    public final ModeValue<String> blockStyle = new ModeValue<>("Block Animation", new String[]{"1.7", "1.8", "Slide", "Exhibition", "Slack"});
+    public final ModeValue<String> blockStyle = new ModeValue<>("Block Animation", new String[]{"1.7", "1.8", "Astolfo", "Exhibition", "Lucky"});
 
-    public static final NumberValue<Double> animationSpeedValue = new NumberValue<>("Animation Speed", 6.0D, 0.0D, 15.0D, 1.0D);
+    public final NumberValue<Double> animationSpeedValue = new NumberValue<>("Animation Speed", 1.0D, 0.1D, 3.0D, 0.1D);
+    public  final NumberValue<Double> xValue = new NumberValue<>("X", 0.0D, -1.0D, 1.0D, 0.05D);
+    public  final NumberValue<Double> yValue = new NumberValue<>("Y", 0.0D, -1.0D, 1.0D, 0.05D);
+    public  final NumberValue<Double> zValue = new NumberValue<>("Z", 0.0D, -1.0D, 1.0D, 0.05D);
+
 
     public Animations() {
-        addSettings(blockStyle, animationSpeedValue);
+        addSettings(blockStyle, animationSpeedValue, xValue, yValue, zValue);
     }
 
 }
