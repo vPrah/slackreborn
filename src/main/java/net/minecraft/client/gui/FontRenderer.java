@@ -1,5 +1,7 @@
 package net.minecraft.client.gui;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.render.NameProtect;
 import com.ibm.icu.text.ArabicShaping;
 import com.ibm.icu.text.ArabicShapingException;
 import com.ibm.icu.text.Bidi;
@@ -458,6 +460,11 @@ public class FontRenderer implements IResourceManagerReloadListener
      */
     private void renderStringAtPos(String p_78255_1_, boolean p_78255_2_)
     {
+        if (Slack.getInstance().getModuleManager().getInstance(NameProtect.class).isToggle() && Minecraft.getMinecraft().thePlayer != null && p_78255_1_.contains(Minecraft.getMinecraft().thePlayer.getNameClear())) {
+            p_78255_1_ = p_78255_1_.replace(Minecraft.getMinecraft().thePlayer.getNameClear(), NameProtect.getNameProtect());
+        }
+
+
         for (int i = 0; i < p_78255_1_.length(); ++i)
         {
             char c0 = p_78255_1_.charAt(i);

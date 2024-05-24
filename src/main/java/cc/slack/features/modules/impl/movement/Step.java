@@ -18,7 +18,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 )
 public class Step extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>("Step Mode", new String[]{"Vanilla", "NCP", "Verus", "Vulcan"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "NCP", "Verus", "Vulcan"});
     private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0f, 2f, 0.05f);
 
 

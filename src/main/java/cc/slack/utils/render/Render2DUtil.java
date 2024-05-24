@@ -36,6 +36,10 @@ public final class Render2DUtil extends mc {
         glDisable(GL_BLEND);
     }
 
+    public static double interpolate(final double old, final double now, final float partialTicks) {
+        return old + (now - old) * partialTicks;
+    }
+
     public void drawRect(int x, int y, int width, int height, int color) {
         Gui.drawRect(x, y, x + width, y + height, color);
     }

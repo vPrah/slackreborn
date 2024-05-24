@@ -3,6 +3,7 @@ package net.minecraft.entity;
 import cc.slack.Slack;
 import cc.slack.events.impl.player.JumpEvent;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.RotationUtil;
 import com.google.common.base.Predicate;
@@ -18,6 +19,7 @@ import java.util.UUID;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.Minecraft;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.BaseAttributeMap;
@@ -1344,7 +1346,15 @@ public abstract class EntityLivingBase extends Entity
      */
     private int getArmSwingAnimationEnd()
     {
-        return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1 : (this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6);
+        final boolean animations = Slack.getInstance().getModuleManager().getInstance(Animations.class).isToggle();
+
+        if (!animations) {
+            return this.isPotionActive(Potion.digSpeed) ? (6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1) : (this.isPotionActive(Potion.digSlowdown) ? (6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2) : 6);
+        }
+        if (this == Minecraft.getMinecraft().thePlayer) {
+            return (int)(Animations.animationSpeedValue.getValue() * Minecraft.getMinecraft().timer.timerSpeed);
+        }
+        return this.isPotionActive(Potion.digSpeed) ? (6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1) : (this.isPotionActive(Potion.digSlowdown) ? (6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2) : 6);
     }
 
     /**
