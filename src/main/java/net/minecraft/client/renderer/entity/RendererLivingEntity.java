@@ -1,7 +1,12 @@
 package net.minecraft.client.renderer.entity;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.ModuleManager;
+import cc.slack.features.modules.impl.render.Chams;
 import cc.slack.utils.player.RotationUtil;
 import com.google.common.collect.Lists;
+
+import java.awt.*;
 import java.nio.FloatBuffer;
 import java.util.List;
 import net.minecraft.client.Minecraft;
@@ -346,32 +351,55 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
      */
     protected void renderModel(T entitylivingbaseIn, float p_77036_2_, float p_77036_3_, float p_77036_4_, float p_77036_5_, float p_77036_6_, float p_77036_7_)
     {
-        boolean flag = !entitylivingbaseIn.isInvisible();
-        boolean flag1 = !flag && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
-
-        if (flag || flag1)
-        {
-            if (!this.bindEntityTexture(entitylivingbaseIn))
-            {
+        final boolean flag = !entitylivingbaseIn.isInvisible();
+        final boolean flag2 = !flag && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
+        if (flag || flag2) {
+            if (!this.bindEntityTexture(entitylivingbaseIn)) {
                 return;
             }
-
-            if (flag1)
-            {
+            if (flag2) {
                 GlStateManager.pushMatrix();
-                GlStateManager.color(1.0F, 1.0F, 1.0F, 0.15F);
+                GlStateManager.color(1.0f, 1.0f, 1.0f, 0.15f);
                 GlStateManager.depthMask(false);
                 GlStateManager.enableBlend();
                 GlStateManager.blendFunc(770, 771);
-                GlStateManager.alphaFunc(516, 0.003921569F);
+                GlStateManager.alphaFunc(516, 0.003921569f);
             }
-
+            final ModuleManager moduleManager = Slack.getInstance().getModuleManager();
+            final boolean flag3 = moduleManager.getInstance(Chams.class).isToggle() && entitylivingbaseIn instanceof EntityPlayer;
+            final Chams chams = moduleManager.getInstance(Chams.class);
+            if (flag3) {
+                final Color chamsColor = new Color(chams.redValue.getValue(), chams.greenValue.getValue(), chams.blueValue.getValue());
+                GL11.glPushMatrix();
+                GL11.glEnable(10754);
+                GL11.glPolygonOffset(1.0f, 1000000.0f);
+                OpenGlHelper.setLightmapTextureCoords(OpenGlHelper.lightmapTexUnit, 240.0f, 240.0f);
+                GL11.glEnable(3042);
+                GL11.glDisable(3553);
+                GL11.glDisable(2896);
+                GL11.glBlendFunc(770, 771);
+                GL11.glColor4f(chamsColor.getRed() / 255.0f, chamsColor.getGreen() / 255.0f, chamsColor.getBlue() / 255.0f, chamsColor.getAlpha() / 255.0f);
+                GL11.glDisable(2929);
+                GL11.glDepthMask(false);
+            }
             this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
-
-            if (flag1)
-            {
+            if (flag3) {
+                GL11.glEnable(2929);
+                GL11.glDepthMask(true);
+                final Color chamsColor = new Color(chams.redValue.getValue(), chams.greenValue.getValue(), chams.blueValue.getValue());
+                GL11.glColor4f(chamsColor.getRed() / 255.0f, chamsColor.getGreen() / 255.0f, chamsColor.getBlue() / 255.0f, chamsColor.getAlpha() / 255.0f);
+                this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
+                GL11.glEnable(3553);
+                GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+                GL11.glDisable(3042);
+                GL11.glEnable(2896);
+                GL11.glPolygonOffset(1.0f, -1000000.0f);
+                GL11.glDisable(10754);
+                GL11.glPopMatrix();
+            }
+            if (flag2) {
                 GlStateManager.disableBlend();
-                GlStateManager.alphaFunc(516, 0.1F);
+                GlStateManager.alphaFunc(516, 0.1f);
                 GlStateManager.popMatrix();
                 GlStateManager.depthMask(true);
             }
