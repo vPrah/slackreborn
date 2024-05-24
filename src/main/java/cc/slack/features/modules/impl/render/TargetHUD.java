@@ -28,11 +28,16 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 public class TargetHUD extends Module {
 
 	private final ModeValue<String> mode = new ModeValue<>(new String[] { "Classic", "Classic2" });
-	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
-	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
+
+		private double posX = 100.0D;
+		private double posY = 10.0D;
+
+//	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
+//	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
+
 
 	public TargetHUD() {
-		addSettings(mode, posX, posY);
+		addSettings(mode);
 	}
 
 	private EntityPlayer target;
@@ -74,7 +79,7 @@ public class TargetHUD extends Module {
 		if (event.getState() != RenderEvent.State.RENDER_2D) return;
 
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		int x = (int) ((sr.getScaledWidth() / 2) + posX.getValue()), y = (int) ((sr.getScaledHeight() / 2) + posY.getValue());
+		int x = (int) ((sr.getScaledWidth() / 2) + posX), y = (int) ((sr.getScaledHeight() / 2) + posY);
 
 		if (target == null)
 			return;
@@ -86,7 +91,7 @@ public class TargetHUD extends Module {
 
 		switch (mode.getValue().toLowerCase()) {
 		case "classic":
-			drawRect(x, y, 120, 55, new Color(0, 0, 0, 120).getRGB());
+			drawRect(x, y, 120, 45, new Color(0, 0, 0, 120).getRGB());
 			mc.getFontRenderer().drawString(targetName, x + 40, y + 8, 0x5499C7);
 			GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 					color.getAlpha() / 255F);
@@ -129,14 +134,14 @@ public class TargetHUD extends Module {
 			return null;
 		
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		double[] pos = DragUtil.setScaledPosition(posX.getValue(), posY.getValue());
+		double[] pos = DragUtil.setScaledPosition(posX, posY);
 		return new DragUtil(pos[0], pos[1], sr.getScaledWidth(), sr.getScaledHeight(), 1);
 	}
 	
 	@Override
 	public void setXYPosition(double x, double y) {
-		this.posX.setValue(x);
-		this.posY.setValue(y);
+		this.posX = (x);
+		this.posY = (y);
 	}
 
 	private void drawRect(int x, int y, int width, int height, int color) {
