@@ -28,10 +28,13 @@ import java.util.Random;
 public class Projectiles extends Module {
 
     private NumberValue<Float> color = new NumberValue<>("Color (H/S/B)", 190F, 0F, 350F, 10F);
+    public final NumberValue<Integer> redValue = new NumberValue<>("Red", 116, 0, 255, 1);
+    public final NumberValue<Integer> greenValue = new NumberValue<>("Green", 202, 0, 255, 1);
+    public final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final ArrayList<Vec3> positions = new ArrayList<Vec3>();
 
     public Projectiles() {
-        addSettings(color);
+        addSettings(redValue, greenValue, blueValue);
     }
 
     @Override
@@ -170,7 +173,7 @@ public class Projectiles extends Module {
                 this.positions.add(new Vec3(posX, posY, posZ));
             }
             if (this.positions.size() > 1) {
-                Color col = Color.getHSBColor((color.getValue() % 360) / 360.0f, 1.0f, 1.0f);
+                Color col = new Color(redValue.getValue(),greenValue.getValue(),blueValue.getValue());
                 GL11.glEnable(3042);
                 GL11.glBlendFunc(770, 771);
                 GL11.glEnable(2848);
