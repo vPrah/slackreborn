@@ -26,15 +26,18 @@ public class MainMenu extends GuiScreen {
     //     GlStateManager.pushMatrix();
 
      //   GlStateManager.scale(1.4 , 1.4, 1.4);
-        Fonts.axi35.drawString(Slack.getInstance().info.name + " Client", 16, 30, -1);
+        Fonts.axi35.drawString("  lack" + " Client", 16, 30, -1);
    //     GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
+    //    ScaledResolution scaledResolution = new ScaledResolution(mc);
+     //   int scaledWidth = scaledResolution.getScaledWidth();
+    //    int scaledHeight = scaledResolution.getScaledHeight();
 
 
         GlStateManager.pushMatrix();
-        GlStateManager.scale(3 , 3, 3);
+        GlStateManager.scale(0.25 , 0.25, 0.25);
         mc.getTextureManager().bindTexture(imageResource);
-        drawModalRectWithCustomSizedTexture( this.width / 2 - 50, this.height / 2 - 50, 0, 0, 100, 100, 100, 100);
+        drawModalRectWithCustomSizedTexture(23, 107, 0, 0, 100, 100, 100, 100);
         GlStateManager.popMatrix();
 
         for (Particle particle : particles) {
