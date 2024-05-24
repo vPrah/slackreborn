@@ -29,7 +29,7 @@ public class Fonts {
     public static final MCFontRenderer apple20 = new MCFontRenderer(fontFromTTF("apple.ttf", 20), true, false);
 
     public static final MCFontRenderer apple24 = new MCFontRenderer(fontFromTTF("apple.ttf", 24), true, false);
-    public static final MCFontRenderer apple35 = new MCFontRenderer(fontFromTTF("apple.ttf", 35), true, false);
+    public static final MCFontRenderer apple45 = new MCFontRenderer(fontFromTTF("apple.ttf", 45), true, true);
 
     //public static final MCFontRenderer hearts18 = new MCFontRenderer(fontFromTTF("hearts.ttf",18), true, true);
     public static final MCFontRenderer Arial18 = new MCFontRenderer(new Font("Arial", Font.PLAIN, 18), true, true);

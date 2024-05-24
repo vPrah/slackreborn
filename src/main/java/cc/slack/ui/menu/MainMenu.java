@@ -19,22 +19,25 @@ public class MainMenu extends GuiScreen {
     private final ResourceLocation imageResource = new ResourceLocation("slack/menu/menulogo.png");
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpeg"));
+        mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,170).getRGB());
+        Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
     //     GlStateManager.pushMatrix();
 
      //   GlStateManager.scale(1.4 , 1.4, 1.4);
-        Fonts.axi35.drawString(Slack.getInstance().info.name + " Client", 16, 30, -1);
+        Fonts.apple45.drawString("  lack" + " Client", 16, 30, -1);
    //     GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
+    //    ScaledResolution scaledResolution = new ScaledResolution(mc);
+     //   int scaledWidth = scaledResolution.getScaledWidth();
+    //    int scaledHeight = scaledResolution.getScaledHeight();
 
 
         GlStateManager.pushMatrix();
-        GlStateManager.scale(3 , 3, 3);
+        GlStateManager.scale(0.35 , 0.35, 0.35);
         mc.getTextureManager().bindTexture(imageResource);
-        drawModalRectWithCustomSizedTexture( this.width / 2 - 50, this.height / 2 - 50, 0, 0, 100, 100, 100, 100);
+        drawModalRectWithCustomSizedTexture(1, 64, 0, 0, 100, 100, 100, 100);
         GlStateManager.popMatrix();
 
         for (Particle particle : particles) {
