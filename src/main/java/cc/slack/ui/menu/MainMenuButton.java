@@ -96,7 +96,7 @@ public class MainMenuButton extends Gui
         //    this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
            // this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
             if(this.hovered) {
-                drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x5FDF6400);
+                drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x8FDF6400);
             }else{
                if(!this.hovered) {
                    drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x81000000);
@@ -105,7 +105,7 @@ public class MainMenuButton extends Gui
             }
 
             this.mouseDragged(mc, mouseX, mouseY);
-            int j = 14737632;
+            int j = 16777215;
 
             if (!this.enabled)
             {
@@ -113,10 +113,10 @@ public class MainMenuButton extends Gui
             }
             else if (this.hovered)
             {
-                j = 16777120;
+                j = 0;
             }
 
-            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            Fonts.apple18.drawCenteredString(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
         }
     }
 

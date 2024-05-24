@@ -19,7 +19,7 @@ public class MainMenu extends GuiScreen {
     private final ResourceLocation imageResource = new ResourceLocation("slack/menu/menulogo.png");
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpg"));
+        mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
