@@ -22,7 +22,7 @@ public class MenuInfo extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-        mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/test.jpeg"));
+        mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
         GlStateManager.pushMatrix();
         GlStateManager.translate(width/2f, height/2f - mc.MCfontRenderer.FONT_HEIGHT/2f, 0);
