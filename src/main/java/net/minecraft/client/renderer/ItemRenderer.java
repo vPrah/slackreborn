@@ -393,7 +393,10 @@ public class ItemRenderer
                                         this.transformFirstPersonItem(0.7f, f1);
                                         this.func_178103_d();
                                         break;
-
+                                    case "Slack":
+                                        this.transformFirstPersonItem(0.0f, 0.0f);
+                                        this.func_178103_d();
+                                        break;
                                     case "Exhibition":
                                         GL11.glTranslated(0.0, 0.0, 0.0);
                                         this.transformFirstPersonItem(-0.1f, 1.0f);
