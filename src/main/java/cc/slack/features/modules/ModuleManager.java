@@ -50,8 +50,6 @@ public class ModuleManager {
 
                     // Other
                     new AntiBot(),
-                    new AutoPlay(),
-                    new AutoRespawn(),
                     new Performance(),
                     new RemoveEffect(),
                     new RichPresence(),
@@ -125,6 +123,7 @@ public class ModuleManager {
                     new AutoSword(),
                     new AutoConfig(),
                     new AutoPlay(),
+                    new AutoRespawn(),
                     new AutoLogin(),
                     new LegitMode(),
                     new PacketDebugger()
