@@ -34,7 +34,6 @@ public class ModuleManager {
                     new Hitbox(),
                     new KillAura(),
                     new TickBase(),
-                    new FastBow(),
                     new Velocity(),
 
                     // Movement
@@ -79,6 +78,7 @@ public class ModuleManager {
                     new Disabler(),
                     new Kick(),
                     new Regen(),
+                    new FastBow(),
                     new MultiAction(),
                     new Phase(),
 
