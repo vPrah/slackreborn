@@ -1,6 +1,8 @@
 package net.minecraft.world;
 
+import cc.slack.Slack;
 import cc.slack.features.modules.impl.combat.TickBase;
+import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -1862,7 +1864,10 @@ public abstract class World implements IBlockAccess
             entityIn.prevRotationYaw = entityIn.rotationYaw;
             entityIn.prevRotationPitch = entityIn.rotationPitch;
 
-            if (forceUpdate && entityIn.addedToChunk) {
+            final boolean skip = Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() &&
+                    Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noTickInvisValue.getValue() && entityIn.isInvisible();
+
+            if (forceUpdate && entityIn.addedToChunk && !skip) {
                 ++entityIn.ticksExisted;
 
                 if (!TickBase.publicFreeze) {

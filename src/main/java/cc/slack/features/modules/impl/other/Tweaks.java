@@ -29,6 +29,8 @@ public class Tweaks extends Module {
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("Jump Delay Ticks", 0, 0, 10, 1);
     public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
     public final BooleanValue nohurtcam = new BooleanValue("No Hurt Cam", false);
+    public BooleanValue noSkinValue = new BooleanValue("No Render Skins", false);
+    public BooleanValue noTickInvisValue = new BooleanValue("Don't Tick invisibles", false);
     public final BooleanValue infinitechat = new BooleanValue("Infinite Chat", false);
     private final BooleanValue fullbright = new BooleanValue("FullBright", true);
     private final BooleanValue exitGUIFix = new BooleanValue("Exit Gui Fix", true);
@@ -42,7 +44,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noblockhitdelay, noclickdelay, nohurtcam, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, nohurtcam, noSkinValue, noTickInvisValue, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
     }
 
     @Override

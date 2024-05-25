@@ -1,5 +1,7 @@
 package net.minecraft.client.network;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.base.Objects;
 import com.mojang.authlib.GameProfile;
 import com.mojang.authlib.minecraft.MinecraftProfileTexture;
@@ -86,11 +88,22 @@ public class NetworkPlayerInfo
 
     public String getSkinType()
     {
+        try {
+            if (Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noSkinValue.getValue())
+                return DefaultPlayerSkin.getSkinType(this.gameProfile.getId());
+        } catch (Exception ignored) {}
+
         return this.skinType == null ? DefaultPlayerSkin.getSkinType(this.gameProfile.getId()) : this.skinType;
     }
 
     public ResourceLocation getLocationSkin()
     {
+
+        try {
+            if (Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noSkinValue.getValue())
+                return DefaultPlayerSkin.getDefaultSkin(this.gameProfile.getId());
+        } catch (Exception ignored) {}
+
         if (this.locationSkin == null)
         {
             this.loadPlayerTextures();
