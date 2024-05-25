@@ -4,8 +4,10 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.Render2DUtil;
 import cc.slack.utils.render.Render3DUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -25,14 +27,14 @@ import java.awt.*;
 )
 public class BlockOverlay extends Module {
 
-
+    private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
     private final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 150, 0, 255, 1);
 
     public BlockOverlay () {
-        addSettings(redValue, greenValue, blueValue, alphaValue);
+        addSettings(rgbValue, redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
@@ -57,7 +59,7 @@ public class BlockOverlay extends Module {
             GL11.glEnable(2848);
             GL11.glDisable(2929);
             GL11.glDepthMask(false);
-            final Color c = new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue());
+            final Color c = new Color((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
             final int r = c.getRed();
             final int g = c.getGreen();
             final int b = c.getBlue();

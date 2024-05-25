@@ -26,7 +26,6 @@ public class Tracers extends Module {
 
 
     private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
-
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
     private final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
