@@ -53,6 +53,7 @@ public class ModuleManager {
                     new RemoveEffect(),
                     new RichPresence(),
                     new Killsults(),
+                    new LightningDetector(),
                     new Targets(),
                     new Tweaks(),
 
