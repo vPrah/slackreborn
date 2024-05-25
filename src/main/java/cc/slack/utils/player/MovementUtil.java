@@ -4,6 +4,7 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.utils.client.mc;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.MathHelper;
 
 public class MovementUtil extends mc {
 
@@ -146,6 +147,14 @@ public class MovementUtil extends mc {
         }
 
         return baseSpeed;
+    }
+
+    public static void setVClip(double number) {
+        mc.getPlayer().setPosition(mc.getPlayer().posX, mc.getPlayer().posY + number, mc.getPlayer().posZ);
+    }
+
+    public static void setHClip(double offset) {
+        mc.getPlayer().setPosition(mc.getPlayer().posX + -MathHelper.sin(getDirection()) * offset, mc.getPlayer().posY, mc.getPlayer().posZ + MathHelper.cos(getDirection()) * offset);
     }
 
     public static void updateBinds() {
