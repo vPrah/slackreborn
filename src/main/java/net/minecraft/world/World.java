@@ -1,5 +1,6 @@
 package net.minecraft.world;
 
+import cc.slack.features.modules.impl.combat.TickBase;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
@@ -1861,17 +1862,15 @@ public abstract class World implements IBlockAccess
             entityIn.prevRotationYaw = entityIn.rotationYaw;
             entityIn.prevRotationPitch = entityIn.rotationPitch;
 
-            if (forceUpdate && entityIn.addedToChunk)
-            {
+            if (forceUpdate && entityIn.addedToChunk) {
                 ++entityIn.ticksExisted;
 
-                if (entityIn.ridingEntity != null)
-                {
-                    entityIn.updateRidden();
-                }
-                else
-                {
-                    entityIn.onUpdate();
+                if (!TickBase.publicFreeze) {
+                    if (entityIn.ridingEntity != null) {
+                        entityIn.updateRidden();
+                    } else {
+                        entityIn.onUpdate();
+                    }
                 }
             }
 

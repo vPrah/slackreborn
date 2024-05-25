@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.input.KeyEvent;
+import cc.slack.features.modules.impl.combat.TickBase;
 import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
@@ -1723,6 +1724,9 @@ public class Minecraft implements IThreadListener, IPlayerUsage
      */
     public void runTick() throws IOException
     {
+
+        boolean pause = TickBase.publicFreeze && Slack.getInstance().getModuleManager().getInstance(TickBase.class).isToggle();
+
         TickEvent tickEvent = new TickEvent();
         if(thePlayer != null && theWorld != null)
             tickEvent.call();
@@ -2182,21 +2186,21 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
             this.mcProfiler.endStartSection("gameRenderer");
 
-            if (!this.isGamePaused)
+            if (!this.isGamePaused && !pause)
             {
                 this.entityRenderer.updateRenderer();
             }
 
             this.mcProfiler.endStartSection("levelRenderer");
 
-            if (!this.isGamePaused)
+            if (!this.isGamePaused && !pause)
             {
                 this.renderGlobal.updateClouds();
             }
 
             this.mcProfiler.endStartSection("level");
 
-            if (!this.isGamePaused)
+            if (!this.isGamePaused && !pause)
             {
                 if (this.theWorld.getLastLightningBolt() > 0)
                 {
@@ -2247,7 +2251,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
             this.mcProfiler.endStartSection("animateTick");
 
-            if (!this.isGamePaused && this.theWorld != null)
+            if (!this.isGamePaused && !pause && this.theWorld != null)
             {
                 this.theWorld.doVoidFogParticles(MathHelper.floor_double(this.thePlayer.posX), MathHelper.floor_double(this.thePlayer.posY), MathHelper.floor_double(this.thePlayer.posZ));
             }
