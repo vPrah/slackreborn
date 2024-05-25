@@ -2,10 +2,14 @@ package cc.slack.utils.player;
 
 import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
+import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
+import net.minecraft.inventory.Slot;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -65,6 +69,8 @@ public final class InventoryUtil extends mc {
             Blocks.daylight_detector
     );
 
+    public static Slot getSlot(int i){return mc.getPlayer().inventoryContainer.getSlot(i); }
+
     public static int findItem(final int startSlot, final int endSlot, final Item item) {
         for (int i = startSlot; i < endSlot; i++) {
             final ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
@@ -75,6 +81,19 @@ public final class InventoryUtil extends mc {
         return -1;
     }
 
+    public static float getDamage(ItemStack stack){
+        float damage = 0;
+        Item item = stack.getItem();
+        if(item instanceof ItemSword){
+            ItemSword sword = (ItemSword)item;
+            damage += sword.getDamageVsEntity();
+        }
+        damage += EnchantmentHelper.getEnchantmentLevel(16, stack) * 1.25f +
+                EnchantmentHelper.getEnchantmentLevel(20, stack) * 1.02f;
+        return damage;
+
+    }
+
     public static boolean isHotbarFull() {
         for (int i = 36; i < 45; i++) {
             if (mc.getPlayer().inventoryContainer.getSlot(i).getStack() == null)
@@ -82,6 +101,18 @@ public final class InventoryUtil extends mc {
         }
         return true;
     }
+
+    public static int getEmptySlot() {
+        for(int i = 36; i < 45; ++i) {
+            if(!getSlot(i).getHasStack()) return i;
+        }
+        return -1;
+    }
+
+    public static void swap(int slot1, int hotbarSlot){
+        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slot1, hotbarSlot, 2, mc.getPlayer());
+    }
+
 
     public static int pickHotarBlock(boolean biggestStack) {
         if (biggestStack) {
@@ -116,5 +147,28 @@ public final class InventoryUtil extends mc {
             }
         }
         return -1;
+    }
+
+    public static boolean hasItemWithCheck(Item item, boolean checkHotbar, boolean checkInventory) {
+        if(checkHotbar) {
+            for(int i = 36; i < 45; ++i) {
+                if(getSlot(i).getHasStack()) {
+                    ItemStack itemStack = getSlot(i).getStack();
+                    if(item.getUnlocalizedName().equalsIgnoreCase(itemStack.getItem().getUnlocalizedName()))
+                        return true;
+                }
+            }
+        }
+
+        if(checkInventory) {
+            for (int i = 9; i < 36; ++i) {
+                if (getSlot(i).getHasStack()) {
+                    ItemStack itemStack = getSlot(i).getStack();
+                    if (item.getUnlocalizedName().equalsIgnoreCase(itemStack.getItem().getUnlocalizedName()))
+                        return true;
+                }
+            }
+        }
+        return false;
     }
 }
