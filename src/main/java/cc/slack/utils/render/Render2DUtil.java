@@ -7,6 +7,7 @@ import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -42,6 +43,14 @@ public final class Render2DUtil extends mc {
 
     public void drawRect(int x, int y, int width, int height, int color) {
         Gui.drawRect(x, y, x + width, y + height, color);
+    }
+
+    public static void glColor(final int hex) {
+        final float alpha = (hex >> 24 & 0xFF) / 255.0f;
+        final float red = (hex >> 16 & 0xFF) / 255.0f;
+        final float green = (hex >> 8 & 0xFF) / 255.0f;
+        final float blue = (hex & 0xFF) / 255.0f;
+        GL11.glColor4f(red, green, blue, alpha);
     }
 
     public static void drawRoundedCornerRect(float x, float y, float x1, float y1, float radius, Color color) {
