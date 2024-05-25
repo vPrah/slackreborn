@@ -15,8 +15,7 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.util.BlockPos;
@@ -37,7 +36,6 @@ public class NoSlow extends Module {
     public final BooleanValue onEat = new BooleanValue("Eating NoSlow", true);
 
     public NoSlow() {
-        super();
         addSettings(mode, forwardMultiplier, strafeMultiplier, onEat);
     }
 
@@ -46,12 +44,14 @@ public class NoSlow extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (mc.getPlayer() == null) return;
+
         boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
-        if (usingItem && mc.getPlayer().getHeldItem() != null && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
+        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
             switch (mode.getValue().toLowerCase()) {
-                case "vulcan":
                 case "vanilla":
+                    break;
+                case "vulcan":
                     break;
                 case "ncp latest":
                     break;
