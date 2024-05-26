@@ -8,8 +8,7 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
-import cc.slack.utils.render.Render2DUtil;
-import cc.slack.utils.render.Render3DUtil;
+import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
@@ -54,7 +53,7 @@ public class Tracers extends Module {
                 GlStateManager.disableDepth();
                 GlStateManager.enableBlend();
 
-                Render2DUtil.glColor((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+                RenderUtil.glColor((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
                 GL11.glLineWidth(1.5f);
 
                 GL11.glBegin(GL11.GL_LINE_STRIP);

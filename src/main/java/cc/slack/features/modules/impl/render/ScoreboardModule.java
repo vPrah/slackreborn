@@ -1,6 +1,5 @@
 package cc.slack.features.modules.impl.render;
 
-import java.awt.Color;
 import java.util.Collection;
 
 import cc.slack.events.impl.render.RenderEvent;
@@ -12,7 +11,7 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
-import cc.slack.utils.render.Render3DUtil;
+import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -20,7 +19,6 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
-import net.minecraft.util.ChatFormatting;
 
 @ModuleInfo(name = "Scoreboard", category = Category.RENDER)
 public class ScoreboardModule extends Module {
@@ -68,7 +66,7 @@ public class ScoreboardModule extends Module {
 
 		int height = collection.size() * 9 + 16;
 		if (roundedValue.getValue()) {
-			Render3DUtil.drawRoundedRect((float) pos[0], (float) pos[1], (float) (pos[0] + width + 5), (float) (pos[1] + height + 5), 8F, 1342177280);
+			RenderUtil.drawRoundedRect((float) pos[0], (float) pos[1], (float) (pos[0] + width + 5), (float) (pos[1] + height + 5), 8F, 1342177280);
 		} else {
 		Gui.drawRect(pos[0], pos[1], (pos[0] + width + 5), pos[1] + height, 1342177280);
 		}

@@ -4,7 +4,7 @@ import java.util.Random;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.render.ItemPhysics;
-import cc.slack.utils.render.Render3DUtil;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.block.model.ItemCameraTransforms;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -101,7 +101,7 @@ public class RenderEntityItem extends Render<EntityItem>
     {
 
         if(Slack.getInstance().getModuleManager().getInstance(ItemPhysics.class).isToggle()) {
-            Render3DUtil.drawRenderItemPhysics(entity, x, y, z, entityYaw, partialTicks);
+            RenderUtil.drawRenderItemPhysics(entity, x, y, z, entityYaw, partialTicks);
             return;
         }
 

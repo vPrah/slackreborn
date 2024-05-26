@@ -137,7 +137,7 @@ public class HUD extends Module {
 			notStyle.clear();
 		}
 
-//        Render2DUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
+//        RenderUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
 	}
 
 	private String getBPS() {
