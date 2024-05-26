@@ -1,5 +1,7 @@
 package net.minecraft.client.gui;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.collect.Lists;
 import java.util.Iterator;
 import java.util.List;
@@ -79,7 +81,9 @@ public class GuiNewChat extends Gui
                             {
                                 int i2 = 0;
                                 int j2 = -i1 * 9;
-                                drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
+                                if (!Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noChatBack.getValue()) {
+                                    drawRect(i2, j2 - 9, i2 + l + 4, j2, l1 / 2 << 24);
+                                }
                                 String s = chatline.getChatComponent().getFormattedText();
                                 GlStateManager.enableBlend();
                                 this.mc.MCfontRenderer.drawStringWithShadow(s, (float)i2, (float)(j2 - 8), 16777215 + (l1 << 24));

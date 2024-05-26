@@ -212,13 +212,12 @@ public class GuiIngame extends Gui
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
         int k1 = i / 2 - 91;
 
-        if (this.mc.thePlayer.isRidingHorse())
-        {
-            this.renderHorseJumpBar(scaledresolution, k1);
-        }
-        else if (this.mc.playerController.gameIsSurvivalOrAdventure())
-        {
-            this.renderExpBar(scaledresolution, k1);
+        if (!(Slack.getInstance().getModuleManager().getInstance(Tweaks.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Tweaks.class).noExpBar.getValue())) {
+            if (this.mc.thePlayer.isRidingHorse()) {
+                this.renderHorseJumpBar(scaledresolution, k1);
+            } else if (this.mc.playerController.gameIsSurvivalOrAdventure()) {
+                this.renderExpBar(scaledresolution, k1);
+            }
         }
 
         if (this.mc.gameSettings.heldItemTooltips && !this.mc.playerController.isSpectator())
