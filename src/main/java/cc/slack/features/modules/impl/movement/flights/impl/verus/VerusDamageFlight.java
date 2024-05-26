@@ -15,7 +15,7 @@ import cc.slack.utils.player.TimerUtil;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
-public class VerusFlight implements IFlight {
+public class VerusDamageFlight implements IFlight {
 
     double moveSpeed = 0.0;
 
@@ -99,6 +99,6 @@ public class VerusFlight implements IFlight {
 
     @Override
     public String toString() {
-        return "Verus";
+        return "Verus Damage";
     }
 }
