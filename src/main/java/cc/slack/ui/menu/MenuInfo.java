@@ -153,7 +153,7 @@ public class MenuInfo extends GuiScreen {
         }
 
         if(buttonMenu.id == 5) {
-            FileUtil.showURL(Slack.getInstance().GitOrg);
+            // XD
         }
 
         if(buttonMenu.id == 6) {
