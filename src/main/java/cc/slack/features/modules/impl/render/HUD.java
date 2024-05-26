@@ -170,7 +170,7 @@ public class HUD extends Module {
 		if (endTime - System.currentTimeMillis() < 300L) {
 			return Math.pow(1 - (endTime - System.currentTimeMillis()) / 300f, 3);
 		} else if (System.currentTimeMillis() - startTime < 300L) {
-			return 1 - Math.pow((System.currentTimeMillis() - startTime) / 300f, 3);
+			return Math.pow( 1- (System.currentTimeMillis() - startTime) / 300f, 3);
 		} else {
 			return 0.0;
 		}
