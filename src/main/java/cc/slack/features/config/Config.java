@@ -56,6 +56,9 @@ public class Config extends mc {
                     if (((NumberValue) property).getMinimum() instanceof Double) {
                         valueJson.addProperty(property.getName(), (Double) (property.getValue()));
                     }
+                    if (((NumberValue) property).getMinimum() instanceof Long) {
+                        valueJson.addProperty(property.getName(), (Long) (property.getValue()));
+                    }
                 }
 
                 if (property instanceof ColorValue) {
@@ -109,6 +112,8 @@ public class Config extends mc {
                                         v.setValue(value.getValue().getAsFloat());
                                     if (((NumberValue) v).getMinimum() instanceof Double)
                                         v.setValue(value.getValue().getAsDouble());
+                                    if (((NumberValue) v).getMinimum() instanceof Long)
+                                        v.setValue(value.getValue().getAsLong());
                                 }
 
                                 if (v instanceof ColorValue) {

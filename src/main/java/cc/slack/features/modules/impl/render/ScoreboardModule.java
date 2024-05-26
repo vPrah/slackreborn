@@ -29,7 +29,7 @@ public class ScoreboardModule extends Module {
 	private final NumberValue<Double> posY = new NumberValue<>("PosY", 30.0D, -1000.0D, 1000.0D, 0.1D);
 
 	public ScoreboardModule() {
-		addSettings(noscoreboard, posX, posY);
+		addSettings(noscoreboard, roundedValue, posX, posY);
 	}
 
 	@Listen
@@ -54,6 +54,9 @@ public class ScoreboardModule extends Module {
 		Collection<Score> collection = scoreboard.getSortedScores(objective);
 
 		double i = 70;
+		if (mc.getFontRenderer().getStringWidth(objective.getDisplayName()) > i) {
+			i = mc.getFontRenderer().getStringWidth(objective.getDisplayName());
+		}
 		double width = i;
 		for (Score score2 : collection) {
 			ScorePlayerTeam scoreplayerteam2 = scoreboard.getPlayersTeam(score2.getPlayerName());
