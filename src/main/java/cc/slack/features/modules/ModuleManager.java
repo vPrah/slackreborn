@@ -52,6 +52,7 @@ public class ModuleManager {
                     new Performance(),
                     new RemoveEffect(),
                     new RichPresence(),
+                    new LightningDetector(),
                     new Killsults(),
                     new Targets(),
                     new Tweaks(),
@@ -95,6 +96,7 @@ public class ModuleManager {
                     new ESP(),
                     new HUD(),
                     new NameProtect(),
+                    new Bobbing(),
                     new Tracers(),
                     new FreeCam(),
                     new Projectiles(),
@@ -124,6 +126,7 @@ public class ModuleManager {
                     new AutoPlay(),
                     new AutoRespawn(),
                     new AutoLogin(),
+                    new AutoDisable(),
                     new LegitMode(),
                     new PacketDebugger()
 
