@@ -8,6 +8,7 @@ import cc.slack.events.impl.game.ChatEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
 import cc.slack.features.modules.impl.movement.Sprint;
@@ -70,6 +71,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 {
     public final NetHandlerPlayClient sendQueue;
     private final StatFileWriter statWriter;
+    private World lastWorld;
 
     /**
      * The last X position which was transmitted to the server, used to determine when the X position changes and needs
@@ -181,6 +183,14 @@ public class EntityPlayerSP extends AbstractClientPlayer
      */
     public void onUpdate()
     {
+
+        final WorldEvent worldEvent = new WorldEvent(lastWorld, worldObj);
+
+        if (lastWorld != worldObj) {
+            worldEvent.call();
+            lastWorld = worldObj;
+        }
+
         if (this.worldObj.isBlockLoaded(new BlockPos(this.posX, 0.0D, this.posZ)))
         {
             new UpdateEvent().call();
