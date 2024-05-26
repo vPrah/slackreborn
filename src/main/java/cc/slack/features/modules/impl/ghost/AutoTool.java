@@ -49,6 +49,8 @@ public class AutoTool extends Module {
                 && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
                 && !(AttackUtil.inCombat && noCombat.getValue())) {
             getTool(true, mc.getWorld().getBlockState(mc.getMinecraft().objectMouseOver.getBlockPos()).getBlock(), delay.getValue(), spoof.getValue());
+        } else {
+            getTool(false, null, 0, spoof.getValue());
         }
 
     }
@@ -72,7 +74,10 @@ public class AutoTool extends Module {
                     prevItem = mc.getPlayer().inventory.currentItem;
                 }
 
-                float bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
+
+                float bestSpeed = 0;
+                if (mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem) != null)
+                    mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
                 for (int i = 0; i <= 8; i++) {
                     ItemStack item = mc.getPlayer().inventory.getStackInSlot(i);
                     if (item == null)

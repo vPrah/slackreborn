@@ -44,6 +44,9 @@ public class NoSlow extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (mc.getPlayer() == null) return;
+        if (mc.getPlayer().getHeldItem() == null) return;
+        if (mc.getPlayer().getHeldItem().item == null) return;
+
 
         boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
