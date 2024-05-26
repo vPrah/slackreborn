@@ -611,8 +611,11 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             this.drawString(this.fontRendererObj, s, 2, this.height - 10, -1);
         }
 
-        String s2 = Slack.getInstance().changelog;
-        this.drawString(this.fontRendererObj, s2, 2, 20, -1);
+        int s2y = 20;
+        for (String s2 : Slack.getInstance().changelog) {
+            this.drawString(this.fontRendererObj, s2, 2, s2y, -1);
+            s2y += 10;
+        }
 
         if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0)
         {

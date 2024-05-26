@@ -30,6 +30,7 @@ public abstract class Module {
     public void onToggled() {}
     public void onEnable() {}
     public void onDisable() {}
+    public String getMode() { return ""; }
 	public void setXYPosition(double x, double y) { }
 
     public void toggle() {

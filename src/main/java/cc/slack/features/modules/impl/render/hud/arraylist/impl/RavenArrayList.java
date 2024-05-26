@@ -8,9 +8,6 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.font.Fonts;
-import net.minecraft.client.Minecraft;
-
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -18,7 +15,7 @@ import java.util.List;
 
 import static net.minecraft.client.gui.Gui.drawRect;
 
-public class BasicArrayList implements IArraylist {
+public class RavenArrayList implements IArraylist {
 
     List<String> modules = new ArrayList<>();
 
@@ -28,7 +25,7 @@ public class BasicArrayList implements IArraylist {
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (module.isToggle()) modules.add(module.getDisplayName());
         }
-        modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
+        modules.sort(Comparator.comparingInt(mc.getFontRenderer()::getStringWidth));
         Collections.reverse(modules);
     }
 
@@ -37,20 +34,19 @@ public class BasicArrayList implements IArraylist {
         int y = 3;
 
         for (String module : modules) {
-            drawRect(
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module) - 5),
-                    y - 2,
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module)+ Fonts.apple18.getStringWidth(module) + 3),
-                    y + Fonts.apple18.getHeight() + 1,
-                    0x80000000
-            );
-            Fonts.apple18.drawStringWithShadow(module, event.getWidth() - Fonts.apple18.getStringWidth(module) - 3, y, 0x5499C7);
-            y += Fonts.apple18.getHeight() + 3;
+            String mode = Slack.getInstance().getModuleManager().getModuleByName(module).getMode();
+            if (mode != "") {
+                mc.getFontRenderer().drawStringWithShadow(mode, event.getWidth() - mc.getFontRenderer().getStringWidth(mode) - 3, y, 0xffffff);
+                mc.getFontRenderer().drawStringWithShadow(module, event.getWidth() - mc.getFontRenderer().getStringWidth(module) - 3 - mc.getFontRenderer().getStringWidth(mode) - 3, y, 0x5499C7);
+            } else {
+                mc.getFontRenderer().drawStringWithShadow(module, event.getWidth() - mc.getFontRenderer().getStringWidth(module) - 3, y, 0x5499C7);
+            }
+            y += mc.getFontRenderer().FONT_HEIGHT + 3;
         }
     }
 
     @Override
     public String toString() {
-        return "Basic";
+        return "Raven";
     }
 }

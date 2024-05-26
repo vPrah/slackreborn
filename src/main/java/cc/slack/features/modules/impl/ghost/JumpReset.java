@@ -34,7 +34,7 @@ public class JumpReset extends Module {
         if (mc.getPlayer().hurtTime == 10) {
             enable = MathHelper.getRandomDoubleInRange(new Random(), 0, 1) <= chance.getValue();
         }
-        if (enable) return;
+        if (!enable) return;
         if (mc.getPlayer().hurtTime >= 8) {
             mc.getGameSettings().keyBindJump.pressed = true;
         }

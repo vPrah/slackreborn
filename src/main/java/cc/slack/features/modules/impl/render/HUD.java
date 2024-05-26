@@ -29,7 +29,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 
 @ModuleInfo(name = "HUD", category = Category.RENDER)
 public class HUD extends Module {
-	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList() });
+	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
 
 	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Backgrounded" });
 

@@ -18,21 +18,22 @@ import java.util.Random;
 )
 public class Reach extends Module {
 
-    public final NumberValue<Double> reach = new NumberValue<>("Reach", 3.1D, 3D, 6D, 0.01D);
+    public final NumberValue<Double> minReach = new NumberValue<>("Min Reach", 3.1D, 3D, 6D, 0.01D);
+    public final NumberValue<Double> maxReach = new NumberValue<>("Max Reach", 3.1D, 3D, 6D, 0.01D);
     public final NumberValue<Double> chance = new NumberValue<>("Chance", 1D, 0D, 1D, 0.01D);
 
     public double combatReach = 3.0;
 
     public Reach() {
         super();
-        addSettings(reach, chance);
+        addSettings(minReach, maxReach, chance);
     }
 
     @Listen
     public void onAttack(AttackEvent event) {
         double rnd = MathHelper.getRandomDoubleInRange(new Random(), 0, 1);
         if (rnd <= chance.getValue()) {
-           combatReach =  reach.getValue();
+           combatReach =  MathHelper.getRandomDoubleInRange(new Random(), minReach.getValue(), maxReach.getValue());
         } else {
             combatReach = 3.0D;
         }

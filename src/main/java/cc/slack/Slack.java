@@ -39,11 +39,8 @@ public class Slack {
     private final ModuleManager moduleManager = new ModuleManager();
     private final CMDManager cmdManager = new CMDManager();
 
-    public final String changelog = "Release v0.01:" +
-            "\r\n-Added all modules (56)" +
-            "\r\n-Added SexModule";
+    public final String[] changelog = new String[]{"Release v0.01:", "-Added all modules (56)", "-Added SexModule"};
 
-    public final String GitOrg = "https://github.com/DGVPSH";
     public final String DiscordServer = "https://discord.gg/nwR9AyjnK8";
     public final String Website = "https://slackclient.github.io/";
 
