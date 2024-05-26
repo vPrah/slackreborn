@@ -1,6 +1,6 @@
 // Slack Client (discord.gg/slackclient)
 
-package cc.slack.features.modules.impl.movement.flights.impl;
+package cc.slack.features.modules.impl.movement.flights.impl.vanilla;
 
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;

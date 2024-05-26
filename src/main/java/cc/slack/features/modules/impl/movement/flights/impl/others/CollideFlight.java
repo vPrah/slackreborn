@@ -1,17 +1,17 @@
 // Slack Client (discord.gg/slackclient)
 
-package cc.slack.features.modules.impl.movement.flights.impl;
+package cc.slack.features.modules.impl.movement.flights.impl.others;
 
-import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.CollideEvent;
-import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.utils.client.mc;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;
 
-public class VerusJumpFlight implements IFlight {
+
+public class CollideFlight implements IFlight {
+
 
     double startY;
 
@@ -21,14 +21,7 @@ public class VerusJumpFlight implements IFlight {
     }
 
     @Override
-    public void onPacket(PacketEvent event) {
-    }
-
-    @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().onGround) {
-            mc.getPlayer().jump();
-        }
         mc.getGameSettings().keyBindJump.pressed = false;
     }
 
@@ -39,16 +32,7 @@ public class VerusJumpFlight implements IFlight {
     }
 
     @Override
-    public void onDisable() {
-    }
-
-    @Override
-    public void onMotion(MotionEvent event) {
-
-    }
-
-    @Override
     public String toString() {
-        return "Verus Jump";
+        return "Collide";
     }
 }

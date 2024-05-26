@@ -9,10 +9,15 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.features.modules.impl.movement.flights.impl.*;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.impl.movement.flights.impl.others.AirJumpFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.others.ChunkFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.others.CollideFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.vanilla.VanillaFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
 
@@ -25,9 +30,15 @@ import org.lwjgl.input.Keyboard;
 public class Flight extends Module {
 
     private final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{
+
+            // Vanilla
             new VanillaFlight(),
+
+            // Verus
             new VerusJumpFlight(),
             new VerusFlight(),
+
+            // Others
             new ChunkFlight(),
             new CollideFlight(),
             new AirJumpFlight()
