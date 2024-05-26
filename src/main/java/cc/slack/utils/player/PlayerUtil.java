@@ -155,7 +155,7 @@ public class PlayerUtil extends mc {
     }
 
     public static String getRemoteIp() {
-        String serverIp = "Idling";
+        String serverIp = "Main Menu";
 
         if (mc.getMinecraft().isIntegratedServerRunning()) {
             serverIp = "SinglePlayer";
