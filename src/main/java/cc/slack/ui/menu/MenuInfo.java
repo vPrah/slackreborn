@@ -30,12 +30,8 @@ public class MenuInfo extends GuiScreen {
         GlStateManager.translate(-(width/1.69f), -(height/1.77),0);
         GlStateManager.popMatrix();
         RenderUtil.drawRoundedRect(398F, 100F, 608F, 400F, 8F, new Color(0,0,0,170).getRGB());
-//        Gui.drawRect(398, 100, 608 , 400, new Color(0,0,0,170).getRGB());
         RenderUtil.drawRoundedRect(98F, 100F, 308F, 400F, 8F, new Color(0,0,0,170).getRGB());
-//        Gui.drawRect(98, 100, 308 , 400, new Color(0,0,0,170).getRGB());
         RenderUtil.drawRoundedRect(698F, 100F, 908F, 400F, 8F, new Color(0,0,0,170).getRGB());
-//        Gui.drawRect(698, 100, 908 , 400, new Color(0,0,0,170).getRGB());
-
         long i = Runtime.getRuntime().maxMemory();
         long j = Runtime.getRuntime().totalMemory();
         long k = Runtime.getRuntime().freeMemory();
@@ -97,7 +93,7 @@ public class MenuInfo extends GuiScreen {
         Fonts.axi35.drawString("Client", 475, 120, -1);
 
 
-        // System Spect Font
+        // System Specs Font
 
         Fonts.axi35.drawString("System Specs", 140, 120, -1);
         Fonts.apple20.drawString("GPU: ", 105, 160, -1);
@@ -131,6 +127,7 @@ public class MenuInfo extends GuiScreen {
         super.initGui();
     }
 
+    @SuppressWarnings("all")
     @Override
     protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
         super.actionPerformedMenu(buttonMenu);
