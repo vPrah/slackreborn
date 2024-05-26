@@ -85,6 +85,10 @@ public class Autoclicker extends Module {
                 return (long) (1000 / AttackUtil.getNewRandomization(cps, rand));
             case "extra":
                 return (long) (1000 / AttackUtil.getExtraRandomization(cps, rand));
+            case "pattern1":
+                 return (long) (1000 / AttackUtil.getPattern1Randomization(cps, rand));
+            case "pattern2":
+                return (long) (1000 / AttackUtil.getPattern2Randomization(cps, rand));
         }
         return 0L;
     }
