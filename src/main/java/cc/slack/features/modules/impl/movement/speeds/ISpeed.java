@@ -3,6 +3,7 @@
 package cc.slack.features.modules.impl.movement.speeds;
 
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 
@@ -28,6 +29,11 @@ public interface ISpeed {
     ;
 
     default void onUpdate(UpdateEvent event) {
+    }
+
+    ;
+
+    default void onMotion(MotionEvent event) {
     }
 
     ;

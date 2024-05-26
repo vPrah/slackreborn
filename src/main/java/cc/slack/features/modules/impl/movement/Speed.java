@@ -3,6 +3,7 @@
 package cc.slack.features.modules.impl.movement;
 
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
@@ -16,6 +17,7 @@ import cc.slack.features.modules.impl.movement.speeds.hypixel.HypixelHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.ncp.NCPHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vanilla.*;
 import cc.slack.features.modules.impl.movement.speeds.verus.VerusHopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.verus.VerusLowHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanLowSpeed;
 import cc.slack.utils.client.mc;
@@ -40,6 +42,7 @@ public class Speed extends Module {
 
             // Verus
             new VerusHopSpeed(),
+            new VerusLowHopSpeed(),
 
             // Hypixel
             new HypixelHopSpeed(),
@@ -83,6 +86,11 @@ public class Speed extends Module {
     public void onUpdate(UpdateEvent event) {
         if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = false; }
         mode.getValue().onUpdate(event);
+    }
+
+    @Listen
+    public void onMotion(MotionEvent event) {
+        mode.getValue().onMotion(event);
     }
 
     @Listen
