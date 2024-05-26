@@ -1,5 +1,7 @@
 package net.minecraft.util;
 
+import net.minecraft.block.Block;
+
 public class Vec3
 {
     /** X coordinate of Vec3D */
@@ -81,6 +83,11 @@ public class Vec3
     public Vec3 add(Vec3 vec)
     {
         return this.addVector(vec.xCoord, vec.yCoord, vec.zCoord);
+    }
+
+    public Vec3 add(BlockPos blockPos)
+    {
+        return this.addVector(blockPos.getX(), blockPos.getY(), blockPos.getZ());
     }
 
     /**

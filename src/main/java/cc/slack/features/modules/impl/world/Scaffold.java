@@ -294,12 +294,12 @@ public class Scaffold extends Module {
             if (block.getY() <= mc.getPlayer().posY - 2) {
                 placeFace = EnumFacing.UP;
             }
-            blockRotation = BlockUtils.getFaceRotation(placeFace, block);
-            blockPlace = block;
             blockPlacement = block.add(placeFace.getDirectionVec());
             if (!BlockUtils.isReplaceable(blockPlacement)) {
                 return false;
             }
+            blockRotation = BlockUtils.getFaceRotation(placeFace, block);
+            blockPlace = block;
             blockPlacementFace = placeFace;
             return true;
         } else {
@@ -323,7 +323,7 @@ public class Scaffold extends Module {
                 if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
                     canContinue = false;
                 } else {
-                    canContinue = raytraced.getBlockPos() == blockPlacement;
+                    canContinue = raytraced.getBlockPos() == blockPlace;
                 }
                 break;
             case "strict":
@@ -332,7 +332,7 @@ public class Scaffold extends Module {
                     break;
                 }
                 if (raytraced.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    canContinue = raytraced.getBlockPos() == blockPlacement && raytraced.sideHit == blockPlacementFace;
+                    canContinue = raytraced.getBlockPos() == blockPlace && raytraced.sideHit == blockPlacementFace;
                 }
                 break;
             default:
@@ -343,7 +343,7 @@ public class Scaffold extends Module {
         BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
         if(!BlockUtils.isReplaceable(below)) return;
 
-        Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5));
+        Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
         if (mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
             mc.getPlayer().swingItem();

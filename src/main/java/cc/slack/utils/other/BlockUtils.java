@@ -86,8 +86,8 @@ public class BlockUtils extends mc {
     public static float[] getFaceRotation(EnumFacing face, BlockPos blockPos) {
         Vec3i faceVec = face.getDirectionVec();
         Vec3 blockFaceVec = new Vec3(faceVec.getX() * 0.5, faceVec.getY() * 0.5, faceVec.getZ() * 0.5);
-        blockFaceVec.add(blockPos.toVec3());
-        blockFaceVec.addVector(0.5, 0.5, 0.5);
+        blockFaceVec = blockFaceVec.add(blockPos.toVec3());
+        blockFaceVec = blockFaceVec.addVector(0.5, 0.5, 0.5);
         return RotationUtil.getRotations(blockFaceVec);
 
     }
