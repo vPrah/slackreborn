@@ -40,6 +40,7 @@ public class AimAssist extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         gameSens = mc.getGameSettings().mouseSensitivity;
+        sens = gameSens;
         if (lowerSens.getValue()) {
             if (mc.getMinecraft().objectMouseOver.entityHit != null) {
                 sens = gameSens * lowerSensAmount.getValue();

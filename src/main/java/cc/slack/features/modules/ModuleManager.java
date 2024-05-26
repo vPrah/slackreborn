@@ -53,7 +53,6 @@ public class ModuleManager {
                     new RemoveEffect(),
                     new RichPresence(),
                     new Killsults(),
-                    new LightningDetector(),
                     new Targets(),
                     new Tweaks(),
 
@@ -86,7 +85,6 @@ public class ModuleManager {
                     // Render
                     new Animations(),
                     new Ambience(),
-                    new Bobbing(),
                     new BlockOverlay(),
                     new Cape(),
                     new ChinaHat(),
