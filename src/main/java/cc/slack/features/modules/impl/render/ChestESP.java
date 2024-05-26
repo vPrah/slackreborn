@@ -6,7 +6,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.utils.render.Render3DUtil;
+import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
@@ -28,7 +28,7 @@ public class ChestESP extends Module {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for (BlockPos bp : chestBoundingBoxes) {
-            Render3DUtil.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + 1, bp.getZ() + 1));
+            RenderUtil.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + 1, bp.getZ() + 1));
         }
 
         chestBoundingBoxes.clear();

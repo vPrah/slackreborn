@@ -3,7 +3,7 @@ package cc.slack.ui.NewCGUI.components.impl;
 import cc.slack.features.modules.api.Module;
 import cc.slack.ui.NewCGUI.components.Components;
 import cc.slack.utils.other.PrintUtil;
-import cc.slack.utils.render.Render2DUtil;
+import cc.slack.utils.render.RenderUtil;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.gui.FontRenderer;
@@ -44,7 +44,7 @@ public class ModuleComp extends Components {
 
     @Override
     public void mouseClicked(int mouseX, int mouseY, int button) {
-        if (!Render2DUtil.mouseInArea(mouseX, mouseY, getParent().getPosX(), getParent().getPosY() + (getParent().getHeight() * getOffsetY()), getParent().getWidth(), getParent().getHeight())) return;
+        if (!RenderUtil.mouseInArea(mouseX, mouseY, getParent().getPosX(), getParent().getPosY() + (getParent().getHeight() * getOffsetY()), getParent().getWidth(), getParent().getHeight())) return;
         switch (button) {
             case 0:
                 module.toggle();

@@ -2,6 +2,7 @@ package cc.slack.utils.render;
 
 import cc.slack.utils.client.mc;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
@@ -25,7 +26,7 @@ import java.util.Random;
 
 import static org.lwjgl.opengl.GL11.*;
 
-public final class Render3DUtil extends mc {
+public final class RenderUtil extends mc {
 
     private static final Map<String, Map<Integer, Boolean>> glCapMap = new HashMap<>();
 
@@ -33,6 +34,10 @@ public final class Render3DUtil extends mc {
     public static long tick;
     public static double rotation;
     public static Random random = new Random();
+
+    public static boolean mouseInArea(int mouseX, int mouseY, double x, double y, double width, double height) {
+        return (mouseX >= x && mouseX <= (x + width)) && (mouseY >= y && mouseY <= (y + height));
+    }
 
 
     public static void drawAABB(AxisAlignedBB boundingBox) {
@@ -94,9 +99,9 @@ public final class Render3DUtil extends mc {
         GL11.glBlendFunc(770, 771);
         GL11.glEnable(2929);
         GL11.glBegin(3);
-        final double x = Render2DUtil.interpolate(entity.prevPosX, entity.posX, partialTicks) - RenderManager.viewerPosX;
-        final double y = Render2DUtil.interpolate(entity.prevPosY + yAdd, entity.posY + yAdd, partialTicks) - RenderManager.viewerPosY;
-        final double z = Render2DUtil.interpolate(entity.prevPosZ, entity.posZ, partialTicks) - RenderManager.viewerPosZ;
+        final double x = interpolate(entity.prevPosX, entity.posX, partialTicks) - RenderManager.viewerPosX;
+        final double y = interpolate(entity.prevPosY + yAdd, entity.posY + yAdd, partialTicks) - RenderManager.viewerPosY;
+        final double z = interpolate(entity.prevPosZ, entity.posZ, partialTicks) - RenderManager.viewerPosZ;
         GL11.glColor4f(new Color(color).getRed() / 255.0f, new Color(color).getGreen() / 255.0f, new Color(color).getBlue() / 255.0f, 0.15f);
         for (int i = 0; i <= points; ++i) {
             GL11.glVertex3d(x + radius * Math.cos(i * 3.141592653589793 * 2.0 / points), y, z + radius * Math.sin(i * 3.141592653589793 * 2.0 / points));
@@ -273,6 +278,48 @@ public final class Render3DUtil extends mc {
         return b0;
     }
 
+    public void drawRect(int x, int y, int width, int height, int color) {
+        Gui.drawRect(x, y, x + width, y + height, color);
+    }
+
+    public static void glColor(final int hex) {
+        final float alpha = (hex >> 24 & 0xFF) / 255.0f;
+        final float red = (hex >> 16 & 0xFF) / 255.0f;
+        final float green = (hex >> 8 & 0xFF) / 255.0f;
+        final float blue = (hex & 0xFF) / 255.0f;
+        GL11.glColor4f(red, green, blue, alpha);
+    }
+
+    public static void drawRoundedCornerRect(float x, float y, float x1, float y1, float radius, Color color) {
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glDisable(GL_TEXTURE_2D);
+        final boolean hasCull = glIsEnabled(GL_CULL_FACE);
+        glDisable(GL_CULL_FACE);
+
+        glColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
+        glBegin(GL_POLYGON);
+
+        float xRadius = (float) Math.min((x1 - x) * 0.5, radius);
+        float yRadius = (float) Math.min((y1 - y) * 0.5, radius);
+        polygonCircle(x + xRadius,y + yRadius, xRadius, yRadius,180,270);
+        polygonCircle(x1 - xRadius,y + yRadius, xRadius, yRadius,90,180);
+        polygonCircle(x1 - xRadius,y1 - yRadius, xRadius, yRadius,0,90);
+        polygonCircle(x + xRadius,y1 - yRadius, xRadius, yRadius,270,360);
+
+        glEnd();
+        glEnable(GL_TEXTURE_2D);
+        glDisable(GL_BLEND);
+        setGlState(GL_CULL_FACE, hasCull);
+
+    }
+
+    public static void polygonCircle(float x, float y, float xRadius, float yRadius, int start, int end) {
+        for(int i = end; i >= start; i -= 4) {
+            glVertex2d(x + Math.sin(i * Math.PI / 180.0D) * xRadius, y + Math.cos(i * Math.PI / 180.0D) * yRadius);
+        }
+    }
+
     public static double formPositiv(float rotationPitch) {
         if (rotationPitch > 0.0f) {
             return rotationPitch;
@@ -319,7 +366,7 @@ public final class Render3DUtil extends mc {
             return;
         }
         Map<Integer, Boolean> map = glCapMap.get(scale);
-        map.forEach(Render3DUtil::setGlState);
+        map.forEach(RenderUtil::setGlState);
         map.clear();
     }
 
@@ -376,6 +423,10 @@ public final class Render3DUtil extends mc {
         glDisable(GL_BLEND);
         glDisable(GL_LINE_SMOOTH);
         if (popPush) glPopMatrix();
+    }
+
+    public static double interpolate(final double old, final double now, final float partialTicks) {
+        return old + (now - old) * partialTicks;
     }
 
     public static void resetCaps() {

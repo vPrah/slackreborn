@@ -9,7 +9,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.render.Render3DUtil;
+import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.client.renderer.*;
@@ -42,8 +42,8 @@ public class ESP extends Module {
             final Timer timer = mc.getTimer();
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-            Render3DUtil.enableGlCap(GL_BLEND);
-            Render3DUtil.disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
+            RenderUtil.enableGlCap(GL_BLEND);
+            RenderUtil.disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
             glDepthMask(false);
 
             final double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * timer.renderPartialTicks
@@ -64,7 +64,7 @@ public class ESP extends Module {
             );
 
             glLineWidth(lineWidth.getValue());
-            Render3DUtil.enableGlCap(GL_LINE_SMOOTH);
+            RenderUtil.enableGlCap(GL_LINE_SMOOTH);
             if (entity.hurtResistantTime > 1) {
                 glColor(255, 10, 10, 95);
             } else {
@@ -72,12 +72,12 @@ public class ESP extends Module {
             }
             glPushMatrix();
             if (rotateYaw.getValue()) glRotated(entity.rotationYaw, 0, 1, 0);
-            Render3DUtil.drawSelectionBoundingBox(axisAlignedBB);
+            RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
             glPopMatrix();
 
             GlStateManager.resetColor();
             glDepthMask(true);
-            Render3DUtil.resetCaps();
+            RenderUtil.resetCaps();
         }
 
     }
