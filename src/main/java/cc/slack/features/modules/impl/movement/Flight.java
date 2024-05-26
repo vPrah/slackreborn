@@ -18,6 +18,7 @@ import cc.slack.features.modules.impl.movement.flights.impl.others.CollideFlight
 import cc.slack.features.modules.impl.movement.flights.impl.vanilla.VanillaFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusPortFlight;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
 
@@ -37,6 +38,7 @@ public class Flight extends Module {
             // Verus
             new VerusJumpFlight(),
             new VerusFlight(),
+            new VerusPortFlight(),
 
             // Others
             new ChunkFlight(),

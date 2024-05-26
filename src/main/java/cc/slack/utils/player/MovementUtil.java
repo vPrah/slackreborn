@@ -69,6 +69,10 @@ public class MovementUtil extends mc {
         return getPlayer() != null && (getPlayer().moveForward != 0 || getPlayer().moveStrafing != 0);
     }
 
+    public static boolean isOnGround(double height) {
+        return !mc.getWorld().getCollidingBoundingBoxes(mc.getPlayer(), mc.getPlayer().getEntityBoundingBox().offset(0.0D, -height, 0.0D)).isEmpty();
+    }
+
     public static boolean isBindsMoving() {
         return getPlayer() != null && (
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindForward) ||
