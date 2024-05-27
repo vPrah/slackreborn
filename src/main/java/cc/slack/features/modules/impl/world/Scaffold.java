@@ -177,6 +177,10 @@ public class Scaffold extends Module {
                 mc.getPlayer().setSprinting(!mc.getPlayer().onGround);
                 mc.getPlayer().motionX *= 0.99;
                 mc.getPlayer().motionZ *= 0.99;
+                if (mc.getPlayer().onGround) {
+                    mc.getPlayer().jump();
+                }
+                break;
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
@@ -223,7 +227,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 6) {
+                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 5) {
                     placeY = mc.getPlayer().posY;
                 } else {
                     placeY = groundY;
@@ -243,6 +247,7 @@ public class Scaffold extends Module {
         isTowering = false;
         if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving()) && mc.getCurrentScreen() == null) {
             isTowering = true;
+            groundY = mc.getPlayer().posY;
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":
                     mc.getPlayer().motionY = 0.42;
@@ -293,6 +298,7 @@ public class Scaffold extends Module {
                 case "off":
                     if (mc.getPlayer().onGround) {
                         mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
+                        isTowering = false;
                     }
                     break;
             }
