@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.render;
+package cc.slack.features.modules.impl.player;
 
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
@@ -13,7 +13,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
         name = "FreeCam",
-        category = Category.RENDER
+        category = Category.PLAYER
 )
 public class FreeCam extends Module {
 
