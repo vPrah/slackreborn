@@ -97,7 +97,7 @@ public class BlockUtils extends mc {
     }
 
     public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos) {
-        getHorizontalFacingEnum(blockPos, mc.getPlayer().posX, mc.getPlayer().posZ);
+        return getHorizontalFacingEnum(blockPos, mc.getPlayer().posX, mc.getPlayer().posZ);
     }
 
     public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos, double x, double z) {
