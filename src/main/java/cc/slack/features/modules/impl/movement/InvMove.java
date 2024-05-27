@@ -28,7 +28,7 @@ public class InvMove extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        MovementUtil.updateBinds();
+        MovementUtil.updateBinds(false);
     }
 
     @Listen

@@ -162,6 +162,11 @@ public class MovementUtil extends mc {
     }
 
     public static void updateBinds() {
+        updateBinds(true);
+    }
+
+    public static void updateBinds(boolean checkGui) {
+        if (checkGui && mc.getCurrentScreen() != null) return;
         mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
         mc.getGameSettings().keyBindSprint.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSprint);
         mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);

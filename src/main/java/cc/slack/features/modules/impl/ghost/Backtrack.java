@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.Packet;
@@ -116,7 +117,7 @@ public class Backtrack extends Module {
             try {
                 packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
             } catch ( Exception e) {
-
+                PrintUtil.message("Failed to process packet: " + packet.toString());
             }
         }
         packetCache.remove(0);
