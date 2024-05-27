@@ -1,6 +1,8 @@
 package cc.slack.utils.render;
 
 import cc.slack.utils.client.mc;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
@@ -113,6 +115,37 @@ public final class RenderUtil extends mc {
         GL11.glDisable(2848);
         GL11.glEnable(2929);
         GL11.glEnable(3553);
+        GL11.glPopMatrix();
+    }
+
+    public static void drawBlock(final BlockPos pos, Color c) {
+        final Block block = mc.getWorld().getBlockState(pos).getBlock();
+        final RenderManager renderManager = mc.getRenderManager();
+        mc.getRenderManager();
+        final double x = pos.getX() - renderManager.getRenderPosX();
+        mc.getRenderManager();
+        final double y = pos.getY() - renderManager.getRenderPosY();
+        mc.getRenderManager();
+        final double z = pos.getZ() - renderManager.getRenderPosZ();
+        GL11.glPushMatrix();
+        GL11.glEnable(3042);
+        GL11.glBlendFunc(770, 771);
+        GL11.glDisable(3553);
+        GL11.glEnable(2848);
+        GL11.glDisable(2929);
+        GL11.glDepthMask(false);
+        glColor(new Color(c.getRed(), c.getGreen(), c.getBlue(), c.getAlpha()).getRGB());
+        final double minX = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinX();
+        final double minY = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinY();
+        final double minZ = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinZ();
+        drawSelectionBoundingBox(new AxisAlignedBB(x + minX, y + minY, z + minZ, x + block.getBlockBoundsMaxX(), y + block.getBlockBoundsMaxY(), z + block.getBlockBoundsMaxZ()));
+        glColor(new Color(0, 0, 0).getRGB());
+        GL11.glLineWidth(0.5f);
+        GL11.glDisable(2848);
+        GL11.glEnable(3553);
+        GL11.glEnable(2929);
+        GL11.glDepthMask(true);
+        GL11.glDisable(3042);
         GL11.glPopMatrix();
     }
 

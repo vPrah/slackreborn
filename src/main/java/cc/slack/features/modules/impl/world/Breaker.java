@@ -25,6 +25,8 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
+import java.awt.*;
+
 @ModuleInfo(
         name = "Breaker",
         category = Category.WORLD
@@ -110,9 +112,9 @@ public class Breaker extends Module {
     public void onRender(RenderEvent event) {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
         if (currentBlock == null) return;
-        BlockPos bp = currentBlock;
+        RenderUtil.drawBlock(currentBlock, new Color(255,255,255,140));
+        RenderUtil.drawBlock(targetBlock, new Color(255,25,25,180));
 
-        RenderUtil.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + breakingProgress, bp.getZ() + 1));
     }
 
     private void findTargetBlock() {

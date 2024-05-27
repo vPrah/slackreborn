@@ -158,7 +158,7 @@ public class MovementUtil extends mc {
     }
 
     public static void setHClip(double offset) {
-        mc.getPlayer().setPosition(mc.getPlayer().posX + -MathHelper.sin(getDirection()) * offset, mc.getPlayer().posY, mc.getPlayer().posZ + MathHelper.cos(getDirection()) * offset);
+        mc.getPlayer().setPosition(mc.getPlayer().posX + -MathHelper.sin(getBindsDirection(mc.getPlayer().rotationYaw)) * offset, mc.getPlayer().posY, mc.getPlayer().posZ + MathHelper.cos(getBindsDirection(mc.getPlayer().rotationYaw)) * offset);
     }
 
     public static void updateBinds() {

@@ -41,6 +41,7 @@ public class HUD extends Module {
 	private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
 
 	private int scaffoldTicks = 0;
+	private String displayString = " ";
 
 	private ArrayList<String> notText = new ArrayList<>();
 	private ArrayList<Long> notEnd = new ArrayList<>();
@@ -87,7 +88,12 @@ public class HUD extends Module {
 
 		if (scaffoldDraw.getValue()) {
 			if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
-				if (scaffoldTicks < 5)
+				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+					displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
+				} else {
+					displayString = "No blocks";
+				}
+				if (scaffoldTicks < 10)
 					scaffoldTicks++;
 			} else {
 				if (scaffoldTicks > 0)
@@ -97,9 +103,9 @@ public class HUD extends Module {
 			if (scaffoldTicks != 0) {
 				ScaledResolution sr = mc.getScaledResolution();
 				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-					String displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
-					drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2, (int) (sr.getScaledHeight() * 3f / 4F - 2f), (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2, (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f), 0x80000000);
-					mc.getFontRenderer().drawString(displayString, (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F, new Color(255, 255, 255).getRGB(), false);
+					int y = (int) (1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20;
+					drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2, (int) (sr.getScaledHeight() * 3f / 4F - 2f - y), (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2, (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f - y), 0x80000000);
+					mc.getFontRenderer().drawString(displayString, (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255, 255, 255).getRGB(), false);
 				}
 			}
 		}

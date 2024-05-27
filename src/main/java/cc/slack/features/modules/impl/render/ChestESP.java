@@ -11,6 +11,8 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.AxisAlignedBB;
+
+import java.awt.*;
 import java.util.ArrayList;
 
 @ModuleInfo(
@@ -28,7 +30,7 @@ public class ChestESP extends Module {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for (BlockPos bp : chestBoundingBoxes) {
-            RenderUtil.drawAABB(AxisAlignedBB.fromBounds(bp.getX(), bp.getY(), bp.getZ(), bp.getX() + 1, bp.getY() + 1, bp.getZ() + 1));
+            RenderUtil.drawBlock(bp, new Color(255,255,255,255));
         }
 
         chestBoundingBoxes.clear();
