@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.impl.world;
 
+import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
@@ -12,6 +13,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
@@ -42,16 +44,18 @@ public class Scaffold extends Module {
     private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
     private final ModeValue<String> placeTiming = new ModeValue<>("Placement Timing", new String[] {"Legit", "Pre", "Post"});
 
-    private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Off"});
+    private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Hypixel Jump", "Off"});
+    private final ModeValue<String> sameY = new ModeValue<>("Same Y", new String[] {"Off", "Only Speed", "Always", "Hypixel Jump"});
     private final NumberValue<Double> speedModifier = new NumberValue<>("Speed Modifier", 1.0, 0.0, 2.0, 0.01);
 
     private final ModeValue<String> safewalkMode = new ModeValue<>("Safewalk", new String[] {"Ground", "Always", "Sneak", "Off"});
 
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
 
-    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Static", "Off"});
+    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Static", "Off"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
 
+    private final ModeValue<String> pickMode = new ModeValue<>("Block Pick Mode", new String[] {"Biggest Stack", "First Stack"});
     private final BooleanValue spoofSlot = new BooleanValue("Spoof Item Slot", false);
 
 
@@ -72,7 +76,11 @@ public class Scaffold extends Module {
     down scaffold (med) (play with samey ylevel and enum facing)
 
      */
-    float yaw;
+
+    double groundY;
+    double placeY;
+
+    boolean isTowering = false;
 
     boolean hasBlock = false;
     float[] blockRotation = new float[] {0f, 0f};
@@ -83,7 +91,7 @@ public class Scaffold extends Module {
 
     public Scaffold() {
         super();
-        addSettings(rotationMode, keepRotationTicks, raycastMode, placeTiming, sprintMode, speedModifier, safewalkMode, strafeFix, towerMode, towerNoMove, spoofSlot);
+        addSettings(rotationMode, keepRotationTicks, raycastMode, placeTiming, sprintMode, sameY, speedModifier, safewalkMode, strafeFix, towerMode, towerNoMove, pickMode, spoofSlot);
     }
 
     @Override
@@ -133,6 +141,7 @@ public class Scaffold extends Module {
         setSprint();
         setMovementCorrection();
         runTowerMove();
+        updateSameY();
         updatePlayerRotations();
         startSearch();
         if (placeTiming.getValue() == "Legit") placeBlock();
@@ -140,11 +149,12 @@ public class Scaffold extends Module {
 
 
     private boolean pickBlock() {
-        if (InventoryUtil.pickHotarBlock(true) != -1) {
+        int slot = InventoryUtil.pickHotarBlock(pickMode.getValue().equals("Biggest Stack"));
+        if (slot != -1) {
             if (spoofSlot.getValue()) {
-                ItemSpoofUtil.startSpoofing(InventoryUtil.pickHotarBlock(true));
+                ItemSpoofUtil.startSpoofing(slot);
             } else {
-                mc.getPlayer().inventory.currentItem = InventoryUtil.pickHotarBlock(true);
+                mc.getPlayer().inventory.currentItem = slot;
             }
             return true;
         }
@@ -163,6 +173,10 @@ public class Scaffold extends Module {
                 mc.getPlayer().motionX *= 0.95;
                 mc.getPlayer().motionZ *= 0.95;
                 break;
+            case "hypixel jump":
+                mc.getPlayer().setSprinting(!mc.getPlayer().onGround);
+                mc.getPlayer().motionX *= 0.99;
+                mc.getPlayer().motionZ *= 0.99;
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
@@ -187,7 +201,7 @@ public class Scaffold extends Module {
                 break;
         }
 
-        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
         if (!BlockUtils.isReplaceable(below)) {
             if (keepRotationTicks.getValue() == 0) {
                 RotationUtil.disable();
@@ -195,8 +209,40 @@ public class Scaffold extends Module {
         }
     }
 
+    private void updateSameY() {
+        if (mc.getPlayer().onGround) groundY = mc.getPlayer().posY;
+        switch (sameY.getValue().toLowerCase()) {
+            case "off":
+                placeY = mc.getPlayer().posY;
+                break;
+            case "only speed":
+                if (!Slack.getInstance().getModuleManager().getInstance(Speed.class).isToggle()) {
+                    placeY = mc.getPlayer().posY;
+                } else {
+                    placeY = groundY;
+                }
+                break;
+            case "hypixel jump":
+                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 6) {
+                    placeY = mc.getPlayer().posY;
+                } else {
+                    placeY = groundY;
+                }
+                break;
+            case "always":
+                placeY = groundY;
+                break;
+
+        }
+        if (isTowering) {
+            placeY = mc.getPlayer().posY;
+        }
+    }
+
     private void runTowerMove() {
+        isTowering = false;
         if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving()) && mc.getCurrentScreen() == null) {
+            isTowering = true;
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":
                     mc.getPlayer().motionY = 0.42;
@@ -254,7 +300,7 @@ public class Scaffold extends Module {
     }
 
     private void startSearch() {
-        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
         if(!BlockUtils.isReplaceable(below)) return;
 
         List<BlockPos> searchQueue = new ArrayList<>();
@@ -291,7 +337,7 @@ public class Scaffold extends Module {
     private boolean searchBlock(BlockPos block) {
         if (BlockUtils.isFullBlock(block)) {
             EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block);
-            if (block.getY() <= mc.getPlayer().posY - 2) {
+            if (block.getY() <= placeY - 2) {
                 placeFace = EnumFacing.UP;
             }
             blockPlacement = block.add(placeFace.getDirectionVec());
@@ -340,7 +386,7 @@ public class Scaffold extends Module {
         }
         if (!canContinue) return;
 
-        BlockPos below = new BlockPos(mc.getPlayer().posX, mc.getPlayer().posY - 1, mc.getPlayer().posZ);
+        BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
         if(!BlockUtils.isReplaceable(below)) return;
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
