@@ -19,10 +19,7 @@ import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.EnumFacing;
-import net.minecraft.util.MovingObjectPosition;
-import net.minecraft.util.Vec3;
+import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -43,9 +40,10 @@ public class Scaffold extends Module {
 
     private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
     private final ModeValue<String> placeTiming = new ModeValue<>("Placement Timing", new String[] {"Legit", "Pre", "Post"});
+    private final NumberValue<Double> expandAmount = new NumberValue<>("Expand Amount", 0.0, 0.0, 6.0, 0.1);
 
     private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Hypixel Jump", "Off"});
-    private final ModeValue<String> sameY = new ModeValue<>("Same Y", new String[] {"Off", "Only Speed", "Always", "Hypixel Jump"});
+    private final ModeValue<String> sameY = new ModeValue<>("Same Y", new String[] {"Off", "Only Speed", "Always", "Hypixel Jump", "Auto Jump"});
     private final NumberValue<Double> speedModifier = new NumberValue<>("Speed Modifier", 1.0, 0.0, 2.0, 0.01);
 
     private final ModeValue<String> safewalkMode = new ModeValue<>("Safewalk", new String[] {"Ground", "Always", "Sneak", "Off"});
@@ -78,7 +76,9 @@ public class Scaffold extends Module {
      */
 
     double groundY;
+    double placeX;
     double placeY;
+    double placeZ;
 
     boolean isTowering = false;
 
@@ -91,7 +91,12 @@ public class Scaffold extends Module {
 
     public Scaffold() {
         super();
-        addSettings(rotationMode, keepRotationTicks, raycastMode, placeTiming, sprintMode, sameY, speedModifier, safewalkMode, strafeFix, towerMode, towerNoMove, pickMode, spoofSlot);
+        addSettings(rotationMode, keepRotationTicks, // rotations
+                raycastMode, placeTiming, expandAmount, // placements
+                sprintMode, sameY, speedModifier, safewalkMode, strafeFix, // movements
+                towerMode, towerNoMove, // tower
+                pickMode, spoofSlot // slots
+        );
     }
 
     @Override
@@ -102,6 +107,7 @@ public class Scaffold extends Module {
     @Override
     public void onDisable() {
         ItemSpoofUtil.stopSpoofing();
+        RotationUtil.disable();
     }
 
     @Listen
@@ -142,8 +148,8 @@ public class Scaffold extends Module {
         setMovementCorrection();
         runTowerMove();
         updateSameY();
+        runFindBlock();
         updatePlayerRotations();
-        startSearch();
         if (placeTiming.getValue() == "Legit") placeBlock();
     }
 
@@ -233,6 +239,10 @@ public class Scaffold extends Module {
                     placeY = groundY;
                 }
                 break;
+            case "auto jump":
+                if (mc.getPlayer().onGround) mc.getPlayer().jump();
+                placeY = groundY;
+                break;
             case "always":
                 placeY = groundY;
                 break;
@@ -240,6 +250,7 @@ public class Scaffold extends Module {
         }
         if (isTowering) {
             placeY = mc.getPlayer().posY;
+            groundY = mc.getPlayer().posY;
         }
     }
 
@@ -247,7 +258,6 @@ public class Scaffold extends Module {
         isTowering = false;
         if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving()) && mc.getCurrentScreen() == null) {
             isTowering = true;
-            groundY = mc.getPlayer().posY;
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":
                     mc.getPlayer().motionY = 0.42;
@@ -305,9 +315,21 @@ public class Scaffold extends Module {
         }
     }
 
-    private void startSearch() {
-        BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
-        if(!BlockUtils.isReplaceable(below)) return;
+    private void runFindBlock() {
+        for (double x = 0.0; x <= expandAmount.getValue(); x += 0.1) {
+            placeX = mc.getPlayer().posX - MathHelper.sin(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x;
+            placeZ = mc.getPlayer().posZ + MathHelper.cos(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x;
+            if (startSearch()) return;
+
+        }
+    }
+
+    private boolean startSearch() {
+        BlockPos below = new BlockPos(
+                placeX,
+                placeY - 1,
+                placeZ);
+        if(!BlockUtils.isReplaceable(below)) return false;
 
         List<BlockPos> searchQueue = new ArrayList<>();
 
@@ -327,7 +349,7 @@ public class Scaffold extends Module {
         {
             if (searchBlock(searchQueue.get(i))) {
                 hasBlock = true;
-                return;
+                return true;
             }
         }
 
@@ -335,14 +357,15 @@ public class Scaffold extends Module {
         {
             if (searchBlock(searchQueue.get(i).down())) {
                 hasBlock = true;
-                return;
+                return true;
             }
         }
+        return false;
     }
 
     private boolean searchBlock(BlockPos block) {
         if (BlockUtils.isFullBlock(block)) {
-            EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block);
+            EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block, placeX, placeZ);
             if (block.getY() <= placeY - 2) {
                 placeFace = EnumFacing.UP;
             }

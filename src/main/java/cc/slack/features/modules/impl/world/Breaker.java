@@ -100,9 +100,6 @@ public class Breaker extends Module {
                         currentBlock = null;
                         targetBlock = null;
                     }
-                    if (currentBlock == null) {
-                        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
-                    }
                 }
             }
         }
