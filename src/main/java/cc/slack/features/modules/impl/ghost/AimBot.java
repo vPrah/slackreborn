@@ -2,8 +2,7 @@
 
 package cc.slack.features.modules.impl.ghost;
 
-import cc.slack.events.impl.player.UpdateEvent;
-import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
@@ -13,7 +12,6 @@ import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
 
 @ModuleInfo(
@@ -41,7 +39,7 @@ public class AimBot extends Module {
 
     @SuppressWarnings("unused")
     @Listen
-    public void onUpdate (UpdateEvent event) {
+    public void onStrafe (StrafeEvent event) {
 
        target = AttackUtil.getTarget(aimRange.getValue(), "fov");
        if (target == null) {

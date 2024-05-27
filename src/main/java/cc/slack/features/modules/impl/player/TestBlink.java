@@ -7,9 +7,12 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.BlinkUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.entity.EntityPlayerSP;
+import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.client.settings.GameSettings;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -23,8 +26,9 @@ import java.util.List;
 public class TestBlink extends Module {
 
 
-    List<GameSettings> inputReplay = new ArrayList<>();
+    List<PlayerControllerMP> inputReplay = new ArrayList<>();
     private Minecraft startingMC = mc.getMinecraft();
+    private EntityPlayerSP startingPlayer = mc.getPlayer();
     private int ticks = 0;
 
     @Override
@@ -38,7 +42,7 @@ public class TestBlink extends Module {
     @Listen
     @SuppressWarnings("unused")
     public void onUpdate(UpdateEvent event) {
-        inputReplay.add(mc.getGameSettings());
+        inputReplay.add(mc.getPlayerController());
         ticks++;
     }
 
@@ -47,12 +51,13 @@ public class TestBlink extends Module {
         BlinkUtil.clearPackets(false, true);
         BlinkUtil.setConfig(true, false);
         Minecraft.setMinecraft(startingMC);
+        Minecraft.getMinecraft().thePlayer = startingPlayer;
         for (int i = 1; i <= ticks; i++) {
             try {
-                //mc.getMinecraft().gameSettings = inputReplay.get(i);
+                mc.getMinecraft().playerController = inputReplay.get(i);
                 mc.getMinecraft().runTick();
             } catch (IOException ignored) {
-                // womp womp
+                PrintUtil.message("Run Tick Failed");
             }
         }
         BlinkUtil.disable(true);
