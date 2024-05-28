@@ -20,7 +20,7 @@ public class VerusPortFlight implements IFlight {
 
     @Override
     public void onMotion(MotionEvent event) {
-        if(mc.getPlayer().motionY > 0.2) {
+        if (mc.getPlayer().motionY > 0.2) {
             mc.getPlayer().motionY = -0.0784000015258789;
         }
 
@@ -30,10 +30,14 @@ public class VerusPortFlight implements IFlight {
             double motionBoost = MovementUtil.isOnGround(0.15) && !mc.getPlayer().onGround ? 0.045 : 0;
 
             double boost = 0;
+
             if (mc.getPlayer().onGround) {
                 mc.getPlayer().jump();
                 boost += 0.125;
-            }
+        }
+
+
+
 
             if(MovementUtil.isOnGround(0.15) && boost == 0) {
                 mc.getPlayer().motionY -= 0.0075;
@@ -45,6 +49,9 @@ public class VerusPortFlight implements IFlight {
                 MovementUtil.strafe((float) (0.333 + speedBoost + motionBoost + boost));
 
         } else {
+            if (mc.getPlayer().onGround) {
+                mc.getPlayer().jump();
+            }
             MovementUtil.strafe(0);
         }
     }
