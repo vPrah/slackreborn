@@ -46,7 +46,7 @@ public class HUD extends Module {
 
 	private int scaffoldTicks = 0;
 	private String displayString = " ";
-	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/menulogo.png");
+	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
 	private ArrayList<String> notText = new ArrayList<>();
 	private ArrayList<Long> notEnd = new ArrayList<>();
 	private ArrayList<Long> notStart = new ArrayList<>();
@@ -81,10 +81,11 @@ public class HUD extends Module {
 
 			case "Logo":
 				mc.getTextureManager().bindTexture(imageResource);
-
+				GlStateManager.pushMatrix();
+				GlStateManager.scale(0.2F, 0.35F, 0.2F);
 				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-					Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, 40, 40, 40, 40);
-
+				Gui.drawModalRectWithCustomSizedTexture(45, 25, 0, 0, 100, 100, 100, 100);
+				GlStateManager.popMatrix();
 				break;
 		}
 		if (fpsdraw.getValue()) {
