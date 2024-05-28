@@ -28,10 +28,13 @@ import net.minecraft.util.EnumFacing;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Vanilla", "Vulcan", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
+
+    public float fMultiplier = 0F;
+    public float sMultiplier = 0F;
 
     public final BooleanValue onEat = new BooleanValue("Eating NoSlow", true);
 
@@ -54,28 +57,37 @@ public class NoSlow extends Module {
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
                     break;
-                case "vulcan":
-                    break;
                 case "ncp latest":
                     break;
                 case "switch":
+                    fMultiplier = forwardMultiplier.getValue();
+                    sMultiplier = strafeMultiplier.getValue();
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
                     break;
                 case "place":
+                    fMultiplier = forwardMultiplier.getValue();
+                    sMultiplier = strafeMultiplier.getValue();
                     mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().inventory.getCurrentItem()));
                     break;
                 case "c08 tick":
+                    fMultiplier = forwardMultiplier.getValue();
+                    sMultiplier = strafeMultiplier.getValue();
                     if (mc.getPlayer().ticksExisted % 3 == 0) {
                         mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
                     }
                     break;
                 case "hypixel": {
                     if (mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword) {
+                        fMultiplier = forwardMultiplier.getValue();
+                        sMultiplier = strafeMultiplier.getValue();
                         PacketUtil.sendBlocking(true, false);
                         if (mc.getPlayer().isUsingItem() || mc.getPlayer().isBlocking() || mc.getPlayer().ticksExisted % 3 != 0)
                             break;
                         PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                    } else {
+                        fMultiplier = 0.2F;
+                        sMultiplier = 0.2F;
                     }
                 }
             }

@@ -874,8 +874,8 @@ public class EntityPlayerSP extends AbstractClientPlayer
         {
             // NoSlowEvent (I need Remake it)
             if (Slack.getInstance().getModuleManager().getInstance(NoSlow.class).isToggle()) {
-                this.movementInput.moveStrafe *= Slack.getInstance().getModuleManager().getInstance(NoSlow.class).strafeMultiplier.getValue();
-                this.movementInput.moveForward *= Slack.getInstance().getModuleManager().getInstance(NoSlow.class).forwardMultiplier.getValue();
+                this.movementInput.moveStrafe *= (Slack.getInstance().getModuleManager().getInstance(NoSlow.class).mode.getValue() == "Vanilla") ? Slack.getInstance().getModuleManager().getInstance(NoSlow.class).strafeMultiplier.getValue() : Slack.getInstance().getModuleManager().getInstance(NoSlow.class).sMultiplier;
+                this.movementInput.moveForward *= (Slack.getInstance().getModuleManager().getInstance(NoSlow.class).mode.getValue() == "Vanilla") ? Slack.getInstance().getModuleManager().getInstance(NoSlow.class).forwardMultiplier.getValue() : Slack.getInstance().getModuleManager().getInstance(NoSlow.class).fMultiplier;
                 setSprinting(true);
             } else {
                 this.movementInput.moveStrafe *= 0.2F;
