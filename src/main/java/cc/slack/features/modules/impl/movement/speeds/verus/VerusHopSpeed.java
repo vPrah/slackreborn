@@ -23,7 +23,7 @@ public class VerusHopSpeed implements ISpeed {
     public void onMove(MoveEvent event) {
         if (mc.getPlayer().onGround) {
             if (MovementUtil.isMoving()) event.setY(0.42F);
-            moveSpeed = 0.68f;
+            moveSpeed = 0.66f;
             airTicks = 0;
         } else {
             if (airTicks == 0)
