@@ -16,7 +16,9 @@ import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
+import javafx.scene.canvas.GraphicsContext;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
@@ -80,12 +82,13 @@ public class HUD extends Module {
 			break;
 
 			case "Logo":
-				mc.getTextureManager().bindTexture(imageResource);
-				GlStateManager.pushMatrix();
-				GlStateManager.scale(0.2F, 0.35F, 0.2F);
-				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-				Gui.drawModalRectWithCustomSizedTexture(45, 25, 0, 0, 100, 100, 100, 100);
-				GlStateManager.popMatrix();
+
+				GlStateManager.enableAlpha();
+				GlStateManager.enableBlend();
+				RenderUtil.drawImage(new ResourceLocation("slack/menu/hud.png"), 4, 4, 20, 33);
+				GlStateManager.disableAlpha();
+				GlStateManager.disableBlend();
+
 				break;
 		}
 		if (fpsdraw.getValue()) {

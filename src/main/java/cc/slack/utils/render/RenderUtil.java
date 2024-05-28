@@ -4,8 +4,10 @@ import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.WorldRenderer;
 import net.minecraft.client.renderer.entity.RenderItem;
@@ -19,6 +21,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
+import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
@@ -40,6 +43,14 @@ public final class RenderUtil extends mc {
     public static boolean mouseInArea(int mouseX, int mouseY, double x, double y, double width, double height) {
         return (mouseX >= x && mouseX <= (x + width)) && (mouseY >= y && mouseY <= (y + height));
     }
+
+    public static void drawImage(ResourceLocation image, int x, int y, int width, int height) {
+        OpenGlHelper.glBlendFunc(770, 771, 1, 0);
+        GL11.glColor4f(1.0f, 1.0f, 1.0f, 1.0f);
+        Minecraft.getMinecraft().getTextureManager().bindTexture(image);
+        Gui.drawModalRectWithCustomSizedTexture(x, y, 0.0f, 0.0f, width, height, width, height);
+    }
+
 
 
     public static void drawAABB(AxisAlignedBB boundingBox) {
