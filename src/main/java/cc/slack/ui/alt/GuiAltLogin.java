@@ -105,8 +105,8 @@ public final class GuiAltLogin
     public void initGui() {
         int var3 = height / 4 + 24;
         this.buttonList.add(new GuiButton(0, width / 2 - 100, var3 + 72 + 12, "Login"));
-        this.buttonList.add(new GuiButton(2, width / 2 - 100, var3 + 72 + 12 + 24, "Cookie Login"));
-        this.buttonList.add(new GuiButton(1, width / 2 - 100, var3 + 72 + 12 + 48, "Back"));
+//        this.buttonList.add(new GuiButton(2, width / 2 - 100, var3 + 72 + 12 + 24, "Cookie Login"));
+        this.buttonList.add(new GuiButton(1, width / 2 - 100, var3 + 72 + 12 + 24, "Back"));
         this.username = new GuiTextField(var3, cc.slack.utils.client.mc.getFontRenderer(), width / 2 - 100, 60, 200, 20);
         this.password = new PasswordField(cc.slack.utils.client.mc.getFontRenderer(), width / 2 - 100, 100, 200, 20);
         this.username.setFocused(true);

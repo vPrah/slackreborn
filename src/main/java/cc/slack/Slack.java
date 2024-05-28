@@ -15,6 +15,7 @@ import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.ScoreboardModule;
 import cc.slack.features.modules.impl.render.TargetHUD;
+import cc.slack.ui.altmanager.AccountManager;
 import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.EventUtil;
 import cc.slack.utils.other.PrintUtil;
@@ -52,6 +53,7 @@ public class Slack {
         moduleManager.initialize();
         cmdManager.initialize();
         configManager.init();
+        AccountManager.start();
 
 
         // Default Modules
