@@ -12,6 +12,7 @@ import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.NoSlow;
 import cc.slack.features.modules.impl.movement.Sprint;
+import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.RotationUtil;
@@ -902,7 +903,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
 
 		if (!isSprinting() && movementInput.moveForward >= f && flag3 && !isUsingItem()
 				&& !isPotionActive(Potion.blindness)
-				&& (mc.gameSettings.keyBindSprint.isKeyDown() || sprint.isToggle())) {
+				&& (mc.gameSettings.keyBindSprint.isKeyDown() || sprint.isToggle() && !Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle())) {
 			setSprinting(true);
 		}
 
