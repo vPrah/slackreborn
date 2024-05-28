@@ -23,7 +23,6 @@ public abstract class Module {
     private final String name = moduleInfo.name();
     private final String displayName = moduleInfo.displayName().isEmpty() ? moduleInfo.name() : moduleInfo.displayName();
     private final Category category = moduleInfo.category();
-    private String suffix;
     private int key = moduleInfo.key();
     private boolean toggle;
 
