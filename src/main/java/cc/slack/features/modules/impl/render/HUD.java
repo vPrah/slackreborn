@@ -18,20 +18,24 @@ import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.util.ArrayList;
 import java.util.Collections;
 
 import static java.lang.Math.round;
+import static net.minecraft.client.gui.Gui.drawModalRectWithCustomSizedTexture;
 import static net.minecraft.client.gui.Gui.drawRect;
 
 @ModuleInfo(name = "HUD", category = Category.RENDER)
 public class HUD extends Module {
 	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
 
-	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Backgrounded" });
+	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Logo", "Backgrounded", "Classic" });
 
 	public final BooleanValue notification = new BooleanValue("Notificatons", true);
 
@@ -42,7 +46,7 @@ public class HUD extends Module {
 
 	private int scaffoldTicks = 0;
 	private String displayString = " ";
-
+	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/menulogo.png");
 	private ArrayList<String> notText = new ArrayList<>();
 	private ArrayList<Long> notEnd = new ArrayList<>();
 	private ArrayList<Long> notStart = new ArrayList<>();
@@ -74,6 +78,14 @@ public class HUD extends Module {
 			Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
 			Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 			break;
+
+			case "Logo":
+				mc.getTextureManager().bindTexture(imageResource);
+
+				GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+					Gui.drawModalRectWithCustomSizedTexture(0, 0, 0, 0, 40, 40, 40, 40);
+
+				break;
 		}
 		if (fpsdraw.getValue()) {
 			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
