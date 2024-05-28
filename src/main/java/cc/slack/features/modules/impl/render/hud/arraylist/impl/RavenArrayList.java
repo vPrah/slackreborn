@@ -23,7 +23,7 @@ public class RavenArrayList implements IArraylist {
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) modules.add(module.getDisplayName());
+            if (module.isToggle()) modules.add(module.getDisplayName() + module.getMode());
         }
         modules.sort(Comparator.comparingInt(mc.getFontRenderer()::getStringWidth));
         Collections.reverse(modules);
@@ -41,7 +41,7 @@ public class RavenArrayList implements IArraylist {
             } else {
                 mc.getFontRenderer().drawStringWithShadow(module, event.getWidth() - mc.getFontRenderer().getStringWidth(module) - 3, y, 0x5499C7);
             }
-            y += mc.getFontRenderer().FONT_HEIGHT + 3;
+            y += mc.getFontRenderer().FONT_HEIGHT + 2;
         }
     }
 

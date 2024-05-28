@@ -416,7 +416,7 @@ public class Scaffold extends Module {
         if (!canContinue) return;
 
         BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
-        if(!BlockUtils.isReplaceable(below)) return;
+        //if(!BlockUtils.isReplaceable(below)) return;
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
