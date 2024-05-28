@@ -5,7 +5,6 @@ import cc.slack.ui.altmanager.auth.Account;
 import cc.slack.ui.altmanager.auth.MicrosoftAuth;
 import cc.slack.ui.altmanager.auth.SessionManager;
 import cc.slack.ui.altmanager.utils.Notification;
-import cc.slack.ui.altmanager.utils.TextFormatting;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
@@ -42,29 +41,29 @@ public class GuiMicrosoftAuth extends GuiScreen {
       }
       AtomicReference<String> refreshToken = new AtomicReference<>("");
       AtomicReference<String> accessToken = new AtomicReference<>("");
-      status = "&fCheck your browser to continue...&r";
+      status = "§fCheck your browser to continue...§r";
       task = MicrosoftAuth.acquireMSAuthCode(executor)
         .thenComposeAsync(msAuthCode -> {
-          status = "&fAcquiring Microsoft access tokens&r";
+          status = "§fAcquiring Microsoft access tokens§r";
           return MicrosoftAuth.acquireMSAccessTokens(msAuthCode, executor);
         })
         .thenComposeAsync(msAccessTokens -> {
-          status = "&fAcquiring Xbox access token&r";
+          status = "§fAcquiring Xbox access token§r";
           refreshToken.set(msAccessTokens.get("refresh_token"));
           return MicrosoftAuth.acquireXboxAccessToken(msAccessTokens.get("access_token"), executor);
         })
         .thenComposeAsync(xboxAccessToken -> {
-          status = "&fAcquiring Xbox XSTS token&r";
+          status = "§fAcquiring Xbox XSTS token§r";
           return MicrosoftAuth.acquireXboxXstsToken(xboxAccessToken, executor);
         })
         .thenComposeAsync(xboxXstsData -> {
-          status = "&fAcquiring Minecraft access token&r";
+          status = "§fAcquiring Minecraft access token§r";
           return MicrosoftAuth.acquireMCAccessToken(
             xboxXstsData.get("Token"), xboxXstsData.get("uhs"), executor
           );
         })
         .thenComposeAsync(mcToken -> {
-          status = "&fFetching your Minecraft profile&r";
+          status = "§fFetching your Minecraft profile§r";
           accessToken.set(mcToken);
           return MicrosoftAuth.login(mcToken, executor);
         })
@@ -76,13 +75,13 @@ public class GuiMicrosoftAuth extends GuiScreen {
           AccountManager.save();
           SessionManager.setSession(session);
           mc.displayGuiScreen(new GuiAccountManager(previousScreen,
-            new Notification(TextFormatting.translate(String.format(
-              "&aSuccessful login! (%s)&r", session.getUsername()
-            )), 5000L)));
+            new Notification(String.format(
+              "§aSuccessful login! (%s)§r", session.getUsername()
+            ), 5000L)));
         })
         .exceptionally(error -> {
-          status = String.format("&c%s&r", error.getMessage());
-          cause = String.format("&c%s&r", error.getCause().getMessage());
+          status = String.format("§c%s§r", error.getMessage());
+          cause = String.format("§c%s§r", error.getCause().getMessage());
           return null;
         });
     }
@@ -108,20 +107,20 @@ public class GuiMicrosoftAuth extends GuiScreen {
 
     if (status != null) {
       drawCenteredString(
-        fontRendererObj, TextFormatting.translate(status),
+        fontRendererObj, status,
         width / 2, height / 2 - fontRendererObj.FONT_HEIGHT / 2, -1
       );
     }
 
     if (cause != null) {
-      String causeText = TextFormatting.translate(cause);
+      String causeText = cause;
       Gui.drawRect(
         0, height - 2 - fontRendererObj.FONT_HEIGHT - 3,
         3 + this.fontRendererObj.getStringWidth(causeText) + 3, height,
         0x64000000
       );
       drawString(
-        fontRendererObj, TextFormatting.translate(cause),
+        fontRendererObj, cause,
         3, height - 2 - fontRendererObj.FONT_HEIGHT, -1
       );
     }
