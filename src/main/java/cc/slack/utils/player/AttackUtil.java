@@ -11,6 +11,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.MathHelper;
 
@@ -151,6 +152,7 @@ public class AttackUtil {
             if (entity instanceof EntityLivingBase) {
                 if (entity == mc.getPlayer()) continue;
                 if (entity instanceof EntityArmorStand) continue;
+                if (entity instanceof EntityVillager) continue;
                 if ((!mobs && (entity instanceof EntityMob)) || (!animals && (entity instanceof EntityAnimal)) ||  (!players && (entity instanceof EntityPlayer))) continue;
                 if (entity instanceof EntityPlayer && !team && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
                 if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
