@@ -21,6 +21,7 @@ import cc.slack.features.modules.impl.movement.speeds.verus.VerusHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.verus.VerusLowHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanLowSpeed;
+import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanFrictionSpeed;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
@@ -55,7 +56,8 @@ public class Speed extends Module {
 
             // Vulcan
             new VulcanLowSpeed(),
-            new VulcanHopSpeed()
+            new VulcanHopSpeed(),
+            new VulcanFrictionSpeed()
     });
 
     public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla Speed", 1.0F, 0.0F, 3.0F, 0.01F);
