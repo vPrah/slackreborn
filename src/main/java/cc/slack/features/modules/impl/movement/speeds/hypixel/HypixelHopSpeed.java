@@ -19,18 +19,18 @@ public class HypixelHopSpeed implements ISpeed {
             if (MovementUtil.isMoving()) {
                 if (jumpTick > 6) jumpTick = 4;
                 mc.getPlayer().jump();
-                MovementUtil.strafe(0.46f + jumpTick * 0.004f);
+                MovementUtil.strafe(0.46f + jumpTick * 0.003f);
                 if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
                     float amplifier = mc.getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
-                    MovementUtil.strafe(0.46f + jumpTick * 0.004f + 0.03f * (amplifier + 1));
+                    MovementUtil.strafe(0.46f + jumpTick * 0.003f + 0.03f * (amplifier + 1));
                 }
                 mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
             } else {
                 jumpTick = 0;
             }
         } else {
-            mc.getPlayer().motionX *= 1.001;
-            mc.getPlayer().motionZ *= 1.001;
+            mc.getPlayer().motionX *= 1.0005;
+            mc.getPlayer().motionZ *= 1.0005;
         }
 
     }
