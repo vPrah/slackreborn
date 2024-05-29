@@ -3,6 +3,7 @@
 package cc.slack.features.modules.impl.movement;
 
 import cc.slack.Slack;
+import cc.slack.events.impl.network.DisconnectEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -28,6 +29,7 @@ public class Sprint extends Module {
     public Sprint() {
         addSettings(omniSprint);
     }
+
 
     @Listen
     public void onUpdate(UpdateEvent e) {

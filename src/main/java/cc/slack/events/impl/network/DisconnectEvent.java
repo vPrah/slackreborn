@@ -4,4 +4,8 @@ import cc.slack.events.Event;
 
 public class DisconnectEvent extends Event {
 
+    public DisconnectEvent() {
+
+    }
+
 }

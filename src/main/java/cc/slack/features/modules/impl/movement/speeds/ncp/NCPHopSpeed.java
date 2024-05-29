@@ -2,7 +2,6 @@
 
 package cc.slack.features.modules.impl.movement.speeds.ncp;
 
-import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
