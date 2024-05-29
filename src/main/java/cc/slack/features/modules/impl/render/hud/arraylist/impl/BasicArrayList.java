@@ -37,14 +37,7 @@ public class BasicArrayList implements IArraylist {
         int y = 3;
 
         for (String module : modules) {
-            drawRect(
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module) - 5),
-                    y - 2,
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module)+ Fonts.apple18.getStringWidth(module) + 3),
-                    y + Fonts.apple18.getHeight() + 1,
-                    0x80000000
-            );
-            Fonts.apple18.drawStringWithShadow(module, event.getWidth() - Fonts.apple18.getStringWidth(module) - 3, y, 0x5499C7);
+            Fonts.apple18.drawStringWithShadow(module, event.getWidth() - Fonts.apple18.getStringWidth(module) - 3, y, 0xFFFFFF);
             y += Fonts.apple18.getHeight() + 3;
         }
     }
