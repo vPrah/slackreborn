@@ -24,6 +24,7 @@ import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanLowSpeed;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.item.ItemFood;
 import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
@@ -61,11 +62,12 @@ public class Speed extends Module {
     public final BooleanValue vanillaGround = new BooleanValue("Vanilla Only Ground", false);
 
 
+    public final BooleanValue nosloweat = new BooleanValue("NoSlow when Speed", false);
     public final BooleanValue jumpFix = new BooleanValue("Jump Fix", true);
 
     public Speed() {
         super();
-        addSettings(mode, vanillaspeed, vanillaGround, jumpFix);
+        addSettings(mode, vanillaspeed, vanillaGround, nosloweat, jumpFix);
     }
 
     @Override
@@ -81,22 +83,26 @@ public class Speed extends Module {
 
     @Listen
     public void onMove(MoveEvent event) {
+        if (!nosloweat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) { return; }
         mode.getValue().onMove(event);
     }
 
     @Listen
     public void onUpdate(UpdateEvent event) {
+        if (!nosloweat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) { return; }
         if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = false; }
         mode.getValue().onUpdate(event);
     }
 
     @Listen
     public void onMotion(MotionEvent event) {
+        if (!nosloweat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) { return; }
         mode.getValue().onMotion(event);
     }
 
     @Listen
     public void onPacket(PacketEvent event) {
+
         mode.getValue().onPacket(event);
     }
 
