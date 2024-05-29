@@ -23,6 +23,33 @@ public class MovementUtil extends mc {
         }
     }
 
+    public static void setMotionSpeed(double speed) {
+        float yaw = mc.getPlayer().rotationYaw;
+        double forward = mc.getPlayer().moveForward;
+        double strafe = mc.getPlayer().moveStrafing;
+        if ((forward == 0.0D) && (strafe == 0.0D)) {
+            mc.getPlayer().motionX = 0;
+            mc.getPlayer().motionZ = 0;
+        } else {
+            if (forward != 0.0D) {
+                if (strafe > 0.0D) {
+                    yaw += (forward > 0.0D ? -45 : 45);
+                } else if (strafe < 0.0D) {
+                    yaw += (forward > 0.0D ? 45 : -45);
+                }
+                strafe = 0.0D;
+                if (forward > 0.0D) {
+                    forward = 1;
+                } else if (forward < 0.0D) {
+                    forward = -1;
+                }
+            }
+
+            mc.getPlayer().motionX = forward * speed * Math.cos(Math.toRadians(yaw + 90.0F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F));
+            mc.getPlayer().motionZ = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0F));
+        }
+    }
+
     public static void strafe(){
         strafe((float) getSpeed());
     }
@@ -165,6 +192,15 @@ public class MovementUtil extends mc {
             getPlayer().motionZ = Math.cos(dir) * speed;
         }
     }
+    public static float getSpeedPotMultiplier(double multiplicator) {
+        float speedPotMultiplier = 1F;
+        if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
+            int amp = mc.getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+            speedPotMultiplier = 1.0F + (float)multiplicator * (amp + 1);
+        }
+        return speedPotMultiplier;
+    }
+    
 
     public static void setVClip(double number) {
         mc.getPlayer().setPosition(mc.getPlayer().posX, mc.getPlayer().posY + number, mc.getPlayer().posZ);

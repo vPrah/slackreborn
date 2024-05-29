@@ -15,6 +15,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.features.modules.impl.movement.speeds.hypixel.HypixelHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.ncp.NCPHopSpeed;
+import cc.slack.features.modules.impl.movement.speeds.ncp.OldNCPSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vanilla.*;
 import cc.slack.features.modules.impl.movement.speeds.verus.VerusGroundSpeed;
 import cc.slack.features.modules.impl.movement.speeds.verus.VerusHopSpeed;
@@ -53,6 +54,7 @@ public class Speed extends Module {
 
             // NCP
             new NCPHopSpeed(),
+            new OldNCPSpeed(),
 
             // Vulcan
             new VulcanLowSpeed(),
