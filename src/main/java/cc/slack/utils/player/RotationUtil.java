@@ -50,6 +50,12 @@ public class RotationUtil extends mc {
         }
     }
 
+    public static void overrideRotation(final float[] targetRotation) {
+        isEnabled = true;
+        keepRotationTicks = 1;
+        clientRotation = targetRotation;
+    }
+
     public static void setPlayerRotation(float[] targetRotation) {
         targetRotation = applyGCD(targetRotation, new float[] {mc.getPlayer().prevRotationYaw, mc.getPlayer().prevRotationPitch} );
         mc.getPlayer().rotationYaw = targetRotation[0];

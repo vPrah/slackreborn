@@ -235,7 +235,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             if (RotationUtil.keepRotationTicks <= 0) {
                 RotationUtil.isEnabled = false;
                 if (RotationUtil.strafeFix) {
-                    MovementUtil.updateBinds();
+                    MovementUtil.updateBinds(false);
                     RotationUtil.strafeFix = false;
                 }
             } else {

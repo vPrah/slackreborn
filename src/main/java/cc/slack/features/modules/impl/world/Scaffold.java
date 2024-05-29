@@ -89,6 +89,8 @@ public class Scaffold extends Module {
     EnumFacing blockPlacementFace = EnumFacing.DOWN;
     double jumpGround = 0.0;
 
+    boolean firstJump = false;
+
     public Scaffold() {
         super();
         addSettings(rotationMode, keepRotationTicks, // rotations
@@ -101,7 +103,7 @@ public class Scaffold extends Module {
 
     @Override
     public void onEnable() {
-
+        firstJump = false;
     }
 
     @Override
@@ -176,8 +178,10 @@ public class Scaffold extends Module {
                 break;
             case "hypixel safe":
                 mc.getPlayer().setSprinting(false);
-                mc.getPlayer().motionX *= 0.95;
-                mc.getPlayer().motionZ *= 0.95;
+                if (mc.getPlayer().onGround) {
+                    mc.getPlayer().motionX *= 0.95;
+                    mc.getPlayer().motionZ *= 0.95;
+                }
                 break;
             case "hypixel jump":
                 mc.getPlayer().setSprinting(!mc.getPlayer().onGround);
@@ -185,6 +189,11 @@ public class Scaffold extends Module {
                 mc.getPlayer().motionZ *= 0.99;
                 if (mc.getPlayer().onGround) {
                     mc.getPlayer().jump();
+                    if (!firstJump) {
+                        MovementUtil.strafe(0.47f);
+                    } else {
+                        MovementUtil.resetMotion(false);
+                    }
                 }
                 break;
             case "off":

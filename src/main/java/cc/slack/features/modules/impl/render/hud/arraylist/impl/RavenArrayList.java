@@ -23,7 +23,7 @@ public class RavenArrayList implements IArraylist {
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) modules.add(module.getDisplayName() + module.getMode());
+            if (module.isToggle()) modules.add(module.getDisplayName() + " " + module.getMode());
         }
         modules.sort(Comparator.comparingInt(mc.getFontRenderer()::getStringWidth));
         Collections.reverse(modules);
@@ -34,13 +34,7 @@ public class RavenArrayList implements IArraylist {
         int y = 3;
 
         for (String module : modules) {
-            String mode = Slack.getInstance().getModuleManager().getModuleByName(module).getMode();
-            if (mode != "") {
-                mc.getFontRenderer().drawStringWithShadow(mode, event.getWidth() - mc.getFontRenderer().getStringWidth(mode) - 3, y, 0xffffff);
-                mc.getFontRenderer().drawStringWithShadow(module, event.getWidth() - mc.getFontRenderer().getStringWidth(module) - 3 - mc.getFontRenderer().getStringWidth(mode) - 3, y, 0x5499C7);
-            } else {
-                mc.getFontRenderer().drawStringWithShadow(module, event.getWidth() - mc.getFontRenderer().getStringWidth(module) - 3, y, 0x5499C7);
-            }
+            mc.getFontRenderer().drawStringWithShadow(module, event.getWidth() - mc.getFontRenderer().getStringWidth(module) - 3, y, 0x5499C7);
             y += mc.getFontRenderer().FONT_HEIGHT + 2;
         }
     }

@@ -56,9 +56,10 @@ public class NoSlow extends Module {
         if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
+                    fMultiplier = forwardMultiplier.getValue();
+                    sMultiplier = strafeMultiplier.getValue();
                     break;
                 case "ncp latest":
-                    break;
                 case "switch":
                     fMultiplier = forwardMultiplier.getValue();
                     sMultiplier = strafeMultiplier.getValue();

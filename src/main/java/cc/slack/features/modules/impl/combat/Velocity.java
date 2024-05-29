@@ -63,6 +63,7 @@ public class Velocity extends Module {
                             packet.setMotionX(packet.getMotionX() * (horizontal.getValue() / 100));
                             packet.setMotionY(packet.getMotionY() * (vertical.getValue() / 100));
                             packet.setMotionZ(packet.getMotionZ() * (horizontal.getValue() / 100));
+                            event.setPacket(packet);
                         }
                         break;
                     case "cancel":
@@ -105,7 +106,7 @@ public class Velocity extends Module {
                 }
                 break;
             case "hypixel damage strafe":
-                if (mc.getPlayer().hurtTime == 8) {
+                if (mc.getPlayer().hurtTime == 9) {
                     MovementUtil.strafe((float) MovementUtil.getSpeed() * 0.75f);
                 }
                 break;

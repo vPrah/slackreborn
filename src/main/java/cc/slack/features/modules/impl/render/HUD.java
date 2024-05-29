@@ -116,8 +116,13 @@ public class HUD extends Module {
 			if (scaffoldTicks != 0) {
 				ScaledResolution sr = mc.getScaledResolution();
 				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-					int y = (int) (1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20;
-					drawRect((int) ((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 2, (int) (sr.getScaledHeight() * 3f / 4F - 2f - y), (int) ((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 2, (int) (sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f - y), 0x80000000);
+					int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
+					RenderUtil.drawRoundedRect(
+							((sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f) - 4,
+							sr.getScaledHeight() * 3f / 4F - 4f - y,
+							((sr.getScaledWidth() + mc.getFontRenderer().getStringWidth(displayString)) / 2f) + 4,
+							sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 4f - y,
+							2, 0x80000000);
 					mc.getFontRenderer().drawString(displayString, (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255, 255, 255).getRGB(), false);
 				}
 			}
@@ -165,24 +170,26 @@ public class HUD extends Module {
 	}
 
 	private void renderNotification(int x, int y, String bigText, String smallText, Slack.NotificationStyle style) {
-		int color = new Color(50, 50, 50).getRGB();
+		int color = new Color(50, 50, 50, 120).getRGB();
 		switch (style) {
 		case GRAY:
 			break;
 		case SUCCESS:
-			color = new Color(23, 138, 29).getRGB();
+			color = new Color(23, 138, 29, 120).getRGB();
 			break;
 		case FAIL:
-			color = new Color(148, 36, 24).getRGB();
+			color = new Color(148, 36, 24, 120).getRGB();
 			break;
 		case WARN:
-			color = new Color(156, 128, 37).getRGB();
+			color = new Color(156, 128, 37, 120).getRGB();
 			break;
 		}
-		drawRect(x - 6 - mc.getFontRenderer().getStringWidth(bigText), y - 6 - mc.getFontRenderer().FONT_HEIGHT, x, y,
-				color);
-		mc.getFontRenderer().drawString(bigText, x - 3 - mc.getFontRenderer().getStringWidth(bigText),
-				y - 3 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB());
+		RenderUtil.drawRoundedRect(
+				x - 10 - mc.getFontRenderer().getStringWidth(bigText),
+				y - 10 - mc.getFontRenderer().FONT_HEIGHT, x, y,
+				2 ,color);
+		mc.getFontRenderer().drawString(bigText, x - 5 - mc.getFontRenderer().getStringWidth(bigText),
+				y - 5 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB(), false);
 	}
 
 	private double getXpos(Long startTime, Long endTime) {

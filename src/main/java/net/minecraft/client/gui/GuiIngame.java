@@ -299,8 +299,7 @@ public class GuiIngame extends Gui
                 GlStateManager.pushMatrix();
                 int j2 = i2 << 24 & -16777216;
                 if (customTitle) {
-                    GlStateManager.scale(3.0F, 3.0F, 3.0F);
-                    Fonts.apple18.drawStringWithShadow(this.titleText, -Fonts.apple18.getStringWidth(this.titleText)/2f, -10, 16777215 | j2);
+                    Fonts.apple45.drawStringWithShadow(this.titleText, -Fonts.apple45.getStringWidth(this.titleText)/2f, -10, 16777215 | j2);
                 } else {
                     GlStateManager.scale(4.0F, 4.0F, 4.0F);
                     this.getFontRenderer().drawString(this.titleText, (float) (-this.getFontRenderer().getStringWidth(this.titleText) / 2), -10.0F, 16777215 | j2, true);
@@ -308,8 +307,7 @@ public class GuiIngame extends Gui
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
                 if (customTitle) {
-                    GlStateManager.scale(1.5F, 1.5F, 1.5F);
-                    Fonts.apple18.drawStringWithShadow(this.subtitleText, -Fonts.apple18.getStringWidth(this.subtitleText)/2f, 5, 16777215 | j2);
+                    Fonts.apple24.drawStringWithShadow(this.subtitleText, -Fonts.apple24.getStringWidth(this.subtitleText)/2f, 5, 16777215 | j2);
                 } else {
                     GlStateManager.scale(2.0F, 2.0F, 2.0F);
                     this.getFontRenderer().drawString(this.subtitleText, (float) (-this.getFontRenderer().getStringWidth(this.subtitleText) / 2), 5.0F, 16777215 | j2, true);

@@ -19,6 +19,7 @@ import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.AxisAlignedBB;
@@ -68,6 +69,7 @@ public class Breaker extends Module {
                     findBreakBlock();
                     breakingProgress = 0f;
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
+                    RotationUtil.overrideRotation(BlockUtils.getCenterRotation(currentBlock));
                 }
             }
 
@@ -107,6 +109,14 @@ public class Breaker extends Module {
 
     @Listen
     public void onRender(RenderEvent event) {
+        if (event.getState() == RenderEvent.State.RENDER_2D && currentBlock != null) {
+            ScaledResolution sr = mc.getScaledResolution();
+            String displayString = (int) (breakingProgress * 100) + "%";
+            mc.getFontRenderer().drawString(displayString, (sr.getScaledWidth() - mc.getFontRenderer().getStringWidth(displayString)) / 2f, sr.getScaledHeight() / 2f + 20, new Color(255, 255, 255).getRGB(), true);
+
+        }
+
+
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
         if (currentBlock == null) return;
         RenderUtil.drawBlock(currentBlock, new Color(255,255,255,140));

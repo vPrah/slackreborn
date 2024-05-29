@@ -350,7 +350,7 @@ public abstract class EntityLivingBase extends Entity
         {
             --this.hurtTime;
         }
-        --this.ticksSinceLastDamage;
+        ++this.ticksSinceLastDamage;
 
         if (this.hurtResistantTime > 0 && !(this instanceof EntityPlayerMP))
         {
