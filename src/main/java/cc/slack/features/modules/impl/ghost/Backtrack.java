@@ -37,6 +37,7 @@ public class Backtrack extends Module {
     private int ticksSinceAttack = 0;
     private int backtrackTicks = 0;
     private boolean enabled = false;
+    private boolean releasing = false;
     public EntityPlayer player;
 
     List<List<Packet>> packetCache = new ArrayList<>();
@@ -68,6 +69,7 @@ public class Backtrack extends Module {
             if (ticksSinceAttack < maxDelay.getValue()) {
                 ticksSinceAttack ++;
             } else {
+                PrintUtil.message("release");
                 releaseFirst();
             }
         }
@@ -105,7 +107,7 @@ public class Backtrack extends Module {
                     packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                     packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
                     packet instanceof S3BPacketScoreboardObjective) && mc.getPlayer().ticksExisted > 4) {
-                if (enabled) {
+                if (enabled && !releasing) {
                     currentTick.add(packet);
                     event.cancel();
                 }
@@ -115,6 +117,7 @@ public class Backtrack extends Module {
 
     private void releaseFirst() {
         if (packetCache.isEmpty()) return;
+        releasing = true;
         for (Packet packet : packetCache.get(0)) {
             try {
                 packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
@@ -122,6 +125,7 @@ public class Backtrack extends Module {
                 PrintUtil.message("Failed to process packet: " + packet.toString());
             }
         }
+        releasing = false;
         packetCache.remove(0);
     }
 }
