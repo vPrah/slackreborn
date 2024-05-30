@@ -96,6 +96,7 @@ public class ModuleManager {
                     new ChinaHat(),
                     new Chams(),
                     new ChestESP(),
+                    new FakePlayer(),
                     new ItemPhysics(),
                     new NameProtect(),
                     new Bobbing(),
