@@ -15,12 +15,13 @@ import net.minecraft.util.ResourceLocation;
 )
 public class Cape extends Module {
 
-    private final ModeValue<String> capes = new ModeValue<>("Cape", new String[]{"Slack", "Rise6"});
+    private final ModeValue<String> capes = new ModeValue<>("Cape", new String[]{"Slack", "Rise6", "Dortware"});
 
     public Cape() {
         addSettings(capes);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         switch (capes.getValue()) {
@@ -29,6 +30,9 @@ public class Cape extends Module {
             break;
             case "Rise6":
                 mc.getPlayer().setLocationOfCape(new ResourceLocation("slack/capes/rise6.png"));
+            break;
+            case "Dortware":
+                mc.getPlayer().setLocationOfCape(new ResourceLocation("slack/capes/dortware.png"));
             break;
         }
     }
