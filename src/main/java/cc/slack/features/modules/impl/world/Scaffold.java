@@ -35,7 +35,7 @@ import static java.lang.Math.round;
 )
 public class Scaffold extends Module {
 
-    private final ModeValue<String> rotationMode = new ModeValue<>("Rotation Mode", new String[] {"Vanilla", "Hypixel"});
+    private final ModeValue<String> rotationMode = new ModeValue<>("Rotation Mode", new String[] {"Vanilla", "Hypixel", "Hypixel Ground"});
     private final NumberValue<Integer> keepRotationTicks = new NumberValue<>("Keep Rotation Length", 1, 0, 10, 1);
 
     private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
@@ -215,7 +215,14 @@ public class Scaffold extends Module {
     private void updatePlayerRotations() {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
-                RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 78f}, keepRotationTicks.getValue());
+                RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 78.5f}, keepRotationTicks.getValue());
+                break;
+            case "hypixel ground":
+                if (mc.getPlayer().onGround) {
+                    RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 78.5f}, keepRotationTicks.getValue());
+                } else {
+                    RotationUtil.setClientRotation(blockRotation, keepRotationTicks.getValue());
+                }
                 break;
             case "vanilla":
                 RotationUtil.setClientRotation(blockRotation, keepRotationTicks.getValue());
