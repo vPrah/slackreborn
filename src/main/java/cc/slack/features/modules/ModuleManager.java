@@ -100,6 +100,7 @@ public class ModuleManager {
                     new NameProtect(),
                     new Bobbing(),
                     new Tracers(),
+                    new HealthWarn(),
                     new Projectiles(),
                     new ScoreboardModule(),
                     new XRay(),
