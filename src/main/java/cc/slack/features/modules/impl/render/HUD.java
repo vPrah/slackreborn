@@ -69,8 +69,8 @@ public class HUD extends Module {
 
 		switch (watermarksmodes.getValue()) {
 		case "Classic":
-			Fonts.apple18.drawStringWithShadow("S", 4, 4, 0x5499C7);
-			Fonts.apple18.drawStringWithShadow("lack", 10, 4, -1);
+			Fonts.apple24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+			Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
 			break;
 		case "Backgrounded":
 			drawRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);

@@ -90,6 +90,7 @@ public class Scaffold extends Module {
     double jumpGround = 0.0;
 
     boolean firstJump = false;
+    boolean hasPlaced = false;
 
     public Scaffold() {
         super();
@@ -189,6 +190,7 @@ public class Scaffold extends Module {
                 mc.getPlayer().motionZ *= 0.99;
                 if (mc.getPlayer().onGround) {
                     mc.getPlayer().jump();
+                    hasPlaced = false;
                     if (!firstJump) {
                         MovementUtil.strafe(0.47f);
                     } else {
@@ -242,7 +244,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 5) {
+                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 5 && !hasPlaced) {
                     placeY = mc.getPlayer().posY;
                 } else {
                     placeY = groundY;
@@ -309,7 +311,7 @@ public class Scaffold extends Module {
                     if (mc.getPlayer().offGroundTicks == 1 && PlayerUtil.isOverAir()) {
                         mc.getPlayer().motionY -= 0.02;
                     } else if (mc.getPlayer().offGroundTicks == 4 && !PlayerUtil.isOverAir()) {
-                        mc.getPlayer().motionY -= 0.33;
+                        mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
                     } else if (mc.getPlayer().offGroundTicks == 8) {
                         mc.getPlayer().offGroundTicks = 0;
                     }
@@ -326,8 +328,8 @@ public class Scaffold extends Module {
 
     private void runFindBlock() {
         for (double x = 0.0; x <= expandAmount.getValue(); x += 0.1) {
-            placeX = mc.getPlayer().posX - MathHelper.sin(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x;
-            placeZ = mc.getPlayer().posZ + MathHelper.cos(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x;
+            placeX = mc.getPlayer().posX - (MathHelper.sin(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x);
+            placeZ = mc.getPlayer().posZ + (MathHelper.cos(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x);
             if (startSearch()) return;
 
         }
@@ -435,6 +437,8 @@ public class Scaffold extends Module {
             mc.getPlayer().motionX *= speedModifier.getValue();
             mc.getPlayer().motionZ *= speedModifier.getValue();
             hasBlock = false;
+
+
         }
     }
 }
