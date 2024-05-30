@@ -83,12 +83,15 @@ public class NoSlow extends Module {
                         fMultiplier = forwardMultiplier.getValue();
                         sMultiplier = strafeMultiplier.getValue();
                         PacketUtil.sendBlocking(true, false);
-                        if (mc.getPlayer().isUsingItem() || mc.getPlayer().isBlocking() || mc.getPlayer().ticksExisted % 3 != 0)
-                            break;
-                        PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                        if (mc.getPlayer().isUsingItem() || mc.getPlayer().isBlocking() || mc.getPlayer().ticksExisted % 3 != 0) {
+                            PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                        }
                     } else {
-                        fMultiplier = 0.2F;
-                        sMultiplier = 0.2F;
+                        if (mc.getPlayer().isUsingItem() || !mc.getPlayer().isBlocking() || mc.getPlayer().ticksExisted % 3 == 0) {
+                            PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                        }
+                        fMultiplier = forwardMultiplier.getValue();
+                        sMultiplier = strafeMultiplier.getValue();
                     }
                 }
             }
