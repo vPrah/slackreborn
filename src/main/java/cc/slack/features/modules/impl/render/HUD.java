@@ -37,7 +37,7 @@ public class HUD extends Module {
 	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Backgrounded", "Logo" });
 
 	public final BooleanValue notification = new BooleanValue("Notifications", true);
-	public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", true);
+	public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", false);
 
 
 	private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
