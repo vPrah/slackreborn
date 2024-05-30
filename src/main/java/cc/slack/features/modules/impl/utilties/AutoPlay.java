@@ -2,11 +2,13 @@
 
 package cc.slack.features.modules.impl.utilties;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S02PacketChat;
@@ -18,8 +20,8 @@ import net.minecraft.util.IChatComponent;
 )
 public class AutoPlay extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Hypixel", "Universocraft", "Librecraft"});
-    private final ModeValue<String> univalue = new ModeValue<>("Universocraft", new String[]{"Skywars", "Bedwars"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Universocraft", "Librecraft", "Hypixel"});
+    private final ModeValue<String> univalue = new ModeValue<>("Universocraft", new String[]{"Skywars", "Bedwars", "Eggwars", "Hungergames"});
 
 
     public AutoPlay() {
@@ -58,14 +60,27 @@ public class AutoPlay extends Module {
                         case "Bedwars":
                             mc.getPlayer().sendChatMessage("/bedwars random");
                             break;
+                        case "Eggwars":
+                            mc.getPlayer().sendChatMessage("/eggwars random");
+                            break;
+                        case "Hungergames":
+                            mc.getPlayer().sendChatMessage("/playagain");
+                            break;
                     }
+                    iscorrectjoin();
                 }
                 break;
             case "Librecraft":
                 if (unformattedText.contains("¡Partida finalizada!")) {
                     mc.getPlayer().sendChatMessage("/saliryentrar");
+                    iscorrectjoin();
                 }
                 break;
         }
     }
+
+    public void iscorrectjoin() {
+        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoPlay ", "You joined in the new game ", 1500L, Slack.NotificationStyle.WARN);
+    }
+
 }
