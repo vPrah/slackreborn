@@ -27,7 +27,7 @@ public class LightningDetector extends Module {
                     double d1 = (double)S2C.func_149050_e() / 32.0D;
                     double d2 = (double)S2C.func_149049_f() / 32.0D;
                     PrintUtil.message("Detected lightning strike at " + d0 + ", " + d1 + ", " + d2);
-                    Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("Lightning Detector ", "Detected lightning strike at " + d0 + ", " + d1 + ", " + d2, 4500L, Slack.NotificationStyle.WARN);
+                    Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("Lightning Detector:  Detected lightning strike at " + d0 + ", " + d1 + ", " + d2, "", 4500L, Slack.NotificationStyle.WARN);
                 }
             }
         }

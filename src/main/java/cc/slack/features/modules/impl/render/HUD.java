@@ -36,7 +36,9 @@ public class HUD extends Module {
 
 	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Backgrounded", "Logo" });
 
-	public final BooleanValue notification = new BooleanValue("Notificatons", true);
+	public final BooleanValue notification = new BooleanValue("Notifications", true);
+	public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", true);
+
 
 	private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
 	private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
@@ -53,7 +55,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistModes, watermarksmodes, notification, fpsdraw, bpsdraw, scaffoldDraw);
+		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw);
 	}
 
 	@Listen
@@ -160,8 +162,6 @@ public class HUD extends Module {
 			notDetailed.clear();
 			notStyle.clear();
 		}
-
-//        RenderUtil.drawImage(new ResourceLocation("slack/textures/logo/trans-512.png"), 12, 12, 32, 32, new Color(255, 255, 255, 150));
 	}
 
 	private String getBPS() {
@@ -184,12 +184,19 @@ public class HUD extends Module {
 			color = new Color(156, 128, 37, 120).getRGB();
 			break;
 		}
-		RenderUtil.drawRoundedRect(
-				x - 10 - mc.getFontRenderer().getStringWidth(bigText),
-				y - 10 - mc.getFontRenderer().FONT_HEIGHT, x, y,
-				2 ,color);
-		mc.getFontRenderer().drawString(bigText, x - 5 - mc.getFontRenderer().getStringWidth(bigText),
-				y - 5 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB(), false);
+		if (roundednotification.getValue()) {
+			RenderUtil.drawRoundedRect(
+					x - 10 - mc.getFontRenderer().getStringWidth(bigText),
+					y - 10 - mc.getFontRenderer().FONT_HEIGHT, x, y,
+					2, color);
+			mc.getFontRenderer().drawString(bigText, x - 5 - mc.getFontRenderer().getStringWidth(bigText),
+					y - 5 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB(), false);
+		} else {
+			drawRect(x - 6 - mc.getFontRenderer().getStringWidth(bigText), y - 6 - mc.getFontRenderer().FONT_HEIGHT, x, y,
+					color);
+			mc.getFontRenderer().drawString(bigText, x - 3 - mc.getFontRenderer().getStringWidth(bigText),
+					y - 3 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB());
+		}
 	}
 
 	private double getXpos(Long startTime, Long endTime) {

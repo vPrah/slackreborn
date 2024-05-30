@@ -80,7 +80,7 @@ public class AutoPlay extends Module {
     }
 
     public void iscorrectjoin() {
-        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoPlay ", "You joined in the new game ", 1500L, Slack.NotificationStyle.WARN);
+        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoPlay:  You joined in the new game", "", 1500L, Slack.NotificationStyle.WARN);
     }
 
 }
