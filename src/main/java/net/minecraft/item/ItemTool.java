@@ -16,6 +16,7 @@ public class ItemTool extends Item
     protected float efficiencyOnProperMaterial = 4.0F;
 
     /** Damage versus entities. */
+    private float attackDamage;
     private float damageVsEntity;
 
     /** The material this tool is made from. */
@@ -27,6 +28,7 @@ public class ItemTool extends Item
         this.effectiveBlocks = effectiveBlocks;
         this.maxStackSize = 1;
         this.setMaxDamage(material.getMaxUses());
+        this.attackDamage = attackDamage;
         this.efficiencyOnProperMaterial = material.getEfficiencyOnProperMaterial();
         this.damageVsEntity = attackDamage + material.getDamageVsEntity();
         this.setCreativeTab(CreativeTabs.tabTools);
@@ -101,6 +103,10 @@ public class ItemTool extends Item
     public boolean getIsRepairable(ItemStack toRepair, ItemStack repair)
     {
         return this.toolMaterial.getRepairItem() == repair.getItem() ? true : super.getIsRepairable(toRepair, repair);
+    }
+
+    public float getAttackDamage() {
+        return this.attackDamage;
     }
 
     public Multimap<String, AttributeModifier> getItemAttributeModifiers()

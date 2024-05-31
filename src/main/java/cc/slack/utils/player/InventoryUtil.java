@@ -171,4 +171,5 @@ public final class InventoryUtil extends mc {
         }
         return false;
     }
+
 }

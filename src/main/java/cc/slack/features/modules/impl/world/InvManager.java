@@ -6,27 +6,17 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
-import cc.slack.utils.other.MathTimerUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockFalling;
-import net.minecraft.block.BlockTNT;
-import net.minecraft.client.gui.inventory.GuiChest;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.multiplayer.PlayerControllerMP;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Items;
+import net.minecraft.inventory.Container;
 import net.minecraft.item.*;
-import net.minecraft.network.play.client.C0DPacketCloseWindow;
-import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.DamageSource;
-
-import java.util.ArrayList;
 
 @ModuleInfo(
         name = "InvManager",
@@ -34,404 +24,473 @@ import java.util.ArrayList;
 )
 public class InvManager extends Module {
 
-    private final NumberValue<Integer> managerDelayvalue = new NumberValue<>("Delay", 150, 0, 300, 25);
-    private final BooleanValue openInvvalue = new BooleanValue("Open Inventory", true);
-    private final  BooleanValue autoArmorvalue = new BooleanValue("AutoArmor", true);
-    private final BooleanValue noTrashvalue = new BooleanValue("No Trash", true);
-    private final BooleanValue noMovevalue = new BooleanValue("No Move", true);
+    private final NumberValue<Integer> delayValue = new NumberValue<>("Delay", 1, 0, 20, 1);
+    private final NumberValue<Integer> weapon_slot_value = new NumberValue<>("Sword slot", 0, 0, 8, 1);
+    private final NumberValue<Integer> stack_slot_value = new NumberValue<>("Stack slot", 1, 0, 8, 1);
+    private final NumberValue<Integer> axe_slot_value = new NumberValue<>("Axe slot", 2, 0, 8, 1);
+    private final NumberValue<Integer> pickaxe_slot_value = new NumberValue<>("Pickaxe slot", 3, 0, 8, 1);
+    private final NumberValue<Integer> shovel_slot_value = new NumberValue<>("Shovel slot", 4, 0, 8, 1);
+    private final NumberValue<Integer> gapple_slot_value = new NumberValue<>("Gapple slot", 5, 0, 8, 1);
 
-    private final int INVENTORY_ROWS = 4, INVENTORY_COLUMNS = 9, ARMOR_SLOTS = 4;
-    private final int INVENTORY_SLOTS = INVENTORY_ROWS * INVENTORY_COLUMNS + ARMOR_SLOTS;
 
-    private PlayerControllerMP playerController;
 
-    private final MathTimerUtil timer = new MathTimerUtil(0);
-    private boolean movedItem;
-    private boolean inventoryOpen;
+    // ItemStack values
+    private ItemStack helmet;
+    private ItemStack chestplate;
+    private ItemStack leggings;
+    private ItemStack boots;
+    private ItemStack weapon;
+    private ItemStack pickaxe;
+    private ItemStack axe;
+    private ItemStack shovel;
+    private ItemStack block_stack;
+    private ItemStack golden_apples;
+    private int delay;
+
 
     public InvManager() {
-        addSettings(managerDelayvalue, openInvvalue, autoArmorvalue, noTrashvalue, noMovevalue);
+        addSettings(delayValue, weapon_slot_value, stack_slot_value, axe_slot_value, pickaxe_slot_value, shovel_slot_value, gapple_slot_value);
     }
 
     @Override
     public void onEnable() {
-        timer.reset();
+        delay = 0;
     }
-
-    @Override
-    public void onDisable() {
-        closeInventory();
-    }
-
-    @Listen
+    
     @SuppressWarnings("unused")
-    public void onUpdate(UpdateEvent event) {
-        if (!timer.reached(managerDelayvalue.getValue())) {
-            closeInventory();
+    @Listen
+    public void onUpdate (UpdateEvent event) {
+        Container container = mc.getPlayer().inventoryContainer;
+        helmet = container.getSlot(5).getStack();
+        chestplate = container.getSlot(6).getStack();
+        leggings = container.getSlot(7).getStack();
+        boots = container.getSlot(8).getStack();
+        weapon = container.getSlot(weapon_slot_value.getValue() + 36).getStack();
+        axe = container.getSlot(axe_slot_value.getValue() + 36).getStack();
+        pickaxe = container.getSlot(pickaxe_slot_value.getValue() + 36).getStack();
+        shovel = container.getSlot(shovel_slot_value.getValue() + 36).getStack();
+        block_stack = container.getSlot(stack_slot_value.getValue() + 36).getStack();
+        golden_apples = container.getSlot(gapple_slot_value.getValue() + 36).getStack();
+        if (mc.getCurrentScreen() instanceof GuiInventory) {
+            if (++delay > delayValue.getValue()) {
+                for (ArmorType type : ArmorType.values()) {
+                    getBestArmor(type);
+                }
+                getBestWeapon();
+                getBestAxe();
+                getBestPickaxe();
+                getBestShovel();
+                getBlockStack();
+                getGoldenApples();
+                dropUselessItems();
+            }
+        } else {
+            delay = 0;
+        }
+
+    }
+
+    private void hotbarExchange(int hotbarNumber, int slotId) {
+        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slotId, hotbarNumber, 2, mc.getPlayer());
+        delay = 0;
+    }
+
+    private void shiftClick(int slotId) {
+        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slotId, 1, 1, mc.getPlayer());
+        delay = 0;
+    }
+
+    private void drop(int slotId) {
+        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slotId, 1, 4, mc.getPlayer());
+        delay = 0;
+    }
+
+    private void dropUselessItems() {
+        if (delay <= delayValue.getValue()) {
             return;
         }
-
-        if (mc.getCurrentScreen() instanceof GuiChest)
-            return;
-
-        if ((mc.getGameSettings().keyBindJump.isKeyDown() || mc.getGameSettings().keyBindForward.isKeyDown()
-                || mc.getGameSettings().keyBindLeft.isKeyDown() || mc.getGameSettings().keyBindBack.isKeyDown()
-                || mc.getGameSettings().keyBindRight.isKeyDown()) && noMovevalue.getValue())
-            return;
-
-        movedItem = false;
-        timer.reset();
-        timer.reached(managerDelayvalue.getValue());
-
-        if (!(mc.getCurrentScreen() instanceof GuiInventory) && openInvvalue.getValue())
-            return;
-
-        playerController = mc.getPlayerController();
-
-        if (noTrashvalue.getValue()) {
-            for (int i = 0; i < INVENTORY_SLOTS; ++i) {
-                final ItemStack itemStack = mc.getPlayer().inventory.getStackInSlot(i);
-
-                if (itemStack == null || itemStack.getItem() == null)
-                    continue;
-
-                if (!itemWhitelisted(itemStack)) {
-                    throwItem(getSlotId(i));
-                }
-            }
-        }
-
-        Integer bestHelmet = null;
-        Integer bestChestPlate = null;
-        Integer bestLeggings = null;
-        Integer bestBoots = null;
-        Integer bestSword = null;
-        Integer bestPickaxe = null;
-        Integer bestAxe = null;
-        Integer bestBlock = null;
-        Integer bestBow = null;
-        Integer bestPotion = null;
-        Integer bestGaps = null;
-
-        for (int i = 0; i < INVENTORY_SLOTS; ++i) {
-            final ItemStack itemStack = mc.getPlayer().inventory.getStackInSlot(i);
-
-            if (itemStack == null || itemStack.getItem() == null)
-                continue;
-
-            final Item item = itemStack.getItem();
-
-            if (item instanceof ItemArmor) {
-                final ItemArmor armor = (ItemArmor) item;
-                final int damageReductionItem = getArmorDamageReduction(itemStack);
-
-                if (armor.armorType == 0) {
-                    if (bestHelmet == null || damageReductionItem > getArmorDamageReduction(
-                            mc.getPlayer().inventory.getStackInSlot(bestHelmet))) {
-                        bestHelmet = i;
-                    }
-                }
-
-                if (armor.armorType == 1) {
-                    if (bestChestPlate == null || damageReductionItem > getArmorDamageReduction(
-                            mc.getPlayer().inventory.getStackInSlot(bestChestPlate))) {
-                        bestChestPlate = i;
-                    }
-                }
-
-                if (armor.armorType == 2) {
-                    if (bestLeggings == null || damageReductionItem > getArmorDamageReduction(
-                            mc.getPlayer().inventory.getStackInSlot(bestLeggings))) {
-                        bestLeggings = i;
-                    }
-                }
-
-                if (armor.armorType == 3) {
-                    if (bestBoots == null || damageReductionItem > getArmorDamageReduction(
-                            mc.getPlayer().inventory.getStackInSlot(bestBoots))) {
-                        bestBoots = i;
-                    }
-                }
-
-            }
-
-            if (item instanceof ItemSword) {
-                final float damage = getSwordDamage(itemStack);
-                if (bestSword == null || damage > getSwordDamage(mc.getPlayer().inventory.getStackInSlot(bestSword))) {
-                    bestSword = i;
-                }
-            }
-
-            if (item instanceof ItemPickaxe) {
-                final float mineSpeed = getMineSpeed(itemStack);
-                if (bestPickaxe == null || mineSpeed > getMineSpeed(mc.getPlayer().inventory.getStackInSlot(bestPickaxe))) {
-                    bestPickaxe = i;
-                }
-            }
-
-            if (item instanceof ItemAxe) {
-                final float mineSpeed = getMineSpeed(itemStack);
-                if (bestAxe == null || mineSpeed > getMineSpeed(mc.getPlayer().inventory.getStackInSlot(bestAxe))) {
-                    bestAxe = i;
-                }
-            }
-
-            if (item instanceof ItemBlock && ((ItemBlock) item).getBlock().isFullCube()) {
-                final float amountOfBlocks = itemStack.stackSize;
-                if (bestBlock == null || amountOfBlocks > mc.getPlayer().inventory.getStackInSlot(bestBlock).stackSize) {
-                    bestBlock = i;
-                }
-            }
-
-            if (item instanceof ItemBow) {
-                final int level = EnchantmentHelper.getEnchantmentLevel(Enchantment.power.effectId, itemStack);
-                if (bestBow == null || level > 1) {
-                    bestBow = i;
-                }
-            }
-
-            if (item instanceof ItemAppleGold) {
-                final float amountOfGaps = itemStack.stackSize;
-                if (bestGaps == null || amountOfGaps > 1) {
-                    bestGaps = i;
-                }
-            }
-
-            if (item instanceof ItemPotion) {
-                final ItemPotion itemPotion = (ItemPotion) item;
-                if (bestPotion == null && ItemPotion.isSplash(itemStack.getMetadata())
-                        && itemPotion.getEffects(itemStack.getMetadata()) != null) {
-                    final int potionID = itemPotion.getEffects(itemStack.getMetadata()).get(0).getPotionID();
-                    boolean isPotionActive = false;
-
-                    for (final PotionEffect potion : mc.getPlayer().getActivePotionEffects()) {
-                        if (potion.getPotionID() == potionID && potion.getDuration() > 0) {
-                            isPotionActive = true;
-                            break;
-                        }
-                    }
-
-                    final ArrayList<Integer> whitelistedPotions = new ArrayList<Integer>() {
-                        {
-                            add(1);
-                            add(5);
-                            add(8);
-                            add(14);
-                            add(12);
-                            add(16);
-                        }
-                    };
-
-                    if (!isPotionActive && (whitelistedPotions.contains(potionID) || (potionID == 10 || potionID == 6)))
-                        bestPotion = i;
-                }
-            }
-        }
-
-        if (noTrashvalue.getValue()) {
-            for (int i = 0; i < INVENTORY_SLOTS; ++i) {
-                final ItemStack itemStack = mc.getPlayer().inventory.getStackInSlot(i);
-
-                if (itemStack == null || itemStack.getItem() == null)
-                    continue;
-
-                final Item item = itemStack.getItem();
-
-                if (item instanceof ItemArmor) {
-                    final ItemArmor armor = (ItemArmor) item;
-
-                    if ((armor.armorType == 0 && bestHelmet != null && i != bestHelmet) || (armor.armorType == 1 && bestChestPlate != null && i != bestChestPlate) || (armor.armorType == 2 && bestLeggings != null && i != bestLeggings) || (armor.armorType == 3 && bestBoots != null && i != bestBoots)) {
-                        throwItem(getSlotId(i));
-                    }
-                }
-
-                if (item instanceof ItemSword) {
-                    if (bestSword != null && i != bestSword) {
-                        throwItem(getSlotId(i));
-                    }
-                }
-
-                if (item instanceof ItemPickaxe) {
-                    if (bestPickaxe != null && i != bestPickaxe) {
-                        throwItem(getSlotId(i));
-                    }
-                }
-
-                if (item instanceof ItemAxe) {
-                    if (bestAxe != null && i != bestAxe) {
-                        throwItem(getSlotId(i));
-                    }
-                }
-
-                if (item instanceof ItemAppleGold) {
-                    if (bestGaps != null && i != bestGaps) {
-                        throwItem(getSlotId(i));
-                    }
-                }
-
-                if (item instanceof ItemBow) {
-                    if (bestBow != null && i != bestBow) {
-                        throwItem(getSlotId(i));
-                    }
-                }
-            }
-        }
-
-        if (autoArmorvalue.getValue()) {
-
-            if (bestHelmet != null)
-                equipArmor(getSlotId(bestHelmet));
-
-            if (bestChestPlate != null)
-                equipArmor(getSlotId(bestChestPlate));
-
-            if (bestLeggings != null)
-                equipArmor(getSlotId(bestLeggings));
-
-            if (bestBoots != null)
-                equipArmor(getSlotId(bestBoots));
+        Container container = mc.getPlayer().inventoryContainer;
+        for (int i = 9; i < 45; ++i) {
+            ItemStack stack = container.getSlot(i).getStack();
+            if (stack == null || !isGarbage(stack)) continue;
+            drop(i);
+            break;
         }
     }
 
-
-    private float getSwordDamage(final ItemStack itemStack) {
-        final ItemSword sword = (ItemSword) itemStack.getItem();
-        final int efficiencyLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, itemStack);
-        return (float) (sword.getDamageVsEntity() + efficiencyLevel * 1.25);
-    }
-
-    private int getArmorDamageReduction(final ItemStack itemStack) {
-        return ((ItemArmor) itemStack.getItem()).damageReduceAmount + EnchantmentHelper.getEnchantmentModifierDamage(new ItemStack[] { itemStack }, DamageSource.generic);
-    }
-
-    private void openInventory() {
-        if (!inventoryOpen) {
-            inventoryOpen = true;
-            mc.getPlayer().sendQueue.addToSendQueue(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+    public boolean isGarbage(ItemStack stack) {
+        Item item = stack.getItem();
+        if (item == Items.snowball || item == Items.egg || item == Items.fishing_rod || item == Items.experience_bottle || item == Items.skull || item == Items.flint || item == Items.lava_bucket || item == Items.flint_and_steel || item == Items.string) {
+            return true;
         }
-    }
-
-    private void closeInventory() {
-        if (inventoryOpen) {
-            inventoryOpen = false;
-            mc.getPlayer().sendQueue.addToSendQueue(new C0DPacketCloseWindow(0));
+        if (item instanceof ItemHoe) {
+            return true;
         }
-    }
-
-    private void throwItem(final int slot) {
-        try {
-            if (!movedItem) {
-                openInventory();
-                playerController.windowClick(mc.getPlayer().inventoryContainer.windowId, slot, 1, 4, mc.getPlayer());
-                movedItem = true;
-            }
-        } catch (final IndexOutOfBoundsException ignored) { }
-    }
-
-    private void equipArmor(final int slot) {
-        try {
-            if (slot > 8 && !movedItem) {
-                openInventory();
-                playerController.windowClick(mc.getPlayer().inventoryContainer.windowId, slot, 0, 1, mc.getPlayer());
-                movedItem = true;
-            }
-        } catch (final IndexOutOfBoundsException ignored) { }
-    }
-
-    public int getSlotId(final int slot) {
-        if (slot >= 36)
-            return 8 - (slot - 36);
-        if (slot < 9)
-            return slot + 36;
-        return slot;
-    }
-
-    private boolean itemWhitelisted(final ItemStack itemStack) {
-        final ArrayList<Item> whitelistedItems = new ArrayList<Item>() {
-            {
-                add(Items.ender_pearl);
-                add(Items.bow);
-                add(Items.arrow);
-                add(Items.milk_bucket);
-                add(Items.water_bucket);
-            }
-        };
-
-        final Item item = itemStack.getItem();
-
-        final ArrayList<Integer> whitelistedPotions = new ArrayList<Integer>() {
-            {
-                add(6);
-                add(1);
-                add(5);
-                add(8);
-                add(14);
-                add(12);
-                add(10);
-                add(16);
-            }
-        };
-
         if (item instanceof ItemPotion) {
-            final int potionID = getPotionId(itemStack);
-            return whitelistedPotions.contains(potionID);
-        }
-
-        return (item instanceof ItemBlock && !(((ItemBlock) item).getBlock() instanceof BlockTNT) && !(((ItemBlock) item).getBlock() instanceof BlockChest) && !(((ItemBlock) item).getBlock() instanceof BlockFalling)) || item instanceof ItemAnvilBlock || item instanceof ItemSword || item instanceof ItemArmor || item instanceof ItemTool || item instanceof ItemFood || whitelistedItems.contains(item) && !item.equals(Items.spider_eye);
-    }
-
-    private int getPotionId(final ItemStack potion) {
-        final Item item = potion.getItem();
-
-        try {
-            if (item instanceof ItemPotion) {
-                final ItemPotion p = (ItemPotion) item;
-                return p.getEffects(potion.getMetadata()).get(0).getPotionID();
+            ItemPotion potion = (ItemPotion)item;
+            for (PotionEffect effect : potion.getEffects(stack)) {
+                int id = effect.getPotionID();
+                if (id != Potion.moveSlowdown.getId() && id != Potion.blindness.getId() && id != Potion.poison.getId() && id != Potion.digSlowdown.getId() && id != Potion.weakness.getId() && id != Potion.harm.getId()) continue;
+                return true;
             }
-        } catch (final NullPointerException ignored) { }
-
-        return 0;
+        } else {
+            String itemName = stack.getItem().getUnlocalizedName().toLowerCase();
+            if (itemName.contains("anvil") || itemName.contains("tnt") || itemName.contains("seed") || itemName.contains("table") || itemName.contains("string") || itemName.contains("eye") || itemName.contains("mushroom") || itemName.contains("chest") && !itemName.contains("plate") || itemName.contains("pressure_plate")) {
+                return true;
+            }
+        }
+        return false;
     }
 
-    private float getMineSpeed(final ItemStack itemStack) {
-        final Item item = itemStack.getItem();
-        int efficiencyLevel = EnchantmentHelper.getEnchantmentLevel(Enchantment.efficiency.effectId, itemStack);
-
-        switch (efficiencyLevel) {
-            case 1:
-                efficiencyLevel = 30;
-                break;
-            case 2:
-                efficiencyLevel = 69;
-                break;
-            case 3:
-                efficiencyLevel = 120;
-                break;
-            case 4:
-                efficiencyLevel = 186;
-                break;
-            case 5:
-                efficiencyLevel = 271;
-                break;
-
-            default:
-                efficiencyLevel = 0;
-                break;
+    public boolean isUseless(ItemStack stack) {
+        if (!isToggle()) {
+            return isGarbage(stack);
         }
-
-        if (item instanceof ItemPickaxe || item instanceof ItemAxe) {
-            return getToolEfficiency(item) + efficiencyLevel;
+        if (isGarbage(stack)) {
+            return true;
         }
-        return 0;
+        if (helmet != null && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == 0 && !isBetterArmor(stack, helmet, ArmorType.HELMET)) {
+            return true;
+        }
+        if (chestplate != null && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == 1 && !isBetterArmor(stack, chestplate, ArmorType.CHESTPLATE)) {
+            return true;
+        }
+        if (leggings != null && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == 2 && !isBetterArmor(stack, leggings, ArmorType.LEGGINGS)) {
+            return true;
+        }
+        if (boots != null && stack.getItem() instanceof ItemArmor && ((ItemArmor)stack.getItem()).armorType == 3 && !isBetterArmor(stack, boots, ArmorType.BOOTS)) {
+            return true;
+        }
+        if (stack.getItem() instanceof ItemSword && weapon != null && !isBetterWeapon(stack, weapon)) {
+            return true;
+        }
+        if (stack.getItem() instanceof ItemAxe && axe != null && !isBetterTool(stack, axe)) {
+            return true;
+        }
+        if (stack.getItem() instanceof ItemPickaxe && pickaxe != null && !isBetterTool(stack, pickaxe)) {
+            return true;
+        }
+        return stack.getItem().getUnlocalizedName().toLowerCase().contains("shovel") && shovel != null && !isBetterTool(stack, shovel);
     }
 
-    private float getToolEfficiency(Item item) {
-        if (item instanceof ItemPickaxe) {
-            return ((ItemPickaxe) item).getToolMaterial().getEfficiencyOnProperMaterial();
-        } else if (item instanceof ItemAxe) {
-            return ((ItemAxe) item).getToolMaterial().getEfficiencyOnProperMaterial();
+    private void getBlockStack() {
+        if (delay <= delayValue.getValue()) {
+            return;
         }
-        return 0;
+        Container container = mc.getPlayer().inventoryContainer;
+        ItemStack blockStack = null;
+        int slot = -1;
+        if (block_stack == null || !shouldChooseBlock(block_stack)) {
+            for (int i = 9; i < 45; ++i) {
+                ItemStack stack = container.getSlot(i).getStack();
+                if (stack == null || !shouldChooseBlock(stack) || blockStack != null && stack.stackSize < blockStack.stackSize) continue;
+                blockStack = stack;
+                slot = i;
+            }
+        }
+        if (blockStack != null) {
+            hotbarExchange(stack_slot_value.getValue(), slot);
+        }
+    }
+
+    private void getGoldenApples() {
+        if (delay <= delayValue.getValue()) {
+            return;
+        }
+        Container container = mc.getPlayer().inventoryContainer;
+        if (golden_apples == null || !(golden_apples.getItem() instanceof ItemAppleGold)) {
+            for (int i = 9; i < 45; ++i) {
+                ItemStack stack = container.getSlot(i).getStack();
+                if (stack == null || !(stack.getItem() instanceof ItemAppleGold)) continue;
+                hotbarExchange(gapple_slot_value.getValue(), i);
+                return;
+            }
+        }
+    }
+
+    private boolean shouldChooseBlock(ItemStack stack) {
+        return stack.getItem() instanceof ItemBlock;
+    }
+
+    private void getBestWeapon() {
+        if (delay <= delayValue.getValue()) {
+            return;
+        }
+        Container container = mc.getPlayer().inventoryContainer;
+        ItemStack oldWeapon = weapon;
+        int newSwordSlot = -1;
+        int dropSlot = -1;
+        for (int i = 9; i < 45; ++i) {
+            ItemStack stack = container.getSlot(i).getStack();
+            if (stack == null || !(stack.getItem() instanceof ItemSword) || i == weapon_slot_value.getValue() + 36) continue;
+            boolean better = isBetterWeapon(stack, oldWeapon);
+            boolean worse = isWorseWeapon(stack, oldWeapon);
+            if (better) {
+                newSwordSlot = i;
+                oldWeapon = stack;
+                continue;
+            }
+            if (!(stack.getItem() instanceof ItemSword)) continue;
+            dropSlot = i;
+        }
+        if (newSwordSlot != -1) {
+            hotbarExchange(weapon_slot_value.getValue(), newSwordSlot);
+        } else if (dropSlot != -1) {
+            drop(dropSlot);
+        }
+    }
+
+    private void getBestAxe() {
+        if (delay <= delayValue.getValue()) {
+            return;
+        }
+        Container container = mc.getPlayer().inventoryContainer;
+        ItemStack oldAxe = axe;
+        int newAxeSlot = -1;
+        int dropSlot = -1;
+        for (int i = 9; i < 45; ++i) {
+            ItemStack stack = container.getSlot(i).getStack();
+            if (stack == null || !(stack.getItem() instanceof ItemAxe) || i == axe_slot_value.getValue() + 36) continue;
+            if (isBetterTool(stack, oldAxe)) {
+                newAxeSlot = i;
+                oldAxe = stack;
+                continue;
+            }
+            dropSlot = i;
+        }
+        if (newAxeSlot != -1) {
+            hotbarExchange(axe_slot_value.getValue(), newAxeSlot);
+        } else if (dropSlot != -1) {
+            drop(dropSlot);
+        }
+    }
+
+    private void getBestPickaxe() {
+        if (delay <= delayValue.getValue()) {
+            return;
+        }
+        Container container = mc.getPlayer().inventoryContainer;
+        ItemStack oldPickaxe = pickaxe;
+        int newPickaxeSlot = -1;
+        int dropSlot = -1;
+        for (int i = 9; i < 45; ++i) {
+            ItemStack stack = container.getSlot(i).getStack();
+            if (stack == null || !(stack.getItem() instanceof ItemPickaxe) || i == pickaxe_slot_value.getValue() + 36) continue;
+            if (isBetterTool(stack, oldPickaxe)) {
+                newPickaxeSlot = i;
+                oldPickaxe = stack;
+                continue;
+            }
+            dropSlot = i;
+        }
+        if (newPickaxeSlot != -1) {
+            hotbarExchange(pickaxe_slot_value.getValue(), newPickaxeSlot);
+        } else if (dropSlot != -1) {
+            drop(dropSlot);
+        }
+    }
+
+    private void getBestShovel() {
+        if (delay <= delayValue.getValue()) {
+            return;
+        }
+        Container container = mc.getPlayer().inventoryContainer;
+        ItemStack oldShovel = shovel;
+        int newShovelSlot = -1;
+        int dropSlot = -1;
+        for (int i = 9; i < 45; ++i) {
+            ItemStack stack = container.getSlot(i).getStack();
+            if (stack == null || !(stack.getItem() instanceof ItemTool) || !stack.getItem().getUnlocalizedName().toLowerCase().contains("shovel") || i == shovel_slot_value.getValue() + 36) continue;
+            if (isBetterTool(stack, oldShovel)) {
+                newShovelSlot = i;
+                oldShovel = stack;
+                continue;
+            }
+            dropSlot = i;
+        }
+        if (newShovelSlot != -1) {
+            hotbarExchange(shovel_slot_value.getValue(), newShovelSlot);
+        } else if (dropSlot != -1) {
+            drop(dropSlot);
+        }
+    }
+
+    private void getBestArmor(ArmorType type) {
+        if (delay <= delayValue.getValue()) {
+            return;
+        }
+        Container container = mc.getPlayer().inventoryContainer;
+        ItemStack oldArmor = type == ArmorType.HELMET ? helmet : (type == ArmorType.CHESTPLATE ? chestplate : (type == ArmorType.LEGGINGS ? leggings : boots));
+        int newArmorSlot = -1;
+        int dropSlot = -1;
+        int armorSlot = type == ArmorType.HELMET ? 5 : (type == ArmorType.CHESTPLATE ? 6 : (type == ArmorType.LEGGINGS ? 7 : 8));
+        for (int i = 5; i < 45; ++i) {
+            ItemStack stack = container.getSlot(i).getStack();
+            if (stack == null || !(stack.getItem() instanceof ItemArmor)) continue;
+            ItemArmor armor = (ItemArmor)stack.getItem();
+            boolean better = isBetterArmor(stack, oldArmor, type);
+            boolean worse = isWorseArmor(stack, oldArmor, type);
+            if (armor.armorType != type.ordinal()) continue;
+            if (better) {
+                if (i == armorSlot) continue;
+                if (oldArmor != null) {
+                    dropSlot = armorSlot;
+                    continue;
+                }
+                newArmorSlot = i;
+                oldArmor = stack;
+                armorSlot = i;
+                continue;
+            }
+            if (worse || i != armorSlot) {
+                dropSlot = i;
+                continue;
+            }
+            if (i == armorSlot) continue;
+            newArmorSlot = i;
+            oldArmor = stack;
+            armorSlot = i;
+        }
+        if (dropSlot != -1) {
+            drop(dropSlot);
+        } else if (newArmorSlot != -1) {
+            shiftClick(newArmorSlot);
+        }
+    }
+
+    private boolean isBetterWeapon(ItemStack newWeapon, ItemStack oldWeapon) {
+        Item item = newWeapon.getItem();
+        if (item instanceof ItemSword || item instanceof ItemTool) {
+            if (oldWeapon != null) {
+                return getAttackDamage(newWeapon) > getAttackDamage(oldWeapon);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isWorseWeapon(ItemStack newWeapon, ItemStack oldWeapon) {
+        Item item = newWeapon.getItem();
+        if (item instanceof ItemSword || item instanceof ItemTool) {
+            if (oldWeapon != null) {
+                return getAttackDamage(newWeapon) < getAttackDamage(oldWeapon);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private boolean isBetterTool(ItemStack newTool, ItemStack oldTool) {
+        Item item = newTool.getItem();
+        if (item instanceof ItemTool) {
+            if (oldTool != null) {
+                return getToolUsefulness(newTool) > getToolUsefulness(oldTool);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isBetterArmor(ItemStack newArmor, ItemStack oldArmor, ArmorType type) {
+        if (oldArmor == null) {
+            return true;
+        }
+        Item oldItem = oldArmor.getItem();
+        if (oldItem instanceof ItemArmor) {
+            ItemArmor oldItemArmor = (ItemArmor)oldItem;
+            if (oldArmor != null && oldItemArmor.armorType == type.ordinal()) {
+                return getArmorProtection(newArmor) > getArmorProtection(oldArmor);
+            }
+            return true;
+        }
+        return false;
+    }
+
+    private boolean isWorseArmor(ItemStack newArmor, ItemStack oldArmor, ArmorType type) {
+        if (oldArmor == null) {
+            return false;
+        }
+        Item oldItem = oldArmor.getItem();
+        if (oldItem instanceof ItemArmor) {
+            ItemArmor oldItemArmor = (ItemArmor)oldItem;
+            if (oldArmor != null && oldItemArmor.armorType == type.ordinal()) {
+                return getArmorProtection(newArmor) < getArmorProtection(oldArmor);
+            }
+            return false;
+        }
+        return true;
+    }
+
+    private float getAttackDamage(ItemStack stack) {
+        if (stack == null) {
+            return 0.0f;
+        }
+        Item item = stack.getItem();
+        float baseDamage = 0.0f;
+        if (item instanceof ItemSword) {
+            ItemSword sword = (ItemSword)item;
+            baseDamage += sword.getAttackDamage();
+        } else if (item instanceof ItemTool) {
+            ItemTool tool = (ItemTool)item;
+            baseDamage += tool.getAttackDamage();
+        }
+        float enchantsDamage = (float) EnchantmentHelper.getEnchantmentLevel(Enchantment.sharpness.effectId, stack) * 1.25f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.fireAspect.effectId, stack) * 0.3f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.knockback.effectId, stack) * 0.15f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.1f;
+        return baseDamage + enchantsDamage;
+    }
+
+    private float getToolUsefulness(ItemStack stack) {
+        if (stack == null) {
+            return 0.0f;
+        }
+        Item item = stack.getItem();
+        float baseUsefulness = 0.0f;
+        if (item instanceof ItemTool) {
+            ItemTool tool = (ItemTool)item;
+            switch (tool.getToolMaterial()) {
+                case WOOD: {
+                    baseUsefulness = 1.0f;
+                    break;
+                }
+                case GOLD:
+                    baseUsefulness = 1.0f;
+                    break;
+                case STONE: {
+                    baseUsefulness = 2.0f;
+                    break;
+                }
+                case IRON: {
+                    baseUsefulness = 3.0f;
+                    break;
+                }
+                case EMERALD: {
+                    baseUsefulness = 4.0f;
+                }
+            }
+        }
+        float enchantsUsefulness = (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.fortune.effectId, stack) * 1.25f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.3f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.infinity.effectId, stack) * 0.5f + 0.0f;
+        return baseUsefulness + enchantsUsefulness;
+    }
+
+    private float getArmorProtection(ItemStack stack) {
+        if (stack == null) {
+            return 0.0f;
+        }
+        Item item = stack.getItem();
+        float baseProtection = 0.0f;
+        if (item instanceof ItemArmor) {
+            ItemArmor armor = (ItemArmor)item;
+            baseProtection += (float)armor.damageReduceAmount;
+        }
+        float enchantsProtection = (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.protection.effectId, stack) * 1.25f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.blastProtection.effectId, stack) * 0.15f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.fireProtection.effectId, stack) * 0.15f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.projectileProtection.effectId, stack) * 0.15f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.thorns.effectId, stack) * 0.1f + (float)EnchantmentHelper.getEnchantmentLevel(Enchantment.unbreaking.effectId, stack) * 0.1f;
+        return baseProtection + enchantsProtection;
+    }
+
+    public enum ArmorType {
+        HELMET,
+        CHESTPLATE,
+        LEGGINGS,
+        BOOTS
+
     }
 
 }
