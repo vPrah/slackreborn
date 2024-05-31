@@ -2,6 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.render.NameTags;
+import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -374,7 +375,13 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
         {
             FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
             float f = 1.6F;
-            float f1 = 0.016666668F * f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
+            float f1 = 0.016666668F * f;
+            if (Slack.getInstance().getModuleManager().getInstance(NameTags.class).isToggle()) {
+                double xd = x - mc.getPlayer().posX;
+                double yd = y - mc.getPlayer().posY;
+                double zd = z - mc.getPlayer().posZ;
+                f1 *= Math.sqrt(xd * xd + yd * yd + zd * zd) / 140f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
+            }
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);

@@ -225,7 +225,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "vanilla":
-                RotationUtil.setClientRotation(blockRotation, keepRotationTicks.getValue());
+                RotationUtil.setClientRotation(BlockUtils.getFaceRotation(blockPlacementFace, blockPlace), keepRotationTicks.getValue());
                 break;
             case "vanilla center":
                 RotationUtil.setClientRotation(BlockUtils.getCenterRotation(blockPlace), keepRotationTicks.getValue());
@@ -256,7 +256,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 5 && !hasPlaced) {
+                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 5 && !hasPlaced && mc.getPlayer().posY - groundY < 1.5) {
                     placeY = mc.getPlayer().posY;
                 } else {
                     placeY = groundY;

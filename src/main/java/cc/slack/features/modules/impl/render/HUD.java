@@ -135,7 +135,11 @@ public class HUD extends Module {
 			for (int i = 0; i < notText.size(); i++) {
 				double x = getXpos(notStart.get(i), notEnd.get(i));
 				renderNotification((int) (mc.getScaledResolution().getScaledWidth() - 10 + 160 * x), y, notText.get(i), notDetailed.get(i), notStyle.get(i));
-				y -= (int) (Math.pow((1 - x), 0.5) * 19);
+				if (roundednotification.getValue()) {
+					y -= (int) (Math.pow((1 - x), 0.5) * 23);
+				} else {
+					y -= (int) (Math.pow((1 - x), 0.5) * 19);
+				}
 			}
 
 			ArrayList<Integer> removeList = new ArrayList();
