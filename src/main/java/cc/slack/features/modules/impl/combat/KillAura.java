@@ -183,7 +183,6 @@ public class KillAura extends Module {
                 } else {
                     return false;
                 }
-                break;
             case "basic":
                 switch (mc.getPlayer().ticksExisted % 3) {
                     case 0:
