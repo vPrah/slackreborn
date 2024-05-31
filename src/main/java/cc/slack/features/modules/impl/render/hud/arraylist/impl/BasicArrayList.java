@@ -71,10 +71,10 @@ public class BasicArrayList implements IArraylist {
             int x = (GuiScreen.width - 1) - (Fonts.poppins18.getStringWidth(m));
             int y = count;
             int x1 = (GuiScreen.width + 1);
-            int y1 = count + 5;
-            drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x70000000);
-            Fonts.poppins18.drawString(m, x, y, 0x5499C7);
-            count += 10;
+            int y1 = count + 7;
+            drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x90000000);
+            Fonts.poppins18.drawStringWithShadow(m, x, y, 0x5499C7);
+            count += 12;
         }
     }
 
