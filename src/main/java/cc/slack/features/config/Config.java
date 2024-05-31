@@ -113,7 +113,11 @@ public class Config extends mc {
                                     if (((NumberValue) v).getMinimum() instanceof Double)
                                         v.setValue(value.getValue().getAsDouble());
                                     if (((NumberValue) v).getMinimum() instanceof Long)
-                                        v.setValue(value.getValue().getAsLong());
+                                        try {
+                                            v.setValue(value.getValue().getAsLong());
+                                        } catch (Exception e){
+                                            v.setValue((int) value.getValue().getAsLong());
+                                        }
                                 }
 
                                 if (v instanceof ColorValue) {

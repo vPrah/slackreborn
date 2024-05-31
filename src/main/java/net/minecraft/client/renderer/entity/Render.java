@@ -1,5 +1,7 @@
 package net.minecraft.client.renderer.entity;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.render.NameTags;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -372,7 +374,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
         {
             FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
             float f = 1.6F;
-            float f1 = 0.016666668F * f;
+            float f1 = 0.016666668F * f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);
@@ -387,11 +389,6 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             Tessellator tessellator = Tessellator.getInstance();
             WorldRenderer worldrenderer = tessellator.getWorldRenderer();
             int i = 0;
-
-            if (str.equals("deadmau5"))
-            {
-                i = -10;
-            }
 
             int j = fontrenderer.getStringWidth(str) / 2;
             GlStateManager.disableTexture2D();

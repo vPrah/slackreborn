@@ -70,7 +70,7 @@ public class KillAura extends Module {
     private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
     private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
 
-    private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"FOV", "Distance", "Health", "Hurt Ticks"});
+    private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Priority", "FOV", "Distance", "Health", "Hurt Ticks"});
 
 
     private final TimeUtil timer = new TimeUtil();

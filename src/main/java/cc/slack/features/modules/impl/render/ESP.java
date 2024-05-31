@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
@@ -25,7 +26,7 @@ import static org.lwjgl.opengl.GL11.*;
 )
 public class ESP extends Module {
 
-    private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 1f, 1f, 3f, 0.1f);
+    private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 1f, 1f, 5f, 0.1f);
     private final BooleanValue rotateYaw = new BooleanValue("Yaw Rotate", false);
 
     public ESP() {
@@ -38,6 +39,7 @@ public class ESP extends Module {
 
         for (Entity entity : mc.getWorld().loadedEntityList) {
             if (entity.getEntityId() == mc.getPlayer().getEntityId()) continue;
+            if (!AttackUtil.isTarget(entity)) continue;
             final RenderManager renderManager = mc.getRenderManager();
             final Timer timer = mc.getTimer();
 
@@ -73,10 +75,12 @@ public class ESP extends Module {
             glPushMatrix();
             if (rotateYaw.getValue()) {
                 glTranslated(-x, -y, -z);
+            }
+            RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
+            if (rotateYaw.getValue()) {
                 glRotated(entity.rotationYaw, 0, 1, 0);
                 glTranslated(x, y, z);
             }
-            RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
             glPopMatrix();
 
             GlStateManager.resetColor();

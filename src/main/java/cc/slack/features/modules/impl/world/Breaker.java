@@ -45,6 +45,7 @@ public class Breaker extends Module {
 
     private BlockPos targetBlock;
     private BlockPos currentBlock;
+    private EnumFacing currentFace;
 
     private float breakingProgress;
 
@@ -80,7 +81,7 @@ public class Breaker extends Module {
                 mc.getWorld().sendBlockBreakProgress(mc.getPlayer().getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
                 mc.getPlayer().swingItem();
 
-                RotationUtil.setClientRotation(BlockUtils.getCenterRotation(currentBlock));
+                RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                 RotationUtil.setStrafeFix(true, false);
 
                 if (breakingProgress > 1) {
@@ -173,8 +174,14 @@ public class Breaker extends Module {
                     BlockUtils.isReplaceableNotBed(targetBlock.south()) ||
                     BlockUtils.isReplaceableNotBed(targetBlock.up())) {
                     currentBlock = targetBlock;
+                    for (EnumFacing e : EnumFacing.VALUES) {
+                        if (BlockUtils.isReplaceableNotBed(targetBlock.add(e.getDirectionVec()))) {
+                            currentFace = e;
+                        }
+                    }
                 } else {
                     currentBlock = targetBlock.up();
+                    currentFace = EnumFacing.UP;
                 }
                 break;
             case "none":

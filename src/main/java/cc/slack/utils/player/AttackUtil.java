@@ -174,9 +174,26 @@ public class AttackUtil {
             case "hurt ticks":
                 targets.sort(Comparator.comparingDouble(EntityLivingBase::getHurtTime));
                 break;
+            case "priority":
+                targets.sort(Comparator.comparingDouble(AttackUtil::getPriority));
         }
 
         return targets.isEmpty() ? null : targets.get(0);
+    }
+
+    public static double getPriority(EntityLivingBase e) {
+        return e.getDistanceToEntity(mc.getPlayer()) + e.hurtTime == 0 ? 0 : 3.5 + e.getHealth() / e.getMaxHealth();
+    }
+    
+    public static boolean isTarget(Entity entity) {
+        final Targets targets = Slack.getInstance().getModuleManager().getInstance(Targets.class);
+        if (entity == mc.getPlayer()) return false;
+        if (entity instanceof EntityArmorStand) return false;
+        if (!targets.mobsTarget.getValue() && entity instanceof EntityVillager) return false;
+        if ((!targets.mobsTarget.getValue() && (entity instanceof EntityMob)) || (!targets.animalTarget.getValue() && (entity instanceof EntityAnimal)) ||  (!targets.playerTarget.getValue() && (entity instanceof EntityPlayer))) return false;
+        if (entity instanceof EntityPlayer && !targets.teams.getValue() && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) return false;
+        if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) return false;
+        return true;
     }
 
 }

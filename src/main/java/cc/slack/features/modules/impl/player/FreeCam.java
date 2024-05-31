@@ -9,6 +9,7 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
@@ -37,7 +38,13 @@ public class FreeCam extends Module {
     @Listen
     public void onPacket (PacketEvent event) {
         if (event.getPacket() instanceof C03PacketPlayer) {
-            event.cancel();
+            C03PacketPlayer p = event.getPacket();
+            p.x = entity.posX;
+            p.y = entity.posY;
+            p.z = entity.posZ;
+            p.yaw = entity.rotationYaw;
+            p.pitch = entity.rotationPitch;
+            event.setPacket(p);
         }
     }
 

@@ -3,6 +3,7 @@ package net.minecraft.client.renderer.entity;
 import cc.slack.Slack;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.render.Chams;
+import cc.slack.features.modules.impl.render.NameTags;
 import cc.slack.utils.player.RotationUtil;
 import com.google.common.collect.Lists;
 
@@ -681,7 +682,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                     float f1 = 0.02666667F;
                     GlStateManager.alphaFunc(516, 0.1F);
 
-                    if (entity.isSneaking())
+                    if (entity.isSneaking() && !Slack.getInstance().getModuleManager().getInstance(NameTags.class).isToggle())
                     {
                         FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
                         GlStateManager.pushMatrix();

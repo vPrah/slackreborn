@@ -191,6 +191,8 @@ public class HUD extends Module {
 					2, color);
 			mc.getFontRenderer().drawString(bigText, x - 5 - mc.getFontRenderer().getStringWidth(bigText),
 					y - 5 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB(), false);
+			mc.getFontRenderer().drawString(bigText, x - 5 - mc.getFontRenderer().getStringWidth(bigText),
+					y - 5 - mc.getFontRenderer().FONT_HEIGHT, new Color(255, 255, 255).getRGB(), false);
 		} else {
 			drawRect(x - 6 - mc.getFontRenderer().getStringWidth(bigText), y - 6 - mc.getFontRenderer().FONT_HEIGHT, x, y,
 					color);

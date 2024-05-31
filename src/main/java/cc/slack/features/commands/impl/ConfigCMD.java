@@ -23,6 +23,7 @@ public class ConfigCMD extends CMD {
                 switch (args[0]) {
                     case "save":
                         configManager.saveConfig(configManager.currentConfig);
+                        break;
                     case "load":
                     case "delete":
                         commandsMessage();
@@ -39,10 +40,13 @@ public class ConfigCMD extends CMD {
                 switch (args[0]) {
                     case "save":
                         configManager.saveConfig(args[1]);
+                        break;
                     case "load":
                         configManager.loadConfig(args[1]);
+                        break;
                     case "delete":
                         configManager.delete(args[1]);
+                        break;
                     case "list":
                         configsMessage();
                         break;
