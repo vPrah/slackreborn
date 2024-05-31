@@ -59,6 +59,11 @@ public class Backtrack extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
+        if (mc.getPlayer() == null || mc.getWorld() == null) {
+            enabled = false;
+            currentTick.clear();
+            packetCache.clear();
+        }
         if (!currentTick.isEmpty()) {
             packetCache.add(currentTick);
             currentTick.clear();
