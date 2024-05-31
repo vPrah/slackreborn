@@ -15,6 +15,8 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.client.renderer.*;
 import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.item.EntityItem;
 import net.minecraft.util.Timer;
 import net.minecraft.util.AxisAlignedBB;
 import static org.lwjgl.opengl.GL11.*;
@@ -25,6 +27,8 @@ import static org.lwjgl.opengl.GL11.*;
         category = Category.RENDER
 )
 public class ESP extends Module {
+
+    private final BooleanValue itemESP = new BooleanValue("Item ESP", true);
 
     private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 1f, 1f, 5f, 0.1f);
     private final BooleanValue rotateYaw = new BooleanValue("Yaw Rotate", false);
@@ -39,7 +43,9 @@ public class ESP extends Module {
 
         for (Entity entity : mc.getWorld().loadedEntityList) {
             if (entity.getEntityId() == mc.getPlayer().getEntityId()) continue;
-            if (!AttackUtil.isTarget(entity)) continue;
+            if (entity instanceof EntityItem && !itemESP.getValue()) continue;
+            if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem)) continue;
+            if (entity instanceof EntityLivingBase) if (!AttackUtil.isTarget(entity)) continue;
             final RenderManager renderManager = mc.getRenderManager();
             final Timer timer = mc.getTimer();
 

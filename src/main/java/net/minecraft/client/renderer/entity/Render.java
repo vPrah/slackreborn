@@ -374,7 +374,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
         {
             FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
             float f = 1.6F;
-            float f1 = 0.016666668F * f;
+            float f1 = 0.016666668F * f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);

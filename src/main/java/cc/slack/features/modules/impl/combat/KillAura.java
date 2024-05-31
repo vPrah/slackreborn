@@ -53,7 +53,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Blink"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -176,6 +176,14 @@ public class KillAura extends Module {
             case "blatant":
                 unblock();
                 break;
+            case "interact":
+                if (mc.getPlayer().ticksExisted % 2 == 0) {
+                    unblock();
+                    return true;
+                } else {
+                    return false;
+                }
+                break;
             case "basic":
                 switch (mc.getPlayer().ticksExisted % 3) {
                     case 0:
@@ -241,6 +249,9 @@ public class KillAura extends Module {
 
     private void postAttack() {
         switch (autoBlock.getValue().toLowerCase()) {
+            case "interact":
+                block(true);
+                break;
             case "blatant":
                 block();
                 break;
