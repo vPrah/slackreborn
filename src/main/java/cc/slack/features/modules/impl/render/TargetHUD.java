@@ -14,6 +14,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
+import cc.slack.utils.font.Fonts;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
@@ -93,7 +94,7 @@ public class TargetHUD extends Module {
 		switch (mode.getValue().toLowerCase()) {
 			case "classic":
 				drawRect(x, y, 120, 40, new Color(0, 0, 0, 120).getRGB());
-				mc.getFontRenderer().drawString(targetName, x + 40, y + 8, 0x5499C7);
+				Fonts.poppins18.drawString(targetName, x + 40, y + 8, 0x5499C7);
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
 				mc.getTextureManager().bindTexture(((AbstractClientPlayer) target).getLocationSkin());
@@ -106,8 +107,8 @@ public class TargetHUD extends Module {
 						new Color(90, 150, 200, 200).getRGB());
 
 				String s = (int) (healthPercent * 100) + "%";
-				mc.getFontRenderer().drawString(s, x + 40 + (70 / 2) - (mc.getFontRenderer().getStringWidth(s) / 2),
-						y + 20 + (15 / 2) - (mc.getFontRenderer().FONT_HEIGHT / 2) + 1, -1);
+				Fonts.poppins18.drawString(s, x + 40 + (70 / 2) - (Fonts.poppins18.getStringWidth(s) / 2),
+						y + 20 + (15 / 2) - (Fonts.poppins18.getHeight() / 2) + 1, -1);
 				break;
 			case "classic2":
 				drawRect(x, y, 120, 50, new Color(0, 0, 0, 120).getRGB());

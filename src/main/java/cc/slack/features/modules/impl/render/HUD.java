@@ -71,13 +71,13 @@ public class HUD extends Module {
 
 		switch (watermarksmodes.getValue()) {
 		case "Classic":
-			Fonts.apple24.drawStringWithShadow("S", 4, 4, 0x5499C7);
-			Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
+			Fonts.poppins24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+			Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
 			break;
 		case "Backgrounded":
-			drawRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
-			Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
-			Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+			drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+			Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+			Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 			break;
 
 			case "Logo":
@@ -91,13 +91,13 @@ public class HUD extends Module {
 				break;
 		}
 		if (fpsdraw.getValue()) {
-			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-			Fonts.apple18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
+			Fonts.poppins18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+			Fonts.poppins18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
 		}
 
 		if (bpsdraw.getValue()) {
-			Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-			Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
+			Fonts.poppins18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+			Fonts.poppins18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
 
 		}
 

@@ -34,18 +34,18 @@ public class BasicArrayList implements IArraylist {
 
     @Override
     public void onRender(RenderEvent event) {
-        int y = 3;
+        int y = 1;
 
         for (String module : modules) {
             drawRect(
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module) - 5),
-                    y - 2,
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module)+ Fonts.apple18.getStringWidth(module) + 3),
-                    y + Fonts.apple18.getHeight() + 1,
-                    0x80000000
+                    (int) (event.getWidth() - Fonts.poppins18.getStringWidth(module) - 5),
+                    y  - 1,
+                    (int) (event.getWidth() - Fonts.poppins18.getStringWidth(module)+ Fonts.poppins18.getStringWidth(module) + 1),
+                    y + Fonts.poppins18.getHeight() - 1,
+                    0x70000000
             );
-            Fonts.apple18.drawStringWithShadow(module, event.getWidth() - Fonts.apple18.getStringWidth(module) - 3, y, 0x5499C7);
-            y += Fonts.apple18.getHeight() + 3;
+            Fonts.poppins18.drawStringWithShadow(module, event.getWidth() - Fonts.poppins18.getStringWidth(module) - 3, y, 0x5499C7);
+            y += Fonts.poppins18.getHeight();
         }
     }
 
