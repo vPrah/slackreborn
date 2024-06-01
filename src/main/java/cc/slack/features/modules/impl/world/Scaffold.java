@@ -104,7 +104,7 @@ public class Scaffold extends Module {
 
     @Override
     public void onEnable() {
-        firstJump = false;
+        firstJump = true;
     }
 
     @Override
@@ -195,6 +195,8 @@ public class Scaffold extends Module {
                         MovementUtil.strafe(0.47f);
                     } else {
                         MovementUtil.resetMotion(false);
+                        groundY = mc.getPlayer().posY;
+                        firstJump = false;
                     }
                 }
                 break;
@@ -215,11 +217,11 @@ public class Scaffold extends Module {
     private void updatePlayerRotations() {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
-                RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 78.5f}, keepRotationTicks.getValue());
+                RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
                 break;
             case "hypixel ground":
                 if (mc.getPlayer().onGround) {
-                    RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 78.5f}, keepRotationTicks.getValue());
+                    RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
                 } else {
                     RotationUtil.setClientRotation(blockRotation, keepRotationTicks.getValue());
                 }
@@ -256,7 +258,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                if (PlayerUtil.isOverAir() && mc.getPlayer().offGroundTicks < 5 && !hasPlaced && mc.getPlayer().posY - groundY < 1.5) {
+                if (PlayerUtil.isOverAir() && mc.getPlayer().motionY < -0.3 && mc.getPlayer().posY - groundY < 1.7) {
                     placeY = mc.getPlayer().posY;
                 } else {
                     placeY = groundY;
