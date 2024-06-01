@@ -13,4 +13,8 @@ public class NameTags extends Module {
 
     public final NumberValue<Float> scale = new NumberValue<>("Scale", 2.0f, 1.0f, 5.0f, 0.2f);
 
+
+    public NameTags() {
+        addSettings(scale);
+    }
 }

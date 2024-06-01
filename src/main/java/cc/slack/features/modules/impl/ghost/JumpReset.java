@@ -3,6 +3,7 @@
 package cc.slack.features.modules.impl.ghost;
 
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
@@ -47,5 +48,17 @@ public class JumpReset extends Module {
             mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
             mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
         }
+    }
+
+    @Listen
+    public void onWorld (WorldEvent event) {
+        mc.getGameSettings().keyBindJump.pressed = false;
+        mc.getGameSettings().keyBindForward.pressed = false;
+    }
+
+    @Override
+    public void onDisable() {
+        mc.getGameSettings().keyBindJump.pressed = false;
+        mc.getGameSettings().keyBindForward.pressed = false;
     }
 }
