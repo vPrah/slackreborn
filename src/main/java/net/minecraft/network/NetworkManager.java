@@ -2,7 +2,7 @@ package net.minecraft.network;
 
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.utils.player.BlinkUtil;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import com.google.common.collect.Queues;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import com.viaversion.viaversion.api.connection.UserConnection;

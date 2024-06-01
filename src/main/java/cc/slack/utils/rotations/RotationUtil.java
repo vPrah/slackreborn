@@ -1,7 +1,8 @@
-package cc.slack.utils.player;
+package cc.slack.utils.rotations;
 
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
+import cc.slack.utils.player.MovementUtil;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.*;
 

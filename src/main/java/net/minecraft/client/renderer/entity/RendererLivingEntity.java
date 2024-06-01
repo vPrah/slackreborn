@@ -4,7 +4,6 @@ import cc.slack.Slack;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.render.Chams;
 import cc.slack.features.modules.impl.render.NameTags;
-import cc.slack.utils.player.RotationUtil;
 import com.google.common.collect.Lists;
 
 import java.awt.*;

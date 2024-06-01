@@ -2,11 +2,6 @@
 
 package cc.slack.features.modules.impl.combat;
 
-import cc.slack.events.State;
-import cc.slack.events.impl.game.TickEvent;
-import cc.slack.events.impl.player.JumpEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
@@ -22,7 +17,7 @@ import cc.slack.utils.other.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.BlinkUtil;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -69,6 +64,7 @@ public class KillAura extends Module {
     private final BooleanValue moveFix = new BooleanValue("Move Fix", false);
     private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
     private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
+    private final BooleanValue noScaffold = new BooleanValue("Disable With Scaffold", true);
 
     private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Priority", "FOV", "Distance", "Health", "Hurt Ticks"});
 
@@ -88,7 +84,13 @@ public class KillAura extends Module {
 
     public KillAura() {
         super();
-        addSettings(aimRange, attackRange, attackPattern, cps, randomization, autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, rotationRand, minRotationSpeed, maxRotationSpeed, moveFix, keepSprint, rayCast, sortMode);
+        addSettings(
+                aimRange, attackRange, // range
+                attackPattern, cps, randomization, // autoclicker
+                autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, // autoblock
+                rotationRand, minRotationSpeed, maxRotationSpeed, // rotations
+                moveFix, keepSprint, rayCast, // fixes
+                noScaffold, sortMode);
     }
 
     @Override

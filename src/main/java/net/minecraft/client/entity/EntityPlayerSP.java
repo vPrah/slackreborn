@@ -15,7 +15,7 @@ import cc.slack.features.modules.impl.movement.Sprint;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.MovingSoundMinecartRiding;
 import net.minecraft.client.audio.PositionedSoundRecord;

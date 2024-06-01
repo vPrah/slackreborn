@@ -1,7 +1,7 @@
 package cc.slack.utils.other;
 
 import cc.slack.utils.client.mc;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import com.google.common.base.Predicates;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

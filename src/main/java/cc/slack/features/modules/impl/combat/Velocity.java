@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.impl.combat;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -10,6 +11,8 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.impl.movement.Flight;
+import cc.slack.features.modules.impl.movement.flights.impl.vanilla.FireballFlight;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -44,6 +47,10 @@ public class Velocity extends Module {
         if (noFire.getValue() && mc.getPlayer().isBurning()) return;
 
         if (onlyground.getValue() && !mc.getPlayer().onGround) {
+            return;
+        }
+
+        if (Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Flight.class).mode.getValue() == new FireballFlight()) {
             return;
         }
 
@@ -108,6 +115,11 @@ public class Velocity extends Module {
             case "hypixel damage strafe":
                 if (mc.getPlayer().hurtTime == 9) {
                     MovementUtil.strafe((float) MovementUtil.getSpeed() * 0.75f);
+                }
+                break;
+            case "hypixel":
+                if (mc.getPlayer().hurtTime == 9) {
+                    MovementUtil.strafe();
                 }
                 break;
             case "tick":

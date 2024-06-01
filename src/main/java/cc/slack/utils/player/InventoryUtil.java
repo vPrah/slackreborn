@@ -71,6 +71,10 @@ public final class InventoryUtil extends mc {
 
     public static Slot getSlot(int i){return mc.getPlayer().inventoryContainer.getSlot(i); }
 
+    public static int findItem(final Item item) {
+        return findItem(36,45, item);
+    }
+
     public static int findItem(final int startSlot, final int endSlot, final Item item) {
         for (int i = startSlot; i < endSlot; i++) {
             final ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();

@@ -14,7 +14,7 @@ import cc.slack.features.modules.impl.ghost.AutoTool;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
@@ -22,7 +22,6 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 

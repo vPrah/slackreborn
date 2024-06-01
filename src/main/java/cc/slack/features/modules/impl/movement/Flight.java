@@ -15,6 +15,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.movement.flights.impl.others.AirJumpFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.others.ChunkFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.others.CollideFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.vanilla.FireballFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.vanilla.VanillaFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusDamageFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
@@ -30,10 +31,11 @@ import org.lwjgl.input.Keyboard;
 )
 public class Flight extends Module {
 
-    private final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{
+    public final ModeValue<IFlight> mode = new ModeValue<>(new IFlight[]{
 
             // Vanilla
             new VanillaFlight(),
+            new FireballFlight(),
 
             // Verus
             new VerusJumpFlight(),

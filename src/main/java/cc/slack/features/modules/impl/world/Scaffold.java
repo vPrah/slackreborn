@@ -17,6 +17,7 @@ import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
+import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.util.*;
@@ -148,11 +149,11 @@ public class Scaffold extends Module {
             return;
         }
         setSprint();
-        setMovementCorrection();
-        runTowerMove();
         updateSameY();
         runFindBlock();
         updatePlayerRotations();
+        setMovementCorrection();
+        runTowerMove();
         if (placeTiming.getValue() == "Legit") placeBlock();
     }
 

@@ -2,6 +2,7 @@ package cc.slack.utils.player;
 
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
@@ -51,7 +52,7 @@ public class MovementUtil extends mc {
     }
 
     public static void strafe(){
-        strafe((float) getSpeed());
+        strafe(getSpeed());
     }
 
     public static void strafe(float speed) {
@@ -161,8 +162,8 @@ public class MovementUtil extends mc {
         if (stopY) getPlayer().motionY = 0;
     }
 
-    public static double getSpeed() {
-        return Math.hypot(getPlayer().motionX, getPlayer().motionZ);
+    public static float getSpeed() {
+        return (float) Math.hypot(getPlayer().motionX, getPlayer().motionZ);
     }
 
     public static double getSpeed(MoveEvent event) {

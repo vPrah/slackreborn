@@ -1,7 +1,7 @@
 package cc.slack.utils.other;
 
 import cc.slack.utils.client.mc;
-import cc.slack.utils.player.RotationUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
 import net.minecraft.block.material.Material;
