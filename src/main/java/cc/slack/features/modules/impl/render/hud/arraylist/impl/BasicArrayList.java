@@ -9,10 +9,8 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
-import cc.slack.utils.render.ComparatorStrings;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.gui.GuiScreen;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -36,48 +34,20 @@ public class BasicArrayList implements IArraylist {
 
     @Override
     public void onRender(RenderEvent event) {
-        if(mc.getGameSettings().showDebugInfo) {
-            return;
-        }
-        renderArrayList();
-        /*
-        int y = 1;
+        int y = 3;
 
         for (String module : modules) {
             drawRect(
-                    (int) (event.getWidth() - Fonts.poppins18.getStringWidth(module) - 5),
-                    y  - 1,
-                    (int) (event.getWidth() - Fonts.poppins18.getStringWidth(module)+ Fonts.poppins18.getStringWidth(module) + 1),
-                    y + Fonts.poppins18.getHeight() - 1,
-                    0x70000000
+                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module) - 5),
+                    y - 2,
+                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module)+ Fonts.apple18.getStringWidth(module) + 3),
+                    y + Fonts.apple18.getHeight() + 1,
+                    0x80000000
             );
-            Fonts.poppins18.drawStringWithShadow(module, event.getWidth() - Fonts.poppins18.getStringWidth(module) - 3, y, 0x5499C7);
-            y += Fonts.poppins18.getHeight();
-        }
-
-         */
-    }
-
-    private void renderArrayList() {
-        modules.clear();
-        int count = 2;
-        for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (!module.isToggle())
-                continue;
-            modules.add(module.getName() + " " + module.getMode());
-        }
-        Collections.sort(modules, new ComparatorStrings());
-        for (String m : modules) {
-            int x = (GuiScreen.width - 1) - (Fonts.poppins18.getStringWidth(m));
-            int y = count;
-            int x1 = (GuiScreen.width + 1);
-            int y1 = count + 5;
-            drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x70000000);
-            Fonts.poppins18.drawString(m, x, y, 0x5499C7);
-            count += 10;
+            Fonts.apple18.drawStringWithShadow(module, event.getWidth() - Fonts.apple18.getStringWidth(module) - 3, y, 0x5499C7);
+            y += Fonts.apple18.getHeight() + 3;
         }
     }
-
 
     @Override
     public String toString() {

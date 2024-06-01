@@ -34,7 +34,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 public class HUD extends Module {
 	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
 
-	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Backgrounded", "Logo" });
+	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Classic2", "Backgrounded", "Backgrounded2", "Logo" });
 
 	public final BooleanValue notification = new BooleanValue("Notifications", true);
 	public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", false);
@@ -70,16 +70,24 @@ public class HUD extends Module {
 		arraylistModes.getValue().onRender(e);
 
 		switch (watermarksmodes.getValue()) {
-		case "Classic":
-			Fonts.poppins24.drawStringWithShadow("S", 4, 4, 0x5499C7);
-			Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
-			break;
-		case "Backgrounded":
-			drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
-			Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
-			Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
-			break;
-
+			case "Classic":
+				Fonts.apple24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+				Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
+				break;
+			case "Classic2":
+				Fonts.poppins24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+				Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
+				break;
+			case "Backgrounded":
+				drawRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "Backgrounded2":
+				drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
 			case "Logo":
 
 				GlStateManager.enableAlpha();
@@ -91,13 +99,13 @@ public class HUD extends Module {
 				break;
 		}
 		if (fpsdraw.getValue()) {
-			Fonts.poppins18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-			Fonts.poppins18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
+			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+			Fonts.apple18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
 		}
 
 		if (bpsdraw.getValue()) {
-			Fonts.poppins18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-			Fonts.poppins18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
+			Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+			Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
 
 		}
 
