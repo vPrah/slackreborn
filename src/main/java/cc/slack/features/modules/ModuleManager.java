@@ -135,6 +135,7 @@ public class ModuleManager {
                     new NameProtect(),
                     new HealthWarn(),
                     new LegitMode(),
+                    new LagbackChecker(),
                     new PacketDebugger()
 
             );

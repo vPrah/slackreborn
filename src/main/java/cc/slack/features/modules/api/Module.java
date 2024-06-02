@@ -36,6 +36,15 @@ public abstract class Module {
         setToggle(!toggle);
     }
 
+    public void enableModule() {
+        if(!toggle)
+            toggle();
+    }
+    public void disableModule() {
+        if(toggle)
+            toggle();
+    }
+
     public void setToggle(boolean toggle) {
         if (this.toggle == toggle) return;
 
