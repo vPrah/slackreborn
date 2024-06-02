@@ -103,8 +103,8 @@ public class KeyStrokes extends Module {
 
     private void litteSquare(int x, int y, float scale) {
         RenderUtil.drawRoundedRect(
-                (float) posX - x - 15 * scale,
-                (float) posY - y - 15 * scale,
+                (float) posX + x - 15 * scale,
+                (float) posY + y - 15 * scale,
                 (float) posX + x + 15 * scale,
                 (float) posY + y + 15 * scale,
                 1 + scale,
@@ -113,8 +113,8 @@ public class KeyStrokes extends Module {
 
     private void spaceBar (int x, int y, float scale) {
         RenderUtil.drawRoundedRect(
-                (float) posX - x - 20 - 30 * scale,
-                (float) posY - y - 15 * scale,
+                (float) posX + x - 20 - 30 * scale,
+                (float) posY + y - 15 * scale,
                 (float) posX + x + 20 + 30 * scale,
                 (float) posY + y + 15 * scale,
                 1 + scale,
