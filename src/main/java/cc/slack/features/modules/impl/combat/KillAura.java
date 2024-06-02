@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.impl.combat;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
@@ -10,6 +11,8 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.impl.movement.Flight;
+import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
@@ -21,7 +24,7 @@ import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -64,7 +67,12 @@ public class KillAura extends Module {
     private final BooleanValue moveFix = new BooleanValue("Move Fix", false);
     private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
     private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
-    private final BooleanValue noScaffold = new BooleanValue("Disable With Scaffold", true);
+
+    // Checks
+    private final BooleanValue noScaffold = new BooleanValue("Disable on Scaffold", false);
+    private final BooleanValue noFlight = new BooleanValue("Disable on Flight", false);
+    private final BooleanValue noEat = new BooleanValue("Disable on Eat", true);
+    private final BooleanValue noBlock = new BooleanValue("Disable on Block", true);
 
     private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Priority", "FOV", "Distance", "Health", "Hurt Ticks"});
 
@@ -90,7 +98,8 @@ public class KillAura extends Module {
                 autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, // autoblock
                 rotationRand, minRotationSpeed, maxRotationSpeed, // rotations
                 moveFix, keepSprint, rayCast, // fixes
-                noScaffold, sortMode);
+                noScaffold, noFlight, noEat, noBlock, // Checks
+                sortMode);
     }
 
     @Override
@@ -121,6 +130,12 @@ public class KillAura extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent e) {
+
+        if (noBlock.getValue() && mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem().item instanceof ItemBlock) return;
+        if (noScaffold.getValue() && Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
+        if (noEat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood ||mc.getPlayer().getHeldItem().item instanceof ItemBucketMilk || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemPotion))) return;
+        if (noFlight.getValue() && Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle()) return;
+
         target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());
 
         if (target == null) {
