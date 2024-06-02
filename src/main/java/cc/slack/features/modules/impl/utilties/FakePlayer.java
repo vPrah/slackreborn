@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.render;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.utils.client.mc;
 import cc.slack.features.modules.api.Category;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @ModuleInfo(
         name = "FakePlayer",
-        category = Category.RENDER
+        category = Category.UTILITIES
 )
 public class FakePlayer extends Module {
 

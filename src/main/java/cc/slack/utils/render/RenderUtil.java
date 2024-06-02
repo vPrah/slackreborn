@@ -383,7 +383,7 @@ public final class RenderUtil extends mc {
         return b0;
     }
 
-    public void drawRect(int x, int y, int width, int height, int color) {
+    public void drawWidthRect(int x, int y, int width, int height, int color) {
         Gui.drawRect(x, y, x + width, y + height, color);
     }
 
@@ -473,6 +473,10 @@ public final class RenderUtil extends mc {
         Map<Integer, Boolean> map = glCapMap.get(scale);
         map.forEach(RenderUtil::setGlState);
         map.clear();
+    }
+
+    public static void drawRect(int x, int y, int x2, int y2, int color) {
+        Gui.drawRect(x, y, x2, y2, color);
     }
 
     public static void drawRoundedRect(float paramXStart, float paramYStart, float paramXEnd, float paramYEnd, float radius, int color) {

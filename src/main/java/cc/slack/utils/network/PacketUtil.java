@@ -26,7 +26,7 @@ public final class PacketUtil extends mc {
 
     public static void sendBlocking(boolean callEvent, boolean place) {
         C08PacketPlayerBlockPlacement packet;
-        C08PacketPlayerBlockPlacement c08PacketPlayerBlockPlacement = packet = place ? new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.getPlayer().getHeldItem(), 0.0f, 0.0f, 0.0f) : new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem());
+        packet = place ? new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.getPlayer().getHeldItem(), 0.0f, 0.0f, 0.0f) : new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem());
         if (callEvent) {
             PacketUtil.send(packet);
         } else {

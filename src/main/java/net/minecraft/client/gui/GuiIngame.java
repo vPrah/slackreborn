@@ -307,7 +307,7 @@ public class GuiIngame extends Gui
                 GlStateManager.popMatrix();
                 GlStateManager.pushMatrix();
                 if (customTitle) {
-                    Fonts.apple24.drawStringWithShadow(this.subtitleText, -Fonts.apple24.getStringWidth(this.subtitleText)/2f, 5, 16777215 | j2);
+                    Fonts.apple24.drawStringWithShadow(this.subtitleText, -Fonts.apple24.getStringWidth(this.subtitleText)/2f, 20, 16777215 | j2);
                 } else {
                     GlStateManager.scale(2.0F, 2.0F, 2.0F);
                     this.getFontRenderer().drawString(this.subtitleText, (float) (-this.getFontRenderer().getStringWidth(this.subtitleText) / 2), 5.0F, 16777215 | j2, true);

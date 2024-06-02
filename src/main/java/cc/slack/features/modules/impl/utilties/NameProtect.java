@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.render;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -6,7 +6,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 
 @ModuleInfo(
         name = "NameProtect",
-        category = Category.RENDER
+        category = Category.UTILITIES
 )
 public class NameProtect extends Module {
 
