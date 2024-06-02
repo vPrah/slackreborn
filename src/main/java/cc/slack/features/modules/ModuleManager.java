@@ -118,6 +118,7 @@ public class ModuleManager {
 
                     new AimAssist(),
                     new AutoSword(),
+                    new AutoRod(),
                     new AutoTool(),
                     new Backtrack(),
                     new KeepSprint(),

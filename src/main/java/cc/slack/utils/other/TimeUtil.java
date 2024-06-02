@@ -27,6 +27,9 @@ public class TimeUtil {
     public void reset() {
         currentMs = System.currentTimeMillis();
     }
+    public boolean isDelayComplete(float delay) {
+        return (float)(System.currentTimeMillis() - this.currentMs) > delay;
+    }
 
     private long getTime() {
         return System.nanoTime() / 1000000L;
