@@ -82,6 +82,7 @@ public class ModuleManager {
                     new FastBow(),
                     new Phase(),
                     new ChatBypass(),
+                    new ClientSpoofer(),
                     new Kick(),
                     new MultiAction(),
 
