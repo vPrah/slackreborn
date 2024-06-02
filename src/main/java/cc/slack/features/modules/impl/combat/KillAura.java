@@ -193,13 +193,15 @@ public class KillAura extends Module {
             case "blatant":
                 unblock();
                 break;
-//            case "interact":
-//                if (mc.getPlayer().ticksExisted % 2 == 0) {
-//                    unblock();
-//                    return true;
-//                } else {
-//                    return false;
-//                }
+            case "interact":
+                if (mc.getPlayer().ticksExisted % 2 == 0) {
+                    if (queuedAttacks > 0) {
+                        unblock();
+                    }
+                    return true;
+                } else {
+                    return false;
+                }
             case "basic":
                 switch (mc.getPlayer().ticksExisted % 3) {
                     case 0:
