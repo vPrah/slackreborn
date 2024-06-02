@@ -23,7 +23,7 @@ import net.minecraft.client.settings.KeyBinding;
 )
 public class Autoclicker extends Module {
 
-    public final NumberValue<Float> targetCPS = new NumberValue<>("Target CPS", 11f, 0f, 30f, 0.1f);
+    public final NumberValue<Integer> targetCPS = new NumberValue<>("Target CPS", 11, 0, 30, 1);
 
     public final NumberValue<Float> randomizeAmount = new NumberValue<>("Randomization Amount", 1.5f, 0f, 4f, 0.1f);
     public final ModeValue<String> randomizeMode = new ModeValue<>("Randomization Pattern", new String[]{"NEW", "OLD", "EXTRA", "PATTERN1", "PATTERN2", "NONE"});
@@ -75,7 +75,7 @@ public class Autoclicker extends Module {
     }
 
 
-    private long updateDelay(Float cps, Float rand) {
+    private long updateDelay(int cps, Float rand) {
         switch (randomizeMode.getValue().toLowerCase()) {
             case "none":
                 return (long) (1000 / cps);
