@@ -42,6 +42,7 @@ public class ModuleManager {
                     new NoSlow(),
                     new SafeWalk(),
                     new InvMove(),
+                    new LongJump(),
                     new Step(),
                     new Sprint(),
                     new Jesus(),
