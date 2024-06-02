@@ -18,7 +18,7 @@ import net.arikia.dev.drpc.DiscordRPC;
 import net.arikia.dev.drpc.DiscordRichPresence;
 
 @ModuleInfo(
-        name = "DiscordRPC",
+        name = "RichPresence",
         category = Category.OTHER
 )
 
