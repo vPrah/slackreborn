@@ -510,7 +510,7 @@ public final class RenderUtil extends mc {
         if (popPush) glPushMatrix();
         glEnable(GL_BLEND);
         glDisable(GL_TEXTURE_2D);
-        //glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_LINE_SMOOTH);
         glLineWidth(1);
 
