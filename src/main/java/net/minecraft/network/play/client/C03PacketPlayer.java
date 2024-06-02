@@ -13,7 +13,7 @@ public class C03PacketPlayer implements Packet<INetHandlerPlayServer>
     public float yaw;
     public float pitch;
     public boolean onGround;
-    protected boolean moving;
+    public boolean moving;
     protected boolean rotating;
 
     public C03PacketPlayer()
