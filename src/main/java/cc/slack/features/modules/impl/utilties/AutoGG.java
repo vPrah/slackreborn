@@ -38,6 +38,7 @@ public class AutoGG extends Module {
         if (
                 unformattedText.contains("Jugar de nuevo") ||
                 unformattedText.contains("Ha ganado") ||
+                unformattedText.contains("Has muerto") ||
                 unformattedText.contains("You won! Want to play again? Click here!") ||
                 unformattedText.contains("You lost! Want to play again? Click here!") ||
                 unformattedText.contains("You died! Want to play again? Click here!")
