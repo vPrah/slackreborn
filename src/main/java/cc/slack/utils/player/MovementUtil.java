@@ -201,6 +201,17 @@ public class MovementUtil extends mc {
         }
         return speedPotMultiplier;
     }
+
+    public static double getJumpMotion(float motionY) {
+        final Potion potion = Potion.jump;
+
+        if (mc.getPlayer().isPotionActive(potion)) {
+            final int amplifier = mc.getPlayer().getActivePotionEffect(potion).getAmplifier();
+            motionY += (amplifier + 1) * 0.1F;
+        }
+
+        return motionY;
+    }
     
 
     public static void setVClip(double number) {

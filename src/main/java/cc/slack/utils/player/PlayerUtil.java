@@ -199,6 +199,10 @@ public class PlayerUtil extends mc {
         return lastAxe;
     }
 
+    public static Block getBlockRelativeToPlayer(final double offsetX, final double offsetY, final double offsetZ) {
+        return mc.getWorld().getBlockState(new BlockPos(mc.getPlayer().posX + offsetX, mc.getPlayer().posY + offsetY, mc.getPlayer().posZ + offsetZ)).getBlock();
+    }
+
     public static int getBestHotbarTool(Block target) {
         int bestTool = mc.getPlayer().inventory.currentItem;
         for (int i = 36; i < 45; i++) {

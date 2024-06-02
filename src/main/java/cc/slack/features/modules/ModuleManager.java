@@ -99,6 +99,7 @@ public class ModuleManager {
                     new Chams(),
                     new ChestESP(),
                     new ItemPhysics(),
+                    new Spider(),
                     new Bobbing(),
                     new Tracers(),
                     new Projectiles(),
