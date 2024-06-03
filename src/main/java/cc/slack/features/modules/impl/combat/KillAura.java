@@ -342,4 +342,7 @@ public class KillAura extends Module {
     private boolean canAutoBlock() {
         return target != null && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword && mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue();
     }
+
+    @Override
+    public String getMode() { return autoBlock.getValue(); }
 }

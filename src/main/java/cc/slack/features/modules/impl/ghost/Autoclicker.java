@@ -93,4 +93,7 @@ public class Autoclicker extends Module {
         return 0L;
     }
 
+    @Override
+    public String getMode() { return targetCPS.getValue() + " " + randomizeAmount.getValue(); }
+
 }
