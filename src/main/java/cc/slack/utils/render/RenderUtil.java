@@ -529,7 +529,7 @@ public final class RenderUtil extends mc {
         glEnd();
         glColor4f(1, 1, 1, 1);
         glEnable(GL_TEXTURE_2D);
-        glDisable(GL_BLEND);
+//        glDisable(GL_BLEND);
         glDisable(GL_LINE_SMOOTH);
         if (popPush) glPopMatrix();
     }
