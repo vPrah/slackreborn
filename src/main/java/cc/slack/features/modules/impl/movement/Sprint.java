@@ -14,6 +14,7 @@ import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import de.gerrygames.viarewind.utils.ChatUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.potion.Potion;
 

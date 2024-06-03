@@ -312,6 +312,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     /** The profiler instance */
     public final Profiler mcProfiler = new Profiler();
 
+    private boolean clickMouseEnabled = true;
+
     /**
      * Keeps track of how long the debug crash keycombo (F3+C) has been pressed for, in order to crash after 10 seconds.
      */
@@ -596,6 +598,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
         this.renderGlobal.makeEntityOutlineShader();
     }
+
+
 
     private void registerMetadataSerializers()
     {
@@ -1502,9 +1506,13 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         }
     }
 
+    public void setClickMouseEnabled(boolean enabled) {
+        this.clickMouseEnabled = enabled;
+    }
+
     private void clickMouse()
     {
-        if (this.leftClickCounter <= 0)
+        if (this.clickMouseEnabled &&  this.leftClickCounter <= 0)
         {
             AttackOrder.sendConditionalSwing(this.objectMouseOver);
 
