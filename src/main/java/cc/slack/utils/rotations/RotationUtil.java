@@ -37,6 +37,7 @@ public class RotationUtil extends mc {
         keepRotationTicks = 0;
         strafeFix = false;
         strictStrafeFix = true;
+        MovementUtil.updateBinds(false);
     }
 
     public static void setClientRotation(final float[] targetRotation) {
