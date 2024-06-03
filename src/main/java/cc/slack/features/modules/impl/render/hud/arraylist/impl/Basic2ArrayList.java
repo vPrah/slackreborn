@@ -66,11 +66,20 @@ public class Basic2ArrayList implements IArraylist {
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (!module.isToggle())
                 continue;
-            modules.add(module.getName() + " §7" + module.getMode());
+
+            String displayName = module.getName();
+            String mode = module.getMode();
+            if (mode != null && !mode.isEmpty()) {
+                displayName += " §7" + mode;
+            }
+            modules.add(displayName);
         }
+
+        modules.sort((a, b) -> Integer.compare(Fonts.poppins18.getStringWidth(b), Fonts.poppins18.getStringWidth(a)));
+
         Collections.sort(modules, new ComparatorStrings());
         for (String m : modules) {
-            int x = (GuiScreen.width - 1) - (Fonts.poppins18.getStringWidth(m));
+            int x = (GuiScreen.width - 2) - (Fonts.poppins18.getStringWidth(m));
             int y = count;
             int x1 = (GuiScreen.width + 1);
             int y1 = count + 5;

@@ -26,13 +26,18 @@ public class BasicArrayList implements IArraylist {
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) modules.add(module.getDisplayName() + " §7" + module.getMode());
-
-
+            if (module.isToggle()) {
+                String displayName = module.getDisplayName();
+                String mode = module.getMode();
+                if (mode != null && !mode.isEmpty()) {
+                    displayName += " §7" + mode;
+                }
+                modules.add(displayName);
+            }
         }
-        modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
-        Collections.reverse(modules);
+        modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b), Fonts.apple18.getStringWidth(a)));
     }
+
 
     @Override
     public void onRender(RenderEvent event) {

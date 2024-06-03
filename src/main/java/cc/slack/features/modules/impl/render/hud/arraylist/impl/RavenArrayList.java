@@ -23,11 +23,23 @@ public class RavenArrayList implements IArraylist {
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) modules.add(module.getDisplayName() + " §7" + module.getMode());
+            if (module.isToggle()) {
+                String displayName = module.getDisplayName();
+                String mode = module.getMode();
+                if (mode != null && !mode.isEmpty()) {
+                    displayName += " §7" + mode;
+                }
+                modules.add(displayName);
+            }
         }
-        modules.sort(Comparator.comparingInt(mc.getFontRenderer()::getStringWidth));
+
+
+        modules.sort((a, b) -> Integer.compare(mc.getFontRenderer().getStringWidth(a), mc.getFontRenderer().getStringWidth(b)));
         Collections.reverse(modules);
     }
+
+
+
 
     @Override
     public void onRender(RenderEvent event) {
