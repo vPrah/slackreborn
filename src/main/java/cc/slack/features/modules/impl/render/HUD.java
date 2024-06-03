@@ -84,7 +84,7 @@ public class HUD extends Module {
 				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
 			case "Backgrounded2":
-				drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x70000000);
+				drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
 				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
 				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
