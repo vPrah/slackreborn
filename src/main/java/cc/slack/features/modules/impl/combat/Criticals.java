@@ -66,6 +66,8 @@ public class Criticals extends Module {
     private void sendPacket(double yOffset, boolean ground) {
         PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + yOffset, mc.getPlayer().posZ, ground));
     }
-    
+
+    @Override
+    public String getMode() { return criticalMode.getValue(); }
 
 }

@@ -66,7 +66,7 @@ public class Basic2ArrayList implements IArraylist {
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (!module.isToggle())
                 continue;
-            modules.add(module.getName() + " " + module.getMode());
+            modules.add(module.getName() + "  " + module.getMode());
         }
         Collections.sort(modules, new ComparatorStrings());
         for (String m : modules) {

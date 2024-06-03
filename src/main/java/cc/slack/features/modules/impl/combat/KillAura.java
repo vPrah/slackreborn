@@ -344,5 +344,5 @@ public class KillAura extends Module {
     }
 
     @Override
-    public String getMode() { return autoBlock.getValue(); }
+    public String getMode() { return cps.getValue() + " cps" + ", " + autoBlock.getValue(); }
 }
