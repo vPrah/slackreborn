@@ -26,7 +26,9 @@ public class BasicArrayList implements IArraylist {
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) modules.add(module.getDisplayName());
+            if (module.isToggle()) modules.add(module.getDisplayName() + " §7" + module.getMode());
+
+
         }
         modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
         Collections.reverse(modules);
