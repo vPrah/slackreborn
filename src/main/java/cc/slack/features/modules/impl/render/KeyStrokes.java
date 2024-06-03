@@ -81,10 +81,12 @@ public class KeyStrokes extends Module {
         litteSquare(0, -35, getScale(0));
         spaceBar(0, 35, getScale(4));
 
-        Fonts.apple18.drawCenteredStringWithShadow("S", (float) posX, (float) posY, new Color(255,255,255).getRGB());
-        Fonts.apple18.drawCenteredStringWithShadow("W", (float) posX, (float) posY - 35, new Color(255,255,255).getRGB());
-        Fonts.apple18.drawCenteredStringWithShadow("D", (float) posX + 35, (float) posY, new Color(255,255,255).getRGB());
-        Fonts.apple18.drawCenteredStringWithShadow("A", (float) posX - 35, (float) posY, new Color(255,255,255).getRGB());
+        int h = Fonts.apple24.getHeight() / 2;
+
+        Fonts.apple24.drawCenteredStringWithShadow("S", (float) posX, (float) posY - h, new Color(255,255,255).getRGB());
+        Fonts.apple24.drawCenteredStringWithShadow("W", (float) posX, (float) posY - 35 - h, new Color(255,255,255).getRGB());
+        Fonts.apple24.drawCenteredStringWithShadow("D", (float) posX + 35, (float) posY - h, new Color(255,255,255).getRGB());
+        Fonts.apple24.drawCenteredStringWithShadow("A", (float) posX - 35, (float) posY - h, new Color(255,255,255).getRGB());
 
     }
 

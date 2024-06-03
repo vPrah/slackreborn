@@ -64,7 +64,7 @@ public abstract class GuiScreen extends Gui implements GuiYesNoCallback {
     /**
      * The width of the screen object.
      */
-    public static int width;
+    public int width;
 
     /**
      * The height of the screen object.

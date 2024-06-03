@@ -27,7 +27,7 @@ public class MainMenu extends GuiScreen {
     //     GlStateManager.pushMatrix();
 
      //   GlStateManager.scale(1.4 , 1.4, 1.4);
-        Fonts.apple45.drawString("  lack" + " Client", 16, 30, -1);
+        // Fonts.apple45.drawString("  lack Client", 16, 30, -1);
    //     GlStateManager.popMatrix();
         super.drawScreen(mouseX, mouseY, partialTicks);
     //    ScaledResolution scaledResolution = new ScaledResolution(mc);
