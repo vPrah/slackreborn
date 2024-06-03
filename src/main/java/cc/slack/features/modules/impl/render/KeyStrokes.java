@@ -132,9 +132,9 @@ public class KeyStrokes extends Module {
             }
         } else {
             if (upTime.get(i).hasReached(250)) {
-                return 1f;
+                return 0f;
             } else {
-                return 1 - easing(250 - upTime.get(i).elapsed());
+                return easing(250 - upTime.get(i).elapsed());
             }
         }
     }
