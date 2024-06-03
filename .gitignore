@@ -9,5 +9,5 @@ workspace/
 MavenMCP.iml
 workspace/servers.dat
 */.DS_Store
-.DS_Store
+*.DS_Store
 logs/
