@@ -140,11 +140,11 @@ public class ModuleManager {
                     new HealthWarn(),
                     new LegitMode(),
                     new LagbackChecker(),
-                    new PacketDebugger(),
+                    new PacketDebugger()
 
 
 
-                   new PerfectTimingHit()
+//                   new PerfectTimingHit()
 
             );
             

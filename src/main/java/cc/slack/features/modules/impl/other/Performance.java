@@ -72,6 +72,4 @@ public class Performance extends Module {
         }
     }
 
-    @Override
-    public String getMode() { return performancemode.getValue(); }
 }

@@ -56,6 +56,4 @@ public class NoWeb extends Module {
         }
     }
 
-    @Override
-    public String getMode() { return mode.getValue(); }
 }

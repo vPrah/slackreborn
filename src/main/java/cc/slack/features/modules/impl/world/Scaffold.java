@@ -458,5 +458,5 @@ public class Scaffold extends Module {
     }
 
     @Override
-    public String getMode() { return rotationMode.getValue(); }
+    public String getMode() { return rotationMode.getValue() + " , " + sprintMode.getValue(); }
 }

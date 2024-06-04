@@ -49,6 +49,4 @@ public class Killsults extends Module {
         mc.getPlayer().sendChatMessage(insultslist[randomIndex]);
     }
 
-    @Override
-    public String getMode() { return mode.getValue(); }
 }

@@ -90,6 +90,4 @@ public class RichPresence extends Module {
         }
     }
 
-    @Override
-    public String getMode() { return rpcmode.getValue(); }
 }

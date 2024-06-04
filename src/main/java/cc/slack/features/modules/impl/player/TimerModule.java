@@ -94,7 +94,5 @@ public class TimerModule extends Module {
         }
     }
 
-    @Override
-    public String getMode() { return mode.getValue(); }
 
 }

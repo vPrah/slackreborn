@@ -191,6 +191,4 @@ public class TargetHUD extends Module {
 		Gui.drawRect(x, y, x + width, y + height, color);
 	}
 
-	@Override
-	public String getMode() { return mode.getValue(); }
 }
