@@ -14,6 +14,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.impl.vanilla.FireballFlight;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
@@ -27,7 +28,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Intave"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Test", "Intave"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
@@ -36,6 +37,8 @@ public class Velocity extends Module {
     private final BooleanValue noFire = new BooleanValue("No Fire", false);
 
     int jumped = 0;
+    boolean hypixeltest= false;
+    double hypixelY;
 
     public Velocity() {
         addSettings(mode, vertical, horizontal, velocityTick, onlyground, noFire);
@@ -80,6 +83,28 @@ public class Velocity extends Module {
                         event.cancel();
                         mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
                         break;
+                    case "hypixel test":
+                        if (mc.getPlayer().onGround) {
+                            if (hypixeltest) {
+                                mc.getPlayer().motionY = hypixelY;
+                                BlinkUtil.disable();
+                                hypixeltest = false;
+                            } else {
+                                event.cancel();
+                                mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                                hypixeltest = false;
+                            }
+                        } else {
+                            if (hypixeltest) {
+                                event.cancel();
+                                hypixelY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                            } else {
+                                event.cancel();
+                                hypixelY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                                BlinkUtil.enable(true, false);
+                                hypixeltest = true;
+                            }
+                        }
                     case "reverse":
                         event.cancel();
                         mc.getPlayer().motionY = packet.getMotionY() / 8000.0;

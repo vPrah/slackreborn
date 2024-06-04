@@ -52,7 +52,7 @@ public class FreeCam extends Module {
     public void onMotion (MotionEvent event) {
         mc.getPlayer().motionY = 0;
         if(MovementUtil.isBindsMoving())
-            MovementUtil.setHClip(1);
+            MovementUtil.strafe(1f);
         if(mc.getGameSettings().keyBindJump.isKeyDown()) MovementUtil.setVClip(0.5);
         if(mc.getGameSettings().keyBindSneak.isKeyDown()) MovementUtil.setVClip(-0.5);
     }

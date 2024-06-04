@@ -31,6 +31,14 @@ public class HypixelHopSpeed implements ISpeed {
         } else {
             mc.getPlayer().motionX *= 1.0005;
             mc.getPlayer().motionZ *= 1.0005;
+            if (mc.getPlayer().offGroundTicks == 4) {
+                MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
+            }
+            if (mc.getPlayer().motionY > 0) {
+                mc.getTimer().timerSpeed = 0.95f;
+            } else {
+                mc.getTimer().timerSpeed = 1.1f;
+            }
         }
 
     }

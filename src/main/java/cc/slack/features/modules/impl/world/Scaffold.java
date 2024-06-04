@@ -343,8 +343,8 @@ public class Scaffold extends Module {
 
     private void runFindBlock() {
         for (double x = 0.0; x <= expandAmount.getValue(); x += 0.1) {
-            placeX = mc.getPlayer().posX - (MathHelper.sin(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x);
-            placeZ = mc.getPlayer().posZ + (MathHelper.cos(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) * x);
+            placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+            placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
             if (startSearch()) return;
 
         }
