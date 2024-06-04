@@ -83,4 +83,7 @@ public class AutoPlay extends Module {
         Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoPlay:  You joined in the new game", "", 1500L, Slack.NotificationStyle.WARN);
     }
 
+    @Override
+    public String getMode() { return mode.getValue(); }
+
 }

@@ -74,4 +74,7 @@ public class Ambience extends Module {
             }
         }
     }
+
+    @Override
+    public String getMode() { return timemode.getValue(); }
 }

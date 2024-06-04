@@ -56,4 +56,7 @@ public class Step extends Module {
             mc.getTimer().timerSpeed = 1f;
         }
     }
+
+    @Override
+    public String getMode() { return mode.getValue(); }
 }

@@ -27,4 +27,8 @@ public class Animations extends Module {
         addSettings(blockStyle, animationSpeedValue, spinSpeed, xValue, yValue, zValue);
     }
 
+
+    @Override
+    public String getMode() { return blockStyle.getValue().toString(); }
+
 }

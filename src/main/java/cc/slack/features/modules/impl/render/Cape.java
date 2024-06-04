@@ -41,4 +41,7 @@ public class Cape extends Module {
     public void onDisable() {
         mc.getPlayer().setLocationOfCape(null);
     }
+
+    @Override
+    public String getMode() { return capes.getValue(); }
 }

@@ -77,5 +77,7 @@ public class LongJump extends Module {
         mode.getValue().onMotion(event);
     }
 
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
 
 }

@@ -125,5 +125,7 @@ public class AntiVoid extends Module {
                 true, true, false) == null;
     }
 
+    @Override
+    public String getMode() { return antivoidMode.getValue(); }
 
 }

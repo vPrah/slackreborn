@@ -97,4 +97,7 @@ public class NoSlow extends Module {
         }
     }
 
+    @Override
+    public String getMode() { return mode.getValue(); }
+
 }
