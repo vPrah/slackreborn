@@ -51,4 +51,7 @@ public class FastEat extends Module {
             }
         }
     }
+
+    @Override
+    public String getMode() { return mode.getValue(); }
 }

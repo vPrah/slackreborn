@@ -89,4 +89,7 @@ public class RichPresence extends Module {
             DiscordRPC.discordInitialize("1241556030664736788", handlers, true);
         }
     }
+
+    @Override
+    public String getMode() { return rpcmode.getValue(); }
 }
