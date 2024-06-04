@@ -43,4 +43,7 @@ public class Jesus extends Module {
                 break;
         }
     }
+
+    @Override
+    public String getMode() { return mode.getValue(); }
 }

@@ -105,4 +105,5 @@ public class Timer
 
         this.renderPartialTicks = this.elapsedPartialTicks;
     }
+
 }

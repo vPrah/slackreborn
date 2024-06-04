@@ -231,4 +231,7 @@ public class HUD extends Module {
 		notDetailed.add(smallText);
 		notStyle.add(style);
 	}
+
+	@Override
+	public String getMode() { return arraylistModes.getValue().toString(); }
 }

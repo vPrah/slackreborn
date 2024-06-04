@@ -188,4 +188,7 @@ public class Breaker extends Module {
                 break;
         }
     }
+
+    @Override
+    public String getMode() { return mode.getValue(); }
 }

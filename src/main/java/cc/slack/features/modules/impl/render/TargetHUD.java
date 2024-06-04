@@ -190,4 +190,7 @@ public class TargetHUD extends Module {
 	private void drawRect(int x, int y, int width, int height, int color) {
 		Gui.drawRect(x, y, x + width, y + height, color);
 	}
+
+	@Override
+	public String getMode() { return mode.getValue(); }
 }

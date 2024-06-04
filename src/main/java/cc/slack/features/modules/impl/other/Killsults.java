@@ -48,4 +48,7 @@ public class Killsults extends Module {
         final int randomIndex = ThreadLocalRandom.current().nextInt(0, insultslist.length);
         mc.getPlayer().sendChatMessage(insultslist[randomIndex]);
     }
+
+    @Override
+    public String getMode() { return mode.getValue(); }
 }

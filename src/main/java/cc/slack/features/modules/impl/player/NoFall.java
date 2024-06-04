@@ -75,4 +75,7 @@ public class NoFall extends Module {
     public void onPacket(PacketEvent event) {
         mode.getValue().onPacket(event);
     }
+
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
 }

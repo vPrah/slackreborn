@@ -78,6 +78,9 @@ public class Spider extends Module {
         timer.reset();
     }
 
+    @Override
+    public String getMode() { return spiderValue.getValue(); }
+
 
 
 }
