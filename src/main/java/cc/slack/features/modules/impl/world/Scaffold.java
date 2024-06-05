@@ -106,6 +106,7 @@ public class Scaffold extends Module {
     @Override
     public void onEnable() {
         firstJump = true;
+        groundY = mc.getPlayer().posY;
     }
 
     @Override
@@ -197,7 +198,6 @@ public class Scaffold extends Module {
                     } else {
                         MovementUtil.resetMotion(false);
                         groundY = mc.getPlayer().posY;
-                        firstJump = false;
                     }
                 }
                 break;
@@ -259,7 +259,9 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                if (PlayerUtil.isOverAir() && mc.getPlayer().motionY < -0.3 && mc.getPlayer().posY - groundY < 1.7) {
+                if (mc.getPlayer().onGround && mc.getPlayer().posY - groundY != 1) groundY = mc.getPlayer().posY;
+                if (PlayerUtil.isOverAir() && mc.getPlayer().motionY < -0.1 && mc.getPlayer().posY - groundY < 1.3 || firstJump) {
+                    firstJump = false;
                     placeY = mc.getPlayer().posY;
                 } else {
                     placeY = groundY;

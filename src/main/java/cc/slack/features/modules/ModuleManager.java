@@ -141,11 +141,7 @@ public class ModuleManager {
                     new LegitMode(),
                     new LagbackChecker(),
                     new PacketDebugger()
-
-
-
-//                   new PerfectTimingHit()
-
+                    
             );
             
     		for(Module m : modules.values()) {

@@ -1,5 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.combat.KillAura;
+import cc.slack.utils.client.mc;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
@@ -105,7 +108,10 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
                 {
                     EnumAction enumaction = itemstack.getItemUseAction();
 
-                    if (enumaction == EnumAction.BLOCK)
+                    if (enumaction == EnumAction.BLOCK ||
+                            (clientPlayer.getEntityId() == mc.getPlayer().getEntityId() &&
+                                    Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() &&
+                                    Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock) )
                     {
                         modelplayer.heldItemRight = 3;
                     }
