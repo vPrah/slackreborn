@@ -15,11 +15,13 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
@@ -38,6 +40,7 @@ public class Scaffold extends Module {
 
     private final ModeValue<String> rotationMode = new ModeValue<>("Rotation Mode", new String[] {"Vanilla", "Vanilla Center", "Hypixel", "Hypixel Ground"});
     private final NumberValue<Integer> keepRotationTicks = new NumberValue<>("Keep Rotation Length", 1, 0, 10, 1);
+    private final ModeValue<String> swingMode = new ModeValue<>("Swing", new String[]{"Normal", "Packet", "None"});
 
     private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
     private final ModeValue<String> placeTiming = new ModeValue<>("Placement Timing", new String[] {"Legit", "Pre", "Post"});
@@ -96,6 +99,7 @@ public class Scaffold extends Module {
     public Scaffold() {
         super();
         addSettings(rotationMode, keepRotationTicks, // rotations
+                swingMode, // Swing Method
                 raycastMode, placeTiming, expandAmount, // placements
                 sprintMode, sameY, speedModifier, safewalkMode, strafeFix, // movements
                 towerMode, towerNoMove, // tower
@@ -447,7 +451,12 @@ public class Scaffold extends Module {
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
         if (mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
-            mc.getPlayer().swingItem();
+
+            if (swingMode.getValue().contains("Normal")) {
+                mc.getPlayer().swingItem();
+            } else if (swingMode.getValue().contains("Packet")) {
+                PacketUtil.sendNoEvent(new C0APacketAnimation());
+            }
 
             mc.getPlayer().motionX *= speedModifier.getValue();
             mc.getPlayer().motionZ *= speedModifier.getValue();
