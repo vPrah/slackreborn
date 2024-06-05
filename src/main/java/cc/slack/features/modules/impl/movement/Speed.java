@@ -75,7 +75,7 @@ public class Speed extends Module {
 
     public Speed() {
         super();
-        addSettings(mode, vanillaspeed, vanillaGround, nosloweat, jumpFix);
+        addSettings(mode, vanillaspeed, vanillaGround, hypixelSemiStrafe, hypixelTest, nosloweat, jumpFix);
     }
 
     @Override
