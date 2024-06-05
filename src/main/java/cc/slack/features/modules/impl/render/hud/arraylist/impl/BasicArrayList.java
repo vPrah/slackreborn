@@ -7,35 +7,45 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
-import net.minecraft.client.Minecraft;
+import jdk.internal.net.http.common.Pair;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.List;
 
 import static net.minecraft.client.gui.Gui.drawRect;
 
 public class BasicArrayList implements IArraylist {
 
-    List<String> modules = new ArrayList<>();
+    List<Pair<String, Double>> modules = new ArrayList<>();
 
     @Override
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) {
+            if (module.isToggle() || !module.disabledTime.hasReached(300)) {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
                 if (mode != null && !mode.isEmpty()) {
                     displayName += " §7" + mode;
                 }
-                modules.add(displayName);
+
+                double ease;
+
+                if (module.isToggle()) {
+                    if (module.enabledTime.hasReached(300)) {
+                        ease = 0;
+                    } else {
+                        ease = Math.pow(1 - (module.enabledTime.elapsed() / 300.0), 3);
+                    }
+                } else {
+                    ease = Math.pow(module.disabledTime.elapsed() / 300.0, 3);
+                }
+
+                modules.add(new Pair<>(displayName, 1 - 1.2 * ease));
             }
         }
-        modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b), Fonts.apple18.getStringWidth(a)));
+        modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b.first), Fonts.apple18.getStringWidth(a.first)));
     }
 
 
@@ -43,16 +53,17 @@ public class BasicArrayList implements IArraylist {
     public void onRender(RenderEvent event) {
         int y = 3;
 
-        for (String module : modules) {
+        for (Pair<String, Double> module : modules) {
+            int stringLength = Fonts.apple18.getStringWidth(module.first);
             drawRect(
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module) - 5),
+                    (int) (event.getWidth() - stringLength * module.second - 5),
                     y - 2,
-                    (int) (event.getWidth() - Fonts.apple18.getStringWidth(module)+ Fonts.apple18.getStringWidth(module) + 3),
+                    (int) (event.getWidth() - stringLength * module.second + stringLength + 3),
                     y + Fonts.apple18.getHeight() + 1,
                     0x80000000
             );
-            Fonts.apple18.drawStringWithShadow(module, event.getWidth() - Fonts.apple18.getStringWidth(module) - 3, y, 0x5499C7);
-            y += Fonts.apple18.getHeight() + 3;
+            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * module.second - 3, y, 0x5499C7);
+            y += (int) ((Fonts.apple18.getHeight() + 3) * (module.second + 0.2)/1.2);
         }
     }
 

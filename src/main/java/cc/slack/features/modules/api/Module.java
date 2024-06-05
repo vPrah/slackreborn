@@ -10,6 +10,7 @@ import cc.slack.Slack;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.utils.EventUtil;
 import cc.slack.utils.drag.DragUtil;
+import cc.slack.utils.other.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,6 +26,9 @@ public abstract class Module {
     private final Category category = moduleInfo.category();
     private int key = moduleInfo.key();
     private boolean toggle;
+
+    public TimeUtil enabledTime = new TimeUtil();
+    public TimeUtil disabledTime = new TimeUtil();
 
     public void onToggled() {}
     public void onEnable() {}
@@ -51,10 +55,12 @@ public abstract class Module {
         this.toggle = toggle;
 
         if (toggle) {
+            enabledTime.reset();
             EventUtil.register(this);
             onEnable();
             Slack.getInstance().addNotification("Enabled module: " + name + ".", " ", 2000L, Slack.NotificationStyle.SUCCESS);
         } else {
+            disabledTime.reset();
             EventUtil.unRegister(this);
             onDisable();
             Slack.getInstance().addNotification("Disabled module: " + name + ".", " ", 2000L, Slack.NotificationStyle.FAIL);
