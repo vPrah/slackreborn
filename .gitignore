@@ -12,3 +12,4 @@ workspace/servers.dat
 *.DS_Store
 logs/
 .DS_Store
+.DS_Store

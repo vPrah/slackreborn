@@ -7,16 +7,21 @@ import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
+import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.potion.Potion;
+import net.minecraft.util.MathHelper;
+import net.minecraft.util.Vec3;
 
 public class HypixelHopSpeed implements ISpeed {
 
     int jumpTick = 0;
+    boolean wasSlow = false;
 
     @Override
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().onGround) {
             if (MovementUtil.isMoving()) {
+                wasSlow = false;
                 if (jumpTick > 6) jumpTick = 4;
                 mc.getPlayer().jump();
                 MovementUtil.strafe(0.46f + jumpTick * 0.003f);
@@ -31,13 +36,21 @@ public class HypixelHopSpeed implements ISpeed {
         } else {
             mc.getPlayer().motionX *= 1.0005;
             mc.getPlayer().motionZ *= 1.0005;
-            if (mc.getPlayer().offGroundTicks == 4) {
-                MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
-            }
+            //if (mc.getPlayer().offGroundTicks == 4) {
+            //    MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
+           // }
             if (mc.getPlayer().motionY > 0) {
                 mc.getTimer().timerSpeed = 0.95f;
             } else {
-                mc.getTimer().timerSpeed = 1.1f;
+                mc.getTimer().timerSpeed = 1.07f;
+            }
+            if (wasSlow) MovementUtil.strafe(0.2f);
+            if (Math.abs(MathHelper.wrapAngleTo180_float(
+                    MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
+                            RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
+            )) > 70) {
+                MovementUtil.resetMotion(false);
+                wasSlow = true;
             }
         }
 
