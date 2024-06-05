@@ -34,7 +34,7 @@ public class HypixelBlinkNofall implements INoFall {
         if (mc.getPlayer().onGround && spoof) {
             spoof = false;
             BlinkUtil.disable();
-        } else if (mc.getPlayer().offGroundTicks == 1 && mc.getPlayer().motionY < 0 &&) {
+        } else if (mc.getPlayer().offGroundTicks == 1 && mc.getPlayer().motionY < 0) {
             spoof = true;
             BlinkUtil.enable(false, true);
         }
