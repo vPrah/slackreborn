@@ -33,7 +33,7 @@ public class ClickGUI<ClickGUIType extends GuiScreen> extends Module {
         if (clickgui == null) {
             switch (mode.getValue()) {
                 case "New":
-                    clickgui = (ClickGUIType) new TransparentClickGUI();
+//                    clickgui = (ClickGUIType) new TransparentClickGUI();
                     break;
                 case "Old":
                     clickgui = (ClickGUIType) new ClickGui();

@@ -22,8 +22,8 @@ import cc.slack.features.modules.impl.utilties.*;
 import cc.slack.features.modules.impl.world.*;
 
 public class ModuleManager {
-    private final Map<Class<? extends Module>, Module> modules = new LinkedHashMap<>();
-    private final Map<Class<? extends Module>, Module> draggable = new LinkedHashMap<>();
+    public final Map<Class<? extends Module>, Module> modules = new LinkedHashMap<>();
+    public final Map<Class<? extends Module>, Module> draggable = new LinkedHashMap<>();
 
     public void initialize() {
         try {

@@ -79,6 +79,7 @@ public class Speed extends Module {
 
     @Override
     public void onDisable() {
+        mc.getTimer().timerSpeed = 1f;
         if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump); }
         mode.getValue().onDisable();
     }
