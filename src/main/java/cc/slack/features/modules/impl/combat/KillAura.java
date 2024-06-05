@@ -28,6 +28,7 @@ import net.minecraft.item.*;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
+import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
@@ -46,6 +47,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> attackRange = new NumberValue<>("Attack Range", 3.0D, 3.0D, 7.0D, 0.01D);
 
     // attack
+    private final ModeValue<String> swingMode = new ModeValue<>("Swing", new String[]{"Normal", "Packet", "None"});
     private final ModeValue<AttackUtil.AttackPattern> attackPattern = new ModeValue<>("Pattern", AttackUtil.AttackPattern.values());
     private final NumberValue<Integer> cps = new NumberValue<>("CPS", 14, 1, 30, 1);
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
@@ -94,7 +96,7 @@ public class KillAura extends Module {
         super();
         addSettings(
                 aimRange, attackRange, // range
-                attackPattern, cps, randomization, // autoclicker
+                swingMode, attackPattern, cps, randomization, // autoclicker
                 autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, // autoblock
                 rotationRand, minRotationSpeed, maxRotationSpeed, // rotations
                 moveFix, keepSprint, rayCast, // fixes
@@ -172,7 +174,12 @@ public class KillAura extends Module {
         rayCastedEntity = null;
         if (rayCast.getValue()) rayCastedEntity = RaycastUtil.rayCast(attackRange.getValue(), rotations);
 
-        mc.getPlayer().swingItem();
+        if (swingMode.getValue().contains("Normal")){
+            mc.getPlayer().swingItem();
+        } else if (swingMode.getValue().contains("Packet")) {
+            PacketUtil.sendNoEvent(new C0APacketAnimation());
+        }
+
 
         if (mc.getPlayer().getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
             return;
