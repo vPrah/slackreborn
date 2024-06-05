@@ -31,7 +31,7 @@ public class Tracers extends Module {
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 200, 0, 255, 1);
 
     public Tracers() {
-        addSettings(rgbValue,redValue, greenValue, blueValue, alphaValue);
+        addSettings(rgbValue, redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
@@ -40,34 +40,7 @@ public class Tracers extends Module {
 
         for(Entity entity : mc.getWorld().getLoadedEntityList()) {
             if(entity instanceof EntityPlayer && entity != mc.getPlayer()) {
-                double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosX;
-                double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosY + entity.getEyeHeight();
-                double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosZ;
-
-                GL11.glPushMatrix();
-
-                GL11.glLoadIdentity();
-                mc.getEntityRenderer().orientCamera(mc.getTimer().renderPartialTicks);
-                GlStateManager.disableTexture2D();
-                GL11.glEnable(GL11.GL_LINE_SMOOTH);
-                GlStateManager.disableDepth();
-                GlStateManager.enableBlend();
-
-                RenderUtil.glColor((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
-                GL11.glLineWidth(1.5f);
-
-                GL11.glBegin(GL11.GL_LINE_STRIP);
-                GL11.glVertex3d(0, mc.getPlayer().getEyeHeight(), 0);
-                GL11.glVertex3d(x, y, z);
-                GL11.glEnd();
-
-                GlStateManager.enableDepth();
-                GlStateManager.disableBlend();
-                GL11.glDisable(GL11.GL_LINE_SMOOTH);
-                GlStateManager.enableTexture2D();
-
-                GL11.glPopMatrix();
-
+                RenderUtil.drawTracer(entity, rgbValue.getValue(), redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue());
             }
         }
     }

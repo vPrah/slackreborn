@@ -45,10 +45,11 @@ public class LagbackChecker extends Module {
                 }
             }
 
-            if(diffX + diffZ < 100 && timer.hasReached(1500) && toggled) {
+            if(diffX + diffZ < 10 && timer.hasReached(1500) && toggled) {
                 if (disableValue.getValue()) {
+                    Slack.getInstance().addNotification("Lagback Detected! disabled all movements modules", "", 1500L, Slack.NotificationStyle.WARN);
+
                     for (Module module : modules) {
-                        Slack.getInstance().addNotification("Lagback Detected! disabled all movements modules", "", 1500L, Slack.NotificationStyle.WARN);
                         module.disableModule();
                     }
                 } else {

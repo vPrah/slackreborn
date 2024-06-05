@@ -162,6 +162,36 @@ public final class RenderUtil extends mc {
         tessellator.draw();
     }
 
+    public static void drawTracer(Entity entity, Boolean rainbow, int red, int green, int blue, int alpha) {
+        double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosX;
+        double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosY + entity.getEyeHeight();
+        double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosZ;
+
+        GL11.glPushMatrix();
+
+        GL11.glLoadIdentity();
+        mc.getEntityRenderer().orientCamera(mc.getTimer().renderPartialTicks);
+        GlStateManager.disableTexture2D();
+        GL11.glEnable(GL11.GL_LINE_SMOOTH);
+        GlStateManager.disableDepth();
+        GlStateManager.enableBlend();
+
+        RenderUtil.glColor((!rainbow) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+        GL11.glLineWidth(1.5f);
+
+        GL11.glBegin(GL11.GL_LINE_STRIP);
+        GL11.glVertex3d(0, mc.getPlayer().getEyeHeight(), 0);
+        GL11.glVertex3d(x, y, z);
+        GL11.glEnd();
+
+        GlStateManager.enableDepth();
+        GlStateManager.disableBlend();
+        GL11.glDisable(GL11.GL_LINE_SMOOTH);
+        GlStateManager.enableTexture2D();
+
+        GL11.glPopMatrix();
+    }
+
     public static void drawHat(final Entity entity, final double radius, final float partialTicks, final int points, final float width, final float yAdd, final int color) {
         GL11.glPushMatrix();
         GL11.glDisable(3553);

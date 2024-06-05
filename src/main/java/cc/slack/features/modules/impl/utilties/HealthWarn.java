@@ -38,12 +38,12 @@ public class HealthWarn extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (mc.getPlayer().getHealth() < healthValue.getValue()) {
-            if (isHealthLow) {
+            if (!isHealthLow) {
                 Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("HealthWarn:  YOU ARE AT LOW HP!", "", 4500L, Slack.NotificationStyle.WARN);
-                isHealthLow = false;
-            } else {
                 isHealthLow = true;
             }
+        } else {
+            isHealthLow = false;
         }
     }
 

@@ -23,12 +23,7 @@ public class DragUtil {
 	}
 
 	public static double[] setScaledPosition(double x, double y) {
-		ScaledResolution sr = new ScaledResolution(mc.getMinecraft());
-
-		double width = sr.getScaledWidth();
-		double height = sr.getScaledHeight_double();
-
-		return new double[] { width / 1000F * x, height / 1000F * y };
+		return new double[] { x, y };
 	}
 
 	public static double[] setPosition(double x, double y) {
