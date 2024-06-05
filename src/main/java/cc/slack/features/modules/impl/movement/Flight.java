@@ -7,7 +7,9 @@ import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -20,6 +22,8 @@ import cc.slack.features.modules.impl.movement.flights.impl.vanilla.VanillaFligh
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusDamageFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusPortFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.vulcan.VulcanClipFlight;
+import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
 
@@ -42,15 +46,20 @@ public class Flight extends Module {
             new VerusDamageFlight(),
             new VerusPortFlight(),
 
+            // Vulcan
+            new VulcanClipFlight(),
+
             // Others
             new ChunkFlight(),
             new CollideFlight(),
             new AirJumpFlight()
     });
 
+    public final BooleanValue vulcanClip = new BooleanValue("Vulcan CanClip", true);
+
     public Flight() {
         super();
-        addSettings(mode);
+        addSettings(mode, vulcanClip);
     }
 
     @Override
@@ -60,6 +69,7 @@ public class Flight extends Module {
 
     @Override
     public void onDisable() {
+        mc.getTimer().timerSpeed = 1F;
         mode.getValue().onDisable();
     }
 
