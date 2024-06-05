@@ -12,6 +12,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.longjumps.ILongJump;
 import cc.slack.features.modules.impl.movement.longjumps.impl.verus.VerusBowLJ;
+import cc.slack.features.modules.impl.movement.longjumps.impl.vulcan.VulcanLJ;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -26,10 +27,10 @@ public class LongJump extends Module {
 
 
             // Verus
-            new VerusBowLJ()
+            new VerusBowLJ(),
 
             // Vulcan
-
+            new VulcanLJ()
             // Others
 
     });
