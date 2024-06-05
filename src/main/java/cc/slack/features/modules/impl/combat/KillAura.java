@@ -16,7 +16,7 @@ import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
-import cc.slack.utils.other.RaycastUtil;
+import cc.slack.utils.rotations.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.BlinkUtil;
@@ -60,9 +60,11 @@ public class KillAura extends Module {
     private final BooleanValue renderBlocking = new BooleanValue("Render Blocking", true);
 
     // rotation
+    private final ModeValue<RotationUtil.TargetRotation> rotationMode = new ModeValue<>("Rotation Mode", RotationUtil.TargetRotation.values());
     private final BooleanValue rotationRand = new BooleanValue("Rotation Randomization", false);
     private final NumberValue<Double> minRotationSpeed = new NumberValue<>("Min Rotation Speed", 65.0, 0.0, 180.0, 5.0);
     private final NumberValue<Double> maxRotationSpeed = new NumberValue<>("Max Rotation Speed", 85.0, 0.0, 180.0, 5.0);
+    private final BooleanValue checkHitable = new BooleanValue("Check Hitable", false);
 
 
     // tools
@@ -98,7 +100,7 @@ public class KillAura extends Module {
                 aimRange, attackRange, // range
                 swingMode, attackPattern, cps, randomization, // autoclicker
                 autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, // autoblock
-                rotationRand, minRotationSpeed, maxRotationSpeed, // rotations
+                rotationMode, rotationRand, minRotationSpeed, maxRotationSpeed, checkHitable, // rotations
                 moveFix, keepSprint, rayCast, // fixes
                 noScaffold, noFlight, noEat, noBlock, // Checks
                 sortMode);
@@ -163,6 +165,8 @@ public class KillAura extends Module {
 
         if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
             if (preAttack()) return;
+
+        if (queuedAttacks == 0) return;
         while (queuedAttacks > 0) {
             attack(target);
             queuedAttacks--;
@@ -183,6 +187,8 @@ public class KillAura extends Module {
 
         if (mc.getPlayer().getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
             return;
+
+        if (checkHitable.getValue() && !RaycastUtil.itHitable(attackRange.getValue() + 0.5, rotations, target)) return;
 
         if (keepSprint.getValue()) {
             mc.getPlayerController().syncCurrentPlayItem();
@@ -302,23 +308,14 @@ public class KillAura extends Module {
         final AxisAlignedBB bb = entity.getEntityBoundingBox();
 
         if(rotationCenter.hasReached(1200) && rotationRand.getValue()) {
-            rotationOffset = new SecureRandom().nextDouble();
+            rotationOffset = new SecureRandom().nextDouble() / 4;
             rotationCenter.reset();
         }
 
-        final double distancedYaw = (entity.getDistanceToEntity(mc.getPlayer()) > attackRange.getValue() ? entity.getEyeHeight() : 2 * (entity.getDistanceToEntity(mc.getPlayer()) / 3.5));
-        final float[] newRots = RotationUtil.getRotations(
-                bb.minX + ((bb.maxX - bb.minX) / 2) + (rotationRand.getValue() ? (rotationOffset / 2) : 0),
-                bb.minY + distancedYaw,
-                bb.minZ + ((bb.maxZ - bb.minZ) / 2) + (rotationRand.getValue() ? (rotationOffset / 2) : 0));
-
-        final float pitchSpeed = (float) (mc.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(minRotationSpeed.getValue(), maxRotationSpeed.getValue()));
-        final float yawSpeed = (float) (mc.getGameSettings().mouseSensitivity * MathUtil.getRandomInRange(minRotationSpeed.getValue(), maxRotationSpeed.getValue()));
-
-        newRots[0] = RotationUtil.updateRots(rotations[0], (float) MathUtil.getRandomInRange(newRots[0] - 2.19782323, newRots[0] + 2.8972343), pitchSpeed);
-        newRots[1] = RotationUtil.updateRots(rotations[1], (float) MathUtil.getRandomInRange(newRots[1] - 3.13672842, newRots[1] + 3.8716793), yawSpeed);
-
-        newRots[1] = MathHelper.clamp_float(newRots[1], -90, 90);
+        float[] newRots = RotationUtil.getLimitedRotation(
+                rotations,
+                RotationUtil.getTargetRotations(bb, rotationMode.getValue(), rotationOffset),
+                (float) MathUtil.getRandomInRange(minRotationSpeed.getValue(), maxRotationSpeed.getValue()));
 
         return RotationUtil.applyGCD(newRots, rotations);
     }

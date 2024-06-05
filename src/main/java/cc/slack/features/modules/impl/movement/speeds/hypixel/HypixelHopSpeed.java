@@ -46,13 +46,11 @@ public class HypixelHopSpeed implements ISpeed {
                                 RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
                 )) > 30) {
                     MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
-                } else {
-                    MovementUtil.strafe();
                 }
             }
 
             if (mc.getPlayer().motionY > 0) {
-                mc.getTimer().timerSpeed = 0.95f;
+                mc.getTimer().timerSpeed = 0.94f;
             } else if (mc.getPlayer().offGroundTicks < 13) {
                 if (jumpTick < 5) {
                     mc.getTimer().timerSpeed = 1.06f + (float) Math.random() * 0.07f;
@@ -63,15 +61,16 @@ public class HypixelHopSpeed implements ISpeed {
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
                 if (mc.getPlayer().offGroundTicks == 4) {
-                    PacketUtil.send(new C03PacketPlayer(mc.getPlayer().onGround));
-                    mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
-                    mc.getTimer().timerSpeed = 0.7f;
+                    mc.getTimer().timerSpeed = 3f;
                 }
             }
 
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
-                if (wasSlow) MovementUtil.strafe(0.2f);
+                if (wasSlow) {
+                    MovementUtil.strafe(0.2f);
+                    wasSlow = false;
+                }
                 if (Math.abs(MathHelper.wrapAngleTo180_float(
                         MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
                                 RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]

@@ -77,7 +77,7 @@ public class AutoTool extends Module {
 
                 float bestSpeed = 0;
                 if (mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem) != null)
-                    mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
+                    bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
                 for (int i = 0; i <= 8; i++) {
                     ItemStack item = mc.getPlayer().inventory.getStackInSlot(i);
                     if (item == null)
@@ -89,16 +89,16 @@ public class AutoTool extends Module {
                         bestSpeed = speed;
                         bestSlot = i;
                     }
-
-                    if (bestSlot != -1) {
-                        if (spoof) {
-                            ItemSpoofUtil.startSpoofing(bestSlot);
-                        } else {
-                            mc.getPlayer().inventory.currentItem = bestSlot;
-                        }
-                    }
                 }
-                isMining = true;
+
+                if (bestSlot != -1) {
+                    if (spoof) {
+                        ItemSpoofUtil.startSpoofing(bestSlot);
+                    } else {
+                        mc.getPlayer().inventory.currentItem = bestSlot;
+                    }
+                    isMining = true;
+                }
             }
         } else {
             switchTimer.reset();

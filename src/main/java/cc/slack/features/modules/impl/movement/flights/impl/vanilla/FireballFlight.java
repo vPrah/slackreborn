@@ -30,7 +30,7 @@ public class FireballFlight implements IFlight {
         sent = false;
         reset = false;
         gotVelo = false;
-        fireballSlot = InventoryUtil.findItem(new ItemFireball());
+        fireballSlot = InventoryUtil.findFireball();
         if (fireballSlot == -1) {
             Slack.getInstance().addNotification("Fireball needed to fly", "", 3000L, Slack.NotificationStyle.WARN);
             Slack.getInstance().getModuleManager().getInstance(Flight.class).setToggle(false);

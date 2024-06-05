@@ -1,7 +1,6 @@
-package cc.slack.utils.other;
+package cc.slack.utils.rotations;
 
 import cc.slack.utils.client.mc;
-import cc.slack.utils.rotations.RotationUtil;
 import com.google.common.base.Predicates;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -55,6 +54,21 @@ public class RaycastUtil {
         }
 
         return raycastedEntity;
+    }
+
+    public static boolean itHitable(double range, float[] rotations, Entity ent) {
+        Vec3 eyes = mc.getPlayer().getPositionEyes(mc.getTimer().renderPartialTicks);
+        Vec3 look = mc.getPlayer().getVectorForRotation(rotations[1], rotations[0]);
+        Vec3 vec = eyes.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+
+        if (!(ent instanceof EntityLivingBase)) return false;
+        EntityLivingBase entity = (EntityLivingBase) ent;
+        if (entity == mc.getPlayer()) return true;
+        final float borderSize = entity.getCollisionBorderSize();
+        final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(eyes, vec);
+
+        return movingobjectposition != null;
     }
 
     public static Vec3 rayCastHitVec(EntityLivingBase entity, double range, float[] rotations) {

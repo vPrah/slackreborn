@@ -162,7 +162,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
                 if (BlinkUtil.handlePacket(packetEvent)) return;
 
-                packet.processPacket(this.packetListener);
+                packetEvent.getPacket().processPacket(this.packetListener);
             }
             catch (ThreadQuickExitException var4)
             {
@@ -255,6 +255,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
         if (BlinkUtil.handlePacket(packetEvent)) return;
 
+        final Packet packet = packetEvent.getPacket();
+
         if (enumconnectionstate1 != enumconnectionstate)
         {
             logger.debug("Disabled auto read");
@@ -268,7 +270,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
                 this.setConnectionState(enumconnectionstate);
             }
 
-            ChannelFuture channelfuture = this.channel.writeAndFlush(inPacket);
+            ChannelFuture channelfuture = this.channel.writeAndFlush(packet);
 
             if (futureListeners != null)
             {
@@ -288,7 +290,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
                         NetworkManager.this.setConnectionState(enumconnectionstate);
                     }
 
-                    ChannelFuture channelfuture1 = NetworkManager.this.channel.writeAndFlush(inPacket);
+                    ChannelFuture channelfuture1 = NetworkManager.this.channel.writeAndFlush(packet);
 
                     if (futureListeners != null)
                     {

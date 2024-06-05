@@ -5,10 +5,7 @@ import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Slot;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBlock;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
+import net.minecraft.item.*;
 
 import java.util.Arrays;
 import java.util.List;
@@ -80,6 +77,16 @@ public final class InventoryUtil extends mc {
             final ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
 
             if (stack != null && stack.getItem() == item)
+                return i;
+        }
+        return -1;
+    }
+
+    public static int findFireball() {
+        for (int i = 36; i < 45; i++) {
+            final ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+
+            if (stack != null && (stack.getItem() instanceof ItemFireball || stack.getItem() instanceof ItemFireworkCharge))
                 return i;
         }
         return -1;

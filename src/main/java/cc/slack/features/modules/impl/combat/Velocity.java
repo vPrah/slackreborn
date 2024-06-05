@@ -139,14 +139,22 @@ public class Velocity extends Module {
                 break;
             case "hypixel damage strafe":
                 if (mc.getPlayer().hurtTime == 9) {
-                    MovementUtil.strafe(MovementUtil.getSpeed() * 0.75f);
+                    MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
                 }
                 break;
             case "hypixel":
                 if (mc.getPlayer().hurtTime == 9) {
-                    MovementUtil.strafe();
+                    MovementUtil.strafe(MovementUtil.getSpeed() * 0.9f);
                 }
                 break;
+            case "hypixel test":
+                if (mc.getPlayer().onGround) {
+                    if (hypixeltest) {
+                        mc.getPlayer().motionY = hypixelY;
+                        BlinkUtil.disable();
+                        hypixeltest = false;
+                    }
+                }
             case "tick":
                 if (mc.getPlayer().ticksSinceLastDamage == velocityTick.getValue()) {
                     mc.getPlayer().motionX *= horizontal.getValue().doubleValue() / 100;

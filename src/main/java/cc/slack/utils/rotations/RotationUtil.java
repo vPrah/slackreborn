@@ -282,8 +282,8 @@ public class RotationUtil extends mc {
         final double pitchDif = MathHelper.wrapAngleTo180_double(from[1] - to[1]);
         final double rotDif = Math.sqrt(yawDif * yawDif + pitchDif * pitchDif);
 
-        final double yawLimit = yawDif * speed / rotDif;
-        final double pitchLimit = pitchDif * speed / rotDif;
+        final double yawLimit = Math.abs(yawDif * speed / rotDif);
+        final double pitchLimit = Math.abs(pitchDif * speed / rotDif);
 
         return new float[]{updateRots(from[0], to[0], (float) yawLimit), updateRots(from[1], to[1], (float) pitchLimit)};
     }
