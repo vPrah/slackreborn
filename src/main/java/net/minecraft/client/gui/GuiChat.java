@@ -179,7 +179,7 @@ public class GuiChat extends GuiScreen {
 		for (Module module : Slack.getInstance().getModuleManager().getDraggable()) {
 			if (!module.isToggle() || module.getPosition() == null)
 				continue;
-			if (module.getPosition().isInside(mouseX, mouseY)) {
+			if (module.getPosition().isInside(mouseX, mouseY) && !dragging) {
 				draggingModule = module;
 				dragging = true;
 				double[] pos = DragUtil.setPosition(module.getPosition().getX(), module.getPosition().getY());

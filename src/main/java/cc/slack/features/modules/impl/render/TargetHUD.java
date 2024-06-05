@@ -174,13 +174,13 @@ public class TargetHUD extends Module {
 		
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		double[] pos = DragUtil.setScaledPosition(posX, posY);
-		return new DragUtil(pos[0], pos[1], sr.getScaledWidth(), sr.getScaledHeight(), 1);
+		return new DragUtil(pos[0], pos[1], 120, 50, 1);
 	}
 	
 	@Override
 	public void setXYPosition(double x, double y) {
-		this.posX = (x);
-		this.posY = (y);
+		posX = x;
+		posY = y;
 	}
 
 	private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {

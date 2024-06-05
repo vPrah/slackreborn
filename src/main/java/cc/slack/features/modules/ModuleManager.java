@@ -141,7 +141,7 @@ public class ModuleManager {
                     new LegitMode(),
                     new LagbackChecker(),
                     new PacketDebugger()
-                    
+
             );
             
     		for(Module m : modules.values()) {

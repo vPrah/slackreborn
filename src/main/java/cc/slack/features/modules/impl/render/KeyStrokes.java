@@ -94,7 +94,7 @@ public class KeyStrokes extends Module {
     public DragUtil getPosition() {
         ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         double[] pos = DragUtil.setScaledPosition(posX, posY);
-        return new DragUtil(pos[0], pos[1], sr.getScaledWidth(), sr.getScaledHeight(), 1);
+        return new DragUtil(pos[0] - 50, pos[1] - 50, 100, 100, 1);
     }
 
     @Override
