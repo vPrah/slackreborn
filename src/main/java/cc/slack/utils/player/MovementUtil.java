@@ -181,18 +181,6 @@ public class MovementUtil extends mc {
         return baseSpeed;
     }
 
-    public static void setSpeedWithCheck(double speed) {
-        if (speed == 0.0) {
-            getPlayer().motionX = 0.0;
-            getPlayer().motionZ = 0.0;
-        }
-
-        if (isMoving() && speed != 0.0) {
-            double dir = Math.toRadians((double)getDirection());
-            getPlayer().motionX = -Math.sin(dir) * speed;
-            getPlayer().motionZ = Math.cos(dir) * speed;
-        }
-    }
     public static float getSpeedPotMultiplier(double multiplicator) {
         float speedPotMultiplier = 1F;
         if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
