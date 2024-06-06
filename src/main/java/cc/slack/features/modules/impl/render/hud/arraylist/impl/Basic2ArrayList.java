@@ -79,9 +79,9 @@ public class Basic2ArrayList implements IArraylist {
 
         Collections.sort(modules, new ComparatorStrings());
         for (String m : modules) {
-            int x = (GuiScreen.width - 2) - (Fonts.poppins18.getStringWidth(m));
+            int x = ( - 2) - (Fonts.poppins18.getStringWidth(m));
             int y = count;
-            int x1 = (GuiScreen.width + 1);
+            int x1 = (+ 1);
             int y1 = count + 5;
             drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x70000000);
             Fonts.poppins18.drawString(m, x, y, 0x5499C7);
