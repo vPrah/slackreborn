@@ -79,11 +79,9 @@ public class ESP extends Module {
                 glColor(255, 255, 255, 95);
             }
             glPushMatrix();
-            if (rotateYaw.getValue()) {
-                glTranslated(-x, -y, -z);
-            }
             RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
             if (rotateYaw.getValue()) {
+                glTranslated(-x, -y, -z);
                 glRotated(entity.rotationYaw, 0, 1, 0);
                 glTranslated(x, y, z);
             }

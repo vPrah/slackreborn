@@ -22,7 +22,7 @@ public class BasicArrayList implements IArraylist {
 
     private class Pair {
         String first;
-        Double second;
+        String second;
     }
 
 
@@ -36,11 +36,6 @@ public class BasicArrayList implements IArraylist {
             boolean wasEnabled = moduleStates.getOrDefault(module, false);
             boolean isEnabled = module.isToggle();
 
-            if (isEnabled && !wasEnabled) {
-                PlaySound();
-            } else if (!isEnabled && wasEnabled) {
-                PlaySound();
-            }
             moduleStates.put(module, isEnabled);
 
             if (module.isToggle() || !module.disabledTime.hasReached(300)) {
@@ -50,24 +45,9 @@ public class BasicArrayList implements IArraylist {
                     displayName += " §7" + mode;
                 }
 
-                double ease;
-
-                if (module.isToggle()) {
-                    if (module.enabledTime.hasReached(300)) {
-
-                        ease = 0;
-                    } else {
-
-                        ease = Math.pow(1 - (module.enabledTime.elapsed() / 300.0), 4);
-                    }
-                } else {
-
-                    ease = Math.pow(module.disabledTime.elapsed() / 300.0, 4);
-                }
-
                 Pair pair = new Pair();
                 pair.first = displayName;
-                pair.second = 1 - 1.2 * ease;
+                pair.second = module.getName();
 
                 modules.add(pair);
             }
@@ -82,15 +62,29 @@ public class BasicArrayList implements IArraylist {
 
         for (Pair module : modules) {
             int stringLength = Fonts.apple18.getStringWidth(module.first);
+            Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
+            double ease;
+
+            if (m.isToggle()) {
+                if (m.enabledTime.hasReached(300)) {
+                    ease = 0;
+                } else {
+                    ease = Math.pow(1 - (m.enabledTime.elapsed() / 300.0), 4);
+                }
+            } else {
+                ease = Math.pow(m.disabledTime.elapsed() / 300.0, 4);
+            }
+
+            ease = 1 - 1.2 * ease;
             drawRect(
-                    (int) (event.getWidth() - stringLength * module.second - 5),
+                    (int) (event.getWidth() - stringLength * ease - 5),
                     y - 2,
-                    (int) (event.getWidth() - stringLength * module.second + stringLength + 3),
+                    (int) (event.getWidth() - stringLength * ease + stringLength + 3),
                     y + Fonts.apple18.getHeight() + 1,
                     0x80000000
             );
-            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * module.second - 3, y, 0x5499C7);
-            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((module.second + 0.2)/1.2, 0.5));
+            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength *ease - 3, y, 0x5499C7);
+            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.5));
         }
     }
 
@@ -98,10 +92,4 @@ public class BasicArrayList implements IArraylist {
     public String toString() {
         return "Basic";
     }
-
-    private void PlaySound() {
-        ResourceLocation soundLocation = new ResourceLocation("random.orb");
-        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(soundLocation, 5.0F));
-    }
-
 }

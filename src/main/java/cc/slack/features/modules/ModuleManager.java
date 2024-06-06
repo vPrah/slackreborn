@@ -131,7 +131,6 @@ public class ModuleManager {
                     new AutoDisable(),
                     new AutoGapple(),
                     new AutoGG(),
-                    new AutoConfig(),
                     new AutoPlay(),
                     new AutoRespawn(),
                     new AutoLogin(),

@@ -27,8 +27,8 @@ public class VulcanLowSpeed implements ISpeed {
                 MovementUtil.strafe(0.484f);
             }
             launchY = mc.getPlayer().posY;
-        } else if (mc.getPlayer().offGroundTicks == 4) {
-            mc.getPlayer().motionY = -0.27D;
+        } else if(mc.getPlayer().motionY > 0.2) {
+            mc.getPlayer().motionY = -0.0784000015258789;
         }
         if (MovementUtil.getSpeed() < 0.215F && !mc.getPlayer().onGround) {
             MovementUtil.strafe(0.215f);

@@ -8,11 +8,15 @@ import java.util.List;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.api.settings.Value;
+import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.utils.EventUtil;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.other.TimeUtil;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 
 @Getter
 @Setter
@@ -52,6 +56,9 @@ public abstract class Module {
     public void setToggle(boolean toggle) {
         if (this.toggle == toggle) return;
 
+        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).sound.getValue())
+            PlaySound();
+
         this.toggle = toggle;
 
         if (toggle) {
@@ -83,5 +90,10 @@ public abstract class Module {
 
     public void addSettings(Value... settings) {
         setting.addAll(Arrays.asList(settings));
+    }
+
+    private void PlaySound() {
+        ResourceLocation soundLocation = new ResourceLocation("random.orb");
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(soundLocation, 5.0F));
     }
 }

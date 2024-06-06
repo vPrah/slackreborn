@@ -44,7 +44,9 @@ public class Scaffold extends Module {
 
     private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
     private final ModeValue<String> placeTiming = new ModeValue<>("Placement Timing", new String[] {"Legit", "Pre", "Post"});
-    private final NumberValue<Double> expandAmount = new NumberValue<>("Expand Amount", 0.0, 0.0, 6.0, 0.1);
+    private final NumberValue<Double> expandAmount = new NumberValue<>("Expand Amount", 0.0, -1.0, 6.0, 0.1);
+    private final NumberValue<Double> towerExpandAmount = new NumberValue<>("Tower Expand Amount", 0.0, -1.0, 6.0, 0.1);
+
 
     private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Hypixel Jump", "Off"});
     private final ModeValue<String> sameY = new ModeValue<>("Same Y", new String[] {"Off", "Only Speed", "Always", "Hypixel Jump", "Auto Jump"});
@@ -100,7 +102,7 @@ public class Scaffold extends Module {
         super();
         addSettings(rotationMode, keepRotationTicks, // rotations
                 swingMode, // Swing Method
-                raycastMode, placeTiming, expandAmount, // placements
+                raycastMode, placeTiming, expandAmount, towerExpandAmount, // placements
                 sprintMode, sameY, speedModifier, safewalkMode, strafeFix, // movements
                 towerMode, towerNoMove, // tower
                 pickMode, spoofSlot // slots
@@ -222,7 +224,7 @@ public class Scaffold extends Module {
     private void updatePlayerRotations() {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
-                RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
+                RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
                 break;
             case "hypixel ground":
                 if (mc.getPlayer().onGround) {
@@ -352,7 +354,9 @@ public class Scaffold extends Module {
     }
 
     private void runFindBlock() {
-        for (double x = 0.0; x <= expandAmount.getValue(); x += 0.1) {
+        double expand = expandAmount.getValue();
+        if (isTowering) expand = towerExpandAmount.getValue();
+        for (double x = 0.0; x <= expand; x += 0.1) {
             placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
             placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
             if (startSearch()) return;
