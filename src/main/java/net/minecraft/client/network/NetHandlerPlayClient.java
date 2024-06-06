@@ -1,6 +1,8 @@
 package net.minecraft.client.network;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.network.DisconnectEvent;
+import cc.slack.features.modules.impl.exploit.ClientSpoofer;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
@@ -276,7 +278,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
         this.gameController.thePlayer.setReducedDebug(packetIn.isReducedDebugInfo());
         this.gameController.playerController.setGameType(packetIn.getGameType());
         this.gameController.gameSettings.sendSettingsToServer();
-        this.netManager.sendPacket(new C17PacketCustomPayload("MC|Brand", (new PacketBuffer(Unpooled.buffer())).writeString(ClientBrandRetriever.getClientModName())));
+        this.netManager.sendPacket(Slack.getInstance().getModuleManager().getInstance(ClientSpoofer.class).getC17());
     }
 
     /**
