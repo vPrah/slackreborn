@@ -59,7 +59,6 @@ public class BasicArrayList implements IArraylist {
     @Override
     public void onRender(RenderEvent event) {
         int y = 3;
-
         for (Pair module : modules) {
             int stringLength = Fonts.apple18.getStringWidth(module.first);
             drawRect(
