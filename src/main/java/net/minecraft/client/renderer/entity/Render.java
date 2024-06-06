@@ -376,7 +376,7 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             float f = 1.6F;
             float f1 = 0.016666668F * f;
             if (Slack.getInstance().getModuleManager().getInstance(NameTags.class).isToggle()) {
-                f1 *= d0 / 40f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
+                f1 *= d0 / 170f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
             }
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);

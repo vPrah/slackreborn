@@ -58,7 +58,7 @@ public class AimBot extends Module {
        float [] clientRotation = RotationUtil.getLimitedRotation(
                RotationUtil.clientRotation,
                targetRotation,
-               ((float) aimSpeed.getValue() + (float) MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5))
+               (float) Math.min(RotationUtil.getRotationDifference(targetRotation) - minFov.getValue(), aimSpeed.getValue() + MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5))
        );
 
        if (silent.getValue()) {
