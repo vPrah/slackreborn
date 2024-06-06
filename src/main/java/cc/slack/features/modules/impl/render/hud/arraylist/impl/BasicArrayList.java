@@ -8,8 +8,6 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
-import jdk.internal.net.http.common.Pair;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,7 +15,12 @@ import static net.minecraft.client.gui.Gui.drawRect;
 
 public class BasicArrayList implements IArraylist {
 
-    List<Pair<String, Double>> modules = new ArrayList<>();
+    private class Pair {
+        String first;
+        Double second;
+    }
+
+    List<Pair> modules = new ArrayList<>();
 
     @Override
     public void onUpdate(UpdateEvent event) {
@@ -42,7 +45,11 @@ public class BasicArrayList implements IArraylist {
                     ease = Math.pow(module.disabledTime.elapsed() / 300.0, 3);
                 }
 
-                modules.add(new Pair<>(displayName, 1 - 1.2 * ease));
+                Pair pair = new Pair();
+                pair.first = displayName;
+                pair.second = 1 - 1.2 * ease;
+
+                modules.add(pair);
             }
         }
         modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b.first), Fonts.apple18.getStringWidth(a.first)));
@@ -53,7 +60,7 @@ public class BasicArrayList implements IArraylist {
     public void onRender(RenderEvent event) {
         int y = 3;
 
-        for (Pair<String, Double> module : modules) {
+        for (Pair module : modules) {
             int stringLength = Fonts.apple18.getStringWidth(module.first);
             drawRect(
                     (int) (event.getWidth() - stringLength * module.second - 5),
