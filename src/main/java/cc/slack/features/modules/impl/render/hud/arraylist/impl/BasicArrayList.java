@@ -10,6 +10,11 @@ import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.audio.PositionedSoundRecord;
+import net.minecraft.util.ResourceLocation;
 
 import static net.minecraft.client.gui.Gui.drawRect;
 
@@ -20,12 +25,24 @@ public class BasicArrayList implements IArraylist {
         Double second;
     }
 
+
+    private final Map<Module, Boolean> moduleStates = new HashMap<>();
     List<Pair> modules = new ArrayList<>();
 
     @Override
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
+            boolean wasEnabled = moduleStates.getOrDefault(module, false);
+            boolean isEnabled = module.isToggle();
+
+            if (isEnabled && !wasEnabled) {
+                PlaySound();
+            } else if (!isEnabled && wasEnabled) {
+                PlaySound();
+            }
+            moduleStates.put(module, isEnabled);
+
             if (module.isToggle() || !module.disabledTime.hasReached(300)) {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
@@ -37,11 +54,14 @@ public class BasicArrayList implements IArraylist {
 
                 if (module.isToggle()) {
                     if (module.enabledTime.hasReached(300)) {
+
                         ease = 0;
                     } else {
+
                         ease = Math.pow(1 - (module.enabledTime.elapsed() / 300.0), 4);
                     }
                 } else {
+
                     ease = Math.pow(module.disabledTime.elapsed() / 300.0, 4);
                 }
 
@@ -59,6 +79,7 @@ public class BasicArrayList implements IArraylist {
     @Override
     public void onRender(RenderEvent event) {
         int y = 3;
+
         for (Pair module : modules) {
             int stringLength = Fonts.apple18.getStringWidth(module.first);
             drawRect(
@@ -77,4 +98,10 @@ public class BasicArrayList implements IArraylist {
     public String toString() {
         return "Basic";
     }
+
+    private void PlaySound() {
+        ResourceLocation soundLocation = new ResourceLocation("random.orb");
+        Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(soundLocation, 5.0F));
+    }
+
 }
