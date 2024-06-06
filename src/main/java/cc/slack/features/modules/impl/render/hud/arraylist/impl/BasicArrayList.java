@@ -98,7 +98,6 @@ public class BasicArrayList implements IArraylist {
     public String toString() {
         return "Basic";
     }
-
     private void PlaySound() {
         ResourceLocation soundLocation = new ResourceLocation("random.orb");
         Minecraft.getMinecraft().getSoundHandler().playSound(PositionedSoundRecord.create(soundLocation, 5.0F));
