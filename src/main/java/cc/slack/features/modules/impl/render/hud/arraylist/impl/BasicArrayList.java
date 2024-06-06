@@ -39,10 +39,10 @@ public class BasicArrayList implements IArraylist {
                     if (module.enabledTime.hasReached(300)) {
                         ease = 0;
                     } else {
-                        ease = Math.pow(1 - (module.enabledTime.elapsed() / 300.0), 3);
+                        ease = Math.pow(1 - (module.enabledTime.elapsed() / 300.0), 4);
                     }
                 } else {
-                    ease = Math.pow(module.disabledTime.elapsed() / 300.0, 3);
+                    ease = Math.pow(module.disabledTime.elapsed() / 300.0, 4);
                 }
 
                 Pair pair = new Pair();
@@ -70,7 +70,7 @@ public class BasicArrayList implements IArraylist {
                     0x80000000
             );
             Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * module.second - 3, y, 0x5499C7);
-            y += (int) ((Fonts.apple18.getHeight() + 3) * (module.second + 0.2)/1.2);
+            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((module.second + 0.2)/1.2, 0.5));
         }
     }
 
