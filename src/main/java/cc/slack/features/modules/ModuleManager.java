@@ -135,7 +135,6 @@ public class ModuleManager {
                     new AutoPlay(),
                     new AutoRespawn(),
                     new AutoLogin(),
-                    new PerfectTimingHit(),
                     new AutoPot(),
                     new AntiStaff(),
                     new FakePlayer(),
