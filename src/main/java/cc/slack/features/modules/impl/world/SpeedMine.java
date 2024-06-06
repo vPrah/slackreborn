@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.player;
+package cc.slack.features.modules.impl.world;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -9,12 +9,11 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.util.MovingObjectPosition;
 
 @ModuleInfo(
         name = "SpeedMine",
-        category = Category.PLAYER
+        category = Category.WORLD
 )
 public class SpeedMine extends Module {
 

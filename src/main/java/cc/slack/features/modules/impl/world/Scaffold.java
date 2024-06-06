@@ -325,16 +325,20 @@ public class Scaffold extends Module {
                     }
                     break;
                 case "watchdog":
-                    MovementUtil.strafe(0.2f - (float) (1.0E-4f + Math.random() * 0.001f));
+                    MovementUtil.strafe(0.45f);
                     if (mc.getPlayer().onGround) {
-                        mc.getPlayer().jump();
+                        mc.getPlayer().motionY = 0.4191;
                     }
-                    if (mc.getPlayer().offGroundTicks == 1 && PlayerUtil.isOverAir()) {
-                        mc.getPlayer().motionY -= 0.02;
-                    } else if (mc.getPlayer().offGroundTicks == 4 && !PlayerUtil.isOverAir()) {
-                        mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
-                    } else if (mc.getPlayer().offGroundTicks == 8) {
-                        mc.getPlayer().offGroundTicks = 0;
+                    switch (mc.getPlayer().offGroundTicks) {
+                        case 1:
+                            mc.getPlayer().motionY = 0.327318;
+                            break;
+                        case 5:
+                            mc.getPlayer().motionY = -0.05;
+                            break;
+                        case 6:
+                            mc.getPlayer().motionY = -1;
+                            break;
                     }
                     break;
                 case "off":

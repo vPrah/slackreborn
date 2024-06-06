@@ -40,33 +40,46 @@ public class HypixelHopSpeed implements ISpeed {
         } else {
             mc.getPlayer().motionX *= 1.0005;
             mc.getPlayer().motionZ *= 1.0005;
-            if (mc.getPlayer().offGroundTicks == 4) {
-                if (Math.abs(MathHelper.wrapAngleTo180_float(
-                        MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
-                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
-                )) > 30) {
-                    MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
-                }
-            }
 
             if (mc.getPlayer().motionY > 0) {
                 mc.getTimer().timerSpeed = 0.94f;
             } else if (mc.getPlayer().offGroundTicks < 13) {
-                if (jumpTick < 5) {
+                if (jumpTick < 5 && !Slack.getInstance().getModuleManager().getInstance(Speed.class).enabledTime.hasReached(7000)) {
                     mc.getTimer().timerSpeed = 1.06f + (float) Math.random() * 0.07f;
                 } else {
                     mc.getTimer().timerSpeed = 1f;
                 }
             }
 
+            if (mc.getPlayer().offGroundTicks == 4) {
+                mc.getTimer().timerSpeed = 3f;
+            }
+
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (mc.getPlayer().offGroundTicks == 4) {
-                    mc.getTimer().timerSpeed = 3f;
+                if (mc.getPlayer().onGround) {
+                    mc.getPlayer().motionY = 0.4191;
+                }
+                switch (mc.getPlayer().offGroundTicks) {
+                    case 1:
+                        mc.getPlayer().motionY = 0.327318;
+                        break;
+                    case 5:
+                        mc.getPlayer().motionY = -0.05;
+                        break;
                 }
             }
 
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
+                if (mc.getPlayer().offGroundTicks == 4) {
+                    if (Math.abs(MathHelper.wrapAngleTo180_float(
+                            MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
+                                    RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
+                    )) > 30) {
+                        MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
+                    }
+                }
+
                 if (wasSlow) {
                     MovementUtil.strafe(0.2f);
                     wasSlow = false;
@@ -85,6 +98,6 @@ public class HypixelHopSpeed implements ISpeed {
 
     @Override
     public String toString() {
-        return "Hypixel Hop";
+        return "Hypixel";
     }
 }

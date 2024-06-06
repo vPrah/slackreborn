@@ -18,8 +18,8 @@ import java.util.Random;
 )
 public class Reach extends Module {
 
-    public final NumberValue<Double> minReach = new NumberValue<>("Min Reach", 3.1D, 3D, 6D, 0.01D);
-    public final NumberValue<Double> maxReach = new NumberValue<>("Max Reach", 3.1D, 3D, 6D, 0.01D);
+    public final NumberValue<Double> minReach = new NumberValue<>("Min Reach", 3.1D, 3D, 4D, 0.01D);
+    public final NumberValue<Double> maxReach = new NumberValue<>("Max Reach", 3.1D, 3D, 4D, 0.01D);
     public final NumberValue<Double> chance = new NumberValue<>("Chance", 1D, 0D, 1D, 0.01D);
 
     public double combatReach = 3.0;

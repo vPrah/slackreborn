@@ -68,8 +68,9 @@ public class Breaker extends Module {
                 if (switchTimer.hasReached(switchDelay.getValue())) {
                     findBreakBlock();
                     breakingProgress = 0f;
-                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
-                    RotationUtil.overrideRotation(BlockUtils.getCenterRotation(currentBlock));
+                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
+                    RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
+                    return;
                 }
             }
 
@@ -84,10 +85,9 @@ public class Breaker extends Module {
                 RotationUtil.setStrafeFix(true, false);
 
                 if (breakingProgress > 1) {
-                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, EnumFacing.DOWN));
+                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
 
-                    mc.getPlayerController().onPlayerDestroyBlock(currentBlock, EnumFacing.DOWN );
                     mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
                     if (currentBlock == targetBlock) {
                         targetBlock = null;
@@ -119,8 +119,8 @@ public class Breaker extends Module {
 
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
         if (currentBlock == null) return;
-        RenderUtil.drawBlock(currentBlock, new Color(255,255,255,140));
-        RenderUtil.drawBlock(targetBlock, new Color(255,25,25,180));
+        RenderUtil.drawBlock(currentBlock, new Color(255,255,255,140), 1.5f);
+        RenderUtil.drawBlock(targetBlock, new Color(255,25,25,180), 1.5f);
 
     }
 
@@ -180,7 +180,11 @@ public class Breaker extends Module {
                     }
                 } else {
                     currentBlock = targetBlock.up();
-                    currentFace = EnumFacing.UP;
+                    if (mc.getPlayer().posY > currentBlock.getY() + 0.5) {
+                        currentFace = EnumFacing.UP;
+                    } else {
+                        currentFace = BlockUtils.getHorizontalFacingEnum(currentBlock);
+                    }
                 }
                 break;
             case "none":

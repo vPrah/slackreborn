@@ -22,7 +22,7 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 )
 public class Criticals extends Module {
 
-    public final ModeValue<String> criticalMode = new ModeValue<>(new String[] {"Edit", "Vulcan", "Packet", "Mini"});
+    public final ModeValue<String> criticalMode = new ModeValue<>(new String[] {"Edit", "Vulcan", "Packet", "Mini", "Jump"});
     public final BooleanValue onlyGround = new BooleanValue("Only Ground", true);
     
     public Criticals() {
@@ -49,7 +49,9 @@ public class Criticals extends Module {
             case "mini":
                 sendPacket(0.0001, true);
                 sendPacket(0.0, false);
-                break;    
+                break;
+            case "jump":
+                if (mc.getPlayer().onGround) mc.getPlayer().jump();
         }   
     }
 

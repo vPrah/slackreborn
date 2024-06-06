@@ -207,10 +207,8 @@ public class KillAura extends Module {
                 unblock();
                 break;
             case "interact":
-                if (mc.getPlayer().ticksExisted % 2 == 0) {
-                    if (queuedAttacks > 0) {
-                        unblock();
-                    }
+                if (queuedAttacks > 0 && isBlocking) {
+                    unblock();
                     return true;
                 } else {
                     return false;
@@ -281,7 +279,8 @@ public class KillAura extends Module {
     private void postAttack() {
         switch (autoBlock.getValue().toLowerCase()) {
             case "interact":
-                block(true);
+                if (mc.getPlayer().hurtTime < 4)
+                    block(true);
                 break;
             case "blatant":
                 block();

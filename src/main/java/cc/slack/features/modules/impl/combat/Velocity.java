@@ -138,6 +138,10 @@ public class Velocity extends Module {
                 }
                 break;
             case "hypixel damage strafe":
+                if (mc.getPlayer().hurtTime == 10) {
+                    mc.getPlayer().motionX *= 1.1f;
+                    mc.getPlayer().motionZ *= 1.1f;
+                }
                 if (mc.getPlayer().hurtTime == 9) {
                     MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
                 }

@@ -67,14 +67,14 @@ public class ModuleManager {
                     new FastEat(),
                     new FreeLook(),
                     new FreeCam(),
-                    new SpeedMine(),
                     new TimerModule(),
 
                     // World
-                    new Breaker(),
                     new Scaffold(),
                     new Stealer(),
                     new InvManager(),
+                    new Breaker(),
+                    new SpeedMine(),
                     new FastPlace(),
 
                     // Exploit

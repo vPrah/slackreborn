@@ -13,6 +13,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
+import cc.slack.features.modules.impl.movement.speeds.hypixel.HypixelBasicSpeed;
 import cc.slack.features.modules.impl.movement.speeds.hypixel.HypixelHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.ncp.NCPHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.ncp.OldNCPSpeed;
@@ -51,6 +52,7 @@ public class Speed extends Module {
 
             // Hypixel
             new HypixelHopSpeed(),
+            new HypixelBasicSpeed(),
 
             // NCP
             new NCPHopSpeed(),

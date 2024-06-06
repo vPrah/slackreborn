@@ -220,7 +220,7 @@ public final class RenderUtil extends mc {
         GL11.glPopMatrix();
     }
 
-    public static void drawBlock(final BlockPos pos, Color c) {
+    public static void drawBlock(final BlockPos pos, Color c, Float width) {
         final Block block = mc.getWorld().getBlockState(pos).getBlock();
         final RenderManager renderManager = mc.getRenderManager();
         mc.getRenderManager();
@@ -242,13 +242,17 @@ public final class RenderUtil extends mc {
         final double minZ = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinZ();
         drawSelectionBoundingBox(new AxisAlignedBB(x + minX, y + minY, z + minZ, x + block.getBlockBoundsMaxX(), y + block.getBlockBoundsMaxY(), z + block.getBlockBoundsMaxZ()));
         glColor(new Color(0, 0, 0).getRGB());
-        GL11.glLineWidth(0.5f);
+        GL11.glLineWidth(width);
         GL11.glDisable(2848);
         GL11.glEnable(3553);
         GL11.glEnable(2929);
         GL11.glDepthMask(true);
         GL11.glDisable(3042);
         GL11.glPopMatrix();
+    }
+
+    public static void drawBlock(final BlockPos pos, Color c) {
+        drawBlock(pos, c, 0.5f);
     }
 
     public static void drawRenderItemPhysics(Entity par1Entity, double x, double y, double z, float par8, float par9) {
