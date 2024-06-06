@@ -83,7 +83,7 @@ public class Basic2ArrayList implements IArraylist {
             int y = count;
             int x1 = (+ 1);
             int y1 = count + 5;
-            drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x70000000);
+            drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x80000000);
             Fonts.poppins18.drawString(m, x, y, 0x5499C7);
             count += 10;
         }
