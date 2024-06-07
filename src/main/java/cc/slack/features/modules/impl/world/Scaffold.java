@@ -48,7 +48,7 @@ public class Scaffold extends Module {
     private final NumberValue<Double> towerExpandAmount = new NumberValue<>("Tower Expand Amount", 0.0, -1.0, 6.0, 0.1);
 
 
-    private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Hypixel Jump", "Off"});
+    private final ModeValue<String> sprintMode = new ModeValue<>("Sprint Mode", new String[] {"Always", "No Packet", "Hypixel Safe", "Hypixel Jump", "Hypixel", "Off"});
     private final ModeValue<String> sameY = new ModeValue<>("Same Y", new String[] {"Off", "Only Speed", "Always", "Hypixel Jump", "Auto Jump"});
     private final NumberValue<Double> speedModifier = new NumberValue<>("Speed Modifier", 1.0, 0.0, 2.0, 0.01);
 
@@ -79,6 +79,10 @@ public class Scaffold extends Module {
     boolean firstJump = false;
     boolean hasPlaced = false;
 
+    int sprintTicks;
+    double realX;
+    double realZ;
+
     public Scaffold() {
         super();
         addSettings(rotationMode, keepRotationTicks, // rotations
@@ -108,6 +112,15 @@ public class Scaffold extends Module {
             if (placeTiming.getValue() == "Pre") placeBlock();
         } else {
             if (placeTiming.getValue() == "Post") placeBlock();
+        }
+
+        if (sprintMode.getValue() == "Hypixel") {
+            if (sprintTicks % 2 == 1) {
+                event.setX(realX);
+                event.setZ(realZ);
+            } else {
+                event.setOnGround(false);
+            }
         }
     }
 
@@ -188,6 +201,16 @@ public class Scaffold extends Module {
                     }
                 }
                 break;
+            case "hypixel":
+                mc.getPlayer().setSprinting(false);
+                if (!mc.getPlayer().onGround && mc.getPlayer().motionY != 0 || isTowering) {
+                    sprintTicks ++;
+                    realX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * 0.065);
+                    realZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * 0.065);
+                    MovementUtil.strafe(0.24f);
+                } else {
+                    sprintTicks = 0;
+                }
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
