@@ -17,8 +17,8 @@ public class Particle {
         this.screenHeight = screenHeight;
         this.x = random.nextFloat() * screenWidth;
         this.y = random.nextFloat() * screenHeight;
-        this.speedX = (random.nextFloat() - 0.5f) * 2;
-        this.speedY = (random.nextFloat() - 0.5f) * 2;
+        this.speedX = (random.nextFloat() - 0.8f) * 2;
+        this.speedY = (random.nextFloat() - 1.2f) * 2;
         this.size = random.nextInt(2) + 1;
     }
 

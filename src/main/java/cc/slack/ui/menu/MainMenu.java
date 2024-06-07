@@ -15,7 +15,7 @@ import java.util.List;
 
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
-    private final int particlesDensity = 2000;
+    private final int particlesDensity = 2500;
 
     private final ResourceLocation imageResource = new ResourceLocation("slack/menu/menulogo.png");
     @Override
@@ -40,11 +40,11 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(imageResource);
         drawModalRectWithCustomSizedTexture(1, 64, 0, 0, 100, 100, 100, 100);
         GlStateManager.popMatrix();
-
         for (Particle particle : particles) {
             particle.update();
             particle.render(mc);
         }
+
     }
 
 
@@ -63,7 +63,8 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
         this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
         this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
-        this.menuList.add(new MainMenuButton(7, - 30, height - 20, "Client Information"));
+        this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
+
 
         super.initGui();
     }
