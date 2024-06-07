@@ -25,7 +25,6 @@ public class BasicArrayList implements IArraylist {
         String second;
     }
 
-
     private final Map<Module, Boolean> moduleStates = new HashMap<>();
     List<Pair> modules = new ArrayList<>();
 

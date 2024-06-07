@@ -21,71 +21,73 @@ import java.util.List;
 
 import static net.minecraft.client.gui.Gui.drawRect;
 
-
 public class Basic2ArrayList implements IArraylist {
 
-    List<String> modules = new ArrayList<>();
+    private class Pair {
+        String first;
+        String second;
+    }
+
+    private final List<Pair> modules = new ArrayList<>();
 
     @Override
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (module.isToggle()) modules.add(module.getDisplayName());
+            if (module.isToggle() || !module.disabledTime.hasReached(300)) {
+                String displayName = module.getDisplayName();
+                String mode = module.getMode();
+                if (mode != null && !mode.isEmpty()) {
+                    displayName += " §7" + mode;
+                }
+
+                Pair pair = new Pair();
+                pair.first = displayName;
+                pair.second = module.getName();
+
+                modules.add(pair);
+            }
         }
-        modules.sort(Comparator.comparingInt(Fonts.apple18::getStringWidth));
-        Collections.reverse(modules);
+        modules.sort((a, b) -> Integer.compare(Fonts.poppins18.getStringWidth(b.first), Fonts.poppins18.getStringWidth(a.first)));
     }
 
     @Override
     public void onRender(RenderEvent event) {
-        if(mc.getGameSettings().showDebugInfo) {
+        if (mc.getGameSettings().showDebugInfo) {
             return;
         }
-        renderArrayList();
-        /*
-        int y = 1;
-
-        for (String module : modules) {
-            drawRect(
-                    (int) (event.getWidth() - Fonts.poppins18.getStringWidth(module) - 5),
-                    y  - 1,
-                    (int) (event.getWidth() - Fonts.poppins18.getStringWidth(module)+ Fonts.poppins18.getStringWidth(module) + 1),
-                    y + Fonts.poppins18.getHeight() - 1,
-                    0x70000000
-            );
-            Fonts.poppins18.drawStringWithShadow(module, event.getWidth() - Fonts.poppins18.getStringWidth(module) - 3, y, 0x5499C7);
-            y += Fonts.poppins18.getHeight();
-        }
-
-         */
+        renderArrayList(event);
     }
 
-    private void renderArrayList() {
-        modules.clear();
-        int count = 2;
-        for (Module module : Slack.getInstance().getModuleManager().getModules()) {
-            if (!module.isToggle())
-                continue;
+    private void renderArrayList(RenderEvent event) {
+        int y = 2;
 
-            String displayName = module.getName();
-            String mode = module.getMode();
-            if (mode != null && !mode.isEmpty()) {
-                displayName += " §7" + mode;
+        for (Pair module : modules) {
+            int stringLength = Fonts.poppins18.getStringWidth(module.first);
+            Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
+            double ease;
+
+            if (m.isToggle()) {
+                if (m.enabledTime.hasReached(300)) {
+                    ease = 0;
+                } else {
+                    ease = Math.pow(1 - (m.enabledTime.elapsed() / 300.0), 4);
+                }
+            } else {
+                ease = Math.pow(m.disabledTime.elapsed() / 300.0, 4);
             }
-            modules.add(displayName);
-        }
 
-        modules.sort((a, b) -> Integer.compare(Fonts.poppins18.getStringWidth(b), Fonts.poppins18.getStringWidth(a)));
+            ease = 1 - 1.2 * ease;
 
-        Collections.sort(modules, new ComparatorStrings());
-        for (String m : modules) {
-            int x = ( - 2) - (Fonts.poppins18.getStringWidth(m));
-            int y = count;
-            int x1 = (+ 1);
-            int y1 = count + 5;
-            drawRect(x - 2 , y - 1 , x1, y1 + 4 , 0x70000000);
-            Fonts.poppins18.drawString(m, x, y, 0x5499C7);
-            count += 10;
+            drawRect(
+                    (int) (event.getWidth() - stringLength * ease - 5),
+                    y - 2,
+                    (int) (event.getWidth() - stringLength * ease + stringLength + 3),
+                    y + Fonts.poppins18.getHeight() + 1,
+                    0x70000000
+            );
+            Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, 0x5499C7);
+            y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.pow((ease + 0.2) / 1.2, 0.5));
         }
     }
 
