@@ -119,7 +119,7 @@ public class Scaffold extends Module {
                 event.setX(realX);
                 event.setZ(realZ);
             } else {
-                event.setOnGround(false);
+                event.setGround(false);
             }
         }
     }
