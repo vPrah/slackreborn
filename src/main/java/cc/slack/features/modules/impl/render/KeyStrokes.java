@@ -92,7 +92,6 @@ public class KeyStrokes extends Module {
 
     @Override
     public DragUtil getPosition() {
-        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
         double[] pos = DragUtil.setScaledPosition(posX, posY);
         return new DragUtil(pos[0] - 50, pos[1] - 50, 100, 100, 1);
     }
@@ -116,11 +115,11 @@ public class KeyStrokes extends Module {
     private void spaceBar (int x, int y, float scale) {
         RenderUtil.drawRoundedRect(
                 (float) posX + x - 20 - 30 * scale,
-                (float) posY + y - 15 * scale,
+                (float) posY + y - 1 - 14 * scale,
                 (float) posX + x + 20 + 30 * scale,
-                (float) posY + y + 15 * scale,
+                (float) posY + y + 1 + 14 * scale,
                 1 + scale,
-                new Color(40,40,40,80).getRGB() );
+                new Color(40,40,40,90).getRGB() );
     }
 
     private float getScale(int i) {
@@ -134,7 +133,7 @@ public class KeyStrokes extends Module {
             if (upTime.get(i).hasReached(250)) {
                 return 0f;
             } else {
-                return easing(250 - upTime.get(i).elapsed());
+                return 1 - easing(upTime.get(i).elapsed());
             }
         }
     }
