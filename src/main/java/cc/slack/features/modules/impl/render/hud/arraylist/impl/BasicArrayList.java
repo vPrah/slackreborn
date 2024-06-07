@@ -25,6 +25,7 @@ public class BasicArrayList implements IArraylist {
         String second;
     }
 
+
     private final Map<Module, Boolean> moduleStates = new HashMap<>();
     List<Pair> modules = new ArrayList<>();
 
@@ -65,13 +66,13 @@ public class BasicArrayList implements IArraylist {
             double ease;
 
             if (m.isToggle()) {
-                if (m.enabledTime.hasReached(300)) {
+                if (m.enabledTime.hasReached(250)) {
                     ease = 0;
                 } else {
-                    ease = Math.pow(1 - (m.enabledTime.elapsed() / 300.0), 4);
+                    ease = Math.pow(1 - (m.enabledTime.elapsed() / 250.0), 1);
                 }
             } else {
-                ease = Math.pow(m.disabledTime.elapsed() / 300.0, 4);
+                ease = Math.pow(m.disabledTime.elapsed() / 250.0, 1);
             }
 
             ease = 1 - 1.2 * ease;
@@ -83,7 +84,7 @@ public class BasicArrayList implements IArraylist {
                     0x80000000
             );
             Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength *ease - 3, y, 0x5499C7);
-            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.5));
+            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.0));
         }
     }
 
