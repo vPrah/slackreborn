@@ -64,7 +64,7 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Microsoft Login"));
         this.menuList.add(new MainMenuButton(5, - 30, height / 2 + 60, "Cracked AltManager"));
         this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 85, "Shutdown"));
-        this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 210, "Client Information"));
+        this.menuList.add(new MainMenuButton(7, - 30, height - 20, "Client Information"));
 
         super.initGui();
     }
