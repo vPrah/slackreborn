@@ -331,7 +331,7 @@ public class Scaffold extends Module {
                     }
                     break;
                 case "watchdog":
-                    MovementUtil.strafe(0.45f);
+                    MovementUtil.strafe(0.40f);
                     if (mc.getPlayer().onGround) {
                         mc.getPlayer().motionY = 0.4191;
                     }
