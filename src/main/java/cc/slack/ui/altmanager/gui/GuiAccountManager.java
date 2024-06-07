@@ -1,5 +1,6 @@
 package cc.slack.ui.altmanager.gui;
 
+import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.altmanager.AccountManager;
 import cc.slack.ui.altmanager.auth.Account;
 import cc.slack.ui.altmanager.auth.MicrosoftAuth;
@@ -51,18 +52,11 @@ public class GuiAccountManager extends GuiScreen {
     Keyboard.enableRepeatEvents(true);
 
     buttonList.clear();
-    buttonList.add(loginButton = new GuiButton(
-      0, width / 2 - 150 - 4, height - 52, 150, 20, "Login"
-    ));
-    buttonList.add(new GuiButton(
-      1, width / 2 + 4, height - 52, 150, 20, "Add"
-    ));
-    buttonList.add(deleteButton = new GuiButton(
-      2, width / 2 - 150 - 4, height - 28, 150, 20, "Delete"
-    ));
-    buttonList.add(cancelButton = new GuiButton(
-      3, width / 2 + 4, height - 28, 150, 20, "Cancel"
-    ));
+    buttonList.add(loginButton = new GuiButton(0, width / 2 - 150 - 4, height - 52, 150, 20, "Login"));
+    buttonList.add(new GuiButton(1, width / 2 + 4, height - 52, 150, 20, "Add (Microsoft)"));
+    buttonList.add(new GuiButton(4, width / 2 + 160, height - 52, 150, 20, "Add (Cracked)"));
+    buttonList.add(deleteButton = new GuiButton(2, width / 2 - 150 - 4, height - 28, 150, 20, "Delete"));
+    buttonList.add(cancelButton = new GuiButton(3, width / 2 + 4, height - 28, 150, 20, "Cancel"));
 
     guiAccountList = new GuiAccountList(mc);
     guiAccountList.registerScrollButtons(11, 12);
@@ -278,6 +272,10 @@ public class GuiAccountManager extends GuiScreen {
         break;
         case 3: { // Cancel
           mc.displayGuiScreen(previousScreen);
+        }
+        break;
+        case 4: {
+          mc.displayGuiScreen(new GuiAltLogin(this));
         }
         break;
         default: {
