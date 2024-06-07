@@ -17,6 +17,15 @@ public class MathUtil {
             return new BigDecimal(floored, MathContext.DECIMAL64).stripTrailingZeros().doubleValue();
     }
 
+    public static double roundToPlace(double value, int places) {
+        if (places < 0) {
+            throw new IllegalArgumentException();
+        }
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     public static double getRandomInRange(double min, double max) {
         if (min == max)
             return min;

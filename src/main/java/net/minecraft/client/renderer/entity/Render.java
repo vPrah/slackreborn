@@ -1,7 +1,6 @@
 package net.minecraft.client.renderer.entity;
 
-import cc.slack.Slack;
-import cc.slack.features.modules.impl.render.NameTags;
+import cc.slack.events.impl.render.LivingLabelEvent;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;
@@ -368,6 +367,11 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
      */
     protected void renderLivingLabel(T entityIn, String str, double x, double y, double z, int maxDistance)
     {
+
+        LivingLabelEvent e = new LivingLabelEvent(entityIn);
+        e.call();
+        if(e.isCanceled()) return;
+
         double d0 = entityIn.getDistanceSqToEntity(this.renderManager.livingPlayer);
 
         if (d0 <= (double)(maxDistance * maxDistance))
@@ -375,9 +379,6 @@ public abstract class Render<T extends Entity> implements IEntityRenderer
             FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
             float f = 1.6F;
             float f1 = 0.016666668F * f;
-            if (Slack.getInstance().getModuleManager().getInstance(NameTags.class).isToggle()) {
-                f1 *= d0 / 170f * Slack.getInstance().getModuleManager().getInstance(NameTags.class).scale.getValue();
-            }
             GlStateManager.pushMatrix();
             GlStateManager.translate((float)x + 0.0F, (float)y + entityIn.height + 0.5F, (float)z);
             GL11.glNormal3f(0.0F, 1.0F, 0.0F);

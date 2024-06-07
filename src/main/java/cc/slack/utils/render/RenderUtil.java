@@ -6,10 +6,9 @@ import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.OpenGlHelper;
-import net.minecraft.client.renderer.Tessellator;
-import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.culling.Frustum;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
@@ -22,9 +21,14 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.util.Vector3d;
+import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.util.glu.GLU;
 
 import java.awt.*;
+import java.nio.FloatBuffer;
+import java.nio.IntBuffer;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
@@ -39,6 +43,10 @@ public final class RenderUtil extends mc {
     public static long tick;
     public static double rotation;
     public static Random random = new Random();
+    private static final Frustum frustrum = new Frustum();
+    private static final IntBuffer viewport = GLAllocation.createDirectIntBuffer(16);
+    private static final FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
+    private static final FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
 
     public static boolean mouseInArea(int mouseX, int mouseY, double x, double y, double width, double height) {
         return (mouseX >= x && mouseX <= (x + width)) && (mouseY >= y && mouseY <= (y + height));
@@ -67,6 +75,24 @@ public final class RenderUtil extends mc {
         glDepthMask(true);
         resetCaps();
     }
+
+    public static Vector3d project(double x, double y, double z) {
+        FloatBuffer vector = GLAllocation.createDirectFloatBuffer(4);
+        GL11.glGetFloat(2982, modelview);
+        GL11.glGetFloat(2983, projection);
+        GL11.glGetInteger(2978, viewport);
+        if (GLU.gluProject((float)x, (float)y, (float)z, modelview, projection, viewport, vector)) {
+            return new Vector3d(vector.get(0) / (float)new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor(), ((float) Display.getHeight() - vector.get(1)) / (float)new ScaledResolution(Minecraft.getMinecraft()).getScaleFactor(), vector.get(2));
+        }
+        return null;
+    }
+
+    public static boolean isInViewFrustrum(AxisAlignedBB bb) {
+        Entity current = mc.getMinecraft().getRenderViewEntity();
+        frustrum.setPosition(current.posX, current.posY, current.posZ);
+        return frustrum.isBoundingBoxInFrustum(bb);
+    }
+
 
     public static void drawSelectionBoundingBox(AxisAlignedBB boundingBox) {
         Tessellator tessellator = Tessellator.getInstance();
@@ -570,6 +596,10 @@ public final class RenderUtil extends mc {
 
     public static double interpolate(final double old, final double now, final float partialTicks) {
         return old + (now - old) * partialTicks;
+    }
+
+    public static double polate(double current, double old, double scale) {
+        return old + (current - old) * scale;
     }
 
     public static void resetCaps() {
