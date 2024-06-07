@@ -34,7 +34,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 public class HUD extends Module {
 	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
 
-	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Classic2", "Backgrounded", "Backgrounded2", "Logo" });
+	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Classic2", "Backgrounded", "Backgrounded2", "BackgroundedRound", "BackgroundedRound2", "Logo" });
 
 	public final BooleanValue notification = new BooleanValue("Notifications", true);
 	public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", false);
@@ -87,6 +87,16 @@ public class HUD extends Module {
 				break;
 			case "Backgrounded2":
 				drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "BackgroundedRound":
+				drawRoundedRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()) - 2, 15 - 2, 4.0f, 0x80000000);
+				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "BackgroundedRound2":
+				drawRoundedRect(2, 2, 57 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()) - 2, 16 - 2, 4.0f, 0x80000000);
 				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
 				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
@@ -233,6 +243,11 @@ public class HUD extends Module {
 		notDetailed.add(smallText);
 		notStyle.add(style);
 	}
+
+	private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
+		RenderUtil.drawRoundedRect(x, y, x + width, y + height, radius, color);
+	}
+
 
 	@Override
 	public String getMode() { return arraylistModes.getValue().toString(); }
