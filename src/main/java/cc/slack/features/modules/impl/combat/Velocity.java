@@ -28,7 +28,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Test", "Intave"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Test"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
@@ -127,16 +127,6 @@ public class Velocity extends Module {
 
 
         switch (mode.getValue().toLowerCase()) {
-            case "intave":
-                if (mc.getPlayer().hurtTime == 9) {
-                    if (++jumped % 2 == 0 && mc.getPlayer().onGround && mc.getPlayer().isSprinting() && mc.getCurrentScreen() == null) {
-                        mc.getGameSettings().keyBindJump.pressed = true;
-                        jumped = 0;
-                    }
-                } else {
-                    mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
-                }
-                break;
             case "hypixel damage strafe":
                 if (mc.getPlayer().hurtTime == 10) {
                     mc.getPlayer().motionX *= 1.1f;
@@ -159,12 +149,14 @@ public class Velocity extends Module {
                         hypixeltest = false;
                     }
                 }
+                break;
             case "tick":
                 if (mc.getPlayer().ticksSinceLastDamage == velocityTick.getValue()) {
                     mc.getPlayer().motionX *= horizontal.getValue().doubleValue() / 100;
                     mc.getPlayer().motionY *= vertical.getValue().doubleValue() / 100;
                     mc.getPlayer().motionZ *= horizontal.getValue().doubleValue() / 100;
                 }
+                break;
             default:
                 break;
         }
