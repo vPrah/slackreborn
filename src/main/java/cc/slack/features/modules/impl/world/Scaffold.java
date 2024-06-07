@@ -62,25 +62,6 @@ public class Scaffold extends Module {
     private final ModeValue<String> pickMode = new ModeValue<>("Block Pick Mode", new String[] {"Biggest Stack", "First Stack"});
     private final BooleanValue spoofSlot = new BooleanValue("Spoof Item Slot", false);
 
-
-    /*
-    TODO:
-    eagle / safewalk √
-    rotations mode backwards
-    rotations raycast check √
-    impl towers √
-    setmotion / speed modifier (easy) √
-    place timing (easy) √
-    samey (should be easy)
-    timer (easy)
-    block counter (easy) √
-    spoof pick block (easy) √
-    switch block (med)
-    expand (med) (shift / add search area)
-    down scaffold (med) (play with samey ylevel and enum facing)
-
-     */
-
     double groundY;
     double placeX;
     double placeY;
