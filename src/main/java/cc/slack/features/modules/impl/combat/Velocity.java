@@ -105,6 +105,7 @@ public class Velocity extends Module {
                                 hypixeltest = true;
                             }
                         }
+                        break;
                     case "reverse":
                         event.cancel();
                         mc.getPlayer().motionY = packet.getMotionY() / 8000.0;
@@ -130,11 +131,6 @@ public class Velocity extends Module {
             case "hypixel damage strafe":
                 if (mc.getPlayer().hurtTime == 9) {
                     MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
-                }
-                break;
-            case "hypixel":
-                if (mc.getPlayer().hurtTime == 9) {
-                    MovementUtil.strafe(MovementUtil.getSpeed() * 0.9f);
                 }
                 break;
             case "hypixel test":
