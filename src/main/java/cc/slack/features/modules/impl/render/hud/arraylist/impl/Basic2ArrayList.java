@@ -10,6 +10,7 @@ import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.render.ComparatorStrings;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
 
@@ -78,7 +79,7 @@ public class Basic2ArrayList implements IArraylist {
             }
 
             ease = 1 - 1.2 * ease;
-
+            /*
             drawRect(
                     (int) (event.getWidth() - stringLength * ease - 5),
                     y - 2,
@@ -86,6 +87,9 @@ public class Basic2ArrayList implements IArraylist {
                     y + Fonts.poppins18.getHeight() + 1,
                     0x70000000
             );
+             */
+
+            drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
             Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, 0x5499C7);
             y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
         }
@@ -94,5 +98,9 @@ public class Basic2ArrayList implements IArraylist {
     @Override
     public String toString() {
         return "Basic 2";
+    }
+
+    private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
+        RenderUtil.drawRoundedRect(x, y, x + width, y + height, radius, color);
     }
 }

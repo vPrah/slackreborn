@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
+
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
@@ -76,6 +78,8 @@ public class BasicArrayList implements IArraylist {
             }
 
             ease = 1 - 1.2 * ease;
+
+            /*
             drawRect(
                     (int) (event.getWidth() - stringLength * ease - 5),
                     y - 2,
@@ -83,13 +87,21 @@ public class BasicArrayList implements IArraylist {
                     y + Fonts.apple18.getHeight() + 1,
                     0x80000000
             );
+             */
+            drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
             Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength *ease - 3, y, 0x5499C7);
             y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.0));
         }
     }
 
+
+
     @Override
     public String toString() {
         return "Basic";
+    }
+
+    private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
+        RenderUtil.drawRoundedRect(x, y, x + width, y + height, radius, color);
     }
 }
