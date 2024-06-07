@@ -13,6 +13,7 @@ import cc.slack.utils.render.ComparatorStrings;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
+import org.lwjgl.input.Keyboard;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -38,8 +39,12 @@ public class Basic2ArrayList implements IArraylist {
             if (module.isToggle() || !module.disabledTime.hasReached(300)) {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
+                String key =  Keyboard.getKeyName(module.getKey());
                 if (mode != null && !mode.isEmpty()) {
-                    displayName += " §7" + mode;
+                    displayName += "§7 - " + mode;
+                }
+                if (!key.contains("NONE")) {
+                    displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
                 Pair pair = new Pair();

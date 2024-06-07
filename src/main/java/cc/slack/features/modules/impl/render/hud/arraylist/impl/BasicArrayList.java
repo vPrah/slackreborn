@@ -17,6 +17,7 @@ import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.input.Keyboard;
 
 import static net.minecraft.client.gui.Gui.drawRect;
 
@@ -43,8 +44,12 @@ public class BasicArrayList implements IArraylist {
             if (module.isToggle() || !module.disabledTime.hasReached(300)) {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
+                String key =  Keyboard.getKeyName(module.getKey());
                 if (mode != null && !mode.isEmpty()) {
-                    displayName += " §7" + mode;
+                    displayName += "§7 - " + mode;
+                }
+                if (!key.contains("NONE")) {
+                    displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
                 Pair pair = new Pair();

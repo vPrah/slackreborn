@@ -8,6 +8,8 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.client.mc;
+import org.lwjgl.input.Keyboard;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -30,8 +32,12 @@ public class RavenArrayList implements IArraylist {
             if (module.isToggle() || !module.disabledTime.hasReached(300)) {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
+                String key =  Keyboard.getKeyName(module.getKey());
                 if (mode != null && !mode.isEmpty()) {
-                    displayName += " §7" + mode;
+                    displayName += "§7 - " + mode;
+                }
+                if (!key.contains("NONE")) {
+                    displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
                 Pair pair = new Pair();
