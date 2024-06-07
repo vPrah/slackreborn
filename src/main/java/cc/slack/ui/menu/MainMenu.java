@@ -61,9 +61,8 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
         this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
         this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
-        this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Microsoft Login"));
-        this.menuList.add(new MainMenuButton(5, - 30, height / 2 + 60, "Cracked AltManager"));
-        this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 85, "Shutdown"));
+        this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
+        this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
         this.menuList.add(new MainMenuButton(7, - 30, height - 20, "Client Information"));
 
         super.initGui();
@@ -87,9 +86,6 @@ public class MainMenu extends GuiScreen {
 
         if(buttonMenu.id == 4) {
             mc.displayGuiScreen(new GuiAccountManager(this));
-        }
-        if(buttonMenu.id == 5) {
-            mc.displayGuiScreen(new GuiAltLogin(this));
         }
 
         if(buttonMenu.id == 6) {

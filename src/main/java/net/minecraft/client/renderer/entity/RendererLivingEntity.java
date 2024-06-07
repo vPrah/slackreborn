@@ -681,7 +681,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
                     float f1 = 0.02666667F;
                     GlStateManager.alphaFunc(516, 0.1F);
 
-                    if (entity.isSneaking() && !Slack.getInstance().getModuleManager().getInstance(NameTags.class).isToggle())
+                    if (entity.isSneaking())
                     {
                         FontRenderer fontrenderer = this.getFontRendererFromRenderManager();
                         GlStateManager.pushMatrix();
