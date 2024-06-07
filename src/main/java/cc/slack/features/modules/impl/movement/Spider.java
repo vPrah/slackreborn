@@ -71,19 +71,21 @@ public class Spider extends Module {
                 }
                 break;
             case "Vulcan":
-                if (mc.getPlayer().onGround) {
-                    vulcanTicks = 0;
-                    mc.getPlayer().jump();
-                }
-                if (vulcanTicks >= 3) {
-                    vulcanTicks = 0;
-                }
-                vulcanTicks++;
-                switch (vulcanTicks) {
-                    case 2:
-                    case 3:
+                if (mc.getPlayer().isCollidedHorizontally) {
+                    if (mc.getPlayer().onGround) {
+                        vulcanTicks = 0;
                         mc.getPlayer().jump();
-                        MovementUtil.resetMotion(false);
+                    }
+                    if (vulcanTicks >= 3) {
+                        vulcanTicks = 0;
+                    }
+                    vulcanTicks++;
+                    switch (vulcanTicks) {
+                        case 2:
+                        case 3:
+                            mc.getPlayer().jump();
+                            MovementUtil.resetMotion(false);
+                    }
                 }
                 break;
 
@@ -96,16 +98,18 @@ public class Spider extends Module {
     public void onPacket(PacketEvent p) {
         Packet packet = p.getPacket();
         if (packet instanceof C03PacketPlayer && spiderValue.getValue() == "Vulcan") {
-            switch (vulcanTicks) {
-                case 2:
-                    ((C03PacketPlayer) packet).onGround = true;
-                    break;
-                case 3:
-                    ((C03PacketPlayer) packet).y -= 0.1;
-                    ((C03PacketPlayer) packet).x -= MathHelper.sin(mc.getPlayer().rotationYaw) * 0.2;
-                    ((C03PacketPlayer) packet).z += MathHelper.cos(mc.getPlayer().rotationYaw) * 0.2;
+            if (mc.getPlayer().isCollidedHorizontally) {
+                switch (vulcanTicks) {
+                    case 2:
+                        ((C03PacketPlayer) packet).onGround = true;
+                        break;
+                    case 3:
+                        ((C03PacketPlayer) packet).y -= 0.05;
+                        ((C03PacketPlayer) packet).x -= MathHelper.sin(mc.getPlayer().rotationYaw) * 0.2;
+                        ((C03PacketPlayer) packet).z += MathHelper.cos(mc.getPlayer().rotationYaw) * 0.2;
+                }
+                p.setPacket(packet);
             }
-            p.setPacket(packet);
         }
     }
 
