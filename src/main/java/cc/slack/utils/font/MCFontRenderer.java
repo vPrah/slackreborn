@@ -33,12 +33,12 @@ public class MCFontRenderer extends CFont {
     }
 
     public float drawStringWithShadow(String text, float x, float y, int color) {
-        float shadowWidth = drawString(text, x + 1D, y + .5D, color, true);
+        float shadowWidth = drawString(text, x + 1D, y + .5D, 1, true);
         return Math.max(shadowWidth, drawString(text, x, y, color, false));
     }
 
     public float drawStringWithShadow(String text, double x, double y, int color) {
-        float shadowWidth = drawString(text, x + 1, y + .5, color, true);
+        float shadowWidth = drawString(text, x + 1, y + .5, 1, true);
         return Math.max(shadowWidth, drawString(text, x, y, color, false));
     }
 
@@ -54,12 +54,6 @@ public class MCFontRenderer extends CFont {
         float shadowWidth = drawString(text, x - getStringWidth(text) / 2.0 + 0.45D, y + 0.5D, color, true);
         return drawString(text, x - getStringWidth(text) / 2.0, y, color);
     }
-
-    public float drawCenteredStringWithShadow(String text, double x, double y, int color) {
-        float shadowWidth = drawString(text, x - getStringWidth(text) / 2.0 + 0.45D, y + 0.5D, color, true);
-        return drawString(text, x - getStringWidth(text) / 2.0, y, color);
-    }
-
     public float drawString(String text, double x, double y, int color, boolean shadow) {
         x -= 1;
 
