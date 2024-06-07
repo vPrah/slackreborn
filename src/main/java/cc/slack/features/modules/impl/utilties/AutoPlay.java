@@ -10,6 +10,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.IChatComponent;
@@ -20,13 +21,15 @@ import net.minecraft.util.IChatComponent;
 )
 public class AutoPlay extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Universocraft", "Librecraft", "Hypixel"});
-    private final ModeValue<String> univalue = new ModeValue<>("Universocraft", new String[]{"Skywars", "Bedwars", "Eggwars", "Hungergames"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Universocraft", "Zonecraft" ,"Librecraft", "Hypixel"});
 
+
+    private final TimeUtil timeUtil;
 
     public AutoPlay() {
         super();
-        addSettings(mode, univalue);
+        timeUtil = new TimeUtil();
+        addSettings(mode);
     }
 
     private void process(IChatComponent chatComponent) {
@@ -51,23 +54,28 @@ public class AutoPlay extends Module {
             case "Hypixel":
                 process(chatComponent);
                 break;
+            case "Zonecraft":
             case "Universocraft":
-                if (unformattedText.contains("Jugar de nuevo") || unformattedText.contains("Ha ganado")) {
-                    switch (univalue.getValue()) {
-                        case "Skywars":
-                            mc.getPlayer().sendChatMessage("/skywars random");
-                            break;
-                        case "Bedwars":
-                            mc.getPlayer().sendChatMessage("/bedwars random");
-                            break;
-                        case "Eggwars":
-                            mc.getPlayer().sendChatMessage("/eggwars random");
-                            break;
-                        case "Hungergames":
-                            mc.getPlayer().sendChatMessage("/playagain");
-                            break;
+                String text = ((S02PacketChat) event.getPacket()).getChatComponent().getUnformattedText();
+                if (!text.toLowerCase().contains("jugar de nuevo"))
+                    return;
+
+                IChatComponent commandTextComponent = null;
+                for (IChatComponent sibling : ((S02PacketChat) event.getPacket()).getChatComponent().getSiblings()) {
+                    if (sibling.getUnformattedText().toLowerCase().contains("jugar de nuevo")) {
+                        commandTextComponent = sibling;
+                        break;
                     }
+                }
+
+                if (commandTextComponent == null)
+                    return;
+
+                String command = commandTextComponent.getChatStyle().getChatClickEvent().getValue();
+                if (timeUtil.hasReached(500L)) {
+                    mc.getPlayer().sendChatMessage(command);
                     iscorrectjoin();
+                    timeUtil.reset();
                 }
                 break;
             case "Librecraft":
