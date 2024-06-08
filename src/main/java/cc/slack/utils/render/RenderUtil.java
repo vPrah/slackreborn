@@ -14,10 +14,14 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.resources.model.IBakedModel;
+import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
@@ -26,12 +30,12 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+import javax.vecmath.Vector4d;
 import java.awt.*;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
+import java.util.List;
 
 import static org.lwjgl.opengl.GL11.*;
 
@@ -598,8 +602,86 @@ public final class RenderUtil extends mc {
         return old + (now - old) * partialTicks;
     }
 
-    public static double polate(double current, double old, double scale) {
-        return old + (current - old) * scale;
+    public static double interpolate(double now, double old, double scale) {
+        return old + (now - old) * scale;
+    }
+
+    public static void drawArmor(EntityPlayer player, int x, int y, float size) {
+        if (player.inventory.armorInventory.length > 0) {
+            List<ItemStack> items = new ArrayList<>();
+            if (player.getHeldItem() != null) {
+                items.add(player.getHeldItem());
+            }
+            for (int index = 3; index >= 0; index--) {
+                ItemStack stack = player.inventory.armorInventory[index];
+                if (stack != null) {
+                    items.add(stack);
+                }
+            }
+            int armorX = x - ((items.size() * 18) / 2);
+            for (ItemStack stack : items) {
+                GlStateManager.pushMatrix();
+                GlStateManager.enableLighting();
+                mc.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(stack, armorX, y);
+                mc.getMinecraft().getRenderItem().renderItemOverlays(mc.getFontRenderer(), stack, armorX, y);
+                GlStateManager.disableLighting();
+                GlStateManager.popMatrix();
+                GlStateManager.disableDepth();
+                NBTTagList enchants = stack.getEnchantmentTagList();
+                GlStateManager.pushMatrix();
+                GlStateManager.scale(size, size, size);
+                if (stack.getItem() == Items.golden_apple && stack.getMetadata() == 1) {
+                    mc.getFontRenderer().drawString("op", armorX / size, y / size, 0xFFFF0000, true);
+                }
+                Enchantment[] important = new Enchantment[]{Enchantment.protection, Enchantment.sharpness, Enchantment.fireAspect, Enchantment.efficiency, Enchantment.power, Enchantment.flame};
+                if (enchants != null) {
+                    int ency = y + 8;
+                    for (int index = 0; index < enchants.tagCount(); ++index) {
+                        short id = enchants.getCompoundTagAt(index).getShort("id");
+                        short level = enchants.getCompoundTagAt(index).getShort("lvl");
+                        Enchantment enc = Enchantment.getEnchantmentById(id);
+                        for (Enchantment importantEnchantment : important) {
+                            if (enc == importantEnchantment) {
+                                String encName = enc.getTranslatedName(level).substring(0, 1).toLowerCase();
+                                if (level > 99) encName = encName + "99+";
+                                else encName = encName + level;
+                                mc.getFontRenderer().drawString(encName, armorX / size + 4, ency / size, 0xDDD1E6, true);
+                                ency -= 5;
+                                break;
+                            }
+                        }
+                    }
+                }
+                GlStateManager.enableDepth();
+                GlStateManager.popMatrix();
+                armorX += 18;
+            }
+        }
+    }
+
+    public static Vector4d getProjectedEntity(EntityPlayer ent, double partialTicks) {
+        double posX = RenderUtil.interpolate(ent.posX, ent.lastTickPosX, partialTicks);
+        double posY = RenderUtil.interpolate(ent.posY, ent.lastTickPosY, partialTicks);
+        double posZ = RenderUtil.interpolate(ent.posZ, ent.lastTickPosZ, partialTicks);
+        double width = ent.width / 1.5;
+        double height = ent.height + (ent.isSneaking() ? -0.3 : 0.2);
+        AxisAlignedBB aabb = new AxisAlignedBB(posX - width, posY, posZ - width, posX + width, posY + height, posZ + width);
+        List<Vector3d> vectors = Arrays.asList(new Vector3d(aabb.minX, aabb.minY, aabb.minZ), new Vector3d(aabb.minX, aabb.maxY, aabb.minZ), new Vector3d(aabb.maxX, aabb.minY, aabb.minZ), new Vector3d(aabb.maxX, aabb.maxY, aabb.minZ), new Vector3d(aabb.minX, aabb.minY, aabb.maxZ), new Vector3d(aabb.minX, aabb.maxY, aabb.maxZ), new Vector3d(aabb.maxX, aabb.minY, aabb.maxZ), new Vector3d(aabb.maxX, aabb.maxY, aabb.maxZ));
+        mc.getEntityRenderer().setupCameraTransform((float) partialTicks, 0);
+        Vector4d position = null;
+        for (Vector3d vector : vectors) {
+            vector = RenderUtil.project(vector.field_181059_a - mc.getRenderManager().viewerPosX, vector.field_181060_b - mc.getRenderManager().viewerPosY, vector.field_181061_c - mc.getRenderManager().viewerPosZ);
+            if (vector != null && vector.field_181061_c >= 0.0 && vector.field_181061_c < 1.0) {
+                if (position == null) {
+                    position = new Vector4d(vector.field_181059_a, vector.field_181060_b, vector.field_181061_c, 0.0);
+                }
+                position.x = Math.min(vector.field_181059_a, position.x);
+                position.y = Math.min(vector.field_181060_b, position.y);
+                position.z = Math.max(vector.field_181059_a, position.z);
+                position.w = Math.max(vector.field_181060_b, position.w);
+            }
+        }
+        return position;
     }
 
     public static void resetCaps() {
