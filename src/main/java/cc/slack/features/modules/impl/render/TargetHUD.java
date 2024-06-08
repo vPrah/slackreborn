@@ -92,7 +92,7 @@ public class TargetHUD extends Module {
 
 		if (followTarget.getValue()) {
 			Vector4d pos = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.5);
-			x = (int) (pos.x + pos.z)/2 + 30;
+			x = ((int) (pos.x + pos.z)/2) + 30;
 			y = (int) pos.y;
 		}
 

@@ -46,7 +46,7 @@ public class HUD extends Module {
 	private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
 
 	public final BooleanValue sound = new BooleanValue("Toggle Sound", false);
-
+	public final BooleanValue binds = new BooleanValue("Binds", false);
 	private int scaffoldTicks = 0;
 	private String displayString = " ";
 	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
@@ -57,7 +57,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound);
+		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound, binds);
 	}
 
 	@Listen
