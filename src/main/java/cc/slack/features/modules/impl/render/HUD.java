@@ -24,242 +24,206 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.Date;
 
 import static java.lang.Math.round;
 import static net.minecraft.client.gui.Gui.drawRect;
 
 @ModuleInfo(name = "HUD", category = Category.RENDER)
 public class HUD extends Module {
-    private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[]{new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
+	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
 
-    private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[]{"Classic", "Classic2", "Slack", "Backgrounded", "Backgrounded2", "Backrounded", "Backrounded2", "Logo"});
+	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Classic2", "Backgrounded", "Backgrounded2", "BackgroundedRound", "BackgroundedRound2", "Logo" });
 
-    public final BooleanValue notification = new BooleanValue("Notifications", true);
-    public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", false);
-
-
-    private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
-    private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
-
-    private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
-
-    public final BooleanValue sound = new BooleanValue("Toggle Sound", false);
-
-    private int scaffoldTicks = 0;
-    private String displayString = " ";
-    private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
-    private ArrayList<String> notText = new ArrayList<>();
-    private ArrayList<Long> notEnd = new ArrayList<>();
-    private ArrayList<Long> notStart = new ArrayList<>();
-    private ArrayList<String> notDetailed = new ArrayList<>();
-    private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
+	public final BooleanValue notification = new BooleanValue("Notifications", true);
+	public final BooleanValue roundednotification = new BooleanValue("Rounded Notifications", false);
 
 
-    public HUD() {
-        addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound);
-    }
+	private final BooleanValue fpsdraw = new BooleanValue("FPS Counter", true);
+	private final BooleanValue bpsdraw = new BooleanValue("BPS Counter", true);
 
-    @Listen
-    public void onUpdate(UpdateEvent e) {
-        arraylistModes.getValue().onUpdate(e);
-    }
+	private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
 
-    @Listen
-    public void onRender(RenderEvent e) {
+	public final BooleanValue sound = new BooleanValue("Toggle Sound", false);
 
-        // Date format
-        Date now = new Date();
-        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+	private int scaffoldTicks = 0;
+	private String displayString = " ";
+	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
+	private ArrayList<String> notText = new ArrayList<>();
+	private ArrayList<Long> notEnd = new ArrayList<>();
+	private ArrayList<Long> notStart = new ArrayList<>();
+	private ArrayList<String> notDetailed = new ArrayList<>();
+	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
-        if (e.state != RenderEvent.State.RENDER_2D) return;
+	public HUD() {
+		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound);
+	}
 
-        arraylistModes.getValue().onRender(e);
+	@Listen
+	public void onUpdate(UpdateEvent e) {
+		arraylistModes.getValue().onUpdate(e);
+	}
 
-        switch (watermarksmodes.getValue()) {
-            case "Classic":
-                Fonts.apple24.drawStringWithShadow("S", 4, 4, 0x5499C7);
-                Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
-                break;
-            case "Classic2":
-                Fonts.poppins24.drawStringWithShadow("S", 4, 4, 0x5499C7);
-                Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
-                break;
-            case "Slack":
-                Fonts.apple18.drawStringWithShadow("S", 4, 7, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow("lack ", 10, 7, -1);
-                Fonts.apple18.drawStringWithShadow("  [", 30, 7, new Color(169, 169, 169).getRGB());
-                Fonts.apple18.drawStringWithShadow(format.format(now), 38, 7, -1);
-                Fonts.apple18.drawStringWithShadow("]  ", 61, 7, new Color(169, 169, 169).getRGB());
-				Fonts.apple18.drawStringWithShadow("[", 68, 7, new Color(169, 169, 169).getRGB());
-				Fonts.apple18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", 72, 7, -1);
-				Fonts.apple18.drawStringWithShadow("]  ", 106, 7, new Color(169, 169, 169).getRGB());
+	@Listen
+	public void onRender(RenderEvent e) {
+		if (e.state != RenderEvent.State.RENDER_2D) return;
 
+		arraylistModes.getValue().onRender(e);
+
+		switch (watermarksmodes.getValue()) {
+			case "Classic":
+				Fonts.apple24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+				Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
+				break;
+			case "Classic2":
+				Fonts.poppins24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+				Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
+				break;
+			case "Backgrounded":
+				drawRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "Backgrounded2":
+				drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
+				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "BackgroundedRound":
+				drawRoundedRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()) - 2, 15 - 2, 4.0f, 0x80000000);
+				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "BackgroundedRound2":
+				drawRoundedRect(2, 2, 57 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()) - 2, 16 - 2, 4.0f, 0x80000000);
+				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
+				break;
+			case "Logo":
+
+				GlStateManager.enableAlpha();
+				GlStateManager.enableBlend();
+				RenderUtil.drawImage(new ResourceLocation("slack/menu/hud.png"), 4, 4, 20, 33);
+				GlStateManager.disableAlpha();
+				GlStateManager.disableBlend();
 
 				break;
-            case "Backgrounded":
-                drawRect(2, 2, 55 + Fonts.apple18.getStringWidth("") + 86, 15, 0x80000000);
-                Fonts.apple18.drawStringWithShadow("S", 4, 7, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow("lack ", 10, 7, -1);
-                Fonts.apple18.drawStringWithShadow(" - ", 30, 7, -1);
-                Fonts.apple18.drawStringWithShadow(Slack.getInstance().codename + " Version", 40, 7, -1);
-                Fonts.apple18.drawStringWithShadow(" - ", 107, 7, -1);
-                Fonts.apple18.drawStringWithShadow(format.format(now), 117, 7, -1);
-                break;
-            case "Backgrounded2":
-                drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth("") + 86, 15, 0x80000000);
-                Fonts.poppins18.drawStringWithShadow("S", 4, 7, 0x5499C7);
-                Fonts.poppins18.drawStringWithShadow("lack ", 10, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(" - ", 30, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(Slack.getInstance().codename + " Version", 40, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(" - ", 107, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(format.format(now), 117, 7, -1);
-                break;
-            case "Backrounded":
-                drawRoundedRect(2, 2, 55 + Fonts.apple18.getStringWidth("") + 86, 18 - 2, 4.0f, 0x80000000);
-                Fonts.apple18.drawStringWithShadow("S", 4, 7, 0x5499C7);
-                Fonts.apple18.drawStringWithShadow("lack ", 10, 7, -1);
-                Fonts.apple18.drawStringWithShadow(" - ", 30, 7, -1);
-                Fonts.apple18.drawStringWithShadow(Slack.getInstance().codename + " Version", 40, 7, -1);
-                Fonts.apple18.drawStringWithShadow(" - ", 107, 7, -1);
-                Fonts.apple18.drawStringWithShadow(format.format(now), 117, 7, -1);
-                break;
-            case "Backrounded2":
-                drawRoundedRect(2, 2, 55 + Fonts.poppins18.getStringWidth("") + 86, 18 - 2, 4.0f, 0x80000000);
-                Fonts.poppins18.drawStringWithShadow("S", 4, 7, 0x5499C7);
-                Fonts.poppins18.drawStringWithShadow("lack ", 10, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(" - ", 30, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(Slack.getInstance().codename + " Version", 40, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(" - ", 107, 7, -1);
-                Fonts.poppins18.drawStringWithShadow(format.format(now), 117, 7, -1);
-                break;
-            case "Logo":
+		}
+		if (fpsdraw.getValue()) {
+			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+			Fonts.apple18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
+		}
 
-                GlStateManager.enableAlpha();
-                GlStateManager.enableBlend();
-                RenderUtil.drawImage(new ResourceLocation("slack/menu/hud.png"), 4, 4, 20, 33);
-                GlStateManager.disableAlpha();
-                GlStateManager.disableBlend();
+		if (bpsdraw.getValue()) {
+			Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
+			Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
 
-                break;
-        }
-        if (fpsdraw.getValue()) {
-            Fonts.poppins18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-            Fonts.poppins18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
-        }
+		}
 
-        if (bpsdraw.getValue()) {
-            Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, 0x5499C7);
-            Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
+		if (scaffoldDraw.getValue()) {
+			if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
+				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+					displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
+				} else {
+					displayString = "No blocks";
+				}
+				if (scaffoldTicks < 10)
+					scaffoldTicks++;
+			} else {
+				if (scaffoldTicks > 0)
+					scaffoldTicks--;
+			}
 
-        }
+			if (scaffoldTicks != 0) {
+				ScaledResolution sr = mc.getScaledResolution();
+				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+					int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
+					RenderUtil.drawRoundedRect(
+							((sr.getScaledWidth() -  Fonts.apple18.getStringWidth(displayString)) / 2f) - 4,
+							sr.getScaledHeight() * 3f / 4F - 4f - y,
+							((sr.getScaledWidth() +  Fonts.apple18.getStringWidth(displayString)) / 2f) + 4,
+							sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f - y,
+							2, 0x80000000);
+					Fonts.apple18.drawString(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255, 255, 255).getRGB(), false);
+				}
+			}
+		}
 
-        if (scaffoldDraw.getValue()) {
-            if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
-                if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-                    displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
-                } else {
-                    displayString = "No blocks";
-                }
-                if (scaffoldTicks < 10)
-                    scaffoldTicks++;
-            } else {
-                if (scaffoldTicks > 0)
-                    scaffoldTicks--;
-            }
+		if (notification.getValue()) {
+			int y = mc.getScaledResolution().getScaledHeight() - 10;
+			for (int i = 0; i < notText.size(); i++) {
+				double x = getXpos(notStart.get(i), notEnd.get(i));
+				renderNotification((int) (mc.getScaledResolution().getScaledWidth() - 10 + 160 * x), y, notText.get(i), notDetailed.get(i), notStyle.get(i));
+				if (roundednotification.getValue()) {
+					y -= (int) (Math.pow((1 - x), 0.5) * 23);
+				} else {
+					y -= (int) (Math.pow((1 - x), 0.5) * 19);
+				}
+			}
 
-            if (scaffoldTicks != 0) {
-                ScaledResolution sr = mc.getScaledResolution();
-                if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-                    int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
-                    RenderUtil.drawRoundedRect(
-                            ((sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f) - 4,
-                            sr.getScaledHeight() * 3f / 4F - 4f - y,
-                            ((sr.getScaledWidth() + Fonts.apple18.getStringWidth(displayString)) / 2f) + 4,
-                            sr.getScaledHeight() * 3f / 4F + mc.getFontRenderer().FONT_HEIGHT + 2f - y,
-                            2, 0x80000000);
-                    Fonts.apple18.drawString(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255, 255, 255).getRGB(), false);
-                }
-            }
-        }
+			ArrayList<Integer> removeList = new ArrayList();
 
-        if (notification.getValue()) {
-            int y = mc.getScaledResolution().getScaledHeight() - 10;
-            for (int i = 0; i < notText.size(); i++) {
-                double x = getXpos(notStart.get(i), notEnd.get(i));
-                renderNotification((int) (mc.getScaledResolution().getScaledWidth() - 10 + 160 * x), y, notText.get(i), notDetailed.get(i), notStyle.get(i));
-                if (roundednotification.getValue()) {
-                    y -= (int) (Math.pow((1 - x), 0.5) * 23);
-                } else {
-                    y -= (int) (Math.pow((1 - x), 0.5) * 19);
-                }
-            }
+			for (int i = 0; i < notText.size(); i++) {
+				if (System.currentTimeMillis() > notEnd.get(i)) {
+					removeList.add(i);
+				}
+			}
 
-            ArrayList<Integer> removeList = new ArrayList();
+			Collections.reverse(removeList);
 
-            for (int i = 0; i < notText.size(); i++) {
-                if (System.currentTimeMillis() > notEnd.get(i)) {
-                    removeList.add(i);
-                }
-            }
+			for (int i : removeList) {
+				notText.remove(i);
+				notEnd.remove(i);
+				notStart.remove(i);
+				notDetailed.remove(i);
+				notStyle.remove(i);
+			}
+		} else {
+			notText.clear();
+			notEnd.clear();
+			notStart.clear();
+			notDetailed.clear();
+			notStyle.clear();
+		}
+	}
 
-            Collections.reverse(removeList);
+	private String getBPS() {
+		double currentBPS = ((double) round((MovementUtil.getSpeed() * 20) * 100)) / 100;
+		return String.format("%.2f", currentBPS);
+	}
 
-            for (int i : removeList) {
-                notText.remove(i);
-                notEnd.remove(i);
-                notStart.remove(i);
-                notDetailed.remove(i);
-                notStyle.remove(i);
-            }
-        } else {
-            notText.clear();
-            notEnd.clear();
-            notStart.clear();
-            notDetailed.clear();
-            notStyle.clear();
-        }
-    }
-
-    private String getBPS() {
-        double currentBPS = ((double) round((MovementUtil.getSpeed() * 20) * 100)) / 100;
-        return String.format("%.2f", currentBPS);
-    }
-
-    private void renderNotification(int x, int y, String bigText, String smallText, Slack.NotificationStyle style) {
-        int color = new Color(50, 50, 50, 120).getRGB();
-        switch (style) {
-            case GRAY:
-                break;
-            case SUCCESS:
-                color = new Color(23, 138, 29, 120).getRGB();
-                break;
-            case FAIL:
-                color = new Color(148, 36, 24, 120).getRGB();
-                break;
-            case WARN:
-                color = new Color(156, 128, 37, 120).getRGB();
-                break;
-        }
-        if (roundednotification.getValue()) {
-            RenderUtil.drawRoundedRect(
-                    x - 10 - Fonts.apple18.getStringWidth(bigText),
-                    y - 10 - Fonts.apple18.getHeight(), x, y,
-                    2, color);
-            Fonts.apple18.drawStringWithShadow(bigText, x - 5 - Fonts.apple18.getStringWidth(bigText),
-                    y - 5 - Fonts.apple18.getHeight(), new Color(255, 255, 255).getRGB());
-            Fonts.apple18.drawStringWithShadow(bigText, x - 5 - Fonts.apple18.getStringWidth(bigText),
-                    y - 5 - Fonts.apple18.getHeight(), new Color(255, 255, 255).getRGB());
-        } else {
-            drawRect(x - 6 - Fonts.apple18.getStringWidth(bigText), y - 6 - Fonts.apple18.getHeight(), x, y,
-                    color);
-            Fonts.apple18.drawStringWithShadow(bigText, x - 3 - Fonts.apple18.getStringWidth(bigText),
-                    y - 3 - Fonts.apple18.getHeight(), new Color(255, 255, 255).getRGB());
-        }
-    }
+	private void renderNotification(int x, int y, String bigText, String smallText, Slack.NotificationStyle style) {
+		int color = new Color(50, 50, 50, 120).getRGB();
+		switch (style) {
+			case GRAY:
+				break;
+			case SUCCESS:
+				color = new Color(23, 138, 29, 120).getRGB();
+				break;
+			case FAIL:
+				color = new Color(148, 36, 24, 120).getRGB();
+				break;
+			case WARN:
+				color = new Color(156, 128, 37, 120).getRGB();
+				break;
+		}
+		if (roundednotification.getValue()) {
+			RenderUtil.drawRoundedRect(
+					x - 10 - Fonts.apple18.getStringWidth(bigText),
+					y - 10 - Fonts.apple18.getHeight(), x, y,
+					2, color);
+			Fonts.apple18.drawStringWithShadow(bigText, x - 5 - Fonts.apple18.getStringWidth(bigText),
+					y - 5 -Fonts.apple18.getHeight(), new Color(255, 255, 255).getRGB());
+			Fonts.apple18.drawStringWithShadow(bigText, x - 5 - Fonts.apple18.getStringWidth(bigText),
+					y - 5 - Fonts.apple18.getHeight(), new Color(255, 255, 255).getRGB());
+		} else {
+			drawRect(x - 6 - Fonts.apple18.getStringWidth(bigText), y - 6 - Fonts.apple18.getHeight(), x, y,
+					color);
+			Fonts.apple18.drawStringWithShadow(bigText, x - 3 - Fonts.apple18.getStringWidth(bigText),
+					y - 3 - Fonts.apple18.getHeight(), new Color(255, 255, 255).getRGB());
+		}
+	}
 
 /*
 	private void renderNotification(int x, int y, String bigText, String smallText, Slack.NotificationStyle style) {
@@ -296,32 +260,30 @@ public class HUD extends Module {
 
  */
 
-    private double getXpos(Long startTime, Long endTime) {
-        if (endTime - System.currentTimeMillis() < 300L) {
-            return Math.pow(1 - (endTime - System.currentTimeMillis()) / 300f, 3);
-        } else if (System.currentTimeMillis() - startTime < 300L) {
-            return Math.pow(1 - (System.currentTimeMillis() - startTime) / 300f, 3);
-        } else {
-            return 0.0;
-        }
-    }
+	private double getXpos(Long startTime, Long endTime) {
+		if (endTime - System.currentTimeMillis() < 300L) {
+			return Math.pow(1 - (endTime - System.currentTimeMillis()) / 300f, 3);
+		} else if (System.currentTimeMillis() - startTime < 300L) {
+			return Math.pow( 1- (System.currentTimeMillis() - startTime) / 300f, 3);
+		} else {
+			return 0.0;
+		}
+	}
 
-    public void addNotification(String bigText, String smallText, Long duration, Slack.NotificationStyle style) {
-        if (!notification.getValue()) return;
-        notText.add(bigText);
-        notEnd.add(System.currentTimeMillis() + duration);
-        notStart.add(System.currentTimeMillis());
-        notDetailed.add(smallText);
-        notStyle.add(style);
-    }
+	public void addNotification(String bigText, String smallText, Long duration, Slack.NotificationStyle style) {
+		if (!notification.getValue()) return;
+		notText.add(bigText);
+		notEnd.add(System.currentTimeMillis() + duration);
+		notStart.add(System.currentTimeMillis());
+		notDetailed.add(smallText);
+		notStyle.add(style);
+	}
 
-    private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
-        RenderUtil.drawRoundedRect(x, y, x + width, y + height, radius, color);
-    }
+	private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
+		RenderUtil.drawRoundedRect(x, y, x + width, y + height, radius, color);
+	}
 
 
-    @Override
-    public String getMode() {
-        return arraylistModes.getValue().toString();
-    }
+	@Override
+	public String getMode() { return arraylistModes.getValue().toString(); }
 }

@@ -6,6 +6,7 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
 import java.util.ArrayList;
@@ -48,7 +49,7 @@ public class BasicArrayList implements IArraylist {
                 if (mode != null && !mode.isEmpty()) {
                     displayName += "§7 - " + mode;
                 }
-                if (!key.contains("NONE")) {
+                if (!key.contains("NONE") && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
                     displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
@@ -95,7 +96,7 @@ public class BasicArrayList implements IArraylist {
              */
             drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
             Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength *ease - 3, y, 0x5499C7);
-            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.0));
+            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 1));
         }
     }
 
