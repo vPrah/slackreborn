@@ -33,6 +33,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 @ModuleInfo(name = "HUD", category = Category.RENDER)
 public class HUD extends Module {
 	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
+	public final BooleanValue binds = new BooleanValue("Display Binds", false);
 
 	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Classic2", "Backgrounded", "Backgrounded2", "BackgroundedRound", "BackgroundedRound2", "Logo" });
 
@@ -57,7 +58,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound);
+		addSettings(arraylistModes, binds, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound);
 	}
 
 	@Listen
