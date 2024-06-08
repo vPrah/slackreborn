@@ -220,6 +220,10 @@ public class Scaffold extends Module {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
                 RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
+                if (Math.abs(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0]) > 80) {
+                    RotationUtil.setClientRotation(new float[] {BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0], 77.5f}, keepRotationTicks.getValue());
+
+                }
                 break;
             case "hypixel ground":
                 if (mc.getPlayer().onGround) {
