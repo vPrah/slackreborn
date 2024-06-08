@@ -14,10 +14,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.HashMap;
 
+import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.util.ResourceLocation;
+import org.lwjgl.Sys;
 import org.lwjgl.input.Keyboard;
 
 import static net.minecraft.client.gui.Gui.drawRect;
@@ -67,6 +69,7 @@ public class BasicArrayList implements IArraylist {
     @Override
     public void onRender(RenderEvent event) {
         int y = 3;
+        double c = System.currentTimeMillis() / 3000.0;
 
         for (Pair module : modules) {
             int stringLength = Fonts.apple18.getStringWidth(module.first);
@@ -95,8 +98,9 @@ public class BasicArrayList implements IArraylist {
             );
              */
             drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
-            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength *ease - 3, y, 0x5499C7);
-            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.0));
+            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+            y += (int) ((Fonts.apple18.getHeight() + 3) * (ease + 0.2)/1.2);
+            c += 0.15;
         }
     }
 
