@@ -10,32 +10,13 @@ import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.entity.EntityOtherPlayerMP;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.item.EntityArmorStand;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityBat;
-import net.minecraft.entity.passive.EntitySquid;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.Vector3d;
 import org.lwjgl.opengl.GL11;
 
 import javax.vecmath.Vector4d;
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import static cc.slack.utils.render.RenderUtil.drawArmor;
 
 
 @ModuleInfo(
@@ -56,7 +37,7 @@ public class NameTags extends Module {
                         if (position != null) {
                             GL11.glPushMatrix();
                             float size = .5f;
-                            drawArmor(ent, (int) (position.x + ((position.z - position.x) / 2)), (int) position.y - 4 - mc.getFontRenderer().FONT_HEIGHT * 2, size);
+                            RenderUtil.drawArmor(ent, (int) (position.x + ((position.z - position.x) / 2)), (int) position.y - 4 - mc.getFontRenderer().FONT_HEIGHT * 2, size);
                             GlStateManager.scale(size, size, size);
                             float x = (float) position.x / size;
                             float x2 = (float) position.z / size;
