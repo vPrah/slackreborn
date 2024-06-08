@@ -99,14 +99,12 @@ public class MainMenuButton extends Gui
         //    this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
            // this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
             if(this.hovered) {
-                drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x8FDF6400);
+                hoverPercent += (1 - hoverPercent) / 4;
             }else{
-                if(!this.hovered) {
-                    drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x81000000);
-                }
-
+                hoverPercent += (0 - hoverPercent) / 4;
             }
 
+            drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, new Color(0,0,0,80 + (int) (hoverPercent * 70)).getRGB());
 
 
             this.mouseDragged(mc, mouseX, mouseY);
