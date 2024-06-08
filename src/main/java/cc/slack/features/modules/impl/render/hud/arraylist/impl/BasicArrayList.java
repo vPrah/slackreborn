@@ -96,7 +96,7 @@ public class BasicArrayList implements IArraylist {
              */
             drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
             Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength *ease - 3, y, 0x5499C7);
-            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 1));
+            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.pow((ease + 0.2)/1.2, 0.0));
         }
     }
 
