@@ -124,6 +124,14 @@ public class KeyStrokes extends Module {
 
     private float getScale(int i) {
         if (enabled.get(i)) {
+            return Math.max(getScale(i, true), getScale(i, false));
+        } else {
+            return Math.min(getScale(i, true), getScale(i, false));
+        }
+    }
+
+    private float getScale(int i, boolean enabled) {
+        if (enabled) {
             if (downTime.get(i).hasReached(250)) {
                 return 1f;
             } else {
