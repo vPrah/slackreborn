@@ -40,8 +40,8 @@ public class Backtrack extends Module {
     private boolean releasing = false;
     public EntityPlayer player;
 
-    List<List<Packet>> packetCache = new ArrayList<>();
-    List<Packet> currentTick = new ArrayList<>();
+    ArrayList<ArrayList<Packet>> packetCache = new ArrayList<>();
+    ArrayList<Packet> currentTick = new ArrayList<>();
 
     public Backtrack() {
         addSettings(maxDelay, backtrackTime);
@@ -125,6 +125,7 @@ public class Backtrack extends Module {
         releasing = true;
         for (Packet packet : packetCache.get(0)) {
             try {
+                PrintUtil.message("release" + packet.toString());
                 packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
             } catch ( Exception e) {
                 PrintUtil.message("Failed to process packet: " + packet.toString());

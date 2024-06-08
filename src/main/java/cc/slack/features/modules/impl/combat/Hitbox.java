@@ -20,4 +20,7 @@ public class Hitbox extends Module {
         addSettings(hitboxSize);
     }
 
+    @Override
+    public String getMode() { return hitboxSize.getValue().toString(); }
+
 }
