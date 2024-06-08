@@ -35,6 +35,7 @@ public class FireballFlight implements IFlight {
             Slack.getInstance().addNotification("Fireball needed to fly", "", 3000L, Slack.NotificationStyle.WARN);
             Slack.getInstance().getModuleManager().getInstance(Flight.class).setToggle(false);
         }
+        fireballSlot -= 36;
     }
 
     @Override
