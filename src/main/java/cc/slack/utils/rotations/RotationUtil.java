@@ -141,7 +141,7 @@ public class RotationUtil extends mc {
         if (mode == TargetRotation.OPTIMAL) {
             rotPoint = new Vec3(
                     Math.max(aabb.minX, Math.min(aabb.maxX, mc.getPlayer().posX)),
-                    Math.max(aabb.minY, Math.min(aabb.maxY, mc.getPlayer().posY)),
+                    Math.max(aabb.minY, Math.min(aabb.maxY, mc.getPlayer().posY + mc.getPlayer().getEyeHeight())),
                     Math.max(aabb.minZ, Math.min(aabb.maxZ, mc.getPlayer().posZ)));
         } else {
             double minRotDiff = 180D;

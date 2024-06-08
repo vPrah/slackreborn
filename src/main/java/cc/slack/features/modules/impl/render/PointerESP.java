@@ -64,11 +64,12 @@ public class PointerESP extends Module {
                         GL11.glTranslated(x,y,0);
                         GL11.glRotatef((float) angle, 0, 0, 1);
                         GL11.glScaled(1.5, 1, 1);
-                        drawTriAngle(0F, 0F, 2.2F, 3F, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
-                        drawTriAngle(0F, 0F, 1.5F, 3F, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
-                        drawTriAngle(0F, 0F, 1.0F, 3F, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
-                        drawTriAngle(0F, 0F, 0.5F, 3F, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
-                        drawTriAngle(0F, 0F, 2.2F, 3F, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+                        int c = (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB();
+                        drawTriAngle(0F, 0F, 2.2F, 3F, c);
+                        drawTriAngle(0F, 0F, 1.5F, 3F, c);
+                        drawTriAngle(0F, 0F, 1.0F, 3F, c);
+                        drawTriAngle(0F, 0F, 0.5F, 3F, c);
+                        drawTriAngle(0F, 0F, 2.2F, 3F, c);
                         GL11.glPopMatrix();
                     }
                 }

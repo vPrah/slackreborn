@@ -10,6 +10,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
 import cc.slack.features.modules.impl.world.Scaffold;
@@ -33,6 +34,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 @ModuleInfo(name = "HUD", category = Category.RENDER)
 public class HUD extends Module {
 	private final ModeValue<IArraylist> arraylistModes = new ModeValue<>("Arraylist", new IArraylist[] { new BasicArrayList(), new Basic2ArrayList(), new RavenArrayList()});
+	public final BooleanValue binds = new BooleanValue("Binds", false);
 
 	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Classic2", "Backgrounded", "Backgrounded2", "BackgroundedRound", "BackgroundedRound2", "Logo" });
 
@@ -46,7 +48,15 @@ public class HUD extends Module {
 	private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
 
 	public final BooleanValue sound = new BooleanValue("Toggle Sound", false);
-	public final BooleanValue binds = new BooleanValue("Binds", false);
+
+	public final NumberValue<Integer> r1 = new NumberValue<>("Custom Start R", 0, 0, 255, 5);
+	public final NumberValue<Integer> g1 = new NumberValue<>("Custom Start G", 0, 0, 255, 5);
+	public final NumberValue<Integer> b1 = new NumberValue<>("Custom Start B", 255, 0, 255, 5);
+
+	public final NumberValue<Integer> r2 = new NumberValue<>("Custom End R", 0, 0, 255, 5);
+	public final NumberValue<Integer> g2 = new NumberValue<>("Custom End G", 255, 0, 255, 5);
+	public final NumberValue<Integer> b2 = new NumberValue<>("Custom End B", 255, 0, 255, 5);
+
 	private int scaffoldTicks = 0;
 	private String displayString = " ";
 	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
@@ -57,7 +67,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound, binds);
+		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound, binds, r1, g1, b1, r2, g2, b2);
 	}
 
 	@Listen

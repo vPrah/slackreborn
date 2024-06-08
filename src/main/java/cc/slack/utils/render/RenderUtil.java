@@ -206,7 +206,7 @@ public final class RenderUtil extends mc {
         GlStateManager.disableDepth();
         GlStateManager.enableBlend();
 
-        RenderUtil.glColor((!rainbow) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+        RenderUtil.glColor((!rainbow) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
         GL11.glLineWidth(1.5f);
 
         GL11.glBegin(GL11.GL_LINE_STRIP);

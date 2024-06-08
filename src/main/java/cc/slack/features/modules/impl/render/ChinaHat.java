@@ -36,7 +36,7 @@ public class ChinaHat extends Module {
 
         if (mc.getGameSettings().thirdPersonView != 0) {
             for (int i = 0; i < 400; ++i) {
-                RenderUtil.drawHat(mc.getPlayer(), 0.009 + i * 0.0014, mc.getTimer().elapsedPartialTicks, 12, 2.0f, 2.2f - i * 7.85E-4f - 0.03f, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+                RenderUtil.drawHat(mc.getPlayer(), 0.009 + i * 0.0014, mc.getTimer().elapsedPartialTicks, 12, 2.0f, 2.2f - i * 7.85E-4f - 0.03f, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
             }
         }
     }

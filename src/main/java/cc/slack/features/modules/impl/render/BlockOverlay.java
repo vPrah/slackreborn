@@ -58,7 +58,7 @@ public class BlockOverlay extends Module {
             GL11.glEnable(2848);
             GL11.glDisable(2929);
             GL11.glDepthMask(false);
-            final Color c = new Color((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+            final Color c = new Color((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
             final int r = c.getRed();
             final int g = c.getGreen();
             final int b = c.getBlue();
