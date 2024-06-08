@@ -7,7 +7,7 @@ import java.awt.*;
 
 public class ColorUtil extends mc {
     public enum themeStyles {
-        RAINBOW, SLACK_STATIC, SLACK, ASTOLFO, CHRISTMAS, CUSTOM
+        SLACK_STATIC, RAINBOW, SLACK, ASTOLFO, CHRISTMAS, CUSTOM
     }
 
 
