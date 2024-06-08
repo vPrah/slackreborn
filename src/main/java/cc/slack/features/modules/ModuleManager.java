@@ -106,6 +106,7 @@ public class ModuleManager {
                     new Bobbing(),
                     new Tracers(),
                     new Projectiles(),
+                    new PointerESP(),
                     new ScoreboardModule(),
                     new XRay(),
 
