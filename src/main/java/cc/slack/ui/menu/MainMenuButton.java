@@ -10,6 +10,8 @@ import net.minecraft.client.gui.Gui;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
 
+import java.awt.*;
+
 public class MainMenuButton extends Gui
 {
     protected static final ResourceLocation buttonTextures = new ResourceLocation("textures/gui/widgets.png");
@@ -37,6 +39,8 @@ public class MainMenuButton extends Gui
     public boolean visible;
     protected boolean hovered;
 
+    private double hoverPercent;
+
     public MainMenuButton(int buttonId, int x, int y, String buttonText)
     {
         this(buttonId, x, y, 200, 20, buttonText);
@@ -44,8 +48,7 @@ public class MainMenuButton extends Gui
 
     public MainMenuButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText)
     {
-        this.width = 200;
-        this.height = 20;
+
         this.enabled = true;
         this.visible = true;
         this.id = buttonId;
@@ -96,13 +99,13 @@ public class MainMenuButton extends Gui
         //    this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
            // this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
             if(this.hovered) {
-                drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x8FDF6400);
+                hoverPercent += (1 - hoverPercent) / 4;
             }else{
-               if(!this.hovered) {
-                   drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, 0x81000000);
-               }
-
+                hoverPercent += (0 - hoverPercent) / 4;
             }
+
+            drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, new Color(0,0,0,80 + (int) (hoverPercent * 70)).getRGB());
+
 
             this.mouseDragged(mc, mouseX, mouseY);
             int j = 16777215;

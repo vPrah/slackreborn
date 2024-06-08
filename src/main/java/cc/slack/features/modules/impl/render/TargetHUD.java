@@ -10,6 +10,7 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
@@ -26,20 +27,23 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
 
+import javax.vecmath.Vector4d;
+
 @ModuleInfo(name = "TargetHUD", category = Category.RENDER)
 public class TargetHUD extends Module {
 
 	private final ModeValue<String> mode = new ModeValue<>(new String[] {"Classic", "Classic2", "Rounded", "Rounded2" });
+	private final BooleanValue followTarget = new BooleanValue("Follow Target", false);
 
-		private double posX = 100.0D;
-		private double posY = 10.0D;
+	private double posX = 100.0D;
+	private double posY = 10.0D;
 
 //	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
 //	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
 
 
 	public TargetHUD() {
-		addSettings(mode);
+		addSettings(mode, followTarget);
 	}
 
 	private EntityPlayer target;
@@ -85,6 +89,13 @@ public class TargetHUD extends Module {
 
 		if (target == null)
 			return;
+
+		if (followTarget.getValue()) {
+			Vector4d pos = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.5);
+			x = (int) (pos.x + pos.z)/2 + 30;
+			y = (int) pos.y;
+		}
+
 		String targetName = target.getCommandSenderName();
 		double offset = -(target.hurtTime * 20);
 		double healthPercent = target.getHealth() / target.getMaxHealth();

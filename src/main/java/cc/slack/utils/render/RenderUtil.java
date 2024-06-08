@@ -660,11 +660,15 @@ public final class RenderUtil extends mc {
     }
 
     public static Vector4d getProjectedEntity(EntityPlayer ent, double partialTicks) {
+        return getProjectedEntity(ent, partialTicks, 1);
+    }
+
+    public static Vector4d getProjectedEntity(EntityPlayer ent, double partialTicks, double heightPercent) {
         double posX = RenderUtil.interpolate(ent.posX, ent.lastTickPosX, partialTicks);
         double posY = RenderUtil.interpolate(ent.posY, ent.lastTickPosY, partialTicks);
         double posZ = RenderUtil.interpolate(ent.posZ, ent.lastTickPosZ, partialTicks);
         double width = ent.width / 1.5;
-        double height = ent.height + (ent.isSneaking() ? -0.3 : 0.2);
+        double height = (ent.height + (ent.isSneaking() ? -0.3 : 0.2)) * heightPercent;
         AxisAlignedBB aabb = new AxisAlignedBB(posX - width, posY, posZ - width, posX + width, posY + height, posZ + width);
         List<Vector3d> vectors = Arrays.asList(new Vector3d(aabb.minX, aabb.minY, aabb.minZ), new Vector3d(aabb.minX, aabb.maxY, aabb.minZ), new Vector3d(aabb.maxX, aabb.minY, aabb.minZ), new Vector3d(aabb.maxX, aabb.maxY, aabb.minZ), new Vector3d(aabb.minX, aabb.minY, aabb.maxZ), new Vector3d(aabb.minX, aabb.maxY, aabb.maxZ), new Vector3d(aabb.maxX, aabb.minY, aabb.maxZ), new Vector3d(aabb.maxX, aabb.maxY, aabb.maxZ));
         mc.getEntityRenderer().setupCameraTransform((float) partialTicks, 0);
