@@ -105,8 +105,8 @@ public class Spider extends Module {
                         break;
                     case 3:
                         ((C03PacketPlayer) packet).y -= 0.05;
-                        ((C03PacketPlayer) packet).x -= MathHelper.sin(mc.getPlayer().rotationYaw) * 0.2;
-                        ((C03PacketPlayer) packet).z += MathHelper.cos(mc.getPlayer().rotationYaw) * 0.2;
+                        ((C03PacketPlayer) packet).x -= MathHelper.sin((float) Math.toRadians(mc.getPlayer().rotationYaw)) * 0.2;
+                        ((C03PacketPlayer) packet).z += MathHelper.cos((float) Math.toRadians(mc.getPlayer().rotationYaw)) * 0.2;
                 }
                 p.setPacket(packet);
             }

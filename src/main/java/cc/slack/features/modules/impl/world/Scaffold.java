@@ -115,10 +115,8 @@ public class Scaffold extends Module {
         }
 
         if (sprintMode.getValue() == "Hypixel") {
-            if (sprintTicks % 2 == 1) {
-                event.setX(realX);
-                event.setZ(realZ);
-            } else {
+            if (sprintTicks % 2 == 0) {
+                event.setY(event.getY() + 0.0001);
                 event.setGround(false);
             }
         }
@@ -202,15 +200,8 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel":
-                mc.getPlayer().setSprinting(false);
-                if (!mc.getPlayer().onGround && mc.getPlayer().motionY != 0 || isTowering) {
-                    sprintTicks ++;
-                    realX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * 0.065);
-                    realZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * 0.065);
-                    MovementUtil.strafe(0.24f);
-                } else {
-                    sprintTicks = 0;
-                }
+                mc.getPlayer().setSprinting((mc.getPlayer().ticksExisted & 2) == 0);
+                MovementUtil.strafe(0.2405f);
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
