@@ -44,6 +44,7 @@ public class Slack {
 
     public final String DiscordServer = "https://discord.gg/nwR9AyjnK8";
     public final String Website = "https://slackclient.github.io/";
+    public final String codename = "Ariana's";
 
     public void start() {
         PrintUtil.print("Initializing " + info.getName());
