@@ -27,7 +27,6 @@ import java.util.Random;
 )
 public class Projectiles extends Module {
 
-    private NumberValue<Float> color = new NumberValue<>("Color (H/S/B)", 190F, 0F, 350F, 10F);
     public final NumberValue<Integer> redValue = new NumberValue<>("Red", 116, 0, 255, 1);
     public final NumberValue<Integer> greenValue = new NumberValue<>("Green", 202, 0, 255, 1);
     public final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
