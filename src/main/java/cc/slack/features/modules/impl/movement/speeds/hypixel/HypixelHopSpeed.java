@@ -11,6 +11,7 @@ import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.rotations.RotationUtil;
+import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
@@ -52,16 +53,9 @@ public class HypixelHopSpeed implements ISpeed {
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (mc.getPlayer().onGround) {
-                    mc.getPlayer().motionY = 0.4191;
-                }
-                switch (mc.getPlayer().offGroundTicks) {
-                    case 1:
-                        mc.getPlayer().motionY = 0.327318;
-                        break;
-                    case 5:
-                        mc.getPlayer().motionY = -0.05;
-                        break;
+                if (mc.getPlayer().offGroundTicks == 5) {
+                    PacketUtil.send(new C03PacketPlayer(false));
+                    mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
                 }
             }
 
@@ -75,18 +69,18 @@ public class HypixelHopSpeed implements ISpeed {
                         MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
                     }
                 }
-
-                if (wasSlow) {
-                    MovementUtil.strafe(0.26f);
-                    wasSlow = false;
-                }
-                if (Math.abs(MathHelper.wrapAngleTo180_float(
-                        MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
-                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
-                )) > 90) {
-                    MovementUtil.resetMotion(false);
-                    wasSlow = true;
-                }
+                return;
+//                if (wasSlow) {
+//                    MovementUtil.strafe(0.2f);
+//                    wasSlow = false;
+//                }
+//                if (Math.abs(MathHelper.wrapAngleTo180_float(
+//                        MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
+//                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
+//                )) > 135) {
+//                    MovementUtil.resetMotion(false);
+//                    wasSlow = true;
+//                }
             }
         }
 

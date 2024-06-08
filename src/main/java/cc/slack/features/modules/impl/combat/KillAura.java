@@ -25,10 +25,7 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.*;
-import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.client.C07PacketPlayerDigging;
-import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
-import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.network.play.client.*;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
@@ -53,7 +50,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Old Intave", "Test"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -206,6 +203,13 @@ public class KillAura extends Module {
             case "blatant":
                 unblock();
                 break;
+            case "test":
+                PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+                PacketUtil.send(new C0EPacketClickWindow());
+            case "old intave":
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                break;
             case "interact":
                 if (queuedAttacks > 0 && isBlocking) {
                     unblock();
@@ -282,10 +286,10 @@ public class KillAura extends Module {
                 if (mc.getPlayer().hurtTime < 4)
                     block(true);
                 break;
+            case "old intave":
             case "blatant":
-                block();
-                break;
             case "vanilla":
+            case "test":
                 block();
                 break;
             case "blink":

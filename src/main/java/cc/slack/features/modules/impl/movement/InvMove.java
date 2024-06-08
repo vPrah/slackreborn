@@ -8,8 +8,12 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 
 @ModuleInfo(
@@ -19,16 +23,23 @@ import net.minecraft.network.play.client.C16PacketClientStatus;
 public class InvMove extends Module {
 
     private static final BooleanValue noOpen = new BooleanValue("Cancel Inventory Open", false);
+    private static final BooleanValue hypixelTest = new BooleanValue("Hypixel Test", false);
 
     public InvMove() {
         super();
-        addSettings(noOpen);
+        addSettings(noOpen, hypixelTest);
     }
 
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
         MovementUtil.updateBinds(false);
+        if (mc.getCurrentScreen() instanceof GuiInventory) {
+            if (mc.getPlayer().ticksExisted % 4 == 0) {
+                PacketUtil.send(new C0EPacketClickWindow());
+                PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+            }
+        }
     }
 
     @Listen

@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.rotations.RotationUtil;
@@ -29,43 +30,64 @@ public class AimBot extends Module {
     private final NumberValue<Float> aimRange = new NumberValue<>("Aim Range", 4.5f, 0f, 8f, 0.1f);
 
     private final NumberValue<Integer> aimSpeed = new NumberValue<>("Aim Speed", 10, 0, 180, 1);
+    private final NumberValue<Float> complimentSpeed = new NumberValue<>("Compliment Percent Speed", 0.2f, 0f, 1f, 0.05f);
 
     public boolean isSilent;
     private EntityLivingBase target = null;
 
     public AimBot() {
-        addSettings(silent, silentMoveFix, fov, minFov, aimRange, aimSpeed);
+        addSettings(silent, silentMoveFix, fov, minFov, aimRange, aimSpeed, complimentSpeed);
     }
+
+    private float lastYaw, lastPitch;
+    private float[] lastRotation = new float[]{0f, 0f};
+    private float complimentYaw, complimentPitch;
 
     @SuppressWarnings("unused")
     @Listen
     public void onStrafe (StrafeEvent event) {
 
-       target = AttackUtil.getTarget(aimRange.getValue(), "fov");
-       if (target == null) {
+        if (lastPitch == 0f && lastYaw == 0f) {
+            lastPitch = mc.getPlayer().rotationPitch;
+            lastYaw = mc.getPlayer().rotationYaw;
+        }
+        target = AttackUtil.getTarget(aimRange.getValue(), "fov");
+        if (target == null) {
            if (isSilent) {
                isSilent = false;
                RotationUtil.disable();
            }
            return;
-       }
+        }
 
-       float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.CENTER, 0);
+        float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.CENTER, 0);
+        targetRotation[0] += mc.getPlayer().rotationYaw - lastYaw;
+        targetRotation[1] += mc.getPlayer().rotationPitch - lastPitch;
+        targetRotation[0] += complimentYaw * complimentSpeed.getValue();
+        targetRotation[1] += complimentPitch * complimentSpeed.getValue();
 
-       if (RotationUtil.getRotationDifference(targetRotation) > fov.getValue()) return;
-       if (RotationUtil.getRotationDifference(targetRotation) < minFov.getValue()) return;
 
-       float [] clientRotation = RotationUtil.getLimitedRotation(
+        lastPitch = mc.getPlayer().rotationPitch;
+        lastYaw = mc.getPlayer().rotationYaw;
+
+        complimentYaw = targetRotation[0] - lastRotation[0];
+        complimentPitch = targetRotation[1] - lastRotation[1];
+        lastRotation = targetRotation;
+
+        if (RotationUtil.getRotationDifference(targetRotation) > fov.getValue()) return;
+        if (RotationUtil.getRotationDifference(targetRotation) < minFov.getValue()) return;
+
+        float [] clientRotation = RotationUtil.getLimitedRotation(
                RotationUtil.clientRotation,
                targetRotation,
                (float) Math.min(RotationUtil.getRotationDifference(targetRotation) - minFov.getValue(), aimSpeed.getValue() + MathUtil.getRandomInRange(0.0, (double) aimSpeed.getValue() / 5))
-       );
+        );
 
-       if (silent.getValue()) {
+        if (silent.getValue()) {
            RotationUtil.setClientRotation(clientRotation, 1);
            RotationUtil.setStrafeFix(silentMoveFix.getValue(), false);
-       } else {
+        } else {
            RotationUtil.setPlayerRotation(clientRotation);
-       }
+        }
     }
 }
