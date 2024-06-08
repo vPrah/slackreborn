@@ -48,7 +48,29 @@ public class ColorUtil extends mc {
         return new Color(1,1,1);
     }
 
+    public static Color getColor() {
+        return getColor(true);
+    }
+
+    public static Color getColor(boolean timeMove) {
+        return getColor(0.0, timeMove);
+    }
+
+    public static Color getColor(double r) {
+        return getColor(r, true);
+    }
+
+    public static Color getColor(double r, boolean timeMove) {
+        return getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), r, timeMove);
+    }
+
     public static Color getColor(themeStyles t, double r) {
+        return getColor(t, r, true);
+    }
+    public static Color getColor(themeStyles t, double r, boolean timeMove) {
+        if (timeMove) {
+            r += System.currentTimeMillis() / 3000.0;
+        }
         if (t == themeStyles.RAINBOW) {
             return rainbow(-100 + (int) (r * 10), 1.0f, 0.47f);
         }

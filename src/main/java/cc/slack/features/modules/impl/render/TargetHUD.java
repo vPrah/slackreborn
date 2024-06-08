@@ -16,6 +16,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
@@ -101,11 +102,12 @@ public class TargetHUD extends Module {
 		double healthPercent = target.getHealth() / target.getMaxHealth();
 		Color color = new Color(255, (int) (255 + offset), (int) (255 + offset));
 		Boolean winning = target.getHealth() < mc.getPlayer().getHealth();
+		Color c = ColorUtil.getColor();
 
 		switch (mode.getValue().toLowerCase()) {
 			case "classic":
 				drawRect(x, y, 120, 40, new Color(0, 0, 0, 120).getRGB());
-				Fonts.poppins18.drawString(targetName, x + 40, y + 8, 0x5499C7);
+				Fonts.poppins18.drawString(targetName, x + 40, y + 8, c.getRGB());
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
 				mc.getTextureManager().bindTexture(((AbstractClientPlayer) target).getLocationSkin());
@@ -115,7 +117,7 @@ public class TargetHUD extends Module {
 				drawRect(x + 40, y + 20, 70, 15, new Color(255, 255, 255, 120).getRGB());
 
 				drawRect(x + 40, y + 20, (int) (70 * (target.getHealth() / target.getMaxHealth())), 15,
-						new Color(90, 150, 200, 200).getRGB());
+						c.getRGB());
 
 				String s = (int) (healthPercent * 100) + "%";
 				Fonts.poppins18.drawString(s, x + 40 + (70 / 2) - (Fonts.poppins18.getStringWidth(s) / 2),
@@ -124,9 +126,9 @@ public class TargetHUD extends Module {
 			case "classic2":
 				drawRect(x, y, 120, 50, new Color(0, 0, 0, 120).getRGB());
 
-				mc.getFontRenderer().drawString(targetName, x + 35, y + 8, 0x5499C7);
-				mc.getFontRenderer().drawString(String.format("%.2f", target.getHealth()), x + 35, y + 18, 0x5499C7);
-				mc.getFontRenderer().drawString(winning ? "W" : "L", x + 107, y + 18, 0x5499C7);
+				mc.getFontRenderer().drawString(targetName, x + 35, y + 8, c.getRGB());
+				mc.getFontRenderer().drawString(String.format("%.2f", target.getHealth()), x + 35, y + 18, c.getRGB());
+				mc.getFontRenderer().drawString(winning ? "W" : "L", x + 107, y + 18, c.getRGB());
 
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
@@ -136,11 +138,11 @@ public class TargetHUD extends Module {
 
 				drawRect(x + 5, y + 35, 110, 10, new Color(255, 255, 255, 120).getRGB());
 				drawRect(x + 5, y + 35, (int) (110 * (target.getHealth() / target.getMaxHealth())), 10,
-						new Color(90, 150, 200, 200).getRGB());
+						c.getRGB());
 				break;
 			case "rounded":
 				drawRoundedRect(x, y, 120, 40, 6, new Color(0, 0, 0, 120).getRGB());
-				mc.getFontRenderer().drawString(targetName, x + 40, y + 8, 0x5499C7);
+				mc.getFontRenderer().drawString(targetName, x + 40, y + 8, c.getRGB());
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
 				mc.getTextureManager().bindTexture(((AbstractClientPlayer) target).getLocationSkin());
@@ -150,7 +152,7 @@ public class TargetHUD extends Module {
 				drawRoundedRect(x + 40, y + 20, 70, 15, 2, new Color(255, 255, 255, 120).getRGB());
 
 				drawRoundedRect(x + 40, y + 20, (int) (70 * (target.getHealth() / target.getMaxHealth())), 15, 2,
-						new Color(90, 150, 200, 200).getRGB());
+						c.getRGB());
 
 				String shp = (int) (healthPercent * 100) + "%";
 				mc.getFontRenderer().drawString(shp, x + 40 + (70 / 2) - (mc.getFontRenderer().getStringWidth(shp) / 2),
@@ -161,9 +163,9 @@ public class TargetHUD extends Module {
 			case "rounded2":
 				drawRoundedRect(x, y, 120, 50, 4, new Color(0, 0, 0, 120).getRGB());
 
-				mc.getFontRenderer().drawString(targetName, x + 35, y + 8, 0x5499C7);
-				mc.getFontRenderer().drawString(String.format("%.2f", target.getHealth()), x + 35, y + 18, 0x5499C7);
-				mc.getFontRenderer().drawString(winning ? "W" : "L", x + 107, y + 18, 0x5499C7);
+				mc.getFontRenderer().drawString(targetName, x + 35, y + 8, c.getRGB());
+				mc.getFontRenderer().drawString(String.format("%.2f", target.getHealth()), x + 35, y + 18, c.getRGB());
+				mc.getFontRenderer().drawString(winning ? "W" : "L", x + 107, y + 18, c.getRGB());
 
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
@@ -173,7 +175,7 @@ public class TargetHUD extends Module {
 
 				drawRoundedRect(x + 5, y + 35, 110, 10, 2, new Color(255, 255, 255, 120).getRGB());
 				drawRoundedRect(x + 5, y + 35, (int) (110 * (target.getHealth() / target.getMaxHealth())), 10, 2,
-						new Color(90, 150, 200, 200).getRGB());
+						c.getRGB());
 				break;
 		}
 	}
