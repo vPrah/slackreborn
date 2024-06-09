@@ -4,6 +4,7 @@ package cc.slack.features.modules.impl.world;
 
 import cc.slack.Slack;
 import cc.slack.events.State;
+import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
@@ -22,6 +23,8 @@ import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
@@ -114,12 +117,18 @@ public class Scaffold extends Module {
         } else {
             if (placeTiming.getValue() == "Post") placeBlock();
         }
+    }
 
-        if (sprintMode.getValue() == "Hypixel") {
-            if (sprintTicks % 2 == 0) {
-                event.setY(event.getY() + 0.0001);
-                event.setGround(false);
+    @Listen
+    public void onPacket(PacketEvent p) {
+        Packet packet = p.getPacket();
+        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel") {
+            if ((mc.getPlayer().ticksExisted & 2) == 0) {
+                    ((C03PacketPlayer) packet).y += 0.0001;
+                    ((C03PacketPlayer) packet).onGround = false;
             }
+            p.setPacket(packet);
+
         }
     }
 
@@ -193,16 +202,17 @@ public class Scaffold extends Module {
                     mc.getPlayer().jump();
                     hasPlaced = false;
                     if (!firstJump) {
-                        MovementUtil.strafe(0.47f);
+                        MovementUtil.strafe(0.48f);
+                        mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
                     } else {
                         MovementUtil.resetMotion(false);
                         groundY = mc.getPlayer().posY;
+                        mc.getGameSettings().keyBindForward.pressed = false;
                     }
                 }
                 break;
             case "hypixel":
                 mc.getPlayer().setSprinting((mc.getPlayer().ticksExisted & 2) == 0);
-                MovementUtil.strafe(0.2405f);
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
@@ -228,8 +238,8 @@ public class Scaffold extends Module {
             case "hypixel":
                 RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
                 if (Math.abs(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0]) > 80) {
-                    RotationUtil.setClientRotation(new float[] {BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0], 77.5f}, keepRotationTicks.getValue());
-
+                    RotationUtil.overrideRotation(new float[] {BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0], 77.5f});
+                    RotationUtil.keepRotationTicks = keepRotationTicks.getValue();
                 }
                 break;
             case "hypixel ground":
