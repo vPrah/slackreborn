@@ -2,17 +2,13 @@
 
 package cc.slack.features.modules.impl.movement.speeds.hypixel;
 
-import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
-import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
-import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.potion.Potion;
-import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
+
 
 public class HypixelBasicSpeed implements ISpeed {
 
@@ -24,10 +20,10 @@ public class HypixelBasicSpeed implements ISpeed {
             if (MovementUtil.isMoving()) {
                 if (jumpTick > 6) jumpTick = 4;
                 mc.getPlayer().jump();
-                MovementUtil.strafe(0.45f + jumpTick * 0.0033f);
+                MovementUtil.strafe(0.48f + jumpTick * 0.0080f);
                 if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
                     float amplifier = mc.getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
-                    MovementUtil.strafe(0.46f + jumpTick * 0.005f + 0.024f * (amplifier + 1));
+                    MovementUtil.strafe(0.48f + jumpTick * 0.005f + 0.024f * (amplifier + 1));
                 }
                 mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
             } else {

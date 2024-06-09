@@ -30,7 +30,7 @@ public class ServerListEntryNormal implements GuiListExtended.IGuiListEntry
     private static final ResourceLocation SERVER_SELECTION_BUTTONS = new ResourceLocation("textures/gui/server_selection.png");
     private final GuiMultiplayer field_148303_c;
     private final Minecraft mc;
-    private final ServerData field_148301_e;
+    public final ServerData field_148301_e;
     private final ResourceLocation field_148306_i;
     private String field_148299_g;
     private DynamicTexture field_148305_h;
