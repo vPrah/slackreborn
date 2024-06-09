@@ -33,6 +33,7 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
+import javax.swing.*;
 import javax.vecmath.Vector4d;
 import java.awt.*;
 import java.nio.FloatBuffer;
@@ -67,6 +68,7 @@ public class ESP extends Module {
     private final NumberValue<Float> width = new NumberValue<>("Skeleton Width",  1F, 0.5F, 10F, 0.1F);
 
     // Color
+    private final BooleanValue shadow = new BooleanValue("Shadow", true);
     public final ModeValue<String> colormodes = new ModeValue<>("Color", new String[] { "Client Theme", "Rainbow", "Custom" });
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
@@ -82,7 +84,7 @@ public class ESP extends Module {
     private final FloatBuffer vector;
     private int color;
     private final int backgroundColor;
-    private final int black;
+    private int black;
     private static final Map<EntityPlayer, float[][]> entities = new HashMap<>();
 
     public ESP() {
@@ -90,7 +92,7 @@ public class ESP extends Module {
                 boxMode,healthBar,
                 you,players,invisibles,mobs,animals,items,
                 skeleton, width,
-                colormodes, redValue, greenValue, blueValue, alphaValue
+                shadow, colormodes, redValue, greenValue, blueValue, alphaValue
         );
         
         // :XD:
@@ -100,7 +102,6 @@ public class ESP extends Module {
         projection = GLAllocation.createDirectFloatBuffer(16);
         vector = GLAllocation.createDirectFloatBuffer(4);
         backgroundColor = (new Color(0, 0, 0, 120)).getRGB();
-        black = Color.BLACK.getRGB();
     }
 
 
@@ -112,6 +113,17 @@ public class ESP extends Module {
         } else {
             color = (!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB();
         }
+
+        if (!shadow.getValue()) {
+            if (colormodes.getValue().equals("Client Theme")){
+                black = ct.getRGB();
+            } else {
+                black = (!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB();
+            }
+        } else {
+            black = Color.BLACK.getRGB();
+        }
+
         if (event.getState() == RenderEvent.State.RENDER_2D) {
             Render2D(event);
         }
