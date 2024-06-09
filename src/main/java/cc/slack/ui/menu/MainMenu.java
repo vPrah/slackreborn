@@ -47,7 +47,7 @@ public class MainMenu extends GuiScreen {
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
             if (!dmTimer.hasReached(10000))
-                Fonts.apple18.drawStringWithShadow(debugMessage, 5, 50, new Color(255, 50, 50).getRGB());
+                Fonts.apple18.drawStringWithShadow(debugMessage, 5, 100, new Color(255, 50, 50).getRGB());
 
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.35 , 0.35, 0.35);
@@ -56,6 +56,7 @@ public class MainMenu extends GuiScreen {
             GlStateManager.popMatrix();
 
             super.drawScreen(mouseX, mouseY, partialTicks);
+            return;
         }
 
         Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
@@ -203,6 +204,7 @@ public class MainMenu extends GuiScreen {
         try {
             String hwid = "";
             switch (Util.getOSType()) {
+                default:
                 case WINDOWS:
                     Process process = Runtime.getRuntime().exec("wmic csproduct get UUID");
                     process.getOutputStream().close();
