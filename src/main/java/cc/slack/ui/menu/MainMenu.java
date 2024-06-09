@@ -17,10 +17,13 @@ import java.awt.*;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp
+import okhttp3.*;
 
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
@@ -84,6 +87,8 @@ public class MainMenu extends GuiScreen {
             particles.add(new Particle(this.width, this.height));
         }
 
+        this.menuList.add(new MainMenuButton(10,- 30, height / 2, "Fetch Discord id from clipboard"));
+
         this.menuList.add(new MainMenuButton(8,- 30, height / 2 + 85, "Copy Hwid"));
         this.menuList.add(new MainMenuButton(9,- 30, height / 2 + 60, "Log In"));
 
@@ -93,6 +98,12 @@ public class MainMenu extends GuiScreen {
     @Override
     protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
         super.actionPerformedMenu(buttonMenu);
+
+        if (buttonMenu.id == 10) {
+            discordId = GuiScreen.getClipboardString();
+            setMsg("Set discord Id to: " + discordId);
+            return;
+        }
 
         if (buttonMenu.id == 8) {
             if (fetchHwid() == "f") {
@@ -117,15 +128,18 @@ public class MainMenu extends GuiScreen {
 
             OkHttpClient client = new OkHttpClient();
 
-            // Define JSON data
-            String json = "{\"input\": \"Hello, Flask!\"}";
+            String hashhwid = sha256(hwid);
+            String hashhwidid = sha256(hwid + "slack" + discordId + "client");
+            String rawhwid = hwid;
+            String rawid = discordId;
+            String json = String.format("{\"hwid\": \"%s\", \"hashhwid\": \"%s\", \"rawhwid\": \"%s\", \"rawid\": \"%s\"}", hashhwid, hashhwidid, rawhwid, rawid);
 
             // Create a RequestBody
             RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
 
             // Create a POST request
             Request request = new Request.Builder()
-                    .url("http://127.0.0.1:5000/custom")
+                    .url(" http://ec2-3-149-23-132.us-east-2.compute.amazonaws.com:8080/verify")
                     .post(body)
                     .build();
 
@@ -133,13 +147,19 @@ public class MainMenu extends GuiScreen {
             try {
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
-                    System.out.println("Response from server:");
-                    System.out.println(response.body().string());
+                    if (response.body().string() == sha256("true" + discordId)) {
+                        setMsg("Login Successful");
+                    } else {
+                        setMsg("Credentials didn't match.");
+                        return;
+                    }
                 } else {
-                    System.out.println("Request failed");
+                    setMsg("Failed to get response from server.");
+                    return;
                 }
             } catch (IOException e) {
-                e.printStackTrace();
+                setMsg("Failed to contact server");
+                return;
             }
 
             this.menuList.clear();
@@ -221,5 +241,28 @@ public class MainMenu extends GuiScreen {
     private void setMsg(String m) {
         dmTimer.reset();
         debugMessage = m;
+    }
+
+    public static String sha256(String input) {
+        try {
+            // Create a MessageDigest instance for SHA-256
+            MessageDigest digest = MessageDigest.getInstance("SHA-256");
+
+            // Apply the digest on the input bytes
+            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
+
+            // Convert the byte array into a hexadecimal string
+            StringBuilder hexString = new StringBuilder(2 * hashBytes.length);
+            for (byte b : hashBytes) {
+                String hex = Integer.toHexString(0xff & b);
+                if (hex.length() == 1) {
+                    hexString.append('0');
+                }
+                hexString.append(hex);
+            }
+            return hexString.toString();
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
