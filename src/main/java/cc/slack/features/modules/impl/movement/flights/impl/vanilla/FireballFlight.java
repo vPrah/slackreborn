@@ -51,8 +51,11 @@ public class FireballFlight implements IFlight {
         if (!sent) {
             if (mc.getPlayer().inventory.currentItem != fireballSlot) {
                 PacketUtil.send(new C09PacketHeldItemChange(fireballSlot));
+                mc.getPlayer().jump();
+                MovementUtil.strafe(0.47f);
             } else {
-                RotationUtil.setClientRotation(new float[]{mc.getPlayer().rotationYaw + 180, 80f});
+                MovementUtil.resetMotion(true);
+                RotationUtil.setClientRotation(new float[]{mc.getPlayer().rotationYaw + 180, 80f}, 2);
                 PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(mc.getPlayer().inventory.currentItem).getStack()));
                 sent = true;
             }
@@ -61,6 +64,9 @@ public class FireballFlight implements IFlight {
                 PacketUtil.send(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
                 reset = true;
             }
+
+            if (!gotVelo) MovementUtil.resetMotion(true);
+
             if (gotVelo && mc.getPlayer().onGround) {
                 Slack.getInstance().getModuleManager().getInstance(Flight.class).setToggle(false);
             }
