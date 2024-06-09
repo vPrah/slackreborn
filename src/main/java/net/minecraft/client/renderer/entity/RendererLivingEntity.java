@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.render.Chams;
 import cc.slack.features.modules.impl.render.NameTags;
+import cc.slack.utils.render.ColorUtil;
 import com.google.common.collect.Lists;
 
 import java.awt.*;
@@ -351,6 +352,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
      */
     protected void renderModel(T entitylivingbaseIn, float p_77036_2_, float p_77036_3_, float p_77036_4_, float p_77036_5_, float p_77036_6_, float p_77036_7_)
     {
+        Color ct = ColorUtil.getColor();
         final boolean flag = !entitylivingbaseIn.isInvisible();
         final boolean flag2 = !flag && !entitylivingbaseIn.isInvisibleToPlayer(Minecraft.getMinecraft().thePlayer);
         if (flag || flag2) {
@@ -369,7 +371,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
             final boolean flag3 = moduleManager.getInstance(Chams.class).isToggle() && entitylivingbaseIn instanceof EntityPlayer;
             final Chams chams = moduleManager.getInstance(Chams.class);
             if (flag3) {
-                final Color chamsColor = new Color(chams.redValue.getValue(), chams.greenValue.getValue(), chams.blueValue.getValue());
+                final Color chamsColor = (Slack.getInstance().getModuleManager().getInstance(Chams.class).colormodes.getValue().equals("Client Theme")) ? ct : (!Slack.getInstance().getModuleManager().getInstance(Chams.class).colormodes.getValue().equals("Rainbow")) ? new Color(chams.redValue.getValue(), chams.greenValue.getValue(), chams.blueValue.getValue()) : ColorUtil.rainbow(-100, 1.0f, 0.47f);
                 GL11.glPushMatrix();
                 GL11.glEnable(10754);
                 GL11.glPolygonOffset(1.0f, 1000000.0f);
