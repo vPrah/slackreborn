@@ -86,31 +86,31 @@ public class HUD extends Module {
 
 		switch (watermarksmodes.getValue()) {
 			case "Classic":
-				Fonts.apple24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+				Fonts.apple24.drawStringWithShadow("S", 3.4, 4, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
 				Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
 				break;
 			case "Classic2":
-				Fonts.poppins24.drawStringWithShadow("S", 4, 4, 0x5499C7);
+				Fonts.poppins24.drawStringWithShadow("S", 3.8, 3.8, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
 				Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
 				break;
 			case "Backgrounded":
 				drawRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
-				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
 				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
 			case "Backgrounded2":
 				drawRect(2, 2, 55 + Fonts.poppins18.getStringWidth(" - " + Minecraft.getDebugFPS()), 15, 0x80000000);
-				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
 				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
 			case "BackgroundedRound":
 				drawRoundedRect(2, 2, 55 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()) - 2, 15 - 2, 4.0f, 0x80000000);
-				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.apple18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
 				Fonts.apple18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
 			case "BackgroundedRound2":
 				drawRoundedRect(2, 2, 57 + Fonts.apple18.getStringWidth(" - " + Minecraft.getDebugFPS()) - 2, 16 - 2, 4.0f, 0x80000000);
-				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, 0x5499C7);
+				Fonts.poppins18.drawStringWithShadow("Slack " + Slack.getInstance().getInfo().getVersion(), 4, 5, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
 				Fonts.poppins18.drawStringWithShadow(" - " + Minecraft.getDebugFPS(), 53, 5, -1);
 				break;
 			case "Logo":

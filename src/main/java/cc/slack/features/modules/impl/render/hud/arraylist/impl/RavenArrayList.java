@@ -6,8 +6,10 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.client.mc;
+import cc.slack.utils.render.ColorUtil;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -54,7 +56,7 @@ public class RavenArrayList implements IArraylist {
     @Override
     public void onRender(RenderEvent event) {
         int y = 3;
-
+        double c = 0;
         for (Pair module : modules) {
             int stringLength = mc.getFontRenderer().getStringWidth(module.first);
             Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
@@ -72,8 +74,9 @@ public class RavenArrayList implements IArraylist {
 
             ease = 1 - 1.2 * ease;
 
-            mc.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, 0x5499C7);
+            mc.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
             y += (int) ((mc.getFontRenderer().FONT_HEIGHT + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
+            c += 0.15;
         }
     }
 

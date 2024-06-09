@@ -6,9 +6,11 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.ComparatorStrings;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.gui.Gui;
@@ -67,6 +69,7 @@ public class Basic2ArrayList implements IArraylist {
 
     private void renderArrayList(RenderEvent event) {
         int y = 2;
+        double c = 0;
 
         for (Pair module : modules) {
             int stringLength = Fonts.poppins18.getStringWidth(module.first);
@@ -95,8 +98,9 @@ public class Basic2ArrayList implements IArraylist {
              */
 
             drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
-            Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, 0x5499C7);
+            Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
             y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
+            c += 0.15;
         }
     }
 
