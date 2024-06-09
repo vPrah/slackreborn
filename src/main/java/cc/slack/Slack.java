@@ -23,6 +23,7 @@ import de.florianmichael.viamcp.ViaMCP;
 import io.github.nevalackin.radbus.Listen;
 import io.github.nevalackin.radbus.PubSub;
 import lombok.Getter;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.Display;
 
 import java.util.Arrays;
@@ -50,6 +51,11 @@ public class Slack {
     public void start() {
         PrintUtil.print("Initializing " + info.getName());
         Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build");
+
+        if (noREQHwid) {
+            Minecraft.isLoggedIn = true;
+            Minecraft.getMinecraft().i34 = true;
+        }
 
         EventUtil.register(this);
         moduleManager.initialize();
