@@ -24,19 +24,22 @@ import java.awt.*;
 )
 public class PointerESP extends Module {
 
+    private final BooleanValue clientValue = new BooleanValue("Client Theme", true);
     private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
     public final NumberValue<Integer> redValue = new NumberValue<>("Red", 116, 0, 255, 1);
     public final NumberValue<Integer> greenValue = new NumberValue<>("Green", 202, 0, 255, 1);
     public final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 100, 0, 255, 1);
 
+    int c = 0;
 
     public PointerESP() {
-        addSettings(rgbValue, redValue, greenValue, blueValue, alphaValue);
+        addSettings(clientValue,rgbValue, redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
     public void onRender (RenderEvent event) {
+        Color ct = ColorUtil.getColor();
         if (event.getState() == RenderEvent.State.RENDER_2D) {
             ScaledResolution scaledResolution = new ScaledResolution(mc.getMinecraft());
             int size = 100;
@@ -64,7 +67,11 @@ public class PointerESP extends Module {
                         GL11.glTranslated(x,y,0);
                         GL11.glRotatef((float) angle, 0, 0, 1);
                         GL11.glScaled(1.5, 1, 1);
-                        int c = (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB();
+                        if (clientValue.getValue()) {
+                            c = ct.getRGB();
+                        } else {
+                            c = (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB();
+                        }
                         drawTriAngle(0F, 0F, 2.2F, 3F, c);
                         drawTriAngle(0F, 0F, 1.5F, 3F, c);
                         drawTriAngle(0F, 0F, 1.0F, 3F, c);
