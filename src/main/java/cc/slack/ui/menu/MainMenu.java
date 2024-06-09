@@ -141,7 +141,7 @@ public class MainMenu extends GuiScreen {
 
             // Create a POST request
             Request request = new Request.Builder()
-                    .url(" http://ec2-3-149-23-132.us-east-2.compute.amazonaws.com:8080/verify")
+                    .url("http://ec2-3-149-23-132.us-east-2.compute.amazonaws.com:8080/verify")
                     .post(body)
                     .build();
 
@@ -149,10 +149,13 @@ public class MainMenu extends GuiScreen {
             try {
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
-                    if (response.body().string().contains(sha256("true" + discordId))) {
+
+                    String resp = response.body().string();
+
+                    if (resp.contains(sha256("true" + discordId))) {
                         setMsg("Login Successful");
                     } else {
-                        setMsg("Credentials didn't match.");
+                        setMsg("Credentials didn't match. " + resp);
                         return;
                     }
                 } else {
