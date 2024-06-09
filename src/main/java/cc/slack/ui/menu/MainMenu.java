@@ -149,10 +149,10 @@ public class MainMenu extends GuiScreen {
             try {
                 Response response = client.newCall(request).execute();
                 if (response.isSuccessful()) {
-                    if (response.body().string() == sha256("true" + discordId)) {
+                    if (response.body().string().contains(sha256("true" + discordId))) {
                         setMsg("Login Successful");
                     } else {
-                        setMsg("Credentials didn't match.");
+                        setMsg("Credentials didn't match. " + response.body().string() );
                         return;
                     }
                 } else {
