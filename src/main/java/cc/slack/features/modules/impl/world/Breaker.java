@@ -3,6 +3,8 @@
 package cc.slack.features.modules.impl.world;
 
 import cc.slack.Slack;
+import cc.slack.events.State;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
@@ -60,7 +62,8 @@ public class Breaker extends Module {
     }
 
     @Listen
-    public void onUpdate(UpdateEvent event) {
+    public void onMotion(MotionEvent event) {
+        if (event.getState() == State.POST) return;
         if (targetBlock == null) {
             if (switchTimer.hasReached(targetSwitchDelay.getValue())) {
                 findTargetBlock();
@@ -113,6 +116,7 @@ public class Breaker extends Module {
                     if (switchTimer.hasReached(switchDelay.getValue())) {
                         findBreakBlock();
                         breakingProgress = 0f;
+                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
                         mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
                         RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                         mc.getPlayer().swingItem();
@@ -127,7 +131,12 @@ public class Breaker extends Module {
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
                     mc.getPlayerController().updateController();
 
-                    if (breakingProgress >= 1) {
+                    if (breakingProgress > 0.8) {
+                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                    }
+
+                    if (breakingProgress >= 0.9) {
+
                         RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                         mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
                         mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);

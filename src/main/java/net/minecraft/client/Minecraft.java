@@ -196,6 +196,7 @@ import static java.lang.Math.round;
 
 public class Minecraft implements IThreadListener, IPlayerUsage
 {
+    public static boolean isLoggedIn = false;
     private static final Logger logger = LogManager.getLogger();
     private static final ResourceLocation locationMojangPng = new ResourceLocation("textures/gui/title/mojang.png");
     public static final boolean isRunningOnMac = Util.getOSType() == Util.EnumOS.OSX;
@@ -239,6 +240,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public EffectRenderer effectRenderer;
     public Session session;
     private boolean isGamePaused;
+    public boolean i34 = false;
 
     /** The font renderer used for displaying and measuring text */
     public FontRenderer MCfontRenderer;

@@ -27,6 +27,7 @@ import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanLowSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanPortSpeed;
 import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.item.ItemFood;
 import org.lwjgl.input.Keyboard;
@@ -84,6 +85,11 @@ public class Speed extends Module {
 
     @Override
     public void onEnable() {
+
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+            mc.getMinecraft().shutdown();
+        }
+
         mode.getValue().onEnable();
     }
 

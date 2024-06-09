@@ -20,6 +20,7 @@ import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.play.client.C0APacketAnimation;
 import net.minecraft.util.*;
@@ -217,6 +218,12 @@ public class Scaffold extends Module {
     }
 
     private void updatePlayerRotations() {
+
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+            mc.getMinecraft().shutdown();
+        }
+
+
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
                 RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());

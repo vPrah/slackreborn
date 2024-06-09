@@ -3,6 +3,7 @@ package cc.slack.utils.player;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.rotations.RotationUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
@@ -127,6 +128,10 @@ public class MovementUtil extends mc {
             rotationYaw -= strafingYaw;
         else if (moveStrafing < 0)
             rotationYaw += strafingYaw;
+
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+            mc.getMinecraft().shutdown();
+        }
 
         return rotationYaw;
     }

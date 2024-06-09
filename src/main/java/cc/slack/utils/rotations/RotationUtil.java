@@ -3,6 +3,7 @@ package cc.slack.utils.rotations;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.MovementUtil;
+import net.minecraft.client.Minecraft;
 import net.minecraft.entity.Entity;
 import net.minecraft.util.*;
 
@@ -49,6 +50,10 @@ public class RotationUtil extends mc {
             isEnabled = true;
             keepRotationTicks = keepRotation;
             clientRotation = targetRotation;
+        }
+
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+            mc.getMinecraft().shutdown();
         }
     }
 

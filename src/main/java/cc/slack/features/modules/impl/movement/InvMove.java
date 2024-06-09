@@ -13,6 +13,7 @@ import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 
@@ -36,7 +37,7 @@ public class InvMove extends Module {
         MovementUtil.updateBinds(false);
         if (mc.getCurrentScreen() instanceof GuiInventory) {
             if (mc.getPlayer().ticksExisted % 4 == 0) {
-                PacketUtil.send(new C0EPacketClickWindow());
+                PacketUtil.send(new C0DPacketCloseWindow());
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             }
         }

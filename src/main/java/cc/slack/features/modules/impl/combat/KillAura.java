@@ -205,7 +205,7 @@ public class KillAura extends Module {
                 break;
             case "test":
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                PacketUtil.send(new C0EPacketClickWindow());
+                PacketUtil.send(new C0DPacketCloseWindow());
             case "old intave":
                 mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
                 mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
