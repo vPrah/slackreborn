@@ -7,6 +7,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
@@ -31,15 +32,14 @@ import java.awt.*;
 public class ChestESP extends Module {
 
     private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 6f, 1f, 10f, 0.1f);
-    private final BooleanValue clientValue = new BooleanValue("Client Theme", true);
-    private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
+    public final ModeValue<String> colormodes = new ModeValue<>("Color", new String[] { "Client Theme", "Rainbow", "Custom" });
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
     private final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 200, 0, 255, 1);
 
     public ChestESP() {
-        addSettings(lineWidth ,clientValue, rgbValue, redValue, greenValue, blueValue, alphaValue);
+        addSettings(lineWidth ,colormodes,redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
@@ -53,10 +53,10 @@ public class ChestESP extends Module {
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
                 renderThree();
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
-                if (clientValue.getValue()) {
+                if (colormodes.getValue().equals("Client Theme")) {
                     renderFour(ct);
                 } else {
-                    renderFour((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()) : ColorUtil.rainbow(-100, 1.0f, 0.47f));
+                    renderFour((!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()) : ColorUtil.rainbow(-100, 1.0f, 0.47f));
                 }
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
                 renderFive();
