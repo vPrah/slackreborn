@@ -6,14 +6,21 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.utils.render.RenderUtil;
+import cc.slack.utils.client.mc;
+import cc.slack.utils.render.ColorUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.block.Block;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.OpenGlHelper;
+import net.minecraft.client.renderer.tileentity.TileEntityRendererDispatcher;
+import net.minecraft.client.shader.Framebuffer;
+import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
+import org.lwjgl.opengl.EXTFramebufferObject;
+import org.lwjgl.opengl.EXTPackedDepthStencil;
+import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
-import java.util.ArrayList;
 
 @ModuleInfo(
         name = "ChestESP",
@@ -21,27 +28,5 @@ import java.util.ArrayList;
 )
 public class ChestESP extends Module {
 
-    public ArrayList<BlockPos> chestBoundingBoxes = new ArrayList();
 
-    private final Integer[] chestIDS = new Integer[]{54, 130, 146};
-
-    @Listen
-    public void onRender(RenderEvent event) {
-        if (event.getState() != RenderEvent.State.RENDER_3D) return;
-
-        for (BlockPos bp : chestBoundingBoxes) {
-            RenderUtil.drawBlock(bp, new Color(255,255,255,255));
-        }
-
-        chestBoundingBoxes.clear();
-    }
-
-    public boolean isChest(Block block) {
-        for (int id : chestIDS) {
-            if (block != Block.getBlockById(id)) continue;
-            return true;
-        }
-        return false;
-    }
-    
 }
