@@ -1,5 +1,7 @@
 package cc.slack.utils.render;
 
+import cc.slack.Slack;
+import cc.slack.features.modules.impl.render.Tracers;
 import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
@@ -192,7 +194,7 @@ public final class RenderUtil extends mc {
         tessellator.draw();
     }
 
-    public static void drawTracer(Entity entity, Boolean rainbow, Boolean clientheme, int red, int green, int blue, int alpha) {
+    public static void drawTracer(Entity entity, int red, int green, int blue, int alpha) {
         Color c = ColorUtil.getColor();
         double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosX;
         double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosY + entity.getEyeHeight();
@@ -206,10 +208,10 @@ public final class RenderUtil extends mc {
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GlStateManager.disableDepth();
         GlStateManager.enableBlend();
-        if (clientheme) {
+        if (Slack.getInstance().getModuleManager().getInstance(Tracers.class).colormodes.getValue().equals("Client Theme")) {
             RenderUtil.glColor(c.getRGB());
         } else {
-            RenderUtil.glColor((!rainbow) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+            RenderUtil.glColor((!Slack.getInstance().getModuleManager().getInstance(Tracers.class).colormodes.getValue().equals("Rainbow")) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
         }
         GL11.glLineWidth(1.5f);
 
