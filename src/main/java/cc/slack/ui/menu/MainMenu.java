@@ -42,7 +42,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+        if ((!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) && !Slack.getInstance().noREQHwid) {
             Gui.drawRect(0, 0, 200 , this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
