@@ -388,7 +388,7 @@ public abstract class RendererLivingEntity<T extends EntityLivingBase> extends R
             if (flag3) {
                 GL11.glEnable(2929);
                 GL11.glDepthMask(true);
-                final Color chamsColor = new Color(chams.redValue.getValue(), chams.greenValue.getValue(), chams.blueValue.getValue());
+                final Color chamsColor = (Slack.getInstance().getModuleManager().getInstance(Chams.class).colormodes.getValue().equals("Client Theme")) ? ct : (!Slack.getInstance().getModuleManager().getInstance(Chams.class).colormodes.getValue().equals("Rainbow")) ? new Color(chams.redValue.getValue(), chams.greenValue.getValue(), chams.blueValue.getValue()) : ColorUtil.rainbow(-100, 1.0f, 0.47f);
                 GL11.glColor4f(chamsColor.getRed() / 255.0f, chamsColor.getGreen() / 255.0f, chamsColor.getBlue() / 255.0f, chamsColor.getAlpha() / 255.0f);
                 this.mainModel.render(entitylivingbaseIn, p_77036_2_, p_77036_3_, p_77036_4_, p_77036_5_, p_77036_6_, p_77036_7_);
                 GL11.glEnable(3553);
