@@ -5,6 +5,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
@@ -26,18 +27,20 @@ import java.awt.*;
 )
 public class BlockOverlay extends Module {
 
-    private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
+    public final ModeValue<String> colormodes = new ModeValue<>("Color", new String[] { "Client Theme", "Rainbow", "Custom" });
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
     private final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 150, 0, 255, 1);
 
     public BlockOverlay () {
-        addSettings(rgbValue, redValue, greenValue, blueValue, alphaValue);
+        addSettings(colormodes, redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
     public void onRender (RenderEvent event) {
+        Color ct = ColorUtil.getColor();
+
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         if (mc.getMinecraft().objectMouseOver != null && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
@@ -58,7 +61,7 @@ public class BlockOverlay extends Module {
             GL11.glEnable(2848);
             GL11.glDisable(2929);
             GL11.glDepthMask(false);
-            final Color c = new Color((!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+            final Color c = (colormodes.getValue().equals("Client Theme")) ? ct : new Color((!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
             final int r = c.getRed();
             final int g = c.getGreen();
             final int b = c.getBlue();
