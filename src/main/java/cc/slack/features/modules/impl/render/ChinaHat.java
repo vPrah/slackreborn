@@ -20,23 +20,31 @@ import java.awt.*;
 )
 public class ChinaHat extends Module {
 
+    private final BooleanValue clientValue = new BooleanValue("Client Theme", true);
     private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
     private final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 100, 0, 255, 1);
 
+
+
     public ChinaHat() {
-        addSettings(rgbValue,redValue, greenValue, blueValue, alphaValue);
+        addSettings(clientValue,rgbValue,redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
     public void onRender (RenderEvent event) {
+        Color c = ColorUtil.getColor();
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         if (mc.getGameSettings().thirdPersonView != 0) {
             for (int i = 0; i < 400; ++i) {
-                RenderUtil.drawHat(mc.getPlayer(), 0.009 + i * 0.0014, mc.getTimer().elapsedPartialTicks, 12, 2.0f, 2.2f - i * 7.85E-4f - 0.03f, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+                if (clientValue.getValue()) {
+                    RenderUtil.drawHat(mc.getPlayer(), 0.009 + i * 0.0014, mc.getTimer().elapsedPartialTicks, 12, 2.0f, 2.2f - i * 7.85E-4f - 0.03f, c.getRGB());
+                } else {
+                    RenderUtil.drawHat(mc.getPlayer(), 0.009 + i * 0.0014, mc.getTimer().elapsedPartialTicks, 12, 2.0f, 2.2f - i * 7.85E-4f - 0.03f, (!rgbValue.getValue()) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+                }
             }
         }
     }
