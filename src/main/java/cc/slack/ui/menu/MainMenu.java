@@ -108,6 +108,7 @@ public class MainMenu extends GuiScreen {
 
         if (buttonMenu.id == 8) {
             if (fetchHwid() == "f") {
+                setMsg("Failed to fetch hwid");
                 return;
             }
             GuiScreen.setClipboardString(fetchHwid());
@@ -206,19 +207,22 @@ public class MainMenu extends GuiScreen {
             switch (Util.getOSType()) {
                 default:
                 case WINDOWS:
-                    Process process = Runtime.getRuntime().exec("wmic csproduct get UUID");
-                    process.getOutputStream().close();
-                    BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+                    String computerName = System.getenv("COMPUTERNAME");
+                    String userName = System.getProperty("user.name");
+                    String processorIdentifier = System.getenv("PROCESSOR_IDENTIFIER");
+                    String processorLevel = System.getenv("PROCESSOR_LEVEL");
 
-                    reader.readLine();
-                    hwid = reader.readLine().trim();
+                    // Concatenate the variables
+                    hwid = computerName + userName + processorIdentifier + processorLevel;
                     break;
                 case OSX:
-                    Process pr = Runtime.getRuntime().exec("system_profiler SPHardwareDataType | awk '/UUID/ { print $3; }'");
-                    pr.getOutputStream().close();
-                    BufferedReader re = new BufferedReader(new InputStreamReader(pr.getInputStream()));
+                    String useName = System.getProperty("user.name");
+                    String osName = System.getProperty("os.name");
+                    String osVersion = System.getProperty("os.version");
+                    String serialNumber = getSerialNumber();
 
-                    hwid = re.readLine().trim();
+                    // Concatenate the variables
+                    hwid = useName + osName + osVersion + serialNumber;
                     break;
                 case LINUX:
                     Process cess = Runtime.getRuntime().exec("sudo dmidecode -s system-uuid");
@@ -229,7 +233,8 @@ public class MainMenu extends GuiScreen {
                     hwid = der.readLine().trim();
                     break;
             }
-            return hwid + "f";
+            if (hwid == "") return "f";
+            return generateMD5(hwid) + "f";
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -243,6 +248,19 @@ public class MainMenu extends GuiScreen {
     private void setMsg(String m) {
         dmTimer.reset();
         debugMessage = m;
+    }
+
+    private static String getSerialNumber() {
+        String serialNumber = "";
+        try {
+            // Execute the system_profiler command to get the hardware serial number
+            Process process = Runtime.getRuntime().exec("system_profiler SPHardwareDataType | awk '/Serial/ { print $4; }'");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            serialNumber = reader.readLine().trim();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return serialNumber;
     }
 
     public static String sha256(String input) {
@@ -266,5 +284,24 @@ public class MainMenu extends GuiScreen {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    private static String generateMD5(String input) throws NoSuchAlgorithmException {
+        // Create an MD5 message digest
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] hash = md.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        // Convert byte array into signum representation
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+
+        // Return the hexadecimal string
+        return hexString.toString();
     }
 }
