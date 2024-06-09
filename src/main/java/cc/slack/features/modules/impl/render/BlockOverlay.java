@@ -27,6 +27,7 @@ import java.awt.*;
 )
 public class BlockOverlay extends Module {
 
+    private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 2f, 1f, 10f, 0.1f);
     public final ModeValue<String> colormodes = new ModeValue<>("Color", new String[] { "Client Theme", "Rainbow", "Custom" });
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
@@ -34,7 +35,7 @@ public class BlockOverlay extends Module {
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 150, 0, 255, 1);
 
     public BlockOverlay () {
-        addSettings(colormodes, redValue, greenValue, blueValue, alphaValue);
+        addSettings(lineWidth,colormodes, redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
@@ -71,7 +72,7 @@ public class BlockOverlay extends Module {
             final double minZ = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinZ();
             RenderUtil.drawSelectionBoundingBox(new AxisAlignedBB(x + minX, y + minY, z + minZ, x + block.getBlockBoundsMaxX(), y + block.getBlockBoundsMaxY(), z + block.getBlockBoundsMaxZ()));
             RenderUtil.glColor(new Color(0, 0, 0).getRGB());
-            GL11.glLineWidth(0.5f);
+            GL11.glLineWidth(this.lineWidth.getValue());
             GL11.glDisable(2848);
             GL11.glEnable(3553);
             GL11.glEnable(2929);
