@@ -188,6 +188,7 @@ public class AttackUtil {
     public static boolean isTarget(Entity entity) {
         final Targets targets = Slack.getInstance().getModuleManager().getInstance(Targets.class);
         if (entity == mc.getPlayer()) return false;
+        if (entity.getDisplayName().getUnformattedText().contains("NPC") || entity.getDisplayName().equals("[NPC]") || entity.getDisplayName().getUnformattedText().contains("CIT-") || entity.getDisplayName().equals("")) return  false;
         if (entity instanceof EntityArmorStand) return false;
         if (!targets.mobsTarget.getValue() && entity instanceof EntityVillager) return false;
         if ((!targets.mobsTarget.getValue() && (entity instanceof EntityMob)) || (!targets.animalTarget.getValue() && (entity instanceof EntityAnimal)) ||  (!targets.playerTarget.getValue() && (entity instanceof EntityPlayer))) return false;
