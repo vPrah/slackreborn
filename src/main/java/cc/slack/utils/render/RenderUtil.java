@@ -609,6 +609,7 @@ public final class RenderUtil extends mc {
     }
 
     public static double interpolate(double now, double old, double scale) {
+
         return old + (now - old) * scale;
     }
 

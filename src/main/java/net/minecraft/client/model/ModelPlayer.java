@@ -1,7 +1,9 @@
 package net.minecraft.client.model;
 
+import cc.slack.features.modules.impl.render.ESP;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 
 public class ModelPlayer extends ModelBiped
 {
@@ -128,6 +130,9 @@ public class ModelPlayer extends ModelBiped
         copyModelAngles(this.bipedLeftArm, this.bipedLeftArmwear);
         copyModelAngles(this.bipedRightArm, this.bipedRightArmwear);
         copyModelAngles(this.bipedBody, this.bipedBodyWear);
+        if(entityIn instanceof EntityPlayer) {
+            ESP.addEntity((EntityPlayer) entityIn, this);
+        }
     }
 
     public void renderRightArm()

@@ -6,7 +6,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.impl.render.ChestESP;
-import cc.slack.features.modules.impl.render.ESP;
+import cc.slack.features.modules.impl.ghost.BasicESP;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.TargetHUD;
 import net.minecraft.client.Minecraft;
@@ -36,7 +36,7 @@ public class LegitMode extends Module {
         Display.setTitle("Minecraft 1.8.8");
         toggleModule(HUD.class);
         toggleModule(TargetHUD.class);
-        toggleModule(ESP.class);
+        toggleModule(BasicESP.class);
         toggleModule(ChestESP.class);
 
         if (selfDestruct.getValue()) {

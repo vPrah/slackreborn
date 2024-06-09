@@ -89,8 +89,9 @@ public class ModuleManager {
 
                     // Render
                     new HUD(),
-                    new ClickGUI(),
                     new ESP(),
+                    new ClickGUI(),
+                    new BasicESP(),
                     new NameTags(),
                     new Animations(),
                     new TargetHUD(),
