@@ -192,7 +192,8 @@ public final class RenderUtil extends mc {
         tessellator.draw();
     }
 
-    public static void drawTracer(Entity entity, Boolean rainbow, int red, int green, int blue, int alpha) {
+    public static void drawTracer(Entity entity, Boolean rainbow, Boolean clientheme, int red, int green, int blue, int alpha) {
+        Color c = ColorUtil.getColor();
         double x = entity.lastTickPosX + (entity.posX - entity.lastTickPosX) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosX;
         double y = entity.lastTickPosY + (entity.posY - entity.lastTickPosY) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosY + entity.getEyeHeight();
         double z = entity.lastTickPosZ + (entity.posZ - entity.lastTickPosZ) * mc.getTimer().renderPartialTicks - mc.getRenderManager().viewerPosZ;
@@ -205,8 +206,11 @@ public final class RenderUtil extends mc {
         GL11.glEnable(GL11.GL_LINE_SMOOTH);
         GlStateManager.disableDepth();
         GlStateManager.enableBlend();
-
-        RenderUtil.glColor((!rainbow) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+        if (clientheme) {
+            RenderUtil.glColor(c.getRGB());
+        } else {
+            RenderUtil.glColor((!rainbow) ? new Color(red, green, blue, alpha).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+        }
         GL11.glLineWidth(1.5f);
 
         GL11.glBegin(GL11.GL_LINE_STRIP);

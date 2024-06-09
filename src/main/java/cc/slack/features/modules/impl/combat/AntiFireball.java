@@ -47,7 +47,7 @@ public class AntiFireball extends Module {
         for(Entity entity : mc.getWorld().getLoadedEntityList()) {
             if (entity instanceof EntityFireball) {
                 if (mc.getPlayer().getDistanceSqToEntity(entity) < 20) {
-                    RenderUtil.drawTracer(entity, false, 255, (int) (mc.getPlayer().getDistanceSqToEntity(entity) * 10), 0, 170);
+                    RenderUtil.drawTracer(entity, false, false, 255, (int) (mc.getPlayer().getDistanceSqToEntity(entity) * 10), 0, 170);
                 }
             }
         }

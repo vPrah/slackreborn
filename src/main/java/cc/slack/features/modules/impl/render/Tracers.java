@@ -23,7 +23,7 @@ import java.awt.*;
 )
 public class Tracers extends Module {
 
-
+    private final BooleanValue clientValue = new BooleanValue("Client Theme", true);
     private final BooleanValue rgbValue = new BooleanValue("Rainbow", false);
     private final NumberValue<Integer> redValue = new NumberValue<>("Red", 0, 0, 255, 1);
     private final NumberValue<Integer> greenValue = new NumberValue<>("Green", 255, 0, 255, 1);
@@ -31,16 +31,17 @@ public class Tracers extends Module {
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 200, 0, 255, 1);
 
     public Tracers() {
-        addSettings(rgbValue, redValue, greenValue, blueValue, alphaValue);
+        addSettings(clientValue,rgbValue, redValue, greenValue, blueValue, alphaValue);
     }
 
     @Listen
     public void onRender (RenderEvent event) {
+        Color c = ColorUtil.getColor();
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for(Entity entity : mc.getWorld().getLoadedEntityList()) {
             if(entity instanceof EntityPlayer && entity != mc.getPlayer()) {
-                RenderUtil.drawTracer(entity, rgbValue.getValue(), redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue());
+                RenderUtil.drawTracer(entity, rgbValue.getValue(), clientValue.getValue(), redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue());
             }
         }
     }
