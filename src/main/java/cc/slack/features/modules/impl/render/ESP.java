@@ -34,7 +34,7 @@ public class ESP extends Module {
     private final BooleanValue rotateYaw = new BooleanValue("Yaw Rotate", false);
 
     public ESP() {
-        addSettings(lineWidth, rotateYaw);
+        addSettings(itemESP,lineWidth, rotateYaw);
     }
 
     @Listen
