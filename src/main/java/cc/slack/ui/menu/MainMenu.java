@@ -152,7 +152,7 @@ public class MainMenu extends GuiScreen {
                     if (response.body().string().contains(sha256("true" + discordId))) {
                         setMsg("Login Successful");
                     } else {
-                        setMsg("Credentials didn't match. " + response.body().string() );
+                        setMsg("Credentials didn't match.");
                         return;
                     }
                 } else {
