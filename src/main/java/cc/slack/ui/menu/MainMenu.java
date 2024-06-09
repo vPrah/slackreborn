@@ -229,7 +229,7 @@ public class MainMenu extends GuiScreen {
                     hwid = der.readLine().trim();
                     break;
             }
-            return hwid + "slc";
+            return hwid + "f";
         } catch (Exception e) {
             e.printStackTrace();
         }
