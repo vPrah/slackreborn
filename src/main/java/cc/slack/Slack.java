@@ -31,11 +31,10 @@ import java.util.EnumMap;
 
 @Getter
 @SuppressWarnings("unused")
-public enum Slack {
-	instance;
+public class Slack {
 
-	@Getter
-    //private static final Slack instance = new Slack();
+    @Getter
+    private static final Slack instance = new Slack();
     public final ClientInfo info = new ClientInfo("Slack", "v1.0", ClientInfo.VersionType.BETA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
@@ -133,8 +132,4 @@ public enum Slack {
     public void addNotification(String bigText, String smallText, Long duration, NotificationStyle style) {
         instance.getModuleManager().getInstance(HUD.class).addNotification(bigText, smallText, duration, style);
     }
-
-	public static Slack getInstance() {
-		return instance;
-	}
 }
