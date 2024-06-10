@@ -43,7 +43,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if ((!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) && !(Slack.getInstance().info.type == ClientInfo.VersionType.DEVELOPER)) {
+        if ((!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) && !Slack.getInstance().noREQHwid) {
             Gui.drawRect(0, 0, 200 , this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
@@ -58,6 +58,11 @@ public class MainMenu extends GuiScreen {
 
             super.drawScreen(mouseX, mouseY, partialTicks);
             return;
+        }
+
+        if (Slack.getInstance().noREQHwid) {
+            this.mc.i34 = true;
+            Minecraft.isLoggedIn = true;
         }
 
         Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
@@ -89,9 +94,19 @@ public class MainMenu extends GuiScreen {
             particles.add(new Particle(this.width, this.height));
         }
 
-        this.menuList.add(new MainMenuButton(10,- 30, height / 2, "Fetch Discord id from clipboard"));
-        this.menuList.add(new MainMenuButton(8,- 30, height / 2 + 85, "Copy Hwid"));
-        this.menuList.add(new MainMenuButton(9,- 30, height / 2 + 60, "Log In"));
+        if (Slack.getInstance().isNoREQHwid() || Minecraft.isLoggedIn) {
+            this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
+            this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
+            this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
+            this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
+            this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
+            this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
+        } else {
+
+            this.menuList.add(new MainMenuButton(10, -30, height / 2, "Fetch Discord id from clipboard"));
+            this.menuList.add(new MainMenuButton(8, -30, height / 2 + 85, "Copy Hwid"));
+            this.menuList.add(new MainMenuButton(9, -30, height / 2 + 60, "Log In"));
+        }
 
         super.initGui();
     }
