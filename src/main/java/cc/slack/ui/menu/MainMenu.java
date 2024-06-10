@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.altmanager.gui.GuiAccountManager;
 import cc.slack.utils.client.ClientInfo;
+import cc.slack.utils.client.Login;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.MathUtil;
@@ -43,7 +44,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if ((!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) && !Slack.getInstance().noREQHwid) {
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
             Gui.drawRect(0, 0, 200 , this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
@@ -58,11 +59,6 @@ public class MainMenu extends GuiScreen {
 
             super.drawScreen(mouseX, mouseY, partialTicks);
             return;
-        }
-
-        if (Slack.getInstance().noREQHwid) {
-            this.mc.i34 = true;
-            Minecraft.isLoggedIn = true;
         }
 
         Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
@@ -94,7 +90,7 @@ public class MainMenu extends GuiScreen {
             particles.add(new Particle(this.width, this.height));
         }
 
-        if (Slack.getInstance().isNoREQHwid() || Minecraft.isLoggedIn) {
+        if (Minecraft.isLoggedIn) {
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
             this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
@@ -103,9 +99,12 @@ public class MainMenu extends GuiScreen {
             this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
         } else {
 
+            if (Slack.getInstance().isNoREQHwid())
+                this.menuList.add(new MainMenuButton(1124, -30, height / 2 + 40, "Dev login"));
+
             this.menuList.add(new MainMenuButton(10, -30, height / 2, "Fetch Discord id from clipboard"));
             this.menuList.add(new MainMenuButton(8, -30, height / 2 + 85, "Copy Hwid"));
-            this.menuList.add(new MainMenuButton(9, -30, height / 2 + 60, "Log In"));
+            this.menuList.add(new MainMenuButton(951, -30, height / 2 + 60, "Log In"));
         }
 
         super.initGui();
@@ -114,6 +113,19 @@ public class MainMenu extends GuiScreen {
     @Override
     protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
         super.actionPerformedMenu(buttonMenu);
+
+        if (buttonMenu.id == 1124) {
+            this.menuList.clear();
+            this.mc.i34 = true;
+            Minecraft.isLoggedIn = true;
+
+            this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
+            this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
+            this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
+            this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
+            this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
+            this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
+        }
 
         if (buttonMenu.id == 10) {
             discordId = GuiScreen.getClipboardString();
@@ -129,7 +141,7 @@ public class MainMenu extends GuiScreen {
             GuiScreen.setClipboardString(fetchHwid());
         }
 
-        if (buttonMenu.id == 9) {
+        if (buttonMenu.id == 951) {
 
             if (discordId.length() != 19) {
                 setMsg("Invalid Discord id");
@@ -144,21 +156,7 @@ public class MainMenu extends GuiScreen {
             }
 
             OkHttpClient client = new OkHttpClient();
-
-            String hashhwid = sha256(hwid);
-            String hashhwidid = sha256(hwid + "slack" + discordId + "client");
-            String rawhwid = hwid;
-            String rawid = discordId;
-            String json = String.format("{\"hwid\": \"%s\", \"hashhwid\": \"%s\", \"rawhwid\": \"%s\", \"rawid\": \"%s\"}", hashhwid, hashhwidid, rawhwid, rawid);
-
-            // Create a RequestBody
-            RequestBody body = RequestBody.create(MediaType.parse("application/json"), json);
-
-            // Create a POST request
-            Request request = new Request.Builder()
-                    .url("http://ec2-3-149-23-132.us-east-2.compute.amazonaws.com:8080/verify")
-                    .post(body)
-                    .build();
+            Request request = Login.sendReq(client, hwid, discordId);
 
             // Execute the request
             try {
@@ -167,7 +165,7 @@ public class MainMenu extends GuiScreen {
 
                     String resp = response.body().string();
 
-                    if (resp.contains(sha256("true" + discordId))) {
+                    if (Login.isSuccess(discordId, resp, hwid)) {
                         setMsg("Login Successful");
                     } else {
                         setMsg("Credentials didn't match. " + resp);
@@ -279,29 +277,6 @@ public class MainMenu extends GuiScreen {
             ex.printStackTrace();
         }
         return serialNumber;
-    }
-
-    public static String sha256(String input) {
-        try {
-            // Create a MessageDigest instance for SHA-256
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-
-            // Apply the digest on the input bytes
-            byte[] hashBytes = digest.digest(input.getBytes(StandardCharsets.UTF_8));
-
-            // Convert the byte array into a hexadecimal string
-            StringBuilder hexString = new StringBuilder(2 * hashBytes.length);
-            for (byte b : hashBytes) {
-                String hex = Integer.toHexString(0xff & b);
-                if (hex.length() == 1) {
-                    hexString.append('0');
-                }
-                hexString.append(hex);
-            }
-            return hexString.toString();
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     private static String generateMD5(String input) throws NoSuchAlgorithmException {
