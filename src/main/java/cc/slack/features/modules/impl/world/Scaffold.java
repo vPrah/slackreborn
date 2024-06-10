@@ -237,7 +237,7 @@ public class Scaffold extends Module {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
                 RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
-                if (Math.abs(MathHelper.wrapAngleTo180_double(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0])) > 80) {
+                if (Math.abs(MathHelper.wrapAngleTo180_double(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0])) > 95) {
                     RotationUtil.overrideRotation(new float[] {BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0], 77.5f});
                     RotationUtil.keepRotationTicks = keepRotationTicks.getValue();
                 }
