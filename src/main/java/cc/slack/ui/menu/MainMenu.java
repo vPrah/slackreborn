@@ -45,7 +45,7 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
-            Gui.drawRect(0, 0, 200 , this.height, new Color(0,0,0,110).getRGB());
+            Gui.drawRect(this.width - 100, 0, this.width + 100, this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
             if (!dmTimer.hasReached(10000))
