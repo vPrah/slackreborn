@@ -60,6 +60,6 @@ public class HypixelBlinkNofall implements INoFall {
     }
 
     public String toString() {
-        return "Hypixel Blink";
+        return "Hypixel";
     }
 }

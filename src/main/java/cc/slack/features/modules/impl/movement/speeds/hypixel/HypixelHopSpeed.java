@@ -29,10 +29,10 @@ public class HypixelHopSpeed implements ISpeed {
                 wasSlow = false;
                 if (jumpTick > 6) jumpTick = 4;
                 mc.getPlayer().jump();
-                MovementUtil.strafe(0.48f + jumpTick * 0.008f);
+                MovementUtil.strafe(0.475f + jumpTick * 0.008f);
                 if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
                     float amplifier = mc.getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
-                    MovementUtil.strafe(0.48f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
+                    MovementUtil.strafe(0.47f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
                 }
                 mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
             } else {

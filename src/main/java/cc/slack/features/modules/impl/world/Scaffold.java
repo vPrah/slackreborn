@@ -202,7 +202,7 @@ public class Scaffold extends Module {
                     mc.getPlayer().jump();
                     hasPlaced = false;
                     if (!firstJump) {
-                        MovementUtil.strafe(0.48f);
+                        MovementUtil.strafe(0.46f);
                         mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
                     } else {
                         MovementUtil.resetMotion(false);
