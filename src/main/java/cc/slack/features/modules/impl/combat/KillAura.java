@@ -160,10 +160,11 @@ public class KillAura extends Module {
         RotationUtil.setClientRotation(rotations, 1);
         RotationUtil.setStrafeFix(moveFix.getValue(), false);
 
+        if (queuedAttacks == 0) return;
+        
         if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
             if (preAttack()) return;
 
-        if (queuedAttacks == 0) return;
         while (queuedAttacks > 0) {
             attack(target);
             queuedAttacks--;
@@ -340,7 +341,7 @@ public class KillAura extends Module {
             PacketUtil.send(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
             PacketUtil.send(new C02PacketUseEntity(targetEntity, new Vec3(0,0,0)));
         }
-        PacketUtil.sendBlocking(true, false);
+        PacketUtil.sendBlocking(true, false4);
         isBlocking = true;
     }
 
