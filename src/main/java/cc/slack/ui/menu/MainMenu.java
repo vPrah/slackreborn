@@ -48,14 +48,14 @@ public class MainMenu extends GuiScreen {
             Gui.drawRect(this.width - 100, 0, this.width + 100, this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
-            if (!dmTimer.hasReached(10000))
-                Fonts.apple18.drawStringWithShadow(debugMessage, 5, 100, new Color(255, 50, 50).getRGB());
-
             GlStateManager.pushMatrix();
             GlStateManager.scale(0.35 , 0.35, 0.35);
             mc.getTextureManager().bindTexture(imageResource);
             drawModalRectWithCustomSizedTexture(1, 64, 0, 0, 100, 100, 100, 100);
             GlStateManager.popMatrix();
+
+            if (!dmTimer.hasReached(10000))
+                Fonts.apple18.drawStringWithShadow(debugMessage, 5, 100, new Color(255, 50, 50).getRGB());
 
             super.drawScreen(mouseX, mouseY, partialTicks);
             return;
