@@ -143,7 +143,7 @@ public class MainMenu extends GuiScreen {
 
         if (buttonMenu.id == 951) {
 
-            if (discordId.length() != 19) {
+            if (discordId.length() < 16 || discordId.length() > 20) {
                 setMsg("Invalid Discord id");
                 return;
             }
