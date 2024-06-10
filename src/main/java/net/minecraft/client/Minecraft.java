@@ -240,7 +240,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public EffectRenderer effectRenderer;
     public Session session;
     private boolean isGamePaused;
-    public boolean i34 = false;
+    public boolean i34 = isLoggedIn;
 
     /** The font renderer used for displaying and measuring text */
     public FontRenderer MCfontRenderer;

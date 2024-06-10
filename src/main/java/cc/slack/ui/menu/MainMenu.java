@@ -90,7 +90,6 @@ public class MainMenu extends GuiScreen {
         }
 
         this.menuList.add(new MainMenuButton(10,- 30, height / 2, "Fetch Discord id from clipboard"));
-
         this.menuList.add(new MainMenuButton(8,- 30, height / 2 + 85, "Copy Hwid"));
         this.menuList.add(new MainMenuButton(9,- 30, height / 2 + 60, "Log In"));
 
