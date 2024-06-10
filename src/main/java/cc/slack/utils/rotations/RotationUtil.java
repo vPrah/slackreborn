@@ -74,7 +74,7 @@ public class RotationUtil extends mc {
             if (strafeFix) {
                 if (!strictStrafeFix) {
                     if (MovementUtil.isBindsMoving()) {
-                        int strafeYaw = round((RotationUtil.clientRotation[0] - MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) / 45);
+                        int strafeYaw = round((clientRotation[0] - MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) / 45);
                         if (strafeYaw > 4) {
                             strafeYaw -= 8;
                         }

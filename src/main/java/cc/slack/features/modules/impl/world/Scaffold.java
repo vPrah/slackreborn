@@ -122,8 +122,8 @@ public class Scaffold extends Module {
     @Listen
     public void onPacket(PacketEvent p) {
         Packet packet = p.getPacket();
-        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel") {
-            if ((mc.getPlayer().ticksExisted & 2) == 0) {
+        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.getPlayer().onGround) {
+            if (mc.getPlayer().ticksExisted % 2 == 0) {
                     ((C03PacketPlayer) packet).y += 0.0001;
                     ((C03PacketPlayer) packet).onGround = false;
             }
@@ -212,7 +212,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel":
-                mc.getPlayer().setSprinting(mc.getPlayer().ticksExisted % 2 == 0);
+                mc.getPlayer().setSprinting(mc.getPlayer().ticksExisted % 2 == 0 || !mc.getPlayer().onGround);
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
