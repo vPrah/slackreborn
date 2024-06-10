@@ -3,6 +3,7 @@ package cc.slack.ui.menu;
 import cc.slack.Slack;
 import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.altmanager.gui.GuiAccountManager;
+import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.MathUtil;
@@ -42,7 +43,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if ((!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) && !Slack.getInstance().noREQHwid) {
+        if ((!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) && !(Slack.getInstance().info.type == ClientInfo.VersionType.DEVELOPER)) {
             Gui.drawRect(0, 0, 200 , this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
