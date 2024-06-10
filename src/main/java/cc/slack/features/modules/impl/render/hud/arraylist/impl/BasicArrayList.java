@@ -100,7 +100,7 @@ public class BasicArrayList implements IArraylist {
             drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
             Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
             y += (int) ((Fonts.apple18.getHeight() + 3) * (ease + 0.2)/1.2);
-            c += 0.15;
+            c += 0.13;
         }
     }
 

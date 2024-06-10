@@ -42,6 +42,11 @@ public class HypixelHopSpeed implements ISpeed {
             mc.getPlayer().motionX *= 1.0005;
             mc.getPlayer().motionZ *= 1.0005;
 
+            if (mc.getPlayer().offGroundTicks == 1) {
+                mc.getPlayer().motionX *= 1.02;
+                mc.getPlayer().motionZ *= 1.02;
+            }
+
             if (mc.getPlayer().motionY > 0) {
                 mc.getTimer().timerSpeed = 0.94f;
             } else if (mc.getPlayer().offGroundTicks < 13) {
@@ -67,7 +72,7 @@ public class HypixelHopSpeed implements ISpeed {
                             MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
                     )) > 30) {
-                        MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
+                        MovementUtil.strafe(0.24f);
                     }
                 }
                 return;

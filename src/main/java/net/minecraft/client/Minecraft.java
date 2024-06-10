@@ -241,7 +241,6 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public Session session;
     private boolean isGamePaused;
     public boolean i34 = isLoggedIn;
-
     /** The font renderer used for displaying and measuring text */
     public FontRenderer MCfontRenderer;
     public FontRenderer standardGalacticFontRenderer;
