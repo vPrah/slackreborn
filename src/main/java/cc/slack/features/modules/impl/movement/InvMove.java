@@ -35,8 +35,10 @@ public class InvMove extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        MovementUtil.updateBinds(false);
-        RotationUtil.updateStrafeFixBinds();
+        if (!hypixelTest.getValue() || mc.getCurrentScreen() instanceof GuiInventory) {
+            MovementUtil.updateBinds(false);
+            RotationUtil.updateStrafeFixBinds();
+        }
         if (mc.getCurrentScreen() instanceof GuiInventory && hypixelTest.getValue()) {
             if (mc.getPlayer().ticksExisted % 4 == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
