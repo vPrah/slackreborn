@@ -37,7 +37,7 @@ public class MainMenu extends GuiScreen {
     TimeUtil dmTimer = new TimeUtil();
 
     String discordId = "";
-
+    
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
@@ -100,11 +100,11 @@ public class MainMenu extends GuiScreen {
         } else {
 
             if (Slack.getInstance().isNoREQHwid())
-                this.menuList.add(new MainMenuButton(1124, -30, height / 2 + 40, "Dev login"));
+                this.menuList.add(new MainMenuButton(1124, width/2 - 80, height / 2 + 40, "Dev login"));
 
-            this.menuList.add(new MainMenuButton(10, -30, height / 2, "Fetch Discord id from clipboard"));
-            this.menuList.add(new MainMenuButton(8, -30, height / 2 + 85, "Copy Hwid"));
-            this.menuList.add(new MainMenuButton(951, -30, height / 2 + 60, "Log In"));
+            this.menuList.add(new MainMenuButton(10, width/2 - 80, height / 2, "Fetch Discord id from clipboard"));
+            this.menuList.add(new MainMenuButton(8, width/2 - 80, height / 2 + 85, "Copy Hwid"));
+            this.menuList.add(new MainMenuButton(951, width/2 - 80, height / 2 + 60, "Log In"));
         }
 
         super.initGui();

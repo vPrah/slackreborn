@@ -104,7 +104,7 @@ public class MainMenuButton extends Gui
                 hoverPercent += (0 - hoverPercent) / 4;
             }
 
-            drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, new Color(10,20, 50,80 + (int) (hoverPercent * 70)).getRGB());
+            drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, new Color(10,40, 100,90 + (int) (hoverPercent * 70)).getRGB());
 
 
             this.mouseDragged(mc, mouseX, mouseY);
