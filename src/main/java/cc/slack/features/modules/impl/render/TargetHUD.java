@@ -96,7 +96,7 @@ public class TargetHUD extends Module {
 			try {
 				Vector4d pos4 = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.7);
 				mc.getEntityRenderer().setupOverlayRendering();
-				x = ((int) (pos4.x + pos4.z) / 2) + 30;
+				x = ((int) Math.max(pos4.x, pos4.z) + 10);
 				y = (int) pos4.y;
 				x = MathHelper.clamp_int(x, 0, sr.getScaledWidth() - 120);
 				y = MathHelper.clamp_int(y, 0, sr.getScaledHeight() - 50);
