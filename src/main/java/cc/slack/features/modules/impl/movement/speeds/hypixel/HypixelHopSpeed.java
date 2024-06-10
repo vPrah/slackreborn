@@ -43,8 +43,8 @@ public class HypixelHopSpeed implements ISpeed {
             mc.getPlayer().motionZ *= 1.0005;
 
             if (mc.getPlayer().offGroundTicks == 1) {
-                mc.getPlayer().motionX *= 1.02;
-                mc.getPlayer().motionZ *= 1.02;
+                mc.getPlayer().motionX *= 1.002;
+                mc.getPlayer().motionZ *= 1.002;
             }
 
             if (mc.getPlayer().motionY > 0) {
@@ -59,7 +59,7 @@ public class HypixelHopSpeed implements ISpeed {
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
                 if (mc.getPlayer().offGroundTicks == 5) {
-                    PacketUtil.send(new C03PacketPlayer(false));
+                    PacketUtil.send(new C03PacketPlayer(true));
                     mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
                     mc.getTimer().timerSpeed = 0.65f;
                 }
@@ -72,7 +72,7 @@ public class HypixelHopSpeed implements ISpeed {
                             MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
                     )) > 30) {
-                        MovementUtil.strafe(0.24f);
+                        MovementUtil.strafe(0.2f);
                     }
                 }
                 return;
