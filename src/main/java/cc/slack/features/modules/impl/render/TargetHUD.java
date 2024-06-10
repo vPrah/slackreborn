@@ -92,10 +92,14 @@ public class TargetHUD extends Module {
 			return;
 
 		if (followTarget.getValue()) {
-			Vector4d pos4 = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.5);
-			mc.getEntityRenderer().setupOverlayRendering();
-			x = ((int) (pos4.x + pos4.z)/2) + 30;
-			y = (int) pos4.y;
+			try {
+				Vector4d pos4 = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.7);
+				mc.getEntityRenderer().setupOverlayRendering();
+				x = ((int) (pos4.x + pos4.z) / 2) + 30;
+				y = (int) pos4.y;
+			} catch (Exception ignored) {
+				// entity is missing
+			}
 		}
 
 		String targetName = target.getCommandSenderName();
