@@ -4,6 +4,7 @@ package cc.slack.features.modules.impl.movement.speeds.hypixel;
 
 import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.client.mc;
@@ -67,12 +68,12 @@ public class HypixelHopSpeed implements ISpeed {
 
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
-                if (mc.getPlayer().offGroundTicks == 6) {
+                if (mc.getPlayer().offGroundTicks == 6 && Slack.getInstance().getModuleManager().getInstance(KillAura.class).target != null) {
                     if (Math.abs(MathHelper.wrapAngleTo180_float(
                             MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
                     )) > 30) {
-                        MovementUtil.strafe(0.2f);
+                        MovementUtil.strafe(0.15f);
                     }
                 }
                 return;

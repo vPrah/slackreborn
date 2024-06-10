@@ -41,7 +41,7 @@ public class KillAura extends Module {
 
     // range
     private final NumberValue<Double> aimRange = new NumberValue<>("Aim Range", 7.0D, 3.0D, 12.0D, 0.01D);
-    private final NumberValue<Double> attackRange = new NumberValue<>("Attack Range", 3.0D, 3.0D, 7.0D, 0.01D);
+    public final NumberValue<Double> attackRange = new NumberValue<>("Attack Range", 3.0D, 3.0D, 7.0D, 0.01D);
 
     // attack
     private final ModeValue<String> swingMode = new ModeValue<>("Swing", new String[]{"Normal", "Packet", "None"});
@@ -81,7 +81,7 @@ public class KillAura extends Module {
     private final TimeUtil timer = new TimeUtil();
     private final TimeUtil rotationCenter = new TimeUtil();
     private double rotationOffset;
-    private EntityLivingBase target;
+    public EntityLivingBase target;
     private EntityLivingBase rayCastedEntity;
     private float[] rotations;
     private long attackDelay;
@@ -115,6 +115,7 @@ public class KillAura extends Module {
 
     @Override
     public void onDisable() {
+        target = null;
         if(isBlocking) unblock();
         if(wasBlink) BlinkUtil.disable();
     }
