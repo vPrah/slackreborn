@@ -36,9 +36,9 @@ public class ColorUtil extends mc {
                 case SLACK_STATIC:
                     return new Color(90, 150, 200);
                 case SLACK:
-                    return new Color(34, 65, 112);
+                    return new Color(26, 49, 83);
                 case ASTOLFO:
-                    return new Color(216, 112, 206);
+                    return new Color(228, 99, 214);
                 case CHRISTMAS:
                     return new Color(240, 240, 240);
                 case CUSTOM:
