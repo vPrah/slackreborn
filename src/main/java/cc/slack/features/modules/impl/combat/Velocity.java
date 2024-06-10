@@ -134,7 +134,7 @@ public class Velocity extends Module {
                 }
                 break;
             case "hypixel test":
-                if (mc.getPlayer().onGround) {
+                if (mc.getPlayer().onGround && mc.getPlayer().ticksSinceLastDamage > 11) {
                     if (hypixeltest) {
                         mc.getPlayer().motionY = hypixelY;
                         BlinkUtil.disable();
