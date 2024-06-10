@@ -21,7 +21,7 @@ import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.i1ii1i1ii1iii1ii1ii1l1i1ll1ii1lll1l1lll1li;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -229,7 +229,7 @@ public class Scaffold extends Module {
 
     private void updatePlayerRotations() {
 
-        if (!i1ii1i1ii1iii1ii1ii1l1i1ll1ii1lll1l1lll1li.i1i1i1ii1i1i1ii1i1ii1i || !i1ii1i1ii1iii1ii1ii1l1i1ll1ii1lll1l1lll1li.getMinecraft().i34) {
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
             mc.getMinecraft().shutdown();
         }
 

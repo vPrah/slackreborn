@@ -1,9 +1,13 @@
 package cc.slack.ui.menu;
 
 import cc.slack.Slack;
+import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.altmanager.gui.GuiAccountManager;
+import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.client.Login;
+import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.other.TimeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
@@ -40,7 +44,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if (!Minecraft.i1i1i1ii1i1i1ii1i1ii1i || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
             Gui.drawRect(0, 0, 200 , this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
@@ -86,7 +90,7 @@ public class MainMenu extends GuiScreen {
             particles.add(new Particle(this.width, this.height));
         }
 
-        if (Minecraft.i1i1i1ii1i1i1ii1i1ii1i) {
+        if (Minecraft.isLoggedIn) {
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
             this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
@@ -113,7 +117,7 @@ public class MainMenu extends GuiScreen {
         if (buttonMenu.id == 1124) {
             this.menuList.clear();
             this.mc.i34 = true;
-            Minecraft.i1i1i1ii1i1i1ii1i1ii1i = true;
+            Minecraft.isLoggedIn = true;
 
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
@@ -178,7 +182,7 @@ public class MainMenu extends GuiScreen {
 
             this.menuList.clear();
             this.mc.i34 = true;
-            Minecraft.i1i1i1ii1i1i1ii1i1ii1i = true;
+            Minecraft.isLoggedIn = true;
 
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
