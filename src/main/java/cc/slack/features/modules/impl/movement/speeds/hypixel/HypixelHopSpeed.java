@@ -56,12 +56,13 @@ public class HypixelHopSpeed implements ISpeed {
                 if (mc.getPlayer().offGroundTicks == 5) {
                     PacketUtil.send(new C03PacketPlayer(false));
                     mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
+                    mc.getTimer().timerSpeed = 0.65f;
                 }
             }
 
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
-                if (mc.getPlayer().offGroundTicks == 4) {
+                if (mc.getPlayer().offGroundTicks == 6) {
                     if (Math.abs(MathHelper.wrapAngleTo180_float(
                             MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]

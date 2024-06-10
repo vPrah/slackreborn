@@ -37,7 +37,7 @@ public class MainMenu extends GuiScreen {
     TimeUtil dmTimer = new TimeUtil();
 
     String discordId = "";
-    
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
