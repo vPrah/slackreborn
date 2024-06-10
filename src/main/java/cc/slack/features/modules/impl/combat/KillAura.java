@@ -287,10 +287,12 @@ public class KillAura extends Module {
                 if (mc.getPlayer().hurtTime < 4)
                     block(true);
                 break;
+            case "hypixel":
+                block(true);
+                break;
             case "old intave":
             case "blatant":
             case "vanilla":
-            case "test":
                 block();
                 break;
             case "blink":
