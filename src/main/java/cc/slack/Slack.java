@@ -13,7 +13,6 @@ import cc.slack.features.modules.impl.other.Targets;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.features.modules.impl.render.HUD;
-import cc.slack.features.modules.impl.render.ScoreboardModule;
 import cc.slack.features.modules.impl.render.TargetHUD;
 import cc.slack.ui.altmanager.AccountManager;
 import cc.slack.utils.client.ClientInfo;
@@ -23,11 +22,10 @@ import de.florianmichael.viamcp.ViaMCP;
 import io.github.nevalackin.radbus.Listen;
 import io.github.nevalackin.radbus.PubSub;
 import lombok.Getter;
-import net.minecraft.client.Minecraft;
+import net.minecraft.client.i1ii1i1ii1iii1ii1ii1l1i1ll1ii1lll1l1lll1li;
 import org.lwjgl.opengl.Display;
 
 import java.util.Arrays;
-import java.util.EnumMap;
 
 @Getter
 @SuppressWarnings("unused")
@@ -53,8 +51,8 @@ public class Slack {
         Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build");
 
         if (noREQHwid) {
-            Minecraft.isLoggedIn = true;
-            Minecraft.getMinecraft().i34 = true;
+            i1ii1i1ii1iii1ii1ii1l1i1ll1ii1lll1l1lll1li.i1i1i1ii1i1i1ii1i1ii1i = true;
+            i1ii1i1ii1iii1ii1ii1l1i1ll1ii1lll1l1lll1li.getMinecraft().i34 = true;
         }
 
         EventUtil.register(this);
