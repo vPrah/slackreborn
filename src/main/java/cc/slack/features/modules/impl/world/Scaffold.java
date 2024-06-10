@@ -212,7 +212,7 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel":
-                mc.getPlayer().setSprinting((mc.getPlayer().ticksExisted & 2) == 0);
+                mc.getPlayer().setSprinting(mc.getPlayer().ticksExisted % 2 == 0);
             case "off":
                 mc.getPlayer().setSprinting(false);
                 break;
@@ -237,7 +237,7 @@ public class Scaffold extends Module {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
                 RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
-                if (Math.abs(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0]) > 80) {
+                if (Math.abs(MathHelper.wrapAngleTo180_double(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0])) > 80) {
                     RotationUtil.overrideRotation(new float[] {BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0], 77.5f});
                     RotationUtil.keepRotationTicks = keepRotationTicks.getValue();
                 }
