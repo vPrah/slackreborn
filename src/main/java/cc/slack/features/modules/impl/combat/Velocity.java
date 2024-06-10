@@ -20,6 +20,7 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
+import net.minecraft.util.MathHelper;
 
 @ModuleInfo(
         name = "Velocity",
@@ -28,7 +29,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Test"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Test", "Universocraft"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
@@ -106,6 +107,15 @@ public class Velocity extends Module {
                             }
                         }
                         break;
+                    case "universocraft":
+                    	double moveForward = mc.getPlayer().movementInput.moveForward;
+                    	if (moveForward > 0) {
+                            float radians = (float) Math.toRadians(1.2224324);
+                            mc.getPlayer().motionX -= MathHelper.sin(radians) * 0.0000001;
+                            mc.getPlayer().motionY -= MathHelper.sin(radians) * 0.0000001;
+                            mc.getPlayer().motionZ -= MathHelper.sin(radians) * 0.0000001;
+                    	}
+                    	break;
                     case "reverse":
                         event.cancel();
                         mc.getPlayer().motionY = packet.getMotionY() / 8000.0;
