@@ -27,6 +27,7 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.play.client.C02PacketUseEntity;
+import net.minecraft.util.MathHelper;
 
 import javax.vecmath.Vector4d;
 
@@ -91,12 +92,14 @@ public class TargetHUD extends Module {
 		if (target == null)
 			return;
 
-		if (followTarget.getValue()) {
+		if (followTarget.getValue() && target != mc.getPlayer()) {
 			try {
 				Vector4d pos4 = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.7);
 				mc.getEntityRenderer().setupOverlayRendering();
 				x = ((int) (pos4.x + pos4.z) / 2) + 30;
 				y = (int) pos4.y;
+				x = MathHelper.clamp_int(x, 0, sr.getScaledWidth() - 120);
+				y = MathHelper.clamp_int(y, 0, sr.getScaledHeight() - 50);
 			} catch (Exception ignored) {
 				// entity is missing
 			}
