@@ -70,9 +70,9 @@ public class BlockOverlay extends Module {
             final double minX = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinX();
             final double minY = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinY();
             final double minZ = (block instanceof BlockStairs || Block.getIdFromBlock(block) == 134) ? 0.0 : block.getBlockBoundsMinZ();
+            GL11.glLineWidth(this.lineWidth.getValue());
             RenderUtil.drawSelectionBoundingBox(new AxisAlignedBB(x + minX, y + minY, z + minZ, x + block.getBlockBoundsMaxX(), y + block.getBlockBoundsMaxY(), z + block.getBlockBoundsMaxZ()));
             RenderUtil.glColor(new Color(0, 0, 0).getRGB());
-            GL11.glLineWidth(this.lineWidth.getValue());
             GL11.glDisable(2848);
             GL11.glEnable(3553);
             GL11.glEnable(2929);

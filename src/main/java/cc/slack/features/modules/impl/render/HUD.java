@@ -158,7 +158,7 @@ public class HUD extends Module {
 							((sr.getScaledWidth() +  Fonts.apple18.getStringWidth(displayString)) / 2f) + 4,
 							sr.getScaledHeight() * 3f / 4F + Fonts.apple18.getHeight() + 3.5f - y,
 							2, 0x80000000);
-					Fonts.apple18.drawStringWithShadow(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+					Fonts.apple18.drawStringWithShadow(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
 				}
 			}
 		}
