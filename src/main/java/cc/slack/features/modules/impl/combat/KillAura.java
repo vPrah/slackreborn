@@ -341,7 +341,7 @@ public class KillAura extends Module {
             PacketUtil.send(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
             PacketUtil.send(new C02PacketUseEntity(targetEntity, new Vec3(0,0,0)));
         }
-        PacketUtil.sendBlocking(true, false4);
+        PacketUtil.sendBlocking(true, false);
         isBlocking = true;
     }
 
