@@ -420,7 +420,7 @@ public class Scaffold extends Module {
     }
 
     private boolean searchBlock(BlockPos block) {
-        if (BlockUtils.isFullBlock(block)) {
+        if (!BlockUtils.isReplaceable(block)) {
             EnumFacing placeFace = BlockUtils.getHorizontalFacingEnum(block, placeX, placeZ);
             if (block.getY() <= placeY - 2) {
                 placeFace = EnumFacing.UP;
