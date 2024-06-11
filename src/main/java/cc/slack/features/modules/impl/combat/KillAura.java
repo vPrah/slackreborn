@@ -274,13 +274,17 @@ public class KillAura extends Module {
                 isBlocking = false;
                 break;
             case "hypixel":
-                PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                PacketUtil.send(new C0DPacketCloseWindow());
+                if (isBlocking) {
+                    PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+                    PacketUtil.send(new C0DPacketCloseWindow());
+                }
                 isBlocking = false;
                 break;
             case "old intave":
-                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
-                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                if (isBlocking) {
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                }
                 isBlocking = false;
                 break;
             default:
