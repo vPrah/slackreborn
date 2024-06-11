@@ -3,6 +3,7 @@ package net.minecraft.client.renderer;
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.render.Animations;
+import cc.slack.features.modules.impl.render.Camera;
 import cc.slack.utils.player.ItemSpoofUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
@@ -553,7 +554,8 @@ public class ItemRenderer {
             float f7 = 0.0F - f / 2.0F;
             float f8 = f7 + f;
             float f9 = -0.5F;
-            GlStateManager.translate((float) (-(i * 2 - 1)) * 0.24F, -0.3F, 0.0F);
+            Camera camera = (Camera) Slack.getInstance().getModuleManager().getInstance(Camera.class);
+            GlStateManager.translate((float) (-(i * 2 - 1)) * 0.24F, camera.isToggle() && camera.nofire.getValue() ? -0.55F : -0.3F, 0.0F);
             GlStateManager.rotate((float) (i * 2 - 1) * 10.0F, 0.0F, 1.0F, 0.0F);
             worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
             worldrenderer.setSprite(textureatlassprite);

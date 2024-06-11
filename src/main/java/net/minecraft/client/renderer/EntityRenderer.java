@@ -5,6 +5,7 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.ghost.AimAssist;
 import cc.slack.features.modules.impl.ghost.Reach;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.features.modules.impl.render.Camera;
 import cc.slack.ui.menu.MainMenu;
 import cc.slack.utils.render.FreeLookUtil;
 import com.google.common.base.Predicate;
@@ -705,7 +706,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
     private void hurtCameraEffect(float partialTicks)
     {
-        if (this.mc.getRenderViewEntity() instanceof EntityLivingBase && !Slack.getInstance().getModuleManager().getInstance(Tweaks.class).nohurtcam.getValue())
+        if (this.mc.getRenderViewEntity() instanceof EntityLivingBase && Slack.getInstance().getModuleManager().getInstance(Camera.class).isToggle() && !Slack.getInstance().getModuleManager().getInstance(Camera.class).nohurtcam.getValue())
         {
             EntityLivingBase entitylivingbase = (EntityLivingBase)this.mc.getRenderViewEntity();
             float f = (float)entitylivingbase.hurtTime - partialTicks;
@@ -821,7 +822,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     {
                         double d7 = movingobjectposition.hitVec.distanceTo(new Vec3(d0, d1, d2));
 
-                        if (d7 < d3)
+                        if (d7 < d3 && !(Slack.getInstance().getModuleManager().getInstance(Camera.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Camera.class).noclip.getValue()))
                         {
                             d3 = d7;
                         }
