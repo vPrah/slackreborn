@@ -12,6 +12,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.player.BlinkUtil;
+import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -65,7 +66,7 @@ public class AntiVoid extends Module {
                         universalFlag = false;
                     } else if (mc.getPlayer().fallDistance > 8f && !universalFlag) {
                         universalFlag = true;
-                        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(groundX, groundY + 1, groundZ, false));
+                        PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(groundX, groundY + 1, groundZ, false));
                     }
                 } else if (mc.getPlayer().fallDistance > 0f && !mc.getPlayer().onGround && mc.getPlayer().motionY < 0) {
                     if (isOverVoid()) {
