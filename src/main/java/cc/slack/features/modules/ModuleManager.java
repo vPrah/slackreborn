@@ -47,6 +47,7 @@ public class ModuleManager {
                     new Sprint(),
                     new Strafe(),
                     new TargetStrafe(),
+                    new VClip(),
                     new Jesus(),
                     new NoWeb(),
 
