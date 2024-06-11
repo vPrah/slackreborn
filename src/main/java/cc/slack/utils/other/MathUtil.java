@@ -29,6 +29,10 @@ public class MathUtil {
         return bd.doubleValue();
     }
 
+    public static double randomDouble(double min, double max) {
+        return ThreadLocalRandom.current().nextDouble(min, max);
+    }
+
     public static float[] getRotations(double x, double y, double z) {
         Vec3 lookVec = mc.getPlayer().getPositionEyes(1.0F);
         double dx = lookVec.xCoord - x;
