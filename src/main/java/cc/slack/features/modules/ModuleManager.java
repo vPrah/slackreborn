@@ -152,7 +152,7 @@ public class ModuleManager {
                     new HealthWarn(),
                     new TNTHelper(),
                     new LegitMode(),
-                    new LagbackChecker(),
+                    new LagbackChecker()
 
             );
             
