@@ -153,7 +153,6 @@ public class ModuleManager {
                     new TNTHelper(),
                     new LegitMode(),
                     new LagbackChecker(),
-                    new PacketDebugger()
 
             );
             
