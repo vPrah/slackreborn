@@ -27,7 +27,7 @@ public class ModeButton extends Component {
         this.x = button.parent.getX() + button.parent.getWidth();
         this.y = button.parent.getY() + button.offset;
         this.offset = offset;
-        this.modeIndex = 0;
+        this.modeIndex = set.getIndex();
     }
 
     @Override

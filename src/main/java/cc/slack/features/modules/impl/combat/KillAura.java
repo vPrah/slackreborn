@@ -161,6 +161,8 @@ public class KillAura extends Module {
         RotationUtil.setClientRotation(rotations, 1);
         RotationUtil.setStrafeFix(moveFix.getValue(), false);
 
+        if (preTickBlock()) return;
+        
         if (queuedAttacks == 0) return;
         
         if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
@@ -200,29 +202,8 @@ public class KillAura extends Module {
         }
     }
 
-    private boolean preAttack() {
+    private boolean preTickBlock() {
         switch (autoBlock.getValue().toLowerCase()) {
-            case "blatant":
-                unblock();
-                isBlocking = false;
-                break;
-            case "hypixel":
-                PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                PacketUtil.send(new C0DPacketCloseWindow());
-                isBlocking = false;
-                break;
-            case "old intave":
-                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
-                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
-                isBlocking = false;
-                break;
-            case "interact":
-                if (queuedAttacks > 0 && isBlocking) {
-                    unblock();
-                    return true;
-                } else {
-                    return false;
-                }
             case "basic":
                 switch (mc.getPlayer().ticksExisted % 3) {
                     case 0:
@@ -279,6 +260,28 @@ public class KillAura extends Module {
                         }
                         break;
                 }
+                break;
+            default:
+                break;
+        }
+        return false;
+    }
+
+    private boolean preAttack() {
+        switch (autoBlock.getValue().toLowerCase()) {
+            case "blatant":
+                unblock();
+                isBlocking = false;
+                break;
+            case "hypixel":
+                PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+                PacketUtil.send(new C0DPacketCloseWindow());
+                isBlocking = false;
+                break;
+            case "old intave":
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                isBlocking = false;
                 break;
             default:
                 break;

@@ -5,10 +5,12 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.TimeUtil;
+import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
@@ -25,6 +27,12 @@ import java.util.ArrayList;
         category = Category.RENDER
 )
 public class KeyStrokes extends Module {
+
+    private BooleanValue clientTheme = new BooleanValue("Client Theme", true);
+
+    public KetStrokes() {
+        addSettings(clientTheme);
+    }
 
     private double posX = 80.0D;
     private double posY = 140.0D;
@@ -69,6 +77,11 @@ public class KeyStrokes extends Module {
             }
         }
 
+        Color c = new Color(40, 40, 40, 80);
+        if (clientTheme.getValue()) {
+            c = ColorUtil.getColor();
+        }
+
         litteSquare(0, 0, 1f);
         litteSquare(-35, 0, 1f);
         litteSquare(35, 0, 1f);
@@ -109,7 +122,7 @@ public class KeyStrokes extends Module {
                 (float) posX + x + 15 * scale,
                 (float) posY + y + 15 * scale,
                 1 + scale,
-                new Color(40,40,40,80).getRGB() );
+               c.getRGB() );
     }
 
     private void spaceBar (int x, int y, float scale) {
@@ -119,7 +132,7 @@ public class KeyStrokes extends Module {
                 (float) posX + x + 20 + 30 * scale,
                 (float) posY + y + 1 + 14 * scale,
                 1 + scale,
-                new Color(40,40,40,90).getRGB() );
+                c.getRGB() );
     }
 
     private float getScale(int i) {
@@ -132,13 +145,13 @@ public class KeyStrokes extends Module {
 
     private float getScale(int i, boolean enabled) {
         if (enabled) {
-            if (downTime.get(i).hasReached(250)) {
+            if (downTime.get(i).hasReached(200)) {
                 return 1f;
             } else {
-                return 1 - easing(250 - downTime.get(i).elapsed());
+                return 1 - easing(200 - downTime.get(i).elapsed());
             }
         } else {
-            if (upTime.get(i).hasReached(250)) {
+            if (upTime.get(i).hasReached(200)) {
                 return 0f;
             } else {
                 return 1 - easing(upTime.get(i).elapsed());
