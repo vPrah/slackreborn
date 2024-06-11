@@ -141,10 +141,10 @@ public class AttackUtil {
 
     public static EntityLivingBase getTarget(double range, String sort) {
         final Targets targets = Slack.getInstance().getModuleManager().getInstance(Targets.class);
-        return getTarget(range, sort, targets.teams.getValue(), targets.mobsTarget.getValue(), targets.animalTarget.getValue(), targets.playerTarget.getValue());
+        return getTarget(range, sort, targets.teams.getValue(), targets.mobsTarget.getValue(), targets.animalTarget.getValue(), targets.playerTarget.getValue(), targets.friendsTarget.getValue());
     }
 
-    public static EntityLivingBase getTarget(double range, String sort, boolean team, boolean mobs, boolean animals, boolean players) {
+    public static EntityLivingBase getTarget(double range, String sort, boolean team, boolean mobs, boolean animals, boolean players, boolean friends) {
         if (mc.getPlayer() == null || mc.getWorld() == null) return null;
         List<EntityLivingBase> targets = new ArrayList<>();
 
@@ -155,6 +155,8 @@ public class AttackUtil {
                 if (entity instanceof EntityVillager) continue;
                 if ((!mobs && (entity instanceof EntityMob)) || (!animals && (entity instanceof EntityAnimal)) ||  (!players && (entity instanceof EntityPlayer))) continue;
                 if (entity instanceof EntityPlayer && !team && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
+                if (entity instanceof EntityPlayer && !friends && Slack.getInstance().getFriendManager().isFriend((EntityPlayer) entity)) continue;
+
                 if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
                 if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) continue;
                 targets.add((EntityLivingBase) entity);
@@ -193,6 +195,7 @@ public class AttackUtil {
         if (!targets.mobsTarget.getValue() && entity instanceof EntityVillager) return false;
         if ((!targets.mobsTarget.getValue() && (entity instanceof EntityMob)) || (!targets.animalTarget.getValue() && (entity instanceof EntityAnimal)) ||  (!targets.playerTarget.getValue() && (entity instanceof EntityPlayer))) return false;
         if (entity instanceof EntityPlayer && !targets.teams.getValue() && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) return false;
+        if (entity instanceof EntityPlayer && !targets.friendsTarget.getValue() && Slack.getInstance().getFriendManager().isFriend((EntityPlayer) entity)) return false;
         if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) return false;
         return true;
     }

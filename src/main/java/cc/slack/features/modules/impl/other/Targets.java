@@ -17,8 +17,9 @@ public class Targets extends Module {
     public final BooleanValue playerTarget = new BooleanValue("Players", true);
     public final BooleanValue animalTarget = new BooleanValue("Animals", false);
     public final BooleanValue mobsTarget = new BooleanValue("Mobs", false);
+    public final BooleanValue friendsTarget = new BooleanValue("Friends", false);
 
     public Targets() {
-        addSettings(teams, playerTarget, animalTarget, mobsTarget);
+        addSettings(teams, playerTarget, animalTarget, mobsTarget, friendsTarget);
     }
 }
