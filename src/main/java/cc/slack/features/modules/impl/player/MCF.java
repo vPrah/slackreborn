@@ -28,10 +28,10 @@ public class MCF extends Module {
             Entity entity = mc.getMinecraft().objectMouseOver.entityHit;
             if(Slack.getInstance().getFriendManager().isFriend(entity)) {
                 Slack.getInstance().getFriendManager().removeFriend(entity.getCommandSenderName());
-                PrintUtil.message("Removed §a" + entity.getCommandSenderName() + " §7 as friend");
+                PrintUtil.message("Removed §a" + entity.getCommandSenderName() + " §f as friend");
             } else {
                 Slack.getInstance().getFriendManager().addFriend(entity.getCommandSenderName());
-                PrintUtil.message("Added §a" + entity.getCommandSenderName() + "§7 as friend");
+                PrintUtil.message("Added §a" + entity.getCommandSenderName() + "§f as friend");
             }
             timer.reset();
         }
