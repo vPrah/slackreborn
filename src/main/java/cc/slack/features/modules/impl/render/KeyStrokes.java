@@ -64,24 +64,26 @@ public class KeyStrokes extends Module {
 
         for (int i = 0; i < 5; i++) {
             KeyBinding k = binds.get(i);
-            if (GameSettings.isKeyDown(k)) {
-                if (!enabled.get(i)) {
-                    downTime.get(i).reset();
-                    enabled.remove(i);
-                    enabled.add(i, true);
+            if (mc.getCurrentScreen() == null)
+                if (GameSettings.isKeyDown(k)) {
+                    if (!enabled.get(i)) {
+                        downTime.get(i).reset();
+                        enabled.remove(i);
+                        enabled.add(i, true);
+                    }
+                } else {
+                    if (enabled.get(i)) {
+                        upTime.get(i).reset();
+                        enabled.remove(i);
+                        enabled.add(i, false);
+                    }
                 }
-            } else {
-                if (enabled.get(i)) {
-                    upTime.get(i).reset();
-                    enabled.remove(i);
-                    enabled.add(i, false);
-                }
-            }
         }
 
-        c = new Color(40, 40, 40, 80);
+        c = new Color(40, 40, 40, 90);
         if (clientTheme.getValue()) {
             c = ColorUtil.getColor();
+            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 90);
         }
 
         litteSquare(0, 0, 1f);

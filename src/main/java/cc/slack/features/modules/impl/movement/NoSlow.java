@@ -28,7 +28,7 @@ import net.minecraft.util.EnumFacing;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Vanilla", "NCP Latest", "Hypixel", "Hypixel Eat", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Vanilla", "NCP Latest", "Hypixel", "Hypixel New", "Switch", "Place", "C08 Tick"});
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
@@ -83,19 +83,23 @@ public class NoSlow extends Module {
                         fMultiplier = forwardMultiplier.getValue();
                         sMultiplier = strafeMultiplier.getValue();
                         if (mc.getPlayer().isUsingItem() && mc.getPlayer().isBlocking() && mc.getPlayer().ticksExisted % 3 != 0) {
-                            PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                            PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.DOWN.getIndex(), null, 0.0f, 1.0f, 0.0f));
                         }
                     } else {
                         if (mc.getPlayer().isUsingItem() && !mc.getPlayer().isBlocking() && mc.getPlayer().ticksExisted % 3 == 0) {
-                            PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
+                            PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.DOWN.getIndex(), null, 0.0f, 1.0f, 0.0f));
                         }
                         fMultiplier = forwardMultiplier.getValue();
                         sMultiplier = strafeMultiplier.getValue();
                     }
                     break;
                 }
-                case "hypixel eat":
-                    if (mc.getPlayer().isUsingItem() && !mc.getPlayer().isBlocking() && mc.getPlayer().ticksExisted % 3 == 0) {
+                case "hypixel new":
+                    if (mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword) {
+                        if (mc.getPlayer().ticksExisted % 3 == 0) {
+                            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
+                        }
+                    } else if (mc.getPlayer().isUsingItem() && !mc.getPlayer().isBlocking() && mc.getPlayer().ticksExisted % 3 == 0) {
                         PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
                     }
                     fMultiplier = forwardMultiplier.getValue();
