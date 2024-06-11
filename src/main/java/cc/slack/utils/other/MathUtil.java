@@ -1,5 +1,8 @@
 package cc.slack.utils.other;
 
+import cc.slack.utils.client.mc;
+import net.minecraft.util.Vec3;
+
 import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
@@ -24,6 +27,17 @@ public class MathUtil {
         BigDecimal bd = new BigDecimal(value);
         bd = bd.setScale(places, RoundingMode.HALF_UP);
         return bd.doubleValue();
+    }
+
+    public static float[] getRotations(double x, double y, double z) {
+        Vec3 lookVec = mc.getPlayer().getPositionEyes(1.0F);
+        double dx = lookVec.xCoord - x;
+        double dz = lookVec.zCoord - z;
+        double dy = lookVec.yCoord - y;
+        double dist = Math.sqrt(dx * dx + dz * dz);
+        double yaw = Math.toDegrees(Math.atan2(dz, dx));
+        double pitch = Math.toDegrees(Math.atan2(dy, dist));
+        return new float[]{(float)yaw + 90.0F, (float)pitch};
     }
 
     public static double getRandomInRange(double min, double max) {

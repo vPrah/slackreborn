@@ -1,12 +1,16 @@
 package cc.slack.features.friends;
 
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class FriendManager {
     private final ArrayList<String> friends;
+    public final List<String> targetList = new ArrayList();
+
 
     public FriendManager() {
         this.friends = new ArrayList<>();
@@ -28,4 +32,7 @@ public class FriendManager {
         return entity instanceof EntityPlayer && friends.contains(entity.getCommandSenderName());
     }
 
+    public boolean isTarget(EntityLivingBase entity) {
+        return this.targetList.contains(entity.getCommandSenderName()) || this.targetList.contains(entity.getDisplayName().getUnformattedText());
+    }
 }
