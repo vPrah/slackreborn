@@ -6,7 +6,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.impl.render.ChestESP;
-import cc.slack.features.modules.impl.ghost.BasicESP;
+import cc.slack.features.modules.impl.render.BasicESP;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.TargetHUD;
 import net.minecraft.client.Minecraft;
