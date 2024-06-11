@@ -46,6 +46,7 @@ public class ModuleManager {
                     new Step(),
                     new Sprint(),
                     new Strafe(),
+                    new TargetStrafe(),
                     new Jesus(),
                     new NoWeb(),
 
