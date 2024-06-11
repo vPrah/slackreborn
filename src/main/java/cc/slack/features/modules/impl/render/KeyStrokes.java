@@ -42,6 +42,8 @@ public class KeyStrokes extends Module {
     private ArrayList<TimeUtil> upTime = new ArrayList<>(5);
     private ArrayList<KeyBinding> binds = new ArrayList<>(5);
 
+    private Color c = new Color(40, 40, 40, 80);
+
     @Listen
     public void onRender(RenderEvent event) {
         if (event.getState() != RenderEvent.State.RENDER_2D) return;
@@ -77,7 +79,7 @@ public class KeyStrokes extends Module {
             }
         }
 
-        Color c = new Color(40, 40, 40, 80);
+        c = new Color(40, 40, 40, 80);
         if (clientTheme.getValue()) {
             c = ColorUtil.getColor();
         }
@@ -116,7 +118,6 @@ public class KeyStrokes extends Module {
     }
 
     private void litteSquare(int x, int y, float scale) {
-        Color c = new Color(40, 40, 40, 80);
         RenderUtil.drawRoundedRect(
                 (float) posX + x - 15 * scale,
                 (float) posY + y - 15 * scale,
@@ -127,7 +128,6 @@ public class KeyStrokes extends Module {
     }
 
     private void spaceBar (int x, int y, float scale) {
-        Color c = new Color(40, 40, 40, 80);
         RenderUtil.drawRoundedRect(
                 (float) posX + x - 20 - 30 * scale,
                 (float) posY + y - 1 - 14 * scale,
