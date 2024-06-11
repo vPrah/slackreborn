@@ -6,6 +6,7 @@ import cc.slack.events.impl.input.KeyEvent;
 import cc.slack.features.commands.CMDManager;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.config.configManager;
+import cc.slack.features.friends.FriendManager;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.movement.Sprint;
 import cc.slack.features.modules.impl.other.RichPresence;
@@ -40,6 +41,7 @@ public class Slack {
 
     private final ModuleManager moduleManager = new ModuleManager();
     private final CMDManager cmdManager = new CMDManager();
+    private FriendManager friendManager;
 
     public final String[] changelog = new String[]{"Release v1.0:", "-Added all modules (56)", "-Added SexModule"};
 
@@ -62,6 +64,7 @@ public class Slack {
         cmdManager.initialize();
         configManager.init();
         AccountManager.start();
+        friendManager = new FriendManager();
 
 
         // Default Modules
@@ -123,6 +126,10 @@ public class Slack {
 
             PrintUtil.message("\"" + message + "\" is not a recognized command. Use §c.help §fto get other commands.");
         }
+    }
+
+    public FriendManager getFriendManager() {
+        return friendManager;
     }
 
     public enum NotificationStyle {
