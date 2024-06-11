@@ -48,6 +48,8 @@ public class HUD extends Module {
 
 	private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
 
+	private final BooleanValue itemSpoofDraw = new BooleanValue("ItemSpoof indicator", true);
+
 	public final BooleanValue sound = new BooleanValue("Toggle Sound", false);
 
 	public final ModeValue<ColorUtil.themeStyles> theme = new ModeValue<>("Client Theme", ColorUtil.themeStyles.values());
@@ -61,6 +63,7 @@ public class HUD extends Module {
 	public final NumberValue<Integer> b2 = new NumberValue<>("Custom End B", 255, 0, 255, 5);
 
 	private int scaffoldTicks = 0;
+	private int itemSpoofTicks = 0;
 	private String displayString = " ";
 	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
 	private ArrayList<String> notText = new ArrayList<>();
@@ -70,7 +73,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, sound, binds, theme, r1, g1, b1, r2, g2, b2);
+		addSettings(arraylistModes, watermarksmodes, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, sound, binds, theme, r1, g1, b1, r2, g2, b2);
 	}
 
 	@Listen
@@ -159,6 +162,34 @@ public class HUD extends Module {
 							sr.getScaledHeight() * 3f / 4F + Fonts.apple18.getHeight() + 3.5f - y,
 							2, 0x80000000);
 					Fonts.apple18.drawStringWithShadow(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
+				}
+			}
+		}
+
+		if (itemSpoofDraw.getValue()) {
+			if (ItemSpoofUtil.isEnabled) {
+				if (itemSpoofTicks < 10)
+					itemSpoofTicks++;
+			} else {
+				if (itemSpoofTicks > 0)
+					itemSpoofTicks--;
+			}
+
+			if (itemSpoofTicks != 0) {
+				ScaledResolution sr = mc.getScaledResolution();
+				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+					int y = (int) ((1 - Math.pow(1 - (itemSpoofTicks / 10.0), 3)) * 20);
+					RenderUtil.drawRoundedRect(
+							((sr.getScaledWidth() -  30) / 2f),
+							sr.getScaledHeight() * 5f / 6F - 15f - y,
+							((sr.getScaledWidth() + 30) / 2f),
+							sr.getScaledHeight() * 5f / 6F + 15f - y,
+							2, 0x80000000);
+					RenderUtil.drawItem(
+						mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack(),
+						sr.getScaledWidth()/2,
+						sr.getScaledHeight()*5/6
+						);
 				}
 			}
 		}
