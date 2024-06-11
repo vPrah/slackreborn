@@ -28,9 +28,7 @@ import java.util.Iterator;
 public class Radar extends Module {
 
     private final NumberValue<Float> xValue = new NumberValue<>("Pos X", 8.0F, 1.0F, 300.0F, 1F);
-
     private final NumberValue<Float> yValue = new NumberValue<>("Pos Y", 178F, 1.0F, 300.0F, 1F);
-
     private final NumberValue<Float> scaleValue = new NumberValue<>("Scale", 11.5F, 1.0F, 30.0F, 0.1F);
     private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 
