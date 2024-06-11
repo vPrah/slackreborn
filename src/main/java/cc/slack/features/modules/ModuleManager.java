@@ -69,6 +69,7 @@ public class ModuleManager {
                     new FastEat(),
                     new FreeLook(),
                     new FreeCam(),
+                    new MCF(),
                     new TimerModule(),
 
                     // World
@@ -104,8 +105,10 @@ public class ModuleManager {
                     new ChinaHat(),
                     new Chams(),
                     new ChestESP(),
+                    new Camera(),
                     new ItemPhysics(),
                     new Spider(),
+                    new Radar(),
                     new Bobbing(),
                     new Tracers(),
                     new Projectiles(),
@@ -140,10 +143,14 @@ public class ModuleManager {
                     new AutoLogin(),
                     new AutoPot(),
                     new AntiStaff(),
+                    new AntiLava(),
+                    new AntiCactus(),
+                    new AntiHunger(),
                     new AntiAfk(),
                     new FakePlayer(),
                     new NameProtect(),
                     new HealthWarn(),
+                    new TNTHelper(),
                     new LegitMode(),
                     new LagbackChecker(),
                     new PacketDebugger()
