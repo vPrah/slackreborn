@@ -16,6 +16,7 @@ import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.player.ItemSpoofUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
@@ -166,33 +167,33 @@ public class HUD extends Module {
 			}
 		}
 
-		if (itemSpoofDraw.getValue()) {
-			if (ItemSpoofUtil.isEnabled) {
-				if (itemSpoofTicks < 10)
-					itemSpoofTicks++;
-			} else {
-				if (itemSpoofTicks > 0)
-					itemSpoofTicks--;
-			}
-
-			if (itemSpoofTicks != 0) {
-				ScaledResolution sr = mc.getScaledResolution();
-				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-					int y = (int) ((1 - Math.pow(1 - (itemSpoofTicks / 10.0), 3)) * 20);
-					RenderUtil.drawRoundedRect(
-							((sr.getScaledWidth() -  30) / 2f),
-							sr.getScaledHeight() * 5f / 6F - 15f - y,
-							((sr.getScaledWidth() + 30) / 2f),
-							sr.getScaledHeight() * 5f / 6F + 15f - y,
-							2, 0x80000000);
-					RenderUtil.drawItem(
-						mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack(),
-						sr.getScaledWidth()/2,
-						sr.getScaledHeight()*5/6
-						);
-				}
-			}
-		}
+//		if (itemSpoofDraw.getValue()) {
+//			if (ItemSpoofUtil.isEnabled) {
+//				if (itemSpoofTicks < 10)
+//					itemSpoofTicks++;
+//			} else {
+//				if (itemSpoofTicks > 0)
+//					itemSpoofTicks--;
+//			}
+//
+//			if (itemSpoofTicks != 0) {
+//				ScaledResolution sr = mc.getScaledResolution();
+//				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+//					int y = (int) ((1 - Math.pow(1 - (itemSpoofTicks / 10.0), 3)) * 20);
+//					RenderUtil.drawRoundedRect(
+//							((sr.getScaledWidth() -  30) / 2f),
+//							sr.getScaledHeight() * 5f / 6F - 15f - y,
+//							((sr.getScaledWidth() + 30) / 2f),
+//							sr.getScaledHeight() * 5f / 6F + 15f - y,
+//							2, 0x80000000);
+//					RenderUtil.drawItem(
+//						mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack(),
+//						sr.getScaledWidth()/2,
+//						sr.getScaledHeight()*5/6
+//						);
+//				}
+//			}
+//		}
 
 		if (notification.getValue()) {
 			int y = mc.getScaledResolution().getScaledHeight() - 10;

@@ -30,7 +30,7 @@ public class KeyStrokes extends Module {
 
     private BooleanValue clientTheme = new BooleanValue("Client Theme", true);
 
-    public KetStrokes() {
+    public KeyStrokes() {
         addSettings(clientTheme);
     }
 
@@ -116,6 +116,7 @@ public class KeyStrokes extends Module {
     }
 
     private void litteSquare(int x, int y, float scale) {
+        Color c = new Color(40, 40, 40, 80);
         RenderUtil.drawRoundedRect(
                 (float) posX + x - 15 * scale,
                 (float) posY + y - 15 * scale,
@@ -126,6 +127,7 @@ public class KeyStrokes extends Module {
     }
 
     private void spaceBar (int x, int y, float scale) {
+        Color c = new Color(40, 40, 40, 80);
         RenderUtil.drawRoundedRect(
                 (float) posX + x - 20 - 30 * scale,
                 (float) posY + y - 1 - 14 * scale,

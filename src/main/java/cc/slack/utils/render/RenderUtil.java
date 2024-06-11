@@ -627,47 +627,43 @@ public final class RenderUtil extends mc {
             }
             int armorX = x - ((items.size() * 18) / 2);
             for (ItemStack stack : items) {
-                drawItem(stack, armorX, y);
+                GlStateManager.pushMatrix();
+                GlStateManager.enableLighting();
+                mc.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(stack, armorX, y);
+                mc.getMinecraft().getRenderItem().renderItemOverlays(mc.getFontRenderer(), stack, armorX, y);
+                GlStateManager.disableLighting();
+                GlStateManager.popMatrix();
+                GlStateManager.disableDepth();
+                NBTTagList enchants = stack.getEnchantmentTagList();
+                GlStateManager.pushMatrix();
+                GlStateManager.scale(size, size, size);
+                if (stack.getItem() == Items.golden_apple && stack.getMetadata() == 1) {
+                    mc.getFontRenderer().drawString("op", armorX / size, y / size, 0xFFFF0000, true);
+                }
+                Enchantment[] important = new Enchantment[]{Enchantment.protection, Enchantment.sharpness, Enchantment.fireAspect, Enchantment.efficiency, Enchantment.power, Enchantment.flame};
+                if (enchants != null) {
+                    int ency = y + 8;
+                    for (int index = 0; index < enchants.tagCount(); ++index) {
+                        short id = enchants.getCompoundTagAt(index).getShort("id");
+                        short level = enchants.getCompoundTagAt(index).getShort("lvl");
+                        Enchantment enc = Enchantment.getEnchantmentById(id);
+                        for (Enchantment importantEnchantment : important) {
+                            if (enc == importantEnchantment) {
+                                String encName = enc.getTranslatedName(level).substring(0, 1).toLowerCase();
+                                if (level > 99) encName = encName + "99+";
+                                else encName = encName + level;
+                                mc.getFontRenderer().drawString(encName, armorX / size + 4, ency / size, 0xDDD1E6, true);
+                                ency -= 5;
+                                break;
+                            }
+                        }
+                    }
+                }
+                GlStateManager.enableDepth();
+                GlStateManager.popMatrix();
                 armorX += 18;
             }
         }
-    }
-
-    public static void drawItem(ItemStack stack, int x, int y) {
-        GlStateManager.pushMatrix();
-        GlStateManager.enableLighting();
-        mc.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(stack, x, y);
-        mc.getMinecraft().getRenderItem().renderItemOverlays(mc.getFontRenderer(), stack, x, y);
-        GlStateManager.disableLighting();
-        GlStateManager.popMatrix();
-        GlStateManager.disableDepth();
-        NBTTagList enchants = stack.getEnchantmentTagList();
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(size, size, size);
-        if (stack.getItem() == Items.golden_apple && stack.getMetadata() == 1) {
-            mc.getFontRenderer().drawString("op", x / size, y / size, 0xFFFF0000, true);
-        }
-        Enchantment[] important = new Enchantment[]{Enchantment.protection, Enchantment.sharpness, Enchantment.fireAspect, Enchantment.efficiency, Enchantment.power, Enchantment.flame};
-        if (enchants != null) {
-            int ency = y + 8;
-            for (int index = 0; index < enchants.tagCount(); ++index) {
-                short id = enchants.getCompoundTagAt(index).getShort("id");
-                short level = enchants.getCompoundTagAt(index).getShort("lvl");
-                Enchantment enc = Enchantment.getEnchantmentById(id);
-                for (Enchantment importantEnchantment : important) {
-                    if (enc == importantEnchantment) {
-                        String encName = enc.getTranslatedName(level).substring(0, 1).toLowerCase();
-                        if (level > 99) encName = encName + "99+";
-                        else encName = encName + level;
-                        mc.getFontRenderer().drawString(encName,x / size + 4, ency / size, 0xDDD1E6, true);
-                        ency -= 5;
-                        break;
-                    }
-                }
-            }
-        }
-        GlStateManager.enableDepth();
-        GlStateManager.popMatrix();
     }
 
     public static Vector4d getProjectedEntity(EntityPlayer ent, double partialTicks) {
