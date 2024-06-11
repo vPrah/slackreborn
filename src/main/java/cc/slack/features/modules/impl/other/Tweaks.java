@@ -28,7 +28,6 @@ public class Tweaks extends Module {
     public final BooleanValue nojumpdelay = new BooleanValue("No Jump Delay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("Jump Delay Ticks", 0, 0, 10, 1);
     public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
-    public final BooleanValue nohurtcam = new BooleanValue("No Hurt Cam", false);
     public BooleanValue noSkinValue = new BooleanValue("No Render Skins", false);
     public BooleanValue noTickInvisValue = new BooleanValue("Don't Tick invisibles", false);
     public final BooleanValue noExpBar = new BooleanValue("No XP Bar", false);
@@ -46,7 +45,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noblockhitdelay, noclickdelay, nohurtcam, noSkinValue, noTickInvisValue, noExpBar, noChatBack, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, noSkinValue, noTickInvisValue, noExpBar, noChatBack, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
     }
 
     @Override
@@ -77,6 +76,7 @@ public class Tweaks extends Module {
         if (noclickdelay.getValue()) mc.getMinecraft().leftClickCounter = 0;
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onTick (TickEvent event) {
         if (Slack.getInstance().getModuleManager().getInstance(RichPresence.class).started.get()) {
