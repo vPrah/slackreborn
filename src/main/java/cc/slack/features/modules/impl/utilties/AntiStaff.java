@@ -111,4 +111,7 @@ public class AntiStaff extends Module {
         }
     }
 
+    @Override
+    public String getMode() { return serverMode.getValue(); }
+
 }
