@@ -165,7 +165,7 @@ public class KillAura extends Module {
         
         if (queuedAttacks == 0) return;
         
-        if (mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue() || isBlocking)
+        if (isBlocking)
             if (preAttack()) return;
 
         while (queuedAttacks > 0) {
@@ -243,8 +243,8 @@ public class KillAura extends Module {
                             case 4:
                                 block();
                                 if (!BlinkUtil.isEnabled)
-                                    BlinkUtil.enable(false, true);
-                                BlinkUtil.setConfig(false, true);
+                                    BlinkUtil.enable(true, true);
+                                BlinkUtil.setConfig(true, true);
                                 BlinkUtil.releasePackets();
                                 wasBlink = true;
                                 return true;
@@ -277,6 +277,7 @@ public class KillAura extends Module {
                 if (isBlocking) {
                     PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
                     PacketUtil.send(new C0DPacketCloseWindow());
+                    queuedAttacks = 1;
                 }
                 isBlocking = false;
                 break;
