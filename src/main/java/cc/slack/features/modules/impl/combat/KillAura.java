@@ -347,7 +347,7 @@ public class KillAura extends Module {
         EntityLivingBase targetEntity = rayCastedEntity == null ? target : rayCastedEntity;
         if (interact) {
             PacketUtil.send(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
-            PacketUtil.send(new C02PacketUseEntity(targetEntity, new Vec3(0,0,0)));
+            // PacketUtil.send(new C02PacketUseEntity(targetEntity, new Vec3(0,0,0)));
         }
         PacketUtil.sendBlocking(true, false);
         isBlocking = true;
