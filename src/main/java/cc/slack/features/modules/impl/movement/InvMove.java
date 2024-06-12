@@ -17,6 +17,7 @@ import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.network.play.client.C0DPacketCloseWindow;
 import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.network.play.client.C16PacketClientStatus;
+import net.minecraft.potion.Potion;
 
 @ModuleInfo(
         name = "InvMove",
@@ -40,7 +41,7 @@ public class InvMove extends Module {
             RotationUtil.updateStrafeFixBinds();
         }
         if (mc.getCurrentScreen() instanceof GuiInventory && hypixelTest.getValue()) {
-            if (mc.getPlayer().ticksExisted % 4 == 0) {
+            if (mc.getPlayer().ticksExisted % (mc.getPlayer().isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             }

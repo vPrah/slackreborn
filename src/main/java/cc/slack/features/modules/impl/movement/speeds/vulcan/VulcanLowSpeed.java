@@ -21,7 +21,7 @@ public class VulcanLowSpeed implements ISpeed {
     public void onUpdate(UpdateEvent event) {
         if (mc.getPlayer().onGround && MovementUtil.isMoving()) {
             mc.getPlayer().jump();
-            MovementUtil.strafe(0.47f);
+            MovementUtil.strafe(0.46f);
 
             launchY = mc.getPlayer().posY;
         } else if(mc.getPlayer().motionY > 0.2) {

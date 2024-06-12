@@ -50,6 +50,9 @@ public class NoSlow extends Module {
         if (mc.getPlayer().getHeldItem() == null) return;
         if (mc.getPlayer().getHeldItem().item == null) return;
 
+        fMultiplier = forwardMultiplier.getValue();
+        sMultiplier = strafeMultiplier.getValue();
+
 
         boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
