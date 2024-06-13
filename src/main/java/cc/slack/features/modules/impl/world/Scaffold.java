@@ -73,6 +73,8 @@ public class Scaffold extends Module {
 
     boolean isTowering = false;
 
+    double expand = 0.0;
+
     boolean hasBlock = false;
     float[] blockRotation = new float[] {0f, 0f};
     BlockPos blockPlace = new BlockPos(0,0,0);
@@ -157,6 +159,10 @@ public class Scaffold extends Module {
             RotationUtil.disable();
             return;
         }
+
+        expand = expandAmount.getValue();
+        if (isTowering) expand = towerExpandAmount.getValue();
+
         setSprint();
         updateSameY();
         runFindBlock();
@@ -334,28 +340,36 @@ public class Scaffold extends Module {
                     if (mc.getPlayer().onGround) {
                         jumpGround = mc.getPlayer().posY;
                         mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
-                    }
-                    if (mc.getPlayer().posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
-                        mc.getPlayer().motionY = 0.36;
-                        jumpGround = mc.getPlayer().posY;
+                    } else {
+                        if (mc.getPlayer().posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
+                            mc.getPlayer().motionY = 0.36;
+                            jumpGround = mc.getPlayer().posY;
+                        }
                     }
                     break;
                 case "watchdog":
-                    MovementUtil.strafe(0.40f);
+                    if (!MovementUtil.isBindsMoving()) break;
+                    MovementUtil.resetMotion(false);
                     if (mc.getPlayer().onGround) {
-                        mc.getPlayer().motionY = 0.4191;
+                        jumpGround = mc.getPlayer().posY;
+                        mc.getPlayer().motionY = 0.42;
                     }
-                    switch (mc.getPlayer().offGroundTicks) {
-                        case 1:
-                            mc.getPlayer().motionY = 0.327318;
+
+                    switch ((int) round((mc.getPlayer().posY - jumpGround) * 100)) {
+                        case 42:
+                            mc.getPlayer().motionY = 0.33;
                             break;
-                        case 5:
-                            mc.getPlayer().motionY = -0.05;
+                        case 75:
+                            MovementUtil.spoofNextC03(true);
+                            mc.getPlayer().motionY = 0.25;
                             break;
-                        case 6:
-                            mc.getPlayer().motionY = -1;
+                        case 100:
+                            jumpGround = mc.getPlayer().posY;
+                            mc.getPlayer().motionY = 0.42;
+                            mc.getPlayer().onGround = true;
                             break;
                     }
+                    expand = -1.0;
                     break;
                 case "off":
                     if (mc.getPlayer().onGround) {
@@ -368,13 +382,21 @@ public class Scaffold extends Module {
     }
 
     private void runFindBlock() {
-        double expand = expandAmount.getValue();
-        if (isTowering) expand = towerExpandAmount.getValue();
-        for (double x = 0.0; x <= expand; x += 0.1) {
-            placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
-            placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
-            if (startSearch()) return;
 
+        if (expand > 0) {
+            for (double x = 0.0; x <= expand; x += 0.1) {
+                placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+                placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+                if (startSearch()) return;
+
+            }
+        } else {
+            for (double x = 0.0; x >= expand; x -= 0.1) {
+                placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+                placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+                if (startSearch()) return;
+
+            }
         }
     }
 
