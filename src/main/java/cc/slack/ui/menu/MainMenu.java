@@ -17,7 +17,7 @@ import java.util.List;
 
 import okhttp3.*;
 
-import static cc.slack.utils.client.Login.sha256;
+import cc.slack.utils.client.Login;
 
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
@@ -92,9 +92,6 @@ public class MainMenu extends GuiScreen {
             this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
         } else {
 
-            // hard code
-            this.menuList.add(new MainMenuButton(1124, width/2 - 120, height / 2 + 40, "Dev login"));
-
             this.menuList.add(new MainMenuButton(10, width/2 - 120, height / 2, "Fetch Discord id from clipboard"));
             this.menuList.add(new MainMenuButton(8, width/2 - 120, height / 2 + 85, "Copy Hwid"));
             this.menuList.add(new MainMenuButton(951, width/2 - 120, height / 2 + 60, "Log In"));
@@ -106,19 +103,6 @@ public class MainMenu extends GuiScreen {
     @Override
     protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
         super.actionPerformedMenu(buttonMenu);
-
-        if (buttonMenu.id == 1124) {
-            this.menuList.clear();
-            this.mc.i34 = true;
-            Minecraft.cacheChunkReloader = true;
-
-            this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
-            this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
-            this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
-            this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
-            this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
-            this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
-        }
 
         if (buttonMenu.id == 10) {
             discordId = GuiScreen.getClipboardString();
@@ -150,7 +134,7 @@ public class MainMenu extends GuiScreen {
 
             // hard code dev mode
             discordId = "18571";
-            String re = sha256("true" + discordId);
+            String re = Login.sha256("true" + discordId);
 
             if (Login.isSuccess(discordId, re, hwid)) {
                 idid = hwid;
@@ -165,6 +149,7 @@ public class MainMenu extends GuiScreen {
                 this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
                 this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
                 this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
+                return;
             }
             // hard code dev mode
 
