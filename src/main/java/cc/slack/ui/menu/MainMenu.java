@@ -99,8 +99,8 @@ public class MainMenu extends GuiScreen {
             this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
         } else {
 
-            if (Slack.getInstance().isNoREQHwid())
-                this.menuList.add(new MainMenuButton(1124, width/2 - 120, height / 2 + 40, "Dev login"));
+            // hard code
+            this.menuList.add(new MainMenuButton(1124, width/2 - 120, height / 2 + 40, "Dev login"));
 
             this.menuList.add(new MainMenuButton(10, width/2 - 120, height / 2, "Fetch Discord id from clipboard"));
             this.menuList.add(new MainMenuButton(8, width/2 - 120, height / 2 + 85, "Copy Hwid"));
