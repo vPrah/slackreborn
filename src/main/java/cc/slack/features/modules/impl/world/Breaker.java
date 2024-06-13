@@ -64,6 +64,7 @@ public class Breaker extends Module {
     @Listen
     public void onMotion(MotionEvent event) {
         if (event.getState() == State.POST) return;
+        if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
         if (targetBlock == null) {
             if (switchTimer.hasReached(targetSwitchDelay.getValue())) {
                 findTargetBlock();
