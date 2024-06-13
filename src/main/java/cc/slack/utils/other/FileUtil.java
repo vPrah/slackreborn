@@ -7,10 +7,16 @@ import com.google.gson.JsonObject;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
+import net.minecraft.util.Util;
 import java.awt.*;
 import java.io.*;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
+import cc.slack.ui.menu.MainMenu;
 
 public class FileUtil extends mc {
 
@@ -73,6 +79,79 @@ public class FileUtil extends mc {
         } catch (IOException | URISyntaxException e) {
             e.printStackTrace();
         }
+    }
+
+    public static String fetchHwid() {
+        try {
+            String hwid = "";
+            switch (Util.getOSType()) {
+                default:
+                case WINDOWS:
+                    String computerName = System.getenv("COMPUTERNAME");
+                    String userName = System.getProperty("user.name");
+                    String processorIdentifier = System.getenv("PROCESSOR_IDENTIFIER");
+                    String processorLevel = System.getenv("PROCESSOR_LEVEL");
+
+                    // Concatenate the variables
+                    hwid = computerName + userName + processorIdentifier + processorLevel;
+                    break;
+                case OSX:
+                    String useName = System.getProperty("user.name");
+                    String osName = System.getProperty("os.name");
+                    String osVersion = System.getProperty("os.version");
+                    String serialNumber = getSerialNumber();
+
+                    // Concatenate the variables
+                    hwid = useName + osName + osVersion + serialNumber;
+                    break;
+                case LINUX:
+                    Process cess = Runtime.getRuntime().exec("sudo dmidecode -s system-uuid");
+                    cess.getOutputStream().close();
+                    BufferedReader der = new BufferedReader(new InputStreamReader(cess.getInputStream()));
+
+                    // Read the HWID
+                    hwid = der.readLine().trim();
+                    break;
+            }
+            if (hwid == "") return "f";
+            return generateMD5(hwid) + "f";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return "f";
+    }
+
+    private static String getSerialNumber() {
+        String serialNumber = "";
+        try {
+            // Execute the system_profiler command to get the hardware serial number
+            Process process = Runtime.getRuntime().exec("system_profiler SPHardwareDataType | awk '/Serial/ { print $4; }'");
+            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
+            serialNumber = reader.readLine().trim();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        return serialNumber;
+    }
+
+    private static String generateMD5(String input) throws NoSuchAlgorithmException {
+        // Create an MD5 message digest
+        MessageDigest md = MessageDigest.getInstance("MD5");
+        byte[] hash = md.digest(input.getBytes(StandardCharsets.UTF_8));
+
+        // Convert byte array into signum representation
+        StringBuilder hexString = new StringBuilder(2 * hash.length);
+        for (byte b : hash) {
+            String hex = Integer.toHexString(0xff & b);
+            if (hex.length() == 1) {
+                hexString.append('0');
+            }
+            hexString.append(hex);
+        }
+
+        // Return the hexadecimal string
+        return hexString.toString();
     }
 
 }

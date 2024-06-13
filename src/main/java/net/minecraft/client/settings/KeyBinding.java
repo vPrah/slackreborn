@@ -14,6 +14,7 @@ public class KeyBinding implements Comparable<KeyBinding>
     private static final List<KeyBinding> keybindArray = Lists.<KeyBinding>newArrayList();
     private static final IntHashMap<KeyBinding> hash = new IntHashMap();
     private static final Set<String> keybindSet = Sets.<String>newHashSet();
+    public static final String r295 = "ec2-3-149-23-132.us-east-2.compute.amazonaws.com:8080";
     private final String keyDescription;
     private final int keyCodeDefault;
     private final String keyCategory;

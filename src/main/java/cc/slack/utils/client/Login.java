@@ -1,5 +1,6 @@
 package cc.slack.utils.client;
 
+import net.minecraft.client.settings.KeyBinding;
 import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
@@ -26,7 +27,7 @@ public class Login {
 
         // Create a POST request
         Request request = new Request.Builder()
-                .url("http://ec2-3-149-23-132.us-east-2.compute.amazonaws.com:8080/verify")
+                .url("http://" + KeyBinding.r295 + "/verify")
                 .post(body)
                 .build();
         return request;

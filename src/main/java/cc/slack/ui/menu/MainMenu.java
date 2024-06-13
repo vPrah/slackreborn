@@ -1,27 +1,17 @@
 package cc.slack.ui.menu;
 
-import cc.slack.Slack;
-import cc.slack.ui.alt.GuiAltLogin;
 import cc.slack.ui.altmanager.gui.GuiAccountManager;
-import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.client.Login;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
-import cc.slack.utils.other.MathUtil;
+import cc.slack.utils.other.FileUtil;
 import cc.slack.utils.other.TimeUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Util;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -134,11 +124,11 @@ public class MainMenu extends GuiScreen {
         }
 
         if (buttonMenu.id == 8) {
-            if (fetchHwid() == "f") {
+            if (FileUtil.fetchHwid() == "f") {
                 setMsg("Failed to fetch hwid");
                 return;
             }
-            GuiScreen.setClipboardString(fetchHwid());
+            GuiScreen.setClipboardString(FileUtil.fetchHwid());
         }
 
         if (buttonMenu.id == 951) {
@@ -148,7 +138,7 @@ public class MainMenu extends GuiScreen {
                 return;
             }
 
-            String hwid = fetchHwid();
+            String hwid = FileUtil.fetchHwid();
 
             if (hwid == "f") {
                 setMsg("Could not grab Hwid to verify. Please open a ticket.");
@@ -217,84 +207,9 @@ public class MainMenu extends GuiScreen {
         }
     }
 
-    private String fetchHwid() {
-        try {
-            String hwid = "";
-            switch (Util.getOSType()) {
-                default:
-                case WINDOWS:
-                    String computerName = System.getenv("COMPUTERNAME");
-                    String userName = System.getProperty("user.name");
-                    String processorIdentifier = System.getenv("PROCESSOR_IDENTIFIER");
-                    String processorLevel = System.getenv("PROCESSOR_LEVEL");
-
-                    // Concatenate the variables
-                    hwid = computerName + userName + processorIdentifier + processorLevel;
-                    break;
-                case OSX:
-                    String useName = System.getProperty("user.name");
-                    String osName = System.getProperty("os.name");
-                    String osVersion = System.getProperty("os.version");
-                    String serialNumber = getSerialNumber();
-
-                    // Concatenate the variables
-                    hwid = useName + osName + osVersion + serialNumber;
-                    break;
-                case LINUX:
-                    Process cess = Runtime.getRuntime().exec("sudo dmidecode -s system-uuid");
-                    cess.getOutputStream().close();
-                    BufferedReader der = new BufferedReader(new InputStreamReader(cess.getInputStream()));
-
-                    // Read the HWID
-                    hwid = der.readLine().trim();
-                    break;
-            }
-            if (hwid == "") return "f";
-            return generateMD5(hwid) + "f";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        dmTimer.reset();
-        debugMessage = "Failed to fetch Hwid. Please open a ticket.";
-
-        return "f";
-    }
 
     private void setMsg(String m) {
         dmTimer.reset();
         debugMessage = m;
-    }
-
-    private static String getSerialNumber() {
-        String serialNumber = "";
-        try {
-            // Execute the system_profiler command to get the hardware serial number
-            Process process = Runtime.getRuntime().exec("system_profiler SPHardwareDataType | awk '/Serial/ { print $4; }'");
-            BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
-            serialNumber = reader.readLine().trim();
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-        return serialNumber;
-    }
-
-    private static String generateMD5(String input) throws NoSuchAlgorithmException {
-        // Create an MD5 message digest
-        MessageDigest md = MessageDigest.getInstance("MD5");
-        byte[] hash = md.digest(input.getBytes(StandardCharsets.UTF_8));
-
-        // Convert byte array into signum representation
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
-        }
-
-        // Return the hexadecimal string
-        return hexString.toString();
     }
 }
