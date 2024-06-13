@@ -53,11 +53,6 @@ public class Slack {
         PrintUtil.print("Initializing " + info.getName());
         Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build");
 
-        // hardcode dev mode
-        Minecraft.cacheChunkReloader = true;
-        Minecraft.getMinecraft().i34 = true;
-
-
         EventUtil.register(this);
         moduleManager.initialize();
         cmdManager.initialize();
