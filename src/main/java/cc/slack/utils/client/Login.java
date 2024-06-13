@@ -12,7 +12,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class Login {
 
+    public static String pj423j;
+    public static String yeu13;
+
     public static Boolean isSuccess(String discordId, String response, String hwid) {
+        pj423j = response;
+        yeu13 = discordId;
         return response.contains(sha256("true" + discordId));
     }
     public static Request sendReq(OkHttpClient client, String hwid, String discordId) {

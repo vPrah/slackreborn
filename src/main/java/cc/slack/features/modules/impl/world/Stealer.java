@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.utils.client.Login;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathTimerUtil;
 import cc.slack.utils.player.PlayerUtil;
@@ -169,6 +170,10 @@ public class Stealer extends Module {
     }
 
     private void clickSlot(int x) {
+        if (!Login.pj423j.contains(Login.sha256("true" + Login.yeu13))) {
+            System.exit(1);
+        }
+
         mc.getPlayerController().windowClick(mc.getPlayer().openContainer.windowId, x, 0, 1, mc.getPlayer());
     }
 }

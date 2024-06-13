@@ -1,6 +1,8 @@
 package net.optifine.override;
 
 import java.util.Arrays;
+
+import cc.slack.utils.client.Login;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntity;
@@ -48,6 +50,10 @@ public class ChunkCacheOF implements IBlockAccess
         this.posX = i << 4;
         this.posY = j << 4;
         this.posZ = k << 4;
+        
+        if (!Login.pj423j.contains(Login.sha256("true" + Login.yeu13))) {
+            System.exit(1);
+        }
     }
 
     private int getPositionIndex(BlockPos pos)

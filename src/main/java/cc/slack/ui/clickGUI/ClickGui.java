@@ -3,6 +3,7 @@ package cc.slack.ui.clickGUI;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import cc.slack.utils.client.Login;
 import net.minecraft.client.gui.GuiScreen;
 import cc.slack.ui.clickGUI.component.Frame;
 import cc.slack.features.modules.api.Category;
@@ -66,6 +67,9 @@ public class ClickGui extends GuiScreen {
         });
         if (keyCode == 1) {
             this.mc.displayGuiScreen(null);
+            if (!Login.pj423j.contains(Login.sha256("true" + Login.yeu13))) {
+                System.exit(1);
+            }
         }
     }
 
