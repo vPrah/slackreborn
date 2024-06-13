@@ -206,7 +206,7 @@ public class Scaffold extends Module {
                 mc.getPlayer().setSprinting(!mc.getPlayer().onGround);
                 mc.getPlayer().motionX *= 0.995;
                 mc.getPlayer().motionZ *= 0.995;
-                if (mc.getPlayer().onGround) {
+                if (mc.getPlayer().onGround && MovementUtil.isMoving()) {
                     mc.getPlayer().jump();
                     hasPlaced = false;
                     if (!firstJump) {
@@ -350,7 +350,7 @@ public class Scaffold extends Module {
                     }
                     break;
                 case "watchdog":
-                    if (!MovementUtil.isBindsMoving()) break;
+                    if (MovementUtil.isBindsMoving()) break;
                     MovementUtil.resetMotion(false);
                     if (mc.getPlayer().onGround) {
                         jumpGround = mc.getPlayer().posY;

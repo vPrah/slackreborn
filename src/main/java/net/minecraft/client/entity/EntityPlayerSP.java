@@ -300,7 +300,10 @@ public class EntityPlayerSP extends AbstractClientPlayer
             boolean flag2 = d0 * d0 + d1 * d1 + d2 * d2 > 9.0E-4D || this.positionUpdateTicks >= 20;
             boolean flag3 = d3 != 0.0D || d4 != 0.0D;
             boolean isGround = event.isGround();
-            if (MovementUtil.waitingSpoof) isGround = MovementUtil.nextSpoof;
+            if (MovementUtil.waitingSpoof) {
+                isGround = MovementUtil.nextSpoof;
+                MovementUtil.waitingSpoof = false;
+            }
 
             if (this.ridingEntity == null)
             {
