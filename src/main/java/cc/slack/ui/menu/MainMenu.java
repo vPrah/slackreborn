@@ -26,7 +26,8 @@ public class MainMenu extends GuiScreen {
     String debugMessage = "";
     TimeUtil dmTimer = new TimeUtil();
 
-    String discordId = "";
+    public static String discordId = "";
+    public static String idid = "";
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
@@ -156,6 +157,7 @@ public class MainMenu extends GuiScreen {
                     String resp = response.body().string();
 
                     if (Login.isSuccess(discordId, resp, hwid)) {
+                        idid = hwid;
                         setMsg("Login Successful");
                     } else {
                         setMsg("Credentials didn't match. " + resp);

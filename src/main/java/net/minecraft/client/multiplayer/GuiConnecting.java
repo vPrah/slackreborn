@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
+
+import cc.slack.ui.menu.MainMenu;
+import cc.slack.utils.client.Login;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;
@@ -16,6 +19,9 @@ import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,6 +29,7 @@ public class GuiConnecting extends GuiScreen
 {
     private static final AtomicInteger CONNECTION_ID = new AtomicInteger(0);
     private static final Logger logger = LogManager.getLogger();
+    private static int connectNum = 0;
     private NetworkManager networkManager;
     private boolean cancel;
     private final GuiScreen previousGuiScreen;
@@ -61,11 +68,35 @@ public class GuiConnecting extends GuiScreen
                         return;
                     }
 
+                    if (connectNum % 5 == 0) {
+
+                        OkHttpClient client = new OkHttpClient();
+                        Request request = Login.sendReq(client, MainMenu.idid, MainMenu.discordId);
+
+                        // Execute the request
+                        try {
+                            Response response = client.newCall(request).execute();
+                            if (response.isSuccessful()) {
+                                String resp = response.body().string();
+
+                                if (!resp.contains(Login.sha256("true" + MainMenu.idid))) {
+                                    System.exit(69);
+                                }
+                            } else {
+                                return;
+                            }
+                        } catch (IOException e) {
+                            return;
+                        }
+                    }
+
                     inetaddress = InetAddress.getByName(ip);
                     GuiConnecting.this.networkManager = NetworkManager.func_181124_a(inetaddress, port, GuiConnecting.this.mc.gameSettings.func_181148_f());
                     GuiConnecting.this.networkManager.setNetHandler(new NetHandlerLoginClient(GuiConnecting.this.networkManager, GuiConnecting.this.mc, GuiConnecting.this.previousGuiScreen));
                     GuiConnecting.this.networkManager.sendPacket(new C00Handshake(47, ip, port, EnumConnectionState.LOGIN));
                     GuiConnecting.this.networkManager.sendPacket(new C00PacketLoginStart(GuiConnecting.this.mc.getSession().getProfile()));
+
+                    connectNum ++;
                 }
                 catch (UnknownHostException unknownhostexception)
                 {
