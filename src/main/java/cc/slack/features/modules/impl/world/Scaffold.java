@@ -30,6 +30,7 @@ import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 import static java.lang.Math.round;
@@ -46,8 +47,9 @@ public class Scaffold extends Module {
     private final NumberValue<Integer> keepRotationTicks = new NumberValue<>("Keep Rotation Length", 1, 0, 10, 1);
     private final ModeValue<String> swingMode = new ModeValue<>("Swing", new String[]{"Normal", "Packet", "None"});
 
-    private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Normal", "Strict", "Off"});
+    private final ModeValue<String> raycastMode = new ModeValue<>("Placement Check", new String[] {"Off", "Normal", "Strict"});
     private final ModeValue<String> placeTiming = new ModeValue<>("Placement Timing", new String[] {"Legit", "Pre", "Post"});
+    private final NumberValue<Integer> searchDistance = new NumberValue<>("Search Distance", 1, 0, 6, 1);
     private final NumberValue<Double> expandAmount = new NumberValue<>("Expand Amount", 0.0, -1.0, 6.0, 0.1);
     private final NumberValue<Double> towerExpandAmount = new NumberValue<>("Tower Expand Amount", 0.0, -1.0, 6.0, 0.1);
 
@@ -93,7 +95,7 @@ public class Scaffold extends Module {
         super();
         addSettings(rotationMode, keepRotationTicks, // rotations
                 swingMode, // Swing Method
-                raycastMode, placeTiming, expandAmount, towerExpandAmount, // placements
+                raycastMode, placeTiming, searchDistance, expandAmount, towerExpandAmount, // placements
                 sprintMode, sameY, speedModifier, safewalkMode, strafeFix, // movements
                 towerMode, towerNoMove, // tower
                 pickMode, spoofSlot // slots
@@ -410,16 +412,17 @@ public class Scaffold extends Module {
         List<BlockPos> searchQueue = new ArrayList<>();
 
         searchQueue.add(below.down());
+        if (searchDistance.getValue() == 0) {
+            searchQueue.add(blockPlace);
+        } else {
+            for (int x = -searchDistance.getValue(); x <= searchDistance.getValue(); x++) {
+                for (int z = -searchDistance.getValue(); z <= searchDistance.getValue(); z++) {
+                    searchQueue.add(below.add(x,0, z));
+                }
+            }
+        }
 
-        searchQueue.add(below.north());
-        searchQueue.add(below.east());
-        searchQueue.add(below.south());
-        searchQueue.add(below.west());
-
-        searchQueue.add(below.north().east());
-        searchQueue.add(below.north().west());
-        searchQueue.add(below.south().east());
-        searchQueue.add(below.south().west());
+        searchQueue.sort(Comparator.comparingDouble(BlockUtils::getScaffoldPriority));
 
         for (int i = 0; i < searchQueue.size(); i++)
         {

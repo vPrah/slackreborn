@@ -100,6 +100,10 @@ public class BlockUtils extends mc {
         return getHorizontalFacingEnum(blockPos, mc.getPlayer().posX, mc.getPlayer().posZ);
     }
 
+    public static double getScaffoldPriority(BlockPos blockPos) {
+        return getCenterDistance(blockPos) + Math.abs(MathHelper.wrapAngleTo180_double(getCenterRotation(blockPos)[0] - (mc.getPlayer().rotationYaw + 180)))/130;
+    }
+
     public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos, double x, double z) {
         double dx = x - (blockPos.getX() + 0.5);
         double dz = z - (blockPos.getZ() + 0.5);
