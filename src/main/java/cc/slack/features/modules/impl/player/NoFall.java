@@ -6,6 +6,7 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -29,6 +30,7 @@ public class NoFall extends Module {
             new NoGroundNofall(),
 
             // special nofalls
+            new HypixelNofall(),
             new HypixelBlinkNofall(),
             new VulcanNofall(),
             new VerusNofall()
@@ -74,6 +76,11 @@ public class NoFall extends Module {
     @Listen
     public void onPacket(PacketEvent event) {
         mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onRender(RenderEvent event) {
+        mode.getValue().onRender(event);
     }
 
     @Override

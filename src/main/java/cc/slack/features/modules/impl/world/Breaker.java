@@ -120,7 +120,6 @@ public class Breaker extends Module {
                         breakingProgress = 0f;
                         Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
                         mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
-                        RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                         mc.getPlayer().swingItem();
                         return;
                     }
@@ -133,11 +132,8 @@ public class Breaker extends Module {
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
                     mc.getPlayerController().updateController();
 
-                    if (breakingProgress > 0.8) {
-                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
-                    }
 
-                    if (breakingProgress >= 0.9) {
+                    if (breakingProgress >= 0.95) {
 
                         RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                         mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));

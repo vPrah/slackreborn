@@ -122,7 +122,7 @@ public class Scaffold extends Module {
     @Listen
     public void onPacket(PacketEvent p) {
         Packet packet = p.getPacket();
-        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.getPlayer().onGround) {
+        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.getPlayer().onGround && MovementUtil.isMoving()) {
             if (mc.getPlayer().ticksExisted % 2 == 0) {
                     ((C03PacketPlayer) packet).y += 0.0001;
                     ((C03PacketPlayer) packet).onGround = false;
@@ -196,18 +196,16 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 mc.getPlayer().setSprinting(!mc.getPlayer().onGround);
-                mc.getPlayer().motionX *= 0.99;
-                mc.getPlayer().motionZ *= 0.99;
+                mc.getPlayer().motionX *= 0.995;
+                mc.getPlayer().motionZ *= 0.995;
                 if (mc.getPlayer().onGround) {
                     mc.getPlayer().jump();
                     hasPlaced = false;
                     if (!firstJump) {
-                        MovementUtil.strafe(0.46f);
-                        mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
+                        MovementUtil.strafe(0.47f);
                     } else {
-                        MovementUtil.resetMotion(false);
+                        MovementUtil.strafe(0.4f);
                         groundY = mc.getPlayer().posY;
-                        mc.getGameSettings().keyBindForward.pressed = false;
                     }
                 }
                 break;
@@ -237,8 +235,8 @@ public class Scaffold extends Module {
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
                 RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
-                if (Math.abs(MathHelper.wrapAngleTo180_double(MovementUtil.getDirection() + 180 - BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0])) > 95) {
-                    RotationUtil.overrideRotation(new float[] {BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[0], 77.5f});
+                if (Math.abs(MathHelper.wrapAngleTo180_double(MovementUtil.getDirection() + 180 - BlockUtils.getCenterRotation(blockPlace)[0])) > 95) {
+                    RotationUtil.overrideRotation(BlockUtils.getFaceRotation(blockPlacementFace, blockPlace));
                     RotationUtil.keepRotationTicks = keepRotationTicks.getValue();
                 }
                 break;

@@ -50,7 +50,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Old Intave", "Hypixel"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Drop"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -273,6 +273,12 @@ public class KillAura extends Module {
                 unblock();
                 isBlocking = false;
                 break;
+            case "drop":
+                if (isBlocking) {
+                    PacketUtil.send(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.DROP_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
+                }
+                isBlocking = false;
+                break;
             case "hypixel":
                 if (isBlocking) {
                     PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
@@ -281,7 +287,7 @@ public class KillAura extends Module {
                 }
                 isBlocking = false;
                 break;
-            case "old intave":
+            case "switch":
                 if (isBlocking) {
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
@@ -303,7 +309,8 @@ public class KillAura extends Module {
             case "hypixel":
                 block(true);
                 break;
-            case "old intave":
+            case "drop":
+            case "switch":
             case "blatant":
             case "vanilla":
                 block();

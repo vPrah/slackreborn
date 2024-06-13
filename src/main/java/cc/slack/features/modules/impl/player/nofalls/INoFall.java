@@ -6,6 +6,7 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.render.RenderEvent;
 
 public interface INoFall {
     default void onEnable() {
@@ -34,6 +35,10 @@ public interface INoFall {
     }
 
     default void onMotion(MotionEvent event) {
+
+    }
+
+    default void onRender(RenderEvent event) {
 
     }
 

@@ -102,16 +102,17 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
             }
             else
             {
+                boolean kab = (clientPlayer.getEntityId() == mc.getPlayer().getEntityId() &&
+                        Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() &&
+                        Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock);
+
                 modelplayer.heldItemRight = 1;
 
-                if (clientPlayer.getItemInUseCount() > 0)
+                if (clientPlayer.getItemInUseCount() > 0 || kab)
                 {
                     EnumAction enumaction = itemstack.getItemUseAction();
 
-                    if (enumaction == EnumAction.BLOCK ||
-                            (clientPlayer.getEntityId() == mc.getPlayer().getEntityId() &&
-                                    Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() &&
-                                    Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock) )
+                    if (enumaction == EnumAction.BLOCK || kab)
                     {
                         modelplayer.heldItemRight = 3;
                     }

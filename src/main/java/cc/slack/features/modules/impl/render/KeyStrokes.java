@@ -80,10 +80,10 @@ public class KeyStrokes extends Module {
                 }
         }
 
-        c = new Color(40, 40, 40, 90);
+        c = new Color(20, 20, 20, 70);
         if (clientTheme.getValue()) {
             c = ColorUtil.getColor();
-            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 90);
+            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 70);
         }
 
         litteSquare(0, 0, 1f);
@@ -91,6 +91,12 @@ public class KeyStrokes extends Module {
         litteSquare(35, 0, 1f);
         litteSquare(0, -35, 1f);
         spaceBar(0, 35, 1f);
+
+        c = new Color(20, 20, 20, 100);
+        if (clientTheme.getValue()) {
+            c = ColorUtil.getColor();
+            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 100);
+        }
 
         litteSquare(0, 0, getScale(2));
         litteSquare(-35, 0, getScale(3));

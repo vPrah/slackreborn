@@ -10,6 +10,9 @@ import net.minecraft.util.MathHelper;
 
 public class MovementUtil extends mc {
 
+    public static boolean waitingSpoof = false;
+    public static boolean nextSpoof = false;
+
     public static void setSpeed(MoveEvent event, double speed) {
         setBaseSpeed(event, speed, getPlayer().rotationYaw, getPlayer().moveForward, getPlayer().moveStrafing);
     }
@@ -227,6 +230,11 @@ public class MovementUtil extends mc {
         mc.getGameSettings().keyBindRight.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindRight);
         mc.getGameSettings().keyBindBack.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindBack);
         mc.getGameSettings().keyBindLeft.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft);
+    }
+
+    public static void spoofNextC03(boolean spoof) {
+        waitingSpoof = true;
+        nextSpoof = spoof;
     }
 
 }

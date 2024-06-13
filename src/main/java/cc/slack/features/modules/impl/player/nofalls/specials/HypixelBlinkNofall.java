@@ -49,7 +49,7 @@ public class HypixelBlinkNofall implements INoFall {
         }
     }
 
-    @Listen
+    @Override
     @SuppressWarnings("unused")
     public void onRender(RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_2D) return;
@@ -60,6 +60,6 @@ public class HypixelBlinkNofall implements INoFall {
     }
 
     public String toString() {
-        return "Hypixel";
+        return "Hypixel Blink";
     }
 }
