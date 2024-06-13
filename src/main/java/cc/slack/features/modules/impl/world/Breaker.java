@@ -36,14 +36,13 @@ import java.awt.*;
 )
 public class Breaker extends Module {
     public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Hypixel", "None"});
-    public final BooleanValue hypixelFast = new BooleanValue("Hypixel Faster", true);
     public final NumberValue<Double> radiusDist = new NumberValue<>("Radius", 4.5, 1.0, 7.0, 0.5);
     public final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Distance", "Absolute"});
     public final NumberValue<Integer> switchDelay = new NumberValue<>("Switch Delay", 50, 0, 500, 10);
     public final NumberValue<Integer> targetSwitchDelay = new NumberValue<>("Target Switch Delay", 50, 0, 500, 10);
 
     public Breaker() {
-        addSettings(mode, hypixelFast, radiusDist, sortMode, switchDelay, targetSwitchDelay);
+        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay);
     }
 
     private BlockPos targetBlock;
@@ -70,91 +69,48 @@ public class Breaker extends Module {
                 findTargetBlock();
             }
         } else {
-            if (!hypixelFast.getValue()) {
-                if (currentBlock == null) {
-                    if (switchTimer.hasReached(switchDelay.getValue())) {
-                        findBreakBlock();
-                        breakingProgress = 0f;
-                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
-                        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
-                        RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
-                        mc.getPlayer().swingItem();
-                        return;
-                    }
-                }
-
-                if (currentBlock != null) {
-
+            if (currentBlock == null) {
+                if (switchTimer.hasReached(switchDelay.getValue())) {
+                    findBreakBlock();
+                    breakingProgress = 0f;
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
-
-                    breakingProgress += BlockUtils.getHardness(currentBlock);
-                    mc.getWorld().sendBlockBreakProgress(mc.getPlayer().getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
-
-                    RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
-
-                    if (breakingProgress >= 1) {
-                        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
-                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
-
-                        mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
-                        if (currentBlock == targetBlock) {
-                            targetBlock = null;
-                        }
-                        currentBlock = null;
-                        switchTimer.reset();
-                    } else {
-                        if (BlockUtils.getCenterDistance(currentBlock) > radiusDist.getValue()) {
-                            currentBlock = null;
-                        }
-                        if (BlockUtils.getCenterDistance(targetBlock) > radiusDist.getValue()) {
-                            currentBlock = null;
-                            targetBlock = null;
-                        }
-                    }
-
+                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
+                    RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                     mc.getPlayer().swingItem();
+                    return;
                 }
-            } else {
-                if (currentBlock == null) {
-                    if (switchTimer.hasReached(switchDelay.getValue())) {
-                        findBreakBlock();
-                        breakingProgress = 0f;
-                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
-                        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
-                        mc.getPlayer().swingItem();
-                        return;
-                    }
-                }
+            }
 
-                if (currentBlock != null) {
-                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
-                    mc.getPlayerController().updateController();
-                    breakingProgress += BlockUtils.getHardness(currentBlock);
+            if (currentBlock != null) {
+
+                Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+
+                breakingProgress += BlockUtils.getHardness(currentBlock);
+                mc.getWorld().sendBlockBreakProgress(mc.getPlayer().getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
+
+                RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
+
+                if (breakingProgress >= 1) {
+                    mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
-                    mc.getPlayerController().updateController();
 
-
-                    if (breakingProgress >= 0.95) {
-
-                        RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
-                        mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
-                        mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
-                        mc.getPlayer().swingItem();
-                        if (currentBlock == targetBlock) {
-                            targetBlock = null;
-                        }
+                    mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
+                    if (currentBlock == targetBlock) {
+                        targetBlock = null;
+                    }
+                    currentBlock = null;
+                    switchTimer.reset();
+                } else {
+                    if (BlockUtils.getCenterDistance(currentBlock) > radiusDist.getValue()) {
                         currentBlock = null;
-                        switchTimer.reset();
-                    } else {
-                        if (BlockUtils.getCenterDistance(currentBlock) > radiusDist.getValue()) {
-                            currentBlock = null;
-                        }
-                        if (BlockUtils.getCenterDistance(targetBlock) > radiusDist.getValue()) {
-                            currentBlock = null;
-                            targetBlock = null;
-                        }
+                    }
+                    if (BlockUtils.getCenterDistance(targetBlock) > radiusDist.getValue()) {
+                        currentBlock = null;
+                        targetBlock = null;
                     }
                 }
+
+                mc.getPlayer().swingItem();
             }
         }
     }

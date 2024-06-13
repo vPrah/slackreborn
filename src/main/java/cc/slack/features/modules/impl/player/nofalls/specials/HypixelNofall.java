@@ -12,7 +12,7 @@ import cc.slack.utils.player.PlayerUtil;
 
 public class HypixelNofall implements INoFall {
 
-    private Boolean dmgFall;
+    private Boolean dmgFall = false;
 
     @Override
     public void onUpdate(UpdateEvent event) {
