@@ -120,11 +120,6 @@ public class MainMenu extends GuiScreen {
 
         if (buttonMenu.id == 951) {
 
-            if (discordId.length() < 16 || discordId.length() > 20) {
-                setMsg("Invalid Discord id");
-                return;
-            }
-
             String hwid = FileUtil.fetchHwid();
 
             if (hwid == "f") {
@@ -152,6 +147,11 @@ public class MainMenu extends GuiScreen {
                 return;
             }
             // hard code dev mode
+
+            if (discordId.length() < 16 || discordId.length() > 20) {
+                setMsg("Invalid Discord id");
+                return;
+            }
 
             OkHttpClient client = new OkHttpClient();
             Request request = Login.sendReq(client, hwid, discordId);
