@@ -34,7 +34,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
             Gui.drawRect(0, 0, this.width , this.height, new Color(0,0,0,110).getRGB());
             Fonts.apple45.drawString("  lack Client", 16, 30, -1);
 
@@ -80,7 +80,7 @@ public class MainMenu extends GuiScreen {
             particles.add(new Particle(this.width, this.height));
         }
 
-        if (Minecraft.isLoggedIn) {
+        if (Minecraft.cacheChunkReloader) {
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
             this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
@@ -107,7 +107,7 @@ public class MainMenu extends GuiScreen {
         if (buttonMenu.id == 1124) {
             this.menuList.clear();
             this.mc.i34 = true;
-            Minecraft.isLoggedIn = true;
+            Minecraft.cacheChunkReloader = true;
 
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
@@ -172,7 +172,7 @@ public class MainMenu extends GuiScreen {
 
             this.menuList.clear();
             this.mc.i34 = true;
-            Minecraft.isLoggedIn = true;
+            Minecraft.cacheChunkReloader = true;
 
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));

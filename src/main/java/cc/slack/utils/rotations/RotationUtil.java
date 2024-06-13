@@ -52,7 +52,7 @@ public class RotationUtil extends mc {
             clientRotation = targetRotation;
         }
 
-        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
             mc.getMinecraft().shutdown();
         }
     }

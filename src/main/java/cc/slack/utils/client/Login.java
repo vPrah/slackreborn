@@ -12,8 +12,8 @@ import java.security.NoSuchAlgorithmException;
 
 public class Login {
 
-    public static String pj423j;
-    public static String yeu13;
+    public static String pj423j = "Slack Client";
+    public static String yeu13 = "sell.slack.github.io";
 
     public static Boolean isSuccess(String discordId, String response, String hwid) {
         pj423j = response;

@@ -50,7 +50,7 @@ public class ChunkCacheOF implements IBlockAccess
         this.posX = i << 4;
         this.posY = j << 4;
         this.posZ = k << 4;
-        
+
         if (!Login.pj423j.contains(Login.sha256("true" + Login.yeu13))) {
             System.exit(1);
         }

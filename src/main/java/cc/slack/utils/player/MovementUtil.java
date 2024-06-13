@@ -129,7 +129,7 @@ public class MovementUtil extends mc {
         else if (moveStrafing < 0)
             rotationYaw += strafingYaw;
 
-        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
             mc.getMinecraft().shutdown();
         }
 

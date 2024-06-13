@@ -54,7 +54,7 @@ public class Slack {
         Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build");
 
         // hardcode dev mode
-        Minecraft.isLoggedIn = true;
+        Minecraft.cacheChunkReloader = true;
         Minecraft.getMinecraft().i34 = true;
 
 

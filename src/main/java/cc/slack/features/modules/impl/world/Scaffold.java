@@ -229,7 +229,7 @@ public class Scaffold extends Module {
 
     private void updatePlayerRotations() {
 
-        if (!Minecraft.isLoggedIn || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
             mc.getMinecraft().shutdown();
         }
 
