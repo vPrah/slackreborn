@@ -170,7 +170,7 @@ public class ModelBiped extends ModelBase
 
             case 3:
                 this.bipedRightArm.rotateAngleX = this.bipedRightArm.rotateAngleX * 0.5F - ((float)Math.PI / 10F) * (float)this.heldItemRight;
-                this.bipedRightArm.rotateAngleY = -0.6f;
+                this.bipedRightArm.rotateAngleY = -0.8f;
         }
 
         this.bipedLeftArm.rotateAngleY = 0.0F;

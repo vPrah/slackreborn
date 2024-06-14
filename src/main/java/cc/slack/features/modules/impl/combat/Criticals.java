@@ -2,7 +2,6 @@
 
 package cc.slack.features.modules.impl.combat;
 
-import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.AttackEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -11,9 +10,9 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
@@ -30,13 +29,12 @@ public class Criticals extends Module {
         addSettings(criticalMode, onlyGround);
     }
 
-    private boolean spoof = false;
-    
+
     @Listen
     public void onAttack(AttackEvent event) {
         switch (criticalMode.getValue().toLowerCase()) {
             case "edit":
-                spoof = true;
+                MovementUtil.spoofNextC03(false);
                 break;
             case "vulcan":
                 sendPacket(0.16477328182606651, false);
@@ -53,16 +51,6 @@ public class Criticals extends Module {
             case "jump":
                 if (mc.getPlayer().onGround) mc.getPlayer().jump();
         }   
-    }
-
-    @Listen
-    public void onPacket(PacketEvent event) {
-        if (event.getPacket() instanceof C03PacketPlayer) {
-            if (spoof) {
-                ((C03PacketPlayer) event.getPacket()).onGround = false;
-                spoof = false;
-            }
-        }
     }
 
     private void sendPacket(double yOffset, boolean ground) {
