@@ -17,6 +17,7 @@ import cc.slack.features.modules.impl.ghost.AutoTool;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
+import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -41,8 +42,10 @@ public class Breaker extends Module {
     public final NumberValue<Integer> switchDelay = new NumberValue<>("Switch Delay", 50, 0, 500, 10);
     public final NumberValue<Integer> targetSwitchDelay = new NumberValue<>("Target Switch Delay", 50, 0, 500, 10);
 
+    public final BooleanValue noCombat = new BooleanValue("No Combat", true);
+
     public Breaker() {
-        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay);
+        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay, noCombat);
     }
 
     private BlockPos targetBlock;
@@ -64,6 +67,7 @@ public class Breaker extends Module {
     public void onMotion(MotionEvent event) {
         if (event.getState() == State.POST) return;
         if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
+        if (AttackUtil.inCombat && noCombat.getValue()) return;
         if (targetBlock == null) {
             if (switchTimer.hasReached(targetSwitchDelay.getValue())) {
                 findTargetBlock();

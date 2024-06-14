@@ -16,6 +16,8 @@ import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
+import cc.slack.utils.render.ColorUtil;
+import cc.slack.utils.render.RenderUtil;
 import cc.slack.utils.rotations.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
@@ -24,12 +26,14 @@ import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 
+import java.awt.*;
 import java.security.SecureRandom;
 
 @ModuleInfo(
@@ -76,6 +80,7 @@ public class KillAura extends Module {
     private final BooleanValue noBlock = new BooleanValue("Disable on Block", true);
 
     private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Priority", "FOV", "Distance", "Health", "Hurt Ticks"});
+    private final ModeValue<String> markMode = new ModeValue<>("Killaura Mark Mode", new String[]{"None", "Tracer"});
 
 
     private final TimeUtil timer = new TimeUtil();
@@ -100,7 +105,8 @@ public class KillAura extends Module {
                 rotationMode, rotationRand, minRotationSpeed, maxRotationSpeed, checkHitable, // rotations
                 moveFix, keepSprint, rayCast, // fixes
                 noScaffold, noFlight, noEat, noBlock, // Checks
-                sortMode);
+                sortMode,
+                markMode);
     }
 
     @Override
@@ -128,6 +134,16 @@ public class KillAura extends Module {
             timer.reset();
             attackDelay = AttackUtil.getAttackDelay(cps.getValue(), randomization.getValue(), attackPattern.getValue());
         }
+
+        if (target != null) {
+            switch (markMode.getValue().toLowerCase()) {
+                case "tracer":
+                    RenderUtil.drawTracer(target, 250, 250, 250, 130);
+                    break;
+                default:
+                    break;
+            }
+        }
     }
 
     @Listen
@@ -135,7 +151,7 @@ public class KillAura extends Module {
 
         if (noBlock.getValue() && mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem().item instanceof ItemBlock) return;
         if (noScaffold.getValue() && Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
-        if (noEat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood ||mc.getPlayer().getHeldItem().item instanceof ItemBucketMilk || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemPotion))) return;
+        if (noEat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood || mc.getPlayer().getHeldItem().item instanceof ItemBucketMilk || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemPotion))) return;
         if (noFlight.getValue() && Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle()) return;
 
         target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());

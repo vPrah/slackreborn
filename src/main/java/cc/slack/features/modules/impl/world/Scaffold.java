@@ -212,7 +212,7 @@ public class Scaffold extends Module {
                     if (!firstJump) {
                         MovementUtil.strafe(0.47f);
                     } else {
-                        MovementUtil.strafe(0.4f);
+                        MovementUtil.strafe(0.35f);
                         groundY = mc.getPlayer().posY;
                     }
                 }

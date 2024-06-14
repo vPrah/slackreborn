@@ -107,6 +107,7 @@ public class NoSlow extends Module {
                     }
                     fMultiplier = forwardMultiplier.getValue();
                     sMultiplier = strafeMultiplier.getValue();
+
             }
         }
     }

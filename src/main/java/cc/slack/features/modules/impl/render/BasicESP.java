@@ -63,12 +63,12 @@ public class BasicESP extends Module {
 
             final AxisAlignedBB entityBox = entity.getEntityBoundingBox();
             final AxisAlignedBB axisAlignedBB = new AxisAlignedBB(
-                    entityBox.minX - entity.posX + x - 0.05D,
-                    entityBox.minY - entity.posY + y,
-                    entityBox.minZ - entity.posZ + z - 0.05D,
-                    entityBox.maxX - entity.posX + x + 0.05D,
-                    entityBox.maxY - entity.posY + y + 0.15D,
-                    entityBox.maxZ - entity.posZ + z + 0.05D
+                    entityBox.minX - entity.posX - 0.05D,
+                    entityBox.minY - entity.posY,
+                    entityBox.minZ - entity.posZ - 0.05D,
+                    entityBox.maxX - entity.posX + 0.05D,
+                    entityBox.maxY - entity.posY + 0.15D,
+                    entityBox.maxZ - entity.posZ + 0.05D
             );
 
             glLineWidth(lineWidth.getValue());
@@ -83,11 +83,7 @@ public class BasicESP extends Module {
                 glRotated(entity.rotationYaw, 0, 1, 0);
             }
             RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
-            if (rotateYaw.getValue()) {
-                glTranslated(-x, -y, -z);
-                glRotated(-entity.rotationYaw, 0, 1, 0);
-                glTranslated(x, y, z);
-            }
+            glTranslated(x, y, z);
             glPopMatrix();
 
             GlStateManager.resetColor();
