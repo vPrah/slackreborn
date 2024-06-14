@@ -34,7 +34,7 @@ import javax.vecmath.Vector4d;
 @ModuleInfo(name = "TargetHUD", category = Category.RENDER)
 public class TargetHUD extends Module {
 
-	private final ModeValue<String> mode = new ModeValue<>(new String[] {"Classic", "Classic2", "Rounded", "Rounded2" });
+	private final ModeValue<String> mode = new ModeValue<>(new String[] {"Classic", "Classic2", "Rounded", "Rounded2", "New" });
 	private final BooleanValue followTarget = new BooleanValue("Follow Target", false);
 
 	private double posX = 100.0D;
@@ -183,6 +183,22 @@ public class TargetHUD extends Module {
 
 				drawRoundedRect(x + 5, y + 35, 110, 10, 2, new Color(255, 255, 255, 120).getRGB());
 				drawRoundedRect(x + 5, y + 35, (int) (110 * (target.getHealth() / target.getMaxHealth())), 10, 2,
+						c.getRGB());
+				break;
+			case "new":
+				drawRoundedRect(x, y, 160, 40, 6, new Color(83, 83, 83, 79).getRGB());
+
+				Fonts.apple18.drawString(targetName, x + 40, y + 9, new Color(255, 255, 255, 255).getRGB());
+				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 140, y + 25, new Color(255, 255, 255, 255).getRGB());
+
+				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
+						color.getAlpha() / 255F);
+				mc.getTextureManager().bindTexture(((AbstractClientPlayer) target).getLocationSkin());
+				Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 3, 3, 3, 3, 30, 30, 24, 24);
+				GlStateManager.color(1, 1, 1, 1);
+
+				drawRoundedRect(x + 40, y + 25, 95, 9, 2, new Color(151, 151, 151, 45).getRGB());
+				drawRoundedRect(x + 40, y + 25, (int) (95 * (target.getHealth() / target.getMaxHealth())), 9, 2,
 						c.getRGB());
 				break;
 		}
