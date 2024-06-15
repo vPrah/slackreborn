@@ -2,6 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.combat.KillAura;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.model.ModelPlayer;
@@ -101,7 +102,7 @@ public class RenderPlayer extends RendererLivingEntity<AbstractClientPlayer>
             }
             else
             {
-                boolean kab = (clientPlayer.getEntityId() == mc.thePlayer.getEntityId() &&
+                boolean kab = (clientPlayer.getEntityId() == Minecraft.getMinecraft().thePlayer.getEntityId() &&
                         Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() &&
                         Slack.getInstance().getModuleManager().getInstance(KillAura.class).renderBlock);
 

@@ -3,6 +3,7 @@ package cc.slack.ui.clickGUI.component;
 import java.util.ArrayList;
 
 import cc.slack.Slack;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
@@ -113,7 +114,7 @@ public class Frame {
     }
 
     public void updatePosition(int mouseX, int mouseY) {
-        ScaledResolution sr = new ScaledResolution(mc.getMinecraft());
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
         if (this.isDragging) {
             this.setX(MathHelper.clamp_int(mouseX - dragX, 0, sr.getScaledWidth() - getWidth()));

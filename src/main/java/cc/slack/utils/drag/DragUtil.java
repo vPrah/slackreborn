@@ -3,6 +3,7 @@ package cc.slack.utils.drag;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 
 @Getter
@@ -18,7 +19,7 @@ public class DragUtil {
 	private float scale;
 
 	public boolean isInside(int x, int y) {
-		ScaledResolution sr = new ScaledResolution(mc.getMinecraft());
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
 		double width = sr.getScaledWidth();
 		double height = sr.getScaledHeight_double();
@@ -26,7 +27,7 @@ public class DragUtil {
 	}
 
 	public static double[] setScaledPosition(double x, double y) {
-		ScaledResolution sr = new ScaledResolution(mc.getMinecraft());
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
 		double width = sr.getScaledWidth();
 		double height = sr.getScaledHeight_double();
@@ -35,7 +36,7 @@ public class DragUtil {
 	}
 
 	public static double[] setPosition(double x, double y) {
-		ScaledResolution sr = new ScaledResolution(mc.getMinecraft());
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
 		double width = sr.getScaledWidth();
 		double height = sr.getScaledHeight_double();

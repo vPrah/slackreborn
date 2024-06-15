@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.ui.clickGUI.component.components.sub.Checkbox;
 import cc.slack.ui.clickGUI.component.components.sub.Slider;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
@@ -69,9 +70,9 @@ public class Button extends Component {
         Gui.drawRect(parent.getX(), this.parent.getY() + this.offset, parent.getX() + parent.getWidth(), this.parent.getY() + 12 + this.offset, this.isHovered ? (this.mod.isToggle() ? new Color(0xFF222222).darker().getRGB() : 0xFF222222) : (this.mod.isToggle() ? new Color(14, 14, 14).getRGB() : 0xFF111111));
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        mc.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, this.mod.isToggle() ? 0x999999 : -1);
+        Minecraft.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, this.mod.isToggle() ? 0x999999 : -1);
         if (this.subcomponents.size() > 2)
-            mc.getFontRenderer().drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
+            Minecraft.getFontRenderer().drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
         GL11.glPopMatrix();
         if (this.open) {
             if (!this.subcomponents.isEmpty()) {

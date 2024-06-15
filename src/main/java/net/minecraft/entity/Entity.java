@@ -18,6 +18,7 @@ import net.minecraft.block.BlockWall;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.block.state.pattern.BlockPattern;
+import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandResultStats;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.crash.CrashReport;
@@ -1248,23 +1249,23 @@ public abstract class Entity implements ICommandSender
                         if (strafeYaw < -4) {
                             strafeYaw += 8;
                         }
-                        mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
-                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
-                        mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
-                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                        Minecraft.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
+                        Minecraft.getGameSettings().keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                        Minecraft.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
+                        Minecraft.getGameSettings().keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
                     } else {
-                        mc.getGameSettings().keyBindForward.pressed = false;
-                        mc.getGameSettings().keyBindRight.pressed = false;
-                        mc.getGameSettings().keyBindBack.pressed = false;
-                        mc.getGameSettings().keyBindLeft.pressed = false;
+                        Minecraft.getGameSettings().keyBindForward.pressed = false;
+                        Minecraft.getGameSettings().keyBindRight.pressed = false;
+                        Minecraft.getGameSettings().keyBindBack.pressed = false;
+                        Minecraft.getGameSettings().keyBindLeft.pressed = false;
                     }
                 }
             } else {
-                movingYaw = mc.thePlayer.rotationYaw;
+                movingYaw = Minecraft.getMinecraft().thePlayer.rotationYaw;
             }
         }
         StrafeEvent event = new StrafeEvent(strafe, forward, friction, movingYaw);
-        if(this == mc.thePlayer) event.call();
+        if(this == Minecraft.getMinecraft().thePlayer) event.call();
         if(event.isCanceled()) return;
 
         float f = event.getStrafe() * event.getStrafe() + event.getForward() * event.getForward();

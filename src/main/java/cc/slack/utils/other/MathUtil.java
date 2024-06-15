@@ -1,5 +1,6 @@
 package cc.slack.utils.other;
 
+import cc.slack.utils.client.IMinecraft;
 import net.minecraft.util.Vec3;
 
 import java.math.BigDecimal;
@@ -7,7 +8,7 @@ import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.concurrent.ThreadLocalRandom;
 
-public class MathUtil {
+public class MathUtil implements IMinecraft {
 
     public static double roundToDecimalPlace(double value, double inc) {
         final double halfOfInc = inc / 2.0D;

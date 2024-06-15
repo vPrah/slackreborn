@@ -3,6 +3,7 @@ package cc.slack.ui.alt;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ChatFormatting;
 import net.minecraft.util.Session;
 
@@ -35,7 +36,7 @@ public final class AltLoginThread extends Thread {
     @Override
     public void run() {
         if (this.password.isEmpty()) {
-            mc.getMinecraft().session = new Session(this.username, "", "", "mojang");
+            Minecraft.getMinecraft().session = new Session(this.username, "", "", "mojang");
             this.status = ChatFormatting.GREEN + "Logged in. (" + this.username + " - offline name)";
             return;
         }
@@ -47,7 +48,7 @@ public final class AltLoginThread extends Thread {
             this.status = ChatFormatting.RED + "Login failed!";
         else {
             this.status = ChatFormatting.GREEN + "Logged in as " + auth.getUsername();
-            mc.getMinecraft().session = auth;
+            Minecraft.getMinecraft().session = auth;
         }
     }
 

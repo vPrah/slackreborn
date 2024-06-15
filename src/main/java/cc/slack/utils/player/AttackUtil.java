@@ -3,6 +3,7 @@ package cc.slack.utils.player;
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.other.AntiBot;
 import cc.slack.features.modules.impl.other.Targets;
+import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.entity.Entity;
@@ -18,7 +19,7 @@ import java.security.SecureRandom;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class AttackUtil {
+public class AttackUtil implements IMinecraft {
 
     // impl in playercontrollermp and entityplayersp
     public static boolean inCombat = false;
