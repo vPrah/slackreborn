@@ -34,7 +34,7 @@ public final class AltLoginThread extends Thread {
 
     @Override
     public void run() {
-        if (this.password.equals("")) {
+        if (this.password.isEmpty()) {
             mc.getMinecraft().session = new Session(this.username, "", "", "mojang");
             this.status = ChatFormatting.GREEN + "Logged in. (" + this.username + " - offline name)";
             return;
