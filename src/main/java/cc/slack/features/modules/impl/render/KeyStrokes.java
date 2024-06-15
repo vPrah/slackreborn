@@ -105,7 +105,6 @@ public class KeyStrokes extends Module {
         Fonts.apple24.drawCenteredStringWithShadow("W", (float) posX, (float) posY - 35 - h, new Color(255,255,255).getRGB());
         Fonts.apple24.drawCenteredStringWithShadow("D", (float) posX + 35, (float) posY - h, new Color(255,255,255).getRGB());
         Fonts.apple24.drawCenteredStringWithShadow("A", (float) posX - 35, (float) posY - h, new Color(255,255,255).getRGB());
-        Fonts.apple24.drawCenteredStringWithShadow("SPACE", (float) posX, (float) posY + 35 - h, new Color(255,255,255).getRGB());
     }
 
     @Override
