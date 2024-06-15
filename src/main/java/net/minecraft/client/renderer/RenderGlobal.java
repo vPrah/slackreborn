@@ -1135,7 +1135,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                             this.renderInfosEntities.add(renderglobal$containerlocalrenderinformation);
                         }
 
-                        if (renderchunk2.getCompiledChunk().getTileEntities().size() > 0)
+                        if (!renderchunk2.getCompiledChunk().getTileEntities().isEmpty())
                         {
                             this.renderInfosTileEntities.add(renderglobal$containerlocalrenderinformation);
                         }
@@ -1237,7 +1237,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                     this.renderInfosEntities.add(renderglobal$containerlocalrenderinformation5);
                 }
 
-                if (compiledchunk.getTileEntities().size() > 0)
+                if (!compiledchunk.getTileEntities().isEmpty())
                 {
                     this.renderInfosTileEntities.add(renderglobal$containerlocalrenderinformation5);
                 }
@@ -1838,8 +1838,8 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                 int i = this.theWorld.getMoonPhase();
                 int k = i % 4;
                 int i1 = i / 4 % 2;
-                float f19 = (float)(k + 0) / 4.0F;
-                float f21 = (float)(i1 + 0) / 2.0F;
+                float f19 = (float)(k) / 4.0F;
+                float f21 = (float)(i1) / 2.0F;
                 float f23 = (float)(k + 1) / 4.0F;
                 float f14 = (float)(i1 + 1) / 2.0F;
                 worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
@@ -2070,10 +2070,10 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
                         {
                             for (int j1 = -256; j1 < 256; j1 += 32)
                             {
-                                worldrenderer.pos(i1 + 0, f6, j1 + 32).tex((float)(i1 + 0) * 4.8828125E-4F + f7, (float)(j1 + 32) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1, f6, j1 + 32).tex((float)(i1) * 4.8828125E-4F + f7, (float)(j1 + 32) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
                                 worldrenderer.pos(i1 + 32, f6, j1 + 32).tex((float)(i1 + 32) * 4.8828125E-4F + f7, (float)(j1 + 32) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
-                                worldrenderer.pos(i1 + 32, f6, j1 + 0).tex((float)(i1 + 32) * 4.8828125E-4F + f7, (float)(j1 + 0) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
-                                worldrenderer.pos(i1 + 0, f6, j1 + 0).tex((float)(i1 + 0) * 4.8828125E-4F + f7, (float)(j1 + 0) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1 + 32, f6, j1).tex((float)(i1 + 32) * 4.8828125E-4F + f7, (float)(j1) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
+                                worldrenderer.pos(i1, f6, j1).tex((float)(i1) * 4.8828125E-4F + f7, (float)(j1) * 4.8828125E-4F + f8).func_181666_a(f, f1, f2, 0.8F).endVertex();
                             }
                         }
 
@@ -2276,7 +2276,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
         finishTimeNano = (long)((double)finishTimeNano + 1.0E8D);
         this.displayListEntitiesDirty |= this.renderDispatcher.runChunkUploads(finishTimeNano);
 
-        if (this.chunksToUpdateForced.size() > 0)
+        if (!this.chunksToUpdateForced.isEmpty())
         {
             Iterator iterator = this.chunksToUpdateForced.iterator();
 
@@ -2296,7 +2296,7 @@ public class RenderGlobal implements IWorldAccess, IResourceManagerReloadListene
             }
         }
 
-        if (this.chunksToResortTransparency.size() > 0)
+        if (!this.chunksToResortTransparency.isEmpty())
         {
             Iterator iterator2 = this.chunksToResortTransparency.iterator();
 

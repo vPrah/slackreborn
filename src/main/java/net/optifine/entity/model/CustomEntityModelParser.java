@@ -186,7 +186,7 @@ public class CustomEntityModelParser
 
         if (s != null)
         {
-            if (s.length() < 1)
+            if (s.isEmpty())
             {
                 Config.warn("Empty model ID: " + s);
             }
@@ -234,7 +234,7 @@ public class CustomEntityModelParser
                 }
             }
 
-            if (list.size() > 0)
+            if (!list.isEmpty())
             {
                 ModelVariableUpdater[] amodelvariableupdater = list.toArray(new ModelVariableUpdater[list.size()]);
                 modelupdater = new ModelUpdater(amodelvariableupdater);

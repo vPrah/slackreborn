@@ -69,7 +69,7 @@ public class EntityAliases
 
                 loadModEntityAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     entityAliases = toArray(list);
                 }

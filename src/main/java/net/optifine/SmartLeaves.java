@@ -86,7 +86,7 @@ public class SmartLeaves
         modelLeavesDoubleOak = getModelDoubleFace(modelLeavesCullOak);
         modelLeavesDoubleSpruce = getModelDoubleFace(modelLeavesCullSpruce);
 
-        if (list.size() > 0)
+        if (!list.isEmpty())
         {
             Config.dbg("Enable face culling: " + Config.arrayToString(list.toArray()));
         }
@@ -130,7 +130,7 @@ public class SmartLeaves
                     {
                         List list = ibakedmodel.getGeneralQuads();
 
-                        if (list.size() == 0)
+                        if (list.isEmpty())
                         {
                             return ibakedmodel;
                         }
@@ -145,7 +145,7 @@ public class SmartLeaves
                                 BakedQuad bakedquad = (BakedQuad) e;
                                 List list1 = ibakedmodel.getFaceQuads(bakedquad.getFace());
 
-                                if (list1.size() > 0)
+                                if (!list1.isEmpty())
                                 {
                                     return null;
                                 }
@@ -173,7 +173,7 @@ public class SmartLeaves
         {
             return null;
         }
-        else if (model.getGeneralQuads().size() > 0)
+        else if (!model.getGeneralQuads().isEmpty())
         {
             Config.warn("SmartLeaves: Model is not cube, general quads: " + model.getGeneralQuads().size() + ", model: " + model);
             return model;
@@ -206,10 +206,10 @@ public class SmartLeaves
                 int[] aint = bakedquad1.getVertexData();
                 int[] aint1 = aint.clone();
                 int j = aint.length / 4;
-                System.arraycopy(aint, 0 * j, aint1, 3 * j, j);
-                System.arraycopy(aint, 1 * j, aint1, 2 * j, j);
-                System.arraycopy(aint, 2 * j, aint1, 1 * j, j);
-                System.arraycopy(aint, 3 * j, aint1, 0 * j, j);
+                System.arraycopy(aint, 0, aint1, 3 * j, j);
+                System.arraycopy(aint, j, aint1, 2 * j, j);
+                System.arraycopy(aint, 2 * j, aint1, j, j);
+                System.arraycopy(aint, 3 * j, aint1, 0, j);
                 System.arraycopy(aint1, 0, aint, 0, aint1.length);
                 list1.add(bakedquad1);
             }

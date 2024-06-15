@@ -268,7 +268,7 @@ public class CustomGuiProperties
 
     public boolean isValid(String path)
     {
-        if (this.fileName != null && this.fileName.length() > 0)
+        if (this.fileName != null && !this.fileName.isEmpty())
         {
             if (this.basePath == null)
             {

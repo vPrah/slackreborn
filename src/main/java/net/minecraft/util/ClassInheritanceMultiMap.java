@@ -33,7 +33,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
             this.createLookup(oclass);
         }
 
-        this.empty = this.field_181745_e.size() == 0;
+        this.empty = this.field_181745_e.isEmpty();
     }
 
     protected void createLookup(Class<?> clazz)
@@ -81,7 +81,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
             }
         }
 
-        this.empty = this.field_181745_e.size() == 0;
+        this.empty = this.field_181745_e.isEmpty();
         return true;
     }
 
@@ -98,7 +98,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
             list.add(p_181743_1_);
         }
 
-        this.empty = this.field_181745_e.size() == 0;
+        this.empty = this.field_181745_e.isEmpty();
     }
 
     public boolean remove(Object p_remove_1_)
@@ -119,7 +119,7 @@ public class ClassInheritanceMultiMap<T> extends AbstractSet<T>
             }
         }
 
-        this.empty = this.field_181745_e.size() == 0;
+        this.empty = this.field_181745_e.isEmpty();
         return flag;
     }
 

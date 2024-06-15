@@ -70,7 +70,7 @@ public class ItemAliases
 
                 loadModItemAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     itemAliases = toArray(list);
                 }

@@ -110,7 +110,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
         {
             String s = args.get(i);
 
-            if (s != null && s.length() > 0)
+            if (s != null && !s.isEmpty())
             {
                 for (String s1 : fontrenderer.listFormattedStringToWidth(s, width))
                 {

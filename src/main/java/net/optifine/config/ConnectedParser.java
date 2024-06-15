@@ -204,7 +204,7 @@ public class ConnectedParser
         else
         {
             String s = parts[1];
-            return s.length() < 1 ? false : (this.startsWithDigit(s) ? false : !s.contains("="));
+            return s.isEmpty() ? false : (this.startsWithDigit(s) ? false : !s.contains("="));
         }
     }
 
@@ -214,7 +214,7 @@ public class ConnectedParser
         {
             return false;
         }
-        else if (str.length() < 1)
+        else if (str.isEmpty())
         {
             return false;
         }
@@ -299,7 +299,7 @@ public class ConnectedParser
                 {
                     String s1 = params[i];
 
-                    if (s1.length() > 0)
+                    if (!s1.isEmpty())
                     {
                         String[] astring = Config.tokenize(s1, "=");
 

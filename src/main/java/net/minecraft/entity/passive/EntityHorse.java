@@ -1459,7 +1459,7 @@ public class EntityHorse extends EntityAnimal implements IInvBasic
             s = PreYggdrasilConverter.getStringUUIDFromName(s1);
         }
 
-        if (s.length() > 0)
+        if (!s.isEmpty())
         {
             this.setOwnerId(s);
         }

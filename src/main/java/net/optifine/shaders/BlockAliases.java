@@ -90,7 +90,7 @@ public class BlockAliases
 
                 loadModBlockAliases(list);
 
-                if (list.size() > 0)
+                if (!list.isEmpty())
                 {
                     blockAliases = toArrays(list);
                 }

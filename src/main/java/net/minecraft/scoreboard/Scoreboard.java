@@ -184,7 +184,7 @@ public class Scoreboard
             {
                 Score score = map2.remove(objective);
 
-                if (map2.size() < 1)
+                if (map2.isEmpty())
                 {
                     Map<ScoreObjective, Score> map1 = this.entitiesScoreObjectives.remove(name);
 

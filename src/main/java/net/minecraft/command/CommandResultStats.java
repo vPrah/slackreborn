@@ -148,7 +148,7 @@ public class CommandResultStats
 
     public static void func_179667_a(CommandResultStats stats, CommandResultStats.Type resultType, String p_179667_2_, String p_179667_3_)
     {
-        if (p_179667_2_ != null && p_179667_2_.length() != 0 && p_179667_3_ != null && p_179667_3_.length() != 0)
+        if (p_179667_2_ != null && !p_179667_2_.isEmpty() && p_179667_3_ != null && !p_179667_3_.isEmpty())
         {
             if (stats.field_179675_c == STRING_RESULT_TYPES || stats.field_179673_d == STRING_RESULT_TYPES)
             {

@@ -577,7 +577,7 @@ public class ConnectedProperties
 
     public boolean isValid(String path)
     {
-        if (this.name != null && this.name.length() > 0)
+        if (this.name != null && !this.name.isEmpty())
         {
             if (this.basePath == null)
             {

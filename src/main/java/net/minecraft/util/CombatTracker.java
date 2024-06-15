@@ -73,7 +73,7 @@ public class CombatTracker
 
     public IChatComponent getDeathMessage()
     {
-        if (this.combatEntries.size() == 0)
+        if (this.combatEntries.isEmpty())
         {
             return new ChatComponentTranslation("death.attack.generic", new Object[] {this.fighter.getDisplayName()});
         }

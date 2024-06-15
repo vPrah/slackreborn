@@ -359,7 +359,7 @@ public class MCFontRenderer extends CFont {
                 }
             }
 
-            if (currentWord.length() > 0) if (getStringWidth(currentWord) < width) {
+            if (!currentWord.isEmpty()) if (getStringWidth(currentWord) < width) {
                 finalWords.add("" + lastColorCode + currentWord + " ");
                 currentWord = "";
             } else {
@@ -393,7 +393,7 @@ public class MCFontRenderer extends CFont {
             }
         }
 
-        if (currentWord.length() > 0) {
+        if (!currentWord.isEmpty()) {
             finalWords.add(currentWord);
         }
 

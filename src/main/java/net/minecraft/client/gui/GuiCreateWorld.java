@@ -415,7 +415,7 @@ public class GuiCreateWorld extends GuiScreen
             this.actionPerformed(this.buttonList.get(0));
         }
 
-        this.buttonList.get(0).enabled = this.field_146333_g.getText().length() > 0;
+        this.buttonList.get(0).enabled = !this.field_146333_g.getText().isEmpty();
         this.func_146314_g();
     }
 

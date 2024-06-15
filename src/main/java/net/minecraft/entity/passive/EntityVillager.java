@@ -178,7 +178,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
             else
             {
                 BlockPos blockpos1 = this.villageObj.getCenter();
-                this.setHomePosAndDistance(blockpos1, (int)((float)this.villageObj.getVillageRadius() * 1.0F));
+                this.setHomePosAndDistance(blockpos1, (int)((float) this.villageObj.getVillageRadius()));
 
                 if (this.isLookingForHome)
                 {
@@ -231,7 +231,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
 
         if (!flag && this.isEntityAlive() && !this.isTrading() && !this.isChild())
         {
-            if (!this.worldObj.isRemote && (this.buyingList == null || this.buyingList.size() > 0))
+            if (!this.worldObj.isRemote && (this.buyingList == null || !this.buyingList.isEmpty()))
             {
                 this.setCustomer(player);
                 player.displayVillagerTradeGui(this);
@@ -614,7 +614,7 @@ public class EntityVillager extends EntityAgeable implements IMerchant, INpc
     {
         String s = this.getCustomNameTag();
 
-        if (s != null && s.length() > 0)
+        if (s != null && !s.isEmpty())
         {
             ChatComponentText chatcomponenttext = new ChatComponentText(s);
             chatcomponenttext.getChatStyle().setChatHoverEvent(this.getHoverEvent());

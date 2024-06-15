@@ -241,7 +241,7 @@ public class Config {
             }
 
             if (astring.length > 2) {
-                i += 1 * parseInt(astring[2], 0);
+                i += parseInt(astring[2], 0);
             }
 
             minecraftVersionInt = i;
@@ -1372,7 +1372,7 @@ public class Config {
     }
 
     private static String[] splitRelease(String p_splitRelease_0_) {
-        if (p_splitRelease_0_ != null && p_splitRelease_0_.length() > 0) {
+        if (p_splitRelease_0_ != null && !p_splitRelease_0_.isEmpty()) {
             Pattern pattern = Pattern.compile("([A-Z])([0-9]+)(.*)");
             Matcher matcher = pattern.matcher(p_splitRelease_0_);
 

@@ -147,7 +147,7 @@ public class ExpressionParser
                     this.mergeOperators(listExpr, listFunc, k);
                 }
 
-                if (listExpr.size() == 1 && listFunc.size() == 0)
+                if (listExpr.size() == 1 && listFunc.isEmpty())
                 {
                     return listExpr.get(0);
                 }

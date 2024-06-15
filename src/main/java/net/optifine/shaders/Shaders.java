@@ -962,7 +962,7 @@ public class Shaders
             }
         }
 
-        if (shaderPackDimensions.size() > 0)
+        if (!shaderPackDimensions.isEmpty())
         {
             Integer[] ainteger = shaderPackDimensions.toArray(new Integer[shaderPackDimensions.size()]);
             Config.dbg("[Shaders] Worlds: " + Config.arrayToString(ainteger));
@@ -4510,7 +4510,7 @@ public class Shaders
 
     public static void preCelestialRotate()
     {
-        GL11.glRotatef(sunPathRotation * 1.0F, 0.0F, 0.0F, 1.0F);
+        GL11.glRotatef(sunPathRotation, 0.0F, 0.0F, 1.0F);
         checkGLError("preCelestialRotate");
     }
 

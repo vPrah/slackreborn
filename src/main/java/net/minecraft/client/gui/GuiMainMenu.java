@@ -571,16 +571,16 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         if ((double)this.updateCounter < 1.0E-4D)
         {
-            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 99, 44);
-            this.drawTexturedModalRect(j + 99, k + 0, 129, 0, 27, 44);
-            this.drawTexturedModalRect(j + 99 + 26, k + 0, 126, 0, 3, 44);
-            this.drawTexturedModalRect(j + 99 + 26 + 3, k + 0, 99, 0, 26, 44);
-            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
+            this.drawTexturedModalRect(j, k, 0, 0, 99, 44);
+            this.drawTexturedModalRect(j + 99, k, 129, 0, 27, 44);
+            this.drawTexturedModalRect(j + 99 + 26, k, 126, 0, 3, 44);
+            this.drawTexturedModalRect(j + 99 + 26 + 3, k, 99, 0, 26, 44);
+            this.drawTexturedModalRect(j + 155, k, 0, 45, 155, 44);
         }
         else
         {
-            this.drawTexturedModalRect(j + 0, k + 0, 0, 0, 155, 44);
-            this.drawTexturedModalRect(j + 155, k + 0, 0, 45, 155, 44);
+            this.drawTexturedModalRect(j, k, 0, 0, 155, 44);
+            this.drawTexturedModalRect(j + 155, k, 0, 45, 155, 44);
         }
 
 
@@ -617,7 +617,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
             s2y += 10;
         }
 
-        if (this.openGLWarning1 != null && this.openGLWarning1.length() > 0)
+        if (this.openGLWarning1 != null && !this.openGLWarning1.isEmpty())
         {
             drawRect(this.field_92022_t - 2, this.field_92021_u - 2, this.field_92020_v + 2, this.field_92019_w - 1, 1428160512);
             this.drawString(this.fontRendererObj, this.openGLWarning1, this.field_92022_t, this.field_92021_u, -1);
@@ -642,7 +642,7 @@ public class GuiMainMenu extends GuiScreen implements GuiYesNoCallback
 
         synchronized (this.threadLock)
         {
-            if (this.openGLWarning1.length() > 0 && mouseX >= this.field_92022_t && mouseX <= this.field_92020_v && mouseY >= this.field_92021_u && mouseY <= this.field_92019_w)
+            if (!this.openGLWarning1.isEmpty() && mouseX >= this.field_92022_t && mouseX <= this.field_92020_v && mouseY >= this.field_92021_u && mouseY <= this.field_92019_w)
             {
                 GuiConfirmOpenLink guiconfirmopenlink = new GuiConfirmOpenLink(this, this.openGLWarningLink, 13, true);
                 guiconfirmopenlink.disableSecurityWarning();

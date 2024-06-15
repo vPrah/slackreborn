@@ -76,7 +76,7 @@ public class CommandSpreadPlayers extends CommandBase
                 {
                     List<Entity> list1 = PlayerSelector.<Entity>matchEntities(sender, s, Entity.class);
 
-                    if (list1.size() == 0)
+                    if (list1.isEmpty())
                     {
                         throw new EntityNotFoundException();
                     }

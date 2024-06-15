@@ -94,7 +94,7 @@ public class Profiler
         {
             if (this.profilingEnabled)
             {
-                if (this.profilingSection.length() > 0)
+                if (!this.profilingSection.isEmpty())
                 {
                     this.profilingSection = this.profilingSection + ".";
                 }
@@ -151,7 +151,7 @@ public class Profiler
             long j = this.profilingMap.containsKey(p_76321_1_) ? this.profilingMap.get(p_76321_1_) : -1L;
             List<Profiler.Result> list = Lists.<Profiler.Result>newArrayList();
 
-            if (p_76321_1_.length() > 0)
+            if (!p_76321_1_.isEmpty())
             {
                 p_76321_1_ = p_76321_1_ + ".";
             }
@@ -220,7 +220,7 @@ public class Profiler
 
     public String getNameOfLastSection()
     {
-        return this.sectionList.size() == 0 ? "[UNKNOWN]" : this.sectionList.get(this.sectionList.size() - 1);
+        return this.sectionList.isEmpty() ? "[UNKNOWN]" : this.sectionList.get(this.sectionList.size() - 1);
     }
 
     public void startSection(Class<?> p_startSection_1_)
