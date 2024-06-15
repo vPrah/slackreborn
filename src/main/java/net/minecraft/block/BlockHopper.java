@@ -201,7 +201,7 @@ public class BlockHopper extends BlockContainer
     }
 
     /**
-     * Get's the hopper's active status from the 8-bit of the metadata. Note that the metadata stores whether the block
+     * Gets the hopper's active status from the 8-bit of the metadata. Note that the metadata stores whether the block
      * is powered, so this returns true when that bit is 0.
      */
     public static boolean isEnabled(int meta)

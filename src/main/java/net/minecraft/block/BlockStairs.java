@@ -98,7 +98,7 @@ public class BlockStairs extends Block
     }
 
     /**
-     * Check whether there is a stair block at the given position and it has the same properties as the given BlockState
+     * Check whether there is a stair block at the given position, and it has the same properties as the given BlockState
      */
     public static boolean isSameStair(IBlockAccess worldIn, BlockPos pos, IBlockState state)
     {

@@ -124,7 +124,7 @@ public class Block
     protected boolean enableStats;
 
     /**
-     * Flags whether or not this block is of a type that needs random ticking. Ref-counted by ExtendedBlockStorage in
+     * Flags whether this block is of a type that needs random ticking. Ref-counted by ExtendedBlockStorage in
      * order to broadly cull a chunk from the random chunk update list for efficiency's sake.
      */
     protected boolean needsRandomTick;
@@ -336,7 +336,7 @@ public class Block
     }
 
     /**
-     * Sets the the blocks resistance to explosions. Returns the object for convenience in constructing.
+     * Sets the blocks resistance to explosions. Returns the object for convenience in constructing.
      */
     protected Block setResistance(float resistance)
     {
@@ -428,7 +428,7 @@ public class Block
     }
 
     /**
-     * Returns whether or not this block is of a type that needs random ticking. Called for ref-counting purposes by
+     * Returns whether this block is of a type that needs random ticking. Called for ref-counting purposes by
      * ExtendedBlockStorage in order to broadly cull a chunk from the random chunk update list for efficiency's sake.
      */
     public boolean getTickRandomly()
