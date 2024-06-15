@@ -682,11 +682,7 @@ public class ShaderPackParser
             {
                 ShaderMacro[] ashadermacro = findMacros(s1, ShaderMacros.getExtensions());
 
-                for (int i1 = 0; i1 < ashadermacro.length; ++i1)
-                {
-                    ShaderMacro shadermacro1 = ashadermacro[i1];
-                    set.add(shadermacro1);
-                }
+                set.addAll(Arrays.asList(ashadermacro));
             }
 
             chararraywriter.write(s1);

@@ -43,7 +43,7 @@ public class CommandHelp extends CommandBase
 
     public List<String> getCommandAliases()
     {
-        return Arrays.<String>asList("?");
+        return Collections.<String>singletonList("?");
     }
 
     /**

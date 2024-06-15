@@ -363,7 +363,7 @@ public class MCFontRenderer extends CFont {
                 finalWords.add("" + lastColorCode + currentWord + " ");
                 currentWord = "";
             } else {
-                formatString(currentWord, width).forEach(finalWords::add);
+                finalWords.addAll(formatString(currentWord, width));
             }
         } else {
             finalWords.add(text);
