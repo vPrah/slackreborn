@@ -1,4 +1,4 @@
-package cc.slack.ui.clickGUI.component.components;
+package cc.slack.ui.clickgui.component.components;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -7,17 +7,17 @@ import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.ui.clickGUI.component.components.sub.Checkbox;
-import cc.slack.ui.clickGUI.component.components.sub.Slider;
+import cc.slack.ui.clickgui.component.components.sub.Checkbox;
+import cc.slack.ui.clickgui.component.components.sub.Slider;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 
-import cc.slack.ui.clickGUI.component.Component;
-import cc.slack.ui.clickGUI.component.Frame;
-import cc.slack.ui.clickGUI.component.components.sub.Keybind;
-import cc.slack.ui.clickGUI.component.components.sub.ModeButton;
+import cc.slack.ui.clickgui.component.Component;
+import cc.slack.ui.clickgui.component.Frame;
+import cc.slack.ui.clickgui.component.components.sub.Keybind;
+import cc.slack.ui.clickgui.component.components.sub.ModeButton;
 import cc.slack.features.modules.api.Module;
 
 public class Button extends Component {

@@ -1,11 +1,11 @@
-package cc.slack.ui.clickGUI.component.components.sub;
+package cc.slack.ui.clickgui.component.components.sub;
 
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
-import cc.slack.ui.clickGUI.component.Component;
-import cc.slack.ui.clickGUI.component.components.Button;
+import cc.slack.ui.clickgui.component.Component;
+import cc.slack.ui.clickgui.component.components.Button;
 import cc.slack.features.modules.api.Module;
 
 public class ModeButton extends Component {

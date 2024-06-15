@@ -1,8 +1,8 @@
-package cc.slack.ui.clickGUI.component.components.sub;
+package cc.slack.ui.clickgui.component.components.sub;
 
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.ui.clickGUI.component.Component;
-import cc.slack.ui.clickGUI.component.components.Button;
+import cc.slack.ui.clickgui.component.Component;
+import cc.slack.ui.clickgui.component.components.Button;
 import cc.slack.utils.other.MathUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;

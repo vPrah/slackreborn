@@ -2,7 +2,7 @@ package cc.slack.ui.menu;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.other.Tweaks;
-import cc.slack.ui.clickGUI.ClickGui;
+import cc.slack.ui.clickgui.ClickGui;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;
 import cc.slack.utils.render.RenderUtil;
@@ -83,10 +83,6 @@ public class MenuInfo extends GuiScreen {
             Fonts.apple20.drawString("Client Build Status: ", 707, 280, -1);
             Fonts.apple20.drawString("Unstable", 795, 280, new Color(200, 0, 0).getRGB());
         }
-
-
-
-
 
 
         // Client Things Menu

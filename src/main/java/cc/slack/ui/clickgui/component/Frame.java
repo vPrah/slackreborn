@@ -1,4 +1,4 @@
-package cc.slack.ui.clickGUI.component;
+package cc.slack.ui.clickgui.component;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 
 //Your Imports
-import cc.slack.ui.clickGUI.component.components.Button;
+import cc.slack.ui.clickgui.component.components.Button;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 

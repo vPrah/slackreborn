@@ -1,7 +1,7 @@
-package cc.slack.ui.clickGUI.component.components.sub;
+package cc.slack.ui.clickgui.component.components.sub;
 
-import cc.slack.ui.clickGUI.component.Component;
-import cc.slack.ui.clickGUI.component.components.Button;
+import cc.slack.ui.clickgui.component.Component;
+import cc.slack.ui.clickgui.component.components.Button;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;

@@ -1,4 +1,4 @@
-package cc.slack.ui.clickGUI.component;
+package cc.slack.ui.clickgui.component;
 
 public class Component {
 
