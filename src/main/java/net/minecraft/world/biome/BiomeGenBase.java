@@ -410,7 +410,7 @@ public abstract class BiomeGenBase
     {
         if (pos.getY() > 64)
         {
-            float f = (float)(temperatureNoise.func_151601_a((double)pos.getX() * 1.0D / 8.0D, (double)pos.getZ() * 1.0D / 8.0D) * 4.0D);
+            float f = (float)(temperatureNoise.func_151601_a((double) pos.getX() / 8.0D, (double) pos.getZ() / 8.0D) * 4.0D);
             return this.temperature - (f + (float)pos.getY() - 64.0F) * 0.05F / 30.0F;
         }
         else

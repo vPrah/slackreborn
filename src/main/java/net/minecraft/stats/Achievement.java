@@ -32,7 +32,7 @@ public class Achievement extends StatBase
     private final String achievementDescription;
 
     /**
-     * Holds a string formatter for the achievement, some of then needs extra dynamic info - like the key used to open
+     * Holds a string formatter for the achievement, some of them needs extra dynamic info - like the key used to open
      * the inventory.
      */
     private IStatStringFormat statStringFormatter;
@@ -120,7 +120,7 @@ public class Achievement extends StatBase
     }
 
     /**
-     * Returns whether or not the StatBase-derived class is a statistic (running counter) or an achievement (one-shot).
+     * Returns whether the StatBase-derived class is a statistic (running counter) or an achievement (one-shot).
      */
     public boolean isAchievement()
     {
@@ -140,7 +140,7 @@ public class Achievement extends StatBase
     }
 
     /**
-     * Returns the fully description of the achievement - ready to be displayed on screen.
+     * Returns the full description of the achievement - ready to be displayed on screen.
      */
     public String getDescription()
     {

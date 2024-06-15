@@ -1346,7 +1346,7 @@ public abstract class EntityLivingBase extends Entity
     private int getArmSwingAnimationEnd()
     {
         double multiplier = this != Minecraft.getMinecraft().thePlayer ? 1 : Slack.getInstance().getModuleManager().getInstance(Animations.class).isToggle() ? (Slack.getInstance().getModuleManager().getInstance(Animations.class)).animationSpeedValue.getValue() : 1;
-        return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) * 1 : (int) ((this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6) * (float) multiplier);
+        return this.isPotionActive(Potion.digSpeed) ? 6 - (1 + this.getActivePotionEffect(Potion.digSpeed).getAmplifier()) : (int) ((this.isPotionActive(Potion.digSlowdown) ? 6 + (1 + this.getActivePotionEffect(Potion.digSlowdown).getAmplifier()) * 2 : 6) * (float) multiplier);
     }
 
     /**
@@ -1738,7 +1738,7 @@ public abstract class EntityLivingBase extends Entity
                 if (f3 > 0.0F)
                 {
                     f1 += (0.54600006F - f1) * f3 / 3.0F;
-                    f2 += (this.getAIMoveSpeed() * 1.0F - f2) * f3 / 3.0F;
+                    f2 += (this.getAIMoveSpeed() - f2) * f3 / 3.0F;
                 }
 
                 this.moveFlying(strafe, forward, f2);

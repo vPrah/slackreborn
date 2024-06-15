@@ -244,7 +244,7 @@ public class LongHashMap<V>
             }
         }
 
-        return 1.0D * (double)i / (double)this.numHashElements;
+        return (double) i / (double)this.numHashElements;
     }
 
     static class Entry<V>

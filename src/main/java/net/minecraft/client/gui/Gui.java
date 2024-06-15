@@ -150,10 +150,10 @@ public class Gui {
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
-        worldrenderer.pos(xCoord + 0.0F, yCoord + (float) maxV, this.zLevel).tex((float) (minU + 0) * f, (float) (minV + maxV) * f1).endVertex();
+        worldrenderer.pos(xCoord + 0.0F, yCoord + (float) maxV, this.zLevel).tex((float) (minU) * f, (float) (minV + maxV) * f1).endVertex();
         worldrenderer.pos(xCoord + (float) maxU, yCoord + (float) maxV, this.zLevel).tex((float) (minU + maxU) * f, (float) (minV + maxV) * f1).endVertex();
-        worldrenderer.pos(xCoord + (float) maxU, yCoord + 0.0F, this.zLevel).tex((float) (minU + maxU) * f, (float) (minV + 0) * f1).endVertex();
-        worldrenderer.pos(xCoord + 0.0F, yCoord + 0.0F, this.zLevel).tex((float) (minU + 0) * f, (float) (minV + 0) * f1).endVertex();
+        worldrenderer.pos(xCoord + (float) maxU, yCoord + 0.0F, this.zLevel).tex((float) (minU + maxU) * f, (float) (minV) * f1).endVertex();
+        worldrenderer.pos(xCoord + 0.0F, yCoord + 0.0F, this.zLevel).tex((float) (minU) * f, (float) (minV) * f1).endVertex();
         tessellator.draw();
     }
 

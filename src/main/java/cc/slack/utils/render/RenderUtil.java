@@ -293,7 +293,7 @@ public final class RenderUtil implements IMinecraft {
     public static void drawRenderItemPhysics(Entity par1Entity, double x, double y, double z, float par8, float par9) {
         EntityItem item;
         ItemStack itemstack;
-        rotation = (double)(System.nanoTime() - tick) / 3000000.0 * 1.0;
+        rotation = (double) (System.nanoTime() - tick) / 3000000.0;
         if (!mc.getMinecraft().inGameHasFocus) {
             rotation = 0.0;
         }
