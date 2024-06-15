@@ -1,9 +1,10 @@
 package cc.slack.utils.rotations;
 
+import cc.slack.utils.client.IMinecraft;
 import lombok.Getter;
 import lombok.Setter;
 
-public class Rotation {
+public class Rotation implements IMinecraft {
 
     @Getter
     @Setter

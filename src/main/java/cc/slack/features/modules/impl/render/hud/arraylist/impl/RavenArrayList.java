@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.render.ColorUtil;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -46,7 +47,7 @@ public class RavenArrayList implements IArraylist {
             }
         }
 
-        modules.sort((a, b) -> Integer.compare(mc.getFontRenderer().getStringWidth(b.first), mc.getFontRenderer().getStringWidth(a.first)));
+        modules.sort((a, b) -> Integer.compare(Minecraft.getFontRenderer().getStringWidth(b.first), Minecraft.getFontRenderer().getStringWidth(a.first)));
     }
 
     @Override
@@ -54,7 +55,7 @@ public class RavenArrayList implements IArraylist {
         int y = 3;
         double c = 0;
         for (Pair module : modules) {
-            int stringLength = mc.getFontRenderer().getStringWidth(module.first);
+            int stringLength = Minecraft.getFontRenderer().getStringWidth(module.first);
             Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
             double ease;
 
@@ -70,8 +71,8 @@ public class RavenArrayList implements IArraylist {
 
             ease = 1 - 1.2 * ease;
 
-            mc.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
-            y += (int) ((mc.getFontRenderer().FONT_HEIGHT + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
+            Minecraft.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+            y += (int) ((Minecraft.getFontRenderer().FONT_HEIGHT + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
             c += 0.15;
         }
     }

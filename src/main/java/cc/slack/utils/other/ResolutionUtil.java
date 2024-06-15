@@ -1,11 +1,12 @@
 package cc.slack.utils.other;
 
+import cc.slack.utils.client.IMinecraft;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.MathHelper;
 
-public class ResolutionUtil {
+public class ResolutionUtil implements IMinecraft {
 
     public static ResolutionUtil INSTANCE;
 

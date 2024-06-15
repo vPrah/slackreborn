@@ -11,6 +11,7 @@ import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
@@ -52,7 +53,7 @@ public class Basic2ArrayList implements IArraylist {
 
     @Override
     public void onRender(RenderEvent event) {
-        if (mc.getGameSettings().showDebugInfo) {
+        if (Minecraft.getGameSettings().showDebugInfo) {
             return;
         }
         renderArrayList(event);

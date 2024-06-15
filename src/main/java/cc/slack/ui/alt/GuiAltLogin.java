@@ -7,6 +7,7 @@ import javax.swing.JFileChooser;
 import javax.swing.UIManager;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 import cc.slack.ui.alt.cookie.CookieUtil;
@@ -17,8 +18,7 @@ import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.util.ChatFormatting;
 import net.minecraft.util.Session;
 
-public final class GuiAltLogin
-        extends GuiScreen {
+public final class GuiAltLogin extends GuiScreen {
     private PasswordField password;
     private final GuiScreen previousScreen;
     private AltLoginThread thread;
@@ -90,13 +90,13 @@ public final class GuiAltLogin
         this.drawDefaultBackground();
         this.username.drawTextBox();
         this.password.drawTextBox();
-        this.drawCenteredString(cc.slack.utils.client.mc.getFontRenderer(), "Alt Login", width / 2, 20, -1);
-        this.drawCenteredString(cc.slack.utils.client.mc.getFontRenderer(), this.thread == null ? ChatFormatting.GRAY + "Idle..." : this.thread.getStatus(), width / 2, 29, -1);
+        this.drawCenteredString(Minecraft.getFontRenderer(), "Alt Login", width / 2, 20, -1);
+        this.drawCenteredString(Minecraft.getFontRenderer(), this.thread == null ? ChatFormatting.GRAY + "Idle..." : this.thread.getStatus(), width / 2, 29, -1);
         if (this.username.getText().isEmpty()) {
-            this.drawString(cc.slack.utils.client.mc.getFontRenderer(), "Username / E-Mail", width / 2 - 96, 66, -7829368);
+            this.drawString(Minecraft.getFontRenderer(), "Username / E-Mail", width / 2 - 96, 66, -7829368);
         }
         if (this.password.getText().isEmpty()) {
-            this.drawString(cc.slack.utils.client.mc.getFontRenderer(), "Password", width / 2 - 96, 106, -7829368);
+            this.drawString(Minecraft.getFontRenderer(), "Password", width / 2 - 96, 106, -7829368);
         }
         super.drawScreen(x2, y2, z2);
     }
@@ -107,8 +107,8 @@ public final class GuiAltLogin
         this.buttonList.add(new GuiButton(0, width / 2 - 100, var3 + 72 + 12, "Login"));
 //        this.buttonList.add(new GuiButton(2, width / 2 - 100, var3 + 72 + 12 + 24, "Cookie Login"));
         this.buttonList.add(new GuiButton(1, width / 2 - 100, var3 + 72 + 12 + 24, "Back"));
-        this.username = new GuiTextField(var3, cc.slack.utils.client.mc.getFontRenderer(), width / 2 - 100, 60, 200, 20);
-        this.password = new PasswordField(cc.slack.utils.client.mc.getFontRenderer(), width / 2 - 100, 100, 200, 20);
+        this.username = new GuiTextField(var3, Minecraft.getFontRenderer(), width / 2 - 100, 60, 200, 20);
+        this.password = new PasswordField(Minecraft.getFontRenderer(), width / 2 - 100, 100, 200, 20);
         this.username.setFocused(true);
         Keyboard.enableRepeatEvents(true);
     }
