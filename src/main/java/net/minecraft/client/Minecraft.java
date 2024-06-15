@@ -34,17 +34,12 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
-import java.util.Collections;
-import java.util.Date;
-import java.util.Iterator;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
-import java.util.Queue;
-import java.util.Set;
-import java.util.UUID;
 import java.util.concurrent.Callable;
 import java.util.concurrent.Executors;
 import java.util.concurrent.FutureTask;
+import java.util.function.Predicate;
 import javax.imageio.ImageIO;
 
 import de.florianmichael.viamcp.fixes.AttackOrder;
@@ -121,6 +116,7 @@ import net.minecraft.crash.CrashReportCategory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLeashKnot;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.boss.BossStatus;
 import net.minecraft.entity.item.EntityArmorStand;
 import net.minecraft.entity.item.EntityBoat;
@@ -1284,7 +1280,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
             if (keyCount == 0)
             {
-                if (profiler$result.field_76331_c.length() > 0)
+                if (!profiler$result.field_76331_c.isEmpty())
                 {
                     int i = this.debugProfilerName.lastIndexOf(".");
 
@@ -1300,7 +1296,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
 
                 if (keyCount < list.size() && !list.get(keyCount).field_76331_c.equals("unspecified"))
                 {
-                    if (this.debugProfilerName.length() > 0)
+                    if (!this.debugProfilerName.isEmpty())
                     {
                         this.debugProfilerName = this.debugProfilerName + ".";
                     }
@@ -1389,7 +1385,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
                 s = s + "[0] ";
             }
 
-            if (profiler$result.field_76331_c.length() == 0)
+            if (profiler$result.field_76331_c.isEmpty())
             {
                 s = s + "ROOT ";
             }
@@ -2777,6 +2773,50 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public static Minecraft getMinecraft()
     {
         return theMinecraft;
+    }
+
+    public static EntityRenderer getEntityRenderer() {
+        return getMinecraft().entityRenderer;
+    }
+
+    public static WorldClient getWorld() {
+        return getMinecraft().theWorld;
+    }
+
+    public static FontRenderer getFontRenderer() {
+        return getMinecraft().MCfontRenderer;
+    }
+
+    public static PlayerControllerMP getPlayerController() {
+        return getMinecraft().playerController;
+    }
+
+    public static GameSettings getGameSettings() {
+        return getMinecraft().gameSettings;
+    }
+
+    public static GuiScreen getCurrentScreen() {
+        return getMinecraft().currentScreen;
+    }
+
+    public static List<EntityPlayer> getLoadedPlayers() {
+        return getWorld().playerEntities;
+    }
+
+    public static ScaledResolution getScaledResolution() { return new ScaledResolution(getMinecraft()); }
+
+    public static List<EntityLivingBase> getLivingEntities(Predicate<EntityLivingBase> validator) {
+        List<EntityLivingBase> entities = new ArrayList<>();
+
+        getWorld().loadedEntityList.forEach(entity -> {
+            if (entity instanceof EntityLivingBase) {
+                EntityLivingBase ent = (EntityLivingBase) entity;
+                if (validator.test(ent))
+                    entities.add(ent);
+            }
+        });
+
+        return entities;
     }
 
     public static void setMinecraft(Minecraft mc) { theMinecraft = mc; }

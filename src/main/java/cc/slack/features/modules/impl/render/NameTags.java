@@ -6,7 +6,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.render.RenderUtil;
@@ -72,7 +71,7 @@ public class NameTags extends Module {
 
 
     private int getNameColor(EntityLivingBase ent) {
-        if (ent.getDisplayName().equals(mc.getPlayer().getDisplayName())) return new Color(0xFF99ff99).getRGB();
+        if (ent.getDisplayName().equals(mc.thePlayer.getDisplayName())) return new Color(0xFF99ff99).getRGB();
         return new Color(-1).getRGB();
     }
 

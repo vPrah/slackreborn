@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.render.HUD;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S02PacketChat;
@@ -35,7 +34,7 @@ public class AutoPlay extends Module {
     private void process(IChatComponent chatComponent) {
         String value = chatComponent.getChatStyle().getChatClickEvent().getValue();
         if (value != null && value.startsWith("/play") && !value.startsWith("/play skyblock")) {
-            mc.getPlayer().sendChatMessage(value);
+            mc.thePlayer.sendChatMessage(value);
         } else {
             for (IChatComponent component : chatComponent.getSiblings()) {
                 process(component);
@@ -73,14 +72,14 @@ public class AutoPlay extends Module {
 
                 String command = commandTextComponent.getChatStyle().getChatClickEvent().getValue();
                 if (timeUtil.hasReached(500L)) {
-                    mc.getPlayer().sendChatMessage(command);
+                    mc.thePlayer.sendChatMessage(command);
                     iscorrectjoin();
                     timeUtil.reset();
                 }
                 break;
             case "Librecraft":
                 if (unformattedText.contains("¡Partida finalizada!")) {
-                    mc.getPlayer().sendChatMessage("/saliryentrar");
+                    mc.thePlayer.sendChatMessage("/saliryentrar");
                     iscorrectjoin();
                 }
                 break;

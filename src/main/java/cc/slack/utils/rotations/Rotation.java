@@ -1,6 +1,5 @@
 package cc.slack.utils.rotations;
 
-import cc.slack.utils.client.mc;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -22,7 +21,7 @@ public class Rotation {
     }
 
     public void setToPlayer() {
-        mc.getPlayer().rotationYaw = yaw;
-        mc.getPlayer().rotationPitch = pitch;
+        mc.thePlayer.rotationYaw = yaw;
+        mc.thePlayer.rotationPitch = pitch;
     }
 }

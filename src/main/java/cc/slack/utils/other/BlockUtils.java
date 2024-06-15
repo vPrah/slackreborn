@@ -1,6 +1,6 @@
 package cc.slack.utils.other;
 
-import cc.slack.utils.client.mc;
+import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockBed;
@@ -17,7 +17,7 @@ import java.util.function.Function;
 import java.util.function.Predicate;
 
 
-public class BlockUtils extends mc {
+public class BlockUtils implements IMinecraft {
     public Block getBlock(Vec3 vec3) {
         return getBlock(new BlockPos(vec3));
     }
@@ -37,7 +37,7 @@ public class BlockUtils extends mc {
     }
 
     public static float getHardness(BlockPos blockPos) {
-        return getBlock(blockPos).getPlayerRelativeBlockHardness(mc.getPlayer(), mc.getWorld(), blockPos);
+        return getBlock(blockPos).getPlayerRelativeBlockHardness(mc.thePlayer, mc.getWorld(), blockPos);
     }
 
     public static boolean isReplaceable(BlockPos blockPos) {
@@ -76,7 +76,7 @@ public class BlockUtils extends mc {
     }
 
     public static double getCenterDistance(BlockPos blockPos) {
-        return mc.getPlayer().getDistance(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
+        return mc.thePlayer.getDistance(blockPos.getX() + 0.5, blockPos.getY() + 0.5, blockPos.getZ() + 0.5);
     }
 
     public static float[] getCenterRotation(BlockPos blockPos) {
@@ -97,11 +97,11 @@ public class BlockUtils extends mc {
     }
 
     public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos) {
-        return getHorizontalFacingEnum(blockPos, mc.getPlayer().posX, mc.getPlayer().posZ);
+        return getHorizontalFacingEnum(blockPos, mc.thePlayer.posX, mc.thePlayer.posZ);
     }
 
     public static double getScaffoldPriority(BlockPos blockPos) {
-        return getCenterDistance(blockPos) + Math.abs(MathHelper.wrapAngleTo180_double(getCenterRotation(blockPos)[0] - (mc.getPlayer().rotationYaw + 180)))/130;
+        return getCenterDistance(blockPos) + Math.abs(MathHelper.wrapAngleTo180_double(getCenterRotation(blockPos)[0] - (mc.thePlayer.rotationYaw + 180)))/130;
     }
 
     public static EnumFacing getHorizontalFacingEnum(BlockPos blockPos, double x, double z) {
@@ -133,7 +133,7 @@ public class BlockUtils extends mc {
         for (int x = radius; x >= -radius + 1; x--) {
             for (int y = radius; y >= -radius + 1; y--) {
                 for (int z = radius; z >= -radius + 1; z--) {
-                    BlockPos blockPos = new BlockPos(mc.getPlayer().posX + x, mc.getPlayer().posY + y, mc.getPlayer().posZ + z);
+                    BlockPos blockPos = new BlockPos(mc.thePlayer.posX + x, mc.thePlayer.posY + y, mc.thePlayer.posZ + z);
                     Block block = getBlock(blockPos);
                     if (block != null) {
                         blocks.put(blockPos, block);
@@ -146,10 +146,10 @@ public class BlockUtils extends mc {
     }
 
     public static boolean collideBlock(AxisAlignedBB axisAlignedBB, Function<Block, Boolean> collide) {
-        for (int x = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minX); x <
-                MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().maxX) + 1; x++) {
-            for (int z = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minZ); z <
-                    MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().maxZ) + 1; z++) {
+        for (int x = MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minX); x <
+                MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().maxX) + 1; x++) {
+            for (int z = MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minZ); z <
+                    MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().maxZ) + 1; z++) {
                 Block block = getBlock(new BlockPos(x, axisAlignedBB.minY, z));
 
                 if (!collide.apply(block)) {
@@ -161,10 +161,10 @@ public class BlockUtils extends mc {
     }
 
     public static boolean collideBlockIntersects(AxisAlignedBB axisAlignedBB, Predicate<Block> collide) {
-        for (int x = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minX); x <
-                MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().maxX) + 1; x++) {
-            for (int z = MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().minZ); z <
-                    MathHelper.floor_double(mc.getPlayer().getEntityBoundingBox().maxZ) + 1; z++) {
+        for (int x = MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minX); x <
+                MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().maxX) + 1; x++) {
+            for (int z = MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().minZ); z <
+                    MathHelper.floor_double(mc.thePlayer.getEntityBoundingBox().maxZ) + 1; z++) {
                 BlockPos blockPos = new BlockPos(x, axisAlignedBB.minY, z);
                 Block block = getBlock(blockPos);
 
@@ -172,7 +172,7 @@ public class BlockUtils extends mc {
                     AxisAlignedBB boundingBox = block != null ? block.getCollisionBoundingBox(mc.getWorld(), blockPos, getState(blockPos)) : null;
                     if (boundingBox == null) continue;
 
-                    if (mc.getPlayer().getEntityBoundingBox().intersectsWith(boundingBox)) {
+                    if (mc.thePlayer.getEntityBoundingBox().intersectsWith(boundingBox)) {
                         return true;
                     }
                 }

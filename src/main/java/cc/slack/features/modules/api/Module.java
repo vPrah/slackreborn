@@ -10,6 +10,7 @@ import cc.slack.Slack;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.utils.EventUtil;
+import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.other.TimeUtil;
 import lombok.Getter;
@@ -20,7 +21,7 @@ import net.minecraft.util.ResourceLocation;
 
 @Getter
 @Setter
-public abstract class Module {
+public abstract class Module implements IMinecraft {
 
     private final List<Value> setting = new ArrayList<>();
 

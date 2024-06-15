@@ -10,7 +10,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.TimerUtil;
@@ -53,12 +52,12 @@ public class TimerModule extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (mode.getValue().toLowerCase()) {
             case "balance":
-                if (mc.getPlayer() != null && mc.getPlayer().ticksExisted % 20 == 0) {
+                if (mc.thePlayer != null && mc.thePlayer.ticksExisted % 20 == 0) {
                     PrintUtil.debugMessage("Balance: " + balance);
                 }
                 break;
             case "normal":
-                mc.getTimer().timerSpeed = speed.getValue();
+                mc.timer.timerSpeed = speed.getValue();
                 break;
         }
     }

@@ -13,7 +13,6 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.longjumps.ILongJump;
 import cc.slack.features.modules.impl.movement.longjumps.impl.verus.VerusBowLJ;
 import cc.slack.features.modules.impl.movement.longjumps.impl.vulcan.VulcanLJ;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -50,7 +49,7 @@ public class LongJump extends Module {
 
     @Override
     public void onDisable() {
-        mc.getTimer().timerSpeed = 1F;
+        mc.timer.timerSpeed = 1F;
 
         mode.getValue().onDisable();
     }

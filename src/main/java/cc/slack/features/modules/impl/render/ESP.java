@@ -7,7 +7,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -33,7 +32,6 @@ import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.GLU;
 
-import javax.swing.*;
 import javax.vecmath.Vector4d;
 import java.awt.*;
 import java.nio.FloatBuffer;
@@ -268,12 +266,12 @@ public class ESP extends Module {
     }
 
     private boolean isValid(Entity entity) {
-        if (entity != mc.getPlayer() || you.getValue() && mc.getGameSettings().thirdPersonView != 0) {
+        if (entity != mc.thePlayer || you.getValue() && mc.getGameSettings().thirdPersonView != 0) {
             if (entity.isDead) {
                 return false;
             } else if (!invisibles.getValue() && entity.isInvisible()) {
                 return false;
-            } else if (items.getValue() && entity instanceof EntityItem && mc.getPlayer().getDistanceToEntity(entity) < 10.0F) {
+            } else if (items.getValue() && entity instanceof EntityItem && mc.thePlayer.getDistanceToEntity(entity) < 10.0F) {
                 return true;
             } else if (animals.getValue() && entity instanceof EntityAnimal) {
                 return true;
@@ -302,10 +300,10 @@ public class ESP extends Module {
 
     private void drawSkeleton(RenderEvent event, EntityPlayer e) {
         if (event.getState() == RenderEvent.State.RENDER_3D) {
-            final Color color = new Color(e.getDisplayName().equals(mc.getPlayer().getDisplayName()) ? 0xFF99ff99 : new Color(255, 255, 255).getRGB());
+            final Color color = new Color(e.getDisplayName().equals(mc.thePlayer.getDisplayName()) ? 0xFF99ff99 : new Color(255, 255, 255).getRGB());
             if (!e.isInvisible()) {
                 float[][] entPos = entities.get(e);
-                if (entPos != null && e.getEntityId() != -1488 && RenderUtil.isInViewFrustrum(e.getEntityBoundingBox()) && !e.isDead && e != mc.getPlayer() && !e.isPlayerSleeping() && isValid(e)) {
+                if (entPos != null && e.getEntityId() != -1488 && RenderUtil.isInViewFrustrum(e.getEntityBoundingBox()) && !e.isDead && e != mc.thePlayer && !e.isPlayerSleeping() && isValid(e)) {
                     GL11.glPushMatrix();
                     GL11.glEnable(GL11.GL_LINE_SMOOTH);
                     GL11.glLineWidth(width.getValue());

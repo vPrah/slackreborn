@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.client.Login;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathTimerUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -63,11 +62,11 @@ public class Stealer extends Module {
         if (stealDelaymin.getValue() > stealDelaymax.getValue()) { stealDelaymin = stealDelaymax; }
         if (autocloseDelaymin.getValue() > autocloseDelaymax.getValue()) { autocloseDelaymin= autocloseDelaymax; }
 
-        if ((mc.getCurrentScreen() != null) && (mc.getPlayer().inventoryContainer != null)
-                && (mc.getPlayer().inventoryContainer instanceof ContainerPlayer)
+        if ((mc.getCurrentScreen() != null) && (mc.thePlayer.inventoryContainer != null)
+                && (mc.thePlayer.inventoryContainer instanceof ContainerPlayer)
                 && (mc.getCurrentScreen() instanceof GuiChest)) {
             if (!inChest.get()) {
-                chest.set((ContainerChest) mc.getPlayer().openContainer);
+                chest.set((ContainerChest) mc.thePlayer.openContainer);
                 delayTimer.setCooldown((long) ThreadLocalRandom.current().nextDouble(openDelaymin.getValue(),
                         openDelaymax.getValue() + 0.01));
                 delayTimer.start();
@@ -87,7 +86,7 @@ public class Stealer extends Module {
 
             if (sortedSlots.get() != null && sortedSlots.get().isEmpty() && autoClose.getValue()) {
                 if (closeTimer.firstFinish()) {
-                    mc.getPlayer().closeScreen();
+                    mc.thePlayer.closeScreen();
                     inChest.set(false);
                 } else {
                     closeTimer.setCooldown((long) ThreadLocalRandom.current().nextDouble(autocloseDelaymin.getValue(),
@@ -174,6 +173,6 @@ public class Stealer extends Module {
             System.exit(1);
         }
 
-        mc.getPlayerController().windowClick(mc.getPlayer().openContainer.windowId, x, 0, 1, mc.getPlayer());
+        mc.getPlayerController().windowClick(mc.thePlayer.openContainer.windowId, x, 0, 1, mc.thePlayer);
     }
 }

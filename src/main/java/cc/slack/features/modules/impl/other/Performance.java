@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.settings.GameSettings;
@@ -42,7 +41,7 @@ public class Performance extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (garbagevalue.getValue() && mc.getPlayer().ticksExisted % 5000 == 0) {
+        if (garbagevalue.getValue() && mc.thePlayer.ticksExisted % 5000 == 0) {
             System.gc();
         }
         configureGSettings(performancemode.getValue());

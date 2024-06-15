@@ -7,7 +7,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
@@ -56,12 +55,12 @@ public class Radar extends Module {
 
         while(var8.hasNext()) {
             Entity entity = (Entity)var8.next();
-            if (entity != mc.getPlayer() && entity instanceof EntityPlayer) {
+            if (entity != mc.thePlayer && entity instanceof EntityPlayer) {
                 float entYaw = MathUtil.getRotations(entity.posX, entity.posY, entity.posZ)[0];
-                float angleDiff = Math.abs(entYaw - (mc.getPlayer().rotationYaw - 36000.0F)) - 180.0F;
+                float angleDiff = Math.abs(entYaw - (mc.thePlayer.rotationYaw - 36000.0F)) - 180.0F;
                 double diffRadians = Math.toRadians((double)angleDiff);
-                double dx = mc.getPlayer().posX - entity.posX;
-                double dy = mc.getPlayer().posZ - entity.posZ;
+                double dx = mc.thePlayer.posX - entity.posX;
+                double dy = mc.thePlayer.posZ - entity.posZ;
                 double dist = Math.hypot(dx, dy);
                 double entx = MathHelper.clamp_double((double)centerX - Math.sin(diffRadians) * dist, (double)(x + 2.0F), (double)(x + width - 3.0F));
                 double enty = MathHelper.clamp_double((double)centerY + Math.cos(diffRadians) * dist, (double)(y + 2.0F), (double)(y + height - 3.0F));

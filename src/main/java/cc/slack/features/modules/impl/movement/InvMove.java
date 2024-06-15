@@ -8,14 +8,12 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.network.play.client.C0DPacketCloseWindow;
-import net.minecraft.network.play.client.C0EPacketClickWindow;
 import net.minecraft.network.play.client.C16PacketClientStatus;
 import net.minecraft.potion.Potion;
 
@@ -41,7 +39,7 @@ public class InvMove extends Module {
             RotationUtil.updateStrafeFixBinds();
         }
         if (mc.getCurrentScreen() instanceof GuiInventory && hypixelTest.getValue()) {
-            if (mc.getPlayer().ticksExisted % (mc.getPlayer().isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
+            if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             }

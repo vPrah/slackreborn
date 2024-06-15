@@ -1,6 +1,5 @@
 package cc.slack.utils.other;
 
-import cc.slack.utils.client.mc;
 import net.minecraft.util.Vec3;
 
 import java.math.BigDecimal;
@@ -34,7 +33,7 @@ public class MathUtil {
     }
 
     public static float[] getRotations(double x, double y, double z) {
-        Vec3 lookVec = mc.getPlayer().getPositionEyes(1.0F);
+        Vec3 lookVec = mc.thePlayer.getPositionEyes(1.0F);
         double dx = lookVec.xCoord - x;
         double dz = lookVec.zCoord - z;
         double dy = lookVec.yCoord - y;

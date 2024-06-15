@@ -13,10 +13,8 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.world.Scaffold;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
-import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import cc.slack.utils.rotations.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
@@ -26,14 +24,12 @@ import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.*;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 
-import java.awt.*;
 import java.security.SecureRandom;
 
 @ModuleInfo(
@@ -112,7 +108,7 @@ public class KillAura extends Module {
     @Override
     public void onEnable() {
         wasBlink = false;
-        rotations = new float[]{mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
+        rotations = new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
         attackDelay = AttackUtil.getAttackDelay(cps.getValue(), randomization.getValue(), attackPattern.getValue());
         queuedAttacks = 0;
         timer.reset();
@@ -149,9 +145,9 @@ public class KillAura extends Module {
     @Listen
     public void onUpdate(UpdateEvent e) {
 
-        if (noBlock.getValue() && mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem().item instanceof ItemBlock) return;
+        if (noBlock.getValue() && mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem().item instanceof ItemBlock) return;
         if (noScaffold.getValue() && Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
-        if (noEat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood || mc.getPlayer().getHeldItem().item instanceof ItemBucketMilk || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemPotion))) return;
+        if (noEat.getValue() && mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood || mc.thePlayer.getHeldItem().item instanceof ItemBucketMilk || mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemPotion))) return;
         if (noFlight.getValue() && Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle()) return;
 
         target = AttackUtil.getTarget(aimRange.getValue(), sortMode.getValue());
@@ -165,11 +161,11 @@ public class KillAura extends Module {
                 BlinkUtil.disable();
             }
             renderBlock = false;
-            rotations = new float[]{mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
+            rotations = new float[]{mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
             return;
         }
 
-        if (mc.getPlayer().getDistanceToEntity(target) > aimRange.getValue()) return;
+        if (mc.thePlayer.getDistanceToEntity(target) > aimRange.getValue()) return;
         renderBlock = canAutoBlock() && (renderBlocking.getValue() || isBlocking || autoBlock.getValue().equals("Fake")) && (!autoBlock.getValue().equals("None"));
 
         rotations = calculateRotations(target);
@@ -196,13 +192,13 @@ public class KillAura extends Module {
         if (rayCast.getValue()) rayCastedEntity = RaycastUtil.rayCast(attackRange.getValue(), rotations);
 
         if (swingMode.getValue().contains("Normal")){
-            mc.getPlayer().swingItem();
+            mc.thePlayer.swingItem();
         } else if (swingMode.getValue().contains("Packet")) {
             PacketUtil.sendNoEvent(new C0APacketAnimation());
         }
 
 
-        if (mc.getPlayer().getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
+        if (mc.thePlayer.getDistanceToEntity(rayCastedEntity == null ? target : rayCastedEntity) > attackRange.getValue() + 0.3)
             return;
 
         if (checkHitable.getValue() && !RaycastUtil.itHitable(attackRange.getValue() + 0.5, rotations, target)) return;
@@ -210,18 +206,18 @@ public class KillAura extends Module {
         if (keepSprint.getValue()) {
             mc.getPlayerController().syncCurrentPlayItem();
             PacketUtil.send(new C02PacketUseEntity(rayCastedEntity == null ? target : rayCastedEntity, C02PacketUseEntity.Action.ATTACK));
-            if (mc.getPlayer().fallDistance > 0 && !mc.getPlayer().onGround) {
-                mc.getPlayer().onCriticalHit(rayCastedEntity == null ? target : rayCastedEntity);
+            if (mc.thePlayer.fallDistance > 0 && !mc.thePlayer.onGround) {
+                mc.thePlayer.onCriticalHit(rayCastedEntity == null ? target : rayCastedEntity);
             }
         } else {
-            mc.getPlayerController().attackEntity(mc.getPlayer(), rayCastedEntity == null ? target : rayCastedEntity);
+            mc.getPlayerController().attackEntity(mc.thePlayer, rayCastedEntity == null ? target : rayCastedEntity);
         }
     }
 
     private boolean preTickBlock() {
         switch (autoBlock.getValue().toLowerCase()) {
             case "basic":
-                switch (mc.getPlayer().ticksExisted % 3) {
+                switch (mc.thePlayer.ticksExisted % 3) {
                     case 0:
                         unblock();
                         return true;
@@ -235,7 +231,7 @@ public class KillAura extends Module {
             case "blink":
                 switch (blinkMode.getValue().toLowerCase()) {
                     case "legit":
-                        switch (mc.getPlayer().ticksExisted % 3) {
+                        switch (mc.thePlayer.ticksExisted % 3) {
                             case 0:
                                 unblock();
                                 return true;
@@ -252,7 +248,7 @@ public class KillAura extends Module {
                         }
                         break;
                     case "legit hvh":
-                        switch (mc.getPlayer().ticksExisted % 5) {
+                        switch (mc.thePlayer.ticksExisted % 5) {
                             case 0:
                                 unblock();
                                 return true;
@@ -267,7 +263,7 @@ public class KillAura extends Module {
                         }
                         break;
                     case "blatant":
-                        switch (mc.getPlayer().ticksExisted % 2) {
+                        switch (mc.thePlayer.ticksExisted % 2) {
                             case 0:
                                 unblock();
                                 return true;
@@ -297,15 +293,15 @@ public class KillAura extends Module {
                 break;
             case "hypixel":
                 if (isBlocking) {
-                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
                     queuedAttacks = 1;
                 }
                 isBlocking = false;
                 break;
             case "switch":
                 if (isBlocking) {
-                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
-                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                 }
                 isBlocking = false;
                 break;
@@ -318,7 +314,7 @@ public class KillAura extends Module {
     private void postAttack() {
         switch (autoBlock.getValue().toLowerCase()) {
             case "interact":
-                if (mc.getPlayer().hurtTime < 4)
+                if (mc.thePlayer.hurtTime < 4)
                     block(true);
                 break;
             case "hypixel":
@@ -390,7 +386,7 @@ public class KillAura extends Module {
     }
 
     private boolean canAutoBlock() {
-        return target != null && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword && mc.getPlayer().getDistanceToEntity(target) < blockRange.getValue();
+        return target != null && mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword && mc.thePlayer.getDistanceToEntity(target) < blockRange.getValue();
     }
 
     @Override

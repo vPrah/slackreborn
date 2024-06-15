@@ -1,8 +1,6 @@
 package cc.slack.utils.player;
 
-import cc.slack.utils.client.mc;
-
-public class ItemSpoofUtil extends mc {
+public class ItemSpoofUtil implements IMinecraft {
 
 
     public static boolean isEnabled = false;
@@ -12,18 +10,18 @@ public class ItemSpoofUtil extends mc {
     public static void startSpoofing(int slot) {
         if (isEnabled) {
             realSlot = slot;
-            mc.getPlayer().inventory.currentItem = realSlot;
+            mc.thePlayer.inventory.currentItem = realSlot;
             return;
         }
-        renderSlot = mc.getPlayer().inventory.currentItem;
+        renderSlot = mc.thePlayer.inventory.currentItem;
         realSlot = slot;
-        mc.getPlayer().inventory.currentItem = realSlot;
+        mc.thePlayer.inventory.currentItem = realSlot;
         isEnabled = true;
     }
 
     public static void stopSpoofing() {
         realSlot = renderSlot;
         isEnabled = false;
-        mc.getPlayer().inventory.currentItem = renderSlot;
+        mc.thePlayer.inventory.currentItem = renderSlot;
     }
 }

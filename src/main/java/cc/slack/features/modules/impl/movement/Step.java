@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -28,32 +27,32 @@ public class Step extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().isCollidedHorizontally && mc.getPlayer().onGround) {
-            mc.getTimer().timerSpeed = timerSpeed.getValue();
+        if (mc.thePlayer.isCollidedHorizontally && mc.thePlayer.onGround) {
+            mc.timer.timerSpeed = timerSpeed.getValue();
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
-                    mc.getPlayer().stepHeight = 1f;
+                    mc.thePlayer.stepHeight = 1f;
                     break;
                 case "verus":
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.42f, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.85f, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                    mc.getPlayer().stepHeight = 1f;
-                    mc.getTimer().timerSpeed = 0.91f;
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42f, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.85f, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                    mc.thePlayer.stepHeight = 1f;
+                    mc.timer.timerSpeed = 0.91f;
                     break;
                 case "ncp":
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.42f, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.7532f, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                    mc.getPlayer().stepHeight = 1f;
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42f, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.7532f, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                    mc.thePlayer.stepHeight = 1f;
                     break;
                 case "vulcan":
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + 0.5f, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                    mc.getPlayer().stepHeight = 1f;
+                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.5f, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                    mc.thePlayer.stepHeight = 1f;
                     break;
 
             }
         } else {
-            mc.getPlayer().stepHeight = 0.5f;
-            mc.getTimer().timerSpeed = 1f;
+            mc.thePlayer.stepHeight = 0.5f;
+            mc.timer.timerSpeed = 1f;
         }
     }
     

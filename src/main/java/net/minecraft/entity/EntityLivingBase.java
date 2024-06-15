@@ -4,7 +4,6 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.JumpEvent;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Animations;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.rotations.RotationUtil;
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
@@ -1586,7 +1585,7 @@ public abstract class EntityLivingBase extends Entity
             jumpYaw = RotationUtil.clientRotation[0];
         }
         JumpEvent event = new JumpEvent(jumpYaw);
-        if(this == mc.getPlayer() && event.call().isCanceled()) return;
+        if(this == Minecraft.getMinecraft().thePlayer && event.call().isCanceled()) return;
 
         this.motionY = this.getJumpUpwardsMotion();
 

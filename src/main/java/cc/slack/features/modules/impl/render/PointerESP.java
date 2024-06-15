@@ -4,10 +4,8 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.ScaledResolution;
@@ -45,16 +43,16 @@ public class PointerESP extends Module {
             int size = 100;
             double xOffset = scaledResolution.getScaledWidth() / 2F - 50.2;
             double yOffset = scaledResolution.getScaledHeight() / 2F - 49.5;
-            double playerOffsetX = mc.getPlayer().posX;
-            double playerOffSetZ = mc.getPlayer().posZ;
+            double playerOffsetX = mc.thePlayer.posX;
+            double playerOffSetZ = mc.thePlayer.posZ;
 
 
             for (Entity entity : mc.getWorld().loadedEntityList) {
-                if(entity instanceof EntityPlayer && entity != mc.getPlayer()) {
-                    double pos1 = (((entity.posX + (entity.posX - entity.lastTickPosX) * mc.getTimer().renderPartialTicks) - playerOffsetX) * 0.2);
-                    double pos2 = (((entity.posZ + (entity.posZ - entity.lastTickPosZ) * mc.getTimer().renderPartialTicks) - playerOffSetZ) * 0.2);
-                    double cos = Math.cos(mc.getPlayer().rotationYaw * (Math.PI * 2 / 360));
-                    double sin = Math.sin(mc.getPlayer().rotationYaw * (Math.PI * 2 / 360));
+                if(entity instanceof EntityPlayer && entity != mc.thePlayer) {
+                    double pos1 = (((entity.posX + (entity.posX - entity.lastTickPosX) * mc.timer.renderPartialTicks) - playerOffsetX) * 0.2);
+                    double pos2 = (((entity.posZ + (entity.posZ - entity.lastTickPosZ) * mc.timer.renderPartialTicks) - playerOffSetZ) * 0.2);
+                    double cos = Math.cos(mc.thePlayer.rotationYaw * (Math.PI * 2 / 360));
+                    double sin = Math.sin(mc.thePlayer.rotationYaw * (Math.PI * 2 / 360));
                     double rotY = -(pos2 * cos - pos1 * sin);
                     double rotX = -(pos1 * cos + pos2 * sin);
                     double var7 = -rotX;

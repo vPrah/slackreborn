@@ -1,7 +1,7 @@
 package cc.slack.utils.player;
 
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.utils.client.mc;
+import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.network.PacketUtil;
 import net.minecraft.network.Packet;
 import net.minecraft.network.PacketDirection;
@@ -17,7 +17,7 @@ import net.minecraft.network.status.server.S00PacketServerInfo;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
-public class BlinkUtil extends mc {
+public class BlinkUtil implements IMinecraft {
 
     // Blink util commands
     /*

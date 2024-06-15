@@ -2,15 +2,12 @@
 
 package cc.slack.features.modules.impl.player;
 
-import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -60,37 +57,37 @@ public class AntiVoid extends Module {
         switch (antivoidMode.getValue().toLowerCase()) {
             case "universal":
                 if (universalStarted) {
-                    if (mc.getPlayer().onGround) {
+                    if (mc.thePlayer.onGround) {
                         BlinkUtil.disable();
                         universalStarted = false;
                         universalFlag = false;
-                    } else if (mc.getPlayer().fallDistance > 8f && !universalFlag) {
+                    } else if (mc.thePlayer.fallDistance > 8f && !universalFlag) {
                         universalFlag = true;
                         PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(groundX, groundY + 1, groundZ, false));
                     }
-                } else if (mc.getPlayer().fallDistance > 0f && !mc.getPlayer().onGround && mc.getPlayer().motionY < 0) {
+                } else if (mc.thePlayer.fallDistance > 0f && !mc.thePlayer.onGround && mc.thePlayer.motionY < 0) {
                     if (isOverVoid()) {
                         universalStarted = true;
                         universalFlag = false;
                         BlinkUtil.enable(false, true);
-                        groundX = mc.getPlayer().posX;
-                        groundY = mc.getPlayer().posY;
-                        groundZ = mc.getPlayer().posZ;
+                        groundX = mc.thePlayer.posX;
+                        groundY = mc.thePlayer.posY;
+                        groundZ = mc.thePlayer.posZ;
                     }
                 }
                 break;
             case "self tp":
-                if (mc.getPlayer().onGround) {
-                    groundX = mc.getPlayer().posX;
-                    groundY = mc.getPlayer().posY;
-                    groundZ = mc.getPlayer().posZ;
+                if (mc.thePlayer.onGround) {
+                    groundX = mc.thePlayer.posX;
+                    groundY = mc.thePlayer.posY;
+                    groundZ = mc.thePlayer.posZ;
                     triedTP = false;
-                } else if (mc.getPlayer().fallDistance > 5f && !triedTP) {
-                    mc.getPlayer().setPosition(groundX, groundY, groundZ);
-                    mc.getPlayer().fallDistance = 0;
-                    mc.getPlayer().motionX = 0;
-                    mc.getPlayer().motionY = 0;
-                    mc.getPlayer().motionZ = 0;
+                } else if (mc.thePlayer.fallDistance > 5f && !triedTP) {
+                    mc.thePlayer.setPosition(groundX, groundY, groundZ);
+                    mc.thePlayer.fallDistance = 0;
+                    mc.thePlayer.motionX = 0;
+                    mc.thePlayer.motionY = 0;
+                    mc.thePlayer.motionZ = 0;
                     triedTP = true;
                 }
 
@@ -104,7 +101,7 @@ public class AntiVoid extends Module {
                 if (event.getPacket() instanceof S08PacketPlayerPosLook) {
                     if (((S08PacketPlayerPosLook) event.getPacket()).getX() == groundX && ((S08PacketPlayerPosLook) event.getPacket()).getY() == groundY && ((S08PacketPlayerPosLook) event.getPacket()).getZ() == groundZ) {
                         BlinkUtil.disable(false);
-                        mc.getPlayer().setPosition(groundX, groundY, groundZ);
+                        mc.thePlayer.setPosition(groundX, groundY, groundZ);
                         universalFlag = false;
                         universalStarted = false;
                     }
@@ -112,7 +109,7 @@ public class AntiVoid extends Module {
                 break;
             case "polar":
                 if (event.getPacket() instanceof C03PacketPlayer) {
-                    if (mc.getPlayer().fallDistance > 7 && isOverVoid()) {
+                    if (mc.thePlayer.fallDistance > 7 && isOverVoid()) {
                         event.cancel();
                     }
                 }
@@ -121,8 +118,8 @@ public class AntiVoid extends Module {
 
     private boolean isOverVoid() {
         return mc.getWorld().rayTraceBlocks(
-                new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ),
-                new Vec3(mc.getPlayer().posX, mc.getPlayer().posY - 40, mc.getPlayer().posZ),
+                new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ),
+                new Vec3(mc.thePlayer.posX, mc.thePlayer.posY - 40, mc.thePlayer.posZ),
                 true, true, false) == null;
     }
 

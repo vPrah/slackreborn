@@ -6,7 +6,6 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.features.modules.impl.movement.LongJump;
 import cc.slack.features.modules.impl.movement.longjumps.ILongJump;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -24,26 +23,26 @@ public class VulcanLJ implements ILongJump {
 
         ticks++;
 
-        if (mc.getPlayer().fallDistance > 0 && ticks % 2 == 0 && mc.getPlayer().fallDistance < 2.2) {
-            mc.getPlayer().motionY += 0.14F;
+        if (mc.thePlayer.fallDistance > 0 && ticks % 2 == 0 && mc.thePlayer.fallDistance < 2.2) {
+            mc.thePlayer.motionY += 0.14F;
         }
 
         switch (ticks) {
             case 1:
-                mc.getTimer().timerSpeed = 0.5F;
+                mc.timer.timerSpeed = 0.5F;
 
-                PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY - 0.0784000015258789, mc.getPlayer().posZ, mc.getPlayer().onGround));
-                PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ, false));
+                PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.0784000015258789, mc.thePlayer.posZ, mc.thePlayer.onGround));
+                PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
 
                 checking = true;
                 MovementUtil.strafe(7.9F);
-                mc.getPlayer().motionY = 0.42F;
+                mc.thePlayer.motionY = 0.42F;
                 break;
 
             case 2:
 
-                mc.getPlayer().motionY += 0.1F;
+                mc.thePlayer.motionY += 0.1F;
                 MovementUtil.strafe(2.79F);
                 break;
 
@@ -53,7 +52,7 @@ public class VulcanLJ implements ILongJump {
 
             case 4:
                 event.setGround(true);
-                mc.getPlayer().onGround = true;
+                mc.thePlayer.onGround = true;
                 MovementUtil.strafe(0.49F);
                 break;
 
@@ -68,19 +67,19 @@ public class VulcanLJ implements ILongJump {
                 break;
         }
 
-        if (ticks > 6 && mc.getPlayer().onGround) Slack.getInstance().getModuleManager().getInstance(LongJump.class).toggle();
+        if (ticks > 6 && mc.thePlayer.onGround) Slack.getInstance().getModuleManager().getInstance(LongJump.class).toggle();
     }
 
     @Override
     public void onDisable() {
         MovementUtil.resetMotion();
-        mc.getTimer().timerSpeed = 1F;
-        PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY - 78400000F, mc.getPlayer().posZ, mc.getPlayer().onGround));
+        mc.timer.timerSpeed = 1F;
+        PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - 78400000F, mc.thePlayer.posZ, mc.thePlayer.onGround));
     }
 
     @Override
     public void onEnable() {
-        if (!mc.getPlayer().onGround) {
+        if (!mc.thePlayer.onGround) {
             Slack.getInstance().getModuleManager().getInstance(LongJump.class).toggle();
         }
 

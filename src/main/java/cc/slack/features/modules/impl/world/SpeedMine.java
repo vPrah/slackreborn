@@ -6,7 +6,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.util.MovingObjectPosition;
@@ -48,7 +47,7 @@ public class SpeedMine extends Module {
                 break;
             case "NCP":
                 if (isValid) {
-                    if (mc.getPlayerController().curBlockDamageMP >= 0.5f && !mc.getPlayer().isDead) {
+                    if (mc.getPlayerController().curBlockDamageMP >= 0.5f && !mc.thePlayer.isDead) {
                         mc.getPlayerController().curBlockDamageMP += (MathUtil.getDifference(mc.getPlayerController().curBlockDamageMP, 1.0f) * 0.7f);
                     }
                 }

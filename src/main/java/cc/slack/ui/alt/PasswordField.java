@@ -1,6 +1,5 @@
 package cc.slack.ui.alt;
 
-import cc.slack.utils.client.mc;
 import net.minecraft.client.gui.FontRenderer;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiScreen;
@@ -79,7 +78,7 @@ public class PasswordField extends Gui {
         final int var5 = (this.cursorPosition < this.selectionEnd) ? this.selectionEnd : this.cursorPosition;
         final int var6 = this.maxStringLength - this.text.length() - (var4 - this.selectionEnd);
         final boolean var7 = false;
-        if (this.text.length() > 0) {
+        if (!this.text.isEmpty()) {
             var2 = String.valueOf(String.valueOf(var2)) + this.text.substring(0, var4);
         }
         int var8;
@@ -90,7 +89,7 @@ public class PasswordField extends Gui {
             var2 = String.valueOf(String.valueOf(var2)) + var3;
             var8 = var3.length();
         }
-        if (this.text.length() > 0 && var5 < this.text.length()) {
+        if (!this.text.isEmpty() && var5 < this.text.length()) {
             var2 = String.valueOf(String.valueOf(var2)) + this.text.substring(var5);
         }
         this.text = var2.replaceAll(" ", "");
@@ -98,7 +97,7 @@ public class PasswordField extends Gui {
     }
 
     public void func_73779_a(final int par1) {
-        if (this.text.length() != 0) {
+        if (!this.text.isEmpty()) {
             if (this.selectionEnd != this.cursorPosition) {
                 this.writeText("");
             } else {
@@ -108,7 +107,7 @@ public class PasswordField extends Gui {
     }
 
     public void deleteFromCursor(final int par1) {
-        if (this.text.length() != 0) {
+        if (!this.text.isEmpty()) {
             if (this.selectionEnd != this.cursorPosition) {
                 this.writeText("");
             } else {
@@ -330,7 +329,7 @@ public class PasswordField extends Gui {
             if (var3 > var4.length()) {
                 var3 = var4.length();
             }
-            if (var4.length() > 0) {
+            if (!var4.isEmpty()) {
                 if (var5) {
                     var4.substring(0, var2);
                 }
@@ -344,7 +343,7 @@ public class PasswordField extends Gui {
                 var11 = var9 - 1;
                 --var9;
             }
-            if (var4.length() > 0 && var5 && var2 < var4.length()) {
+            if (!var4.isEmpty() && var5 && var2 < var4.length()) {
                 mc.getFontRenderer().drawStringWithShadow(var4.substring(var2), var9, var8, var1);
             }
             if (var6) {

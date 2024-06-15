@@ -1,8 +1,8 @@
 package cc.slack.utils.player;
 
-import cc.slack.utils.client.mc;
+import cc.slack.utils.client.IMinecraft;
 
-public class TimerUtil extends mc {
+public class TimerUtil implements IMinecraft {
 
     private static final float DEFAULT_TIMER = 1.0F;
 
@@ -15,11 +15,11 @@ public class TimerUtil extends mc {
     }
 
     public static void setTickOnGround(float timer, int tick) {
-        setTimer(getPlayer().onGround ? timer : DEFAULT_TIMER, tick);
+        setTimer(mc.thePlayer.onGround ? timer : DEFAULT_TIMER, tick);
     }
 
     public static void setOnGround(float timer) {
-        setTimer(getPlayer().onGround ? timer : DEFAULT_TIMER, 0);
+        setTimer(mc.thePlayer.onGround ? timer : DEFAULT_TIMER, 0);
     }
 
     private static void setTimer(float timer, int tick) {
@@ -29,16 +29,16 @@ public class TimerUtil extends mc {
         }
 
         if (tick == 0)
-            getTimer().timerSpeed = timer;
+            mc.timer.timerSpeed = timer;
         else
-            getTimer().timerSpeed = mc.getPlayer().ticksExisted % tick == 0 ? timer : DEFAULT_TIMER;
+            mc.timer.timerSpeed = mc.thePlayer.ticksExisted % tick == 0 ? timer : DEFAULT_TIMER;
     }
 
     private static boolean shouldTimer() {
-        return (getPlayer() != null && getWorld() != null) && getPlayer().isEntityAlive();
+        return (mc.thePlayer != null && mc.theWorld != null) && mc.thePlayer.isEntityAlive();
     }
 
     public static void reset() {
-        getTimer().timerSpeed = DEFAULT_TIMER;
+        mc.timer.timerSpeed = DEFAULT_TIMER;
     }
 }

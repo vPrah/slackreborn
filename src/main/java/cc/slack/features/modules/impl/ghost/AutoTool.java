@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.ItemSpoofUtil;
@@ -71,15 +70,15 @@ public class AutoTool extends Module {
                 bestSlot = -1;
 
                 if (!isMining) {
-                    prevItem = mc.getPlayer().inventory.currentItem;
+                    prevItem = mc.thePlayer.inventory.currentItem;
                 }
 
 
                 float bestSpeed = 0;
-                if (mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem) != null)
-                    bestSpeed = mc.getPlayer().inventory.getStackInSlot(mc.getPlayer().inventory.currentItem).getStrVsBlock(block);
+                if (mc.thePlayer.inventory.getStackInSlot(mc.thePlayer.inventory.currentItem) != null)
+                    bestSpeed = mc.thePlayer.inventory.getStackInSlot(mc.thePlayer.inventory.currentItem).getStrVsBlock(block);
                 for (int i = 0; i <= 8; i++) {
-                    ItemStack item = mc.getPlayer().inventory.getStackInSlot(i);
+                    ItemStack item = mc.thePlayer.inventory.getStackInSlot(i);
                     if (item == null)
                         continue;
 
@@ -95,7 +94,7 @@ public class AutoTool extends Module {
                     if (spoof) {
                         ItemSpoofUtil.startSpoofing(bestSlot);
                     } else {
-                        mc.getPlayer().inventory.currentItem = bestSlot;
+                        mc.thePlayer.inventory.currentItem = bestSlot;
                     }
                     isMining = true;
                 }
@@ -107,9 +106,9 @@ public class AutoTool extends Module {
                 if (spoof) {
                     ItemSpoofUtil.stopSpoofing();
                 }
-                mc.getPlayer().inventory.currentItem = prevItem;
+                mc.thePlayer.inventory.currentItem = prevItem;
             } else {
-                prevItem = mc.getPlayer().inventory.currentItem;
+                prevItem = mc.thePlayer.inventory.currentItem;
             }
         }
     }

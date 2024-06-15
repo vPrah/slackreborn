@@ -1,7 +1,7 @@
 package cc.slack.utils.player;
 
 import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.utils.client.mc;
+import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
 import net.minecraft.block.Block;
@@ -21,10 +21,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class PlayerUtil extends mc {
+public class PlayerUtil implements IMinecraft {
 
     public static final double BASE_MOTION = 0.21585904623731839;
     public static final double BASE_MOTION_SPRINT = 0.28060730580133125;
@@ -43,14 +40,14 @@ public class PlayerUtil extends mc {
     }
 
     public static double getJumpHeight(double height) {
-        if (getPlayer().isPotionActive(Potion.jump))
-            return height + (getPlayer().getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1;
+        if (mc.thePlayer.isPotionActive(Potion.jump))
+            return height + (mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1;
 
         return height;
     }
 
     public static double getSpeed() {
-        return Math.hypot(getPlayer().motionX, getPlayer().motionZ);
+        return Math.hypot(mc.thePlayer.motionX, mc.thePlayer.motionZ);
     }
 
     public static double getSpeed(MoveEvent event) {
@@ -60,8 +57,8 @@ public class PlayerUtil extends mc {
     public static double getBaseMoveSpeed() {
         double baseSpeed = 0.2873;
 
-        if (getPlayer().isPotionActive(Potion.moveSpeed)) {
-            double amplifier = getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+        if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+            double amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
             baseSpeed *= 1.0 + 0.2 * (amplifier + 1);
         }
 
@@ -73,20 +70,20 @@ public class PlayerUtil extends mc {
     }
 
     public static boolean isOverAir() {
-         return isOverAir(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ);
+         return isOverAir(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
     }
 
     public static boolean isOnSameTeam(EntityPlayer entity) {
-        if (entity.getTeam() != null && getPlayer().getTeam() != null)
-            return entity.getDisplayName().getFormattedText().charAt(1) == getPlayer().getDisplayName().getFormattedText().charAt(1);
+        if (entity.getTeam() != null && mc.thePlayer.getTeam() != null)
+            return entity.getDisplayName().getFormattedText().charAt(1) == mc.thePlayer.getDisplayName().getFormattedText().charAt(1);
         else
             return false;
     }
 
     public static boolean isBlockUnder() {
-        for (int y = (int) getPlayer().posY; y >= 0; y--) {
-            if (!(getWorld().getBlockState
-                    (new BlockPos(getPlayer().posX, y, getPlayer().posZ)).getBlock() instanceof BlockAir))
+        for (int y = (int) mc.thePlayer.posY; y >= 0; y--) {
+            if (!(mc.theWorld.getBlockState
+                    (new BlockPos(mc.thePlayer.posX, y, mc.thePlayer.posZ)).getBlock() instanceof BlockAir))
                 return true;
         }
 
@@ -94,9 +91,9 @@ public class PlayerUtil extends mc {
     }
 
     public static boolean isBlockUnderP(int offset) {
-        for (int i = (int) (mc.getPlayer().posY - offset); i > 0; i--) {
-            BlockPos pos = new BlockPos(mc.getPlayer().posX, i, mc.getPlayer().posZ);
-            if (!(mc.getWorld().getBlockState(pos).getBlock() instanceof BlockAir))
+        for (int i = (int) (mc.thePlayer.posY - offset); i > 0; i--) {
+            BlockPos pos = new BlockPos(mc.thePlayer.posX, i, mc.thePlayer.posZ);
+            if (!(mc.theWorld.getBlockState(pos).getBlock() instanceof BlockAir))
                 return true;
         }
         return false;
@@ -104,12 +101,12 @@ public class PlayerUtil extends mc {
 
     public static boolean isOnLiquid() {
         boolean onLiquid = false;
-        AxisAlignedBB playerBB = getPlayer().getEntityBoundingBox();
+        AxisAlignedBB playerBB = mc.thePlayer.getEntityBoundingBox();
         double y = (int) playerBB.offset(0.0, -0.01, 0.0).minY;
 
         for (double x = MathHelper.floor_double(playerBB.minX); x < MathHelper.floor_double(playerBB.maxX) + 1; ++x) {
             for (double z = MathHelper.floor_double(playerBB.minZ); z < MathHelper.floor_double(playerBB.maxZ) + 1; ++z) {
-                final Block block = getWorld().getBlockState(new BlockPos(x, y, z)).getBlock();
+                final Block block = mc.theWorld.getBlockState(new BlockPos(x, y, z)).getBlock();
 
                 if (block != null && !(block instanceof BlockAir)) {
                     if (!(block instanceof BlockLiquid)) return false;
@@ -123,9 +120,9 @@ public class PlayerUtil extends mc {
     }
 
     public static boolean isOverVoid() {
-        for (double posY = getPlayer().posY; posY > 0.0; posY--) {
-            if (!(getWorld().getBlockState(
-                    new BlockPos(getPlayer().posX, posY, getPlayer().posZ)).getBlock() instanceof BlockAir))
+        for (double posY = mc.thePlayer.posY; posY > 0.0; posY--) {
+            if (!(mc.theWorld.getBlockState(
+                    new BlockPos(mc.thePlayer.posX, posY, mc.thePlayer.posZ)).getBlock() instanceof BlockAir))
                 return false;
         }
 
@@ -135,8 +132,8 @@ public class PlayerUtil extends mc {
     public static double getMaxFallDist() {
         double fallDistanceReq = 3.1;
 
-        if (getPlayer().isPotionActive(Potion.jump)) {
-            int amplifier = getPlayer().getActivePotionEffect(Potion.jump).getAmplifier();
+        if (mc.thePlayer.isPotionActive(Potion.jump)) {
+            int amplifier = mc.thePlayer.getActivePotionEffect(Potion.jump).getAmplifier();
             fallDistanceReq += (float) (amplifier + 1);
         }
 
@@ -144,10 +141,10 @@ public class PlayerUtil extends mc {
     }
 
     public static void damagePlayer(double value, boolean groundCheck) {
-        if (!groundCheck || getPlayer().onGround) {
+        if (!groundCheck || mc.thePlayer.onGround) {
             for (int i = 0; i < Math.ceil(PlayerUtil.getMaxFallDist() / value); i++) {
-                PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(getPlayer().posX, getPlayer().posY + value, getPlayer().posZ, false));
-                PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(getPlayer().posX, getPlayer().posY, getPlayer().posZ, false));
+                PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + value, mc.thePlayer.posZ, false));
+                PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ, false));
             }
 
             PacketUtil.sendNoEvent(new C03PacketPlayer(true));
@@ -169,10 +166,10 @@ public class PlayerUtil extends mc {
     }
 
     public static ItemStack getBestSword() {
-        int size = mc.getPlayer().inventoryContainer.getInventory().size();
+        int size = mc.thePlayer.inventoryContainer.getInventory().size();
         ItemStack lastSword = null;
         for (int i = 0; i < size; i++) {
-            ItemStack stack = mc.getPlayer().inventoryContainer.getInventory().get(i);
+            ItemStack stack = mc.thePlayer.inventoryContainer.getInventory().get(i);
             if (stack != null && stack.getItem() instanceof ItemSword)
                 if (lastSword == null) {
                     lastSword = stack;
@@ -185,10 +182,10 @@ public class PlayerUtil extends mc {
 
 
     public static ItemStack getBestAxe() {
-        int size = mc.getPlayer().inventoryContainer.getInventory().size();
+        int size = mc.thePlayer.inventoryContainer.getInventory().size();
         ItemStack lastAxe = null;
         for (int i = 0; i < size; i++) {
-            ItemStack stack = mc.getPlayer().inventoryContainer.getInventory().get(i);
+            ItemStack stack = mc.thePlayer.inventoryContainer.getInventory().get(i);
             if (stack != null && stack.getItem() instanceof ItemAxe)
                 if (lastAxe == null) {
                     lastAxe = stack;
@@ -200,15 +197,15 @@ public class PlayerUtil extends mc {
     }
 
     public static Block getBlockRelativeToPlayer(final double offsetX, final double offsetY, final double offsetZ) {
-        return mc.getWorld().getBlockState(new BlockPos(mc.getPlayer().posX + offsetX, mc.getPlayer().posY + offsetY, mc.getPlayer().posZ + offsetZ)).getBlock();
+        return mc.getWorld().getBlockState(new BlockPos(mc.thePlayer.posX + offsetX, mc.thePlayer.posY + offsetY, mc.thePlayer.posZ + offsetZ)).getBlock();
     }
 
     public static int getBestHotbarTool(Block target) {
-        int bestTool = mc.getPlayer().inventory.currentItem;
+        int bestTool = mc.thePlayer.inventory.currentItem;
         for (int i = 36; i < 45; i++) {
-            final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
-            if (itemStack != null && mc.getPlayer().inventoryContainer.getSlot(bestTool).getStack() != null) {
-                if (isBetterTool(itemStack,  mc.getPlayer().inventoryContainer.getSlot(bestTool).getStack(), target)) {
+            final ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+            if (itemStack != null && mc.thePlayer.inventoryContainer.getSlot(bestTool).getStack() != null) {
+                if (isBetterTool(itemStack,  mc.thePlayer.inventoryContainer.getSlot(bestTool).getStack(), target)) {
                     bestTool = i;
                 }
             }

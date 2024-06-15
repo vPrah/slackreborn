@@ -160,7 +160,7 @@ public class MacroState
             {
                 String s = matcher2.group();
 
-                if (s.length() > 0)
+                if (!s.isEmpty())
                 {
                     char c0 = s.charAt(0);
 

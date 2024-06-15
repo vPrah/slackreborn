@@ -5,7 +5,6 @@ package cc.slack.features.modules.impl.movement.flights.impl.others;
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.mc;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -17,7 +16,7 @@ public class CollideFlight implements IFlight {
 
     @Override
     public void onEnable() {
-        startY = Math.floor(mc.getPlayer().posY);
+        startY = Math.floor(mc.thePlayer.posY);
     }
 
     @Override

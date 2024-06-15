@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -47,7 +46,7 @@ public class Autoclicker extends Module {
     public void onRender(RenderEvent event) {
         if (
                 (GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack) || (triggerBot.getValue() && mc.getMinecraft().objectMouseOver.entityHit != null))
-                && (!onlySword.getValue() || (mc.getPlayer().getHeldItem() != null? mc.getPlayer().getHeldItem().getItem() instanceof ItemSword : false))
+                && (!onlySword.getValue() || (mc.thePlayer.getHeldItem() != null? mc.thePlayer.getHeldItem().getItem() instanceof ItemSword : false))
                 && !mc.getPlayerController().isHittingBlock
         ) {
             if (leftClickTimer.hasReached(leftClickDelay)) {

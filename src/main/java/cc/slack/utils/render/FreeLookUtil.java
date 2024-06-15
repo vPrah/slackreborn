@@ -1,9 +1,6 @@
 package cc.slack.utils.render;
 
-import cc.slack.utils.client.mc;
-import org.lwjgl.opengl.Display;
-
-public class FreeLookUtil extends mc {
+public class FreeLookUtil implements IMinecraft {
 
     public static float cameraYaw;
     public static float cameraPitch;
@@ -16,19 +13,19 @@ public class FreeLookUtil extends mc {
     }
 
     public float getYaw() {
-        return freelooking ? this.cameraYaw : mc.getPlayer().rotationYaw;
+        return freelooking ? this.cameraYaw : mc.thePlayer.rotationYaw;
     }
 
     public float getPitch() {
-        return freelooking ? this.cameraPitch : mc.getPlayer().rotationPitch;
+        return freelooking ? this.cameraPitch : mc.thePlayer.rotationPitch;
     }
 
     public float getPrevYaw() {
-        return freelooking  ? this.cameraYaw : mc.getPlayer().prevRotationYaw;
+        return freelooking  ? this.cameraYaw : mc.thePlayer.prevRotationYaw;
     }
 
     public float getPrevPitch() {
-        return freelooking ? this.cameraPitch : mc.getPlayer().prevRotationPitch;
+        return freelooking ? this.cameraPitch : mc.thePlayer.prevRotationPitch;
     }
 
     public static void setFreelooking(boolean setFreelook) {
@@ -37,14 +34,14 @@ public class FreeLookUtil extends mc {
 
     public static void enable() {
         setFreelooking(true);
-        cameraYaw = mc.getPlayer().rotationYaw;
-        cameraPitch = mc.getPlayer().rotationPitch;
+        cameraYaw = mc.thePlayer.rotationYaw;
+        cameraPitch = mc.thePlayer.rotationPitch;
     }
 
     public static void disable() {
         setFreelooking(false);
-        cameraYaw = mc.getPlayer().rotationYaw;
-        cameraPitch = mc.getPlayer().rotationPitch;
+        cameraYaw = mc.thePlayer.rotationYaw;
+        cameraPitch = mc.thePlayer.rotationPitch;
     }
 
 }

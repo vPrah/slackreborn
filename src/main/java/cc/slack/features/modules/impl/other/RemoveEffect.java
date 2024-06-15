@@ -5,7 +5,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.potion.Potion;
 
@@ -34,18 +33,18 @@ public class RemoveEffect extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer() != null) {
+        if (mc.thePlayer != null) {
             List<Integer> effectIdsToRemove = new ArrayList<>();
-            if (shouldRemoveSlowness.getValue()) mc.getPlayer().removePotionEffectClient(Potion.moveSlowdown.id);
-            if (shouldRemoveMiningFatigue.getValue()) mc.getPlayer().removePotionEffectClient(Potion.digSlowdown.id);
-            if (shouldRemoveBlindness.getValue()) mc.getPlayer().removePotionEffectClient(Potion.blindness.id);
-            if (shouldRemoveWeakness.getValue()) mc.getPlayer().removePotionEffectClient(Potion.weakness.id);
+            if (shouldRemoveSlowness.getValue()) mc.thePlayer.removePotionEffectClient(Potion.moveSlowdown.id);
+            if (shouldRemoveMiningFatigue.getValue()) mc.thePlayer.removePotionEffectClient(Potion.digSlowdown.id);
+            if (shouldRemoveBlindness.getValue()) mc.thePlayer.removePotionEffectClient(Potion.blindness.id);
+            if (shouldRemoveWeakness.getValue()) mc.thePlayer.removePotionEffectClient(Potion.weakness.id);
             if (shouldRemoveWither.getValue()) effectIdsToRemove.add(Potion.wither.id);
             if (shouldRemovePoison.getValue()) effectIdsToRemove.add(Potion.poison.id);
             if (shouldRemoveWaterBreathing.getValue()) effectIdsToRemove.add(Potion.waterBreathing.id);
 
             for (Integer effectId : effectIdsToRemove) {
-                mc.getPlayer().removePotionEffectClient(effectId);
+                mc.thePlayer.removePotionEffectClient(effectId);
             }
         }
     }

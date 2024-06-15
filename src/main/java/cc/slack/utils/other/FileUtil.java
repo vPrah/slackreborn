@@ -1,6 +1,6 @@
 package cc.slack.utils.other;
 
-import cc.slack.utils.client.mc;
+import cc.slack.utils.client.IMinecraft;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
@@ -16,9 +16,7 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
-import cc.slack.ui.menu.MainMenu;
-
-public class FileUtil extends mc {
+public class FileUtil implements IMinecraft {
 
     public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 

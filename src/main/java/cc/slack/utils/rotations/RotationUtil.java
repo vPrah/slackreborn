@@ -1,6 +1,5 @@
 package cc.slack.utils.rotations;
 
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.MovementUtil;
 import net.minecraft.client.Minecraft;
@@ -12,7 +11,7 @@ import java.util.Random;
 import static java.lang.Math.abs;
 import static java.lang.Math.round;
 
-public class RotationUtil extends mc {
+public class RotationUtil implements IMinecraft {
 
     public enum TargetRotation {
         EDGE, CENTER, OPTIMAL, MIDDLE, TOPHALF
@@ -64,9 +63,9 @@ public class RotationUtil extends mc {
     }
 
     public static void setPlayerRotation(float[] targetRotation) {
-        targetRotation = applyGCD(targetRotation, new float[] {mc.getPlayer().prevRotationYaw, mc.getPlayer().prevRotationPitch} );
-        mc.getPlayer().rotationYaw = targetRotation[0];
-        mc.getPlayer().rotationPitch = targetRotation[1];
+        targetRotation = applyGCD(targetRotation, new float[] {mc.thePlayer.prevRotationYaw, mc.thePlayer.prevRotationPitch} );
+        mc.thePlayer.rotationYaw = targetRotation[0];
+        mc.thePlayer.rotationPitch = targetRotation[1];
     }
     
     public static void updateStrafeFixBinds() {
@@ -74,7 +73,7 @@ public class RotationUtil extends mc {
             if (strafeFix) {
                 if (!strictStrafeFix) {
                     if (MovementUtil.isBindsMoving()) {
-                        int strafeYaw = round((clientRotation[0] - MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw)) / 45);
+                        int strafeYaw = round((clientRotation[0] - MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw)) / 45);
                         if (strafeYaw > 4) {
                             strafeYaw -= 8;
                         }
@@ -98,7 +97,7 @@ public class RotationUtil extends mc {
 
 
     public static float[] getNeededRotations(final Vec3 vec) {
-        final Vec3 playerVector = new Vec3(getPlayer().posX, getPlayer().posY + getPlayer().getEyeHeight(), getPlayer().posZ);
+        final Vec3 playerVector = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.getEyeHeight(), mc.thePlayer.posZ);
         final double y = vec.yCoord - playerVector.yCoord;
         final double x = vec.xCoord - playerVector.xCoord;
         final double z = vec.zCoord - playerVector.zCoord;
@@ -145,9 +144,9 @@ public class RotationUtil extends mc {
         Vec3 rotPoint = new Vec3(aabb.minX, aabb.minY, aabb.minZ);
         if (mode == TargetRotation.OPTIMAL) {
             rotPoint = new Vec3(
-                    Math.max(aabb.minX, Math.min(aabb.maxX, mc.getPlayer().posX)),
-                    Math.max(aabb.minY, Math.min(aabb.maxY, mc.getPlayer().posY + mc.getPlayer().getEyeHeight())),
-                    Math.max(aabb.minZ, Math.min(aabb.maxZ, mc.getPlayer().posZ)));
+                    Math.max(aabb.minX, Math.min(aabb.maxX, mc.thePlayer.posX)),
+                    Math.max(aabb.minY, Math.min(aabb.maxY, mc.thePlayer.posY + mc.thePlayer.getEyeHeight())),
+                    Math.max(aabb.minZ, Math.min(aabb.maxZ, mc.thePlayer.posZ)));
         } else {
             double minRotDiff = 180D;
             double currentRotDiff;
@@ -200,7 +199,7 @@ public class RotationUtil extends mc {
     }
 
     public static float[] getRotations(double x, double y, double z) {
-        final Vec3 lookVec = getPlayer().getPositionEyes(1.0f);
+        final Vec3 lookVec = mc.thePlayer.getPositionEyes(1.0f);
         final double dx = lookVec.xCoord - x;
         final double dy = lookVec.yCoord - y;
         final double dz = lookVec.zCoord - z;
@@ -222,7 +221,7 @@ public class RotationUtil extends mc {
 
 
     public static Vec3 getNormalRotVector(float yaw, float pitch) {
-        return mc.getPlayer().getVectorForRotation(pitch, yaw);
+        return mc.thePlayer.getVectorForRotation(pitch, yaw);
     }
 
 
@@ -242,8 +241,8 @@ public class RotationUtil extends mc {
     }
 
     public static double getRotationDifference(float[] e) {
-        final double yawDif = MathHelper.wrapAngleTo180_double(mc.getPlayer().rotationYaw - e[0]);
-        final double pitchDif = MathHelper.wrapAngleTo180_double(mc.getPlayer().rotationPitch - e[1]);
+        final double yawDif = MathHelper.wrapAngleTo180_double(mc.thePlayer.rotationYaw - e[0]);
+        final double pitchDif = MathHelper.wrapAngleTo180_double(mc.thePlayer.rotationPitch - e[1]);
         return Math.sqrt(yawDif * yawDif + pitchDif * pitchDif);
     }
 

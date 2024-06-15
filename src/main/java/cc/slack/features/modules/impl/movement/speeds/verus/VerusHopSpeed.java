@@ -4,7 +4,6 @@ package cc.slack.features.modules.impl.movement.speeds.verus;
 
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 
@@ -21,7 +20,7 @@ public class VerusHopSpeed implements ISpeed {
 
     @Override
     public void onMove(MoveEvent event) {
-        if (mc.getPlayer().onGround) {
+        if (mc.thePlayer.onGround) {
             if (MovementUtil.isMoving()) event.setY(0.42F);
             moveSpeed = 0.66f;
             airTicks = 0;

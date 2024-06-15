@@ -1,24 +1,23 @@
 package cc.slack.utils.player;
 
 import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 
-public class MovementUtil extends mc {
+public class MovementUtil implements IMinecraft {
 
     public static boolean waitingSpoof = false;
     public static boolean nextSpoof = false;
 
     public static void setSpeed(MoveEvent event, double speed) {
-        setBaseSpeed(event, speed, getPlayer().rotationYaw, getPlayer().moveForward, getPlayer().moveStrafing);
+        setBaseSpeed(event, speed, mc.thePlayer.rotationYaw, mc.thePlayer.moveForward, mc.thePlayer.moveStrafing);
     }
 
     public static void setSpeed(MoveEvent event, double speed, float yawDegrees) {
-        setBaseSpeed(event, speed, yawDegrees, getPlayer().moveForward, getPlayer().moveStrafing);
+        setBaseSpeed(event, speed, yawDegrees, mc.thePlayer.moveForward, mc.thePlayer.moveStrafing);
     }
 
     public static void minLimitStrafe(float speed) {
@@ -29,12 +28,12 @@ public class MovementUtil extends mc {
     }
 
     public static void setMotionSpeed(double speed) {
-        float yaw = mc.getPlayer().rotationYaw;
-        double forward = mc.getPlayer().moveForward;
-        double strafe = mc.getPlayer().moveStrafing;
+        float yaw = mc.thePlayer.rotationYaw;
+        double forward = mc.thePlayer.moveForward;
+        double strafe = mc.thePlayer.moveStrafing;
         if ((forward == 0.0D) && (strafe == 0.0D)) {
-            mc.getPlayer().motionX = 0;
-            mc.getPlayer().motionZ = 0;
+            mc.thePlayer.motionX = 0;
+            mc.thePlayer.motionZ = 0;
         } else {
             if (forward != 0.0D) {
                 if (strafe > 0.0D) {
@@ -50,8 +49,8 @@ public class MovementUtil extends mc {
                 }
             }
 
-            mc.getPlayer().motionX = forward * speed * Math.cos(Math.toRadians(yaw + 90.0F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F));
-            mc.getPlayer().motionZ = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0F));
+            mc.thePlayer.motionX = forward * speed * Math.cos(Math.toRadians(yaw + 90.0F)) + strafe * speed * Math.sin(Math.toRadians(yaw + 90.0F));
+            mc.thePlayer.motionZ = forward * speed * Math.sin(Math.toRadians(yaw + 90.0F)) - strafe * speed * Math.cos(Math.toRadians(yaw + 90.0F));
         }
     }
 
@@ -62,12 +61,12 @@ public class MovementUtil extends mc {
     public static void strafe(float speed) {
         final float yaw = getDirection();
 
-        getPlayer().motionX = Math.cos(Math.toRadians(yaw + 90.0f)) * speed;
-        getPlayer().motionZ = Math.cos(Math.toRadians(yaw)) * speed;
+        mc.thePlayer.motionX = Math.cos(Math.toRadians(yaw + 90.0f)) * speed;
+        mc.thePlayer.motionZ = Math.cos(Math.toRadians(yaw)) * speed;
     }
 
     private static void setBaseSpeed(MoveEvent event, double speed, float yaw, double forward, double strafing) {
-        if (getPlayer() != null && getWorld() != null) {
+        if (mc.thePlayer != null && getWorld() != null) {
             final boolean reversed = forward < 0.0f;
             final float strafingYaw = 90.0f * (forward > 0.0f ? 0.5f : reversed ? -0.5f : 1.0f);
 
@@ -89,8 +88,8 @@ public class MovementUtil extends mc {
                     event.setZeroXZ();
             } else {
                 if (isMoving()) {
-                    getPlayer().motionX = finalX;
-                    getPlayer().motionZ = finalZ;
+                    mc.thePlayer.motionX = finalX;
+                    mc.thePlayer.motionZ = finalZ;
                 } else
                     MovementUtil.resetMotion(false);
             }
@@ -98,15 +97,15 @@ public class MovementUtil extends mc {
     }
 
     public static boolean isMoving() {
-        return getPlayer() != null && (getPlayer().moveForward != 0 || getPlayer().moveStrafing != 0);
+        return mc.thePlayer != null && (mc.thePlayer.moveForward != 0 || mc.thePlayer.moveStrafing != 0);
     }
 
     public static boolean isOnGround(double height) {
-        return !mc.getWorld().getCollidingBoundingBoxes(mc.getPlayer(), mc.getPlayer().getEntityBoundingBox().offset(0.0D, -height, 0.0D)).isEmpty();
+        return !mc.getWorld().getCollidingBoundingBoxes(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().offset(0.0D, -height, 0.0D)).isEmpty();
     }
 
     public static boolean isBindsMoving() {
-        return getPlayer() != null && (
+        return mc.thePlayer != null && (
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindForward) ||
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindRight) ||
                 GameSettings.isKeyDown(mc.getGameSettings().keyBindBack) ||
@@ -115,8 +114,8 @@ public class MovementUtil extends mc {
     }
 
     public static float getDirection() {
-        if (RotationUtil.isEnabled && RotationUtil.strafeFix) return getBindsDirection(getPlayer().rotationYaw);
-        return getDirection(getPlayer().rotationYaw, getPlayer().moveForward, getPlayer().moveStrafing);
+        if (RotationUtil.isEnabled && RotationUtil.strafeFix) return getBindsDirection(mc.thePlayer.rotationYaw);
+        return getDirection(mc.thePlayer.rotationYaw, mc.thePlayer.moveForward, mc.thePlayer.moveStrafing);
     }
 
     public static float getDirection(float rotationYaw, float moveForward, float moveStrafing) {
@@ -162,16 +161,16 @@ public class MovementUtil extends mc {
     }
 
     public static void resetMotion() {
-        getPlayer().motionX = getPlayer().motionZ = 0;
+        mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
     }
 
     public static void resetMotion(boolean stopY) {
-        getPlayer().motionX = getPlayer().motionZ = 0;
-        if (stopY) getPlayer().motionY = 0;
+        mc.thePlayer.motionX = mc.thePlayer.motionZ = 0;
+        if (stopY) mc.thePlayer.motionY = 0;
     }
 
     public static float getSpeed() {
-        return (float) Math.hypot(getPlayer().motionX, getPlayer().motionZ);
+        return (float) Math.hypot(mc.thePlayer.motionX, mc.thePlayer.motionZ);
     }
 
     public static double getSpeed(MoveEvent event) {
@@ -181,8 +180,8 @@ public class MovementUtil extends mc {
     public static double getBaseMoveSpeed() {
         double baseSpeed = 0.2873;
 
-        if (getPlayer().isPotionActive(Potion.moveSpeed)) {
-            double amplifier = getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+        if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+            double amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
             baseSpeed *= 1.0 + 0.2 * (amplifier + 1);
         }
 
@@ -191,8 +190,8 @@ public class MovementUtil extends mc {
 
     public static float getSpeedPotMultiplier(double multiplicator) {
         float speedPotMultiplier = 1F;
-        if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
-            int amp = mc.getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+        if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+            int amp = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
             speedPotMultiplier = 1.0F + (float)multiplicator * (amp + 1);
         }
         return speedPotMultiplier;
@@ -201,8 +200,8 @@ public class MovementUtil extends mc {
     public static double getJumpMotion(float motionY) {
         final Potion potion = Potion.jump;
 
-        if (mc.getPlayer().isPotionActive(potion)) {
-            final int amplifier = mc.getPlayer().getActivePotionEffect(potion).getAmplifier();
+        if (mc.thePlayer.isPotionActive(potion)) {
+            final int amplifier = mc.thePlayer.getActivePotionEffect(potion).getAmplifier();
             motionY += (amplifier + 1) * 0.1F;
         }
 
@@ -211,11 +210,11 @@ public class MovementUtil extends mc {
     
 
     public static void setVClip(double number) {
-        mc.getPlayer().setPosition(mc.getPlayer().posX, mc.getPlayer().posY + number, mc.getPlayer().posZ);
+        mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + number, mc.thePlayer.posZ);
     }
 
     public static void setHClip(double offset) {
-        mc.getPlayer().setPosition(mc.getPlayer().posX + -MathHelper.sin(getBindsDirection(mc.getPlayer().rotationYaw)) * offset, mc.getPlayer().posY, mc.getPlayer().posZ + MathHelper.cos(getBindsDirection(mc.getPlayer().rotationYaw)) * offset);
+        mc.thePlayer.setPosition(mc.thePlayer.posX + -MathHelper.sin(getBindsDirection(mc.thePlayer.rotationYaw)) * offset, mc.thePlayer.posY, mc.thePlayer.posZ + MathHelper.cos(getBindsDirection(mc.thePlayer.rotationYaw)) * offset);
     }
 
     public static void updateBinds() {

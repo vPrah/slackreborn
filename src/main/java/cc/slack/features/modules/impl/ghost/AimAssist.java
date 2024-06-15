@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -59,9 +58,9 @@ public class AimAssist extends Module {
                             sens = gameSens;
                         }
 
-                        prevRot = new float[] {mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
+                        prevRot = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
                     } else {
-                        prevRot = new float[] {mc.getPlayer().rotationYaw, mc.getPlayer().rotationPitch};
+                        prevRot = new float[] {mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch};
                         prevDist = (float) RotationUtil.getRotationDifference((Entity) target);
                         currDist = prevDist;
                         wasAccel = true;

@@ -1,7 +1,6 @@
 package cc.slack.ui.clickGUI.component.components.sub;
 
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.client.mc;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import cc.slack.ui.clickGUI.component.Component;

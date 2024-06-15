@@ -3,7 +3,6 @@ package cc.slack.features.modules.impl.render;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 

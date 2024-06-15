@@ -4,17 +4,13 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import org.lwjgl.opengl.GL11;
 
 import java.awt.*;
 
@@ -40,7 +36,7 @@ public class Tracers extends Module {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for(Entity entity : mc.getWorld().getLoadedEntityList()) {
-            if(entity instanceof EntityPlayer && entity != mc.getPlayer()) {
+            if(entity instanceof EntityPlayer && entity != mc.thePlayer) {
                 RenderUtil.drawTracer(entity, redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue());
             }
         }

@@ -3,7 +3,6 @@ package cc.slack.ui.clickGUI.component;
 import java.util.ArrayList;
 
 import cc.slack.Slack;
-import cc.slack.utils.client.mc;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;

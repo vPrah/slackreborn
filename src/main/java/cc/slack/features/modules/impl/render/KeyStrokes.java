@@ -4,22 +4,17 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.KeyBinding;
 
 import java.awt.*;
-import java.sql.Time;
 import java.util.ArrayList;
 
 @ModuleInfo(

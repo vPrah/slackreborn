@@ -399,7 +399,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
 
                     s = ("" + I18n.format(s)).trim();
 
-                    if (s.length() > 0)
+                    if (!s.isEmpty())
                     {
                         int k = p_148142_1_ + 12;
                         int l = p_148142_2_ - 12;
@@ -420,7 +420,7 @@ public class GuiStats extends GuiScreen implements IProgressMeter
                 String s = itemstack.getUnlocalizedName();
                 String s1 = ("" + I18n.format(s + ".name")).trim();
 
-                if (s1.length() > 0)
+                if (!s1.isEmpty())
                 {
                     int i = p_148213_2_ + 12;
                     int j = p_148213_3_ - 12;

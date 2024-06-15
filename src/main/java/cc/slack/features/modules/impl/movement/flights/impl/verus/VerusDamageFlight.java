@@ -9,7 +9,6 @@ import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.TimerUtil;
 import net.minecraft.network.PacketDirection;
@@ -39,12 +38,12 @@ public class VerusDamageFlight implements IFlight {
             case 0:
                 event.setZeroXZ();
 
-                if (hops >= 4 && mc.getPlayer().onGround) {
+                if (hops >= 4 && mc.thePlayer.onGround) {
                     stage++;
                     return;
                 }
 
-                if (mc.getPlayer().onGround) {
+                if (mc.thePlayer.onGround) {
                     event.setY(0.42f);
                     ticks = 0;
                     hops++;
@@ -56,7 +55,7 @@ public class VerusDamageFlight implements IFlight {
                 TimerUtil.reset();
                 event.setZeroXZ();
 
-                if (mc.getPlayer().hurtTime > 0) {
+                if (mc.thePlayer.hurtTime > 0) {
                     ticks = 0;
                     moveSpeed = 0.525;
                     stage++;
@@ -75,7 +74,7 @@ public class VerusDamageFlight implements IFlight {
 
                 MovementUtil.setSpeed(event, moveSpeed);
 
-                if (mc.getPlayer().hurtTime == 0 && (mc.getPlayer().onGround || mc.getPlayer().isCollidedHorizontally))
+                if (mc.thePlayer.hurtTime == 0 && (mc.thePlayer.onGround || mc.thePlayer.isCollidedHorizontally))
                     Slack.getInstance().getModuleManager().getInstance(Flight.class).toggle();
                 break;
         }

@@ -6,7 +6,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import com.google.common.collect.Multimap;
 import io.github.nevalackin.radbus.Listen;
@@ -43,7 +42,7 @@ public class AutoRod extends Module {
   @SuppressWarnings("unused")
   @Listen
   public void onUpdate (UpdateEvent event) {
-      int item = Item.getIdFromItem(mc.getPlayer().getHeldItem().getItem());
+      int item = Item.getIdFromItem(mc.thePlayer.getHeldItem().getItem());
       float rodDelay = (delay.getValue()).floatValue();
       if (mc.getMinecraft().currentScreen == null) {
           if (!(Boolean) autodisable.getValue()) {
@@ -67,7 +66,7 @@ public class AutoRod extends Module {
               }
 
               if (time.isDelayComplete(rodDelay)) {
-                  mc.getPlayer().inventory.currentItem = bestWeapon(mc.getPlayer());
+                  mc.thePlayer.inventory.currentItem = bestWeapon(mc.thePlayer);
                   time.reset();
                   toggle();
               }
@@ -125,7 +124,7 @@ public class AutoRod extends Module {
 
     private int findRod(int startSlot, int endSlot) {
         for(int i = startSlot; i < endSlot; ++i) {
-            ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+            ItemStack stack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
             if (stack != null && stack.getItem() == Items.fishing_rod) {
                 return i;
             }
@@ -136,9 +135,9 @@ public class AutoRod extends Module {
 
     private void switchToRod() {
         for(int i = 36; i < 45; ++i) {
-            ItemStack itemstack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+            ItemStack itemstack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
             if (itemstack != null && Item.getIdFromItem(itemstack.getItem()) == 346) {
-                mc.getPlayer().inventory.currentItem = i - 36;
+                mc.thePlayer.inventory.currentItem = i - 36;
                 break;
             }
         }
@@ -147,13 +146,13 @@ public class AutoRod extends Module {
 
     private void Rod() {
         int rod = findRod(36, 45);
-        mc.getPlayerController().sendUseItem(mc.getPlayer(), mc.getWorld(), mc.getPlayer().inventoryContainer.getSlot(rod).getStack());
+        mc.getPlayerController().sendUseItem(mc.thePlayer, mc.getWorld(), mc.thePlayer.inventoryContainer.getSlot(rod).getStack());
         switchBack = true;
         time.reset();
     }
 
     private void switchBack() {
-        mc.getPlayer().inventory.currentItem = bestWeapon(mc.getPlayer());
+        mc.thePlayer.inventory.currentItem = bestWeapon(mc.thePlayer);
     }
 
 }

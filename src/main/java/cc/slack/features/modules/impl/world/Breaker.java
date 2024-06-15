@@ -5,7 +5,6 @@ package cc.slack.features.modules.impl.world;
 import cc.slack.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -14,7 +13,6 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.ghost.AutoTool;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
@@ -80,7 +78,7 @@ public class Breaker extends Module {
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
                     RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
-                    mc.getPlayer().swingItem();
+                    mc.thePlayer.swingItem();
                     return;
                 }
             }
@@ -90,7 +88,7 @@ public class Breaker extends Module {
                 Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
 
                 breakingProgress += BlockUtils.getHardness(currentBlock);
-                mc.getWorld().sendBlockBreakProgress(mc.getPlayer().getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
+                mc.getWorld().sendBlockBreakProgress(mc.thePlayer.getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
 
                 RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
 
@@ -114,7 +112,7 @@ public class Breaker extends Module {
                     }
                 }
 
-                mc.getPlayer().swingItem();
+                mc.thePlayer.swingItem();
             }
         }
     }
@@ -145,7 +143,7 @@ public class Breaker extends Module {
         for (int x = radius; x >= -radius + 1; x--) {
             for (int y = radius; y >= -radius + 1; y--) {
                 for (int z = radius; z >= -radius + 1; z--) {
-                    BlockPos blockPos = new BlockPos(mc.getPlayer().posX + x, mc.getPlayer().posY + y, mc.getPlayer().posZ + z);
+                    BlockPos blockPos = new BlockPos(mc.thePlayer.posX + x, mc.thePlayer.posY + y, mc.thePlayer.posZ + z);
                     Block block = BlockUtils.getBlock(blockPos);
                     if (block != null) {
                         if (block instanceof BlockBed) {

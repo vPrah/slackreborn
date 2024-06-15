@@ -6,15 +6,14 @@ import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 
 public class VanillaSpeed implements ISpeed {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().onGround && MovementUtil.isMoving()) {
-            mc.getPlayer().jump();
+        if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
+            mc.thePlayer.jump();
             MovementUtil.strafe(Slack.getInstance().getModuleManager().getInstance(Speed.class).vanillaspeed.getValue());
         }
         if (MovementUtil.isMoving()) {

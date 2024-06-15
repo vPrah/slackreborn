@@ -5,7 +5,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.player.EntityPlayer;
 
@@ -45,7 +44,7 @@ public class TickBase extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onTick(TickEvent event) {
-        if (mc.getPlayer() == null || mc.getWorld() == null)
+        if (mc.thePlayer == null || mc.getWorld() == null)
             return;
 
         publicFreeze = false;
@@ -69,7 +68,7 @@ public class TickBase extends Module {
         }
 
         if (target != null) {
-            float distance = mc.getPlayer().getDistanceToEntity(target);
+            float distance = mc.thePlayer.getDistanceToEntity(target);
             if (distance < range.getValue() && distance > 3 && mc.getGameSettings().keyBindForward.pressed) {
                 if (delayTicks > 0) {
                 } else {

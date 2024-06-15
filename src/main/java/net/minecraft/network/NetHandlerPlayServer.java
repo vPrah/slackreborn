@@ -1163,7 +1163,7 @@ public class NetHandlerPlayServer implements INetHandlerPlayServer, ITickable
 
             TileEntitySign tileentitysign = (TileEntitySign)tileentity;
 
-            if (!tileentitysign.getIsEditable() || tileentitysign.getPlayer() != this.playerEntity)
+            if (!tileentitysign.getIsEditable() || tileentitysign.mc.thePlayer != this.playerEntity)
             {
                 this.serverController.logWarning("Player " + this.playerEntity.getCommandSenderName() + " just tried to change non-editable sign");
                 return;

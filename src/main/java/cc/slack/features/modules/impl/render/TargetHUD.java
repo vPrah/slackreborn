@@ -12,8 +12,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.render.ColorUtil;
@@ -65,7 +63,7 @@ public class TargetHUD extends Module {
 		}
 
 		if (mc.getCurrentScreen() instanceof GuiChat) {
-			target = mc.getPlayer();
+			target = mc.thePlayer;
 			ticksSinceAttack = 18;
 		}
 	}
@@ -92,7 +90,7 @@ public class TargetHUD extends Module {
 		if (target == null)
 			return;
 
-		if (followTarget.getValue() && target != mc.getPlayer()) {
+		if (followTarget.getValue() && target != mc.thePlayer) {
 			try {
 				Vector4d pos4 = RenderUtil.getProjectedEntity(target, event.getPartialTicks(), 0.7);
 				mc.getEntityRenderer().setupOverlayRendering();
@@ -109,7 +107,7 @@ public class TargetHUD extends Module {
 		double offset = -(target.hurtTime * 20);
 		double healthPercent = target.getHealth() / target.getMaxHealth();
 		Color color = new Color(255, (int) (255 + offset), (int) (255 + offset));
-		Boolean winning = target.getHealth() < mc.getPlayer().getHealth();
+		Boolean winning = target.getHealth() < mc.thePlayer.getHealth();
 		Color c = ColorUtil.getColor();
 
 		switch (mode.getValue().toLowerCase()) {

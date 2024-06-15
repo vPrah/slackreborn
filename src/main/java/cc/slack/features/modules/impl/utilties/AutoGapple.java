@@ -6,7 +6,6 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.init.Items;
@@ -46,17 +45,17 @@ public class AutoGapple extends Module {
             InventoryUtil.swap(gappleSlot, emptySlot);
         }
 
-        if(mc.getPlayer().getHealth() < 0 || mc.getPlayer().getHealth() > healthValue.getValue() || !timer.hasReached(delayValue.getValue())) return;
+        if(mc.thePlayer.getHealth() < 0 || mc.thePlayer.getHealth() > healthValue.getValue() || !timer.hasReached(delayValue.getValue())) return;
 
         int gappleSlot = InventoryUtil.findItem(36, 45, Items.golden_apple);
         mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(gappleSlot - 36));
-        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(BlockPos.ORIGIN, 255, mc.getPlayer().inventory.mainInventory[gappleSlot - 36], 0, 0, 0));
+        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(BlockPos.ORIGIN, 255, mc.thePlayer.inventory.mainInventory[gappleSlot - 36], 0, 0, 0));
         for(int i = 0; i < 35; i++) {
             mc.getNetHandler().addToSendQueue(new C03PacketPlayer(false));
         }
-        mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
-        if(mc.getPlayer().isBlocking()) {
-            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getCurrentEquippedItem()));
+        mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+        if(mc.thePlayer.isBlocking()) {
+            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getCurrentEquippedItem()));
         }
 
         timer.reset();

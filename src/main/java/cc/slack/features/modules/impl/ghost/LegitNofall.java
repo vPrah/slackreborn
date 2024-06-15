@@ -7,7 +7,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.BlockUtils;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
@@ -48,30 +47,30 @@ public class LegitNofall extends Module {
                 if (silentAim.getValue()) {
                     e.setPitch(90);
                 } else {
-                    prevPitch = mc.getPlayer().rotationPitch;
-                    mc.getPlayer().rotationPitch = 90;
+                    prevPitch = mc.thePlayer.rotationPitch;
+                    mc.thePlayer.rotationPitch = 90;
                 }
                 sendPlace();
             }
-            if (mc.getPlayer().onGround && mc.getPlayer().isInWater()) {
+            if (mc.thePlayer.onGround && mc.thePlayer.isInWater()) {
                 sendPlace();
                 if (!silentAim.getValue())
-                    mc.getPlayer().rotationPitch = prevPitch;
+                    mc.thePlayer.rotationPitch = prevPitch;
             }
         }
     }
 
     private boolean inPosition() {
-        return !mc.getPlayer().capabilities.isFlying && !mc.getPlayer().capabilities.isCreativeMode && !mc.getPlayer().onGround && mc.getPlayer().motionY < -0.6D && !mc.getPlayer().isInWater() && fallDistance() <= 2 && mc.getPlayer().fallDistance >= minFallDist.getValue();
+        return !mc.thePlayer.capabilities.isFlying && !mc.thePlayer.capabilities.isCreativeMode && !mc.thePlayer.onGround && mc.thePlayer.motionY < -0.6D && !mc.thePlayer.isInWater() && fallDistance() <= 2 && mc.thePlayer.fallDistance >= minFallDist.getValue();
     }
 
     private boolean holdWaterBucket(boolean setSlot) {
-        if (this.containsItem(mc.getPlayer().getHeldItem(), Item.getItemFromBlock(Blocks.web))) {
+        if (this.containsItem(mc.thePlayer.getHeldItem(), Item.getItemFromBlock(Blocks.web))) {
             return true;
         } else {
             for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
-                if (this.containsItem(mc.getPlayer().inventory.mainInventory[i], Item.getItemFromBlock(Blocks.web)) && setSlot) {
-                    mc.getPlayer().inventory.currentItem = i;
+                if (this.containsItem(mc.thePlayer.inventory.mainInventory[i], Item.getItemFromBlock(Blocks.web)) && setSlot) {
+                    mc.thePlayer.inventory.currentItem = i;
                     return true;
                 }
             }
@@ -81,12 +80,12 @@ public class LegitNofall extends Module {
     }
 
     private boolean holdSpiderweb(boolean setSlot) {
-        if (this.containsItem(mc.getPlayer().getHeldItem(), Items.water_bucket)) {
+        if (this.containsItem(mc.thePlayer.getHeldItem(), Items.water_bucket)) {
             return true;
         } else {
             for (int i = 0; i < InventoryPlayer.getHotbarSize(); ++i) {
-                if (this.containsItem(mc.getPlayer().inventory.mainInventory[i], Items.water_bucket) && setSlot) {
-                    mc.getPlayer().inventory.currentItem = i;
+                if (this.containsItem(mc.thePlayer.inventory.mainInventory[i], Items.water_bucket) && setSlot) {
+                    mc.thePlayer.inventory.currentItem = i;
                     return true;
                 }
             }
@@ -100,12 +99,12 @@ public class LegitNofall extends Module {
     }
 
     private void sendPlace() {
-        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
+        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
     }
 
     private int fallDistance() {
         int fallDist = -1;
-        Vec3 pos = new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ);
+        Vec3 pos = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
         int y = (int) Math.floor(pos.yCoord);
         if (pos.yCoord % 1 == 0) y--;
         for (int i = y; i > -1; i--) {
@@ -119,7 +118,7 @@ public class LegitNofall extends Module {
     }
 
     public static MovingObjectPosition wrayCast(final double n, final float n2, final float n3) {
-        final Vec3 getPositionEyes = mc.getPlayer().getPositionEyes(1.0f);
+        final Vec3 getPositionEyes = mc.thePlayer.getPositionEyes(1.0f);
         final float n4 = -n2 * 0.017453292f;
         final float n5 = -n3 * 0.017453292f;
         final float cos = MathHelper.cos(n4 - 3.1415927f);

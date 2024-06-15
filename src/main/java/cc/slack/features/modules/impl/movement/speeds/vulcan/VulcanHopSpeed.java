@@ -4,11 +4,7 @@ package cc.slack.features.modules.impl.movement.speeds.vulcan;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
-import net.minecraft.client.settings.GameSettings;
-
-import static net.minecraft.util.MathHelper.abs;
 
 public class VulcanHopSpeed implements ISpeed {
 
@@ -17,24 +13,24 @@ public class VulcanHopSpeed implements ISpeed {
     @Override
     public void onUpdate(UpdateEvent event) {
         if (modifiedTimer) {
-            mc.getTimer().timerSpeed = 1.00f;
+            mc.timer.timerSpeed = 1.00f;
             modifiedTimer = false;
         }
 
-        if (MovementUtil.getSpeed() < 0.215f && !mc.getPlayer().onGround) {
+        if (MovementUtil.getSpeed() < 0.215f && !mc.thePlayer.onGround) {
             MovementUtil.strafe(0.215f);
         }
 
-        if (mc.getPlayer().onGround && MovementUtil.isMoving()) {
-            mc.getPlayer().jump();
+        if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
+            mc.thePlayer.jump();
 
-            mc.getTimer().timerSpeed = 1.25f;
+            mc.timer.timerSpeed = 1.25f;
             modifiedTimer = true;
 
             MovementUtil.minLimitStrafe(0.4849f);
 
         } else if (!MovementUtil.isMoving()) {
-            mc.getTimer().timerSpeed = 1.00f;
+            mc.timer.timerSpeed = 1.00f;
             MovementUtil.resetMotion();
         }
     }

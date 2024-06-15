@@ -9,8 +9,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.render.HUD;
-import cc.slack.utils.client.mc;
-import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
@@ -57,7 +55,7 @@ public class AntiStaff extends Module {
 
     @Listen
     public void onPacket (PacketEvent event) {
-        if (mc.getWorld() == null || mc.getPlayer() == null) return;
+        if (mc.getWorld() == null || mc.thePlayer == null) return;
 
         final Packet<?> packet = event.getPacket();
 
@@ -70,12 +68,12 @@ public class AntiStaff extends Module {
                     }
 
                     if (chatnotifyValue.getValue()) {
-                        mc.getPlayer().sendChatMessage(("%staff% was detected as a staff member!").replace("%staff%", entity.getCommandSenderName()));
+                        mc.thePlayer.sendChatMessage(("%staff% was detected as a staff member!").replace("%staff%", entity.getCommandSenderName()));
                     }
                     if (leaveValue.getValue()) {
                         switch (serverMode.getValue()) {
                             case "Universocraft":
-                                mc.getPlayer().sendChatMessage("/hub");
+                                mc.thePlayer.sendChatMessage("/hub");
                                 break;
                         }
                     }
@@ -94,13 +92,13 @@ public class AntiStaff extends Module {
                     }
 
                     if (chatnotifyValue.getValue()) {
-                        mc.getPlayer().sendChatMessage(("%staff% was detected as a staff member!").replaceAll("%staff%", entity.getCommandSenderName()));
+                        mc.thePlayer.sendChatMessage(("%staff% was detected as a staff member!").replaceAll("%staff%", entity.getCommandSenderName()));
                     }
 
                     if (leaveValue.getValue()) {
                         switch (serverMode.getValue()) {
                             case "Universocraft":
-                                mc.getPlayer().sendChatMessage("/hub");
+                                mc.thePlayer.sendChatMessage("/hub");
                                 break;
                         }
                     }

@@ -4,7 +4,6 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.ResolutionUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
@@ -51,15 +50,15 @@ public class TNTHelper extends Module {
                     sphere.draw(4 * 2, 15, 15);
                     float f3 = 4 * 2.0F;
                     Vec3 vec3 = new Vec3(tnt.posX, tnt.posY, tnt.posZ);
-                    if (!mc.getPlayer().isImmuneToExplosions()) {
-                        double d12 = mc.getPlayer().getDistance(tnt.posX, tnt.posY, tnt.posZ) / (double) f3;
+                    if (!mc.thePlayer.isImmuneToExplosions()) {
+                        double d12 = mc.thePlayer.getDistance(tnt.posX, tnt.posY, tnt.posZ) / (double) f3;
                         if (d12 <= 1.0D) {
-                            double d5 = mc.getPlayer().posX - tnt.posX;
-                            double d7 = mc.getPlayer().posY + (double) mc.getPlayer().getEyeHeight() - tnt.posY;
-                            double d9 = mc.getPlayer().posZ - tnt.posY;
+                            double d5 = mc.thePlayer.posX - tnt.posX;
+                            double d7 = mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight() - tnt.posY;
+                            double d9 = mc.thePlayer.posZ - tnt.posY;
                             double d13 = MathHelper.sqrt_double(d5 * d5 + d7 * d7 + d9 * d9);
                             if (d13 != 0) {
-                                double d14 = mc.getWorld().getBlockDensity(vec3, mc.getPlayer().getEntityBoundingBox());
+                                double d14 = mc.getWorld().getBlockDensity(vec3, mc.thePlayer.getEntityBoundingBox());
                                 double d10 = (1.0D - d12) * d14;
                                 damage += (float) ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * (double) f3 + 1.0D));
                             }

@@ -1,6 +1,5 @@
 package cc.slack.utils.drag;
 
-import cc.slack.utils.client.mc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

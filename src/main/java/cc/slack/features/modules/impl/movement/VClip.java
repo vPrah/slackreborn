@@ -5,7 +5,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -24,7 +23,7 @@ public class VClip extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY - clipValue.getValue(), mc.getPlayer().posZ, true));
-        mc.getPlayer().setPosition(mc.getPlayer().posX, mc.getPlayer().posY - clipValue.getValue(), mc.getPlayer().posZ);
+        mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY - clipValue.getValue(), mc.thePlayer.posZ, true));
+        mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - clipValue.getValue(), mc.thePlayer.posZ);
     }
 }

@@ -7,7 +7,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.enchantment.Enchantment;
@@ -60,7 +59,7 @@ public class InvManager extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         helmet = container.getSlot(5).getStack();
         chestplate = container.getSlot(6).getStack();
         leggings = container.getSlot(7).getStack();
@@ -91,17 +90,17 @@ public class InvManager extends Module {
     }
 
     private void hotbarExchange(int hotbarNumber, int slotId) {
-        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slotId, hotbarNumber, 2, mc.getPlayer());
+        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, hotbarNumber, 2, mc.thePlayer);
         delay = 0;
     }
 
     private void shiftClick(int slotId) {
-        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slotId, 1, 1, mc.getPlayer());
+        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, 1, 1, mc.thePlayer);
         delay = 0;
     }
 
     private void drop(int slotId) {
-        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slotId, 1, 4, mc.getPlayer());
+        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, 1, 4, mc.thePlayer);
         delay = 0;
     }
 
@@ -109,7 +108,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         for (int i = 9; i < 45; ++i) {
             ItemStack stack = container.getSlot(i).getStack();
             if (stack == null || !isGarbage(stack)) continue;
@@ -177,7 +176,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         ItemStack blockStack = null;
         int slot = -1;
         if (block_stack == null || !shouldChooseBlock(block_stack)) {
@@ -197,7 +196,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         if (golden_apples == null || !(golden_apples.getItem() instanceof ItemAppleGold)) {
             for (int i = 9; i < 45; ++i) {
                 ItemStack stack = container.getSlot(i).getStack();
@@ -216,7 +215,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         ItemStack oldWeapon = weapon;
         int newSwordSlot = -1;
         int dropSlot = -1;
@@ -244,7 +243,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         ItemStack oldAxe = axe;
         int newAxeSlot = -1;
         int dropSlot = -1;
@@ -269,7 +268,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         ItemStack oldPickaxe = pickaxe;
         int newPickaxeSlot = -1;
         int dropSlot = -1;
@@ -294,7 +293,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         ItemStack oldShovel = shovel;
         int newShovelSlot = -1;
         int dropSlot = -1;
@@ -319,7 +318,7 @@ public class InvManager extends Module {
         if (delay <= delayValue.getValue()) {
             return;
         }
-        Container container = mc.getPlayer().inventoryContainer;
+        Container container = mc.thePlayer.inventoryContainer;
         ItemStack oldArmor = type == ArmorType.HELMET ? helmet : (type == ArmorType.CHESTPLATE ? chestplate : (type == ArmorType.LEGGINGS ? leggings : boots));
         int newArmorSlot = -1;
         int dropSlot = -1;

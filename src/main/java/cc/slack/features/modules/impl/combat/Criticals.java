@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
@@ -49,12 +48,12 @@ public class Criticals extends Module {
                 sendPacket(0.0, false);
                 break;
             case "jump":
-                if (mc.getPlayer().onGround) mc.getPlayer().jump();
+                if (mc.thePlayer.onGround) mc.thePlayer.jump();
         }   
     }
 
     private void sendPacket(double yOffset, boolean ground) {
-        PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.getPlayer().posX, mc.getPlayer().posY + yOffset, mc.getPlayer().posZ, ground));
+        PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + yOffset, mc.thePlayer.posZ, ground));
     }
 
     @Override

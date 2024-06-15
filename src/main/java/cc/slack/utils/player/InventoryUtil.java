@@ -1,6 +1,5 @@
 package cc.slack.utils.player;
 
-import cc.slack.utils.client.mc;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.init.Blocks;
@@ -11,7 +10,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public final class InventoryUtil extends mc {
+public final class InventoryUtil implements IMinecraft {
 
     public static final List<Block> BLOCK_BLACKLIST = Arrays.asList(
             Blocks.enchanting_table,
@@ -66,7 +65,7 @@ public final class InventoryUtil extends mc {
             Blocks.daylight_detector
     );
 
-    public static Slot getSlot(int i){return mc.getPlayer().inventoryContainer.getSlot(i); }
+    public static Slot getSlot(int i){return mc.thePlayer.inventoryContainer.getSlot(i); }
 
     public static int findItem(final Item item) {
         return findItem(36,45, item);
@@ -74,7 +73,7 @@ public final class InventoryUtil extends mc {
 
     public static int findItem(final int startSlot, final int endSlot, final Item item) {
         for (int i = startSlot; i < endSlot; i++) {
-            final ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+            final ItemStack stack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
 
             if (stack != null && stack.getItem() == item)
                 return i;
@@ -84,7 +83,7 @@ public final class InventoryUtil extends mc {
 
     public static int findFireball() {
         for (int i = 36; i < 45; i++) {
-            final ItemStack stack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+            final ItemStack stack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
 
             if (stack != null && (stack.getItem() instanceof ItemFireball || stack.getItem() instanceof ItemFireworkCharge))
                 return i;
@@ -107,7 +106,7 @@ public final class InventoryUtil extends mc {
 
     public static boolean isHotbarFull() {
         for (int i = 36; i < 45; i++) {
-            if (mc.getPlayer().inventoryContainer.getSlot(i).getStack() == null)
+            if (mc.thePlayer.inventoryContainer.getSlot(i).getStack() == null)
                 return false;
         }
         return true;
@@ -121,7 +120,7 @@ public final class InventoryUtil extends mc {
     }
 
     public static void swap(int slot1, int hotbarSlot){
-        mc.getPlayerController().windowClick(mc.getPlayer().inventoryContainer.windowId, slot1, hotbarSlot, 2, mc.getPlayer());
+        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slot1, hotbarSlot, 2, mc.thePlayer);
     }
 
 
@@ -130,7 +129,7 @@ public final class InventoryUtil extends mc {
             int currentStackSize = 0;
             int currentSlot = 36;
             for (int i = 36; i < 45; i++) {
-                final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+                final ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
 
                 if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > currentStackSize) {
                     final Block block = ((ItemBlock) itemStack.getItem()).getBlock();
@@ -147,7 +146,7 @@ public final class InventoryUtil extends mc {
             }
         } else {
             for (int i = 36; i < 45; i++) {
-                final ItemStack itemStack = mc.getPlayer().inventoryContainer.getSlot(i).getStack();
+                final ItemStack itemStack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
 
                 if (itemStack != null && itemStack.getItem() instanceof ItemBlock && itemStack.stackSize > 0) {
                     final Block block = ((ItemBlock) itemStack.getItem()).getBlock();

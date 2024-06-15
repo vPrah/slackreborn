@@ -7,7 +7,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
@@ -30,7 +29,7 @@ public class Jesus extends Module {
 
     @Listen
     public void onMove(MoveEvent event) {
-        if (!mc.getPlayer().isInWater()) return;
+        if (!mc.thePlayer.isInWater()) return;
 
         switch (mode.getValue().toLowerCase()) {
             case "vanilla":

@@ -1,6 +1,5 @@
 package cc.slack.ui.alt;
 
-import cc.slack.utils.client.mc;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthResult;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticationException;
 import fr.litarvan.openauth.microsoft.MicrosoftAuthenticator;

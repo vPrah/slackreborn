@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.LongJump;
 import cc.slack.features.modules.impl.movement.Speed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
@@ -30,11 +29,11 @@ public class LagbackChecker extends Module {
 
     @Listen
     public void onPacket (PacketEvent event) {
-        if(event.getPacket() instanceof S08PacketPlayerPosLook && mc.getPlayer() != null && mc.getWorld() != null) {
+        if(event.getPacket() instanceof S08PacketPlayerPosLook && mc.thePlayer != null && mc.getWorld() != null) {
             S08PacketPlayerPosLook packet = event.getPacket();
 
-            double diffX  = mc.getPlayer().posX - packet.getX();
-            double diffZ = mc.getPlayer().posZ - packet.getZ();
+            double diffX  = mc.thePlayer.posX - packet.getX();
+            double diffZ = mc.thePlayer.posZ - packet.getZ();
             Module[] modules = {Slack.getInstance().getModuleManager().getInstance(Flight.class), Slack.getInstance().getModuleManager().getInstance(Speed.class), Slack.getInstance().getModuleManager().getInstance(LongJump.class)};
             boolean toggled = false;
 

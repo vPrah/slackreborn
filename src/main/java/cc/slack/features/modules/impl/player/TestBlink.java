@@ -6,14 +6,13 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.BlinkUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.EntityPlayerSP;
 import net.minecraft.client.multiplayer.PlayerControllerMP;
-import net.minecraft.client.settings.GameSettings;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +27,7 @@ public class TestBlink extends Module {
 
     List<PlayerControllerMP> inputReplay = new ArrayList<>();
     private Minecraft startingMC = mc.getMinecraft();
-    private EntityPlayerSP startingPlayer = mc.getPlayer();
+    private EntityPlayerSP startingPlayer = mc.thePlayer;
     private int ticks = 0;
 
     @Override

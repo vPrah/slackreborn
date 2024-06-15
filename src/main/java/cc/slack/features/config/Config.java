@@ -8,7 +8,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import lombok.Getter;
 import lombok.Setter;
-import cc.slack.utils.client.mc;
 import net.minecraft.client.Minecraft;
 
 import java.awt.*;

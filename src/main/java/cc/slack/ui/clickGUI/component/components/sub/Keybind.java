@@ -2,7 +2,6 @@ package cc.slack.ui.clickGUI.component.components.sub;
 
 import cc.slack.ui.clickGUI.component.Component;
 import cc.slack.ui.clickGUI.component.components.Button;
-import cc.slack.utils.client.mc;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;

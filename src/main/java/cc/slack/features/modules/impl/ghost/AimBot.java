@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.rotations.RotationUtil;
@@ -48,8 +47,8 @@ public class AimBot extends Module {
     public void onStrafe (StrafeEvent event) {
 
         if (lastPitch == 0f && lastYaw == 0f) {
-            lastPitch = mc.getPlayer().rotationPitch;
-            lastYaw = mc.getPlayer().rotationYaw;
+            lastPitch = mc.thePlayer.rotationPitch;
+            lastYaw = mc.thePlayer.rotationYaw;
         }
         target = AttackUtil.getTarget(aimRange.getValue(), "fov");
         if (target == null) {
@@ -61,14 +60,14 @@ public class AimBot extends Module {
         }
 
         float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.CENTER, 0);
-        targetRotation[0] += mc.getPlayer().rotationYaw - lastYaw;
-        targetRotation[1] += mc.getPlayer().rotationPitch - lastPitch;
+        targetRotation[0] += mc.thePlayer.rotationYaw - lastYaw;
+        targetRotation[1] += mc.thePlayer.rotationPitch - lastPitch;
         targetRotation[0] += complimentYaw * complimentSpeed.getValue();
         targetRotation[1] += complimentPitch * complimentSpeed.getValue();
 
 
-        lastPitch = mc.getPlayer().rotationPitch;
-        lastYaw = mc.getPlayer().rotationYaw;
+        lastPitch = mc.thePlayer.rotationPitch;
+        lastYaw = mc.thePlayer.rotationYaw;
 
         complimentYaw = targetRotation[0] - lastRotation[0];
         complimentPitch = targetRotation[1] - lastRotation[1];

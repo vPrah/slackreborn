@@ -21,7 +21,6 @@ import cc.slack.features.modules.impl.movement.flights.impl.vanilla.VanillaFligh
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusDamageFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusPortFlight;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import org.lwjgl.input.Keyboard;
 
@@ -64,7 +63,7 @@ public class Flight extends Module {
 
     @Override
     public void onDisable() {
-        mc.getTimer().timerSpeed = 1F;
+        mc.timer.timerSpeed = 1F;
         mode.getValue().onDisable();
     }
 

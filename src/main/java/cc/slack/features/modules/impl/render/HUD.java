@@ -14,9 +14,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
 import cc.slack.features.modules.impl.world.Scaffold;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
-import cc.slack.utils.player.ItemSpoofUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
@@ -140,8 +138,8 @@ public class HUD extends Module {
 
 		if (scaffoldDraw.getValue()) {
 			if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
-				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
-					displayString = mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack().stackSize + " blocks";
+				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
+					displayString = mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack().stackSize + " blocks";
 				} else {
 					displayString = "No blocks";
 				}
@@ -154,7 +152,7 @@ public class HUD extends Module {
 
 			if (scaffoldTicks != 0) {
 				ScaledResolution sr = mc.getScaledResolution();
-				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
 					int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
 					RenderUtil.drawRoundedRect(
 							((sr.getScaledWidth() -  Fonts.apple18.getStringWidth(displayString)) / 2f) - 4,
@@ -178,7 +176,7 @@ public class HUD extends Module {
 //
 //			if (itemSpoofTicks != 0) {
 //				ScaledResolution sr = mc.getScaledResolution();
-//				if (mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack() != null) {
+//				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
 //					int y = (int) ((1 - Math.pow(1 - (itemSpoofTicks / 10.0), 3)) * 20);
 //					RenderUtil.drawRoundedRect(
 //							((sr.getScaledWidth() -  30) / 2f),
@@ -187,7 +185,7 @@ public class HUD extends Module {
 //							sr.getScaledHeight() * 5f / 6F + 15f - y,
 //							2, 0x80000000);
 //					RenderUtil.drawItem(
-//						mc.getPlayer().inventoryContainer.getSlot(mc.getPlayer().inventory.currentItem + 36).getStack(),
+//						mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack(),
 //						sr.getScaledWidth()/2,
 //						sr.getScaledHeight()*5/6
 //						);

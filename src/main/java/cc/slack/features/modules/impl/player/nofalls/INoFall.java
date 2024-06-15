@@ -7,8 +7,12 @@ import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
+import net.minecraft.client.Minecraft;
 
 public interface INoFall {
+
+    Minecraft mc = Minecraft.getMinecraft();
+
     default void onEnable() {
     }
 

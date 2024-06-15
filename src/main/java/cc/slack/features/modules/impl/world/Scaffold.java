@@ -15,7 +15,6 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Speed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.player.*;
@@ -105,7 +104,7 @@ public class Scaffold extends Module {
     @Override
     public void onEnable() {
         firstJump = true;
-        groundY = mc.getPlayer().posY;
+        groundY = mc.thePlayer.posY;
     }
 
     @Override
@@ -126,8 +125,8 @@ public class Scaffold extends Module {
     @Listen
     public void onPacket(PacketEvent p) {
         Packet packet = p.getPacket();
-        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.getPlayer().onGround && MovementUtil.isMoving()) {
-            if (mc.getPlayer().ticksExisted % 2 == 0) {
+        if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.thePlayer.onGround && MovementUtil.isMoving()) {
+            if (mc.thePlayer.ticksExisted % 2 == 0) {
                     ((C03PacketPlayer) packet).y += 0.0001;
                     ((C03PacketPlayer) packet).onGround = false;
             }
@@ -140,7 +139,7 @@ public class Scaffold extends Module {
     public void onMove(MoveEvent event) {
         switch (safewalkMode.getValue().toLowerCase()) {
             case "ground":
-                event.safewalk = event.safewalk || mc.getPlayer().onGround;
+                event.safewalk = event.safewalk || mc.thePlayer.onGround;
                 break;
             case "always":
                 event.safewalk = true;
@@ -181,7 +180,7 @@ public class Scaffold extends Module {
             if (spoofSlot.getValue()) {
                 ItemSpoofUtil.startSpoofing(slot);
             } else {
-                mc.getPlayer().inventory.currentItem = slot;
+                mc.thePlayer.inventory.currentItem = slot;
             }
             return true;
         }
@@ -193,34 +192,34 @@ public class Scaffold extends Module {
         switch (sprintMode.getValue().toLowerCase()) {
             case "always":
             case "no packet":
-                mc.getPlayer().setSprinting(true);
+                mc.thePlayer.setSprinting(true);
                 break;
             case "hypixel safe":
-                mc.getPlayer().setSprinting(false);
-                if (mc.getPlayer().onGround) {
-                    mc.getPlayer().motionX *= 0.95;
-                    mc.getPlayer().motionZ *= 0.95;
+                mc.thePlayer.setSprinting(false);
+                if (mc.thePlayer.onGround) {
+                    mc.thePlayer.motionX *= 0.95;
+                    mc.thePlayer.motionZ *= 0.95;
                 }
                 break;
             case "hypixel jump":
-                mc.getPlayer().setSprinting(!mc.getPlayer().onGround);
-                mc.getPlayer().motionX *= 0.995;
-                mc.getPlayer().motionZ *= 0.995;
-                if (mc.getPlayer().onGround && MovementUtil.isMoving()) {
-                    mc.getPlayer().jump();
+                mc.thePlayer.setSprinting(!mc.thePlayer.onGround);
+                mc.thePlayer.motionX *= 0.995;
+                mc.thePlayer.motionZ *= 0.995;
+                if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
+                    mc.thePlayer.jump();
                     hasPlaced = false;
                     if (!firstJump) {
                         MovementUtil.strafe(0.47f);
                     } else {
                         MovementUtil.strafe(0.35f);
-                        groundY = mc.getPlayer().posY;
+                        groundY = mc.thePlayer.posY;
                     }
                 }
                 break;
             case "hypixel":
-                mc.getPlayer().setSprinting(mc.getPlayer().ticksExisted % 2 == 0 || !mc.getPlayer().onGround);
+                mc.thePlayer.setSprinting(mc.thePlayer.ticksExisted % 2 == 0 || !mc.thePlayer.onGround);
             case "off":
-                mc.getPlayer().setSprinting(false);
+                mc.thePlayer.setSprinting(false);
                 break;
         }
     }
@@ -249,8 +248,8 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel ground":
-                if (mc.getPlayer().onGround) {
-                    RotationUtil.setClientRotation(new float[] {mc.getPlayer().rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
+                if (mc.thePlayer.onGround) {
+                    RotationUtil.setClientRotation(new float[] {mc.thePlayer.rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
                 } else {
                     RotationUtil.setClientRotation(blockRotation, keepRotationTicks.getValue());
                 }
@@ -263,7 +262,7 @@ public class Scaffold extends Module {
                 break;
         }
 
-        BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
+        BlockPos below = new BlockPos(mc.thePlayer.posX, placeY - 1, mc.thePlayer.posZ);
         if (!BlockUtils.isReplaceable(below)) {
             if (keepRotationTicks.getValue() == 0) {
                 RotationUtil.disable();
@@ -272,31 +271,31 @@ public class Scaffold extends Module {
     }
 
     private void updateSameY() {
-        if (mc.getPlayer().onGround) {
-            if (!sameY.getValue().equals("Hypixel Jump")) groundY = mc.getPlayer().posY;
+        if (mc.thePlayer.onGround) {
+            if (!sameY.getValue().equals("Hypixel Jump")) groundY = mc.thePlayer.posY;
         }
         switch (sameY.getValue().toLowerCase()) {
             case "off":
-                placeY = mc.getPlayer().posY;
+                placeY = mc.thePlayer.posY;
                 break;
             case "only speed":
                 if (!Slack.getInstance().getModuleManager().getInstance(Speed.class).isToggle()) {
-                    placeY = mc.getPlayer().posY;
+                    placeY = mc.thePlayer.posY;
                 } else {
                     placeY = groundY;
                 }
                 break;
             case "hypixel jump":
-                if (mc.getPlayer().onGround && mc.getPlayer().posY - groundY != 1) groundY = mc.getPlayer().posY;
-                if (PlayerUtil.isOverAir() && mc.getPlayer().motionY < -0.1 && mc.getPlayer().posY - groundY < 1.3 || firstJump) {
+                if (mc.thePlayer.onGround && mc.thePlayer.posY - groundY != 1) groundY = mc.thePlayer.posY;
+                if (PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 || firstJump) {
                     firstJump = false;
-                    placeY = mc.getPlayer().posY;
+                    placeY = mc.thePlayer.posY;
                 } else {
                     placeY = groundY;
                 }
                 break;
             case "auto jump":
-                if (mc.getPlayer().onGround) mc.getPlayer().jump();
+                if (mc.thePlayer.onGround) mc.thePlayer.jump();
                 placeY = groundY;
                 break;
             case "always":
@@ -305,8 +304,8 @@ public class Scaffold extends Module {
 
         }
         if (isTowering) {
-            placeY = mc.getPlayer().posY;
-            groundY = mc.getPlayer().posY;
+            placeY = mc.thePlayer.posY;
+            groundY = mc.thePlayer.posY;
         }
     }
 
@@ -316,66 +315,66 @@ public class Scaffold extends Module {
             isTowering = true;
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":
-                    mc.getPlayer().motionY = 0.42;
+                    mc.thePlayer.motionY = 0.42;
                     break;
                 case "vanilla":
-                    if (mc.getPlayer().onGround) {
-                        jumpGround = mc.getPlayer().posY;
-                        mc.getPlayer().motionY = 0.42;
+                    if (mc.thePlayer.onGround) {
+                        jumpGround = mc.thePlayer.posY;
+                        mc.thePlayer.motionY = 0.42;
                     }
 
-                    switch ((int) round((mc.getPlayer().posY - jumpGround) * 100)) {
+                    switch ((int) round((mc.thePlayer.posY - jumpGround) * 100)) {
                         case 42:
-                            mc.getPlayer().motionY = 0.33;
+                            mc.thePlayer.motionY = 0.33;
                             break;
                         case 75:
-                            mc.getPlayer().motionY = 0.25;
+                            mc.thePlayer.motionY = 0.25;
                             break;
                         case 100:
-                            jumpGround = mc.getPlayer().posY;
-                            mc.getPlayer().motionY = 0.42;
-                            mc.getPlayer().onGround = true;
+                            jumpGround = mc.thePlayer.posY;
+                            mc.thePlayer.motionY = 0.42;
+                            mc.thePlayer.onGround = true;
                             break;
                     }
                     break;
                 case "vulcan":
-                    if (mc.getPlayer().onGround) {
-                        jumpGround = mc.getPlayer().posY;
-                        mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
+                    if (mc.thePlayer.onGround) {
+                        jumpGround = mc.thePlayer.posY;
+                        mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
                     } else {
-                        if (mc.getPlayer().posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
-                            mc.getPlayer().motionY = 0.36;
-                            jumpGround = mc.getPlayer().posY;
+                        if (mc.thePlayer.posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
+                            mc.thePlayer.motionY = 0.36;
+                            jumpGround = mc.thePlayer.posY;
                         }
                     }
                     break;
                 case "watchdog":
                     if (MovementUtil.isBindsMoving()) break;
                     MovementUtil.resetMotion(false);
-                    if (mc.getPlayer().onGround) {
-                        jumpGround = mc.getPlayer().posY;
-                        mc.getPlayer().motionY = 0.42;
+                    if (mc.thePlayer.onGround) {
+                        jumpGround = mc.thePlayer.posY;
+                        mc.thePlayer.motionY = 0.42;
                     }
 
-                    switch ((int) round((mc.getPlayer().posY - jumpGround) * 100)) {
+                    switch ((int) round((mc.thePlayer.posY - jumpGround) * 100)) {
                         case 42:
-                            mc.getPlayer().motionY = 0.33;
+                            mc.thePlayer.motionY = 0.33;
                             break;
                         case 75:
                             MovementUtil.spoofNextC03(true);
-                            mc.getPlayer().motionY = 0.25;
+                            mc.thePlayer.motionY = 0.25;
                             break;
                         case 100:
-                            jumpGround = mc.getPlayer().posY;
-                            mc.getPlayer().motionY = 0.42;
-                            mc.getPlayer().onGround = true;
+                            jumpGround = mc.thePlayer.posY;
+                            mc.thePlayer.motionY = 0.42;
+                            mc.thePlayer.onGround = true;
                             break;
                     }
                     expand = -1.0;
                     break;
                 case "off":
-                    if (mc.getPlayer().onGround) {
-                        mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
+                    if (mc.thePlayer.onGround) {
+                        mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
                         isTowering = false;
                     }
                     break;
@@ -387,15 +386,15 @@ public class Scaffold extends Module {
 
         if (expand > 0) {
             for (double x = 0.0; x <= expand; x += 0.1) {
-                placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
-                placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+                placeX = mc.thePlayer.posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
+                placeZ = mc.thePlayer.posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
                 if (startSearch()) return;
 
             }
         } else {
             for (double x = 0.0; x >= expand; x -= 0.1) {
-                placeX = mc.getPlayer().posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
-                placeZ = mc.getPlayer().posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw))) * x);
+                placeX = mc.thePlayer.posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
+                placeZ = mc.thePlayer.posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
                 if (startSearch()) return;
 
             }
@@ -465,8 +464,8 @@ public class Scaffold extends Module {
         if (!hasBlock) return;
         boolean canContinue = true;
         MovingObjectPosition raytraced = mc.getWorld().rayTraceBlocks(
-                mc.getPlayer().getPositionEyes(1f),
-                mc.getPlayer().getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
+                mc.thePlayer.getPositionEyes(1f),
+                mc.thePlayer.getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
                 false, true, false);
         switch (raycastMode.getValue().toLowerCase()) {
             case "normal":
@@ -494,21 +493,21 @@ public class Scaffold extends Module {
         }
         if (!canContinue) return;
 
-        BlockPos below = new BlockPos(mc.getPlayer().posX, placeY - 1, mc.getPlayer().posZ);
+        BlockPos below = new BlockPos(mc.thePlayer.posX, placeY - 1, mc.thePlayer.posZ);
         //if(!BlockUtils.isReplaceable(below)) return;
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
-        if (mc.getPlayerController().onPlayerRightClick(mc.getPlayer(), mc.getWorld(), mc.getPlayer().getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
+        if (mc.getPlayerController().onPlayerRightClick(mc.thePlayer, mc.getWorld(), mc.thePlayer.getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
 
             if (swingMode.getValue().contains("Normal")) {
-                mc.getPlayer().swingItem();
+                mc.thePlayer.swingItem();
             } else if (swingMode.getValue().contains("Packet")) {
                 PacketUtil.sendNoEvent(new C0APacketAnimation());
             }
 
-            mc.getPlayer().motionX *= speedModifier.getValue();
-            mc.getPlayer().motionZ *= speedModifier.getValue();
+            mc.thePlayer.motionX *= speedModifier.getValue();
+            mc.thePlayer.motionZ *= speedModifier.getValue();
             hasBlock = false;
 
 

@@ -1,6 +1,5 @@
 package cc.slack.utils.other;
 
-import cc.slack.utils.client.mc;
 import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.client.Minecraft;

@@ -3,7 +3,6 @@ package cc.slack.utils.player;
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.other.AntiBot;
 import cc.slack.features.modules.impl.other.Targets;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import net.minecraft.entity.Entity;
@@ -145,19 +144,19 @@ public class AttackUtil {
     }
 
     public static EntityLivingBase getTarget(double range, String sort, boolean team, boolean mobs, boolean animals, boolean players, boolean friends) {
-        if (mc.getPlayer() == null || mc.getWorld() == null) return null;
+        if (mc.thePlayer == null || mc.getWorld() == null) return null;
         List<EntityLivingBase> targets = new ArrayList<>();
 
         for (Entity entity : mc.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
             if (entity instanceof EntityLivingBase) {
-                if (entity == mc.getPlayer()) continue;
+                if (entity == mc.thePlayer) continue;
                 if (entity instanceof EntityArmorStand) continue;
                 if (entity instanceof EntityVillager) continue;
                 if ((!mobs && (entity instanceof EntityMob)) || (!animals && (entity instanceof EntityAnimal)) ||  (!players && (entity instanceof EntityPlayer))) continue;
                 if (entity instanceof EntityPlayer && !team && PlayerUtil.isOnSameTeam((EntityPlayer) entity)) continue;
                 if (entity instanceof EntityPlayer && !friends && Slack.getInstance().getFriendManager().isFriend((EntityPlayer) entity)) continue;
 
-                if (mc.getPlayer().getDistanceToEntity(entity) > range) continue;
+                if (mc.thePlayer.getDistanceToEntity(entity) > range) continue;
                 if (Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(AntiBot.class).isBot((EntityLivingBase) entity)) continue;
                 targets.add((EntityLivingBase) entity);
             }
@@ -168,7 +167,7 @@ public class AttackUtil {
                 targets.sort(Comparator.comparingDouble(RotationUtil::getRotationDifference));
                 break;
             case "distance":
-                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.getPlayer())));
+                targets.sort(Comparator.comparingDouble(entity -> entity.getDistanceToEntity(mc.thePlayer)));
                 break;
             case "health":
                 targets.sort(Comparator.comparingDouble(EntityLivingBase::getHealth));
@@ -184,12 +183,12 @@ public class AttackUtil {
     }
 
     public static double getPriority(EntityLivingBase e) {
-        return e.getDistanceToEntity(mc.getPlayer()) + e.hurtTime == 0 ? 0 : 3.5 + e.getHealth() / e.getMaxHealth();
+        return e.getDistanceToEntity(mc.thePlayer) + e.hurtTime == 0 ? 0 : 3.5 + e.getHealth() / e.getMaxHealth();
     }
     
     public static boolean isTarget(Entity entity) {
         final Targets targets = Slack.getInstance().getModuleManager().getInstance(Targets.class);
-        if (entity == mc.getPlayer()) return false;
+        if (entity == mc.thePlayer) return false;
         if (entity.getDisplayName().getUnformattedText().contains("NPC") || entity.getDisplayName().equals("[NPC]") || entity.getDisplayName().getUnformattedText().contains("CIT-") || entity.getDisplayName().equals("")) return  false;
         if (entity instanceof EntityArmorStand) return false;
         if (!targets.mobsTarget.getValue() && entity instanceof EntityVillager) return false;

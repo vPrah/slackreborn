@@ -13,12 +13,9 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.impl.vanilla.FireballFlight;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.settings.GameSettings;
-import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 @ModuleInfo(
@@ -46,10 +43,10 @@ public class Velocity extends Module {
 
     @Listen
     public void onPacket(PacketEvent event) {
-        if (mc.getPlayer() == null || mc.getWorld() == null) return;
-        if (noFire.getValue() && mc.getPlayer().isBurning()) return;
+        if (mc.thePlayer == null || mc.getWorld() == null) return;
+        if (noFire.getValue() && mc.thePlayer.isBurning()) return;
 
-        if (onlyground.getValue() && !mc.getPlayer().onGround) {
+        if (onlyground.getValue() && !mc.thePlayer.onGround) {
             return;
         }
 
@@ -59,16 +56,16 @@ public class Velocity extends Module {
 
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
-            if (packet.getEntityID() == mc.getPlayer().getEntityId()) {
+            if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
                 switch (mode.getValue().toLowerCase()) {
                     case "motion":
                         if (horizontal.getValue() == 0) {
                             event.cancel();
-                            mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                            mc.thePlayer.motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
                         } else if (vertical.getValue() == 0) {
                             event.cancel();
-                            mc.getPlayer().motionX = packet.getMotionX() * horizontal.getValue().doubleValue() / 100 / 8000.0;
-                            mc.getPlayer().motionZ = packet.getMotionZ() * horizontal.getValue().doubleValue() / 100 / 8000.0;
+                            mc.thePlayer.motionX = packet.getMotionX() * horizontal.getValue().doubleValue() / 100 / 8000.0;
+                            mc.thePlayer.motionZ = packet.getMotionZ() * horizontal.getValue().doubleValue() / 100 / 8000.0;
                         } else {
                             packet.setMotionX(packet.getMotionX() * (horizontal.getValue() / 100));
                             packet.setMotionY(packet.getMotionY() * (vertical.getValue() / 100));
@@ -81,17 +78,17 @@ public class Velocity extends Module {
                         break;
                     case "hypixel":
                         event.cancel();
-                        mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                        mc.thePlayer.motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
                         break;
                     case "hypixel air":
-                        if (mc.getPlayer().onGround) {
+                        if (mc.thePlayer.onGround) {
                             if (hypixeltest) {
-                                mc.getPlayer().motionY = hypixelY;
+                                mc.thePlayer.motionY = hypixelY;
                                 BlinkUtil.disable();
                                 hypixeltest = false;
                             } else {
                                 event.cancel();
-                                mc.getPlayer().motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
+                                mc.thePlayer.motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
                                 hypixeltest = false;
                             }
                         } else {
@@ -108,9 +105,9 @@ public class Velocity extends Module {
                         break;
                     case "reverse":
                         event.cancel();
-                        mc.getPlayer().motionY = packet.getMotionY() / 8000.0;
-                        mc.getPlayer().motionX = packet.getMotionX() / 8000.0;
-                        mc.getPlayer().motionZ = packet.getMotionZ() / 8000.0;
+                        mc.thePlayer.motionY = packet.getMotionY() / 8000.0;
+                        mc.thePlayer.motionX = packet.getMotionX() / 8000.0;
+                        mc.thePlayer.motionZ = packet.getMotionZ() / 8000.0;
                         MovementUtil.strafe();
                         break;
                     default:
@@ -122,31 +119,31 @@ public class Velocity extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().isInWater() || mc.getPlayer().isInLava() || mc.getPlayer().isInWeb) {
+        if (mc.thePlayer.isInWater() || mc.thePlayer.isInLava() || mc.thePlayer.isInWeb) {
             return;
         }
 
 
         switch (mode.getValue().toLowerCase()) {
             case "hypixel damage strafe":
-                if (mc.getPlayer().hurtTime == 9) {
+                if (mc.thePlayer.hurtTime == 9) {
                     MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
                 }
                 break;
             case "hypixel air":
-                if (mc.getPlayer().onGround || mc.getPlayer().ticksSinceLastDamage > 11) {
+                if (mc.thePlayer.onGround || mc.thePlayer.ticksSinceLastDamage > 11) {
                     if (hypixeltest) {
-                        mc.getPlayer().motionY = hypixelY;
+                        mc.thePlayer.motionY = hypixelY;
                         BlinkUtil.disable();
                         hypixeltest = false;
                     }
                 }
                 break;
             case "tick":
-                if (mc.getPlayer().ticksSinceLastDamage == velocityTick.getValue()) {
-                    mc.getPlayer().motionX *= horizontal.getValue().doubleValue() / 100;
-                    mc.getPlayer().motionY *= vertical.getValue().doubleValue() / 100;
-                    mc.getPlayer().motionZ *= horizontal.getValue().doubleValue() / 100;
+                if (mc.thePlayer.ticksSinceLastDamage == velocityTick.getValue()) {
+                    mc.thePlayer.motionX *= horizontal.getValue().doubleValue() / 100;
+                    mc.thePlayer.motionY *= vertical.getValue().doubleValue() / 100;
+                    mc.thePlayer.motionZ *= horizontal.getValue().doubleValue() / 100;
                 }
                 break;
             default:

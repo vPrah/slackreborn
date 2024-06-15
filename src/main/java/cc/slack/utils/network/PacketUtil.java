@@ -1,16 +1,16 @@
 package cc.slack.utils.network;
 
-import cc.slack.utils.client.mc;
+import cc.slack.utils.client.IMinecraft;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
-public final class PacketUtil extends mc {
+public final class PacketUtil implements IMinecraft {
 
     public static void send(Packet<?> packet) {
-        getNetHandler().getNetworkManager().sendPacket(packet);
+        mc.getNetHandler().getNetworkManager().sendPacket(packet);
     }
 
     public static void send(Packet<?> packet, int iterations) {
@@ -18,7 +18,7 @@ public final class PacketUtil extends mc {
     }
 
     public static void sendNoEvent(Packet<?> packet) {
-        getNetHandler().getNetworkManager().sendPacketNoEvent(packet);
+        mc.getNetHandler().getNetworkManager().sendPacketNoEvent(packet);
     }
     public static void sendNoEvent(Packet<?> packet, int iterations) {
         for (int i = 0; i < iterations; i++) sendNoEvent(packet);
@@ -26,7 +26,7 @@ public final class PacketUtil extends mc {
 
     public static void sendBlocking(boolean callEvent, boolean place) {
         C08PacketPlayerBlockPlacement packet;
-        packet = place ? new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.getPlayer().getHeldItem(), 0.0f, 0.0f, 0.0f) : new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem());
+        packet = place ? new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, mc.thePlayer.getHeldItem(), 0.0f, 0.0f, 0.0f) : new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem());
         if (callEvent) {
             PacketUtil.send(packet);
         } else {

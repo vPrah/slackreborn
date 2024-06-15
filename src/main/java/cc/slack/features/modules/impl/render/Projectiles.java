@@ -5,7 +5,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
@@ -48,19 +47,19 @@ public class Projectiles extends Module {
 
 
         this.positions.clear();
-        final ItemStack itemStack = mc.getPlayer().getCurrentEquippedItem();
+        final ItemStack itemStack = mc.thePlayer.getCurrentEquippedItem();
         MovingObjectPosition m = null;
         if (itemStack != null && (itemStack.getItem() instanceof ItemSnowball || itemStack.getItem() instanceof ItemEgg
                 || itemStack.getItem() instanceof ItemBow || itemStack.getItem() instanceof ItemEnderPearl)) {
-            final EntityLivingBase thrower = mc.getPlayer();
+            final EntityLivingBase thrower = mc.thePlayer;
             float rotationYaw = thrower.prevRotationYaw
-                    + (thrower.rotationYaw - thrower.prevRotationYaw) * mc.getTimer().renderPartialTicks;
+                    + (thrower.rotationYaw - thrower.prevRotationYaw) * mc.timer.renderPartialTicks;
             float rotationPitch = thrower.prevRotationPitch
-                    + (thrower.rotationPitch - thrower.prevRotationPitch) * mc.getTimer().renderPartialTicks;
-            double posX = thrower.lastTickPosX + (thrower.posX - thrower.lastTickPosX) * mc.getTimer().renderPartialTicks;
+                    + (thrower.rotationPitch - thrower.prevRotationPitch) * mc.timer.renderPartialTicks;
+            double posX = thrower.lastTickPosX + (thrower.posX - thrower.lastTickPosX) * mc.timer.renderPartialTicks;
             double posY = thrower.lastTickPosY + thrower.getEyeHeight()
-                    + (thrower.posY - thrower.lastTickPosY) * mc.getTimer().renderPartialTicks;
-            double posZ = thrower.lastTickPosZ + (thrower.posZ - thrower.lastTickPosZ) * mc.getTimer().renderPartialTicks;
+                    + (thrower.posY - thrower.lastTickPosY) * mc.timer.renderPartialTicks;
+            double posZ = thrower.lastTickPosZ + (thrower.posZ - thrower.lastTickPosZ) * mc.timer.renderPartialTicks;
             posX -= MathHelper.cos(rotationYaw / 180.0f * 3.1415927f) * 0.16f;
             posY -= 0.10000000149011612;
             posZ -= MathHelper.sin(rotationYaw / 180.0f * 3.1415927f) * 0.16f;
@@ -79,7 +78,7 @@ public class Projectiles extends Module {
             final float inaccuracy = 0.0f;
             float velocity = 1.5f;
             if (itemStack.getItem() instanceof ItemBow) {
-                final int i = mc.getPlayer().getItemInUseDuration() - mc.getPlayer().getItemInUseCount();
+                final int i = mc.thePlayer.getItemInUseDuration() - mc.thePlayer.getItemInUseCount();
                 float f = i / 20.0f;
                 f = (f * f + f * 2.0f) / 3.0f;
                 if (f < 0.1) {
@@ -126,7 +125,7 @@ public class Projectiles extends Module {
                             movingobjectposition.hitVec.zCoord);
                 }
                 for (final Entity entity : mc.getWorld().loadedEntityList) {
-                    if (entity != mc.getPlayer() && entity instanceof EntityLivingBase) {
+                    if (entity != mc.thePlayer && entity instanceof EntityLivingBase) {
                         final float f2 = 0.3f;
                         final AxisAlignedBB localAxisAlignedBB = entity.getEntityBoundingBox().expand(f2, f2, f2);
                         final MovingObjectPosition localMovingObjectPosition = localAxisAlignedBB

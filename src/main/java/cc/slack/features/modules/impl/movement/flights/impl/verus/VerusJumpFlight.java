@@ -7,7 +7,6 @@ import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.mc;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -17,7 +16,7 @@ public class VerusJumpFlight implements IFlight {
 
     @Override
     public void onEnable() {
-        startY = Math.floor(mc.getPlayer().posY);
+        startY = Math.floor(mc.thePlayer.posY);
     }
 
     @Override
@@ -26,8 +25,8 @@ public class VerusJumpFlight implements IFlight {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().onGround) {
-            mc.getPlayer().jump();
+        if (mc.thePlayer.onGround) {
+            mc.thePlayer.jump();
         }
         mc.getGameSettings().keyBindJump.pressed = false;
     }

@@ -1,10 +1,8 @@
 package cc.slack.features.modules.impl.movement.speeds.verus;
 
-import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import net.minecraft.init.Items;
@@ -35,10 +33,10 @@ public class VerusGroundSpeed implements ISpeed {
 
     @Override
     public void onMove(MoveEvent event) {
-    if(MovementUtil.isMoving() && MovementUtil.isOnGround(0.02) && !mc.getPlayer().isCollidedHorizontally) {
+    if(MovementUtil.isMoving() && MovementUtil.isOnGround(0.02) && !mc.thePlayer.isCollidedHorizontally) {
             if(firstHop) {
                 PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, new ItemStack(Items.water_bucket), 0, 0.5f, 0));
-                event.setY(mc.getPlayer().motionY = 0.01);
+                event.setY(mc.thePlayer.motionY = 0.01);
                 firstHop = false;
                 stage = 0;
                 moveSpeed = 0;
@@ -46,10 +44,10 @@ public class VerusGroundSpeed implements ISpeed {
                 if(stage >= 8) {
                     stage = 0;
                     PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 255, new ItemStack(Items.water_bucket), 0, 0.5f, 0));
-                    event.setY(mc.getPlayer().motionY = 0.01);
+                    event.setY(mc.thePlayer.motionY = 0.01);
                     moveSpeed = 0;
                 }
-                if(mc.getPlayer().onGround) {
+                if(mc.thePlayer.onGround) {
                     stage++;
                     MovementUtil.setSpeed(event, moveSpeed += RandomUtils.nextDouble(0.10, 0.18));
                 }

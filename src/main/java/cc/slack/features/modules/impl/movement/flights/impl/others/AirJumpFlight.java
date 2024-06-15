@@ -4,10 +4,7 @@ package cc.slack.features.modules.impl.movement.flights.impl.others;
 
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.mc;
-import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.BlockAir;
 import net.minecraft.util.AxisAlignedBB;
 
@@ -19,7 +16,7 @@ public class AirJumpFlight implements IFlight {
 
     @Override
     public void onEnable() {
-        startY = Math.floor(mc.getPlayer().posY);
+        startY = Math.floor(mc.thePlayer.posY);
     }
 
     @Override
@@ -30,7 +27,7 @@ public class AirJumpFlight implements IFlight {
 
     @Override
     public void onMove(MoveEvent event) {
-        if (mc.getGameSettings().keyBindJump.isPressed() && mc.getPlayer().onGround) {
+        if (mc.getGameSettings().keyBindJump.isPressed() && mc.thePlayer.onGround) {
             event.setY(0.42F);
         }
     }

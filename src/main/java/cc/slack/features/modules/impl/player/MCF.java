@@ -5,7 +5,6 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;

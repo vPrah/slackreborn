@@ -24,7 +24,6 @@ import cc.slack.features.modules.impl.movement.speeds.verus.VerusLowHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanHopSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanLowSpeed;
 import cc.slack.features.modules.impl.movement.speeds.vulcan.VulcanPortSpeed;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
@@ -93,27 +92,27 @@ public class Speed extends Module {
 
     @Override
     public void onDisable() {
-        mc.getTimer().timerSpeed = 1f;
+        mc.timer.timerSpeed = 1f;
         if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump); }
         mode.getValue().onDisable();
     }
 
     @Listen
     public void onMove(MoveEvent event) {
-        if (!nosloweat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) { return; }
+        if (!nosloweat.getValue() && mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood)) { return; }
         mode.getValue().onMove(event);
     }
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (!nosloweat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) { return; }
+        if (!nosloweat.getValue() && mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood)) { return; }
         if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = false; }
         mode.getValue().onUpdate(event);
     }
 
     @Listen
     public void onMotion(MotionEvent event) {
-        if (!nosloweat.getValue() && mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood)) { return; }
+        if (!nosloweat.getValue() && mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood)) { return; }
         mode.getValue().onMotion(event);
     }
 

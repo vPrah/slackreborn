@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -23,7 +22,6 @@ import net.minecraft.network.play.server.S3EPacketTeams;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 
 import java.util.ArrayList;
-import java.util.List;
 
 @ModuleInfo(
         name = "Backtrack",
@@ -59,7 +57,7 @@ public class Backtrack extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (mc.getPlayer() == null || mc.getWorld() == null) {
+        if (mc.thePlayer == null || mc.getWorld() == null) {
             enabled = false;
             currentTick.clear();
             packetCache.clear();
@@ -111,7 +109,7 @@ public class Backtrack extends Module {
             if (!(packet instanceof S00PacketDisconnect ||
                     packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                     packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
-                    packet instanceof S3BPacketScoreboardObjective) && mc.getPlayer().ticksExisted > 4) {
+                    packet instanceof S3BPacketScoreboardObjective) && mc.thePlayer.ticksExisted > 4) {
                 if (enabled && !releasing) {
                     currentTick.add(packet);
                     event.cancel();

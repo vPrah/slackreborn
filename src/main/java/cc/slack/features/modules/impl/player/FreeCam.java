@@ -5,11 +5,9 @@ import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
@@ -22,16 +20,16 @@ public class FreeCam extends Module {
 
     @Override
     public void onEnable() {
-        entity = new EntityOtherPlayerMP(mc.getWorld(), mc.getPlayer().getGameProfile());
-        entity.rotationYawHead = mc.getPlayer().rotationYawHead;
-        entity.renderYawOffset = mc.getPlayer().renderYawOffset;
-        entity.copyLocationAndAnglesFrom(mc.getPlayer());
+        entity = new EntityOtherPlayerMP(mc.getWorld(), mc.thePlayer.getGameProfile());
+        entity.rotationYawHead = mc.thePlayer.rotationYawHead;
+        entity.renderYawOffset = mc.thePlayer.renderYawOffset;
+        entity.copyLocationAndAnglesFrom(mc.thePlayer);
         mc.getWorld().addEntityToWorld(-6969, entity);
     }
 
     @Override
     public void onDisable() {
-        mc.getPlayer().setPosition(entity.posX, entity.posY, entity.posZ);
+        mc.thePlayer.setPosition(entity.posX, entity.posY, entity.posZ);
         mc.getWorld().removeEntity(entity);
     }
 
@@ -50,7 +48,7 @@ public class FreeCam extends Module {
 
     @Listen
     public void onMotion (MotionEvent event) {
-        mc.getPlayer().motionY = 0;
+        mc.thePlayer.motionY = 0;
         if(MovementUtil.isBindsMoving())
             MovementUtil.strafe(1f);
         if(mc.getGameSettings().keyBindJump.isKeyDown()) MovementUtil.setVClip(0.5);

@@ -4,7 +4,6 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.InventoryUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.item.ItemStack;
@@ -33,7 +32,7 @@ public class AutoSword extends Module {
                     }
                 }
                 if (slot != -1) {
-                    mc.getPlayer().inventory.currentItem = slot - 36;
+                    mc.thePlayer.inventory.currentItem = slot - 36;
                     mc.getPlayerController().updateController();
                 }
             }

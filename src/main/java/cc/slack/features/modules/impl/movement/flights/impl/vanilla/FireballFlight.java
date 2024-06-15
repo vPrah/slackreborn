@@ -7,12 +7,10 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.InventoryUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.rotations.RotationUtil;
-import net.minecraft.item.ItemFireball;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
@@ -41,7 +39,7 @@ public class FireballFlight implements IFlight {
     @Override
     public void onDisable() {
         if (sent && !reset) {
-            PacketUtil.send(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+            PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
         }
     }
 
@@ -49,34 +47,34 @@ public class FireballFlight implements IFlight {
     @Override
     public void onUpdate(UpdateEvent event) {
         if (!sent) {
-            if (mc.getPlayer().inventory.currentItem != fireballSlot) {
+            if (mc.thePlayer.inventory.currentItem != fireballSlot) {
                 PacketUtil.send(new C09PacketHeldItemChange(fireballSlot));
-                mc.getPlayer().jump();
+                mc.thePlayer.jump();
                 MovementUtil.strafe(0.47f);
             } else {
                 MovementUtil.resetMotion(true);
-                RotationUtil.setClientRotation(new float[]{mc.getPlayer().rotationYaw + 180, 80f}, 2);
-                PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(mc.getPlayer().inventory.currentItem).getStack()));
+                RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 80f}, 2);
+                PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(mc.thePlayer.inventory.currentItem).getStack()));
                 sent = true;
             }
         } else {
             if (!reset) {
-                PacketUtil.send(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                 reset = true;
             }
 
             if (!gotVelo) MovementUtil.resetMotion(true);
 
-            if (gotVelo && mc.getPlayer().onGround) {
+            if (gotVelo && mc.thePlayer.onGround) {
                 Slack.getInstance().getModuleManager().getInstance(Flight.class).setToggle(false);
             }
 
-            if (gotVelo && mc.getPlayer().hurtTime == 9) {
+            if (gotVelo && mc.thePlayer.hurtTime == 9) {
                 MovementUtil.strafe(MovementUtil.getSpeed() * 1.1f);
             }
 
-            if (gotVelo && mc.getPlayer().ticksSinceLastDamage > 5 && mc.getPlayer().ticksSinceLastDamage < 12 ) {
-                mc.getPlayer().motionY = 0.3;
+            if (gotVelo && mc.thePlayer.ticksSinceLastDamage > 5 && mc.thePlayer.ticksSinceLastDamage < 12 ) {
+                mc.thePlayer.motionY = 0.3;
             }
         }
     }
@@ -84,7 +82,7 @@ public class FireballFlight implements IFlight {
     @Override
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
-            if (((S12PacketEntityVelocity) event.getPacket()).getEntityID() == mc.getPlayer().getEntityId())
+            if (((S12PacketEntityVelocity) event.getPacket()).getEntityID() == mc.thePlayer.getEntityId())
                 gotVelo = true;
         }
     }

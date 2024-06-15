@@ -8,15 +8,11 @@ import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.render.ColorUtil;
 import org.lwjgl.input.Keyboard;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-
-import static net.minecraft.client.gui.Gui.drawRect;
 
 public class RavenArrayList implements IArraylist {
 

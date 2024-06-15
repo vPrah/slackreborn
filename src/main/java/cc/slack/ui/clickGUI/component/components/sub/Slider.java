@@ -3,7 +3,6 @@ package cc.slack.ui.clickGUI.component.components.sub;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.ui.clickGUI.component.Component;
 import cc.slack.ui.clickGUI.component.components.Button;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.MathUtil;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;

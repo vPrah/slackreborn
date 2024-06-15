@@ -9,7 +9,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.InventoryUtil;
@@ -85,8 +84,8 @@ public class AutoPot extends Module {
         if (noAura.getValue() && Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle()) return;
         if (noMove.getValue() && MovementUtil.isMoving()) return;
 
-        ItemPot healthPotion = healthValue.getValue() >= mc.getPlayer().getHealth() && (healthpotion.getValue() || soupvalue.getValue()) ? getHealingPotion() : !mc.getPlayer().isPotionActive(Potion.moveSpeed) && speedpotion.getValue() ? getSpeedPotion() : null;
-        if((event.getState() == State.PRE) && !mc.getPlayer().capabilities.allowFlying) {
+        ItemPot healthPotion = healthValue.getValue() >= mc.thePlayer.getHealth() && (healthpotion.getValue() || soupvalue.getValue()) ? getHealingPotion() : !mc.thePlayer.isPotionActive(Potion.moveSpeed) && speedpotion.getValue() ? getSpeedPotion() : null;
+        if((event.getState() == State.PRE) && !mc.thePlayer.capabilities.allowFlying) {
             if(healthPotion == null || !timer.hasReached(delayValue.getValue()))
                 return;
             if(mc.getMinecraft().getCurrentServerData() != null && mc.getMinecraft().getCurrentServerData().serverIP.toLowerCase().contains("hypixel")) {
@@ -95,7 +94,7 @@ public class AutoPot extends Module {
                 event.setPitch(90);
             }
         }
-        if(!(event.getState() == State.PRE) && !mc.getPlayer().capabilities.allowFlying) {
+        if(!(event.getState() == State.PRE) && !mc.thePlayer.capabilities.allowFlying) {
             if(healthPotion == null || !timer.hasReached(delayValue.getValue()))
                 return;
 
@@ -105,8 +104,8 @@ public class AutoPot extends Module {
             }
 
             mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(healthPotion.getSlot() - 36));
-            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getCurrentEquippedItem()));
-            mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getCurrentEquippedItem()));
+            mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             timer.reset();
         }
     }

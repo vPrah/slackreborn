@@ -11,7 +11,6 @@ import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.InventoryUtil;
 import cc.slack.utils.player.MovementUtil;
 import net.minecraft.item.ItemBow;
-import cc.slack.utils.client.mc;
 import net.minecraft.item.ItemFishingRod;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
@@ -61,7 +60,7 @@ public class VerusBowLJ implements ILongJump {
         if(ticks >= 3 && !bowd) {
             bowd = true;
             PacketUtil.sendNoEvent(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, new BlockPos(0, 0, 0), EnumFacing.DOWN));
-            PacketUtil.sendNoEvent(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+            PacketUtil.sendNoEvent(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
         }
 
         if(!receivedS12) {
@@ -69,13 +68,13 @@ public class VerusBowLJ implements ILongJump {
             event.setPitch(-90);
         } else {
             if(event.getState() == State.PRE) {
-                if(MovementUtil.isOnGround(3) && mc.getPlayer().motionY < 0) {
+                if(MovementUtil.isOnGround(3) && mc.thePlayer.motionY < 0) {
                     moveSpeed = 0.25;
-                    mc.getPlayer().motionY = -0.0784000015258789;
+                    mc.thePlayer.motionY = -0.0784000015258789;
                 }
                 moveSpeed -= 0.0001;
                 MovementUtil.strafe((float) moveSpeed);
-                if (mc.getPlayer().onGround) Slack.getInstance().getModuleManager().getInstance(LongJump.class).toggle();
+                if (mc.thePlayer.onGround) Slack.getInstance().getModuleManager().getInstance(LongJump.class).toggle();
             }
         }
 
@@ -97,7 +96,7 @@ public class VerusBowLJ implements ILongJump {
     public void onPacket(PacketEvent event) {
         if(event.getPacket() instanceof S12PacketEntityVelocity) {
             S12PacketEntityVelocity packet = event.getPacket();
-            if(packet.getEntityID() != mc.getPlayer().getEntityId()) return;
+            if(packet.getEntityID() != mc.thePlayer.getEntityId()) return;
             receivedS12 = true;
             MovementUtil.setVClip(4);
             moveSpeed = Slack.getInstance().getModuleManager().getInstance(LongJump.class).speedValue.getValue();

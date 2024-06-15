@@ -1,20 +1,15 @@
 package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.Slack;
-import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.StringValue;
 import cc.slack.features.modules.impl.render.HUD;
-import cc.slack.utils.client.mc;
-import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.IChatComponent;
-import org.apache.commons.lang3.StringUtils;
 
 @ModuleInfo(
         name = "AutoGG",
@@ -43,7 +38,7 @@ public class AutoGG extends Module {
                 unformattedText.contains("You lost! Want to play again? Click here!") ||
                 unformattedText.contains("You died! Want to play again? Click here!")
         ) {
-            mc.getPlayer().sendChatMessage(password.getValue());
+            mc.thePlayer.sendChatMessage(password.getValue());
             iscorrectjoin();
         }
     }

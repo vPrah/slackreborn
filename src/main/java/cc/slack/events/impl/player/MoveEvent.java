@@ -1,7 +1,6 @@
 package cc.slack.events.impl.player;
 
 import cc.slack.events.Event;
-import cc.slack.utils.client.mc;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -24,17 +23,17 @@ public class MoveEvent extends Event {
     }
 
     public void setX(double x) {
-        mc.getPlayer().motionX = x;
+        mc.thePlayer.motionX = x;
         this.x = x;
     }
 
     public void setY(double y) {
-        mc.getPlayer().motionY = y;
+        mc.thePlayer.motionY = y;
         this.y = y;
     }
 
     public void setZ(double z) {
-        mc.getPlayer().motionZ = z;
+        mc.thePlayer.motionZ = z;
         this.z = z;
     }
 

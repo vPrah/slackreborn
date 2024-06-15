@@ -4,7 +4,6 @@ package cc.slack.features.modules.impl.movement.flights.impl.vanilla;
 
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 
 public class VanillaFlight implements IFlight {

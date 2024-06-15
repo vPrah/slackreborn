@@ -98,7 +98,7 @@ public class S0CPacketSpawnPlayer implements Packet<INetHandlerPlayClient>
         return this.entityId;
     }
 
-    public UUID getPlayer()
+    public UUID mc.thePlayer
     {
         return this.playerId;
     }

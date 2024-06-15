@@ -7,12 +7,10 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.rotations.RotationUtil;
-import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
@@ -25,53 +23,53 @@ public class HypixelHopSpeed implements ISpeed {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().onGround) {
+        if (mc.thePlayer.onGround) {
             if (MovementUtil.isMoving()) {
                 wasSlow = false;
                 if (jumpTick > 6) jumpTick = 4;
-                mc.getPlayer().jump();
+                mc.thePlayer.jump();
                 MovementUtil.strafe(0.47f + jumpTick * 0.008f);
-                if (mc.getPlayer().isPotionActive(Potion.moveSpeed)) {
-                    float amplifier = mc.getPlayer().getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+                if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+                    float amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
                     MovementUtil.strafe(0.47f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
                 }
-                mc.getPlayer().motionY = PlayerUtil.getJumpHeight();
+                mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
             } else {
                 jumpTick = 0;
             }
         } else {
-            mc.getPlayer().motionX *= 1.0005;
-            mc.getPlayer().motionZ *= 1.0005;
+            mc.thePlayer.motionX *= 1.0005;
+            mc.thePlayer.motionZ *= 1.0005;
 
-            if (mc.getPlayer().offGroundTicks == 1) {
-                mc.getPlayer().motionX *= 1.002;
-                mc.getPlayer().motionZ *= 1.002;
+            if (mc.thePlayer.offGroundTicks == 1) {
+                mc.thePlayer.motionX *= 1.002;
+                mc.thePlayer.motionZ *= 1.002;
             }
 
-            if (mc.getPlayer().motionY > 0) {
-                mc.getTimer().timerSpeed = 0.94f;
-            } else if (mc.getPlayer().offGroundTicks < 13) {
+            if (mc.thePlayer.motionY > 0) {
+                mc.timer.timerSpeed = 0.94f;
+            } else if (mc.thePlayer.offGroundTicks < 13) {
                 if (jumpTick < 5 && !Slack.getInstance().getModuleManager().getInstance(Speed.class).enabledTime.hasReached(7000)) {
-                    mc.getTimer().timerSpeed = 1.06f + (float) Math.random() * 0.07f;
+                    mc.timer.timerSpeed = 1.06f + (float) Math.random() * 0.07f;
                 } else {
-                    mc.getTimer().timerSpeed = 1f;
+                    mc.timer.timerSpeed = 1f;
                 }
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (mc.getPlayer().offGroundTicks == 3) {
+                if (mc.thePlayer.offGroundTicks == 3) {
                     PacketUtil.send(new C03PacketPlayer(false));
-                    mc.getPlayer().motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
-                    mc.getTimer().timerSpeed = 0.65f;
+                    mc.thePlayer.motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
+                    mc.timer.timerSpeed = 0.65f;
                 }
             }
 
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
-                if (mc.getPlayer().offGroundTicks == 6 && Slack.getInstance().getModuleManager().getInstance(KillAura.class).target != null) {
+                if (mc.thePlayer.offGroundTicks == 6 && Slack.getInstance().getModuleManager().getInstance(KillAura.class).target != null) {
                     if (Math.abs(MathHelper.wrapAngleTo180_float(
-                            MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
-                                    RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
+                            MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
+                                    RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]
                     )) > 30) {
                         MovementUtil.strafe(MovementUtil.getSpeed() * 0.6f);
                     }
@@ -82,8 +80,8 @@ public class HypixelHopSpeed implements ISpeed {
 //                    wasSlow = false;
 //                }
 //                if (Math.abs(MathHelper.wrapAngleTo180_float(
-//                        MovementUtil.getBindsDirection(mc.getPlayer().rotationYaw) -
-//                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.getPlayer().motionX, 0, mc.getPlayer().motionZ))[0]
+//                        MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
+//                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]
 //                )) > 135) {
 //                    MovementUtil.resetMotion(false);
 //                    wasSlow = true;

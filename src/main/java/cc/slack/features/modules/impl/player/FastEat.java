@@ -7,7 +7,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -33,19 +32,19 @@ public class FastEat extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().isUsingItem() && (mc.getPlayer().getItemInUse().getItem() instanceof ItemFood || mc.getPlayer().getItemInUse().getItem() instanceof ItemPotion || mc.getPlayer().getItemInUse().getItem() instanceof ItemBucketMilk)) {
+        if (mc.thePlayer.isUsingItem() && (mc.thePlayer.getItemInUse().getItem() instanceof ItemFood || mc.thePlayer.getItemInUse().getItem() instanceof ItemPotion || mc.thePlayer.getItemInUse().getItem() instanceof ItemBucketMilk)) {
             switch (mode.getValue()) {
                 case "Instant":
-                    PacketUtil.sendNoEvent(new C03PacketPlayer(mc.getPlayer().onGround), 30);
+                    PacketUtil.sendNoEvent(new C03PacketPlayer(mc.thePlayer.onGround), 30);
                     break;
                 case "Clip":
-                startY = mc.getPlayer().posY;
+                startY = mc.thePlayer.posY;
                 MovementUtil.resetMotion(false);
-                if (mc.getPlayer().onGround) {
-                    if (mc.getPlayer().posY <= startY)
-                        mc.getPlayer().setPosition(mc.getPlayer().posX, mc.getPlayer().posY - 0.00000001, mc.getPlayer().posZ);
+                if (mc.thePlayer.onGround) {
+                    if (mc.thePlayer.posY <= startY)
+                        mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY - 0.00000001, mc.thePlayer.posZ);
                 } else {
-                    if (mc.getPlayer().posY <= startY) PacketUtil.sendNoEvent(new C03PacketPlayer(false), 3);
+                    if (mc.thePlayer.posY <= startY) PacketUtil.sendNoEvent(new C03PacketPlayer(false), 3);
                 }
                 break;
             }

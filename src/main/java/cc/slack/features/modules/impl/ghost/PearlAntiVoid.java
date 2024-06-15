@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -44,8 +43,8 @@ public class PearlAntiVoid extends Module {
 
     @Override
     public void onDisable() {
-        mc.getTimer().timerSpeed = 1.0f;
-        mc.getPlayer().isDead = false;
+        mc.timer.timerSpeed = 1.0f;
+        mc.thePlayer.isDead = false;
     }
 
     @Listen
@@ -57,14 +56,14 @@ public class PearlAntiVoid extends Module {
     public void onPacket(final PacketEvent e) {
         Packet<?> p = e.getPacket();
             if (e.getDirection() == PacketDirection.OUTGOING) {
-                if (!mc.getPlayer().onGround && shouldStuck && p instanceof C03PacketPlayer
+                if (!mc.thePlayer.onGround && shouldStuck && p instanceof C03PacketPlayer
                         && !(p instanceof C03PacketPlayer.C05PacketPlayerLook)
                         && !(p instanceof C03PacketPlayer.C06PacketPlayerPosLook)) {
                     e.cancel();
                 }
                 if (p instanceof C08PacketPlayerBlockPlacement && wait) {
                     shouldStuck = false;
-                    mc.getTimer().timerSpeed = 0.2f;
+                    mc.timer.timerSpeed = 0.2f;
                     wait = false;
                 }
             }
@@ -74,7 +73,7 @@ public class PearlAntiVoid extends Module {
                     x = wrapper.getX();
                     y = wrapper.getY();
                     z = wrapper.getZ();
-                    mc.getTimer().timerSpeed = 0.2f;
+                    mc.timer.timerSpeed = 0.2f;
                 }
             }
     }
@@ -83,45 +82,45 @@ public class PearlAntiVoid extends Module {
     public void onMotion(final MotionEvent e) {
         try {
             if (e.getState() != State.POST) {
-                    if (mc.getPlayer().getHeldItem() == null) {
-                        mc.getTimer().timerSpeed = 1.0f;
+                    if (mc.thePlayer.getHeldItem() == null) {
+                        mc.timer.timerSpeed = 1.0f;
                     }
 
-                    if (mc.getPlayer().getHeldItem().getItem() instanceof ItemEnderPearl) {
+                    if (mc.thePlayer.getHeldItem().getItem() instanceof ItemEnderPearl) {
                         wait = true;
                     }
 
-                    if (shouldStuck && !mc.getPlayer().onGround) {
-                        mc.getPlayer().motionX = 0.0;
-                        mc.getPlayer().motionY = 0.0;
-                        mc.getPlayer().motionZ = 0.0;
-                        mc.getPlayer().setPositionAndRotation(x, y, z, mc.getPlayer().rotationYaw,
-                                mc.getPlayer().rotationPitch);
+                    if (shouldStuck && !mc.thePlayer.onGround) {
+                        mc.thePlayer.motionX = 0.0;
+                        mc.thePlayer.motionY = 0.0;
+                        mc.thePlayer.motionZ = 0.0;
+                        mc.thePlayer.setPositionAndRotation(x, y, z, mc.thePlayer.rotationYaw,
+                                mc.thePlayer.rotationPitch);
                     }
-                    final boolean overVoid = !mc.getPlayer().onGround && !PlayerUtil.isBlockUnderP(30);
+                    final boolean overVoid = !mc.thePlayer.onGround && !PlayerUtil.isBlockUnderP(30);
                     if (!overVoid) {
                         shouldStuck = false;
-                        x = mc.getPlayer().posX;
-                        y = mc.getPlayer().posY;
-                        z = mc.getPlayer().posZ;
-                        mc.getTimer().timerSpeed = 1.0f;
+                        x = mc.thePlayer.posX;
+                        y = mc.thePlayer.posY;
+                        z = mc.thePlayer.posZ;
+                        mc.timer.timerSpeed = 1.0f;
                     }
                     if (overVoid) {
                         ++overVoidTicks;
-                    } else if (mc.getPlayer().onGround) {
+                    } else if (mc.thePlayer.onGround) {
                         overVoidTicks = 0;
                     }
                     if (overVoid && position != null && motion != null
                             && overVoidTicks < 30.0 + fall.getValue() * 20.0) {
                         if (!setBack) {
                             wasVoid = true;
-                            if (mc.getPlayer().fallDistance > fall.getValue()) {
-                                mc.getPlayer().fallDistance = 0.0f;
+                            if (mc.thePlayer.fallDistance > fall.getValue()) {
+                                mc.thePlayer.fallDistance = 0.0f;
                                 setBack = true;
                                 shouldStuck = true;
-                                x = mc.getPlayer().posX;
-                                y = mc.getPlayer().posY;
-                                z = mc.getPlayer().posZ;
+                                x = mc.thePlayer.posX;
+                                y = mc.thePlayer.posY;
+                                z = mc.thePlayer.posZ;
                             }
                         }
                     } else {
@@ -129,13 +128,13 @@ public class PearlAntiVoid extends Module {
                             toggle();
                         }
                         shouldStuck = false;
-                        mc.getTimer().timerSpeed = 1.0f;
+                        mc.timer.timerSpeed = 1.0f;
                         setBack = false;
                         if (wasVoid) {
                             wasVoid = false;
                         }
-                        motion = new Vec3(mc.getPlayer().motionX, mc.getPlayer().motionY, mc.getPlayer().motionZ);
-                        position = new Vec3(mc.getPlayer().posX, mc.getPlayer().posY, mc.getPlayer().posZ);
+                        motion = new Vec3(mc.thePlayer.motionX, mc.thePlayer.motionY, mc.thePlayer.motionZ);
+                        position = new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ);
                     }
             }
         } catch (NullPointerException ex) {

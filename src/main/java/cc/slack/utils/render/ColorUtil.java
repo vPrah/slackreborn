@@ -2,10 +2,10 @@ package cc.slack.utils.render;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.render.HUD;
-import cc.slack.utils.client.mc;
+
 import java.awt.*;
 
-public class ColorUtil extends mc {
+public class ColorUtil implements IMinecraft {
     public enum themeStyles {
         SLACK_STATIC, RAINBOW, SLACK, ASTOLFO, CHRISTMAS, CUSTOM
     }

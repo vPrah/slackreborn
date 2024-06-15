@@ -10,7 +10,6 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.arikia.dev.drpc.DiscordEventHandlers;
@@ -60,7 +59,7 @@ public class RichPresence extends Module {
                 startDiscordThread();
                 break;
             case "ShowNickame":
-                String playerName = mc.getPlayer() != null ? mc.getPlayer().getNameClear() : mc.getMinecraft().session.getUsername();
+                String playerName = mc.thePlayer != null ? mc.thePlayer.getNameClear() : mc.getMinecraft().session.getUsername();
                 str2.setLength(0);
                 str2.append("IGN: ").append(playerName).append("\n");
                 startDiscordThread();

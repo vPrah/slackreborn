@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -41,7 +40,7 @@ public class LegitScaffold extends Module {
     public void onUpdate (UpdateEvent event) {
         if (mc.getCurrentScreen() != null) return;
         shouldSneak = !sneakTimer.hasReached((long) sneakTime.getValue());
-        if (PlayerUtil.isOverAir() && (!onlyGround.getValue() || mc.getPlayer().onGround) && mc.getPlayer().motionY < 0.1) {
+        if (PlayerUtil.isOverAir() && (!onlyGround.getValue() || mc.thePlayer.onGround) && mc.thePlayer.motionY < 0.1) {
             shouldSneak = true;
         }
 

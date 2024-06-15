@@ -6,7 +6,6 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.Packet;
@@ -51,7 +50,7 @@ public class AutoLogin extends Module {
     @Listen
     public void onTick (TickEvent event) {
         if (timeUtil.hasReached(1500L) && text != null && !text.equals("")) {
-            mc.getPlayer().sendChatMessage(text);
+            mc.thePlayer.sendChatMessage(text);
             System.out.println(text);
             text = "";
         }

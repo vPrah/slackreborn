@@ -11,10 +11,8 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
@@ -46,17 +44,17 @@ public class NoSlow extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (mc.getPlayer() == null) return;
-        if (mc.getPlayer().getHeldItem() == null) return;
-        if (mc.getPlayer().getHeldItem().item == null) return;
+        if (mc.thePlayer == null) return;
+        if (mc.thePlayer.getHeldItem() == null) return;
+        if (mc.thePlayer.getHeldItem().item == null) return;
 
         fMultiplier = forwardMultiplier.getValue();
         sMultiplier = strafeMultiplier.getValue();
 
 
-        boolean usingItem = mc.getPlayer().isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
+        boolean usingItem = mc.thePlayer.isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() || Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
-        if (usingItem && (mc.getPlayer().getHeldItem().item instanceof ItemSword) || mc.getPlayer().isUsingItem() && (mc.getPlayer().getHeldItem().item instanceof ItemFood && onEat.getValue())) {
+        if (usingItem && (mc.thePlayer.getHeldItem().item instanceof ItemSword) || mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood && onEat.getValue())) {
             switch (mode.getValue().toLowerCase()) {
                 case "vanilla":
                     fMultiplier = forwardMultiplier.getValue();
@@ -66,27 +64,27 @@ public class NoSlow extends Module {
                 case "switch":
                     fMultiplier = forwardMultiplier.getValue();
                     sMultiplier = strafeMultiplier.getValue();
-                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem % 8 + 1));
-                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.getPlayer().inventory.currentItem));
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                     break;
                 case "place":
                     fMultiplier = forwardMultiplier.getValue();
                     sMultiplier = strafeMultiplier.getValue();
-                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().inventory.getCurrentItem()));
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
                     break;
                 case "c08 tick":
                     fMultiplier = forwardMultiplier.getValue();
                     sMultiplier = strafeMultiplier.getValue();
-                    if (mc.getPlayer().ticksExisted % 3 == 0) {
-                        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
+                    if (mc.thePlayer.ticksExisted % 3 == 0) {
+                        mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
                     }
                     break;
                 case "hypixel":
-                    if (mc.getPlayer().isUsingItem() && mc.getPlayer().getHeldItem() != null && mc.getPlayer().getHeldItem().getItem() instanceof ItemSword) {
-                        if (mc.getPlayer().ticksExisted % 3 == 0) {
-                            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.getPlayer().getHeldItem()));
+                    if (mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem() != null && mc.thePlayer.getHeldItem().getItem() instanceof ItemSword) {
+                        if (mc.thePlayer.ticksExisted % 3 == 0) {
+                            mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
                         }
-                    } else if (mc.getPlayer().isUsingItem() && !mc.getPlayer().isBlocking() && mc.getPlayer().ticksExisted % 3 == 0) {
+                    } else if (mc.thePlayer.isUsingItem() && !mc.thePlayer.isBlocking() && mc.thePlayer.ticksExisted % 3 == 0) {
                         PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), EnumFacing.UP.getIndex(), null, 0.0f, 0.0f, 0.0f));
                     }
                     fMultiplier = forwardMultiplier.getValue();

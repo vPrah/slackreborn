@@ -6,11 +6,8 @@ import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.BlinkUtil;
-import cc.slack.utils.player.PlayerUtil;
-import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -32,10 +29,10 @@ public class HypixelBlinkNofall implements INoFall {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().onGround && spoof) {
+        if (mc.thePlayer.onGround && spoof) {
             spoof = false;
             BlinkUtil.disable();
-        } else if (mc.getPlayer().offGroundTicks == 1 && mc.getPlayer().motionY < 0) {
+        } else if (mc.thePlayer.offGroundTicks == 1 && mc.thePlayer.motionY < 0) {
             spoof = true;
             BlinkUtil.enable(false, true);
         }

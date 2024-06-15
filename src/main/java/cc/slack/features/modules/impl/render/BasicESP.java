@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -42,12 +41,12 @@ public class BasicESP extends Module {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
         for (Entity entity : mc.getWorld().loadedEntityList) {
-            if (entity.getEntityId() == mc.getPlayer().getEntityId()) continue;
+            if (entity.getEntityId() == mc.thePlayer.getEntityId()) continue;
             if (entity instanceof EntityItem && !itemESP.getValue()) continue;
             if (!(entity instanceof EntityLivingBase) && !(entity instanceof EntityItem)) continue;
             if (entity instanceof EntityLivingBase) if (!AttackUtil.isTarget(entity)) continue;
             final RenderManager renderManager = mc.getRenderManager();
-            final Timer timer = mc.getTimer();
+            final Timer timer = mc.timer;
 
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
             RenderUtil.enableGlCap(GL_BLEND);

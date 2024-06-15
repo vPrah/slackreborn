@@ -14,7 +14,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
 import cc.slack.features.modules.impl.player.nofalls.basics.*;
 import cc.slack.features.modules.impl.player.nofalls.specials.*;
-import cc.slack.utils.client.mc;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -60,7 +59,7 @@ public class NoFall extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        if (mc.getPlayer().isSpectator() || mc.getPlayer().capabilities.allowFlying || mc.getPlayer().capabilities.disableDamage) {
+        if (mc.thePlayer.isSpectator() || mc.thePlayer.capabilities.allowFlying || mc.thePlayer.capabilities.disableDamage) {
             return;
         }
 

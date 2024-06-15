@@ -8,7 +8,6 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
-import cc.slack.utils.client.mc;
 import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.block.Block;
@@ -87,7 +86,7 @@ public class TargetStrafe extends Module {
 
     public int getIndex(List<Point> points) {
         List<Point> points1 = new ArrayList<>(points);
-        points1.sort(Comparator.comparingDouble(p -> mc.getPlayer().getDistance(p.getX(), p.getY(), p.getZ())));
+        points1.sort(Comparator.comparingDouble(p -> mc.thePlayer.getDistance(p.getX(), p.getY(), p.getZ())));
         return points.indexOf(points1.get(0));
     }
 
@@ -210,8 +209,8 @@ public class TargetStrafe extends Module {
     }
 
     public static float getRotationFromPosition(final double x, final double z) {
-        final double xDiff = x - mc.getPlayer().posX;
-        final double zDiff = z - mc.getPlayer().posZ;
+        final double xDiff = x - mc.thePlayer.posX;
+        final double zDiff = z - mc.thePlayer.posZ;
         return (float) (Math.atan2(zDiff, xDiff) * 180.0D / Math.PI) - 90.0f;
     }
 
