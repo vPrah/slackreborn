@@ -156,7 +156,7 @@ public class TileEntitySign extends TileEntity
         this.player = playerIn;
     }
 
-    public EntityPlayer mc.thePlayer
+    public EntityPlayer getPlayer()
     {
         return this.player;
     }
