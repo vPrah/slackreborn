@@ -132,7 +132,7 @@ public class ChatStyle
     }
 
     /**
-     * Whether or not text of this ChatStyle should be in bold.
+     * Whether text of this ChatStyle should be in bold.
      */
     public boolean getBold()
     {
@@ -140,7 +140,7 @@ public class ChatStyle
     }
 
     /**
-     * Whether or not text of this ChatStyle should be italicized.
+     * Whether text of this ChatStyle should be italicized.
      */
     public boolean getItalic()
     {
@@ -148,7 +148,7 @@ public class ChatStyle
     }
 
     /**
-     * Whether or not to format text of this ChatStyle using strikethrough.
+     * Whether to format text of this ChatStyle using strikethrough.
      */
     public boolean getStrikethrough()
     {

@@ -9,16 +9,16 @@ import net.minecraft.util.JsonSerializableSet;
 
 public class AchievementList
 {
-    /** Is the smallest column used to display a achievement on the GUI. */
+    /** Is the smallest column used to display an achievement on the GUI. */
     public static int minDisplayColumn;
 
-    /** Is the smallest row used to display a achievement on the GUI. */
+    /** Is the smallest row used to display an achievement on the GUI. */
     public static int minDisplayRow;
 
-    /** Is the biggest column used to display a achievement on the GUI. */
+    /** Is the biggest column used to display an achievement on the GUI. */
     public static int maxDisplayColumn;
 
-    /** Is the biggest row used to display a achievement on the GUI. */
+    /** Is the biggest row used to display an achievement on the GUI. */
     public static int maxDisplayRow;
     public static List<Achievement> achievementList = Lists.<Achievement>newArrayList();
 
@@ -49,7 +49,7 @@ public class AchievementList
     /** Is the 'the lie' achievement. */
     public static Achievement bakeCake = (new Achievement("achievement.bakeCake", "bakeCake", 0, -5, Items.cake, buildHoe)).registerStat();
 
-    /** Is the 'getting a upgrade' achievement. */
+    /** Is the 'getting an upgrade' achievement. */
     public static Achievement buildBetterPickaxe = (new Achievement("achievement.buildBetterPickaxe", "buildBetterPickaxe", 6, 2, Items.stone_pickaxe, buildPickaxe)).registerStat();
 
     /** Is the 'delicious fish' achievement. */
