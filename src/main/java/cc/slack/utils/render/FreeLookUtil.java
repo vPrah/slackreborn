@@ -1,4 +1,5 @@
 package cc.slack.utils.render;
+import cc.slack.utils.client.IMinecraft;
 
 public class FreeLookUtil implements IMinecraft {
 

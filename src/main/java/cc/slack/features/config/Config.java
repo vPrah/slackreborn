@@ -3,6 +3,7 @@ package cc.slack.features.config;
 import cc.slack.Slack;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.api.settings.impl.*;
+import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.other.FileUtil;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
@@ -17,7 +18,7 @@ import java.util.Map;
 
 @Getter
 @Setter
-public class Config extends mc {
+public class Config implements IMinecraft {
 
     private final File directory = new File(Minecraft.getMinecraft().mcDataDir, "/" + "SlackClient" + "/configs");
 

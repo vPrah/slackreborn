@@ -2,6 +2,7 @@ package cc.slack.utils.render;
 
 import cc.slack.Slack;
 import cc.slack.features.modules.impl.render.Tracers;
+import cc.slack.utils.client.IMinecraft;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;

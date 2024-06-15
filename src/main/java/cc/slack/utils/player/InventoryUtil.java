@@ -8,6 +8,7 @@ import net.minecraft.item.*;
 
 import java.util.Arrays;
 import java.util.List;
+import cc.slack.utils.client.IMinecraft;
 
 
 public final class InventoryUtil implements IMinecraft {

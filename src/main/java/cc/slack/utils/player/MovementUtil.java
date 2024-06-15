@@ -6,6 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
+import cc.slack.utils.client.IMinecraft;
 
 public class MovementUtil implements IMinecraft {
 
@@ -66,7 +67,7 @@ public class MovementUtil implements IMinecraft {
     }
 
     private static void setBaseSpeed(MoveEvent event, double speed, float yaw, double forward, double strafing) {
-        if (mc.thePlayer != null && getWorld() != null) {
+        if (mc.thePlayer != null && mc.theWorld != null) {
             final boolean reversed = forward < 0.0f;
             final float strafingYaw = 90.0f * (forward > 0.0f ? 0.5f : reversed ? -0.5f : 1.0f);
 

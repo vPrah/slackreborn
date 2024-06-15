@@ -1,4 +1,5 @@
 package cc.slack.utils.player;
+import cc.slack.utils.client.IMinecraft;
 
 public class ItemSpoofUtil implements IMinecraft {
 
