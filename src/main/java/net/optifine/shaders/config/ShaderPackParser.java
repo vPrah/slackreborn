@@ -93,7 +93,7 @@ public class ShaderPackParser
         {
             String s = programNames[i];
 
-            if (!s.equals(""))
+            if (!s.isEmpty())
             {
                 String s1 = dir + "/" + s + ".vsh";
                 String s2 = dir + "/" + s + ".fsh";
