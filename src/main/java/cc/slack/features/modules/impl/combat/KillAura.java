@@ -295,18 +295,6 @@ public class KillAura extends Module {
                 }
                 isBlocking = false;
                 break;
-            case "hypixel":
-                if (isBlocking) {
-                    if (inInv) {
-                        PacketUtil.send(new C0DPacketCloseWindow());
-                        PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                    } else {
-                        PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                        inInv = true;
-                    }
-                }
-                isBlocking = false;
-                break;
             case "switch":
                 if (isBlocking) {
                     mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
@@ -327,6 +315,7 @@ public class KillAura extends Module {
                     block(true);
                 break;
             case "hypixel":
+                isBlocking = false;
                 block(true);
                 break;
             case "vanilla reblock":
