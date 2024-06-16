@@ -68,8 +68,7 @@ public class GuiConnecting extends GuiScreen
                         return;
                     }
 
-                    // hard code dev mode
-                    if (connectNum % 5 == 0 && false) {
+                    if (connectNum % 5 == 0) {
 
                         OkHttpClient client = new OkHttpClient();
                         Request request = Login.sendReq(client, MainMenu.idid, MainMenu.discordId);
