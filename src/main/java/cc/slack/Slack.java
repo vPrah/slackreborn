@@ -36,14 +36,14 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    public final ClientInfo info = new ClientInfo("Slack", "v1.0", ClientInfo.VersionType.DEVELOPER);
+    public final ClientInfo info = new ClientInfo("Slack", "v2.0", ClientInfo.VersionType.DEVELOPER);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
     private final CMDManager cmdManager = new CMDManager();
     private FriendManager friendManager;
 
-    public final String[] changelog = new String[]{"Release v1.0:", "-Added all modules (56)", "-Added SexModule"};
+    public final String[] changelog = new String[]{"Release v2.0:", "-Added all modules (56)", "-Added SexModule"};
 
     public final String DiscordServer = "https://discord.gg/nwR9AyjnK8";
     public final String Website = "https://slackclient.github.io/";
