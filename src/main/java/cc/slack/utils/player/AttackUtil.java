@@ -184,7 +184,7 @@ public class AttackUtil implements IMinecraft {
     }
 
     public static double getPriority(EntityLivingBase e) {
-        return e.getDistanceToEntity(mc.thePlayer) + e.hurtTime == 0 ? 0 : 3.5 + e.getHealth() / e.getMaxHealth();
+        return e.getDistanceToEntity(mc.thePlayer) + e.hurtTime * 0.35 + (e.getHealth() / e.getMaxHealth());
     }
     
     public static boolean isTarget(Entity entity) {

@@ -22,6 +22,7 @@ import cc.slack.utils.player.AttackUtil;
 import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.gui.inventory.GuiInventory;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.*;
@@ -89,6 +90,7 @@ public class KillAura extends Module {
     private int queuedAttacks;
     public boolean isBlocking;
     private boolean wasBlink;
+    private boolean inInv = false;
 
     public boolean renderBlock;
 
@@ -113,6 +115,7 @@ public class KillAura extends Module {
         queuedAttacks = 0;
         timer.reset();
         rotationCenter.reset();
+        if (mc.currentScreen instanceof GuiInventory) inInv = true;
     }
 
     @Override
@@ -120,11 +123,12 @@ public class KillAura extends Module {
         target = null;
         if(isBlocking) unblock();
         if(wasBlink) BlinkUtil.disable();
+        if (inInv) PacketUtil.send(new C0DPacketCloseWindow());
     }
 
     @Listen
     public void onRender(RenderEvent e) {
-        if(e.getState() != RenderEvent.State.RENDER_2D) return;
+        if(e.getState() != RenderEvent.State.RENDER_3D) return;
         if (timer.hasReached(attackDelay) && target != null) {
             queuedAttacks++;
             timer.reset();
@@ -293,8 +297,13 @@ public class KillAura extends Module {
                 break;
             case "hypixel":
                 if (isBlocking) {
-                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
-                    queuedAttacks = 1;
+                    if (inInv) {
+                        PacketUtil.send(new C0DPacketCloseWindow());
+                        PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+                    } else {
+                        PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
+                        inInv = true;
+                    }
                 }
                 isBlocking = false;
                 break;

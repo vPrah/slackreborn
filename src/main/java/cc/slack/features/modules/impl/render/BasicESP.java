@@ -81,8 +81,8 @@ public class BasicESP extends Module {
             if (rotateYaw.getValue()) {
                 glRotated(entity.rotationYaw, 0, 1, 0);
             }
-            RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
             glTranslated(x, y, z);
+            RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
             glPopMatrix();
 
             GlStateManager.resetColor();

@@ -161,14 +161,15 @@ public class Scaffold extends Module {
             return;
         }
 
-        expand = expandAmount.getValue();
-        if (isTowering) expand = towerExpandAmount.getValue();
-
         setSprint();
         updateSameY();
         runFindBlock();
         updatePlayerRotations();
         setMovementCorrection();
+
+        expand = expandAmount.getValue();
+        if (isTowering) expand = towerExpandAmount.getValue();
+
         runTowerMove();
         if (placeTiming.getValue() == "Legit") placeBlock();
     }
@@ -359,15 +360,14 @@ public class Scaffold extends Module {
                     switch ((int) round((mc.thePlayer.posY - jumpGround) * 100)) {
                         case 42:
                             mc.thePlayer.motionY = 0.33;
+                            MovementUtil.spoofNextC03(true);
                             break;
                         case 75:
-                            MovementUtil.spoofNextC03(true);
                             mc.thePlayer.motionY = 0.25;
                             break;
                         case 100:
                             jumpGround = mc.thePlayer.posY;
                             mc.thePlayer.motionY = 0.42;
-                            mc.thePlayer.onGround = true;
                             break;
                     }
                     expand = -1.0;
