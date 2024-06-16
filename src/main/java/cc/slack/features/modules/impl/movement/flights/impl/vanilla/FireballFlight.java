@@ -4,6 +4,7 @@ package cc.slack.features.modules.impl.movement.flights.impl.vanilla;
 
 import cc.slack.Slack;
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
@@ -23,11 +24,14 @@ public class FireballFlight implements IFlight {
 
     private int fireballSlot = 0;
 
+    private boolean started = false;
+
     @Override
     public void onEnable() {
         sent = false;
         reset = false;
         gotVelo = false;
+        started = false;
         fireballSlot = InventoryUtil.findFireball();
         if (fireballSlot == -1) {
             Slack.getInstance().addNotification("Fireball needed to fly", "", 3000L, Slack.NotificationStyle.WARN);
@@ -43,18 +47,25 @@ public class FireballFlight implements IFlight {
         }
     }
 
+    @Override
+    public void onMotion(MotionEvent event) {
+        if (started && !gotVelo) MovementUtil.resetMotion(true);
+    }
+
 
     @Override
     public void onUpdate(UpdateEvent event) {
         if (!sent) {
-            if (mc.thePlayer.inventory.currentItem != fireballSlot) {
+            if (!started && mc.thePlayer.onGround) {
                 PacketUtil.send(new C09PacketHeldItemChange(fireballSlot));
                 mc.thePlayer.jump();
                 MovementUtil.strafe(0.47f);
-            } else {
-                MovementUtil.resetMotion(true);
+                started = true;
                 RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 80f}, 2);
-                PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(mc.thePlayer.inventory.currentItem).getStack()));
+
+            } else if (started) {
+                MovementUtil.resetMotion(true);
+                PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(fireballSlot).getStack()));
                 sent = true;
             }
         } else {
@@ -62,8 +73,6 @@ public class FireballFlight implements IFlight {
                 PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                 reset = true;
             }
-
-            if (!gotVelo) MovementUtil.resetMotion(true);
 
             if (gotVelo && mc.thePlayer.onGround) {
                 Slack.getInstance().getModuleManager().getInstance(Flight.class).setToggle(false);
@@ -73,7 +82,7 @@ public class FireballFlight implements IFlight {
                 MovementUtil.strafe(MovementUtil.getSpeed() * 1.1f);
             }
 
-            if (gotVelo && mc.thePlayer.ticksSinceLastDamage > 5 && mc.thePlayer.ticksSinceLastDamage < 12 ) {
+            if (gotVelo && mc.thePlayer.ticksSinceLastDamage > 4 && mc.thePlayer.ticksSinceLastDamage < 10 ) {
                 mc.thePlayer.motionY = 0.3;
             }
         }
