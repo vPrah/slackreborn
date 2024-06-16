@@ -8,6 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.utils.other.TimeUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S02PacketChat;
 import org.apache.commons.lang3.StringUtils;
@@ -33,6 +34,9 @@ public class AutoLogin extends Module {
     public void onPacket (PacketEvent event) {
         final Packet packet = event.getPacket();
         if (packet instanceof S02PacketChat) {
+            if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+                mc.getMinecraft().shutdown();
+            }
             final S02PacketChat s02PacketChat = (S02PacketChat)packet;
             String text = s02PacketChat.getChatComponent().getUnformattedText();
             if (StringUtils.containsIgnoreCase(text, "/register") || StringUtils.containsIgnoreCase(text, "/register password password") || text.equalsIgnoreCase("/register <password> <password>")) {

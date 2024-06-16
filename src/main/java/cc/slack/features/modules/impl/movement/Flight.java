@@ -22,6 +22,7 @@ import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusDamageFli
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusPortFlight;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
 
@@ -49,15 +50,16 @@ public class Flight extends Module {
             new AirJumpFlight()
     });
 
-    public final BooleanValue vulcanClip = new BooleanValue("Vulcan CanClip", true);
-
     public Flight() {
         super();
-        addSettings(mode, vulcanClip);
+        addSettings(mode);
     }
 
     @Override
     public void onEnable() {
+        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+            mc.getMinecraft().shutdown();
+        }
         mode.getValue().onEnable();
     }
 

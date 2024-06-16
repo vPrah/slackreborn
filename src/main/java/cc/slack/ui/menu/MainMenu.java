@@ -17,8 +17,6 @@ import java.util.List;
 
 import okhttp3.*;
 
-import cc.slack.utils.client.Login;
-
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
     private final int particlesDensity = 2500;

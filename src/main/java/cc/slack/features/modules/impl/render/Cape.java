@@ -6,6 +6,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
 
 @ModuleInfo(
@@ -23,6 +24,9 @@ public class Cape extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
+        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+            mc.getMinecraft().shutdown();
+        }
         switch (capes.getValue()) {
             case "Slack":
                 mc.thePlayer.setLocationOfCape(new ResourceLocation("slack/capes/slack.png"));

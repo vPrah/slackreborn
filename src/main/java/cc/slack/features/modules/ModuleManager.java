@@ -9,6 +9,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import cc.slack.Slack;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.combat.*;
@@ -20,6 +21,7 @@ import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.render.*;
 import cc.slack.features.modules.impl.utilties.*;
 import cc.slack.features.modules.impl.world.*;
+import cc.slack.utils.client.ClientInfo;
 
 public class ModuleManager {
     public final Map<Class<? extends Module>, Module> modules = new LinkedHashMap<>();
@@ -28,6 +30,19 @@ public class ModuleManager {
     public void initialize() {
         try {
             addModules(
+                    // DEV
+                    new Strafe(),
+                    new TargetStrafe(),
+                    new MCF(),
+                    new ClientSpoofer(),
+                    new Radar(),
+                    new AutoRod(),
+                    new AntiLava(),
+                    new AntiCactus(),
+                    new AntiHunger(),
+                    new AntiAfk(),
+                    new TNTHelper(),
+
                     // Combat
                     new KillAura(),
                     new Velocity(),
@@ -45,8 +60,6 @@ public class ModuleManager {
                     new LongJump(),
                     new Step(),
                     new Sprint(),
-                    new Strafe(),
-                    new TargetStrafe(),
                     new VClip(),
                     new Jesus(),
                     new NoWeb(),
@@ -69,7 +82,6 @@ public class ModuleManager {
                     new FastEat(),
                     new FreeLook(),
                     new FreeCam(),
-                    new MCF(),
                     new TimerModule(),
 
                     // World
@@ -86,7 +98,6 @@ public class ModuleManager {
                     new FastBow(),
                     new Phase(),
                     new ChatBypass(),
-                    new ClientSpoofer(),
                     new Kick(),
                     new MultiAction(),
 
@@ -108,7 +119,6 @@ public class ModuleManager {
                     new Camera(),
                     new ItemPhysics(),
                     new Spider(),
-                    new Radar(),
                     new Bobbing(),
                     new Tracers(),
                     new Projectiles(),
@@ -123,10 +133,8 @@ public class ModuleManager {
                     new LegitScaffold(),
                     new JumpReset(),
                     new Wtap(),
-
                     new AimAssist(),
                     new AutoSword(),
-                    new AutoRod(),
                     new AutoTool(),
                     new Backtrack(),
                     new KeepSprint(),
@@ -143,14 +151,9 @@ public class ModuleManager {
                     new AutoLogin(),
                     new AutoPot(),
                     new AntiStaff(),
-                    new AntiLava(),
-                    new AntiCactus(),
-                    new AntiHunger(),
-                    new AntiAfk(),
                     new FakePlayer(),
                     new NameProtect(),
                     new HealthWarn(),
-                    new TNTHelper(),
                     new LegitMode(),
                     new LagbackChecker()
 
