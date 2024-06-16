@@ -24,7 +24,7 @@ import net.minecraft.util.EnumFacing;
         category = Category.MOVEMENT
 )
 
-public class zNoSlow extends Module {
+public class NoSlow extends Module {
 
     public final ModeValue<String> mode = new ModeValue<>("Bypass", new String[]{"Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
