@@ -125,27 +125,6 @@ public class MainMenu extends GuiScreen {
                 return;
             }
 
-            // hard code dev mode
-            discordId = "18571";
-            String re = Login.sha256("true" + discordId);
-
-            if (Login.isSuccess(discordId, re, hwid)) {
-                idid = hwid;
-
-                this.menuList.clear();
-                this.mc.i34 = true;
-                Minecraft.cacheChunkReloader = true;
-
-                this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
-                this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
-                this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
-                this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
-                this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
-                this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
-                return;
-            }
-            // hard code dev mode
-
             if (discordId.length() < 16 || discordId.length() > 20) {
                 setMsg("Invalid Discord id");
                 return;
