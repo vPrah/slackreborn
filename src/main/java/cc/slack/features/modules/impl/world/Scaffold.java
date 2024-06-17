@@ -203,14 +203,14 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                mc.thePlayer.setSprinting(!mc.thePlayer.onGround);
-                mc.thePlayer.motionX *= 0.995;
-                mc.thePlayer.motionZ *= 0.995;
+                mc.thePlayer.setSprinting(false);
+                mc.thePlayer.motionX *= 0.99;
+                mc.thePlayer.motionZ *= 0.99;
                 if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
                     mc.thePlayer.jump();
                     hasPlaced = false;
                     if (!firstJump) {
-                        MovementUtil.strafe(0.47f);
+                        MovementUtil.strafe(0.45f);
                     } else {
                         MovementUtil.strafe(0.35f);
                         groundY = mc.thePlayer.posY;
@@ -242,7 +242,7 @@ public class Scaffold extends Module {
 
         switch (rotationMode.getValue().toLowerCase()) {
             case "hypixel":
-                RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
+                RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 80.5f}, keepRotationTicks.getValue());
                 if (Math.abs(MathHelper.wrapAngleTo180_double(MovementUtil.getDirection() + 180 - BlockUtils.getCenterRotation(blockPlace)[0])) > 95) {
                     RotationUtil.overrideRotation(BlockUtils.getFaceRotation(blockPlacementFace, blockPlace));
                     RotationUtil.keepRotationTicks = keepRotationTicks.getValue();
