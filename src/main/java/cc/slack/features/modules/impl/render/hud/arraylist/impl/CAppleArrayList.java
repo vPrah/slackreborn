@@ -9,27 +9,35 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
-import cc.slack.utils.render.ColorUtil;
-import cc.slack.utils.render.RenderUtil;
-import net.minecraft.client.Minecraft;
-import org.lwjgl.input.Keyboard;
-
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.HashMap;
 
-public class Basic2ArrayList implements IArraylist {
+import cc.slack.utils.render.ColorUtil;
+import cc.slack.utils.render.RenderUtil;
+import org.lwjgl.input.Keyboard;
+
+public class CAppleArrayList implements IArraylist {
 
     private class Pair {
         String first;
         String second;
     }
 
-    private final List<Pair> modules = new ArrayList<>();
+
+    private final Map<Module, Boolean> moduleStates = new HashMap<>();
+    List<Pair> modules = new ArrayList<>();
 
     @Override
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
+            boolean wasEnabled = moduleStates.getOrDefault(module, false);
+            boolean isEnabled = module.isToggle();
+
+            moduleStates.put(module, isEnabled);
+
             if (module.isToggle() || !module.disabledTime.hasReached(300)) {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
@@ -37,7 +45,7 @@ public class Basic2ArrayList implements IArraylist {
                 if (mode != null && !mode.isEmpty()) {
                     displayName += "§7 - " + mode;
                 }
-                if (!key.contains("NONE")) {
+                if (!key.contains("NONE") && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
                     displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
@@ -48,23 +56,17 @@ public class Basic2ArrayList implements IArraylist {
                 modules.add(pair);
             }
         }
-        modules.sort((a, b) -> Integer.compare(Fonts.poppins18.getStringWidth(b.first), Fonts.poppins18.getStringWidth(a.first)));
+        modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b.first), Fonts.apple18.getStringWidth(a.first)));
     }
+
 
     @Override
     public void onRender(RenderEvent event) {
-        if (Minecraft.getGameSettings().showDebugInfo) {
-            return;
-        }
-        renderArrayList(event);
-    }
-
-    private void renderArrayList(RenderEvent event) {
-        int y = 2;
+        int y = 3;
         double c = 0;
 
         for (Pair module : modules) {
-            int stringLength = Fonts.poppins18.getStringWidth(module.first);
+            int stringLength = Fonts.apple18.getStringWidth(module.first);
             Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
             double ease;
 
@@ -79,26 +81,28 @@ public class Basic2ArrayList implements IArraylist {
             }
 
             ease = 1 - 1.2 * ease;
+
             /*
             drawRect(
                     (int) (event.getWidth() - stringLength * ease - 5),
                     y - 2,
                     (int) (event.getWidth() - stringLength * ease + stringLength + 3),
-                    y + Fonts.poppins18.getHeight() + 1,
-                    0x70000000
+                    y + Fonts.apple18.getHeight() + 1,
+                    0x80000000
             );
              */
-
-            drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
-            Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
-            y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
-            c += 0.15;
+            drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
+            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+            y += (int) ((Fonts.apple18.getHeight() + 3) * (ease + 0.2)/1.2);
+            c += 0.13;
         }
     }
 
+
+
     @Override
     public String toString() {
-        return "Basic 2";
+        return "Apple";
     }
 
     private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
