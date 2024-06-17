@@ -79,7 +79,7 @@ public class GuiConnecting extends GuiScreen
                             if (response.isSuccessful()) {
                                 String resp = response.body().string();
 
-                                if (!resp.contains(Login.sha256("true" + MainMenu.idid))) {
+                                if (!resp.contains(Login.sha256("true" + MainMenu.discordId))) {
                                     System.exit(69);
                                 }
                             } else {
