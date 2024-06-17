@@ -3,6 +3,7 @@ package cc.slack;
 import cc.slack.events.Event;
 import cc.slack.events.impl.game.ChatEvent;
 import cc.slack.events.impl.input.KeyEvent;
+import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.commands.CMDManager;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.config.configManager;
@@ -12,9 +13,9 @@ import cc.slack.features.modules.impl.movement.Sprint;
 import cc.slack.features.modules.impl.other.RichPresence;
 import cc.slack.features.modules.impl.other.Targets;
 import cc.slack.features.modules.impl.other.Tweaks;
+import cc.slack.features.modules.impl.player.SessionInfo;
 import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.features.modules.impl.render.HUD;
-import cc.slack.features.modules.impl.render.ScoreboardModule;
 import cc.slack.features.modules.impl.render.TargetHUD;
 import cc.slack.ui.altmanager.AccountManager;
 import cc.slack.utils.client.ClientInfo;
@@ -24,11 +25,11 @@ import de.florianmichael.viamcp.ViaMCP;
 import io.github.nevalackin.radbus.Listen;
 import io.github.nevalackin.radbus.PubSub;
 import lombok.Getter;
-import net.minecraft.client.Minecraft;
+import net.minecraft.network.handshake.client.C00Handshake;
 import org.lwjgl.opengl.Display;
 
 import java.util.Arrays;
-import java.util.EnumMap;
+
 
 @Getter
 @SuppressWarnings("unused")
@@ -36,7 +37,7 @@ public class Slack {
 
     @Getter
     private static final Slack instance = new Slack();
-    public final ClientInfo info = new ClientInfo("Slack", "v2.0", ClientInfo.VersionType.DEVELOPER);
+    public final ClientInfo info = new ClientInfo("Slack", "v2.0", ClientInfo.VersionType.BETA);
     private final PubSub<Event> eventBus = PubSub.newInstance(System.err::println);
 
     private final ModuleManager moduleManager = new ModuleManager();
@@ -59,6 +60,7 @@ public class Slack {
         configManager.init();
         AccountManager.start();
         friendManager = new FriendManager();
+
 
 
         // Default Modules

@@ -42,6 +42,7 @@ public class ModuleManager {
                     new AntiHunger(),
                     new AntiAfk(),
                     new TNTHelper(),
+                    new SessionInfo(),
 
                     // Combat
                     new KillAura(),
