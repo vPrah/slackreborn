@@ -43,11 +43,11 @@ public class Radar extends Module {
         float width = scaleValue.getValue() * 10;
         float height = scaleValue.getValue() * 10;
         if (!roundedValue.getValue()) {
-            Gui.drawRect((double) x, (double) y, (double) (x + width), (double) (y + height), (new Color(-1121968096, true)).getRGB());
-            Gui.drawRect((double)(x + 1.0F), (double)(y + height) - 1.5, (double)(x + width - 1.0F), (double)(y + height - 1.0F), ((Color)ct).getRGB());
+            Gui.drawRect(x, y, (x + width), (y + height), (new Color(-1121968096, true)).getRGB());
+            Gui.drawRect((x + 1.0F), (double)(y + height) - 1.5, (x + width - 1.0F), (y + height - 1.0F), (ct).getRGB());
         } else {
             RenderUtil.drawRoundedRect(x, y, (x + width), (y + height), 8F, (new Color(-1121968096, true)).getRGB());
-            Gui.drawRect((double)(x + 5.0F), (double)(y + height) - 1.5, (double)(x + width - 5.0F), (double)(y + height - 1.0F), ((Color)ct).getRGB());
+            Gui.drawRect((x + 5.0F), (double)(y + height) - 1.5, (x + width - 5.0F), (y + height - 1.0F), (ct).getRGB());
         }
         float centerX = x + width / 2.0F;
         float centerY = y + height / 2.0F;
@@ -58,12 +58,12 @@ public class Radar extends Module {
             if (entity != mc.thePlayer && entity instanceof EntityPlayer) {
                 float entYaw = MathUtil.getRotations(entity.posX, entity.posY, entity.posZ)[0];
                 float angleDiff = Math.abs(entYaw - (mc.thePlayer.rotationYaw - 36000.0F)) - 180.0F;
-                double diffRadians = Math.toRadians((double)angleDiff);
+                double diffRadians = Math.toRadians(angleDiff);
                 double dx = mc.thePlayer.posX - entity.posX;
                 double dy = mc.thePlayer.posZ - entity.posZ;
                 double dist = Math.hypot(dx, dy);
-                double entx = MathHelper.clamp_double((double)centerX - Math.sin(diffRadians) * dist, (double)(x + 2.0F), (double)(x + width - 3.0F));
-                double enty = MathHelper.clamp_double((double)centerY + Math.cos(diffRadians) * dist, (double)(y + 2.0F), (double)(y + height - 3.0F));
+                double entx = MathHelper.clamp_double((double)centerX - Math.sin(diffRadians) * dist, (x + 2.0F), (x + width - 3.0F));
+                double enty = MathHelper.clamp_double((double)centerY + Math.cos(diffRadians) * dist, (y + 2.0F), (y + height - 3.0F));
                 Gui.drawRect(entx, enty, entx + 1.0, enty + 1.0, -1);
                 if (Slack.getInstance().getFriendManager().isTarget((EntityLivingBase)entity)) {
                     Gui.drawRect(entx + 0.5 - 0.5, enty + 0.5 - 2.0, entx + 0.5 + 0.5, enty + 0.5 + 2.0, (new Color(-4768965, true)).getRGB());
@@ -77,8 +77,8 @@ public class Radar extends Module {
             }
         }
 
-        Gui.drawRect((double)centerX - 0.5, (double)(centerY - 3.0F), (double)centerX + 0.5, (double)(centerY + 3.0F), (new Color(1644167167, true)).getRGB());
-        Gui.drawRect((double)(centerX - 3.0F), (double)centerY - 0.5, (double)(centerX + 3.0F), (double)centerY + 0.5, (new Color(1644167167, true)).getRGB());
+        Gui.drawRect((double)centerX - 0.5, (centerY - 3.0F), (double)centerX + 0.5, (centerY + 3.0F), (new Color(1644167167, true)).getRGB());
+        Gui.drawRect((centerX - 3.0F), (double)centerY - 0.5, (centerX + 3.0F), (double)centerY + 0.5, (new Color(1644167167, true)).getRGB());
     }
 
 }
