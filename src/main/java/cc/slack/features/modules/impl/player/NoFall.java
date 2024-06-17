@@ -11,6 +11,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
 import cc.slack.features.modules.impl.player.nofalls.basics.*;
 import cc.slack.features.modules.impl.player.nofalls.specials.*;

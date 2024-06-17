@@ -81,7 +81,6 @@ public class HUD extends Module {
 	private int scaffoldTicks = 0;
 	private int itemSpoofTicks = 0;
 	private String displayString = " ";
-	private final ResourceLocation imageResource = new ResourceLocation("slack/menu/hud.jpg");
 	private ArrayList<String> notText = new ArrayList<>();
 	private ArrayList<Long> notEnd = new ArrayList<>();
 	private ArrayList<Long> notStart = new ArrayList<>();

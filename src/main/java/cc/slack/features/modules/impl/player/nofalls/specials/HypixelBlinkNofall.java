@@ -2,9 +2,11 @@
 
 package cc.slack.features.modules.impl.player.nofalls.specials;
 
+import cc.slack.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.impl.player.NoFall;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.BlinkUtil;
@@ -29,6 +31,10 @@ public class HypixelBlinkNofall implements INoFall {
 
     @Override
     public void onUpdate(UpdateEvent event) {
+        if (mc.thePlayer.isDead) {
+            BlinkUtil.disable();
+        }
+
         if (mc.thePlayer.onGround && spoof) {
             spoof = false;
             BlinkUtil.disable();
