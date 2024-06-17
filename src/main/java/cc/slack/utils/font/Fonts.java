@@ -25,6 +25,8 @@ public class Fonts {
     public static final MCFontRenderer axi35 = new MCFontRenderer(fontFromTTF("axi.ttf", 35), true, false);
     public static final MCFontRenderer axi45 = new MCFontRenderer(fontFromTTF("axi.ttf", 45), true, false);
     public static final MCFontRenderer poppins18 = new MCFontRenderer(fontFromTTF("poppins-Light.ttf", 18), true, false);
+    public static final MCFontRenderer poppins20 = new MCFontRenderer(fontFromTTF("poppins-Light.ttf", 20), true, false);
+
     public static final MCFontRenderer poppins24 = new MCFontRenderer(fontFromTTF("poppins-Light.ttf", 24), true, false);
     public static final MCFontRenderer apple18 = new MCFontRenderer(fontFromTTF("apple.ttf", 18), true, false);
     public static final MCFontRenderer apple20 = new MCFontRenderer(fontFromTTF("apple.ttf", 20), true, false);
