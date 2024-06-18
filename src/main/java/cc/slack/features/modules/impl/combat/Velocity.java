@@ -25,7 +25,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Air"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Conditional" ,"Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Air"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
@@ -71,6 +71,13 @@ public class Velocity extends Module {
                             packet.setMotionY(packet.getMotionY() * (vertical.getValue() / 100));
                             packet.setMotionZ(packet.getMotionZ() * (horizontal.getValue() / 100));
                             event.setPacket(packet);
+                        }
+                        break;
+                    case "conditional":
+                        event.cancel();
+                        double yx = (double)((S12PacketEntityVelocity)event.getPacket()).getMotionY() / 8000.0;
+                        if (yx >= 0.0) {
+                            mc.thePlayer.motionY = yx;
                         }
                         break;
                     case "cancel":
