@@ -61,7 +61,7 @@ public class Scaffold extends Module {
 
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
 
-    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Static", "Off"});
+    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Static", "Off", "Watchdog Lowhop"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
 
     private final ModeValue<String> pickMode = new ModeValue<>("Block Pick Mode", new String[] {"Biggest Stack", "First Stack"});
@@ -378,6 +378,32 @@ public class Scaffold extends Module {
                         isTowering = false;
                     }
                     break;
+                case "watchdog lowhop":
+                    if (MovementUtil.isBindsMoving()) {
+                        if (mc.thePlayer.onGround) {
+                            mc.thePlayer.motionY = 0.4196;
+                        } else {
+                            switch (mc.thePlayer.offGroundTicks) {
+                                case 3:
+                                case 4:
+                                    mc.thePlayer.motionY = 0;
+                                    break;
+                                case 5:
+                                    mc.thePlayer.motionY = 0.4191;
+                                    break;
+                                case 6:
+                                    mc.thePlayer.motionY = 0.3275;
+                                    break;
+                                case 11:
+                                    mc.thePlayer.motionY = 0.5;
+
+                            }
+                        }
+                    } else {
+                        MovementUtil.resetMotion(false);
+                    }
+                    break;
+
             }
         }
     }
