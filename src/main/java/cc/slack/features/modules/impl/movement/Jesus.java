@@ -14,8 +14,7 @@ import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
         name = "Jesus",
-        category = Category.MOVEMENT,
-        key = Keyboard.KEY_J
+        category = Category.MOVEMENT
 )
 
 public class Jesus extends Module {

@@ -35,7 +35,7 @@ public class LagbackChecker extends Module {
             double diffX  = mc.thePlayer.posX - packet.getX();
             double diffZ = mc.thePlayer.posZ - packet.getZ();
             Module[] modules = {Slack.getInstance().getModuleManager().getInstance(Flight.class), Slack.getInstance().getModuleManager().getInstance(Speed.class), Slack.getInstance().getModuleManager().getInstance(LongJump.class)};
-            boolean toggled = false;
+            boolean toggled = !disableValue.getValue();
 
             for (Module module : modules) {
                 if(module.isToggle()) {

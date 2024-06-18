@@ -1,5 +1,6 @@
 package cc.slack.ui.clickgui.component.components.sub;
 
+import cc.slack.ui.clickgui.ClickGui;
 import cc.slack.ui.clickgui.component.Component;
 import cc.slack.ui.clickgui.component.components.Button;
 import net.minecraft.client.Minecraft;
@@ -49,6 +50,9 @@ public class Keybind extends Component {
     public void mouseClicked(int mouseX, int mouseY, int button) {
         if (isMouseOnButton(mouseX, mouseY) && button == 0 && this.parent.open) {
             this.binding = !this.binding;
+            if (this.binding = true) {
+                ClickGui.waitingBind = true;
+            }
         }
     }
 
@@ -56,6 +60,7 @@ public class Keybind extends Component {
     public void keyTyped(char typedChar, int key) {
         if (this.binding) {
             this.parent.mod.setKey(key);
+            if (key == 1) this.parent.mod.setKey(Keyboard.KEY_NONE);
             this.binding = false;
         }
     }

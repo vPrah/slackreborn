@@ -40,10 +40,12 @@ public class Breaker extends Module {
     public final NumberValue<Integer> switchDelay = new NumberValue<>("Switch Delay", 50, 0, 500, 10);
     public final NumberValue<Integer> targetSwitchDelay = new NumberValue<>("Target Switch Delay", 50, 0, 500, 10);
 
+    public final NumberValue<Double> breakPercent = new NumberValue<>("FastBreak Percent", 1.0, 0.0, 1.0, 0.05);
+    public final BooleanValue spoofGround = new BooleanValue("Spoof Ground", false);
     public final BooleanValue noCombat = new BooleanValue("No Combat", true);
 
     public Breaker() {
-        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay, noCombat);
+        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay, breakPercent, spoofGround, noCombat);
     }
 
     private BlockPos targetBlock;
@@ -66,6 +68,13 @@ public class Breaker extends Module {
         if (event.getState() == State.POST) return;
         if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
         if (AttackUtil.inCombat && noCombat.getValue()) return;
+
+        if (spoofGround.getValue() && currentBlock != null) {
+            mc.thePlayer.onGround = true;
+            event.setGround(true);
+        }
+
+
         if (targetBlock == null) {
             if (switchTimer.hasReached(targetSwitchDelay.getValue())) {
                 findTargetBlock();
@@ -92,7 +101,8 @@ public class Breaker extends Module {
 
                 RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
 
-                if (breakingProgress >= 1) {
+                if (breakingProgress >= breakPercent.getValue()) {
+                    RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
 

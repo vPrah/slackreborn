@@ -71,7 +71,7 @@ public class Button extends Component {
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         Minecraft.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, this.mod.isToggle() ? 0x999999 : -1);
-        if (this.subcomponents.size() > 2)
+        if (this.subcomponents.size() > 1)
             Minecraft.getFontRenderer().drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
         GL11.glPopMatrix();
         if (this.open) {

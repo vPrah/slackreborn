@@ -84,7 +84,7 @@ public class configManager {
             return false;
         }
 
-        File configFile = new File(existingConfig.getDirectory().toString());
+        File configFile = new File(existingConfig.getDirectory().toString() + "/" + existingConfig.getName() + ".json");
 
         if (configFile.exists()) {
             boolean deleted = configFile.delete();

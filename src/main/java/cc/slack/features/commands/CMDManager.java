@@ -1,9 +1,7 @@
 package cc.slack.features.commands;
 
 import cc.slack.features.commands.api.CMD;
-import cc.slack.features.commands.impl.ConfigCMD;
-import cc.slack.features.commands.impl.HelpCMD;
-import cc.slack.features.commands.impl.setCMD;
+import cc.slack.features.commands.impl.*;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -19,6 +17,7 @@ public class CMDManager {
     public void initialize() {
         try {
             addCommands(
+                    new bindCMD(),
                     new ConfigCMD(),
                     new setCMD(),
                     new HelpCMD()
