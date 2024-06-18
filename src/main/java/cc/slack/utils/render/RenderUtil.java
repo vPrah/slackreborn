@@ -69,6 +69,7 @@ public final class RenderUtil implements IMinecraft {
 
     public static void drawAABB(AxisAlignedBB boundingBox) {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
         enableGlCap(GL_BLEND);
         disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
         glDepthMask(false);
@@ -106,27 +107,21 @@ public final class RenderUtil implements IMinecraft {
 
         worldrenderer.begin(GL_LINE_STRIP, DefaultVertexFormats.POSITION_TEX);
 
-        // Lower Rectangle
         worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
         worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).endVertex();
         worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).endVertex();
         worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).endVertex();
         worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.minZ).endVertex();
-
-        // Upper Rectangle
         worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
         worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
         worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).endVertex();
         worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).endVertex();
         worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.minZ).endVertex();
 
-        // Upper Rectangle
         worldrenderer.pos(boundingBox.minX, boundingBox.maxY, boundingBox.maxZ).endVertex();
         worldrenderer.pos(boundingBox.minX, boundingBox.minY, boundingBox.maxZ).endVertex();
-
         worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.maxZ).endVertex();
         worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.maxZ).endVertex();
-
         worldrenderer.pos(boundingBox.maxX, boundingBox.maxY, boundingBox.minZ).endVertex();
         worldrenderer.pos(boundingBox.maxX, boundingBox.minY, boundingBox.minZ).endVertex();
 
@@ -413,7 +408,6 @@ public final class RenderUtil implements IMinecraft {
         return true;
     }
 
-
     public static int func_177077_a(EntityItem item, double x, double y, double z, float p_177077_8_, IBakedModel p_177077_9_) {
         ItemStack itemstack = item.getEntityItem();
         Item item2 = itemstack.getItem();
@@ -453,40 +447,12 @@ public final class RenderUtil implements IMinecraft {
         return b0;
     }
 
-    public void drawWidthRect(int x, int y, int width, int height, int color) {
-        Gui.drawRect(x, y, x + width, y + height, color);
-    }
-
     public static void glColor(final int hex) {
         final float alpha = (hex >> 24 & 0xFF) / 255.0f;
         final float red = (hex >> 16 & 0xFF) / 255.0f;
         final float green = (hex >> 8 & 0xFF) / 255.0f;
         final float blue = (hex & 0xFF) / 255.0f;
         GL11.glColor4f(red, green, blue, alpha);
-    }
-
-    public static void drawRoundedCornerRect(float x, float y, float x1, float y1, float radius, Color color) {
-        glEnable(GL_BLEND);
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glDisable(GL_TEXTURE_2D);
-        final boolean hasCull = glIsEnabled(GL_CULL_FACE);
-        glDisable(GL_CULL_FACE);
-
-        glColor(color.getRed(), color.getGreen(), color.getBlue(), color.getAlpha());
-        glBegin(GL_POLYGON);
-
-        float xRadius = (float) Math.min((x1 - x) * 0.5, radius);
-        float yRadius = (float) Math.min((y1 - y) * 0.5, radius);
-        polygonCircle(x + xRadius,y + yRadius, xRadius, yRadius,180,270);
-        polygonCircle(x1 - xRadius,y + yRadius, xRadius, yRadius,90,180);
-        polygonCircle(x1 - xRadius,y1 - yRadius, xRadius, yRadius,0,90);
-        polygonCircle(x + xRadius,y1 - yRadius, xRadius, yRadius,270,360);
-
-        glEnd();
-        glEnable(GL_TEXTURE_2D);
-        glDisable(GL_BLEND);
-        setGlState(GL_CULL_FACE, hasCull);
-
     }
 
     public static void polygonCircle(float x, float y, float xRadius, float yRadius, int start, int end) {
