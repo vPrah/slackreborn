@@ -79,6 +79,29 @@ public class FileUtil implements IMinecraft {
         }
     }
 
+    public static void showFolder(String path) {
+        File folder =  new File(Minecraft.getMinecraft().mcDataDir, path);
+
+        // Check if Desktop is supported on the current platform
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            try {
+                // Check if the folder exists and is a directory
+                if (folder.exists() && folder.isDirectory()) {
+                    desktop.open(folder);
+                    System.out.println("Folder opened successfully.");
+                } else {
+                    System.out.println("The specified folder does not exist or is not a directory.");
+                }
+            } catch (IOException e) {
+                System.out.println("Failed to open the folder due to an I/O error.");
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Desktop is not supported on the current platform.");
+        }
+    }
+
     public static String fetchHwid() {
         try {
             String hwid = "";

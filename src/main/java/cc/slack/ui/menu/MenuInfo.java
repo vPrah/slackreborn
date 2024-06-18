@@ -116,9 +116,6 @@ public class MenuInfo extends GuiScreen {
         this.menuList.add(new MainMenuButton(2, + 405, height / 2 - 15, "Open Config Folder"));
         this.menuList.add(new MainMenuButton(3, + 405, height / 2 + 10, "Join Discord Server"));
         this.menuList.add(new MainMenuButton(4, + 405, height / 2 + 35, "Check Website"));
-        this.menuList.add(new MainMenuButton(5, + 405, height / 2 + 60, "Github Org"));
-        this.menuList.add(new MainMenuButton(6, + 405, height / 2 + 85, "Developers Team"));
-
 
         super.initGui();
     }
@@ -130,11 +127,10 @@ public class MenuInfo extends GuiScreen {
 
         if(buttonMenu.id == 1) {
             mc.displayGuiScreen(new ClickGui());
-
         }
 
         if(buttonMenu.id == 2) {
-
+            FileUtil.showFolder("/SlackClient/configs");
         }
 
         if(buttonMenu.id == 3) {
@@ -143,14 +139,6 @@ public class MenuInfo extends GuiScreen {
 
         if(buttonMenu.id == 4) {
             FileUtil.showURL(Slack.getInstance().Website);
-        }
-
-        if(buttonMenu.id == 5) {
-            // XD
-        }
-
-        if(buttonMenu.id == 6) {
-            // I need a menu with All developers of Slack Client (With their information)
         }
     }
 

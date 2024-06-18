@@ -3,6 +3,7 @@ package cc.slack.features.commands.impl;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.commands.api.CMDInfo;
 import cc.slack.features.config.configManager;
+import cc.slack.utils.other.FileUtil;
 import cc.slack.utils.other.PrintUtil;
 
 @CMDInfo(
@@ -31,6 +32,9 @@ public class ConfigCMD extends CMD {
                     case "list":
                         configsMessage();
                         break;
+                    case "folder":
+                        FileUtil.showFolder("/SlackClient/configs");
+                        break;
                     default:
                         commandsMessage();
                         break;
@@ -49,6 +53,9 @@ public class ConfigCMD extends CMD {
                         break;
                     case "list":
                         configsMessage();
+                        break;
+                    case "folder":
+                        FileUtil.showFolder("/SlackClient/configs");
                         break;
                     default:
                         commandsMessage();
@@ -71,6 +78,7 @@ public class ConfigCMD extends CMD {
         PrintUtil.message("§f .config load [config name]");
         PrintUtil.message("§f .config delete [config name]");
         PrintUtil.message("§f .config list");
+        PrintUtil.message("§f .config folder");
     }
 
 }

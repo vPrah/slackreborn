@@ -14,7 +14,7 @@ import java.util.Arrays;
 @CMDInfo(
         name = "Set",
         alias = "s",
-        description = "Sets a setting in a module to a given value."
+        description = "Usage: .set module_name setting_name [setting value]"
 )
 public class setCMD extends CMD {
 

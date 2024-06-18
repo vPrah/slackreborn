@@ -304,12 +304,9 @@ public class KillAura extends Module {
                 break;
             case "hypixel":
                 if (isBlocking) {
-                    PacketUtil.send(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+                    PacketUtil.send(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
                     isBlocking = false;
                     return false;
-                } else {
-                    block(true);
-                    return true;
                 }
             default:
                 break;
@@ -324,6 +321,7 @@ public class KillAura extends Module {
                     block(true);
                 break;
             case "hypixel":
+                block(true);
                 break;
             case "vanilla reblock":
                 isBlocking = false;

@@ -11,8 +11,10 @@ import cc.slack.features.modules.api.Category;
 public class ClickGui extends GuiScreen {
 
     public static ArrayList<Frame> frames;
+    public static boolean waitingBind = false;
 
     public ClickGui() {
+        waitingBind = false;
         this.frames = new ArrayList<>();
         int frameX = 5;
         for (Category category : Category.values()) {
@@ -58,14 +60,16 @@ public class ClickGui extends GuiScreen {
 
     @Override
     protected void keyTyped(char typedChar, int keyCode) {
+        boolean escBind = waitingBind && keyCode == 1;
         frames.forEach(frame -> {
-            if (frame.isOpen() && keyCode != 1) {
+            if (frame.isOpen() && (keyCode != 1 || waitingBind)) {
                 if (!frame.getComponents().isEmpty()) {
                     frame.getComponents().forEach(component -> component.keyTyped(typedChar, keyCode));
                 }
+                waitingBind = false;
             }
         });
-        if (keyCode == 1) {
+        if (keyCode == 1 && !escBind) {
             this.mc.displayGuiScreen(null);
             if (!Login.pj423j.contains(Login.sha256("true" + Login.yeu13))) {
                 System.exit(1);

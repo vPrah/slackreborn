@@ -66,8 +66,6 @@ public class Backtrack extends Module {
             packetCache.add(currentTick);
             currentTick.clear();
         }
-        PrintUtil.message(" " + backtrackTicks);
-        PrintUtil.message(" " + ticksSinceAttack);
         if (enabled) {
             if (ticksSinceAttack < maxDelay.getValue()) {
                 ticksSinceAttack ++;
@@ -121,7 +119,8 @@ public class Backtrack extends Module {
     private void releaseFirst() {
         if (packetCache.isEmpty()) return;
         releasing = true;
-        for (Packet packet : packetCache.get(0)) {
+        ArrayList<Packet> first = packetCache.get(0);
+        for (Packet packet : first) {
             try {
                 PrintUtil.message("release" + packet.toString());
                 packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());

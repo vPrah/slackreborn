@@ -62,8 +62,8 @@ public class AimBot extends Module {
         float[] targetRotation = RotationUtil.getTargetRotations(target.getEntityBoundingBox(), RotationUtil.TargetRotation.CENTER, 0);
         targetRotation[0] += mc.thePlayer.rotationYaw - lastYaw;
         targetRotation[1] += mc.thePlayer.rotationPitch - lastPitch;
-        targetRotation[0] += complimentYaw * complimentSpeed.getValue();
-        targetRotation[1] += complimentPitch * complimentSpeed.getValue();
+        targetRotation[0] += complimentYaw * (complimentSpeed.getValue() - 1);
+        targetRotation[1] += complimentPitch * (complimentSpeed.getValue() - 1);
 
 
         lastPitch = mc.thePlayer.rotationPitch;
