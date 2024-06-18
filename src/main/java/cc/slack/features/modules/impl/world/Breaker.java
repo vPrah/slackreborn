@@ -16,6 +16,8 @@ import cc.slack.features.modules.impl.ghost.AutoTool;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
+import cc.slack.utils.player.MovementUtil;
+import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -70,8 +72,7 @@ public class Breaker extends Module {
         if (AttackUtil.inCombat && noCombat.getValue()) return;
 
         if (spoofGround.getValue() && currentBlock != null) {
-            mc.thePlayer.onGround = true;
-            event.setGround(true);
+            MovementUtil.spoofNextC03(true);
         }
 
 
@@ -96,6 +97,7 @@ public class Breaker extends Module {
 
                 Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
 
+                if (!mc.thePlayer.onGround && spoofGround.getValue()) breakingProgress += 4 * BlockUtils.getHardness(currentBlock);
                 breakingProgress += BlockUtils.getHardness(currentBlock);
                 mc.getWorld().sendBlockBreakProgress(mc.thePlayer.getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
 

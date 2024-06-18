@@ -107,6 +107,9 @@ public class TargetHUD extends Module {
 		double offset = -(target.hurtTime * 20);
 		double healthPercent = target.getHealth() / target.getMaxHealth();
 		Color color = new Color(255, (int) (255 + offset), (int) (255 + offset));
+		if (target.hurtTime == 0) {
+			color = new Color(255, 255, 255);
+		}
 		Boolean winning = target.getHealth() < mc.thePlayer.getHealth();
 		Color c = ColorUtil.getColor();
 
@@ -184,11 +187,12 @@ public class TargetHUD extends Module {
 						c.getRGB());
 				break;
 			case "new":
-				drawRoundedRect(x, y, 160, 40, 6, new Color(0, 0, 0, 150).getRGB());
+				drawRoundedRect(x, y, 160, 40, 10, new Color(0, 0, 0, 150).getRGB());
+				GlStateManager.color(1, 1, 1, 1);
 				GlStateManager.color(1, 1, 1, 1);
 
 				Fonts.apple18.drawString(targetName, x + 40, y + 9, new Color(255, 255, 255, 255).getRGB());
-				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 140, y + 25, new Color(255, 255, 255, 255).getRGB());
+				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 135, y + 27, new Color(255, 255, 255, 255).getRGB());
 
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
@@ -196,11 +200,11 @@ public class TargetHUD extends Module {
 				Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 3, 3, 3, 3, 30, 30, 24, 24);
 				GlStateManager.color(1, 1, 1, 1);
 
-				drawRoundedRect(x + 40, y + 25, 95, 9, 2, new Color(151, 151, 151, 40).getRGB());
+				drawRoundedRect(x + 40, y + 23, 95, 9, 3, new Color(151, 151, 151, 40).getRGB());
 				GlStateManager.color(1, 1, 1, 1);
-				RenderUtil.drawRoundedRectBorder(x + 40, y + 25, x + 40 + 95, y + 25 + 9, 2, new Color(230, 230, 230, 200).getRGB(), 1);
+				RenderUtil.drawRoundedRectBorder(x + 40, y + 23, x + 40 + 95, y + 23 + 9, 3, new Color(230, 230, 230, 200).getRGB(), 1);
 				GlStateManager.color(1, 1, 1, 1);
-				RenderUtil.drawRoundedRectBorder(x + 41, y + 26, x + 40 + 96, y + 25 + 10, 2, new Color(30, 30, 30, 100).getRGB(), 1);
+				RenderUtil.drawRoundedRectBorder(x + 41, y + 24, x + 40 + 96, y + 23 + 10, 3, new Color(30, 30, 30, 100).getRGB(), 1);
 				drawRoundedRect(x + 40, y + 25, (int) (95 * (target.getHealth() / target.getMaxHealth())), 9, 2,
 						c.getRGB());
 				break;

@@ -29,6 +29,9 @@ public class MainMenu extends GuiScreen {
     public static String discordId = "";
     public static String idid = "";
 
+    public static int animY;
+    private TimeUtil animTimer = new TimeUtil();
+
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
 
@@ -50,6 +53,12 @@ public class MainMenu extends GuiScreen {
 
             super.drawScreen(mouseX, mouseY, partialTicks);
             return;
+        }
+
+        if (!animTimer.hasReached(600)) {
+            animY = (int) ((1 - Math.pow(1 - (animTimer.elapsed() / 600), 4)) * this.height * 0.7);
+        } else {
+            animY = 0;
         }
 
         Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
@@ -113,6 +122,7 @@ public class MainMenu extends GuiScreen {
                 setMsg("Failed to fetch hwid");
                 return;
             }
+            setMsg("Copied to clipboard");
             GuiScreen.setClipboardString(FileUtil.fetchHwid());
         }
 
@@ -145,7 +155,7 @@ public class MainMenu extends GuiScreen {
                         idid = hwid;
                         setMsg("Login Successful");
                     } else {
-                        setMsg("Credentials didn't match. " + resp);
+                        setMsg("Credentials didn't match.");
                         return;
                     }
                 } else {
@@ -160,6 +170,8 @@ public class MainMenu extends GuiScreen {
             this.menuList.clear();
             this.mc.i34 = true;
             Minecraft.cacheChunkReloader = true;
+
+            animTimer.reset();
 
             this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
             this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));

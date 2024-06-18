@@ -2,6 +2,7 @@ package cc.slack.ui.menu;
 
 
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.PositionedSoundRecord;
 import net.minecraft.client.audio.SoundHandler;
@@ -59,28 +60,6 @@ public class MainMenuButton extends Gui
         this.displayString = buttonText;
     }
 
-
-
-    /**
-     * Returns 0 if the button is disabled, 1 if the mouse is NOT hovering over this button and 2 if it IS hovering over
-     * this button.
-     */
-    protected int getHoverState(boolean mouseOver)
-    {
-        int i = 1;
-
-        if (!this.enabled)
-        {
-            i = 0;
-        }
-        else if (mouseOver)
-        {
-            i = 2;
-        }
-
-        return i;
-    }
-
     /**
      * Draws this button to the screen.
      */
@@ -88,23 +67,15 @@ public class MainMenuButton extends Gui
     {
         if (this.visible)
         {
-            FontRenderer fontrenderer = mc.MCfontRenderer;
-            mc.getTextureManager().bindTexture(buttonTextures);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
-            int i = this.getHoverState(this.hovered);
-            GlStateManager.enableBlend();
-            GlStateManager.tryBlendFuncSeparate(770, 771, 1, 0);
-            GlStateManager.blendFunc(770, 771);
-        //    this.drawTexturedModalRect(this.xPosition, this.yPosition, 0, 46 + i * 20, this.width / 2, this.height);
-           // this.drawTexturedModalRect(this.xPosition + this.width / 2, this.yPosition, 200 - this.width / 2, 46 + i * 20, this.width / 2, this.height);
+            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition + MainMenu.animY && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height + MainMenu.animY;
             if(this.hovered) {
                 hoverPercent += (1 - hoverPercent) / 4;
             }else{
                 hoverPercent += (0 - hoverPercent) / 4;
             }
 
-            drawRect(this.xPosition + 50, this.yPosition, this.xPosition + width - 50, this.yPosition + this.height, new Color(10,40, 100,90 + (int) (hoverPercent * 70)).getRGB());
+            RenderUtil.drawRoundedRect(this.xPosition, this.yPosition + MainMenu.animY, this.xPosition + width, this.yPosition + this.height+ MainMenu.animY, 5, new Color(10, 40, 100, 90 + (int) (hoverPercent * 70)).getRGB());
 
 
             this.mouseDragged(mc, mouseX, mouseY);
@@ -115,7 +86,7 @@ public class MainMenuButton extends Gui
                 j = 10526880;
             }
 
-            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2, j);
+            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2 + MainMenu.animY, j);
         }
     }
 
@@ -142,30 +113,8 @@ public class MainMenuButton extends Gui
         return this.enabled && this.visible && mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
     }
 
-    /**
-     * Whether the mouse cursor is currently over the button.
-     */
-    public boolean isMouseOver()
-    {
-        return this.hovered;
-    }
-
-    public void drawButtonForegroundLayer(int mouseX, int mouseY)
-    {
-    }
-
     public void playPressSound(SoundHandler soundHandlerIn)
     {
         soundHandlerIn.playSound(PositionedSoundRecord.create(new ResourceLocation("gui.button.press"), 1.0F));
-    }
-
-    public int getButtonWidth()
-    {
-        return this.width;
-    }
-
-    public void setWidth(int width)
-    {
-        this.width = width;
     }
 }
