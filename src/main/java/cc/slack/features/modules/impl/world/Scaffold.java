@@ -204,8 +204,8 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 mc.thePlayer.setSprinting(false);
-                mc.thePlayer.motionX *= 0.99;
-                mc.thePlayer.motionZ *= 0.99;
+                mc.thePlayer.motionX *= 1.008;
+                mc.thePlayer.motionZ *= 1.008;
                 if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
                     mc.thePlayer.jump();
                     hasPlaced = false;
