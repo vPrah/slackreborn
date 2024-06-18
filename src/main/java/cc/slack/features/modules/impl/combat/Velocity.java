@@ -25,7 +25,7 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class Velocity extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion", "Conditional" ,"Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Air"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Cancel", "Motion" ,"Tick", "Reverse", "Hypixel", "Hypixel Damage Strafe", "Hypixel Air", "Conditional"});
 
     private final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     private final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
