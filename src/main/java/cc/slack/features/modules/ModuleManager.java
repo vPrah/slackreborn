@@ -43,6 +43,7 @@ public class ModuleManager {
                     new AntiAfk(),
                     new TNTHelper(),
                     new SessionInfo(),
+                    new CustomESP(),
 
                     // Combat
                     new KillAura(),

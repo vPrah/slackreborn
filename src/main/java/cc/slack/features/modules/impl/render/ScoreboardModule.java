@@ -18,6 +18,7 @@ import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
 import net.minecraft.scoreboard.ScorePlayerTeam;
 import net.minecraft.scoreboard.Scoreboard;
+import org.lwjgl.util.Color;
 
 @ModuleInfo(name = "Scoreboard", category = Category.RENDER)
 public class ScoreboardModule extends Module {
@@ -82,6 +83,7 @@ public class ScoreboardModule extends Module {
 			mc.getFontRenderer().drawStringWithShadow(s1, pos[0] + 3, pos[1] + height - 9 * j, -1);
 		}
 	}
+	
 
 	@Override
 	public DragUtil getPosition() {
