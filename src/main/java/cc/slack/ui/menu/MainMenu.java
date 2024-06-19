@@ -34,7 +34,6 @@ public class MainMenu extends GuiScreen {
 
     @Override
     public void drawScreen(int mouseX, int mouseY, float partialTicks) {
-
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
@@ -61,16 +60,12 @@ public class MainMenu extends GuiScreen {
             animY = 0;
         }
 
-        Gui.drawRect(0, 0, 140 , this.height, new Color(0,0,0,110).getRGB());
-
-        Fonts.apple45.drawString("  lack Client", 16, 30, -1);
-        super.drawScreen(mouseX, mouseY, partialTicks);
-
+        Gui.drawRect(width/2 - 70, height / 2 - 70 + animY, width/2 + 70 , height / 2 + 100 + animY, new Color(0,0,0,110).getRGB());
 
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.35 , 0.35, 0.35);
         mc.getTextureManager().bindTexture(imageResource);
-        drawModalRectWithCustomSizedTexture(1, 64, 0, 0, 100, 100, 100, 100);
+        drawModalRectWithCustomSizedTexture((int) ((width/2 - 50) / 0.35), (int) ((height / 2 - 65) / 0.35), 0, 0, 100, 100, 100, 100);
         GlStateManager.popMatrix();
         for (Particle particle : particles) {
             particle.update();
@@ -91,17 +86,17 @@ public class MainMenu extends GuiScreen {
         }
 
         if (Minecraft.cacheChunkReloader) {
-            this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
-            this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
-            this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
-            this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
-            this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
-            this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
+            this.menuList.add(new MainMenuButton(1, width/2, height / 2 - 40, "SinglePlayer"));
+            this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, "MultiPlayer"));
+            this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, "Settings"));
+            this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, "Alt Manager"));
+            this.menuList.add(new MainMenuButton(6, width/2, height / 2 + 60, "Shutdown"));
+            this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, "Client Information"));
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2 - 120, height / 2, "Fetch Discord id from clipboard"));
-            this.menuList.add(new MainMenuButton(8, width/2 - 120, height / 2 + 85, "Copy Hwid"));
-            this.menuList.add(new MainMenuButton(951, width/2 - 120, height / 2 + 60, "Log In"));
+            this.menuList.add(new MainMenuButton(10, width/2, height / 2, "Fetch Discord id from clipboard"));
+            this.menuList.add(new MainMenuButton(8, width/2 , height / 2 + 85, "Copy Hwid"));
+            this.menuList.add(new MainMenuButton(951, width/2, height / 2 + 60, "Log In"));
         }
 
         super.initGui();
@@ -173,12 +168,12 @@ public class MainMenu extends GuiScreen {
 
             animTimer.reset();
 
-            this.menuList.add(new MainMenuButton(1, 130, height / 2 - 40, "SinglePlayer"));
-            this.menuList.add(new MainMenuButton(2, 130, height / 2 - 15, "MultiPlayer"));
-            this.menuList.add(new MainMenuButton(3, 130, height / 2 + 10, "Settings"));
-            this.menuList.add(new MainMenuButton(4, 130, height / 2 + 35, "Alt Manager"));
-            this.menuList.add(new MainMenuButton(6, 130, height / 2 + 60, "Shutdown"));
-            this.menuList.add(new MainMenuButton(7, 130, height / 2 + 85, "Client Information"));
+            this.menuList.add(new MainMenuButton(1, width/2, height / 2 - 40, "SinglePlayer"));
+            this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, "MultiPlayer"));
+            this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, "Settings"));
+            this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, "Alt Manager"));
+            this.menuList.add(new MainMenuButton(6, width/2, height / 2 + 60, "Shutdown"));
+            this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, "Client Information"));
         }
 
         if(buttonMenu.id == 1) {
