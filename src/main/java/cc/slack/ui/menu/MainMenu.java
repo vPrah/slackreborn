@@ -65,12 +65,14 @@ public class MainMenu extends GuiScreen {
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.35 , 0.35, 0.35);
         mc.getTextureManager().bindTexture(imageResource);
-        drawModalRectWithCustomSizedTexture((int) ((width/2 - 50) / 0.35), (int) ((height / 2 - 65) / 0.35), 0, 0, 100, 100, 100, 100);
+        drawModalRectWithCustomSizedTexture((int) ((width/2) / 0.35) - 50, (int) ((height / 2 - 65) / 0.35), 0, 0, 100, 100, 100, 100);
         GlStateManager.popMatrix();
         for (Particle particle : particles) {
             particle.update();
             particle.render(mc);
         }
+
+        super.drawScreen(mouseX, mouseY, partialTicks);
 
     }
 
