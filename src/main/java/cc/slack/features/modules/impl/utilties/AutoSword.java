@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.ghost;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.api.Category;
@@ -11,7 +11,7 @@ import net.minecraft.network.play.client.C02PacketUseEntity;
 
 @ModuleInfo(
         name = "AutoSword",
-        category = Category.GHOST
+        category = Category.UTILITIES
 )
 public class AutoSword extends Module {
 

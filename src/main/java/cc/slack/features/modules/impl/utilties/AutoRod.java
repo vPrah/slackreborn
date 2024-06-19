@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.ghost;
+package cc.slack.features.modules.impl.utilties;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -22,7 +22,7 @@ import net.minecraft.item.ItemStack;
 
 @ModuleInfo(
         name = "AutoRod",
-        category = Category.GHOST
+        category = Category.UTILITIES
 )
 public class AutoRod extends Module {
 
