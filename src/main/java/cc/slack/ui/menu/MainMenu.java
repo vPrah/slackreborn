@@ -60,7 +60,7 @@ public class MainMenu extends GuiScreen {
             animY = 0;
         }
 
-        Gui.drawRect(width/2 - 70, height / 2 - 70 + animY, width/2 + 70 , height / 2 + 100 + animY, new Color(0,0,0,110).getRGB());
+        Gui.drawRect(width/2 - 70, height / 2 - 70 + animY, width/2 + 70 , height / 2 + 110 + animY, new Color(0,0,0,110).getRGB());
 
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.35 , 0.35, 0.35);

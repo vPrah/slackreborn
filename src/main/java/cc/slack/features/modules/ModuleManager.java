@@ -181,34 +181,31 @@ public class ModuleManager {
         return (T) modules.get(clazz);
     }
 
-    public Module getModuleByName(String n) {
-        for (Module m : modules.values()) {
-            if (m.getName().equals(n))
-                return m;
+    public Module getModuleByName(String name) {
+        for (Module mod : modules.values()) {
+            if (mod.getName() == name)
+                return mod;
         }
+
 
         throw new IllegalArgumentException("Module not found.");
     }
 
     private void addModules(Module... mod) {
-        for (Module m : mod)
+        for (Module m : mod) {
+
             modules.put(m.getClass(), m);
+        }
     }
 
-    public Module[] getModulesByCategory(Category c) {
-        final List<Module> category = new ArrayList<>();
+    public Module[] getModulesByCategory(Category cat) {
+        ArrayList<Module> category = new ArrayList<>();
 
-        modules.forEach((aClass, module) -> {
-            if (module.getCategory() == c)
-                category.add(module);
+        modules.forEach((aClass, mod) -> {
+            if (mod.category == cat)
+                category.add(mod);
         });
 
         return category.toArray(new Module[0]);
-    }
-
-    public Module[] getModulesByCategoryABC(final Category c) {
-        Module[] modulesByCategory = getModulesByCategory(c);
-        Arrays.sort(modulesByCategory, Comparator.comparing(Module::getName));
-        return modulesByCategory;
     }
 }
