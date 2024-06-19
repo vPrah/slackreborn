@@ -173,12 +173,12 @@ public class MainMenu extends GuiScreen {
 
             animTimer.reset();
 
-            this.menuList.add(new MainMenuButton(1, - 30, height / 2 - 40, "SinglePlayer"));
-            this.menuList.add(new MainMenuButton(2, - 30, height / 2 - 15, "MultiPlayer"));
-            this.menuList.add(new MainMenuButton(3, - 30, height / 2 + 10, "Settings"));
-            this.menuList.add(new MainMenuButton(4, - 30, height / 2 + 35, "Alt Manager"));
-            this.menuList.add(new MainMenuButton(6, - 30, height / 2 + 60, "Shutdown"));
-            this.menuList.add(new MainMenuButton(7, - 30, height / 2 + 85, "Client Information"));
+            this.menuList.add(new MainMenuButton(1, 130, height / 2 - 40, "SinglePlayer"));
+            this.menuList.add(new MainMenuButton(2, 130, height / 2 - 15, "MultiPlayer"));
+            this.menuList.add(new MainMenuButton(3, 130, height / 2 + 10, "Settings"));
+            this.menuList.add(new MainMenuButton(4, 130, height / 2 + 35, "Alt Manager"));
+            this.menuList.add(new MainMenuButton(6, 130, height / 2 + 60, "Shutdown"));
+            this.menuList.add(new MainMenuButton(7, 130, height / 2 + 85, "Client Information"));
         }
 
         if(buttonMenu.id == 1) {

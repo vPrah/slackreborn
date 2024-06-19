@@ -44,7 +44,7 @@ public class MainMenuButton extends Gui
 
     public MainMenuButton(int buttonId, int x, int y, String buttonText)
     {
-        this(buttonId, x - 50, y, 50, 20, buttonText);
+        this(buttonId, x - 100, y, 200, 20, buttonText);
     }
 
     public MainMenuButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText)
