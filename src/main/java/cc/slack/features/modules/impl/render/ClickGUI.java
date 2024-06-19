@@ -18,9 +18,8 @@ import org.lwjgl.input.Keyboard;
 
 public class ClickGUI<ClickGUIType extends GuiScreen> extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Old", "New"});
+    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Old"});
     private ClickGUIType clickgui;
-    //private boolean isOpen;
 
     public ClickGUI() {
         addSettings(mode);
