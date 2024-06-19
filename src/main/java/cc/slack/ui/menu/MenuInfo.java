@@ -112,10 +112,10 @@ public class MenuInfo extends GuiScreen {
     @Override
     public void initGui() {
 
-        this.menuList.add(new MainMenuButton(1, width /2, height / 2 - 40, "Show ClickGUI"));
-        this.menuList.add(new MainMenuButton(2, width /2, height / 2 - 15, "Open Config Folder"));
-        this.menuList.add(new MainMenuButton(3, width /2, height / 2 + 10, "Join Discord Server"));
-        this.menuList.add(new MainMenuButton(4, width /2, height / 2 + 35, "Check Website"));
+        this.menuList.add(new MainMenuButton(1, width - 460, height / 2 - 40, "Show ClickGUI"));
+        this.menuList.add(new MainMenuButton(2, width - 460, height / 2 - 15, "Open Config Folder"));
+        this.menuList.add(new MainMenuButton(3, width - 460, height / 2 + 10, "Join Discord Server"));
+        this.menuList.add(new MainMenuButton(4, width - 460, height / 2 + 35, "Check Website"));
 
         super.initGui();
     }

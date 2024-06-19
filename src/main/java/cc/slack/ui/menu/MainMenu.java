@@ -60,14 +60,14 @@ public class MainMenu extends GuiScreen {
             animY = 0;
         }
 
-        Gui.drawRect(width/2 - 70, height / 2 - 70 + animY, width/2 + 70 , height / 2 + 110 + animY, new Color(0,0,0,110).getRGB());
-        Fonts.apple24.drawString("Made by: Vprah, Dg636, & Slack Dev Team", 5,  height - 20, -1);
+        Gui.drawRect(width/2 - 70, height / 2 - 80 + animY, width/2 + 70 , height / 2 + 120 + animY, new Color(0,0,0,110).getRGB());
+        Fonts.apple20.drawString("Made by Slack Team", 10,  height - 20, -1);
 
 
         GlStateManager.pushMatrix();
         GlStateManager.scale(0.35 , 0.35, 0.35);
         mc.getTextureManager().bindTexture(imageResource);
-        drawModalRectWithCustomSizedTexture((int) ((width/2) / 0.35) - 50, (int) ((height / 2 - 65) / 0.35), 0, 0, 100, 100, 100, 100);
+        drawModalRectWithCustomSizedTexture((int) ((width/2) / 0.35) - 50, (int) ((height / 2 - 75) / 0.35), 0, 0, 100, 100, 100, 100);
         GlStateManager.popMatrix();
         for (Particle particle : particles) {
             particle.update();
