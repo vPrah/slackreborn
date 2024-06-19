@@ -3,13 +3,10 @@
 package cc.slack.features.modules;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Comparator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import cc.slack.Slack;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.impl.combat.*;
@@ -21,7 +18,6 @@ import cc.slack.features.modules.impl.player.*;
 import cc.slack.features.modules.impl.render.*;
 import cc.slack.features.modules.impl.utilties.*;
 import cc.slack.features.modules.impl.world.*;
-import cc.slack.utils.client.ClientInfo;
 
 public class ModuleManager {
     public final Map<Class<? extends Module>, Module> modules = new LinkedHashMap<>();
@@ -37,6 +33,7 @@ public class ModuleManager {
                     new ClientSpoofer(),
                     new Radar(),
                     new AutoRod(),
+                    new AimAssist(),
                     new AntiLava(),
                     new AntiCactus(),
                     new AntiHunger(),
@@ -135,8 +132,6 @@ public class ModuleManager {
                     new LegitScaffold(),
                     new JumpReset(),
                     new Wtap(),
-                    new AimAssist(),
-                    new AutoSword(),
                     new AutoTool(),
                     new Backtrack(),
                     new KeepSprint(),
@@ -152,6 +147,7 @@ public class ModuleManager {
                     new AutoRespawn(),
                     new AutoLogin(),
                     new AutoPot(),
+                    new AutoSword(),
                     new AntiStaff(),
                     new FakePlayer(),
                     new NameProtect(),
