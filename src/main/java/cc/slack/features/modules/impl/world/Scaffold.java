@@ -198,8 +198,7 @@ public class Scaffold extends Module {
             case "hypixel safe":
                 mc.thePlayer.setSprinting(false);
                 if (mc.thePlayer.onGround) {
-                    mc.thePlayer.motionX *= 0.95;
-                    mc.thePlayer.motionZ *= 0.95;
+                    MovementUtil.strafe(0.213f);
                 }
                 break;
             case "hypixel jump":
@@ -321,23 +320,22 @@ public class Scaffold extends Module {
                 case "vanilla":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.42;
+                        mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
                     }
 
-                    switch ((int) round((mc.thePlayer.posY - jumpGround) * 100)) {
-                        case 42:
-                            mc.thePlayer.motionY = 0.33;
+                    switch (mc.thePlayer.offGroundTicks % 3) {
+                        case 0:
+                            mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
                             break;
-                        case 75:
-                            mc.thePlayer.motionY = 0.25;
+                        case 1:
+                            mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
+                            MovementUtil.spoofNextC03(true);
                             break;
-                        case 100:
-                            jumpGround = mc.thePlayer.posY;
-                            mc.thePlayer.motionY = 0.42;
-                            mc.thePlayer.onGround = true;
+                        case 2:
+                            mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY);
+                            MovementUtil.spoofNextC03(true);
                             break;
                     }
-                    break;
                 case "vulcan":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
