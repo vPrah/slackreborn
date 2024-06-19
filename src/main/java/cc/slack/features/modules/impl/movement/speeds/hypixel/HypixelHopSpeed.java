@@ -41,11 +41,6 @@ public class HypixelHopSpeed implements ISpeed {
             mc.thePlayer.motionX *= 1.0005;
             mc.thePlayer.motionZ *= 1.0005;
 
-            if (mc.thePlayer.offGroundTicks == 1) {
-                mc.thePlayer.motionX *= 1.002;
-                mc.thePlayer.motionZ *= 1.002;
-            }
-
             if (mc.thePlayer.motionY > 0) {
                 mc.timer.timerSpeed = 0.94f;
             } else if (mc.thePlayer.offGroundTicks < 13) {

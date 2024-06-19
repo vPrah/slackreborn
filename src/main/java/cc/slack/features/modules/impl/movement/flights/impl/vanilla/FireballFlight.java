@@ -47,11 +47,6 @@ public class FireballFlight implements IFlight {
         }
     }
 
-    @Override
-    public void onMotion(MotionEvent event) {
-        if (started && !gotVelo) MovementUtil.resetMotion(true);
-    }
-
 
     @Override
     public void onUpdate(UpdateEvent event) {
@@ -64,7 +59,6 @@ public class FireballFlight implements IFlight {
                 RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 80f}, 2);
 
             } else if (started) {
-                MovementUtil.resetMotion(true);
                 PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(fireballSlot).getStack()));
                 sent = true;
             }
@@ -79,7 +73,7 @@ public class FireballFlight implements IFlight {
             }
 
             if (gotVelo && mc.thePlayer.hurtTime == 9) {
-                MovementUtil.strafe(MovementUtil.getSpeed() * 1.1f);
+                MovementUtil.strafe(MovementUtil.getSpeed() * 1.02f);
             }
 
             if (gotVelo && mc.thePlayer.ticksSinceLastDamage > 4 && mc.thePlayer.ticksSinceLastDamage < 10 ) {
