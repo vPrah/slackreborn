@@ -154,10 +154,10 @@ public class PlayerUtil implements IMinecraft {
     public static String getRemoteIp() {
         String serverIp = "Main Menu";
 
-        if (mc.getMinecraft().isIntegratedServerRunning()) {
+        if (mc.isIntegratedServerRunning()) {
             serverIp = "SinglePlayer";
-        } else if (mc.getWorld() != null && mc.getWorld().isRemote) {
-            final ServerData serverData = mc.getMinecraft().getCurrentServerData();
+        } else if (mc.theWorld != null && mc.theWorld.isRemote) {
+            final ServerData serverData = mc.getCurrentServerData();
             if(serverData != null)
                 serverIp = serverData.serverIP;
         }
