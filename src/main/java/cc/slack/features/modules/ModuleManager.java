@@ -181,7 +181,7 @@ public class ModuleManager {
 
     public Module getModuleByName(String name) {
         for (Module mod : modules.values()) {
-            if (mod.getName() == name)
+            if (mod.getName().equalsIgnoreCase(name))
                 return mod;
         }
 

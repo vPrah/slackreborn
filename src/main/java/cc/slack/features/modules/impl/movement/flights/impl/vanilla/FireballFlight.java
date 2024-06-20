@@ -76,9 +76,6 @@ public class FireballFlight implements IFlight {
                 MovementUtil.strafe(MovementUtil.getSpeed() * 1.02f);
             }
 
-            if (gotVelo && mc.thePlayer.ticksSinceLastDamage > 4 && mc.thePlayer.ticksSinceLastDamage < 10 ) {
-                mc.thePlayer.motionY = 0.3;
-            }
         }
     }
 

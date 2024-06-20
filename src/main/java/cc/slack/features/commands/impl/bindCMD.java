@@ -45,8 +45,9 @@ public class bindCMD extends CMD {
                 module.setKey(Keyboard.getKeyIndex(args[1]));
                 PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + args[1] + "§f.");
             } catch (Exception e) {
-                PrintUtil.message("§cCould not find key named: " + args[1]);
-                return;
+                PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + "NONE" + "§f.");
+                module.setKey(0);
+
             }
         }
 

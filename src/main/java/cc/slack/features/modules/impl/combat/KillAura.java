@@ -321,7 +321,8 @@ public class KillAura extends Module {
                     block(true);
                 break;
             case "hypixel":
-                block(true);
+                if (mc.thePlayer.hurtTime < 4 && target.hurtTime > 0)
+                    block(true);
                 break;
             case "vanilla reblock":
                 isBlocking = false;
