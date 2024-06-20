@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+import cc.slack.utils.client.IMinecraft;
 import com.google.common.collect.AbstractIterator;
 import java.util.Iterator;
 
@@ -19,6 +20,13 @@ public class BlockPos extends Vec3i
     private static final long X_MASK = (1L << NUM_X_BITS) - 1L;
     private static final long Y_MASK = (1L << NUM_Y_BITS) - 1L;
     private static final long Z_MASK = (1L << NUM_Z_BITS) - 1L;
+
+    public static boolean isSamePos(BlockPos blockPos, BlockPos blockPos2) {
+        return blockPos == blockPos2 || blockPos.getX() == blockPos2.getX() && blockPos.getY() == blockPos2.getY() && blockPos.getZ() == blockPos2.getZ();
+    }
+    public static boolean nullCheck() {
+        return IMinecraft.mc.thePlayer != null && IMinecraft.mc.theWorld != null;
+    }
 
     public BlockPos(int x, int y, int z)
     {

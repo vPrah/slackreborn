@@ -1,8 +1,13 @@
 package net.minecraft.client.renderer;
 
 import java.nio.FloatBuffer;
+
+import cc.slack.utils.render.RenderUtil;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.Vec3;
 import org.lwjgl.opengl.GL11;
+
+
 
 public class RenderHelper
 {
@@ -46,6 +51,19 @@ public class RenderHelper
         GlStateManager.shadeModel(7424);
         GL11.glLightModel(GL11.GL_LIGHT_MODEL_AMBIENT, setColorBuffer(f, f, f, 1.0F));
     }
+
+    public static void drawCompleteBoxFilled(AxisAlignedBB axisalignedbb, float width, int insideColor) {
+        GL11.glLineWidth(width);
+        GL11.glEnable(2848);
+        GL11.glEnable(2881);
+        GL11.glHint(3154, 4354);
+        GL11.glHint(3155, 4354);
+        RenderUtil.glColor(insideColor);
+        RenderUtil.drawFilledBoundingBox(axisalignedbb);
+        GL11.glDisable(2848);
+        GL11.glDisable(2881);
+    }
+
 
     /**
      * Update and return colorBuffer with the RGBA values passed as arguments

@@ -41,6 +41,7 @@ public class ModuleManager {
                     new TNTHelper(),
                     new SessionInfo(),
                     new CustomESP(),
+                    new BedESP(),
 
                     // Combat
                     new KillAura(),
