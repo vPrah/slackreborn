@@ -3,6 +3,8 @@
 package cc.slack.features.modules.impl.combat;
 
 import cc.slack.Slack;
+import cc.slack.events.State;
+import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
@@ -122,6 +124,11 @@ public class Velocity extends Module {
                 }
             }
         }
+    }
+
+    @Listen
+    public void onTick (TickEvent event) {
+
     }
 
     @Listen
