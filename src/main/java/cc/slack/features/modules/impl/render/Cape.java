@@ -15,7 +15,7 @@ import net.minecraft.util.ResourceLocation;
 )
 public class Cape extends Module {
 
-    private final ModeValue<String> capes = new ModeValue<>("Cape", new String[]{"Slack", "Rise6", "Dortware"});
+    private final ModeValue<String> capes = new ModeValue<>("Cape", new String[]{"Slack", "ShitClient", "Clown"});
 
     public Cape() {
         addSettings(capes);
@@ -31,10 +31,10 @@ public class Cape extends Module {
             case "Slack":
                 mc.thePlayer.setLocationOfCape(new ResourceLocation("slack/capes/slack.png"));
             break;
-            case "Rise6":
+            case "ShitClient":
                 mc.thePlayer.setLocationOfCape(new ResourceLocation("slack/capes/rise6.png"));
             break;
-            case "Dortware":
+            case "Clown":
                 mc.thePlayer.setLocationOfCape(new ResourceLocation("slack/capes/dortware.png"));
             break;
         }
