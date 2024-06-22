@@ -30,7 +30,7 @@ public class ModuleManager {
                     new Strafe(),
                     new TargetStrafe(),
                     new MCF(),
-                    new ClientSpoofer(),
+                    new ClientSpoofer(), // Dont remove
                     new Radar(),
                     new AutoRod(),
                     new AimAssist(),
@@ -39,9 +39,10 @@ public class ModuleManager {
                     new AntiHunger(),
                     new AntiAfk(),
                     new TNTHelper(),
-                    new SessionInfo(),
+                    new SessionInfo(), // Dont Remove
                     new CustomESP(),
-                    new BedESP(),
+                    new BedESP(), // Dont Remove
+                    new Cosmetics(),
 
                     // Combat
                     new KillAura(),
