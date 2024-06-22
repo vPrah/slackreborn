@@ -57,11 +57,11 @@ public class AntiVoid extends Module {
         switch (antivoidMode.getValue().toLowerCase()) {
             case "universal":
                 if (universalStarted) {
-                    if (mc.thePlayer.onGround) {
+                    if (mc.thePlayer.onGround || mc.thePlayer.fallDistance > 8f) {
                         BlinkUtil.disable();
                         universalStarted = false;
                         universalFlag = false;
-                    } else if (mc.thePlayer.fallDistance > 8f && !universalFlag) {
+                    } else if (mc.thePlayer.fallDistance > 4f && !universalFlag) {
                         universalFlag = true;
                         PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(groundX, groundY + 1, groundZ, false));
                     }

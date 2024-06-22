@@ -51,7 +51,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock", "Test", "Legit"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -220,6 +220,15 @@ public class KillAura extends Module {
 
     private boolean preTickBlock() {
         switch (autoBlock.getValue().toLowerCase()) {
+            case "Legit":
+                if (mc.thePlayer.hurtTime < 3) {
+                    if (!isBlocking) {
+                        block(false);
+                    }
+                } else {
+                    if (isBlocking) unblock();
+                }
+                return isBlocking;
             case "basic":
                 switch (mc.thePlayer.ticksExisted % 3) {
                     case 0:
@@ -302,6 +311,13 @@ public class KillAura extends Module {
                 }
                 isBlocking = false;
                 break;
+            case "test":
+                if (isBlocking) {
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                    BlinkUtil.disable();
+                    isBlocking = false;
+                    return false;
+                }
             case "hypixel":
                 if (isBlocking) {
                     PacketUtil.send(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
@@ -321,13 +337,18 @@ public class KillAura extends Module {
                     block(true);
                 break;
             case "hypixel":
-                if (mc.thePlayer.hurtTime < 4 && target.hurtTime > 0)
+                if (mc.thePlayer.hurtTime < 4 && target.hurtTime > 1)
                     block(true);
                 break;
             case "vanilla reblock":
                 isBlocking = false;
                 block();
                 break;
+            case "test":
+                block();
+                BlinkUtil.enable(false, true);
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+
             case "drop":
             case "switch":
             case "blatant":

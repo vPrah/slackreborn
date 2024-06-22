@@ -43,7 +43,7 @@ public class Breaker extends Module {
     public final NumberValue<Integer> targetSwitchDelay = new NumberValue<>("Target Switch Delay", 50, 0, 500, 10);
 
     public final NumberValue<Double> breakPercent = new NumberValue<>("FastBreak Percent", 1.0, 0.0, 1.0, 0.05);
-    public final BooleanValue spoofGround = new BooleanValue("Spoof Ground", false);
+    public final BooleanValue spoofGround = new BooleanValue("Hypixel Faster", false);
     public final BooleanValue noCombat = new BooleanValue("No Combat", true);
 
     public Breaker() {
@@ -71,11 +71,6 @@ public class Breaker extends Module {
         if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
         if (AttackUtil.inCombat && noCombat.getValue()) return;
 
-        if (spoofGround.getValue() && currentBlock != null) {
-            MovementUtil.spoofNextC03(true);
-        }
-
-
         if (targetBlock == null) {
             if (switchTimer.hasReached(targetSwitchDelay.getValue())) {
                 findTargetBlock();
@@ -95,6 +90,10 @@ public class Breaker extends Module {
 
             if (currentBlock != null) {
 
+                if (breakingProgress >= breakPercent.getValue()) {
+                    if (!mc.thePlayer.onGround && spoofGround.getValue()) return;
+                }
+
                 Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
 
                 if (!mc.thePlayer.onGround && spoofGround.getValue()) breakingProgress += 4 * BlockUtils.getHardness(currentBlock);
@@ -104,6 +103,7 @@ public class Breaker extends Module {
                 RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
 
                 if (breakingProgress >= breakPercent.getValue()) {
+                    if (!mc.thePlayer.onGround && spoofGround.getValue()) return;
                     RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
