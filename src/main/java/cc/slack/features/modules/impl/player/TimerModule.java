@@ -12,7 +12,6 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.other.TimeUtil;
-import cc.slack.utils.player.TimerUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -44,7 +43,7 @@ public class TimerModule extends Module {
 
     @Override
     public void onDisable() {
-        TimerUtil.reset();
+        mc.timer.timerSpeed = 1.0F;
     }
 
     @SuppressWarnings("unused")

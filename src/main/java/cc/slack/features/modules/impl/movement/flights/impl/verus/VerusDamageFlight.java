@@ -10,7 +10,6 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.TimerUtil;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
 
@@ -52,7 +51,7 @@ public class VerusDamageFlight implements IFlight {
                 }
                 break;
             case 1:
-                TimerUtil.reset();
+                mc.timer.timerSpeed = 1.0F;
                 event.setZeroXZ();
 
                 if (mc.thePlayer.hurtTime > 0) {
