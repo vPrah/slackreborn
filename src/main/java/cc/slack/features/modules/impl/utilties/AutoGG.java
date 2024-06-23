@@ -17,11 +17,11 @@ import net.minecraft.util.IChatComponent;
 )
 public class AutoGG extends Module {
 
-    private final StringValue password = new StringValue("AutoGG Message", "GG!");
+    private final StringValue ggMessage = new StringValue("AutoGG Message", "GG");
 
 
     public AutoGG() {
-        addSettings(password);
+        addSettings(ggMessage);
     }
 
     @Listen
@@ -36,9 +36,10 @@ public class AutoGG extends Module {
                 unformattedText.contains("Has muerto") ||
                 unformattedText.contains("You won! Want to play again? Click here!") ||
                 unformattedText.contains("You lost! Want to play again? Click here!") ||
-                unformattedText.contains("You died! Want to play again? Click here!")
+                unformattedText.contains("You died! Want to play again? Click here!") ||
+                        unformattedText.contains(mc.thePlayer.getNBTTagCompound() + "dead")
         ) {
-            mc.thePlayer.sendChatMessage(password.getValue());
+            mc.thePlayer.sendChatMessage(ggMessage.getValue());
             iscorrectjoin();
         }
     }
