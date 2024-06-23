@@ -39,12 +39,9 @@ public class ModuleManager {
                     new AntiHunger(),
                     new AntiAfk(),
                     new TNTHelper(),
-                    new SessionInfo(), // Dont Remove
                     new CustomESP(),
-                    new BedESP(), // Dont Remove
                     new Cosmetics(),
 
-                    new VClip(), // Need Recode
                     new FreeLook(), // Need Recode
 
                     // Combat
@@ -66,6 +63,7 @@ public class ModuleManager {
                     new Sprint(),
                     new Jesus(),
                     new NoWeb(),
+                    new VClip(), // Recoded
 
                     // Other
                     new AntiBot(),
@@ -107,6 +105,7 @@ public class ModuleManager {
                     new HUD(),
                     new ESP(),
                     new BasicESP(),
+                    new BedESP(), // Recoded
                     new ClickGUI(),
                     new NameTags(),
                     new Animations(),
@@ -116,16 +115,17 @@ public class ModuleManager {
                     new BlockOverlay(),
                     new Cape(),
                     new ChinaHat(),
-                    new Chams(),
+                    new Chams(), // Recoded
                     new ChestESP(), // Recoded
-                    new Camera(),
-                    new ItemPhysics(),
+                    new Camera(), // Recoded
+                    new ItemPhysics(), // Recoded
                     new Spider(),
-                    new Bobbing(),
-                    new Tracers(),
-                    new Projectiles(),
-                    new PointerESP(),
+                    new Bobbing(), // Recoded
+                    new Tracers(), // Recoded
+                    new Projectiles(), // Recoded
+                    new PointerESP(), // Recoded
                     new ScoreboardModule(),
+                    new SessionInfo(), // Recoded
                     new XRay(),
 
                     // Ghost
@@ -145,15 +145,15 @@ public class ModuleManager {
                     // Utilities
                     new AutoDisable(),
                     new AutoGapple(),
-                    new AutoGG(),
+                    new AutoGG(), // Recoded
                     new AutoPlay(),
                     new AutoRespawn(),
-                    new AutoLogin(),
+                    new AutoLogin(), // Recoded
                     new AutoPot(),
                     new AutoSword(),
                     new AntiStaff(),
-                    new FakePlayer(),
-                    new NameProtect(),
+                    new FakePlayer(), // Recoded
+                    new NameProtect(), // Recoded
                     new HealthWarn(),
                     new LegitMode(),
                     new LagbackChecker()

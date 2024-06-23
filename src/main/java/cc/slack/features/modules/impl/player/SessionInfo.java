@@ -7,9 +7,11 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.utilties.NameProtect;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.font.MCFontRenderer;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S02PacketChat;
@@ -27,6 +29,7 @@ public class SessionInfo extends Module {
     private final NumberValue<Float> yValue = new NumberValue<>("Pos Y", 160F, 1.0F, 300.0F, 1F);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 170, 0, 255, 1);
     private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
+    private final ModeValue<String> fontValue = new ModeValue<>("Font", new String[]{"Apple", "Poppins"});
 
 
     public long gameJoined;
@@ -35,7 +38,7 @@ public class SessionInfo extends Module {
     public long timeJoined;
 
     public SessionInfo() {
-        addSettings(xValue,yValue,alphaValue,roundedValue);
+        addSettings(xValue, yValue, alphaValue, roundedValue, fontValue);
     }
 
 
@@ -51,18 +54,27 @@ public class SessionInfo extends Module {
     }
 
     @Listen
-    public void onPacket (PacketEvent event) {
+    public void onPacket(PacketEvent event) {
         try {
             if (event.getPacket() instanceof S02PacketChat) {
                 S02PacketChat packet = event.getPacket();
                 String message = packet.getChatComponent().getUnformattedText();
-                if (message.contains(mc.getSession().getUsername() + " wants to fight!")) {
+                if (
+                        message.contains(mc.getSession().getUsername() + " wants to fight!") ||
+                                message.contains(mc.getSession().getUsername() + " has joined") ||
+                                message.contains(mc.getSession().getUsername() + " se ha unido") ||
+                                message.contains(mc.getSession().getUsername() + " ha entrado")
+                ) {
                     ++gameJoined;
                 }
-                if (message.contains(mc.getSession().getUsername() + " has joined")) {
-                    ++gameJoined;
-                }
-                if (message.contains("by " + mc.getSession().getUsername())) {
+                if (
+                        message.contains("by " + mc.getSession().getUsername()) ||
+                                (message.contains(mc.thePlayer.getNameClear()) && message.contains("fue brutalmente asesinado por") ||
+                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("fue empujado al vacío por") ||
+                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("no resistió los ataques de") ||
+                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("pensó que era un buen momento de morir a manos de") ||
+                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("ha sido asesinado por"))
+                ) {
                     ++killAmount;
                 }
             }
@@ -85,23 +97,45 @@ public class SessionInfo extends Module {
 
     @SuppressWarnings("unused")
     @Listen
-    public void onRender (RenderEvent event) {
+    public void onRender(RenderEvent event) {
         if (mc.gameSettings.showDebugInfo) {
             return;
         }
+
         int x = xValue.getValue().intValue();
         int y = yValue.getValue().intValue();
         String username = Slack.getInstance().getModuleManager().getInstance(NameProtect.class).isToggle() ? "Slack User" : mc.getSession().getUsername();
-        if (roundedValue.getValue()) {
-            RenderUtil.drawRoundedRect(x, y, x + 170, y + 58, 8.0, new Color(0,0,0,alphaValue.getValue()).getRGB());
-        } else {
-            RenderUtil.drawRoundedRect(x, y, x + 170, y + 58, 1.0, new Color(0,0,0,alphaValue.getValue()).getRGB());
+        int alpha = new Color(0, 0, 0, alphaValue.getValue()).getRGB();
+
+        double cornerRadius = roundedValue.getValue() ? 8.0 : 1.0;
+        RenderUtil.drawRoundedRect(x, y, x + 170, y + 58, cornerRadius, alpha);
+
+        String sessionInfo = "Session Info";
+        String playTime = "Play time: " + getSessionLengthString();
+        String ign = "IGN: " + username;
+        String kills = "Kills: " + killAmount;
+
+        int xOffset = 8;
+        int[] yOffset = {8, 22, 34, 46};
+
+        MCFontRenderer fontRenderer;
+        switch (fontValue.getValue()) {
+            case "Apple":
+                fontRenderer = Fonts.apple20;
+                break;
+            case "Poppins":
+                fontRenderer = Fonts.poppins20;
+                break;
+            default:
+                fontRenderer = Fonts.apple20;
+                break;
         }
-        Fonts.apple20.drawStringWithShadow("Session Info", x + 53, y + 8, -1);
-        Fonts.apple20.drawStringWithShadow("Play time: " + getSessionLengthString(), x + 8, y + 22, -1);
-        Fonts.apple20.drawStringWithShadow("Ign: " + username, x + 8, y + 34, -1);
-        Fonts.apple20.drawStringWithShadow("Kills: " + killAmount, x + 8, y + 46, -1);
+
+        fontRenderer.drawStringWithShadow(sessionInfo, x + 53, y + yOffset[0], -1);
+        fontRenderer.drawStringWithShadow(playTime, x + xOffset, y + yOffset[1], -1);
+        fontRenderer.drawStringWithShadow(ign, x + xOffset, y + yOffset[2], -1);
+        fontRenderer.drawStringWithShadow(kills, x + xOffset, y + yOffset[3], -1);
+
+
     }
-
-
 }
