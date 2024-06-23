@@ -741,6 +741,51 @@ public final class RenderUtil implements IMinecraft {
         GL11.glPopMatrix();
     }
 
+    public static int toRGBAHex(float r, float g, float b, float a) {
+        return ((int)(a * 255.0F) & 255) << 24 | ((int)(r * 255.0F) & 255) << 16 | ((int)(g * 255.0F) & 255) << 8 | (int)(b * 255.0F) & 255;
+    }
+
+    public static float[] getColorForTileEntity() {
+        Color color = ColorUtil.getColor();
+        return new float[]{(float)color.getRed(), (float)color.getGreen(), (float)color.getBlue(), 200.0F};
+    }
+
+    public static void renderBed(BlockPos[] array) {
+        Color ct = ColorUtil.getColor();
+        double deltaX = (double) array[0].getX() - mc.getRenderManager().viewerPosX;
+        double deltaY = (double) array[0].getY() - mc.getRenderManager().viewerPosY;
+        double deltaZ = (double) array[0].getZ() - mc.getRenderManager().viewerPosZ;
+
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(3042);
+        GL11.glLineWidth(2.0F);
+        GL11.glDisable(3553);
+        GL11.glDisable(2929);
+        GL11.glDepthMask(false);
+        GL11.glColor4d((double)ct.getRed(), (double)ct.getGreen(), (double)ct.getBlue(), (double)ct.getAlpha());
+
+        AxisAlignedBB axisAlignedBB;
+        if (array[0].getX() != array[1].getX()) {
+            if (array[0].getX() > array[1].getX()) {
+                axisAlignedBB = new AxisAlignedBB(deltaX - 1.0,deltaY, deltaZ, deltaX + 1.0, deltaY + 0.5625, deltaZ + 1.0);
+            } else {
+                axisAlignedBB = new AxisAlignedBB(deltaX, deltaY, deltaZ, deltaX + 2.0, deltaY + 0.5625, deltaZ + 1.0);
+            }
+        } else if (array[0].getZ() > array[1].getZ()) {
+            axisAlignedBB = new AxisAlignedBB(deltaX, deltaY, deltaZ - 1.0, deltaX + 1.0, deltaY + 0.5625, deltaZ + 1.0);
+        } else {
+            axisAlignedBB = new AxisAlignedBB(deltaX, deltaY, deltaZ, deltaX + 1.0, deltaY + 0.5625, deltaZ + 2.0);
+        }
+
+        float[] colors = getColorForTileEntity();
+        RenderHelper.drawCompleteBoxFilled(axisAlignedBB, 1.0F, toRGBAHex(colors[0] / 255.0F, colors[1] / 255.0F, colors[2] / 255.0F, 0.2F));
+
+        GL11.glEnable(3553);
+        GL11.glEnable(2929);
+        GL11.glDepthMask(true);
+        GL11.glDisable(3042);
+    }
+
     public static void enable(final boolean disableDepth) {
         if (disableDepth) {
             GL11.glDepthMask(false);
