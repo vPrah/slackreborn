@@ -220,7 +220,7 @@ public class KillAura extends Module {
 
     private boolean preTickBlock() {
         switch (autoBlock.getValue().toLowerCase()) {
-            case "Legit":
+            case "legit":
                 if (mc.thePlayer.hurtTime < 3) {
                     if (!isBlocking) {
                         block(false);
