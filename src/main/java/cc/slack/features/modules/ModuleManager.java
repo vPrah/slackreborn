@@ -44,6 +44,9 @@ public class ModuleManager {
                     new BedESP(), // Dont Remove
                     new Cosmetics(),
 
+                    new VClip(), // Need Recode
+                    new FreeLook(), // Need Recode
+
                     // Combat
                     new KillAura(),
                     new Velocity(),
@@ -61,7 +64,6 @@ public class ModuleManager {
                     new LongJump(),
                     new Step(),
                     new Sprint(),
-                    new VClip(),
                     new Jesus(),
                     new NoWeb(),
 
@@ -79,7 +81,6 @@ public class ModuleManager {
                     new AntiVoid(),
                     new NoFall(),
                     new Blink(),
-                    new TestBlink(),
                     new FastEat(),
                     new FreeLook(),
                     new FreeCam(),
