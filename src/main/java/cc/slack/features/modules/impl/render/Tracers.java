@@ -35,7 +35,7 @@ public class Tracers extends Module {
         Color c = ColorUtil.getColor();
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
-        for(Entity entity : mc.getWorld().getLoadedEntityList()) {
+        for(Entity entity : mc.theWorld.getLoadedEntityList()) {
             if(entity instanceof EntityPlayer && entity != mc.thePlayer) {
                 RenderUtil.drawTracer(entity, redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue());
             }
