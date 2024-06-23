@@ -5,6 +5,7 @@ import cc.slack.utils.client.Login;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;
 import cc.slack.utils.other.TimeUtil;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -51,16 +52,18 @@ public class MainMenu extends GuiScreen {
                 Fonts.apple18.drawStringWithShadow(debugMessage, 5, 100, new Color(255, 50, 50).getRGB());
 
             super.drawScreen(mouseX, mouseY, partialTicks);
+            animTimer.reset();
             return;
         }
 
         if (!animTimer.hasReached(600)) {
-            animY = (int) ((1 - Math.pow(1 - (animTimer.elapsed() / 600), 4)) * this.height * 0.7);
+            animY = (int) ((1 - Math.pow(1 - (animTimer.elapsed() / 600.0), 4)) * this.height * 0.7);
         } else {
             animY = 0;
         }
 
-        Gui.drawRect(width/2 - 70, height / 2 - 80 + animY, width/2 + 70 , height / 2 + 120 + animY, new Color(0,0,0,110).getRGB());
+        RenderUtil.drawRoundedRect(width / 2 - 70, height / 2 - 80 + animY, width / 2 + 70, height / 2 + 120 + animY, 10, new Color(0, 0, 0, 110).getRGB());
+
         Fonts.apple20.drawString("Made by Slack Team", 10,  height - 20, -1);
 
 

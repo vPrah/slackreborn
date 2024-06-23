@@ -15,6 +15,7 @@ import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
+import cc.slack.utils.player.InventoryUtil;
 import cc.slack.utils.render.RenderUtil;
 import cc.slack.utils.rotations.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
@@ -51,7 +52,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock", "Test", "Legit"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock", "Double Sword", "Legit"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 7.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -92,6 +93,11 @@ public class KillAura extends Module {
     private boolean wasBlink;
     private boolean inInv = false;
 
+    private boolean hasDouble = false;
+    private int currentSlot = 0;
+    private int sword1 = 0;
+    private int sword2 = 0;
+
     public boolean renderBlock;
 
     public KillAura() {
@@ -115,6 +121,7 @@ public class KillAura extends Module {
         queuedAttacks = 0;
         timer.reset();
         rotationCenter.reset();
+        currentSlot = mc.thePlayer.inventory.currentItem;
         if (mc.currentScreen instanceof GuiInventory) inInv = true;
     }
 
@@ -124,6 +131,10 @@ public class KillAura extends Module {
         if(isBlocking) unblock();
         if(wasBlink) BlinkUtil.disable();
         if (inInv) PacketUtil.send(new C0DPacketCloseWindow());
+        if (!hasDouble && currentSlot != mc.thePlayer.inventory.currentItem && autoBlock.getValue().equalsIgnoreCase("double sword")) {
+            PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+            currentSlot = mc.thePlayer.inventory.currentItem;
+        }
     }
 
     @Listen
@@ -177,6 +188,23 @@ public class KillAura extends Module {
         RotationUtil.setClientRotation(rotations, 1);
         RotationUtil.setStrafeFix(moveFix.getValue(), false);
 
+        sword1 = -1;
+        sword2 = -1;
+        for (int i = 36; i < 45; i++) {
+            if (InventoryUtil.getSlot(i).getHasStack()) {
+                ItemStack itemStack = InventoryUtil.getSlot(i).getStack();
+                if (itemStack.item instanceof ItemSword) {
+                    if (sword1 == -1) {
+                        sword1 = i - 36;
+                    } else {
+                        sword2 = i - 36;
+                    }
+                }
+            }
+        }
+
+        hasDouble = sword2 != -1;
+
         if (preTickBlock()) return;
         
         if (queuedAttacks == 0) return;
@@ -220,6 +248,16 @@ public class KillAura extends Module {
 
     private boolean preTickBlock() {
         switch (autoBlock.getValue().toLowerCase()) {
+            case "double sword":
+                if (!hasDouble && currentSlot != mc.thePlayer.inventory.currentItem && !isBlocking && target == null) {
+                    PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                    currentSlot = mc.thePlayer.inventory.currentItem;
+                }
+                if (hasDouble && currentSlot != mc.thePlayer.inventory.currentItem) {
+                    PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                    currentSlot = mc.thePlayer.inventory.currentItem;
+                }
+                break;
             case "legit":
                 if (mc.thePlayer.hurtTime < 3) {
                     if (!isBlocking) {
@@ -294,6 +332,17 @@ public class KillAura extends Module {
 
     private boolean preAttack() {
         switch (autoBlock.getValue().toLowerCase()) {
+            case "double sword":
+                if (hasDouble) {
+                    if (currentSlot != sword1) {
+                        PacketUtil.send(new C09PacketHeldItemChange(sword1));
+                        currentSlot = sword1;
+                    } else {
+                        PacketUtil.send(new C09PacketHeldItemChange(sword2));
+                        currentSlot = sword2;
+                    }
+                }
+                break;
             case "blatant":
                 unblock();
                 isBlocking = false;
@@ -348,7 +397,7 @@ public class KillAura extends Module {
                 block();
                 BlinkUtil.enable(false, true);
                 mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
-
+            case "double sword":
             case "drop":
             case "switch":
             case "blatant":

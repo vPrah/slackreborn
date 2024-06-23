@@ -1267,6 +1267,11 @@ public abstract class Entity implements ICommandSender
         StrafeEvent event = new StrafeEvent(strafe, forward, friction, movingYaw);
         if(this == Minecraft.getMinecraft().thePlayer) event.call();
         if(event.isCanceled()) return;
+        if(MovementUtil.onStrafe) {
+            MovementUtil.onStrafe = false;
+            return;
+        }
+
 
         float f = event.getStrafe() * event.getStrafe() + event.getForward() * event.getForward();
 

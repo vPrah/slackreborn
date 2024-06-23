@@ -195,7 +195,7 @@ public class TargetHUD extends Module {
 				GlStateManager.color(1, 1, 1, 1);
 
 				Fonts.apple18.drawString(targetName, x + 40, y + 9, new Color(255, 255, 255, 255).getRGB());
-				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 135, y + 27, new Color(255, 255, 255, 255).getRGB());
+				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 137, y + 27, new Color(255, 255, 255, 255).getRGB());
 
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);

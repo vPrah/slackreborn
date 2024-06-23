@@ -555,6 +555,8 @@ public final class RenderUtil implements IMinecraft {
         GL11.glPopAttrib();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+
+        GlStateManager.color(1, 1, 1, 1);
     }
 
     public static void drawRoundedRectBorder(float paramXStart, float paramYStart, float paramXEnd, float paramYEnd, float radius, int color, float width) {
