@@ -117,7 +117,7 @@ public class ModuleManager {
                     new Cape(),
                     new ChinaHat(),
                     new Chams(),
-                    new ChestESP(),
+                    new ChestESP(), // Recoded
                     new Camera(),
                     new ItemPhysics(),
                     new Spider(),
