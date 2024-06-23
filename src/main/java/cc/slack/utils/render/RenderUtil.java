@@ -46,7 +46,7 @@ public final class RenderUtil implements IMinecraft {
 
     private static final Map<String, Map<Integer, Boolean>> glCapMap = new HashMap<>();
 
-    public static RenderItem renderItem = mc.getMinecraft().getRenderItem();
+    public static RenderItem renderItem = mc.getRenderItem();
     public static long tick;
     public static double rotation;
     public static Random random = new Random();
@@ -55,9 +55,6 @@ public final class RenderUtil implements IMinecraft {
     private static final FloatBuffer modelview = GLAllocation.createDirectFloatBuffer(16);
     private static final FloatBuffer projection = GLAllocation.createDirectFloatBuffer(16);
 
-    public static boolean mouseInArea(int mouseX, int mouseY, double x, double y, double width, double height) {
-        return (mouseX >= x && mouseX <= (x + width)) && (mouseY >= y && mouseY <= (y + height));
-    }
 
     public static void drawImage(ResourceLocation image, int x, int y, int width, int height) {
         OpenGlHelper.glBlendFunc(770, 771, 1, 0);
@@ -66,23 +63,6 @@ public final class RenderUtil implements IMinecraft {
         Gui.drawModalRectWithCustomSizedTexture(x, y, 0.0f, 0.0f, width, height, width, height);
     }
 
-
-
-    public static void drawAABB(AxisAlignedBB boundingBox) {
-        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-        enableGlCap(GL_BLEND);
-        disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
-        glDepthMask(false);
-        glLineWidth(1.5f);
-        enableGlCap(GL_LINE_SMOOTH);
-        final RenderManager renderManager = mc.getRenderManager();
-        boundingBox.offset(-renderManager.renderPosX, - renderManager.renderPosY, - renderManager.renderPosZ);
-        drawSelectionBoundingBox(boundingBox);
-        GlStateManager.resetColor();
-        glDepthMask(true);
-        resetCaps();
-    }
 
     public static Vector3d project(double x, double y, double z) {
         FloatBuffer vector = GLAllocation.createDirectFloatBuffer(4);
@@ -96,7 +76,7 @@ public final class RenderUtil implements IMinecraft {
     }
 
     public static boolean isInViewFrustrum(AxisAlignedBB bb) {
-        Entity current = mc.getMinecraft().getRenderViewEntity();
+        Entity current = mc.getRenderViewEntity();
         frustrum.setPosition(current.posX, current.posY, current.posZ);
         return frustrum.isBoundingBoxInFrustum(bb);
     }
@@ -253,7 +233,7 @@ public final class RenderUtil implements IMinecraft {
     }
 
     public static void drawBlock(final BlockPos pos, Color c, Float width) {
-        final Block block = mc.getWorld().getBlockState(pos).getBlock();
+        final Block block = mc.theWorld.getBlockState(pos).getBlock();
         final RenderManager renderManager = mc.getRenderManager();
         mc.getRenderManager();
         final double x = pos.getX() - renderManager.getRenderPosX();
@@ -283,15 +263,11 @@ public final class RenderUtil implements IMinecraft {
         GL11.glPopMatrix();
     }
 
-    public static void drawBlock(final BlockPos pos, Color c) {
-        drawBlock(pos, c, 0.5f);
-    }
-
     public static void drawRenderItemPhysics(Entity par1Entity, double x, double y, double z, float par8, float par9) {
         EntityItem item;
         ItemStack itemstack;
         rotation = (double) (System.nanoTime() - tick) / 3000000.0;
-        if (!mc.getMinecraft().inGameHasFocus) {
+        if (!mc.inGameHasFocus) {
             rotation = 0.0;
         }
         if ((itemstack = (item = (EntityItem)par1Entity).getEntityItem()).getItem() != null) {
@@ -373,8 +349,8 @@ public final class RenderUtil implements IMinecraft {
                     }
                 }
             }
-            GL11.glRotatef((float)item.rotationYaw, (float)0.0f, (float)1.0f, (float)0.0f);
-            GL11.glRotatef((float)(item.rotationPitch + 90.0f), (float)1.0f, (float)0.0f, (float)0.0f);
+            GL11.glRotatef(item.rotationYaw, 0.0f, 1.0f, 0.0f);
+            GL11.glRotatef((item.rotationPitch + 90.0f), 1.0f, 0.0f, 0.0f);
             int j = 0;
             while (j < i) {
                 if (ibakedmodel.isAmbientOcclusion()) {
@@ -421,7 +397,7 @@ public final class RenderUtil implements IMinecraft {
         float f2 = 0.0f;
         GlStateManager.translate((float)x, (float)y + f2 + 0.25f, (float)z);
         float f3 = 0.0f;
-        if (flag || mc.getRenderManager().renderEngine != null && mc.getGameSettings().fancyGraphics) {
+        if (flag || mc.getRenderManager().renderEngine != null && mc.gameSettings.fancyGraphics) {
             GlStateManager.rotate(f3, 0.0f, 1.0f, 0.0f);
         }
         if (!flag) {
@@ -454,12 +430,6 @@ public final class RenderUtil implements IMinecraft {
         final float green = (hex >> 8 & 0xFF) / 255.0f;
         final float blue = (hex & 0xFF) / 255.0f;
         GL11.glColor4f(red, green, blue, alpha);
-    }
-
-    public static void polygonCircle(float x, float y, float xRadius, float yRadius, int start, int end) {
-        for(int i = end; i >= start; i -= 4) {
-            glVertex2d(x + Math.sin(i * Math.PI / 180.0D) * xRadius, y + Math.cos(i * Math.PI / 180.0D) * yRadius);
-        }
     }
 
     public static double formPositiv(float rotationPitch) {
@@ -632,8 +602,8 @@ public final class RenderUtil implements IMinecraft {
             for (ItemStack stack : items) {
                 GlStateManager.pushMatrix();
                 GlStateManager.enableLighting();
-                mc.getMinecraft().getRenderItem().renderItemAndEffectIntoGUI(stack, armorX, y);
-                mc.getMinecraft().getRenderItem().renderItemOverlays(mc.getFontRenderer(), stack, armorX, y);
+                mc.getRenderItem().renderItemAndEffectIntoGUI(stack, armorX, y);
+                mc.getRenderItem().renderItemOverlays(mc.getFontRenderer(), stack, armorX, y);
                 GlStateManager.disableLighting();
                 GlStateManager.popMatrix();
                 GlStateManager.disableDepth();
@@ -762,7 +732,7 @@ public final class RenderUtil implements IMinecraft {
         GL11.glDisable(3553);
         GL11.glDisable(2929);
         GL11.glDepthMask(false);
-        GL11.glColor4d((double)ct.getRed(), (double)ct.getGreen(), (double)ct.getBlue(), (double)ct.getAlpha());
+        GL11.glColor4d(ct.getRed(), ct.getGreen(), ct.getBlue(), ct.getAlpha());
 
         AxisAlignedBB axisAlignedBB;
         if (array[0].getX() != array[1].getX()) {
@@ -931,7 +901,6 @@ public final class RenderUtil implements IMinecraft {
                     }
                 }
                 if (hitEntity) {
-                    // Util3D.color(new Color(color).darker().getRGB());
                     glColor(0xFFFF0000);
                 }
             }
@@ -973,7 +942,7 @@ public final class RenderUtil implements IMinecraft {
     }
 
     public static void RenderPointerESP() {
-        int c = 0;
+        int c;
         Color ct = ColorUtil.getColor();
         ScaledResolution scaledResolution = new ScaledResolution(mc);
         int size = 100;
