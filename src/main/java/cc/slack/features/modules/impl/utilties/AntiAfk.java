@@ -18,14 +18,14 @@ public class AntiAfk extends Module {
     public void onUpdate (UpdateEvent event) {
         switch (mc.thePlayer.ticksExisted % 60) {
             case 0:
-                mc.getGameSettings().keyBindForward.pressed = true;
+                mc.gameSettings.keyBindForward.pressed = true;
                 break;
             case 1:
-                mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
-                mc.getGameSettings().keyBindBack.pressed = true;
+                mc.gameSettings.keyBindForward.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindForward);
+                mc.gameSettings.keyBindBack.pressed = true;
                 break;
             case 2:
-                mc.getGameSettings().keyBindBack.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindBack);
+                mc.gameSettings.keyBindBack.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindBack);
                 break;
         }
     }

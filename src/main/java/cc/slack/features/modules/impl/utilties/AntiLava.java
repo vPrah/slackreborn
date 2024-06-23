@@ -17,17 +17,17 @@ import net.minecraft.util.BlockPos;
 )
 public class AntiLava extends Module {
 
-    boolean cancelNext = false;
+    boolean func_102910_kill = false;
 
     @Override
     public void onEnable() {
-        cancelNext = false;
+        func_102910_kill = false;
     }
 
     @Listen
     public void onMotion (MotionEvent event) {
         if (event.getState() != State.POST) {
-            Block block = mc.getWorld().getBlockState(new BlockPos(mc.thePlayer.posX + mc.thePlayer.motionX, mc.thePlayer.posY + (mc.thePlayer.onGround ? Math.max(0.0, mc.thePlayer.motionY) : mc.thePlayer.motionY), mc.thePlayer.posZ + mc.thePlayer.motionZ)).getBlock();
+            Block block = mc.theWorld.getBlockState(new BlockPos(mc.thePlayer.posX + mc.thePlayer.motionX, mc.thePlayer.posY + (mc.thePlayer.onGround ? Math.max(0.0, mc.thePlayer.motionY) : mc.thePlayer.motionY), mc.thePlayer.posZ + mc.thePlayer.motionZ)).getBlock();
             if (block == Blocks.lava || block == Blocks.flowing_lava) {
                 event.setY(event.getY() + MathUtil.randomDouble(0.5, 0.85));
             }

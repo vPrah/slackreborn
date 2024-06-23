@@ -34,10 +34,6 @@ public class ModuleManager {
                     new Radar(),
                     new AutoRod(),
                     new AimAssist(),
-                    new AntiLava(),
-                    new AntiCactus(),
-                    new AntiHunger(),
-                    new AntiAfk(),
                     new TNTHelper(),
                     new CustomESP(),
                     new Cosmetics(),
@@ -152,6 +148,10 @@ public class ModuleManager {
                     new AutoPot(),
                     new AutoSword(),
                     new AntiStaff(),
+                    new AntiLava(), // Recoded
+                    new AntiCactus(), // Recoded
+                    new AntiHunger(), // Recoded
+                    new AntiAfk(), // Recoded
                     new FakePlayer(), // Recoded
                     new NameProtect(), // Recoded
                     new HealthWarn(),
