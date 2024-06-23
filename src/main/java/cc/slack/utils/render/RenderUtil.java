@@ -1,6 +1,7 @@
 package cc.slack.utils.render;
 
 import cc.slack.Slack;
+import cc.slack.features.modules.impl.render.PointerESP;
 import cc.slack.features.modules.impl.render.Tracers;
 import cc.slack.utils.client.IMinecraft;
 import net.minecraft.block.Block;
@@ -25,10 +26,7 @@ import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.Vector3d;
+import net.minecraft.util.*;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
@@ -698,6 +696,94 @@ public final class RenderUtil implements IMinecraft {
             }
         }
         return position;
+    }
+
+    public static void drawTriAngle(float cx, float cy, float r, float n, final int color){
+        GL11.glPushMatrix();
+        cx *= 2.0;
+        cy *= 2.0;
+        double b = 6.2831852 / n;
+        double p = Math.cos(b);
+        double s = Math.sin(b);
+        r *= 2.0;
+        double x = r;
+        double y = 0.0;
+        GL11.glDisable(2929);
+        GL11.glEnable(3042);
+        GL11.glDisable(3553);
+        GL11.glBlendFunc(770, 771);
+        GL11.glDepthMask(true);
+        GL11.glEnable(2848);
+        GL11.glHint(3154, 4354);
+        GL11.glHint(3155, 4354);
+        GL11.glScalef(0.5f, 0.5f, 0.5f);
+        GlStateManager.color(0,0,0);
+        GlStateManager.resetColor();
+        GL11.glColor4f(new Color(color).getRed() / 255.0f, new Color(color).getGreen() / 255.0f, new Color(color).getBlue() / 255.0f, 100f);
+        GL11.glBegin(2);
+        int ii = 0;
+        while (ii < n) {
+            GL11.glVertex2d(x + cx, y + cy);
+            double t = x;
+            x = p * x - s * y;
+            y = s * t + p * y;
+            ii++;
+        }
+        GL11.glEnd();
+        GL11.glScalef(2f, 2f, 2f);
+        GL11.glEnable(3553);
+        GL11.glDisable(3042);
+        GL11.glEnable(2929);
+        GL11.glDisable(2848);
+        GL11.glHint(3154, 4352);
+        GL11.glHint(3155, 4352);
+        GlStateManager.color(1, 1, 1, 1);
+        GL11.glPopMatrix();
+    }
+
+    public static void RenderPointerESP() {
+        int c = 0;
+        Color ct = ColorUtil.getColor();
+        ScaledResolution scaledResolution = new ScaledResolution(mc);
+        int size = 100;
+        double xOffset = scaledResolution.getScaledWidth() / 2F - 50.2;
+        double yOffset = scaledResolution.getScaledHeight() / 2F - 49.5;
+        double playerOffsetX = mc.thePlayer.posX;
+        double playerOffSetZ = mc.thePlayer.posZ;
+
+
+        for (Entity entity : mc.theWorld.loadedEntityList) {
+            if(entity instanceof EntityPlayer && entity != mc.thePlayer) {
+                double pos1 = (((entity.posX + (entity.posX - entity.lastTickPosX) * mc.timer.renderPartialTicks) - playerOffsetX) * 0.2);
+                double pos2 = (((entity.posZ + (entity.posZ - entity.lastTickPosZ) * mc.timer.renderPartialTicks) - playerOffSetZ) * 0.2);
+                double cos = Math.cos(mc.thePlayer.rotationYaw * (Math.PI * 2 / 360));
+                double sin = Math.sin(mc.thePlayer.rotationYaw * (Math.PI * 2 / 360));
+                double rotY = -(pos2 * cos - pos1 * sin);
+                double rotX = -(pos1 * cos + pos2 * sin);
+                double var7 = -rotX;
+                double var9 = -rotY;
+                if(MathHelper.sqrt_double(var7 * var7 + var9 * var9) < size / 2F - 4) {
+                    double angle = (Math.atan2(rotY, rotX) * 180 / Math.PI);
+                    double x = ((size / 2F) * Math.cos(Math.toRadians(angle))) + xOffset + size / 2F;
+                    double y = ((size / 2F) * Math.sin(Math.toRadians(angle))) + yOffset + size / 2F;
+                    GL11.glPushMatrix();
+                    GL11.glTranslated(x,y,0);
+                    GL11.glRotatef((float) angle, 0, 0, 1);
+                    GL11.glScaled(1.5, 1, 1);
+                    if (Slack.getInstance().getModuleManager().getInstance(PointerESP.class).colormodes.getValue().equals("Client Theme")) {
+                        c = ct.getRGB();
+                    } else {
+                        c = (!(Slack.getInstance().getModuleManager().getInstance(PointerESP.class).colormodes.getValue().equals("Rainbow")) ? new Color(Slack.getInstance().getModuleManager().getInstance(PointerESP.class).redValue.getValue(), Slack.getInstance().getModuleManager().getInstance(PointerESP.class).greenValue.getValue(), Slack.getInstance().getModuleManager().getInstance(PointerESP.class).blueValue.getValue(), Slack.getInstance().getModuleManager().getInstance(PointerESP.class).alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
+                    }
+                    RenderUtil.drawTriAngle(0F, 0F, 2.2F, 3F, c);
+                    RenderUtil.drawTriAngle(0F, 0F, 1.5F, 3F, c);
+                    RenderUtil.drawTriAngle(0F, 0F, 1.0F, 3F, c);
+                    RenderUtil.drawTriAngle(0F, 0F, 0.5F, 3F, c);
+                    RenderUtil.drawTriAngle(0F, 0F, 2.2F, 3F, c);
+                    GL11.glPopMatrix();
+                }
+            }
+        }
     }
 
     public static void renderOne(float lineWidth) {
