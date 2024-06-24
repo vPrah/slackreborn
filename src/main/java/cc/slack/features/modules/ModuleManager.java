@@ -33,7 +33,6 @@ public class ModuleManager {
                     new ClientSpoofer(), // Dont remove
                     new AutoRod(),
                     new AimAssist(),
-                    new TNTHelper(),
                     new CustomESP(),
                     new Cosmetics(),
 
@@ -91,9 +90,9 @@ public class ModuleManager {
                     new Disabler(),
                     new Regen(),
                     new FastBow(),
-                    new Phase(),
+                    new Phase(), // Recoded
                     new ChatBypass(),
-                    new Kick(),
+                    new RageQuit(),
                     new MultiAction(),
 
                     // Render
@@ -154,6 +153,7 @@ public class ModuleManager {
                     new AntiAfk(), // Recoded
                     new FakePlayer(), // Recoded
                     new NameProtect(), // Recoded
+                    new TNTHelper(), // Recoded
                     new HealthWarn(),
                     new LegitMode(),
                     new LagbackChecker()
