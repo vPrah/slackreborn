@@ -38,7 +38,7 @@ public class ModuleManager {
                     new FreeLook(), // Need Recode
 
                     // Combat
-                    new Criticals(),
+                    new Criticals(), // Criticals
                     new KillAura(),
                     new Velocity(),
                     new Hitbox(),
@@ -121,7 +121,7 @@ public class ModuleManager {
                     new PointerESP(), // Recoded
                     new ScoreboardModule(),
                     new SessionInfo(), // Recoded
-                    new Zoom(),
+                    new Zoom(), // Recoded
                     new XRay(),
 
                     // Ghost
