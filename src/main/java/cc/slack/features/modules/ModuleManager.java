@@ -70,7 +70,7 @@ public class ModuleManager {
                     new Tweaks(),
 
                     // Player
-                    new AntiVoid(),
+                    new AntiVoid(), // Recoded
                     new NoFall(),
                     new Blink(),
                     new FastEat(),
