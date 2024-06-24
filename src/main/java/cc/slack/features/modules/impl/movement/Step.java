@@ -2,14 +2,21 @@
 
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.features.modules.impl.movement.steps.IStep;
+import cc.slack.features.modules.impl.movement.steps.impl.NCPStep;
+import cc.slack.features.modules.impl.movement.steps.impl.VanillaStep;
+import cc.slack.features.modules.impl.movement.steps.impl.VerusStep;
+import cc.slack.features.modules.impl.movement.steps.impl.VulcanStep;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
         name = "Step",
@@ -17,43 +24,53 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 )
 public class Step extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "NCP", "Verus", "Vulcan"});
+    private final ModeValue<IStep> mode = new ModeValue<>(new IStep[]{new VanillaStep(), new NCPStep(), new VerusStep(), new VulcanStep()});
     private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0f, 2f, 0.05f);
 
 
     public Step() {
+        super();
         addSettings(mode, timerSpeed);
+    }
+
+
+    @Override
+    public void onEnable() {
+        mode.getValue().onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        mc.timer.timerSpeed = 1F;
+        mode.getValue().onDisable();
+    }
+
+    @Listen
+    public void onPacket(PacketEvent event) {
+        mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onMotion(MotionEvent event) {
+        mode.getValue().onMotion(event);
+    }
+
+    @Listen
+    public void onMove(MoveEvent event) {
+        mode.getValue().onMove(event);
     }
 
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.isCollidedHorizontally && mc.thePlayer.onGround) {
             mc.timer.timerSpeed = timerSpeed.getValue();
-            switch (mode.getValue().toLowerCase()) {
-                case "vanilla":
-                    mc.thePlayer.stepHeight = 1f;
-                    break;
-                case "verus":
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42f, mc.thePlayer.posZ, mc.thePlayer.onGround));
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.85f, mc.thePlayer.posZ, mc.thePlayer.onGround));
-                    mc.thePlayer.stepHeight = 1f;
-                    mc.timer.timerSpeed = 0.91f;
-                    break;
-                case "ncp":
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.42f, mc.thePlayer.posZ, mc.thePlayer.onGround));
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.7532f, mc.thePlayer.posZ, mc.thePlayer.onGround));
-                    mc.thePlayer.stepHeight = 1f;
-                    break;
-                case "vulcan":
-                    mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + 0.5f, mc.thePlayer.posZ, mc.thePlayer.onGround));
-                    mc.thePlayer.stepHeight = 1f;
-                    break;
-
-            }
+            mode.getValue().onUpdate(event);
         } else {
             mc.thePlayer.stepHeight = 0.5f;
             mc.timer.timerSpeed = 1f;
         }
     }
-    
+
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
 }
