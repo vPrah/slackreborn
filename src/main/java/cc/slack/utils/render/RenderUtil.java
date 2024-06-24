@@ -23,6 +23,7 @@ import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
+import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.*;
@@ -34,6 +35,7 @@ import org.lwjgl.opengl.EXTPackedDepthStencil;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.glu.Cylinder;
 import org.lwjgl.util.glu.GLU;
+import org.lwjgl.util.glu.Sphere;
 
 import javax.vecmath.Vector4d;
 import java.awt.*;
@@ -213,6 +215,54 @@ public final class RenderUtil implements IMinecraft {
 
         Gui.drawRect((double)centerX - 0.5, (centerY - 3.0F), (double)centerX + 0.5, (centerY + 3.0F), (new Color(1644167167, true)).getRGB());
         Gui.drawRect((centerX - 3.0F), (double)centerY - 0.5, (centerX + 3.0F), (double)centerY + 0.5, (new Color(1644167167, true)).getRGB());
+    }
+
+    public static void drawTNTExplosionRange (double damage) {
+        for (Entity entity : mc.theWorld.loadedEntityList) {
+            if (entity instanceof EntityTNTPrimed) {
+                EntityTNTPrimed tnt = (EntityTNTPrimed) entity;
+                final double posX = tnt.posX - mc.getRenderManager().renderPosX;
+                final double posY = tnt.posY - mc.getRenderManager().renderPosY;
+                final double posZ = tnt.posZ - mc.getRenderManager().renderPosZ;
+
+                GL11.glPushMatrix();
+                GL11.glTranslated(posX, posY, posZ);
+                GL11.glEnable(GL11.GL_ALPHA_TEST);
+                GL11.glDisable(GL11.GL_TEXTURE_2D);
+                GL11.glEnable(GL11.GL_BLEND);
+                GL11.glColor4d(1, 0, 0, 0.2);
+
+                Sphere sphere = new Sphere();
+                sphere.setDrawStyle(GLU.GLU_FILL);
+                sphere.draw(4 * 2, 15, 15);
+                float f3 = 4 * 2.0F;
+                Vec3 vec3 = new Vec3(tnt.posX, tnt.posY, tnt.posZ);
+                if (!mc.thePlayer.isImmuneToExplosions()) {
+                    double d12 = mc.thePlayer.getDistance(tnt.posX, tnt.posY, tnt.posZ) / (double) f3;
+                    if (d12 <= 1.0D) {
+                        double d5 = mc.thePlayer.posX - tnt.posX;
+                        double d7 = mc.thePlayer.posY + (double) mc.thePlayer.getEyeHeight() - tnt.posY;
+                        double d9 = mc.thePlayer.posZ - tnt.posY;
+                        double d13 = MathHelper.sqrt_double(d5 * d5 + d7 * d7 + d9 * d9);
+                        if (d13 != 0) {
+                            double d14 = mc.getWorld().getBlockDensity(vec3, mc.thePlayer.getEntityBoundingBox());
+                            double d10 = (1.0D - d12) * d14;
+                            damage += (float) ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * (double) f3 + 1.0D));
+                        }
+                    }
+                }
+
+                GL11.glColor4d(1, 0, 0, 1);
+
+                Sphere lines = new Sphere();
+                lines.setDrawStyle(GLU.GLU_LINE);
+                lines.draw(4 * 2 + 0.1F, 15, 15);
+
+                GL11.glEnable(GL11.GL_TEXTURE_2D);
+                GL11.glDisable(GL11.GL_BLEND);
+                GL11.glPopMatrix();
+            }
+        }
     }
 
     public static void drawTracer(Entity entity, int red, int green, int blue, int alpha) {
