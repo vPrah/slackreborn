@@ -8,10 +8,10 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.AttackUtil;
+import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import org.lwjgl.opengl.GL11;
 
@@ -35,7 +35,7 @@ public class NameTags extends Module {
     @Listen
     public void onRender (RenderEvent e) {
         if (e.getState() == RenderEvent.State.RENDER_2D) {
-            mc.getWorld().loadedEntityList.forEach(entity -> {
+            mc.theWorld.loadedEntityList.forEach(entity -> {
                 if (entity instanceof EntityPlayer) {
                     EntityPlayer ent = (EntityPlayer) entity;
                     if (AttackUtil.isTarget(entity) && RenderUtil.isInViewFrustrum(ent.getEntityBoundingBox())) {
@@ -52,7 +52,7 @@ public class NameTags extends Module {
                             final String nametext = entity.getDisplayName().getFormattedText() + (drawHealth.getValue() ? " §7(§f" + MathUtil.roundToPlace(((EntityPlayer) entity).getHealth(), 1) + " §c❤§7)" : "");
                             RenderUtil.drawRoundedRect((x + (x2 - x) / 2) - (mc.getFontRenderer().getStringWidth(nametext) >> 1) - 2, y - mc.getFontRenderer().FONT_HEIGHT - 4, (x + (x2 - x) / 2) + (mc.getFontRenderer().getStringWidth(nametext) >> 1) + 2, y + 2, 3F, new Color(0, 0, 0, 120).getRGB());
 
-                            mc.getFontRenderer().drawStringWithShadow(nametext, (x + ((x2 - x) / 2)) - (mc.getFontRenderer().getStringWidth(nametext) / 2F), y - mc.getFontRenderer().FONT_HEIGHT - 2, getNameColor(ent));
+                            mc.getFontRenderer().drawStringWithShadow(nametext, (x + ((x2 - x) / 2)) - (mc.getFontRenderer().getStringWidth(nametext) / 2F), y - mc.getFontRenderer().FONT_HEIGHT - 2, PlayerUtil.getNameColor(ent));
                             GL11.glPopMatrix();
                         }
                     }
@@ -69,10 +69,5 @@ public class NameTags extends Module {
         }
     }
 
-
-    private int getNameColor(EntityLivingBase ent) {
-        if (ent.getDisplayName().equals(mc.thePlayer.getDisplayName())) return new Color(0xFF99ff99).getRGB();
-        return new Color(-1).getRGB();
-    }
 
 }

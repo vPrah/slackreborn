@@ -13,6 +13,7 @@ import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EnumCreatureAttribute;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
@@ -28,6 +29,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 
+import java.awt.*;
 import java.util.Iterator;
 import java.util.Map;
 
@@ -313,6 +315,11 @@ public class PlayerUtil implements IMinecraft {
             }
         }
 
+    }
+
+    public static int getNameColor(EntityLivingBase ent) {
+        if (ent.getDisplayName().equals(mc.thePlayer.getDisplayName())) return new Color(0xFF99ff99).getRGB();
+        return new Color(-1).getRGB();
     }
 
     public static void switchBack() {
