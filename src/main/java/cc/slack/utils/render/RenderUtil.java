@@ -4,6 +4,7 @@ import cc.slack.Slack;
 import cc.slack.features.modules.impl.render.PointerESP;
 import cc.slack.features.modules.impl.render.Tracers;
 import cc.slack.utils.client.IMinecraft;
+import cc.slack.utils.other.MathUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockStairs;
 import net.minecraft.block.material.Material;
@@ -20,6 +21,7 @@ import net.minecraft.client.resources.model.IBakedModel;
 import net.minecraft.client.shader.Framebuffer;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -168,6 +170,49 @@ public final class RenderUtil implements IMinecraft {
         worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.maxY, axisAlignedBB.maxZ).endVertex();
         worldRenderer.pos(axisAlignedBB.maxX, axisAlignedBB.minY, axisAlignedBB.maxZ).endVertex();
         tessellator.draw();
+    }
+
+    public static void drawRadar (float x, float y, float scale, boolean rounded) {
+        Color ct = ColorUtil.getColor();
+        float width = scale * 10;
+        float height = scale * 10;
+        if (!rounded) {
+            Gui.drawRect(x, y, (x + width), (y + height), (new Color(-1121968096, true)).getRGB());
+            Gui.drawRect((x + 1.0F), (double)(y + height) - 1.5, (x + width - 1.0F), (y + height - 1.0F), (ct).getRGB());
+        } else {
+            RenderUtil.drawRoundedRect(x, y, (x + width), (y + height), 8F, (new Color(-1121968096, true)).getRGB());
+            Gui.drawRect((x + 5.0F), (double)(y + height) - 1.5, (x + width - 5.0F), (y + height - 1.0F), (ct).getRGB());
+        }
+        float centerX = x + width / 2.0F;
+        float centerY = y + height / 2.0F;
+        Iterator var8 = mc.getWorld().getLoadedEntityList().iterator();
+
+        while(var8.hasNext()) {
+            Entity entity = (Entity)var8.next();
+            if (entity != mc.thePlayer && entity instanceof EntityPlayer) {
+                float entYaw = MathUtil.getRotations(entity.posX, entity.posY, entity.posZ)[0];
+                float angleDiff = Math.abs(entYaw - (mc.thePlayer.rotationYaw - 36000.0F)) - 180.0F;
+                double diffRadians = Math.toRadians(angleDiff);
+                double dx = mc.thePlayer.posX - entity.posX;
+                double dy = mc.thePlayer.posZ - entity.posZ;
+                double dist = Math.hypot(dx, dy);
+                double entx = MathHelper.clamp_double((double)centerX - Math.sin(diffRadians) * dist, (x + 2.0F), (x + width - 3.0F));
+                double enty = MathHelper.clamp_double((double)centerY + Math.cos(diffRadians) * dist, (y + 2.0F), (y + height - 3.0F));
+                Gui.drawRect(entx, enty, entx + 1.0, enty + 1.0, -1);
+                if (Slack.getInstance().getFriendManager().isTarget((EntityLivingBase)entity)) {
+                    Gui.drawRect(entx + 0.5 - 0.5, enty + 0.5 - 2.0, entx + 0.5 + 0.5, enty + 0.5 + 2.0, (new Color(-4768965, true)).getRGB());
+                    Gui.drawRect(entx + 0.5 - 2.0, enty + 0.5 - 0.5, entx + 0.5 + 2.0, enty + 0.5 + 0.5, (new Color(-4768965, true)).getRGB());
+                }
+
+                if (Slack.getInstance().getFriendManager().isFriend(entity)) {
+                    Gui.drawRect(entx + 0.5 - 0.5, enty + 0.5 - 2.0, entx + 0.5 + 0.5, enty + 0.5 + 2.0, (new Color(-7798888, true)).getRGB());
+                    Gui.drawRect(entx + 0.5 - 2.0, enty + 0.5 - 0.5, entx + 0.5 + 2.0, enty + 0.5 + 0.5, (new Color(-7798888, true)).getRGB());
+                }
+            }
+        }
+
+        Gui.drawRect((double)centerX - 0.5, (centerY - 3.0F), (double)centerX + 0.5, (centerY + 3.0F), (new Color(1644167167, true)).getRGB());
+        Gui.drawRect((centerX - 3.0F), (double)centerY - 0.5, (centerX + 3.0F), (double)centerY + 0.5, (new Color(1644167167, true)).getRGB());
     }
 
     public static void drawTracer(Entity entity, int red, int green, int blue, int alpha) {

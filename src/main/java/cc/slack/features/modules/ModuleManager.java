@@ -31,7 +31,6 @@ public class ModuleManager {
                     new TargetStrafe(),
                     new MCF(),
                     new ClientSpoofer(), // Dont remove
-                    new Radar(),
                     new AutoRod(),
                     new AimAssist(),
                     new TNTHelper(),
@@ -107,6 +106,7 @@ public class ModuleManager {
                     new Animations(),
                     new TargetHUD(),
                     new KeyStrokes(),
+                    new Radar(), // Recoded
                     new Ambience(),
                     new BlockOverlay(),
                     new Cape(),
