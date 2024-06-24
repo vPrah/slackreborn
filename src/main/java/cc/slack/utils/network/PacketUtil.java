@@ -2,6 +2,7 @@ package cc.slack.utils.network;
 
 import cc.slack.utils.client.IMinecraft;
 import net.minecraft.network.Packet;
+import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.util.BlockPos;
@@ -32,6 +33,10 @@ public final class PacketUtil implements IMinecraft {
         } else {
             PacketUtil.sendNoEvent(packet);
         }
+    }
+
+    public static void sendCriticalPacket(double yOffset, boolean ground) {
+        PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + yOffset, mc.thePlayer.posZ, ground));
     }
 
     public static void releaseUseItem(boolean callEvent) {

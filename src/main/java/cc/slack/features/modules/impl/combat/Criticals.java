@@ -2,17 +2,16 @@
 
 package cc.slack.features.modules.impl.combat;
 
-import cc.slack.events.impl.player.AttackEvent;
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.*;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.network.PacketUtil;
-import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
+import cc.slack.features.modules.impl.combat.criticals.ICriticals;
+import cc.slack.features.modules.impl.combat.criticals.impl.*;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.network.play.client.C03PacketPlayer;
 
 @ModuleInfo(
         name = "Criticals",
@@ -20,43 +19,63 @@ import net.minecraft.network.play.client.C03PacketPlayer;
 )
 public class Criticals extends Module {
 
-    public final ModeValue<String> criticalMode = new ModeValue<>(new String[] {"Edit", "Vulcan", "Packet", "Mini", "Jump"});
+    public final ModeValue<ICriticals> mode = new ModeValue<>(new ICriticals[] {new EditCriticals(), new VulcanCriticals(), new JumpCriticals(), new PacketCriticals(), new MiniCriticals()});
     public final BooleanValue onlyGround = new BooleanValue("Only Ground", true);
     
     public Criticals() {
         super();
-        addSettings(criticalMode, onlyGround);
-    }
-
-
-    @Listen
-    public void onAttack(AttackEvent event) {
-        switch (criticalMode.getValue().toLowerCase()) {
-            case "edit":
-                MovementUtil.spoofNextC03(false);
-                break;
-            case "vulcan":
-                sendPacket(0.16477328182606651, false);
-                sendPacket(0.08307781780646721, false);
-                sendPacket(0.0030162615090425808, false);
-                break;
-            case "packet":
-                sendPacket(PlayerUtil.HEAD_HITTER_MOTIONY, false);
-                break;
-            case "mini":
-                sendPacket(0.0001, true);
-                sendPacket(0.0, false);
-                break;
-            case "jump":
-                if (mc.thePlayer.onGround) mc.thePlayer.jump();
-        }   
-    }
-
-    private void sendPacket(double yOffset, boolean ground) {
-        PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX, mc.thePlayer.posY + yOffset, mc.thePlayer.posZ, ground));
+        addSettings(mode, onlyGround);
     }
 
     @Override
-    public String getMode() { return criticalMode.getValue(); }
+    public void onEnable() {
+        mode.getValue().onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        mc.timer.timerSpeed = 1F;
+        mode.getValue().onDisable();
+    }
+
+    @Listen
+    public void onMove(MoveEvent event) {
+        if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+        mode.getValue().onMove(event);
+    }
+
+    @Listen
+    public void onUpdate(UpdateEvent event) {
+        if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+        mode.getValue().onUpdate(event);
+    }
+
+    @Listen
+    public void onPacket(PacketEvent event) {
+        if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+        mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onCollide(CollideEvent event) {
+        if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+        mode.getValue().onCollide(event);
+    }
+
+    @Listen
+    public void onMotion(MotionEvent event) {
+        if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+        mode.getValue().onMotion(event);
+    }
+
+    @Listen
+    public void onAttack(AttackEvent event) {
+        if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+        mode.getValue().onAttack(event);
+    }
+
+
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
 
 }
