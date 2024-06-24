@@ -31,18 +31,19 @@ public class ModuleManager {
                     new TargetStrafe(),
                     new MCF(),
                     new ClientSpoofer(), // Dont remove
-                    new AutoRod(), // Need Recode
+                    new AutoRod(), // Recoded
                     new AimAssist(), // Need Recode
                     new CustomESP(), // Need Recode
 
                     new FreeLook(), // Need Recode
+
 
                     // Combat
                     new Criticals(), // Recoded
                     new KillAura(),
                     new Velocity(), // Recoded
                     new Hitbox(),
-                    new AntiFireball(),
+                    new AntiFireball(), // Made by dg636
                     new TickBase(),
 
                     // Movement
@@ -54,7 +55,7 @@ public class ModuleManager {
                     new LongJump(), // Recoded
                     new Step(),
                     new Sprint(),
-                    new Jesus(),
+                    new Jesus(), // Recoded
                     new NoWeb(), // Recoded
                     new VClip(), // Recoded
 

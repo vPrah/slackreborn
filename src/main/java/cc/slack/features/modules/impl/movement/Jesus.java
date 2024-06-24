@@ -2,14 +2,18 @@
 
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.player.MovementUtil;
+import cc.slack.features.modules.impl.movement.jesus.IJesus;
+import cc.slack.features.modules.impl.movement.jesus.impl.VanillaJesus;
+import cc.slack.features.modules.impl.movement.jesus.impl.VerusJesus;
 import io.github.nevalackin.radbus.Listen;
-import org.lwjgl.input.Keyboard;
 
 
 @ModuleInfo(
@@ -19,27 +23,47 @@ import org.lwjgl.input.Keyboard;
 
 public class Jesus extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Verus"});
+    private final ModeValue<IJesus> mode = new ModeValue<>(new IJesus[]{new VanillaJesus(), new VerusJesus()});
 
     public Jesus() {
         super();
         addSettings(mode);
     }
 
+    @Override
+    public void onEnable() {
+        mode.getValue().onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        mc.timer.timerSpeed = 1F;
+        mode.getValue().onDisable();
+    }
+
+    @Listen
+    public void onUpdate(UpdateEvent event) {
+        mode.getValue().onUpdate(event);
+    }
+
+    @Listen
+    public void onPacket(PacketEvent event) {
+        mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onMotion(MotionEvent event) {
+        mode.getValue().onMotion(event);
+    }
+
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
+
     @Listen
     public void onMove(MoveEvent event) {
         if (!mc.thePlayer.isInWater()) return;
 
-        switch (mode.getValue().toLowerCase()) {
-            case "vanilla":
-                    MovementUtil.setSpeed(event, 0.4f);
-                    event.setY(0.01);
-                break;
-            case "verus":
-                    MovementUtil.setSpeed(event, 0.40f);
-                    event.setY(0.405f);
-                break;
-        }
+        mode.getValue().onMove(event);
     }
 
 }
