@@ -92,8 +92,6 @@ public class ESP extends Module {
                 skeleton, width,
                 shadow, colormodes, redValue, greenValue, blueValue, alphaValue
         );
-        
-        // :XD:
         collectedEntities = new ArrayList<>();
         viewport = GLAllocation.createDirectIntBuffer(16);
         modelview = GLAllocation.createDirectFloatBuffer(16);
@@ -244,7 +242,7 @@ public class ESP extends Module {
 
     private void collectEntities() {
         collectedEntities.clear();
-        List<Entity> playerEntities = mc.getWorld().loadedEntityList;
+        List<Entity> playerEntities = mc.theWorld.loadedEntityList;
         int i = 0;
 
         for (Entity entity : playerEntities) {
@@ -266,7 +264,7 @@ public class ESP extends Module {
     }
 
     private boolean isValid(Entity entity) {
-        if (entity != mc.thePlayer || you.getValue() && mc.getGameSettings().thirdPersonView != 0) {
+        if (entity != mc.thePlayer || you.getValue() && mc.gameSettings.thirdPersonView != 0) {
             if (entity.isDead) {
                 return false;
             } else if (!invisibles.getValue() && entity.isInvisible()) {
@@ -291,7 +289,7 @@ public class ESP extends Module {
                 startEnd(true);
                 GL11.glEnable(GL11.GL_COLOR_MATERIAL);
                 GL11.glDisable(2848);
-                mc.getWorld().playerEntities.forEach(player -> drawSkeleton(e, player));
+                mc.theWorld.playerEntities.forEach(player -> drawSkeleton(e, player));
                 GlStateManager.color(1, 1, 1, 1);
                 startEnd(false);
             }

@@ -25,7 +25,7 @@ public class AntiFireball extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
-        for (Entity entity : mc.getWorld().loadedEntityList) {
+        for (Entity entity : mc.theWorld.loadedEntityList) {
             if (entity instanceof EntityFireball) {
                 if (mc.thePlayer.getDistanceSqToEntity(entity) < 4) {
                     RotationUtil.setClientRotation(RotationUtil.getRotations(entity));
@@ -42,7 +42,7 @@ public class AntiFireball extends Module {
     public void onRender (RenderEvent event) {
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
-        for(Entity entity : mc.getWorld().getLoadedEntityList()) {
+        for(Entity entity : mc.theWorld.getLoadedEntityList()) {
             if (entity instanceof EntityFireball) {
                 if (mc.thePlayer.getDistanceSqToEntity(entity) < 20) {
                     RenderUtil.drawTracer(entity, 255, (int) (mc.thePlayer.getDistanceSqToEntity(entity) * 10), 0, 170);
