@@ -5,6 +5,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.TimeUtil;
@@ -23,19 +24,20 @@ import java.util.ArrayList;
 )
 public class KeyStrokes extends Module {
 
-    private BooleanValue clientTheme = new BooleanValue("Client Theme", true);
+    private final BooleanValue clientTheme = new BooleanValue("Client Theme", true);
+    private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 90,0,255,1);
 
     public KeyStrokes() {
-        addSettings(clientTheme);
+        addSettings(clientTheme, alphaValue);
     }
 
     private double posX = 80.0D;
     private double posY = 140.0D;
 
-    private ArrayList<Boolean> enabled = new ArrayList<>(5);
-    private ArrayList<TimeUtil> downTime = new ArrayList<>(5);
-    private ArrayList<TimeUtil> upTime = new ArrayList<>(5);
-    private ArrayList<KeyBinding> binds = new ArrayList<>(5);
+    private final ArrayList<Boolean> enabled = new ArrayList<>(5);
+    private final ArrayList<TimeUtil> downTime = new ArrayList<>(5);
+    private final ArrayList<TimeUtil> upTime = new ArrayList<>(5);
+    private final ArrayList<KeyBinding> binds = new ArrayList<>(5);
 
     private Color c = new Color(40, 40, 40, 80);
 
@@ -49,17 +51,17 @@ public class KeyStrokes extends Module {
                 upTime.add(new TimeUtil());
 
                 binds.clear();
-                binds.add(mc.getGameSettings().keyBindForward);
-                binds.add(mc.getGameSettings().keyBindRight);
-                binds.add(mc.getGameSettings().keyBindBack);
-                binds.add(mc.getGameSettings().keyBindLeft);
-                binds.add(mc.getGameSettings().keyBindJump);
+                binds.add(mc.gameSettings.keyBindForward);
+                binds.add(mc.gameSettings.keyBindRight);
+                binds.add(mc.gameSettings.keyBindBack);
+                binds.add(mc.gameSettings.keyBindLeft);
+                binds.add(mc.gameSettings.keyBindJump);
             }
         }
 
         for (int i = 0; i < 5; i++) {
             KeyBinding k = binds.get(i);
-            if (mc.getCurrentScreen() == null)
+            if (mc.currentScreen == null)
                 if (GameSettings.isKeyDown(k)) {
                     if (!enabled.get(i)) {
                         downTime.get(i).reset();
@@ -78,7 +80,7 @@ public class KeyStrokes extends Module {
         c = new Color(20, 20, 20, 70);
         if (clientTheme.getValue()) {
             c = ColorUtil.getColor();
-            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 70);
+            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), alphaValue.getValue());
         }
 
         litteSquare(0, 0, 1f);
@@ -90,7 +92,7 @@ public class KeyStrokes extends Module {
         c = new Color(20, 20, 20, 100);
         if (clientTheme.getValue()) {
             c = ColorUtil.getColor();
-            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), 100);
+            c = new Color(c.getRed(), c.getGreen(), c.getBlue(), alphaValue.getValue());
         }
 
         litteSquare(0, 0, getScale(2));
