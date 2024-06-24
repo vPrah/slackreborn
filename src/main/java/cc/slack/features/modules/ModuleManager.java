@@ -31,17 +31,16 @@ public class ModuleManager {
                     new TargetStrafe(),
                     new MCF(),
                     new ClientSpoofer(), // Dont remove
-                    new AutoRod(),
-                    new AimAssist(),
-                    new CustomESP(),
-                    new Cosmetics(),
+                    new AutoRod(), // Need Recode
+                    new AimAssist(), // Need Recode
+                    new CustomESP(), // Need Recode
 
                     new FreeLook(), // Need Recode
 
                     // Combat
+                    new Criticals(),
                     new KillAura(),
                     new Velocity(),
-                    new Criticals(),
                     new Hitbox(),
                     new AntiFireball(),
                     new TickBase(),
@@ -110,6 +109,7 @@ public class ModuleManager {
                     new BlockOverlay(),
                     new Cape(),
                     new ChinaHat(),
+                    new Cosmetics(), // Recoded
                     new Chams(), // Recoded
                     new ChestESP(), // Recoded
                     new Camera(), // Recoded
@@ -121,6 +121,7 @@ public class ModuleManager {
                     new PointerESP(), // Recoded
                     new ScoreboardModule(),
                     new SessionInfo(), // Recoded
+                    new Zoom(),
                     new XRay(),
 
                     // Ghost
