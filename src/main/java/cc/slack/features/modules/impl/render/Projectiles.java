@@ -32,8 +32,12 @@ public class Projectiles extends Module {
     @Listen
     public void onRender(final RenderEvent e) {
         if (e.state != RenderEvent.State.RENDER_3D) return;
+        Color ct = ColorUtil.getColor();
 
-        RenderUtil.drawProjectiles((!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
-
+        if (colormodes.getValue().equals("Client Theme")) {
+            RenderUtil.drawProjectiles(ct.getRGB());
+        } else {
+            RenderUtil.drawProjectiles((!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB() : ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB());
         }
+    }
 }
