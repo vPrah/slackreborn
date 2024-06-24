@@ -38,9 +38,9 @@ public class ModuleManager {
                     new FreeLook(), // Need Recode
 
                     // Combat
-                    new Criticals(), // Criticals
+                    new Criticals(), // Recoded
                     new KillAura(),
-                    new Velocity(),
+                    new Velocity(), // Recoded
                     new Hitbox(),
                     new AntiFireball(),
                     new TickBase(),
@@ -51,11 +51,11 @@ public class ModuleManager {
                     new NoSlow(),
                     new SafeWalk(),
                     new InvMove(),
-                    new LongJump(),
+                    new LongJump(), // Recoded
                     new Step(),
                     new Sprint(),
                     new Jesus(),
-                    new NoWeb(),
+                    new NoWeb(), // Recoded
                     new VClip(), // Recoded
 
                     // Other

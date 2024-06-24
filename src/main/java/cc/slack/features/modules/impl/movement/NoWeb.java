@@ -2,13 +2,21 @@
 
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.CollideEvent;
+import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.utils.player.MovementUtil;
+import cc.slack.features.modules.impl.movement.nowebs.INoWeb;
+import cc.slack.features.modules.impl.movement.nowebs.impl.FastFallNoWeb;
+import cc.slack.features.modules.impl.movement.nowebs.impl.VanillaNoWeb;
+import cc.slack.features.modules.impl.movement.nowebs.impl.VerusNoWeb;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
 
 @ModuleInfo(
         name = "NoWeb",
@@ -16,11 +24,41 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class NoWeb extends Module {
 
-    private final ModeValue<String> mode = new ModeValue<>(new String[]{"Vanilla", "Fast Fall", "Verus"});
+    private final ModeValue<INoWeb> mode = new ModeValue<>(new INoWeb[]{new VanillaNoWeb(), new FastFallNoWeb(), new VerusNoWeb()});
 
     public NoWeb() {
         super();
         addSettings(mode);
+    }
+
+    @Override
+    public void onEnable() {
+        mode.getValue().onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        mc.timer.timerSpeed = 1F;
+        mode.getValue().onDisable();
+    }
+
+    @Listen
+    public void onMove(MoveEvent event) {
+        mode.getValue().onMove(event);
+    }
+    @Listen
+    public void onPacket(PacketEvent event) {
+        mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onCollide(CollideEvent event) {
+        mode.getValue().onCollide(event);
+    }
+
+    @Listen
+    public void onMotion(MotionEvent event) {
+        mode.getValue().onMotion(event);
     }
 
     @SuppressWarnings("unused")
@@ -30,29 +68,11 @@ public class NoWeb extends Module {
             return;
         }
 
-        switch (mode.getValue().toLowerCase()) {
-            case "vanilla":
-                mc.thePlayer.isInWeb = false;
-                break;
-            case "fast fall":
-                if (mc.thePlayer.onGround) mc.thePlayer.jump();
-                if (mc.thePlayer.motionY > 0f) {
-                    mc.thePlayer.motionY -= mc.thePlayer.motionY * 2;
-                }
-                break;
-            case "verus":
-                MovementUtil.strafe(1.00f);
-                if (!mc.getGameSettings().keyBindJump.isKeyDown() && !mc.getGameSettings().keyBindSneak.isKeyDown()) {
-                    mc.thePlayer.motionY = 0.00D;
-                }
-                if (mc.getGameSettings().keyBindJump.isKeyDown()) {
-                    mc.thePlayer.motionY = 4.42D;
-                }
-                if (mc.getGameSettings().keyBindSneak.isKeyDown()) {
-                    mc.thePlayer.motionY = -4.42D;
-                }
-                break;
-        }
+        mode.getValue().onUpdate(event);
+
     }
+
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
 
 }
