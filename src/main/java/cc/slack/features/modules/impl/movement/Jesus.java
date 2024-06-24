@@ -56,9 +56,6 @@ public class Jesus extends Module {
         mode.getValue().onMotion(event);
     }
 
-    @Override
-    public String getMode() { return mode.getValue().toString(); }
-
     @Listen
     public void onMove(MoveEvent event) {
         if (!mc.thePlayer.isInWater()) return;
@@ -66,4 +63,6 @@ public class Jesus extends Module {
         mode.getValue().onMove(event);
     }
 
+    @Override
+    public String getMode() { return mode.getValue().toString(); }
 }
