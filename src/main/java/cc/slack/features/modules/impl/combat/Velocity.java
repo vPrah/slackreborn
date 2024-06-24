@@ -38,6 +38,7 @@ public class Velocity extends Module {
 
 
     public Velocity() {
+        super();
         addSettings(mode, vertical, horizontal, velocityTick, onlyground, noFire);
     }
 
