@@ -4,14 +4,21 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
+import com.google.common.collect.Multimap;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockAir;
 import net.minecraft.block.BlockLiquid;
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ServerData;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EnumCreatureAttribute;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemAxe;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ItemSword;
@@ -20,6 +27,9 @@ import net.minecraft.potion.Potion;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+
+import java.util.Iterator;
+import java.util.Map;
 
 public class PlayerUtil implements IMinecraft {
 
@@ -236,6 +246,77 @@ public class PlayerUtil implements IMinecraft {
                 f += (i * i + 1);
         }
         return f;
+    }
+
+    public static int bestWeapon(Entity target) {
+        Minecraft mc = Minecraft.getMinecraft();
+        int firstSlot = mc.thePlayer.inventory.currentItem = 0;
+        int bestWeapon = -1;
+        int j = 1;
+
+        for(byte i = 0; i < 9; ++i) {
+            mc.thePlayer.inventory.currentItem = i;
+            ItemStack itemStack = mc.thePlayer.getHeldItem();
+            if (itemStack != null) {
+                int itemAtkDamage = (int)getItemAtkDamage(itemStack);
+                itemAtkDamage = (int)((float)itemAtkDamage + EnchantmentHelper.func_152377_a(itemStack, EnumCreatureAttribute.UNDEFINED));
+                if (itemAtkDamage > j) {
+                    j = itemAtkDamage;
+                    bestWeapon = i;
+                }
+            }
+        }
+
+        if (bestWeapon != -1) {
+            return bestWeapon;
+        } else {
+            return firstSlot;
+        }
+    }
+
+    public static float getItemAtkDamage(ItemStack itemStack) {
+        Multimap multimap = itemStack.getAttributeModifiers();
+        if (!multimap.isEmpty()) {
+            Iterator iterator = multimap.entries().iterator();
+            if (iterator.hasNext()) {
+                Map.Entry entry = (Map.Entry)iterator.next();
+                AttributeModifier attributeModifier = (AttributeModifier)entry.getValue();
+                double damage = attributeModifier.getOperation() != 1 && attributeModifier.getOperation() != 2 ? attributeModifier.getAmount() : attributeModifier.getAmount() * 100.0;
+                if (attributeModifier.getAmount() > 1.0) {
+                    return 1.0F + (float)damage;
+                }
+
+                return 1.0F;
+            }
+        }
+
+        return 1.0F;
+    }
+
+    public static int findRod(int startSlot, int endSlot) {
+        for(int i = startSlot; i < endSlot; ++i) {
+            ItemStack stack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+            if (stack != null && stack.getItem() == Items.fishing_rod) {
+                return i;
+            }
+        }
+
+        return -1;
+    }
+
+    public static void switchToRod() {
+        for(int i = 36; i < 45; ++i) {
+            ItemStack itemstack = mc.thePlayer.inventoryContainer.getSlot(i).getStack();
+            if (itemstack != null && Item.getIdFromItem(itemstack.getItem()) == 346) {
+                mc.thePlayer.inventory.currentItem = i - 36;
+                break;
+            }
+        }
+
+    }
+
+    public static void switchBack() {
+        mc.thePlayer.inventory.currentItem = bestWeapon(mc.thePlayer);
     }
 
 }
