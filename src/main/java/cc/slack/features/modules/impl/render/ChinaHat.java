@@ -36,7 +36,7 @@ public class ChinaHat extends Module {
         Color c = ColorUtil.getColor();
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
-        if (mc.getGameSettings().thirdPersonView != 0) {
+        if (mc.gameSettings.thirdPersonView != 0) {
             for (int i = 0; i < 400; ++i) {
                 if (colormodes.getValue().equals("Client Theme")) {
                     RenderUtil.drawHat(mc.thePlayer, 0.009 + i * 0.0014, mc.timer.elapsedPartialTicks, 12, 2.0f, 2.2f - i * 7.85E-4f - 0.03f, c.getRGB());
