@@ -29,6 +29,8 @@ import net.minecraft.init.Items;
 import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.*;
+import org.lwjgl.Sys;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.EXTFramebufferObject;
 import org.lwjgl.opengl.EXTPackedDepthStencil;
@@ -174,6 +176,34 @@ public final class RenderUtil implements IMinecraft {
         tessellator.draw();
     }
 
+    public static void renderZoom (float fov, float smoothspeed, boolean slowsensitivity) {
+        mc.gameSettings.smoothCamera = Keyboard.isKeyDown(Keyboard.KEY_C) && slowsensitivity;
+
+        if (mc.gameSettings.fovSetting >= fov) {
+            mc.gameSettings.fovSetting = fov;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_C) && mc.gameSettings.fovSetting > fov) {
+            mc.gameSettings.fovSetting = fov;
+        }
+        if (mc.gameSettings.fovSetting <= 25F) {
+            mc.gameSettings.fovSetting = 25F;
+        }
+        if (Keyboard.isKeyDown(Keyboard.KEY_C) && mc.gameSettings.fovSetting == 25F) {
+            return;
+        }
+
+        float zoom = 0F;
+        zoom += (0.0075F * smoothspeed * (int) ((Sys.getTime() * 1000) / Sys.getTimerResolution() - Minecraft.getSystemTime())  * (Keyboard.isKeyDown(Keyboard.KEY_C) ? 1F : -1F));
+        zoom = Math.max(0F, Math.min(zoom, 1F));
+
+        if (Keyboard.isKeyDown(Keyboard.KEY_C) || mc.gameSettings.fovSetting != fov) {
+            mc.gameSettings.fovSetting -= ((fov - 25) * zoom);
+        }
+        if (mc.gameSettings.fovSetting <= 25F) {
+            mc.gameSettings.fovSetting = 25F;
+        }
+    }
+
     public static void drawRadar (float x, float y, float scale, boolean rounded) {
         Color ct = ColorUtil.getColor();
         float width = scale * 10;
@@ -187,7 +217,7 @@ public final class RenderUtil implements IMinecraft {
         }
         float centerX = x + width / 2.0F;
         float centerY = y + height / 2.0F;
-        Iterator var8 = mc.getWorld().getLoadedEntityList().iterator();
+        Iterator var8 = mc.theWorld.getLoadedEntityList().iterator();
 
         while(var8.hasNext()) {
             Entity entity = (Entity)var8.next();
