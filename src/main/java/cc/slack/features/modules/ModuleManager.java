@@ -106,7 +106,7 @@ public class ModuleManager {
                     new TargetHUD(),
                     new KeyStrokes(),
                     new Radar(), // Recoded
-                    new Ambience(),
+                    new Ambience(), // Recoded
                     new BlockOverlay(),
                     new Cape(),
                     new ChinaHat(),

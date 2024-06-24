@@ -12,6 +12,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S03PacketTimeUpdate;
 import net.minecraft.network.play.server.S2BPacketChangeGameState;
+import net.minecraft.world.World;
 
 @ModuleInfo(
         name = "Ambience",
@@ -27,37 +28,35 @@ public class Ambience extends Module {
 
 
     public Ambience() {
+        super();
         addSettings(timemode, customtime, weathermode, weatherstrength);
     }
 
     @Listen
     @SuppressWarnings("unused")
-    public void onUpdate (UpdateEvent event) {
-        switch (timemode.getValue()) {
-            case "Sun":
-                mc.getWorld().setWorldTime(6000);
-                break;
-            case "Night":
-                mc.getWorld().setWorldTime(15000);
-                break;
-            case "Custom":
-                mc.getWorld().setWorldTime(customtime.getValue() * 1000);
-                break;
+    public void onUpdate(UpdateEvent event) {
+        World world = mc.theWorld;
+
+        String timeMode = timemode.getValue();
+        if ("Sun".equals(timeMode)) {
+            world.setWorldTime(6000);
+        } else if ("Night".equals(timeMode)) {
+            world.setWorldTime(15000);
+        } else if ("Custom".equals(timeMode)) {
+            world.setWorldTime(customtime.getValue() * 1000);
         }
 
-        switch (weathermode.getValue()) {
-            case "Clear":
-                mc.getWorld().setRainStrength(0F);
-                mc.getWorld().setThunderStrength(0F);
-                break;
-            case "Rain":
-                mc.getWorld().setRainStrength(weatherstrength.getValue());
-                mc.getWorld().setThunderStrength(0F);
-                break;
-            case "Thunder":
-                mc.getWorld().setRainStrength(weatherstrength.getValue());
-                mc.getWorld().setThunderStrength(weatherstrength.getValue());
-                break;
+        String weatherMode = weathermode.getValue();
+        float weatherStrengthValue = weatherstrength.getValue();
+        if ("Clear".equals(weatherMode)) {
+            world.setRainStrength(0F);
+            world.setThunderStrength(0F);
+        } else if ("Rain".equals(weatherMode)) {
+            world.setRainStrength(weatherStrengthValue);
+            world.setThunderStrength(0F);
+        } else if ("Thunder".equals(weatherMode)) {
+            world.setRainStrength(weatherStrengthValue);
+            world.setThunderStrength(weatherStrengthValue);
         }
     }
 
