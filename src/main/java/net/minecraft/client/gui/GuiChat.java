@@ -174,6 +174,8 @@ public class GuiChat extends GuiScreen {
 			}
 		}
 
+		double[] mousePos = DragUtil.setScaledPosition(mouseX, mouseY)
+
 		this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
 
 		for (Module module : Slack.getInstance().getModuleManager().getDraggable()) {
