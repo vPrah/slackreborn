@@ -90,27 +90,9 @@ public class Velocity extends Module {
                         mc.thePlayer.motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
                         break;
                     case "hypixel air":
-                        if (mc.thePlayer.onGround) {
-                            if (hypixeltest) {
-                                mc.thePlayer.motionY = hypixelY;
-                                BlinkUtil.disable();
-                                hypixeltest = false;
-                            } else {
-                                event.cancel();
-                                mc.thePlayer.motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
-                                hypixeltest = false;
-                            }
-                        } else {
-                            if (hypixeltest) {
-                                event.cancel();
-                                hypixelY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
-                            } else {
-                                event.cancel();
-                                hypixelY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
-                                BlinkUtil.enable(true, false);
-                                hypixeltest = true;
-                            }
-                        }
+                        event.cancel();
+                        if (mc.thePlayer.onGround)
+                            mc.thePlayer.motionY = packet.getMotionY() * vertical.getValue().doubleValue() / 100 / 8000.0;
                         break;
                     case "reverse":
                         event.cancel();
@@ -142,15 +124,6 @@ public class Velocity extends Module {
             case "hypixel damage strafe":
                 if (mc.thePlayer.hurtTime == 9) {
                     MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
-                }
-                break;
-            case "hypixel air":
-                if (mc.thePlayer.onGround || mc.thePlayer.ticksSinceLastDamage > 11) {
-                    if (hypixeltest) {
-                        mc.thePlayer.motionY = hypixelY;
-                        BlinkUtil.disable();
-                        hypixeltest = false;
-                    }
                 }
                 break;
             case "tick":

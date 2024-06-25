@@ -122,6 +122,8 @@ public class BlinkUtil implements IMinecraft {
     public static boolean handlePacket(PacketEvent event) {
         final Packet packet = event.getPacket();
 
+        if (mc.thePlayer.ticksExisted < 4) return false;
+
         if (isBlinking()) {
             if (event.getDirection() == PacketDirection.INCOMING && BLINK_INBOUND) {
                 if (!(packet instanceof S00PacketDisconnect ||

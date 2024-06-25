@@ -39,8 +39,9 @@ public class InvMove extends Module {
             RotationUtil.updateStrafeFixBinds();
         }
         if (mc.getCurrentScreen() instanceof GuiInventory && hypixelTest.getValue()) {
-            if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
+            if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 4 : 5) == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
+            } else if(mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 4 : 5) == 1) {
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             }
         }
@@ -52,6 +53,15 @@ public class InvMove extends Module {
             if (event.getPacket() == new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT)) {
                 event.cancel();
             }
+        }
+    }
+
+    @Override
+    public String getMode() {
+        if (hypixelTest.getValue()) {
+            return "Hypixel";
+        } else {
+            return "";
         }
     }
 

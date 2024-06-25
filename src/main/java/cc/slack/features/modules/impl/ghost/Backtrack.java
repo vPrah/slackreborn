@@ -117,7 +117,10 @@ public class Backtrack extends Module {
     }
 
     private void releaseFirst() {
-        if (packetCache.isEmpty()) return;
+        if (packetCache.isEmpty()) {
+            PrintUtil.message("empty");
+            return;
+        }
         releasing = true;
         ArrayList<Packet> first = packetCache.get(0);
         for (Packet packet : first) {

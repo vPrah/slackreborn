@@ -9,6 +9,7 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.player.InventoryUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.rotations.RotationUtil;
@@ -59,7 +60,8 @@ public class FireballFlight implements IFlight {
                 RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 80f}, 2);
 
             } else if (started) {
-                PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(fireballSlot).getStack()));
+                BlinkUtil.enable(false, true);
+                PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(fireballSlot).getStack()));
                 sent = true;
             }
         } else {
@@ -82,8 +84,10 @@ public class FireballFlight implements IFlight {
     @Override
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
-            if (((S12PacketEntityVelocity) event.getPacket()).getEntityID() == mc.thePlayer.getEntityId())
+            if (((S12PacketEntityVelocity) event.getPacket()).getEntityID() == mc.thePlayer.getEntityId()) {
                 gotVelo = true;
+                BlinkUtil.disable();
+            }
         }
     }
 
