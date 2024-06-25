@@ -61,13 +61,8 @@ public class BedESP extends Module {
                     for (int k = -rangeValue; k <= rangeValue; ++k) {
                         BlockPos blockPos = new BlockPos(mc.thePlayer.posX + j, mc.thePlayer.posY + i, mc.thePlayer.posZ + k);
                         IBlockState getBlockState = mc.theWorld.getBlockState(blockPos);
-                        if (getBlockState.getBlock() == Blocks.bed && getBlockState.getValue(BlockBed.PART) == BlockBed.EnumPartType.FOOT) {
-                            for (BlockPos[] bedPair : beds) {
-                                if (BlockPos.isSamePos(blockPos, bedPair[0])) {
-                                    continue;
-                                }
-                            }
-                            beds.add(new BlockPos[]{blockPos, blockPos.offset((EnumFacing) getBlockState.getValue(BlockBed.FACING))});
+                        if (getBlockState.getBlock() == Blocks.bed) {
+                            beds.add(new BlockPos[]{blockPos, blockPos});
                         }
                     }
                 }
