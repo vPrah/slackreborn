@@ -39,9 +39,8 @@ public class InvMove extends Module {
             RotationUtil.updateStrafeFixBinds();
         }
         if (mc.getCurrentScreen() instanceof GuiInventory && hypixelTest.getValue()) {
-            if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 4 : 5) == 0) {
+            if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
-            } else if(mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 4 : 5) == 1) {
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             }
         }
