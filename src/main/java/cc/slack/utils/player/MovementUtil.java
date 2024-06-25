@@ -13,6 +13,8 @@ public class MovementUtil implements IMinecraft {
     public static boolean waitingSpoof = false;
     public static boolean nextSpoof = false;
 
+    public static boolean onStrafe = false;
+
     public static void setSpeed(MoveEvent event, double speed) {
         setBaseSpeed(event, speed, mc.thePlayer.rotationYaw, mc.thePlayer.moveForward, mc.thePlayer.moveStrafing);
     }
@@ -61,6 +63,7 @@ public class MovementUtil implements IMinecraft {
 
     public static void strafe(float speed) {
         final float yaw = getDirection();
+        onStrafe = true;
 
         mc.thePlayer.motionX = Math.cos(Math.toRadians(yaw + 90.0f)) * speed;
         mc.thePlayer.motionZ = Math.cos(Math.toRadians(yaw)) * speed;

@@ -41,19 +41,22 @@ public class HypixelHopSpeed implements ISpeed {
             mc.thePlayer.motionX *= 1.0005;
             mc.thePlayer.motionZ *= 1.0005;
 
-            if (mc.thePlayer.motionY > 0) {
-                mc.timer.timerSpeed = 0.94f;
-            } else if (mc.thePlayer.offGroundTicks < 13) {
-                if (jumpTick < 5 && !Slack.getInstance().getModuleManager().getInstance(Speed.class).enabledTime.hasReached(7000)) {
-                    mc.timer.timerSpeed = 1.06f + (float) Math.random() * 0.07f;
+            if (mc.thePlayer.offGroundTicks < 13) {
+                if (mc.thePlayer.motionY > 0) {
+                    if (jumpTick < 5 && !Slack.getInstance().getModuleManager().getInstance(Speed.class).enabledTime.hasReached(7000)) {
+                        mc.timer.timerSpeed = 1.06f + (float) Math.random() * 0.07f;
+                    } else {
+                        mc.timer.timerSpeed = 1f;
+                    }
                 } else {
-                    mc.timer.timerSpeed = 1f;
+                    mc.timer.timerSpeed = 0.94f;
                 }
+            } else {
+                mc.timer.timerSpeed = 1f;
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
                 if (mc.thePlayer.offGroundTicks == 3) {
-                    PacketUtil.send(new C03PacketPlayer(false));
                     mc.thePlayer.motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
                     mc.timer.timerSpeed = 0.65f;
                 }
@@ -61,7 +64,7 @@ public class HypixelHopSpeed implements ISpeed {
 
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
-                if (mc.thePlayer.offGroundTicks == 6 && Slack.getInstance().getModuleManager().getInstance(KillAura.class).target != null) {
+                if (mc.thePlayer.offGroundTicks == 6 && Slack.getInstance().getModuleManager().getInstance(KillAura.class).target == null) {
                     if (Math.abs(MathHelper.wrapAngleTo180_float(
                             MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]

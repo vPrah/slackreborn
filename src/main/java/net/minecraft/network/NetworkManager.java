@@ -307,13 +307,6 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         final EnumConnectionState enumconnectionstate = EnumConnectionState.getFromPacket(inPacket);
         final EnumConnectionState enumconnectionstate1 = this.channel.attr(attrKeyConnectionState).get();
 
-        if (inPacket instanceof C03PacketPlayer) {
-            if (RotationUtil.isEnabled) {
-                ((C03PacketPlayer) inPacket).yaw = RotationUtil.clientRotation[0];
-                ((C03PacketPlayer) inPacket).pitch = RotationUtil.clientRotation[1];
-            }
-        }
-
         if (enumconnectionstate1 != enumconnectionstate)
         {
             logger.debug("Disabled auto read");

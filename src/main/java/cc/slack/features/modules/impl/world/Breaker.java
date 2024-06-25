@@ -114,6 +114,9 @@ public class Breaker extends Module {
                     }
                     currentBlock = null;
                     switchTimer.reset();
+                    mc.thePlayer.swingItem();
+                    return;
+
                 } else {
                     if (BlockUtils.getCenterDistance(currentBlock) > radiusDist.getValue()) {
                         currentBlock = null;
@@ -124,7 +127,7 @@ public class Breaker extends Module {
                     }
                 }
 
-                mc.thePlayer.swingItem();
+                if (!spoofGround.getValue())  mc.thePlayer.swingItem();
             }
         }
     }

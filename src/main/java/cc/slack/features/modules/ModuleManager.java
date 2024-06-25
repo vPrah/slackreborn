@@ -80,9 +80,10 @@ public class ModuleManager {
 
                     // World
                     new Scaffold(),
+                    new Breaker(),
                     new Stealer(),
                     new InvManager(),
-                    new Breaker(),
+                    new ChestAura(),
                     new SpeedMine(),
                     new FastPlace(),
                     new ChestAura(), // Recoded

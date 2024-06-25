@@ -5,6 +5,7 @@ import cc.slack.utils.client.Login;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;
 import cc.slack.utils.other.TimeUtil;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.*;
 import net.minecraft.client.renderer.GlStateManager;
@@ -13,6 +14,7 @@ import net.minecraft.util.ResourceLocation;
 import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.List;
 
 import okhttp3.*;
@@ -51,16 +53,18 @@ public class MainMenu extends GuiScreen {
                 Fonts.apple18.drawStringWithShadow(debugMessage, 5, 100, new Color(255, 50, 50).getRGB());
 
             super.drawScreen(mouseX, mouseY, partialTicks);
+            animTimer.reset();
             return;
         }
 
         if (!animTimer.hasReached(600)) {
-            animY = (int) ((1 - Math.pow(1 - (animTimer.elapsed() / 600), 4)) * this.height * 0.7);
+            animY = (int) ((1 - Math.pow(1 - (animTimer.elapsed() / 600.0), 4)) * this.height * 0.7);
         } else {
             animY = 0;
         }
 
-        Gui.drawRect(width/2 - 70, height / 2 - 80 + animY, width/2 + 70 , height / 2 + 120 + animY, new Color(0,0,0,110).getRGB());
+        RenderUtil.drawRoundedRect(width / 2 - 70, height / 2 - 80 + animY, width / 2 + 70, height / 2 + 120 + animY, 10, new Color(0, 0, 0, 110).getRGB());
+
         Fonts.apple20.drawString("Made by Slack Team", 10,  height - 20, -1);
 
 
@@ -90,17 +94,12 @@ public class MainMenu extends GuiScreen {
         }
 
         if (Minecraft.cacheChunkReloader) {
-            this.menuList.add(new MainMenuButton(1, width/2, height / 2 - 40, "SinglePlayer"));
-            this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, "MultiPlayer"));
-            this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, "Settings"));
-            this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, "Alt Manager"));
-            this.menuList.add(new MainMenuButton(6, width/2, height / 2 + 60, "Shutdown"));
-            this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, "Client Information"));
+            addButtons();
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2, height / 2, "Fetch Discord id from clipboard"));
-            this.menuList.add(new MainMenuButton(8, width/2 , height / 2 + 85, "Copy Hwid"));
-            this.menuList.add(new MainMenuButton(951, width/2, height / 2 + 60, "Log In"));
+            this.menuList.add(new MainMenuButton(10, width/2, height / 2, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
+            this.menuList.add(new MainMenuButton(8, width/2 , height / 2 + 85, decodes("Q29weSBId2lk")));
+            this.menuList.add(new MainMenuButton(951, width/2, height / 2 + 60, decodes("TG9nIElu")));
         }
 
         super.initGui();
@@ -152,17 +151,17 @@ public class MainMenu extends GuiScreen {
 
                     if (Login.isSuccess(discordId, resp, hwid)) {
                         idid = hwid;
-                        setMsg("Login Successful");
+                        setMsg(decodes("TG9naW4gU3VjY2Vzc2Z1bA=="));
                     } else {
-                        setMsg("Credentials didn't match.");
+                        setMsg(decodes("Q3JlZGVudGlhbHMgZGlkbid0IG1hdGNoLg=="));
                         return;
                     }
                 } else {
-                    setMsg("Failed to get response from server.");
+                    setMsg(decodes("RmFpbGVkIHRvIGdldCByZXNwb25zZSBmcm9tIHNlcnZlci4="));
                     return;
                 }
             } catch (IOException e) {
-                setMsg("Failed to contact server");
+                setMsg(decodes("RmFpbGVkIHRvIGNvbnRhY3Qgc2VydmVyLg=="));
                 return;
             }
 
@@ -172,12 +171,7 @@ public class MainMenu extends GuiScreen {
 
             animTimer.reset();
 
-            this.menuList.add(new MainMenuButton(1, width/2, height / 2 - 40, "SinglePlayer"));
-            this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, "MultiPlayer"));
-            this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, "Settings"));
-            this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, "Alt Manager"));
-            this.menuList.add(new MainMenuButton(6, width/2, height / 2 + 60, "Shutdown"));
-            this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, "Client Information"));
+            addButtons();
         }
 
         if(buttonMenu.id == 1) {
@@ -210,4 +204,19 @@ public class MainMenu extends GuiScreen {
         dmTimer.reset();
         debugMessage = m;
     }
+
+    public static String decodes(String encodedInput) {
+        byte[] decodedBytes = Base64.getDecoder().decode(encodedInput);
+        return new String(decodedBytes);
+    }
+
+    private void addButtons() {
+        this.menuList.add(new MainMenuButton(1, width/2, height / 2 - 40, decodes("U2luZ2xlUGxheWVy")));
+        this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, decodes("TXVsdGlQbGF5ZXI=")));
+        this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, decodes("U2V0dGluZ3M=")));
+        this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, decodes("QWx0IE1hbmFnZXI=")));
+        this.menuList.add(new MainMenuButton(6, width/2, height / 2 + 60, decodes("U2h1dGRvd24=")));
+        this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
+    }
+
 }

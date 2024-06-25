@@ -55,4 +55,13 @@ public class InvMove extends Module {
         }
     }
 
+    @Override
+    public String getMode() {
+        if (hypixelTest.getValue()) {
+            return "Hypixel";
+        } else {
+            return "";
+        }
+    }
+
 }

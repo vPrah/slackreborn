@@ -86,7 +86,7 @@ public class NoSlow extends Module {
                     }
                     break;
                 case "hypixel":
-                    if (mc.thePlayer.ticksExisted % 3 == 0 && !badC07) {
+                    if (mc.thePlayer.ticksExisted % 3 == 0 && !badC07 && !(mc.thePlayer.getHeldItem().item instanceof ItemSword)) {
                         mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
                     }
                     fMultiplier = forwardMultiplier.getValue();

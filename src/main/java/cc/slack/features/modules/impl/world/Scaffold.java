@@ -17,11 +17,14 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
+import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.*;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
@@ -59,6 +62,8 @@ public class Scaffold extends Module {
 
     private final ModeValue<String> safewalkMode = new ModeValue<>("Safewalk", new String[] {"Ground", "Always", "Sneak", "Off"});
 
+    private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0.2f, 2f, 0.05f);
+
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
 
     private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Static", "Off", "Watchdog Lowhop"});
@@ -90,6 +95,8 @@ public class Scaffold extends Module {
     double realX;
     double realZ;
 
+    boolean wasTimer = false;
+
     public Scaffold() {
         super();
         addSettings(rotationMode, keepRotationTicks, // rotations
@@ -111,6 +118,7 @@ public class Scaffold extends Module {
     public void onDisable() {
         ItemSpoofUtil.stopSpoofing();
         RotationUtil.disable();
+        if (wasTimer) mc.timer.timerSpeed = 1f;
     }
 
     @Listen
@@ -161,6 +169,12 @@ public class Scaffold extends Module {
             return;
         }
 
+        if (timerSpeed.getValue() != 1) {
+            wasTimer = true;
+            mc.timer.timerSpeed = timerSpeed.getValue();
+        }
+
+
         setSprint();
         updateSameY();
         runFindBlock();
@@ -203,8 +217,8 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 mc.thePlayer.setSprinting(false);
-                mc.thePlayer.motionX *= 1.008;
-                mc.thePlayer.motionZ *= 1.008;
+                mc.thePlayer.motionX *= 1.004;
+                mc.thePlayer.motionZ *= 1.004;
                 if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
                     mc.thePlayer.jump();
                     hasPlaced = false;
@@ -218,6 +232,7 @@ public class Scaffold extends Module {
                 break;
             case "hypixel":
                 mc.thePlayer.setSprinting(mc.thePlayer.ticksExisted % 2 == 0 || !mc.thePlayer.onGround);
+                break;
             case "off":
                 mc.thePlayer.setSprinting(false);
                 break;
@@ -251,7 +266,8 @@ public class Scaffold extends Module {
                 if (mc.thePlayer.onGround) {
                     RotationUtil.setClientRotation(new float[] {mc.thePlayer.rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
                 } else {
-                    RotationUtil.setClientRotation(blockRotation, keepRotationTicks.getValue());
+                    RotationUtil.setClientRotation(new float[] {mc.thePlayer.rotationYaw + 180, BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[1]}, keepRotationTicks.getValue());
+
                 }
                 break;
             case "vanilla":
@@ -332,7 +348,7 @@ public class Scaffold extends Module {
                             MovementUtil.spoofNextC03(true);
                             break;
                         case 2:
-                            mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY);
+                            mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
                             MovementUtil.spoofNextC03(true);
                             break;
                     }
@@ -350,23 +366,20 @@ public class Scaffold extends Module {
                 case "watchdog":
                     if (MovementUtil.isBindsMoving()) break;
                     MovementUtil.resetMotion(false);
-                    if (mc.thePlayer.onGround) {
-                        jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.42;
-                    }
 
-                    switch ((int) round((mc.thePlayer.posY - jumpGround) * 100)) {
-                        case 42:
-                            mc.thePlayer.motionY = 0.33;
-                            MovementUtil.spoofNextC03(true);
-                            break;
-                        case 75:
-                            mc.thePlayer.motionY = 0.25;
-                            break;
-                        case 100:
-                            jumpGround = mc.thePlayer.posY;
-                            mc.thePlayer.motionY = 0.42;
-                            break;
+                    if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer).down()).getBlock() != Blocks.air) {
+                        mc.thePlayer.motionY = 0;
+                        if (mc.thePlayer.ticksExisted % 4 == 0) {
+                            mc.timer.timerSpeed = 0.18f;
+                            wasTimer = true;
+                            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
+                                    mc.thePlayer.posY + 0.42f, mc.thePlayer.posZ, false));
+                            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
+                                    mc.thePlayer.posY + 0.75f, mc.thePlayer.posZ, false));
+                            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
+                                    mc.thePlayer.posY + 1f, mc.thePlayer.posZ, false));
+                            mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 1f, mc.thePlayer.posZ);
+                        }
                     }
                     expand = -1.0;
                     break;
@@ -488,11 +501,12 @@ public class Scaffold extends Module {
         if (!hasBlock) return;
         boolean canContinue = true;
         MovingObjectPosition raytraced = mc.getWorld().rayTraceBlocks(
-                mc.thePlayer.getPositionEyes(1f),
-                mc.thePlayer.getPositionEyes(1f).add(RotationUtil.getNormalRotVector(RotationUtil.clientRotation).multiply(4)),
+                mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks),
+                mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks).add(mc.thePlayer.getVectorForRotation(RotationUtil.clientRotation[1], RotationUtil.clientRotation[0]).multiply(4)),
                 false, true, false);
         switch (raycastMode.getValue().toLowerCase()) {
             case "normal":
+                PrintUtil.message(raytraced.toString());
                 if (raytraced == null) {
                     canContinue = false;
                     break;
@@ -516,9 +530,6 @@ public class Scaffold extends Module {
                 break;
         }
         if (!canContinue) return;
-
-        BlockPos below = new BlockPos(mc.thePlayer.posX, placeY - 1, mc.thePlayer.posZ);
-        //if(!BlockUtils.isReplaceable(below)) return;
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
