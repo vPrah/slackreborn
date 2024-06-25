@@ -10,9 +10,6 @@ import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class HypixelAirVelocity implements IVelocity {
 
-    boolean hypixeltest= false;
-    double hypixelY;
-
     @Override
     public void onPacket(PacketEvent event) {
         if (event.getPacket() instanceof S12PacketEntityVelocity) {
@@ -20,38 +17,10 @@ public class HypixelAirVelocity implements IVelocity {
             if (packet.getEntityID() == mc.thePlayer.getEntityId()) {
                 Velocity velocityModule = Slack.getInstance().getModuleManager().getInstance(Velocity.class);
                 double verticalValue = velocityModule.vertical.getValue().doubleValue();
-                if (mc.thePlayer.onGround) {
-                    if (hypixeltest) {
-                        mc.thePlayer.motionY = hypixelY;
-                        BlinkUtil.disable();
-                        hypixeltest = false;
-                    } else {
-                        event.cancel();
-                        mc.thePlayer.motionY = packet.getMotionY() * verticalValue / 100 / 8000.0;
-                        hypixeltest = false;
-                    }
-                } else {
-                    if (hypixeltest) {
-                        event.cancel();
-                        hypixelY = packet.getMotionY() * verticalValue / 100 / 8000.0;
-                    } else {
-                        event.cancel();
-                        hypixelY = packet.getMotionY() * verticalValue / 100 / 8000.0;
-                        BlinkUtil.enable(true, false);
-                        hypixeltest = true;
-                    }
-                }
-            }
-        }
-    }
 
-    @Override
-    public void onUpdate(UpdateEvent event) {
-        if (mc.thePlayer.onGround || mc.thePlayer.ticksSinceLastDamage > 11) {
-            if (hypixeltest) {
-                mc.thePlayer.motionY = hypixelY;
-                BlinkUtil.disable();
-                hypixeltest = false;
+                event.cancel();
+                if (mc.thePlayer.onGround)
+                    mc.thePlayer.motionY = packet.getMotionY() * verticalValue / 100 / 8000.0;
             }
         }
     }
