@@ -85,6 +85,7 @@ public class ModuleManager {
                     new Breaker(),
                     new SpeedMine(),
                     new FastPlace(),
+                    new ChestAura(), // Recoded
 
                     // Exploit
                     new Disabler(),
@@ -98,13 +99,13 @@ public class ModuleManager {
                     // Render
                     new HUD(),
                     new ESP(),
-                    new BasicESP(),
+                    new BasicESP(), // Recoded
                     new BedESP(), // Recoded
                     new ClickGUI(),
-                    new NameTags(),
+                    new NameTags(), // Recoded
                     new Animations(),
                     new TargetHUD(),
-                    new KeyStrokes(),
+                    new KeyStrokes(), // Recoded
                     new Radar(), // Recoded
                     new Ambience(), // Recoded
                     new BlockOverlay(),
