@@ -46,6 +46,7 @@ public class FireballFlight implements IFlight {
         if (sent && !reset) {
             PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
         }
+        BlinkUtil.disable();
     }
 
 

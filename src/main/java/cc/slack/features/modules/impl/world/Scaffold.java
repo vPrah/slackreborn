@@ -66,7 +66,7 @@ public class Scaffold extends Module {
 
     private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
 
-    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Static", "Off", "Watchdog Lowhop"});
+    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Watchdog2", "Static", "Off", "Watchdog Lowhop"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
 
     private final ModeValue<String> pickMode = new ModeValue<>("Block Pick Mode", new String[] {"Biggest Stack", "First Stack"});
@@ -102,7 +102,7 @@ public class Scaffold extends Module {
         addSettings(rotationMode, keepRotationTicks, // rotations
                 swingMode, // Swing Method
                 raycastMode, placeTiming, searchDistance, expandAmount, towerExpandAmount, // placements
-                sprintMode, sameY, speedModifier, safewalkMode, strafeFix, // movements
+                sprintMode, sameY, speedModifier, timerSpeed, safewalkMode, strafeFix, // movements
                 towerMode, towerNoMove, // tower
                 pickMode, spoofSlot // slots
         );
@@ -211,7 +211,7 @@ public class Scaffold extends Module {
                 break;
             case "hypixel safe":
                 mc.thePlayer.setSprinting(false);
-                if (mc.thePlayer.onGround) {
+                if (mc.thePlayer.onGround && MovementUtil.isBindsMoving()) {
                     MovementUtil.strafe(0.213f);
                 }
                 break;
@@ -261,8 +261,8 @@ public class Scaffold extends Module {
                     RotationUtil.overrideRotation(BlockUtils.getFaceRotation(blockPlacementFace, blockPlace));
                     RotationUtil.keepRotationTicks = keepRotationTicks.getValue();
                 }
-                if (towerMode.getValue().toLowerCase().contains("watchdog")) {
-                    RotationUtil.overrideRotation(new float[] {MovementUtil.getDirection() + 180, 90f}, keepRotationTicks.getValue());
+                if (towerMode.getValue().toLowerCase().contains("watchdog") && isTowering) {
+                    RotationUtil.overrideRotation(new float[] {MovementUtil.getDirection() + 180, 90f});
                 }
                 break;
             case "hypixel ground":
@@ -271,8 +271,8 @@ public class Scaffold extends Module {
                 } else {
                     RotationUtil.setClientRotation(new float[] {mc.thePlayer.rotationYaw + 180, BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[1]}, keepRotationTicks.getValue());
                 }
-                if (towerMode.getValue().toLowerCase().contains("watchdog")) {
-                    RotationUtil.overrideRotation(new float[] {MovementUtil.getDirection() + 180, 90f}, keepRotationTicks.getValue());
+                if (towerMode.getValue().toLowerCase().contains("watchdog")  && isTowering) {
+                    RotationUtil.overrideRotation(new float[] {MovementUtil.getDirection() + 180, 90f});
                 }
                 break;
             case "vanilla":
@@ -389,9 +389,9 @@ public class Scaffold extends Module {
                         }
                     }
                     if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
-                        mc.thePlayer.motionX =Math.max(-0.2, Math.min(0.2, mc.thePlayer.posX - Math.round(mc.thePlayer.posX)));
+                        mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));
                     } else {
-                        mc.thePlayer.motionZ =Math.max(-0.2, Math.min(0.2, mc.thePlayer.posZ - Math.round(mc.thePlayer.posZ)));
+                        mc.thePlayer.motionZ = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posZ)- mc.thePlayer.posZ));
                     }
                     break;
                 case "watchdog2":
@@ -414,9 +414,9 @@ public class Scaffold extends Module {
                             break;
                     }
                     if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
-                        mc.thePlayer.motionX =Math.max(-0.2, Math.min(0.2, mc.thePlayer.posX - Math.round(mc.thePlayer.posX)));
+                        mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));
                     } else {
-                        mc.thePlayer.motionZ =Math.max(-0.2, Math.min(0.2, mc.thePlayer.posZ - Math.round(mc.thePlayer.posZ)));
+                        mc.thePlayer.motionZ = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posZ)- mc.thePlayer.posZ));
                     }
                     break;
                 case "off":
@@ -547,6 +547,8 @@ public class Scaffold extends Module {
                     break;
                 }
                 PrintUtil.message(raytraced.toString());
+                PrintUtil.message(blockPlace.toString());
+
                 if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
                     canContinue = false;
                 } else {

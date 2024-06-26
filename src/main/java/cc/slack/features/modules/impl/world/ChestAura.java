@@ -43,10 +43,13 @@ public class ChestAura extends Module {
     TimeUtil switchTimer = new TimeUtil();
     BlockPos currentBlock;
 
+    boolean waitToClose = false;
+
     @Override
     public void onEnable() {
         openedChests.clear();
         switchTimer.reset();
+        waitToClose = false;
     }
 
     @Listen
@@ -63,19 +66,21 @@ public class ChestAura extends Module {
 
         if (currentBlock == null && switchTimer.hasReached(switchDelay.getValue())) {
             currentBlock = findNextBlock();
-            if (currentBlock != null) {
-                if (openedChests.contains(currentBlock)) {
-                    if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), currentBlock, EnumFacing.UP, new Vec3(0.5, 1, 0.5))) {
-                        mc.thePlayer.swingItem();
-                    }
-                } else {
-                    openedChests.add(currentBlock);
-                    RotationUtil.setClientRotation(BlockUtils.getFaceRotation(EnumFacing.UP, currentBlock), 2);
-                }
-            }
-        } else if (!(mc.currentScreen instanceof GuiChest)) {
+        } else if (!(mc.currentScreen instanceof GuiChest) && waitToClose) {
             currentBlock = null;
             switchTimer.reset();
+        }
+
+        if (currentBlock != null) {
+            if (openedChests.contains(currentBlock)) {
+                if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), currentBlock, EnumFacing.UP, new Vec3(0.5, 1, 0.5))) {
+                    mc.thePlayer.swingItem();
+                    waitToClose = true;
+                }
+            } else {
+                openedChests.add(currentBlock);
+                RotationUtil.setClientRotation(BlockUtils.getFaceRotation(EnumFacing.UP, currentBlock), 2);
+            }
         }
     }
 

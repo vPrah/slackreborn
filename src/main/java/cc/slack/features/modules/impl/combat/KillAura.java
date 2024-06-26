@@ -341,6 +341,7 @@ public class KillAura extends Module {
                         PacketUtil.send(new C09PacketHeldItemChange(sword2));
                         currentSlot = sword2;
                     }
+                    isBlocking = false;
                 }
                 break;
             case "blatant":
