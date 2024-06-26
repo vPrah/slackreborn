@@ -60,7 +60,7 @@ public class MainMenu extends GuiScreen {
         }
 
         if (!animTimer.hasReached(600)) {
-            animY = (int) ((1 - Math.pow(1 - (animTimer.elapsed() / 600.0), 4)) * this.height * 0.7);
+            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 600.0), 4) * this.height * 0.7);
         } else {
             animY = 0;
         }
