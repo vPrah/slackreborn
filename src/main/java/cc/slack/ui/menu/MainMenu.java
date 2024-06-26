@@ -1,5 +1,6 @@
 package cc.slack.ui.menu;
 
+import cc.slack.Slack;
 import cc.slack.ui.altmanager.gui.GuiAccountManager;
 import cc.slack.utils.client.Login;
 import cc.slack.utils.font.Fonts;
@@ -40,18 +41,22 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
-            Gui.drawRect(0, 0, this.width , this.height, new Color(0,0,0,110).getRGB());
-            Fonts.apple45.drawString("  lack Client", 16, 30, -1);
+            width /= 2;
+            height /= 2;
+            RenderUtil.drawRoundedRect(width - 115, height - 115, width + 115 , this.height + 115, 15, new Color(44, 43, 43, 179).getRGB());
+
+            Fonts.SFBold18.drawString("Slack Client", width - 25, height - 95, -1);
 
             GlStateManager.pushMatrix();
-            GlStateManager.scale(0.35 , 0.35, 0.35);
             mc.getTextureManager().bindTexture(imageResource);
-            drawModalRectWithCustomSizedTexture(1, 64, 0, 0, 100, 100, 100, 100);
+            drawModalRectWithCustomSizedTexture(width - 51, height - 100, 0, 0, 27, 27, 100, 100);
             GlStateManager.popMatrix();
 
             if (!dmTimer.hasReached(10000))
-                Fonts.apple18.drawStringWithShadow(debugMessage, 5, 100, new Color(255, 50, 50).getRGB());
+                Fonts.apple18.drawStringWithShadow(debugMessage, 5, 5, new Color(255, 50, 50).getRGB());
 
+            width *= 2;
+            height *= 2;
             super.drawScreen(mouseX, mouseY, partialTicks);
             animTimer.reset();
             return;
@@ -97,9 +102,12 @@ public class MainMenu extends GuiScreen {
             addButtons();
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2, height / 2, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
-            this.menuList.add(new MainMenuButton(8, width/2 , height / 2 + 85, decodes("Q29weSBId2lk")));
-            this.menuList.add(new MainMenuButton(951, width/2, height / 2 + 60, decodes("TG9nIElu")));
+            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 58, 200, 27, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
+            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 29, 200, 27, decodes("Q29weSBId2lk")));
+            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 27, decodes("TG9nIElu")));
+            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 42, 200, 27, decodes("T3BlbiBXZWJzaXRlCg==")));
+            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 71, 200, 27, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
+
         }
 
         super.initGui();
@@ -108,6 +116,14 @@ public class MainMenu extends GuiScreen {
     @Override
     protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
         super.actionPerformedMenu(buttonMenu);
+
+        if (buttonMenu.id == 12) {
+            FileUtil.showURL(Slack.getInstance().Website);
+        }
+
+        if (buttonMenu.id == 13) {
+            FileUtil.showURL(Slack.getInstance().DiscordServer);
+        }
 
         if (buttonMenu.id == 10) {
             discordId = GuiScreen.getClipboardString();
@@ -215,7 +231,7 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, decodes("TXVsdGlQbGF5ZXI=")));
         this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, decodes("U2V0dGluZ3M=")));
         this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, decodes("QWx0IE1hbmFnZXI=")));
-        this.menuList.add(new MainMenuButton(6, width/2, height / 2 + 60, decodes("U2h1dGRvd24=")));
+        this.menuList.add(new MainMenuButton(6, width + 105, height - 15, decodes("U2h1dGRvd24=")));
         this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
     }
 

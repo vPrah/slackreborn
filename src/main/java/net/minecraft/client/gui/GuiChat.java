@@ -174,7 +174,9 @@ public class GuiChat extends GuiScreen {
 			}
 		}
 
-		double[] mousePos = DragUtil.setScaledPosition(mouseX, mouseY)
+		double[] mousePos = DragUtil.setScaledPosition(mouseX, mouseY);
+		mouseX = (int) mousePos[0];
+		mouseY = (int) mousePos[1];
 
 		this.inputField.mouseClicked(mouseX, mouseY, mouseButton);
 

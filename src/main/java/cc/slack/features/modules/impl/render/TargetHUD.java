@@ -190,18 +190,20 @@ public class TargetHUD extends Module {
 				}
 				break;
 			case "new":
-				drawRoundedRect(x, y, 160, 40, 10, new Color(0, 0, 0, 150).getRGB());
+				drawRoundedRect(x, y, 145, 37, 9, new Color(65, 65, 65, 179).getRGB());
 				GlStateManager.color(1, 1, 1, 1);
 				GlStateManager.color(1, 1, 1, 1);
 
-				Fonts.apple18.drawString(targetName, x + 40, y + 9, new Color(255, 255, 255, 255).getRGB());
-				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 137, y + 27, new Color(255, 255, 255, 255).getRGB());
+				Fonts.apple18.drawString(targetName, x + 35, y + 8, new Color(255, 255, 255, 255).getRGB());
+				Fonts.apple18.drawString(String.format("%.1f", target.getHealth()), x + 120, y + 23, new Color(255, 255, 255, 255).getRGB());
 
 				GlStateManager.color(color.getRed() / 255F, color.getGreen() / 255F, color.getBlue() / 255F,
 						color.getAlpha() / 255F);
 				mc.getTextureManager().bindTexture(((AbstractClientPlayer) target).getLocationSkin());
-				Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 3, 3, 3, 3, 30, 30, 24, 24);
+				Gui.drawScaledCustomSizeModalRect(x + 5, y + 5, 3, 3, 3, 3, 27, 27, 27, 27);
 				GlStateManager.color(1, 1, 1, 1);
+
+				// finish healthbar
 
 				drawRoundedRect(x + 40, y + 23, 95, 9, 3, new Color(151, 151, 151, 40).getRGB());
 				GlStateManager.color(1, 1, 1, 1);
