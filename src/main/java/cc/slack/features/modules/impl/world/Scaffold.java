@@ -506,11 +506,11 @@ public class Scaffold extends Module {
                 false, true, false);
         switch (raycastMode.getValue().toLowerCase()) {
             case "normal":
-                PrintUtil.message(raytraced.toString());
                 if (raytraced == null) {
                     canContinue = false;
                     break;
                 }
+                PrintUtil.message(raytraced.toString());
                 if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
                     canContinue = false;
                 } else {

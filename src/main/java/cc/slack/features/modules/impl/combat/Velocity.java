@@ -28,7 +28,16 @@ import io.github.nevalackin.radbus.Listen;
 
 public class Velocity extends Module {
 
-    private final ModeValue<IVelocity> mode = new ModeValue<>(new IVelocity[]{new CancelVelocity(), new ConditionalVelocity(), new HypixelAirVelocity(), new HypixelVelocity(), new HypixelStrafeVelocity(), new MotionVelocity(), new ReverseVelocity(), new TickVelocity()});
+    private final ModeValue<IVelocity> mode = new ModeValue<>(new IVelocity[]{
+            new CancelVelocity(),
+            new MotionVelocity(),
+            new HypixelAirVelocity(),
+            new HypixelVelocity(),
+            new HypixelStrafeVelocity(),
+            new ReverseVelocity(),
+            new ConditionalVelocity(),
+            new TickVelocity()
+    });
 
     public final NumberValue<Integer> vertical = new NumberValue<>("Vertical", 100, 0, 100, 1);
     public final NumberValue<Integer> horizontal = new NumberValue<>("Horizontal", 0, 0, 100, 1);
