@@ -17,6 +17,7 @@ import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.server.S08PacketPlayerPosLook;
+import net.minecraft.network.play.server.S40PacketDisconnect;
 import net.minecraft.util.Vec3;
 
 @ModuleInfo(
@@ -49,7 +50,9 @@ public class PearlAntiVoid extends Module {
 
     @Listen
     public void onDisconnect (DisconnectEvent event) {
-        PrintUtil.print("XD");
+        mc.timer.timerSpeed = 1.0f;
+        mc.thePlayer.isDead = false;
+        toggle();
     }
 
     @Listen
@@ -75,6 +78,12 @@ public class PearlAntiVoid extends Module {
                     z = wrapper.getZ();
                     mc.timer.timerSpeed = 0.2f;
                 }
+            }
+
+            if (e.getPacket() instanceof S40PacketDisconnect) {
+                toggle();
+                mc.timer.timerSpeed = 1.0f;
+                mc.thePlayer.isDead = false;
             }
     }
 
