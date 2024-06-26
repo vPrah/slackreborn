@@ -4,6 +4,7 @@ package cc.slack.features.modules.impl.movement.speeds.vulcan;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
+import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.MovementUtil;
 
 public class VulcanLowSpeed implements ISpeed {
@@ -20,7 +21,7 @@ public class VulcanLowSpeed implements ISpeed {
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
             mc.thePlayer.jump();
-            MovementUtil.strafe(0.42f);
+            MovementUtil.strafe((float) MathUtil.getRandomInRange(0.54F, 0.56F));
 
             launchY = mc.thePlayer.posY;
         } else if(mc.thePlayer.motionY > 0.2) {
