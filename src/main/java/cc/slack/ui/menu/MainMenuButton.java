@@ -75,7 +75,11 @@ public class MainMenuButton extends Gui
                 hoverPercent += (0 - hoverPercent) / 4;
             }
 
-            RenderUtil.drawRoundedRect(this.xPosition, this.yPosition + MainMenu.animY, this.xPosition + width, this.yPosition + this.height+ MainMenu.animY, 5, new Color(10, 40, 100, 90 + (int) (hoverPercent * 70)).getRGB());
+            RenderUtil.drawRoundedRect(this.xPosition, this.yPosition + MainMenu.animY, this.xPosition + width, this.yPosition + this.height+ MainMenu.animY, 7, new Color(255, 255, 255, (int) (hoverPercent * 10)).getRGB());
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderUtil.drawRoundedRectBorder(this.xPosition, this.yPosition + MainMenu.animY, this.xPosition + width, this.yPosition + this.height+ MainMenu.animY, 7,  new Color(255, 255, 255, 220 ).getRGB(), 1);
+            GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
+            RenderUtil.drawRoundedRectBorder(this.xPosition - 1, this.yPosition + MainMenu.animY - 1, this.xPosition + width + 1, this.yPosition + this.height + MainMenu.animY + 1, 7,  new Color(10, 10, 10, 180 ).getRGB(), 1);
 
 
             this.mouseDragged(mc, mouseX, mouseY);

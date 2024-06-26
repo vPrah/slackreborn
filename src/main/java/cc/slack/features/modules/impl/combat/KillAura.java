@@ -367,6 +367,7 @@ public class KillAura extends Module {
                     isBlocking = false;
                     return false;
                 }
+                break;
             case "hypixel":
                 if (isBlocking) {
                     PacketUtil.send(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
@@ -397,7 +398,12 @@ public class KillAura extends Module {
                 block();
                 BlinkUtil.enable(false, true);
                 mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                break;
             case "double sword":
+                if (hasDouble) {
+                    block();
+                }
+                break;
             case "drop":
             case "switch":
             case "blatant":

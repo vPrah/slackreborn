@@ -28,10 +28,10 @@ public class HypixelHopSpeed implements ISpeed {
                 wasSlow = false;
                 if (jumpTick > 6) jumpTick = 4;
                 mc.thePlayer.jump();
-                MovementUtil.strafe(0.47f + jumpTick * 0.008f);
+                MovementUtil.strafe(0.465f + jumpTick * 0.008f);
                 if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                     float amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
-                    MovementUtil.strafe(0.47f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
+                    MovementUtil.strafe(0.46f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
                 }
                 mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
             } else {
@@ -44,7 +44,7 @@ public class HypixelHopSpeed implements ISpeed {
             if (mc.thePlayer.offGroundTicks < 13) {
                 if (mc.thePlayer.motionY > 0) {
                     if (jumpTick < 5 && !Slack.getInstance().getModuleManager().getInstance(Speed.class).enabledTime.hasReached(7000)) {
-                        mc.timer.timerSpeed = 1.06f + (float) Math.random() * 0.07f;
+                        mc.timer.timerSpeed = 1.07f + (float) Math.random() * 0.07f;
                     } else {
                         mc.timer.timerSpeed = 1f;
                     }
@@ -69,7 +69,7 @@ public class HypixelHopSpeed implements ISpeed {
                             MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]
                     )) > 30) {
-                        MovementUtil.strafe(MovementUtil.getSpeed() * 0.6f);
+                        MovementUtil.strafe(MovementUtil.getSpeed() * 0.86f);
                     }
                 }
                 return;

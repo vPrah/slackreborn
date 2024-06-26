@@ -41,14 +41,15 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
-            RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 179).getRGB());
+            RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 50).getRGB());
+            GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
 
-            Fonts.poppins18.drawString("Slack Client", width / 2 - 25, height / 2 - 95, -1);
+            Fonts.poppins18.drawString("Slack Client", width / 2 - 25, height / 2 - 95, new Color(255, 255, 255).getRGB());
 
             GlStateManager.pushMatrix();
             mc.getTextureManager().bindTexture(imageResource);
-            drawModalRectWithCustomSizedTexture(width / 2 - 51, height / 2 - 100, 0, 0, 27, 27, 100, 100);
+            drawModalRectWithCustomSizedTexture(width / 2 - 51, height / 2 - 100, 0, 0, 27, 27, 26, 26);
             GlStateManager.popMatrix();
 
             if (!dmTimer.hasReached(10000))

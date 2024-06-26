@@ -64,10 +64,13 @@ public class ChestAura extends Module {
         if (currentBlock == null && switchTimer.hasReached(switchDelay.getValue())) {
             currentBlock = findNextBlock();
             if (currentBlock != null) {
-                if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), currentBlock, EnumFacing.UP, new Vec3(0.5, 1, 0.5))) {
-                    mc.thePlayer.swingItem();
-                    RotationUtil.setClientRotation(BlockUtils.getFaceRotation(EnumFacing.UP, currentBlock));
+                if (openedChests.contains(currentBlock)) {
+                    if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), currentBlock, EnumFacing.UP, new Vec3(0.5, 1, 0.5))) {
+                        mc.thePlayer.swingItem();
+                    }
+                } else {
                     openedChests.add(currentBlock);
+                    RotationUtil.setClientRotation(BlockUtils.getFaceRotation(EnumFacing.UP, currentBlock), 2);
                 }
             }
         } else if (!(mc.currentScreen instanceof GuiChest)) {

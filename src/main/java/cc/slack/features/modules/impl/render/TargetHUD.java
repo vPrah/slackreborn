@@ -210,7 +210,7 @@ public class TargetHUD extends Module {
 				GlStateManager.color(1, 1, 1, 1);
 				RenderUtil.drawRoundedRectBorder(x + 40, y + 23, x + 40 + 95, y + 23 + 9, 3, new Color(230, 230, 230, 200).getRGB(), 1);
 				GlStateManager.color(1, 1, 1, 1);
-				RenderUtil.drawRoundedRectBorder(x + 41, y + 24, x + 40 + 96, y + 23 + 10, 3, new Color(30, 30, 30, 100).getRGB(), 1);
+				RenderUtil.drawRoundedRectBorder(x + 39, y + 22, x + 41 + 95, y + 23 + 10, 3, new Color(30, 30, 30, 100).getRGB(), 1);
 
 				break;
 		}
