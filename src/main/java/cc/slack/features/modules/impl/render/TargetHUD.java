@@ -205,7 +205,7 @@ public class TargetHUD extends Module {
 
 				drawRoundedRect(x + 40, y + 23, 95, 9, 3, new Color(151, 151, 151, 40).getRGB());
 				GlStateManager.color(1, 1, 1, 1);
-				drawRoundedRect(x + 40, y + 25, (int) (95 * (target.getHealth() / target.getMaxHealth())), 9, 3,
+				drawRoundedRect(x + 40, y + 23, (int) (95 * (target.getHealth() / target.getMaxHealth())), 9, 3,
 						c.getRGB());
 				GlStateManager.color(1, 1, 1, 1);
 				RenderUtil.drawRoundedRectBorder(x + 40, y + 23, x + 40 + 95, y + 23 + 9, 3, new Color(230, 230, 230, 200).getRGB(), 1);

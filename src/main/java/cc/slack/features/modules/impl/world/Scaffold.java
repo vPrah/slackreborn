@@ -387,6 +387,9 @@ public class Scaffold extends Module {
                         } else {
                             mc.timer.timerSpeed = 1f;
                         }
+                    } else {
+                        mc.timer.timerSpeed = 1f;
+
                     }
                     if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
                         mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));

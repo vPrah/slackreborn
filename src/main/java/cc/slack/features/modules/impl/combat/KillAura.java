@@ -402,7 +402,13 @@ public class KillAura extends Module {
                 break;
             case "double sword":
                 if (hasDouble) {
-                    block();
+                    EntityLivingBase targetEntity = rayCastedEntity == null ? target : rayCastedEntity;
+                    if (interactAutoblock.getValue()) {
+                        PacketUtil.send(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
+                        // PacketUtil.send(new C02PacketUseEntity(targetEntity, new Vec3(0,0,0)));
+                    }
+                    PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(currentSlot).getStack()));
+                    isBlocking = true;
                 }
                 break;
             case "drop":

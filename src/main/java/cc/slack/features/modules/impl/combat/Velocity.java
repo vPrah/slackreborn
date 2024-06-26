@@ -86,7 +86,7 @@ public class Velocity extends Module {
             return;
         }
 
-        if (Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Flight.class).mode.getValue() == new FireballFlight()) {
+        if (Slack.getInstance().getModuleManager().getInstance(Flight.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(Flight.class).mode.getValue().toString() == "Fireball Flight") {
             return;
         }
 

@@ -64,20 +64,23 @@ public class ChestAura extends Module {
         if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) return;
         if (AttackUtil.inCombat) return;
 
-        if (currentBlock == null && switchTimer.hasReached(switchDelay.getValue())) {
+        if (currentBlock == null && switchTimer.hasReached(switchDelay.getValue()) && !(mc.currentScreen instanceof GuiChest)) {
             currentBlock = findNextBlock();
+            waitToClose = false;
         } else if (!(mc.currentScreen instanceof GuiChest) && waitToClose) {
             currentBlock = null;
+            waitToClose = false;
             switchTimer.reset();
+
         }
 
         if (currentBlock != null) {
-            if (openedChests.contains(currentBlock)) {
+            if (openedChests.contains(currentBlock) && !waitToClose) {
                 if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), currentBlock, EnumFacing.UP, new Vec3(0.5, 1, 0.5))) {
                     mc.thePlayer.swingItem();
                     waitToClose = true;
                 }
-            } else {
+            } else if (!openedChests.contains(currentBlock)) {
                 openedChests.add(currentBlock);
                 RotationUtil.setClientRotation(BlockUtils.getFaceRotation(EnumFacing.UP, currentBlock), 2);
             }
