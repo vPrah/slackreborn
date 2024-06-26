@@ -685,6 +685,7 @@ public final class RenderUtil implements IMinecraft {
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         glEnable(GL_LINE_SMOOTH);
         glLineWidth(width);
+        GL11.glBegin(GL11.GL_LINE_STRIP);
 
         glColor4f(red, green, blue, alpha);
 
@@ -1209,6 +1210,26 @@ public final class RenderUtil implements IMinecraft {
         // Args: Target (GL_FRAMEBUFFER_EXT), Attachment
         // (GL_DEPTH_ATTACHMENT_EXT), Target (GL_RENDERBUFFER_EXT), ID
         EXTFramebufferObject.glFramebufferRenderbufferEXT(EXTFramebufferObject.GL_FRAMEBUFFER_EXT, EXTFramebufferObject.GL_DEPTH_ATTACHMENT_EXT, EXTFramebufferObject.GL_RENDERBUFFER_EXT, stencil_depth_buffer_ID);
+    }
+
+    public static void startStencil() {
+        GL11.glEnable(GL11.GL_STENCIL_TEST);
+        GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT | GL11.GL_STENCIL_BUFFER_BIT);
+        GL11.glStencilFunc(GL11.GL_ALWAYS, 1, 0xFF); // Always pass the stencil test
+        GL11.glStencilMask(0xFF); // Write to all bits of the stencil buffer
+    }
+
+    public static void startRenderInStencil(boolean inverse) {
+        if (inverse) {
+            GL11.glStencilFunc(GL11.GL_EQUAL, 1, 0xFF); // Pass test if stencil value is 1
+        } else {
+            GL11.glStencilFunc(GL11.GL_NOTEQUAL, 1, 0xFF); // Pass test if stencil value is 1
+        }
+        GL11.glStencilMask(0x00); // Disable writing to the stencil buffer
+    }
+
+    public static void endStencil(){
+        GL11.glDisable(GL11.GL_STENCIL_TEST);
     }
 
     public static void resetCaps() {
