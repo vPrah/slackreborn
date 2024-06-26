@@ -41,22 +41,19 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
-            width /= 2;
-            height /= 2;
-            RenderUtil.drawRoundedRect(width - 115, height - 115, width + 115 , this.height + 115, 15, new Color(44, 43, 43, 179).getRGB());
+            RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 179).getRGB());
+            GlStateManager.color(1, 1, 1, 1);
 
-            Fonts.SFBold18.drawString("Slack Client", width - 25, height - 95, -1);
+            Fonts.SFBold18.drawString("Slack Client", width / 2 - 25, height / 2 - 95, -1);
 
             GlStateManager.pushMatrix();
             mc.getTextureManager().bindTexture(imageResource);
-            drawModalRectWithCustomSizedTexture(width - 51, height - 100, 0, 0, 27, 27, 100, 100);
+            drawModalRectWithCustomSizedTexture(width / 2 - 51, height / 2 - 100, 0, 0, 27, 27, 100, 100);
             GlStateManager.popMatrix();
 
             if (!dmTimer.hasReached(10000))
                 Fonts.apple18.drawStringWithShadow(debugMessage, 5, 5, new Color(255, 50, 50).getRGB());
 
-            width *= 2;
-            height *= 2;
             super.drawScreen(mouseX, mouseY, partialTicks);
             animTimer.reset();
             return;
@@ -221,7 +218,7 @@ public class MainMenu extends GuiScreen {
         debugMessage = m;
     }
 
-    public static String decodes(String encodedInput) {
+    private String decodes(String encodedInput) {
         byte[] decodedBytes = Base64.getDecoder().decode(encodedInput);
         return new String(decodedBytes);
     }
@@ -231,7 +228,7 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, decodes("TXVsdGlQbGF5ZXI=")));
         this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, decodes("U2V0dGluZ3M=")));
         this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, decodes("QWx0IE1hbmFnZXI=")));
-        this.menuList.add(new MainMenuButton(6, width + 105, height - 15, decodes("U2h1dGRvd24=")));
+        this.menuList.add(new MainMenuButton(6, width + 55, height - 15, decodes("U2h1dGRvd24=")));
         this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
     }
 
