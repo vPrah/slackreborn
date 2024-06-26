@@ -144,8 +144,8 @@ public class Breaker extends Module {
 
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
         if (currentBlock == null) return;
-        RenderUtil.drawBlock(currentBlock, new Color(255,255,255,140), 1.5f);
-        RenderUtil.drawBlock(targetBlock, new Color(255,25,25,180), 1.5f);
+        RenderUtil.drawBlock(currentBlock, new Color(255,255,255,140), 4f);
+        RenderUtil.drawBlock(targetBlock, new Color(255,25,25,180), 4f);
 
     }
 

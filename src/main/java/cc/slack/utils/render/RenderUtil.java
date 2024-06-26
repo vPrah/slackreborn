@@ -698,6 +698,8 @@ public final class RenderUtil implements IMinecraft {
             glVertex2d(x1 + Math.sin(i * degree) * radius, y1 + Math.cos(i * degree) * radius);
         for (double i = 270; i <= 360; i += 1)
             glVertex2d(x1 + Math.sin(i * degree) * radius, y2 + Math.cos(i * degree) * radius);
+        glVertex2d(x2, y2 + radius);
+
         glEnd();
         glColor4f(1, 1, 1, 1);
         glEnable(GL_TEXTURE_2D);

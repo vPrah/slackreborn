@@ -41,14 +41,15 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
-            RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 179).getRGB());
+            RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 50).getRGB());
+            GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
 
-            Fonts.poppins18.drawString("Slack Client", width / 2 - 25, height / 2 - 95, -1);
+            Fonts.poppins18.drawString("Slack Client", width / 2 - 25, height / 2 - 95, new Color(255, 255, 255).getRGB());
 
             GlStateManager.pushMatrix();
             mc.getTextureManager().bindTexture(imageResource);
-            drawModalRectWithCustomSizedTexture(width / 2 - 51, height / 2 - 100, 0, 0, 27, 27, 100, 100);
+            drawModalRectWithCustomSizedTexture(width / 2 - 51, height / 2 - 100, 0, 0, 27, 27, 26, 26);
             GlStateManager.popMatrix();
 
             if (!dmTimer.hasReached(10000))
@@ -59,15 +60,19 @@ public class MainMenu extends GuiScreen {
             return;
         }
 
-        if (!animTimer.hasReached(600)) {
-            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 600.0), 4) * this.height * 0.7);
+        if (!animTimer.hasReached(1000)) {
+            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 1000.0), 5) * this.height * 0.7);
         } else {
             animY = 0;
         }
 
         RenderUtil.drawRoundedRect(width / 2 - 70, height / 2 - 80 + animY, width / 2 + 70, height / 2 + 120 + animY, 10, new Color(0, 0, 0, 110).getRGB());
+        GlStateManager.color(1, 1, 1, 1);
+
+        GlStateManager.color(1, 1, 1, 1);
 
         Fonts.apple20.drawString("Made by Slack Team", 10,  height - 20, -1);
+        GlStateManager.color(1, 1, 1, 1);
 
 
         GlStateManager.pushMatrix();
@@ -99,11 +104,11 @@ public class MainMenu extends GuiScreen {
             addButtons();
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 58, 200, 27, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
-            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 29, 200, 27, decodes("Q29weSBId2lk")));
-            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 27, decodes("TG9nIElu")));
-            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 42, 200, 27, decodes("T3BlbiBXZWJzaXRlCg==")));
-            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 71, 200, 27, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
+            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 58, 200, 25, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
+            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 29, 200, 25, decodes("Q29weSBId2lk")));
+            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 25, decodes("TG9nIElu")));
+            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 42, 200, 25, decodes("T3BlbiBXZWJzaXRlCg==")));
+            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 71, 200, 25, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
 
         }
 

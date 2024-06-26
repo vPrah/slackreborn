@@ -341,6 +341,7 @@ public class KillAura extends Module {
                         PacketUtil.send(new C09PacketHeldItemChange(sword2));
                         currentSlot = sword2;
                     }
+                    isBlocking = false;
                 }
                 break;
             case "blatant":
@@ -367,6 +368,7 @@ public class KillAura extends Module {
                     isBlocking = false;
                     return false;
                 }
+                break;
             case "hypixel":
                 if (isBlocking) {
                     PacketUtil.send(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
@@ -397,7 +399,18 @@ public class KillAura extends Module {
                 block();
                 BlinkUtil.enable(false, true);
                 mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                break;
             case "double sword":
+                if (hasDouble) {
+                    EntityLivingBase targetEntity = rayCastedEntity == null ? target : rayCastedEntity;
+                    if (interactAutoblock.getValue()) {
+                        PacketUtil.send(new C02PacketUseEntity(targetEntity, C02PacketUseEntity.Action.INTERACT));
+                        // PacketUtil.send(new C02PacketUseEntity(targetEntity, new Vec3(0,0,0)));
+                    }
+                    PacketUtil.send(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(currentSlot).getStack()));
+                    isBlocking = true;
+                }
+                break;
             case "drop":
             case "switch":
             case "blatant":
