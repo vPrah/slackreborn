@@ -34,11 +34,11 @@ public class InvMove extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (!hypixelTest.getValue() || mc.getCurrentScreen() instanceof GuiInventory) {
+        if (!hypixelTest.getValue() || mc.currentScreen instanceof GuiInventory) {
             MovementUtil.updateBinds(false);
             RotationUtil.updateStrafeFixBinds();
         }
-        if (mc.getCurrentScreen() instanceof GuiInventory && hypixelTest.getValue()) {
+        if (mc.currentScreen instanceof GuiInventory && hypixelTest.getValue()) {
             if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));

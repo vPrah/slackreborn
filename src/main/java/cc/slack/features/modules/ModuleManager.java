@@ -53,8 +53,9 @@ public class ModuleManager {
                     new SafeWalk(),
                     new InvMove(),
                     new LongJump(), // Recoded
-                    new Step(),
+                    new Step(), // Recoded
                     new Sprint(),
+                    new Glide(), // Recoded
                     new Jesus(), // Recoded
                     new NoWeb(), // Recoded
                     new VClip(), // Recoded
