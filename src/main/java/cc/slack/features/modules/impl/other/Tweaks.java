@@ -44,7 +44,7 @@ public class Tweaks extends Module {
 
     public Tweaks() {
         super();
-        addSettings(noachievement, noblockhitdelay, noclickdelay, noSkinValue, noTickInvisValue, noExpBar, noChatBack, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
+        addSettings(noachievement, noblockhitdelay, noclickdelay, noSkinValue, noTickInvisValue, noExpBar, noChatBack, infinitechat, fullbright, nobosshealth, nojumpdelay, noJumpDelayTicks, exitGUIFix, noPumpkin, customTitle);
     }
 
     @Override
