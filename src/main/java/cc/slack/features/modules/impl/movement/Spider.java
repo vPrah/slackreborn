@@ -2,20 +2,19 @@ package cc.slack.features.modules.impl.movement;
 
 import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MotionEvent;
+import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.other.TimeUtil;
-import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
+import cc.slack.features.modules.impl.movement.spiders.ISpider;
+import cc.slack.features.modules.impl.movement.spiders.impl.*;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.block.BlockAir;
-import net.minecraft.network.Packet;
-import net.minecraft.network.play.client.C03PacketPlayer;
-import net.minecraft.util.MathHelper;
+
 
 @ModuleInfo(
         name = "Spider",
@@ -23,104 +22,66 @@ import net.minecraft.util.MathHelper;
 )
 public class Spider extends Module {
 
-    private final ModeValue<String> spiderValue = new ModeValue<>(new String[]{"Normal", "Collide", "Jump", "Vulcan", "Verus"});
+    private final ModeValue<ISpider> mode = new ModeValue<>(new ISpider[]{
 
-    private final NumberValue<Double> spiderSpeedValue = new NumberValue<>("Speed", 0.2D, 0.0D, 5.0D, 0.1D);
+            new NormalSpider(),
+            new JumpSpider(),
+            new CollideSpider(),
+            new VulcanSpider(),
+            new VerusSpider()
 
-    private final TimeUtil timer = new TimeUtil();
+    });
 
-    private boolean isMotionStop = true;
-    private int vulcanTicks;
+    public final NumberValue<Double> spiderSpeedValue = new NumberValue<>("Speed", 0.2D, 0.0D, 5.0D, 0.1D);
+
 
     public Spider() {
-        addSettings(spiderValue, spiderSpeedValue);
+        super();
+        addSettings(mode, spiderSpeedValue);
     }
 
+
+    @Override
+    public void onEnable() {
+        mode.getValue().onEnable();
+    }
+
+    @Override
+    public void onDisable() {
+        mc.timer.timerSpeed = 1F;
+        mode.getValue().onDisable();
+    }
+
+    @Listen
+    public void onMove(MoveEvent event) {
+        mode.getValue().onMove(event);
+    }
+
+    @Listen
+    public void onUpdate(UpdateEvent event) {
+        mode.getValue().onUpdate(event);
+    }
+
+    @Listen
+    public void onPacket(PacketEvent event) {
+        mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onCollide(CollideEvent event) {
+        mode.getValue().onCollide(event);
+    }
 
     @Listen
     public void onMotion (MotionEvent event) {
         if (event.getState() != State.PRE) return;
 
-        switch (spiderValue.getValue()) {
-            case "Normal":
-                if (mc.thePlayer.isCollidedHorizontally) {
-                    mc.thePlayer.motionY = spiderSpeedValue.getValue();
-                    isMotionStop = false;
-                } else if (!isMotionStop) {
-                    mc.thePlayer.motionY = 0;
-                    isMotionStop = true;
-                }
-                break;
-            case "Collide":
-                if (!mc.thePlayer.onGround && !mc.getGameSettings().keyBindSneak.isKeyDown()) {
-                    if (mc.thePlayer.posY + mc.thePlayer.motionY < Math.floor(mc.thePlayer.posY))
-                        if (!(PlayerUtil.getBlockRelativeToPlayer(-1, -1, 0) instanceof BlockAir) || !(PlayerUtil.getBlockRelativeToPlayer(1, -1, 0) instanceof BlockAir) || !(PlayerUtil.getBlockRelativeToPlayer(0, -1, -1) instanceof BlockAir) || !(PlayerUtil.getBlockRelativeToPlayer(0, -1, 1) instanceof BlockAir))
-                            mc.thePlayer.motionY = (Math.floor(mc.thePlayer.posY) - (mc.thePlayer.posY));
-                    if (mc.thePlayer.motionY == 0) {
-                        mc.thePlayer.onGround = true;
-                        event.setGround(true);
-                    }
-                }
-                break;
-            case "Jump":
-                if (mc.thePlayer.isCollidedHorizontally && timer.hasReached(500L)) {
-                    mc.thePlayer.motionY = MovementUtil.getJumpMotion(0.42F);
-                    event.setGround(true);
-                    timer.reset();
-                }
-                break;
-            case "Vulcan":
-                if (mc.thePlayer.isCollidedHorizontally) {
-                    if (mc.thePlayer.onGround) {
-                        vulcanTicks = 0;
-                        mc.thePlayer.jump();
-                    }
-                    if (vulcanTicks >= 3) {
-                        vulcanTicks = 0;
-                    }
-                    vulcanTicks++;
-                    switch (vulcanTicks) {
-                        case 2:
-                        case 3:
-                            mc.thePlayer.jump();
-                            MovementUtil.resetMotion(false);
-                    }
-                }
-                break;
+        mode.getValue().onMotion(event);
 
-            case "Verus":
-                break;
-        }
-    }
-
-    @Listen
-    public void onPacket(PacketEvent p) {
-        Packet packet = p.getPacket();
-        if (packet instanceof C03PacketPlayer && spiderValue.getValue() == "Vulcan") {
-            if (mc.thePlayer.isCollidedHorizontally) {
-                switch (vulcanTicks) {
-                    case 2:
-                        ((C03PacketPlayer) packet).onGround = true;
-                        break;
-                    case 3:
-                        ((C03PacketPlayer) packet).y -= 0.05;
-                        ((C03PacketPlayer) packet).x -= MathHelper.sin((float) Math.toRadians(mc.thePlayer.rotationYaw)) * 0.1;
-                        ((C03PacketPlayer) packet).z += MathHelper.cos((float) Math.toRadians(mc.thePlayer.rotationYaw)) * 0.1;
-                }
-                p.setPacket(packet);
-            }
-        }
     }
 
     @Override
-    public void onDisable() {
-        isMotionStop = true;
-        timer.reset();
-        vulcanTicks = 0;
-    }
-
-    @Override
-    public String getMode() { return spiderValue.getValue(); }
+    public String getMode() { return mode.getValue().toString(); }
 
 
 
