@@ -20,6 +20,7 @@ public class CMDManager {
                     new bindCMD(),
                     new ConfigCMD(),
                     new setCMD(),
+                    new ToggleCMD(),
                     new HelpCMD()
             );
         } catch (Exception e) {
