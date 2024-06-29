@@ -145,10 +145,10 @@ public class AttackUtil implements IMinecraft {
     }
 
     public static EntityLivingBase getTarget(double range, String sort, boolean team, boolean mobs, boolean animals, boolean players, boolean friends) {
-        if (mc.thePlayer == null || mc.getWorld() == null) return null;
+        if (mc.thePlayer == null || mc.theWorld == null) return null;
         List<EntityLivingBase> targets = new ArrayList<>();
 
-        for (Entity entity : mc.getWorld().getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
+        for (Entity entity : mc.theWorld.getLoadedEntityList().stream().filter(Objects::nonNull).collect(Collectors.toList())) {
             if (entity instanceof EntityLivingBase) {
                 if (entity == mc.thePlayer) continue;
                 if (entity instanceof EntityArmorStand) continue;
