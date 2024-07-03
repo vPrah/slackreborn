@@ -74,7 +74,7 @@ public class RandomEntityRule
         this.baby = cp.parseBooleanObject(props.getProperty("baby." + index));
         this.moonPhases = cp.parseRangeListInt(props.getProperty("moonPhase." + index));
         this.dayTimes = cp.parseRangeListInt(props.getProperty("dayTime." + index));
-        this.weatherList = cp.parseWeather(props.getProperty("weather." + index), "weather." + index, null);
+        this.weatherList = cp.parseWeather(props.getProperty("weather." + index), "weather." + index, (Weather[])null);
     }
 
     private RangeListInt parseMinMaxHeight(Properties props, int index)
@@ -278,7 +278,7 @@ public class RandomEntityRule
 
                     if (i > 0)
                     {
-                        i1 = (int)((double)(i1 * 100) / i);
+                        i1 = (int)((double)(i1 * 100) / (double)i);
                     }
                 }
 
@@ -366,7 +366,7 @@ public class RandomEntityRule
                 {
                     EntityLiving entityliving = (EntityLiving)entity2;
 
-                    if (entityliving.isChild() != this.baby)
+                    if (entityliving.isChild() != this.baby.booleanValue())
                     {
                         return false;
                     }

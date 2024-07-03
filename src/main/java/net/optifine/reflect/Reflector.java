@@ -77,7 +77,6 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryBasic;
 import net.minecraft.item.Item;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityBeacon;
 import net.minecraft.tileentity.TileEntityBrewingStand;
@@ -95,9 +94,14 @@ import net.minecraft.world.World;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.property.IUnlistedProperty;
+import net.optifine.Log;
+import net.optifine.util.ArrayUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class Reflector
 {
+    private static final Logger LOGGER = LogManager.getLogger();
     private static boolean logForge = logEntry("*** Reflector Forge ***");
     public static ReflectorClass BetterFoliageClient = new ReflectorClass("mods.betterfoliage.client.BetterFoliageClient");
     public static ReflectorClass BlamingTransformer = new ReflectorClass("net.minecraftforge.fml.common.asm.transformers.BlamingTransformer");
@@ -271,10 +275,10 @@ public class Reflector
     public static ReflectorField ModelLoader_stateModels = new ReflectorField(ModelLoader, "stateModels");
     public static ReflectorMethod ModelLoader_onRegisterItems = new ReflectorMethod(ModelLoader, "onRegisterItems");
     public static ReflectorMethod ModelLoader_getInventoryVariant = new ReflectorMethod(ModelLoader, "getInventoryVariant");
-    public static ReflectorField ModelLoader_textures = new ReflectorField(ModelLoader, "textures", true);
-    public static ReflectorClass ModelLoader_VanillaLoader = new ReflectorClass("net.minecraftforge.client.model.ModelLoader$VanillaLoader", true);
-    public static ReflectorField ModelLoader_VanillaLoader_INSTANCE = new ReflectorField(ModelLoader_VanillaLoader, "instance", true);
-    public static ReflectorMethod ModelLoader_VanillaLoader_loadModel = new ReflectorMethod(ModelLoader_VanillaLoader, "loadModel", null, true);
+    public static ReflectorField ModelLoader_textures = new ReflectorField(ModelLoader, "textures");
+    public static ReflectorClass ModelLoader_VanillaLoader = new ReflectorClass("net.minecraftforge.client.model.ModelLoader$VanillaLoader");
+    public static ReflectorField ModelLoader_VanillaLoader_INSTANCE = new ReflectorField(ModelLoader_VanillaLoader, "instance");
+    public static ReflectorMethod ModelLoader_VanillaLoader_loadModel = new ReflectorMethod(ModelLoader_VanillaLoader, "loadModel");
     public static ReflectorClass RenderBlockOverlayEvent_OverlayType = new ReflectorClass("net.minecraftforge.client.event.RenderBlockOverlayEvent$OverlayType");
     public static ReflectorField RenderBlockOverlayEvent_OverlayType_BLOCK = new ReflectorField(RenderBlockOverlayEvent_OverlayType, "BLOCK");
     public static ReflectorClass RenderingRegistry = new ReflectorClass("net.minecraftforge.fml.client.registry.RenderingRegistry");
@@ -411,11 +415,11 @@ public class Reflector
                 return;
             }
 
-            method.invoke(null, params);
+            method.invoke((Object)null, params);
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
         }
     }
 
@@ -431,13 +435,13 @@ public class Reflector
             }
             else
             {
-                Boolean obool = (Boolean)method.invoke(null, params);
-                return obool;
+                Boolean obool = (Boolean)method.invoke((Object)null, params);
+                return obool.booleanValue();
             }
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
             return false;
         }
     }
@@ -454,13 +458,13 @@ public class Reflector
             }
             else
             {
-                Integer integer = (Integer)method.invoke(null, params);
-                return integer;
+                Integer integer = (Integer)method.invoke((Object)null, params);
+                return integer.intValue();
             }
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
             return 0;
         }
     }
@@ -477,13 +481,13 @@ public class Reflector
             }
             else
             {
-                Float f = (Float)method.invoke(null, params);
-                return f;
+                Float f = (Float)method.invoke((Object)null, params);
+                return f.floatValue();
             }
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
             return 0.0F;
         }
     }
@@ -500,13 +504,13 @@ public class Reflector
             }
             else
             {
-                Double d0 = (Double)method.invoke(null, params);
-                return d0;
+                Double d0 = (Double)method.invoke((Object)null, params);
+                return d0.doubleValue();
             }
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
             return 0.0D;
         }
     }
@@ -523,13 +527,13 @@ public class Reflector
             }
             else
             {
-                String s = (String)method.invoke(null, params);
+                String s = (String)method.invoke((Object)null, params);
                 return s;
             }
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
             return null;
         }
     }
@@ -546,13 +550,13 @@ public class Reflector
             }
             else
             {
-                Object object = method.invoke(null, params);
+                Object object = method.invoke((Object)null, params);
                 return object;
             }
         }
         catch (Throwable throwable)
         {
-            handleException(throwable, null, refMethod, params);
+            handleException(throwable, (Object)null, refMethod, params);
             return null;
         }
     }
@@ -594,7 +598,7 @@ public class Reflector
             else
             {
                 Boolean obool = (Boolean)method.invoke(obj, params);
-                return obool;
+                return obool.booleanValue();
             }
         }
         catch (Throwable throwable)
@@ -617,7 +621,7 @@ public class Reflector
             else
             {
                 Integer integer = (Integer)method.invoke(obj, params);
-                return integer;
+                return integer.intValue();
             }
         }
         catch (Throwable throwable)
@@ -640,7 +644,7 @@ public class Reflector
             else
             {
                 Float f = (Float)method.invoke(obj, params);
-                return f;
+                return f.floatValue();
             }
         }
         catch (Throwable throwable)
@@ -663,7 +667,7 @@ public class Reflector
             else
             {
                 Double d0 = (Double)method.invoke(obj, params);
-                return d0;
+                return d0.doubleValue();
             }
         }
         catch (Throwable throwable)
@@ -721,7 +725,7 @@ public class Reflector
 
     public static Object getFieldValue(ReflectorField refField)
     {
-        return getFieldValue(null, refField);
+        return getFieldValue((Object)null, refField);
     }
 
     public static Object getFieldValue(Object obj, ReflectorField refField)
@@ -742,7 +746,7 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return null;
         }
     }
@@ -759,13 +763,13 @@ public class Reflector
             }
             else
             {
-                boolean flag = field.getBoolean(null);
+                boolean flag = field.getBoolean((Object)null);
                 return flag;
             }
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return def;
         }
     }
@@ -788,7 +792,7 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return def;
         }
     }
@@ -823,7 +827,7 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return def;
         }
     }
@@ -846,7 +850,7 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return def;
         }
     }
@@ -869,14 +873,14 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return def;
         }
     }
 
     public static boolean setFieldValue(ReflectorField refField, Object value)
     {
-        return setFieldValue(null, refField, value);
+        return setFieldValue((Object)null, refField, value);
     }
 
     public static boolean setFieldValue(Object obj, ReflectorField refField, Object value)
@@ -897,14 +901,14 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return false;
         }
     }
 
     public static boolean setFieldValueInt(ReflectorField refField, int value)
     {
-        return setFieldValueInt(null, refField, value);
+        return setFieldValueInt((Object)null, refField, value);
     }
 
     public static boolean setFieldValueInt(Object obj, ReflectorField refField, int value)
@@ -925,7 +929,7 @@ public class Reflector
         }
         catch (Throwable throwable)
         {
-            throwable.printStackTrace();
+            Log.error("", throwable);
             return false;
         }
     }
@@ -961,7 +965,7 @@ public class Reflector
                 else
                 {
                     Boolean obool = (Boolean)object1;
-                    return obool;
+                    return obool.booleanValue();
                 }
             }
         }
@@ -1024,7 +1028,7 @@ public class Reflector
             s2 = " static";
         }
 
-        Config.dbg(callType + s2 + " " + s + "." + s1 + "(" + Config.arrayToString(params) + ") => " + retVal);
+        Log.dbg(callType + s2 + " " + s + "." + s1 + "(" + ArrayUtils.arrayToString(params) + ") => " + retVal);
     }
 
     private static void dbgCallVoid(boolean isStatic, String callType, ReflectorMethod refMethod, Object[] params)
@@ -1038,7 +1042,7 @@ public class Reflector
             s2 = " static";
         }
 
-        Config.dbg(callType + s2 + " " + s + "." + s1 + "(" + Config.arrayToString(params) + ")");
+        Log.dbg(callType + s2 + " " + s + "." + s1 + "(" + ArrayUtils.arrayToString(params) + ")");
     }
 
     private static void dbgFieldValue(boolean isStatic, String accessType, ReflectorField refField, Object val)
@@ -1052,7 +1056,7 @@ public class Reflector
             s2 = " static";
         }
 
-        Config.dbg(accessType + s2 + " " + s + "." + s1 + " => " + val);
+        Log.dbg(accessType + s2 + " " + s + "." + s1 + " => " + val);
     }
 
     private static void handleException(Throwable e, Object obj, ReflectorMethod refMethod, Object[] params)
@@ -1068,24 +1072,25 @@ public class Reflector
             }
             else
             {
-                e.printStackTrace();
+                Log.error("", e);
             }
         }
         else
         {
+            Log.warn("*** Exception outside of method ***");
+            Log.warn("Method deactivated: " + refMethod.getTargetMethod());
+            refMethod.deactivate();
+
             if (e instanceof IllegalArgumentException)
             {
-                Config.warn("*** IllegalArgumentException ***");
-                Config.warn("Method: " + refMethod.getTargetMethod());
-                Config.warn("Object: " + obj);
-                Config.warn("Parameter classes: " + Config.arrayToString(getClasses(params)));
-                Config.warn("Parameters: " + Config.arrayToString(params));
+                Log.warn("*** IllegalArgumentException ***");
+                Log.warn("Method: " + refMethod.getTargetMethod());
+                Log.warn("Object: " + obj);
+                Log.warn("Parameter classes: " + ArrayUtils.arrayToString(getClasses(params)));
+                Log.warn("Parameters: " + ArrayUtils.arrayToString(params));
             }
 
-            Config.warn("*** Exception outside of method ***");
-            Config.warn("Method deactivated: " + refMethod.getTargetMethod());
-            refMethod.deactivate();
-            e.printStackTrace();
+            Log.warn("", e);
         }
     }
 
@@ -1093,22 +1098,23 @@ public class Reflector
     {
         if (e instanceof InvocationTargetException)
         {
-            e.printStackTrace();
+            Log.error("", e);
         }
         else
         {
+            Log.warn("*** Exception outside of constructor ***");
+            Log.warn("Constructor deactivated: " + refConstr.getTargetConstructor());
+            refConstr.deactivate();
+
             if (e instanceof IllegalArgumentException)
             {
-                Config.warn("*** IllegalArgumentException ***");
-                Config.warn("Constructor: " + refConstr.getTargetConstructor());
-                Config.warn("Parameter classes: " + Config.arrayToString(getClasses(params)));
-                Config.warn("Parameters: " + Config.arrayToString(params));
+                Log.warn("*** IllegalArgumentException ***");
+                Log.warn("Constructor: " + refConstr.getTargetConstructor());
+                Log.warn("Parameter classes: " + ArrayUtils.arrayToString(getClasses(params)));
+                Log.warn("Parameters: " + ArrayUtils.arrayToString(params));
             }
 
-            Config.warn("*** Exception outside of constructor ***");
-            Config.warn("Constructor deactivated: " + refConstr.getTargetConstructor());
-            refConstr.deactivate();
-            e.printStackTrace();
+            Log.warn("", e);
         }
     }
 
@@ -1150,7 +1156,20 @@ public class Reflector
 
     private static boolean logEntry(String str)
     {
-        Config.dbg(str);
+        LOGGER.info("[OptiFine] " + str);
+        return true;
+    }
+
+    private static boolean registerResolvable(final String str)
+    {
+        IResolvable iresolvable = new IResolvable()
+        {
+            public void resolve()
+            {
+                Reflector.LOGGER.info("[OptiFine] " + str);
+            }
+        };
+        ReflectorResolver.register(iresolvable);
         return true;
     }
 }

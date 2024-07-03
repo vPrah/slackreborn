@@ -1,7 +1,6 @@
 package net.optifine.render;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.BitSet;
 import java.util.List;
 import net.minecraft.block.Block;
@@ -121,7 +120,7 @@ public class RenderEnv
 
     public boolean isBreakingAnimation(List listQuads)
     {
-        if (this.breakingAnimation == -1 && !listQuads.isEmpty())
+        if (this.breakingAnimation == -1 && listQuads.size() > 0)
         {
             if (listQuads.get(0) instanceof BreakingFour)
             {
@@ -281,7 +280,11 @@ public class RenderEnv
 
         if (quads != null)
         {
-            this.listQuadsCtmMultipass.addAll(Arrays.asList(quads));
+            for (int i = 0; i < quads.length; ++i)
+            {
+                BakedQuad bakedquad = quads[i];
+                this.listQuadsCtmMultipass.add(bakedquad);
+            }
         }
 
         return this.listQuadsCtmMultipass;

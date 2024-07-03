@@ -18,7 +18,7 @@ public class ShaderExpressionResolver implements IExpressionResolver
 
         for (String s : map.keySet())
         {
-            IExpression iexpression = map.get(s);
+            IExpression iexpression = (IExpression)map.get(s);
             this.registerExpression(s, iexpression);
         }
     }
@@ -46,7 +46,7 @@ public class ShaderExpressionResolver implements IExpressionResolver
             String s = biomegenbase.biomeName.trim();
             s = "BIOME_" + s.toUpperCase().replace(' ', '_');
             int j = biomegenbase.biomeID;
-            IExpression iexpression = new ConstantFloat(j);
+            IExpression iexpression = new ConstantFloat((float)j);
             this.registerExpression(s, iexpression);
         }
     }
@@ -98,7 +98,7 @@ public class ShaderExpressionResolver implements IExpressionResolver
 
     public IExpression getExpression(String name)
     {
-        return this.mapExpressions.get(name);
+        return (IExpression)this.mapExpressions.get(name);
     }
 
     public boolean hasExpression(String name)
