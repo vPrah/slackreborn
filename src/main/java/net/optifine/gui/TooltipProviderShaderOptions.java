@@ -46,7 +46,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
 
         if (so.getPaths() != null && gamesettings.advancedItemTooltips)
         {
-            s3 = "\u00a78" + Lang.get("of.general.from") + ": " + Config.arrayToString(so.getPaths());
+            s3 = "\u00a78" + Lang.get("of.general.from") + ": " + Config.arrayToString((Object[])so.getPaths());
         }
 
         String s4 = null;
@@ -59,7 +59,7 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
 
         List<String> list = new ArrayList();
         list.add(s);
-        list.addAll(Arrays.asList(astring));
+        list.addAll(Arrays.<String>asList(astring));
 
         if (s2 != null)
         {
@@ -108,15 +108,18 @@ public class TooltipProviderShaderOptions extends TooltipProviderOptions
 
         for (int i = 0; i < args.size(); ++i)
         {
-            String s = args.get(i);
+            String s = (String)args.get(i);
 
-            if (s != null && !s.isEmpty())
+            if (s != null && s.length() > 0)
             {
-                list.addAll(fontrenderer.listFormattedStringToWidth(s, width));
+                for (String s1 : fontrenderer.listFormattedStringToWidth(s, width))
+                {
+                    list.add(s1);
+                }
             }
         }
 
-        String[] astring = list.toArray(new String[list.size()]);
+        String[] astring = (String[])((String[])list.toArray(new String[list.size()]));
         return astring;
     }
 }

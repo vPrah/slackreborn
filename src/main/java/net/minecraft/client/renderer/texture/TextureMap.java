@@ -115,8 +115,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
     public void loadTexture(IResourceManager resourceManager) throws IOException
     {
-        ShadersTex.resManager = resourceManager;
-
         if (this.iconCreator != null)
         {
             this.loadSprites(resourceManager, this.iconCreator);
@@ -142,7 +140,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
     public void loadTextureAtlas(IResourceManager resourceManager)
     {
-        ShadersTex.resManager = resourceManager;
         Config.dbg("Multitexture: " + Config.isMultiTexture());
 
         if (Config.isMultiTexture())
@@ -393,11 +390,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
             for (TextureAtlasSprite textureatlassprite2 : stitcher.getStichSlots())
             {
-                if (Config.isShaders())
-                {
-                    ShadersTex.setIconName(ShadersTex.setSprite(textureatlassprite2).getIconName());
-                }
-
                 String s = textureatlassprite2.getIconName();
                 map.remove(s);
                 this.mapUploadedSprites.put(s, textureatlassprite2);
@@ -406,7 +398,7 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
                 {
                     if (Config.isShaders())
                     {
-                        ShadersTex.uploadTexSubForLoadAtlas(textureatlassprite2.getFrameTextureData(0), textureatlassprite2.getIconWidth(), textureatlassprite2.getIconHeight(), textureatlassprite2.getOriginX(), textureatlassprite2.getOriginY(), false, false);
+                        ShadersTex.uploadTexSubForLoadAtlas(this, textureatlassprite2.getIconName(), textureatlassprite2.getFrameTextureData(0), textureatlassprite2.getIconWidth(), textureatlassprite2.getIconHeight(), textureatlassprite2.getOriginX(), textureatlassprite2.getOriginY(), false, false);
                     }
                     else
                     {
@@ -521,11 +513,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
 
     public void updateAnimations()
     {
-        if (Config.isShaders())
-        {
-            ShadersTex.updatingTex = this.getMultiTexID();
-        }
-
         boolean flag = false;
         boolean flag1 = false;
         TextureUtil.bindTexture(this.getGlTextureId());
@@ -648,11 +635,6 @@ public class TextureMap extends AbstractTexture implements ITickableTextureObjec
         if (SmartAnimations.isActive())
         {
             SmartAnimations.resetSpritesRendered();
-        }
-
-        if (Config.isShaders())
-        {
-            ShadersTex.updatingTex = null;
         }
     }
 

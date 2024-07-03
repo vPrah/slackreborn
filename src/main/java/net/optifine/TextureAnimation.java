@@ -184,7 +184,7 @@ public class TextureAnimation
                                 if (this.interpolateSkip <= 1 || textureanimationframe.counter % this.interpolateSkip == 0)
                                 {
                                     TextureAnimationFrame textureanimationframe1 = this.getFrame(this.currentFrameIndex + 1);
-                                    double d0 = 1.0D * textureanimationframe.counter / textureanimationframe.duration;
+                                    double d0 = 1.0D * (double)textureanimationframe.counter / (double)textureanimationframe.duration;
                                     this.updateTextureInerpolate(textureanimationframe, textureanimationframe1, d0);
                                 }
                             }
@@ -192,7 +192,7 @@ public class TextureAnimation
                             {
                                 this.imageData.position(i);
                                 GlStateManager.bindTexture(this.dstTextId);
-                                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.imageData);
+                                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)this.imageData);
                             }
                         }
                     }
@@ -201,34 +201,38 @@ public class TextureAnimation
         }
     }
 
-    private void updateTextureInerpolate(TextureAnimationFrame frame1, TextureAnimationFrame frame2, double dd) {
+    private void updateTextureInerpolate(TextureAnimationFrame frame1, TextureAnimationFrame frame2, double k)
+    {
         int i = this.frameWidth * this.frameHeight * 4;
         int j = i * frame1.index;
 
-        if (j + i <= this.imageData.limit()) {
-            int k = i * frame2.index;
+        if (j + i <= this.imageData.limit())
+        {
+            int k1 = i * frame2.index;
 
-            if (k + i <= this.imageData.limit()) {
+            if (k1 + i <= this.imageData.limit())
+            {
                 this.interpolateData.clear();
 
-                for (int l = 0; l < i; ++l) {
+                for (int l = 0; l < i; ++l)
+                {
                     int i1 = this.imageData.get(j + l) & 255;
-                    int j1 = this.imageData.get(k + l) & 255;
-                    int k1 = this.mix(i1, j1, dd);
-                    byte b0 = (byte) k1;
+                    int j1 = this.imageData.get(k1 + l) & 255;
+                    int k3 = this.mix(i1, j1, k);
+                    byte b0 = (byte)k3;
                     this.interpolateData.put(b0);
                 }
 
                 this.interpolateData.flip();
                 GlStateManager.bindTexture(this.dstTextId);
-                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, this.interpolateData);
+                GL11.glTexSubImage2D(GL11.GL_TEXTURE_2D, 0, this.dstX, this.dstY, this.frameWidth, this.frameHeight, GL11.GL_RGBA, GL11.GL_UNSIGNED_BYTE, (ByteBuffer)this.interpolateData);
             }
         }
     }
 
     private int mix(int col1, int col2, double k)
     {
-        return (int)(col1 * (1.0D - k) + col2 * k);
+        return (int)((double)col1 * (1.0D - k) + (double)col2 * k);
     }
 
     public String getSrcTex()

@@ -182,7 +182,7 @@ public class TextureUtils
                 BufferedImage bufferedimage = new BufferedImage(i, j * 2, 2);
                 Graphics2D graphics2d = bufferedimage.createGraphics();
                 graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
-                graphics2d.drawImage(bi, 0, 0, i, j, null);
+                graphics2d.drawImage(bi, 0, 0, i, j, (ImageObserver)null);
                 return bufferedimage;
             }
         }
@@ -406,7 +406,7 @@ public class TextureUtils
         if (GLContext.getCapabilities().GL_EXT_texture_filter_anisotropic)
         {
             float f = GL11.glGetFloat(34047);
-            float f1 = Config.getAnisotropicFilterLevel();
+            float f1 = (float)Config.getAnisotropicFilterLevel();
             f1 = Math.min(f1, f);
             GL11.glTexParameterf(GL11.GL_TEXTURE_2D, 34046, f1);
         }
@@ -438,7 +438,7 @@ public class TextureUtils
         }
 
         graphics2d.setRenderingHint(RenderingHints.KEY_INTERPOLATION, object);
-        graphics2d.drawImage(bi, 0, 0, w2, k, null);
+        graphics2d.drawImage(bi, 0, 0, w2, k, (ImageObserver)null);
         return bufferedimage;
     }
 
@@ -561,14 +561,14 @@ public class TextureUtils
             int l = j * k;
             IntBuffer intbuffer = BufferUtils.createIntBuffer(l);
             int[] aint = new int[l];
-            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, intbuffer);
+            GL11.glGetTexImage(GL11.GL_TEXTURE_2D, i1, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)intbuffer);
             intbuffer.get(aint);
             BufferedImage bufferedimage = new BufferedImage(j, k, 2);
             bufferedimage.setRGB(0, 0, j, k, aint, 0, j);
 
             try
             {
-                ImageIO.write(bufferedimage, "png", file4);
+                ImageIO.write(bufferedimage, "png", (File)file4);
                 Config.dbg("Exported: " + file4);
             }
             catch (Exception exception)
@@ -608,7 +608,7 @@ public class TextureUtils
 
             if (aint2.length != i * j)
             {
-                int k = (int)Math.round(Math.sqrt(aint2.length));
+                int k = (int)Math.round(Math.sqrt((double)aint2.length));
 
                 if (k * k != aint2.length)
                 {
@@ -643,7 +643,7 @@ public class TextureUtils
         }
         else
         {
-            int[][] aint = list.get(frame);
+            int[][] aint = (int[][])list.get(frame);
 
             if (aint != null && aint.length > level)
             {
@@ -661,7 +661,7 @@ public class TextureUtils
     {
         for (int i = 65536; i > 0; i >>= 1)
         {
-            GlStateManager.glTexImage2D(32868, 0, 6408, i, i, 0, 6408, 5121, null);
+            GlStateManager.glTexImage2D(32868, 0, 6408, i, i, 0, 6408, 5121, (IntBuffer)null);
             int j = GL11.glGetError();
             int k = GlStateManager.glGetTexLevelParameteri(32868, 0, 4096);
 

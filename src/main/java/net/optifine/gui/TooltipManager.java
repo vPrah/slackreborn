@@ -29,7 +29,7 @@ public class TooltipManager
         {
             int i = 700;
 
-            if (System.currentTimeMillis() >= this.mouseStillTime + i)
+            if (System.currentTimeMillis() >= this.mouseStillTime + (long)i)
             {
                 GuiButton guibutton = GuiScreenOF.getSelectedButton(x, y, buttonList);
 
@@ -42,7 +42,7 @@ public class TooltipManager
                     {
                         if (astring.length > 8)
                         {
-                            astring = Arrays.copyOf(astring, 8);
+                            astring = (String[])Arrays.copyOf(astring, 8);
                             astring[astring.length - 1] = astring[astring.length - 1] + " ...";
                         }
 
@@ -65,7 +65,7 @@ public class TooltipManager
                             }
 
                             FontRenderer fontrenderer = Minecraft.getMinecraft().MCfontRenderer;
-                            fontrenderer.drawStringWithShadow(s, (rectangle.x + 5), (rectangle.y + 5 + l * 11), k);
+                            fontrenderer.drawStringWithShadow(s, (float)(rectangle.x + 5), (float)(rectangle.y + 5 + l * 11), k);
                         }
                     }
                 }

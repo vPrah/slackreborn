@@ -7,7 +7,7 @@ public class TestExpressions
 {
     public static void main(String[] args) throws Exception
     {
-        ExpressionParser expressionparser = new ExpressionParser(null);
+        ExpressionParser expressionparser = new ExpressionParser((IExpressionResolver)null);
 
         while (true)
         {

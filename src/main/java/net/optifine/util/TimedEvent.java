@@ -12,7 +12,7 @@ public class TimedEvent
         synchronized (mapEventTimes)
         {
             long i = System.currentTimeMillis();
-            Long olong = mapEventTimes.get(name);
+            Long olong = (Long)mapEventTimes.get(name);
 
             if (olong == null)
             {
@@ -20,7 +20,7 @@ public class TimedEvent
                 mapEventTimes.put(name, olong);
             }
 
-            long j = olong;
+            long j = olong.longValue();
 
             if (i < j + timeIntervalMs)
             {
