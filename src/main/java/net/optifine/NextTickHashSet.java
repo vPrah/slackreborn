@@ -23,7 +23,10 @@ public class NextTickHashSet extends TreeSet
 
     public NextTickHashSet(Set oldSet)
     {
-        this.addAll(oldSet);
+        for (Object object : oldSet)
+        {
+            this.add(object);
+        }
     }
 
     public boolean contains(Object obj)
