@@ -12,7 +12,7 @@ public class CacheObjectArray
 
     private static synchronized int[] allocateArray(int size)
     {
-        int[] aint = arrays.pollLast();
+        int[] aint = (int[])arrays.pollLast();
 
         if (aint == null || aint.length < size)
         {
@@ -58,7 +58,7 @@ public class CacheObjectArray
 
         for (int j = 0; j < count; ++j)
         {
-            int[] aint1 = aint.clone();
+            int[] aint1 = (int[])aint.clone();
         }
 
         long k = System.currentTimeMillis();
@@ -71,7 +71,7 @@ public class CacheObjectArray
 
         for (int j = 0; j < count; ++j)
         {
-            int[] aint = (int[]) Array.newInstance(Integer.TYPE, size);
+            int[] aint = (int[])((int[])Array.newInstance(Integer.TYPE, size));
         }
 
         long k = System.currentTimeMillis();
@@ -85,7 +85,7 @@ public class CacheObjectArray
 
         for (int j = 0; j < count; ++j)
         {
-            IBlockState[] aiblockstate1 = aiblockstate.clone();
+            IBlockState[] aiblockstate1 = (IBlockState[])aiblockstate.clone();
         }
 
         long k = System.currentTimeMillis();
@@ -111,7 +111,7 @@ public class CacheObjectArray
 
         for (int j = 0; j < count; ++j)
         {
-            Object[] aobject = (Object[]) Array.newInstance(cls, size);
+            Object[] aobject = (Object[])((Object[])Array.newInstance(cls, size));
         }
 
         long k = System.currentTimeMillis();
