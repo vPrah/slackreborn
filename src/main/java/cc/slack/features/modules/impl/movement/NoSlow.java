@@ -25,17 +25,23 @@ import net.minecraft.util.BlockPos;
 
 public class NoSlow extends Module {
 
-    public final ModeValue<String> swordmode = new ModeValue<>("Block", new String[]{"None", "Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    // Slow Modes
+    public final ModeValue<String> blockmode = new ModeValue<>("Block", new String[]{"None", "Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
     public final ModeValue<String> eatmode = new ModeValue<>("Eat", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> potionmode = new ModeValue<>("Potion", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> bowmode = new ModeValue<>("Bow", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
+
 
     public float fMultiplier = 0F;
     public float sMultiplier = 0F;
 
     public NoSlow() {
-        addSettings(swordmode, eatmode, forwardMultiplier, strafeMultiplier);
+        addSettings(blockmode, eatmode, potionmode, bowmode
+                , forwardMultiplier, strafeMultiplier);
     }
 
     private boolean badC07 = false;
@@ -52,13 +58,23 @@ public class NoSlow extends Module {
         boolean usingItem = mc.thePlayer.isUsingItem() || (Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle() && Slack.getInstance().getModuleManager().getInstance(KillAura.class).isBlocking);
 
         if (usingItem && mc.thePlayer.getHeldItem().item instanceof ItemSword) {
-            String mode = swordmode.getValue().toLowerCase();
+            String mode = blockmode.getValue().toLowerCase();
             processModeSword(mode);
         }
 
-        if (mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood || mc.thePlayer.getHeldItem().item instanceof ItemPotion)) {
+        if (mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem().item instanceof ItemFood) {
             String mode = eatmode.getValue().toLowerCase();
             processModeEat(mode);
+        }
+
+        if (mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem().item instanceof ItemPotion) {
+            String mode = potionmode.getValue().toLowerCase();
+            processModePotion(mode);
+        }
+
+        if (mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem().item instanceof ItemBow) {
+            String mode = bowmode.getValue().toLowerCase();
+            processModeBow(mode);
         }
 
         badC07 = false;
@@ -133,6 +149,74 @@ public class NoSlow extends Module {
         }
     }
 
+    // onPotion Slow
+    private void processModePotion(String mode) {
+        switch (mode) {
+            case "none":
+                setMultipliers(0.2F, 0.2F);
+                break;
+            case "vanilla":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                break;
+            case "ncp latest":
+            case "switch":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                break;
+            case "place":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+                break;
+            case "c08 tick":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                if (mc.thePlayer.ticksExisted % 3 == 0) {
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+                }
+                break;
+            case "hypixel":
+                if (mc.thePlayer.ticksExisted % 3 == 0 && !badC07) {
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
+                }
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                break;
+        }
+    }
+
+    // onBow Slow
+    private void processModeBow(String mode) {
+        switch (mode) {
+            case "none":
+                setMultipliers(0.2F, 0.2F);
+                break;
+            case "vanilla":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                break;
+            case "ncp latest":
+            case "switch":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                break;
+            case "place":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.inventory.getCurrentItem()));
+                break;
+            case "c08 tick":
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                if (mc.thePlayer.ticksExisted % 3 == 0) {
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
+                }
+                break;
+            case "hypixel":
+                if (mc.thePlayer.ticksExisted % 3 == 0 && !badC07 && !(mc.thePlayer.getHeldItem().item instanceof ItemSword)) {
+                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
+                }
+                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                break;
+        }
+    }
+
     private void setMultipliers(float forward, float strafe) {
         fMultiplier = forward;
         sMultiplier = strafe;
@@ -144,6 +228,6 @@ public class NoSlow extends Module {
     }
 
     @Override
-    public String getMode() { return swordmode.getValue() + ", "  + eatmode.getValue(); }
+    public String getMode() { return blockmode.getValue() + ", "  + eatmode.getValue(); }
 
 }
