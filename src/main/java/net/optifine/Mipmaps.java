@@ -1,7 +1,6 @@
 package net.optifine;
 
 import java.awt.Dimension;
-import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,7 +55,7 @@ public class Mipmaps
 
                 if (k <= 0 && l <= 0)
                 {
-                    Dimension[] adimension = (Dimension[]) list.toArray(new Dimension[list.size()]);
+                    Dimension[] adimension = (Dimension[])((Dimension[])list.toArray(new Dimension[list.size()]));
                     return adimension;
                 }
 
@@ -104,10 +103,10 @@ public class Mipmaps
                 {
                     for (int k1 = 0; k1 < l; ++k1)
                     {
-                        int l1 = aint[j1 * 2 + (k1 * 2) * i];
-                        int i2 = aint[j1 * 2 + 1 + (k1 * 2) * i];
+                        int l1 = aint[j1 * 2 + 0 + (k1 * 2 + 0) * i];
+                        int i2 = aint[j1 * 2 + 1 + (k1 * 2 + 0) * i];
                         int j2 = aint[j1 * 2 + 1 + (k1 * 2 + 1) * i];
-                        int k2 = aint[j1 * 2 + (k1 * 2 + 1) * i];
+                        int k2 = aint[j1 * 2 + 0 + (k1 * 2 + 1) * i];
                         int l2 = alphaBlend(l1, i2, j2, k2);
                         aint2[j1 + k1 * k] = l2;
                     }
@@ -172,11 +171,11 @@ public class Mipmaps
         return k << 24 | j2 << 16 | k2 << 8 | l2;
     }
 
-    private int averageColor(int i, int j)
+    private int averageColor(int i1, int j1)
     {
-        int k = (i & -16777216) >> 24 & 255;
-        int p = (j & -16777216) >> 24 & 255;
-        return (k + j >> 1 << 24) + ((k & 16711422) + (p & 16711422) >> 1);
+        int i = (i1 & -16777216) >> 24 & 255;
+        int j = (j1 & -16777216) >> 24 & 255;
+        return (i + j >> 1 << 24) + ((i1 & 16711422) + (j1 & 16711422) >> 1);
     }
 
     public static IntBuffer[] makeMipmapBuffers(Dimension[] mipmapDimensions, int[][] mipmapDatas)
@@ -215,7 +214,7 @@ public class Mipmaps
             int j = dimension.width;
             int k = dimension.height;
             int l = i + 1;
-            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, l, GL11.GL_RGBA, j, k, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (ByteBuffer) null);
+            GL11.glTexImage2D(GL11.GL_TEXTURE_2D, l, GL11.GL_RGBA, j, k, 0, GL12.GL_BGRA, GL12.GL_UNSIGNED_INT_8_8_8_8_REV, (IntBuffer)((IntBuffer)null));
         }
     }
 }
