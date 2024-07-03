@@ -69,7 +69,7 @@ public class EntityAliases
 
                 loadModEntityAliases(list);
 
-                if (!list.isEmpty())
+                if (((List)list).size() > 0)
                 {
                     entityAliases = toArray(list);
                 }
@@ -111,9 +111,9 @@ public class EntityAliases
                 Config.dbg("[Shaders] Parsing entity mappings: " + path);
                 ConnectedParser connectedparser = new ConnectedParser("Shaders");
 
-                for (Object e : properties.keySet())
+                for (Object s0 : properties.keySet())
                 {
-                    String s = (String) e;
+                    String s = (String) s0;
                     String s1 = properties.getProperty(s);
                     String s2 = "entity.";
 
@@ -161,10 +161,10 @@ public class EntityAliases
     {
         while (list.size() <= index)
         {
-            list.add(-1);
+            list.add(Integer.valueOf(-1));
         }
 
-        list.set(index, val);
+        list.set(index, Integer.valueOf(val));
     }
 
     private static int[] toArray(List<Integer> list)
@@ -173,7 +173,7 @@ public class EntityAliases
 
         for (int i = 0; i < aint.length; ++i)
         {
-            aint[i] = list.get(i);
+            aint[i] = ((Integer)list.get(i)).intValue();
         }
 
         return aint;

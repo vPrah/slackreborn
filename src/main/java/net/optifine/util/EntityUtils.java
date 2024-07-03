@@ -8,9 +8,9 @@ import net.minecraft.src.Config;
 
 public class EntityUtils
 {
-    private static final Map<Class, Integer> mapIdByClass = new HashMap<>();
-    private static final Map<String, Integer> mapIdByName = new HashMap<>();
-    private static final Map<String, Class> mapClassByName = new HashMap<>();
+    private static final Map<Class, Integer> mapIdByClass = new HashMap();
+    private static final Map<String, Integer> mapIdByName = new HashMap();
+    private static final Map<String, Class> mapClassByName = new HashMap();
 
     public static int getEntityIdByClass(Entity entity)
     {
@@ -19,19 +19,20 @@ public class EntityUtils
 
     public static int getEntityIdByClass(Class cls)
     {
-        Integer integer = mapIdByClass.get(cls);
-        return integer == null ? -1 : integer;
+        Integer integer = (Integer)mapIdByClass.get(cls);
+        return integer == null ? -1 : integer.intValue();
     }
 
     public static int getEntityIdByName(String name)
     {
-        Integer integer = mapIdByName.get(name);
-        return integer == null ? -1 : integer;
+        Integer integer = (Integer)mapIdByName.get(name);
+        return integer == null ? -1 : integer.intValue();
     }
 
     public static Class getEntityClassByName(String name)
     {
-        return mapClassByName.get(name);
+        Class oclass = (Class)mapClassByName.get(name);
+        return oclass;
     }
 
     static
@@ -61,8 +62,8 @@ public class EntityUtils
                         Config.warn("Duplicate entity name: " + s + ", class1: " + mapClassByName.get(s) + ", class2: " + oclass);
                     }
 
-                    mapIdByClass.put(oclass, i);
-                    mapIdByName.put(s, i);
+                    mapIdByClass.put(oclass, Integer.valueOf(i));
+                    mapIdByName.put(s, Integer.valueOf(i));
                     mapClassByName.put(s, oclass);
                 }
             }

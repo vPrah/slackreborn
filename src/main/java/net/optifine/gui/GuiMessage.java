@@ -23,7 +23,7 @@ public class GuiMessage extends GuiScreen
         this.parentScreen = parentScreen;
         this.messageLine1 = line1;
         this.messageLine2 = line2;
-        this.confirmButtonText = I18n.format("gui.done");
+        this.confirmButtonText = I18n.format("gui.done", new Object[0]);
     }
 
     /**
@@ -54,10 +54,9 @@ public class GuiMessage extends GuiScreen
         this.drawCenteredString(this.fontRendererObj, this.messageLine1, this.width / 2, 70, 16777215);
         int i = 90;
 
-        for (Object e : this.listLines2)
+        for (Object s : this.listLines2)
         {
-            String s = (String) e;
-            this.drawCenteredString(this.fontRendererObj, s, this.width / 2, i, 16777215);
+            this.drawCenteredString(this.fontRendererObj, (String) s, this.width / 2, i, 16777215);
             i += this.fontRendererObj.FONT_HEIGHT;
         }
 
