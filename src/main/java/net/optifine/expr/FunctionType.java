@@ -72,14 +72,17 @@ public enum FunctionType
 
     private FunctionType(ExpressionType expressionType, String name, ExpressionType[] parameterTypes)
     {
+        this(0, expressionType, name, parameterTypes);
     }
 
     private FunctionType(int precedence, ExpressionType expressionType, String name, ExpressionType[] parameterTypes)
     {
+        this(precedence, expressionType, name, new Parameters(parameterTypes));
     }
 
     private FunctionType(ExpressionType expressionType, String name, IParameters parameters)
     {
+        this(0, expressionType, name, parameters);
     }
 
     private FunctionType(int precedence, ExpressionType expressionType, String name, IParameters parameters)
@@ -139,7 +142,7 @@ public enum FunctionType
             case MOD:
                 float f = evalFloat(args, 0);
                 float f1 = evalFloat(args, 1);
-                return f - f1 * ((int)(f / f1));
+                return f - f1 * (float)((int)(f / f1));
 
             case NEG:
                 return -evalFloat(args, 0);
@@ -160,13 +163,13 @@ public enum FunctionType
                 return MathUtils.acos(evalFloat(args, 0));
 
             case TAN:
-                return (float)Math.tan(evalFloat(args, 0));
+                return (float)Math.tan((double)evalFloat(args, 0));
 
             case ATAN:
-                return (float)Math.atan(evalFloat(args, 0));
+                return (float)Math.atan((double)evalFloat(args, 0));
 
             case ATAN2:
-                return (float)MathHelper.func_181159_b(evalFloat(args, 0), evalFloat(args, 1));
+                return (float)MathHelper.func_181159_b((double)evalFloat(args, 0), (double)evalFloat(args, 1));
 
             case TORAD:
                 return MathUtils.toRad(evalFloat(args, 0));
@@ -187,28 +190,28 @@ public enum FunctionType
                 return MathHelper.abs(evalFloat(args, 0));
 
             case EXP:
-                return (float)Math.exp(evalFloat(args, 0));
+                return (float)Math.exp((double)evalFloat(args, 0));
 
             case FLOOR:
-                return MathHelper.floor_float(evalFloat(args, 0));
+                return (float)MathHelper.floor_float(evalFloat(args, 0));
 
             case CEIL:
-                return MathHelper.ceiling_float_int(evalFloat(args, 0));
+                return (float)MathHelper.ceiling_float_int(evalFloat(args, 0));
 
             case FRAC:
-                return (float)MathHelper.func_181162_h(evalFloat(args, 0));
+                return (float)MathHelper.func_181162_h((double)evalFloat(args, 0));
 
             case LOG:
-                return (float)Math.log(evalFloat(args, 0));
+                return (float)Math.log((double)evalFloat(args, 0));
 
             case POW:
-                return (float)Math.pow(evalFloat(args, 0), evalFloat(args, 1));
+                return (float)Math.pow((double)evalFloat(args, 0), (double)evalFloat(args, 1));
 
             case RANDOM:
                 return (float)Math.random();
 
             case ROUND:
-                return Math.round(evalFloat(args, 0));
+                return (float)Math.round(evalFloat(args, 0));
 
             case SIGNUM:
                 return Math.signum(evalFloat(args, 0));
@@ -219,7 +222,7 @@ public enum FunctionType
             case FMOD:
                 float f2 = evalFloat(args, 0);
                 float f3 = evalFloat(args, 1);
-                return f2 - f3 * MathHelper.floor_float(f2 / f3);
+                return f2 - f3 * (float)MathHelper.floor_float(f2 / f3);
 
             case TIME:
                 Minecraft minecraft = Minecraft.getMinecraft();
@@ -230,7 +233,7 @@ public enum FunctionType
                     return 0.0F;
                 }
 
-                return (world.getTotalWorldTime() % 24000L) + Config.renderPartialTicks;
+                return (float)(world.getTotalWorldTime() % 24000L) + Config.renderPartialTicks;
 
             case IF:
                 int i = (args.length - 1) / 2;
