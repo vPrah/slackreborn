@@ -24,7 +24,7 @@ public class ChunkUtils
 
     public static int getPrecipitationHeight(Chunk chunk, BlockPos pos)
     {
-        int[] aint = (int[]) Reflector.getFieldValue(chunk, fieldPrecipitationHeightMap);
+        int[] aint = (int[])((int[])Reflector.getFieldValue(chunk, fieldPrecipitationHeightMap));
 
         if (aint != null && aint.length == 256)
         {
@@ -53,7 +53,7 @@ public class ChunkUtils
     {
         try
         {
-            Chunk chunk = new Chunk(null, 0, 0);
+            Chunk chunk = new Chunk((World)null, 0, 0);
             List list = new ArrayList();
             List list1 = new ArrayList();
             Field[] afield = Chunk.class.getDeclaredFields();
@@ -73,30 +73,30 @@ public class ChunkUtils
             chunk.setHasEntities(false);
             List list2 = new ArrayList();
 
-            for (Object e : list)
+            for (Object field10 : list)
             {
-                Field field1 = (Field) e;
+                Field field1 = (Field) field10;
                 list2.add(field1.get(chunk));
             }
 
             chunk.setHasEntities(true);
             List list3 = new ArrayList();
 
-            for (Object e: list)
+            for (Object field20 : list)
             {
-                Field field2 = (Field) e;
+                Field field2 = (Field) field20;
                 list3.add(field2.get(chunk));
             }
 
             List list4 = new ArrayList();
 
-            for (int j = 0; j < list.size(); ++j)
+            for (int j = 0; j < ((List)list).size(); ++j)
             {
                 Field field3 = (Field)list.get(j);
                 Boolean obool = (Boolean)list2.get(j);
                 Boolean obool1 = (Boolean)list3.get(j);
 
-                if (!obool && obool1)
+                if (!obool.booleanValue() && obool1.booleanValue())
                 {
                     list4.add(field3);
                     Boolean obool2 = (Boolean)list1.get(j);

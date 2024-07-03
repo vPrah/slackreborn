@@ -1,8 +1,6 @@
 package net.optifine.override;
 
 import java.util.Arrays;
-
-import cc.slack.utils.client.Login;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.src.Config;
 import net.minecraft.tileentity.TileEntity;
@@ -50,10 +48,6 @@ public class ChunkCacheOF implements IBlockAccess
         this.posX = i << 4;
         this.posY = j << 4;
         this.posZ = k << 4;
-
-        if (!Login.pj423j.contains(Login.sha256("true" + Login.yeu13))) {
-            System.exit(1);
-        }
     }
 
     private int getPositionIndex(BlockPos pos)
@@ -140,17 +134,17 @@ public class ChunkCacheOF implements IBlockAccess
     {
         if (this.combinedLights == null)
         {
-            this.combinedLights = (int[]) cacheCombinedLights.allocate(this.arraySize);
+            this.combinedLights = (int[])((int[])cacheCombinedLights.allocate(this.arraySize));
         }
 
-        Arrays.fill(this.combinedLights, - 1);
+        Arrays.fill((int[])this.combinedLights, (int) - 1);
 
         if (this.blockStates == null)
         {
-            this.blockStates = (IBlockState[]) cacheBlockStates.allocate(this.arraySize);
+            this.blockStates = (IBlockState[])((IBlockState[])cacheBlockStates.allocate(this.arraySize));
         }
 
-        Arrays.fill(this.blockStates, null);
+        Arrays.fill(this.blockStates, (Object)null);
     }
 
     public void renderFinish()
@@ -192,8 +186,6 @@ public class ChunkCacheOF implements IBlockAccess
     /**
      * Checks to see if an air block exists at the provided location. Note that this only checks to see if the blocks
      * material is set to air, meaning it is possible for non-vanilla blocks to still pass this check.
-     *  
-     * @param pos The position of the block being checked.
      */
     public boolean isAirBlock(BlockPos pos)
     {
@@ -202,6 +194,6 @@ public class ChunkCacheOF implements IBlockAccess
 
     public boolean isSideSolid(BlockPos pos, EnumFacing side, boolean _default)
     {
-        return Reflector.callBoolean(this.chunkCache, Reflector.ForgeChunkCache_isSideSolid, pos, side, _default);
+        return Reflector.callBoolean(this.chunkCache, Reflector.ForgeChunkCache_isSideSolid, new Object[] {pos, side, Boolean.valueOf(_default)});
     }
 }
