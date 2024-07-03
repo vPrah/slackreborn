@@ -20,11 +20,11 @@ public class PropertiesOrdered extends Properties
     {
         Set<Object> set = super.keySet();
         this.keysOrdered.retainAll(set);
-        return Collections.unmodifiableSet(this.keysOrdered);
+        return Collections.<Object>unmodifiableSet(this.keysOrdered);
     }
 
     public synchronized Enumeration<Object> keys()
     {
-        return Collections.enumeration(this.keySet());
+        return Collections.<Object>enumeration(this.keySet());
     }
 }

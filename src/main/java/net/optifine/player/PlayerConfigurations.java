@@ -32,7 +32,7 @@ public class PlayerConfigurations
 
             if (abstractclientplayer != null)
             {
-                setPlayerConfiguration(abstractclientplayer.getNameClear(), null);
+                setPlayerConfiguration(abstractclientplayer.getNameClear(), (PlayerConfiguration)null);
                 timeReloadPlayerItemsMs = System.currentTimeMillis();
             }
         }

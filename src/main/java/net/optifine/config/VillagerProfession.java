@@ -9,7 +9,7 @@ public class VillagerProfession
 
     public VillagerProfession(int profession)
     {
-        this(profession, null);
+        this(profession, (int[])null);
     }
 
     public VillagerProfession(int profession, int career)

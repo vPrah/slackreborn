@@ -27,9 +27,6 @@ public class PlayerControllerOF extends PlayerControllerMP
 
     /**
      * Called when the player is hitting a block with an item.
-     *  
-     * @param loc location of the block being clicked
-     * @param face Blockface being clicked
      */
     public boolean clickBlock(BlockPos loc, EnumFacing face)
     {
