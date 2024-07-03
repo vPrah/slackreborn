@@ -54,11 +54,11 @@ public class StrUtils
                     {
                         int i = 0;
 
-                        for (int j = 0; j < list.size(); ++j)
+                        for (int j = 0; j < ((List)list).size(); ++j)
                         {
                             String s3 = (String)list.get(j);
 
-                            if (!s3.isEmpty())
+                            if (s3.length() > 0)
                             {
                                 int k = indexOfMaskSingle(str, s3, i, wildCharSingle);
 
@@ -250,11 +250,11 @@ public class StrUtils
                     {
                         int i = 0;
 
-                        for (int j = 0; j < list.size(); ++j)
+                        for (int j = 0; j < ((List)list).size(); ++j)
                         {
                             String s3 = (String)list.get(j);
 
-                            if (!s3.isEmpty())
+                            if (s3.length() > 0)
                             {
                                 int k = str.indexOf(s3, i);
 
@@ -280,7 +280,7 @@ public class StrUtils
 
     public static String[] split(String str, String separators)
     {
-        if (str != null && !str.isEmpty())
+        if (str != null && str.length() > 0)
         {
             if (separators == null)
             {
@@ -303,7 +303,7 @@ public class StrUtils
                 }
 
                 list.add(str.substring(i, str.length()));
-                return (String[]) list.toArray(new String[list.size()]);
+                return (String[])((String[])list.toArray(new String[list.size()]));
             }
         }
         else
@@ -658,7 +658,7 @@ public class StrUtils
                     }
                 }
 
-                String[] astring = list.toArray(new String[list.size()]);
+                String[] astring = (String[])list.toArray(new String[list.size()]);
                 return astring;
             }
         }
