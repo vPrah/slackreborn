@@ -610,7 +610,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     private void createDisplay() throws LWJGLException
     {
         Display.setResizable(true);
-        Display.setTitle("Loading " + Slack.getInstance().getInfo().getName() + " " + Slack.getInstance().getInfo().getVersion() + "-" + Slack.getInstance().getInfo().getType());
+        Display.setTitle("Loading " + Slack.getInstance().getInfo().getName() + " " + Slack.getInstance().getInfo().getVersion() + " " + Slack.getInstance().getInfo().getType() + "| " + Slack.getInstance().codename);
 
         try
         {

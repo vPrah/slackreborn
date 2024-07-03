@@ -204,17 +204,17 @@ public class GuiVideoSettings extends GuiScreenOF
 
         if (s1.equals("HD"))
         {
-            s = "OptiFine HD L5";
+            s = "OptiFine HD M5";
         }
 
         if (s1.equals("HD_U"))
         {
-            s = "OptiFine HD L5 Ultra";
+            s = "OptiFine HD M5 Ultra";
         }
 
         if (s1.equals("L"))
         {
-            s = "OptiFine L5 Light";
+            s = "OptiFine M5 Light";
         }
 
         this.drawString(this.fontRendererObj, s, 2, this.height - 10, 8421504);

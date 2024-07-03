@@ -8,7 +8,6 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import net.minecraft.client.Minecraft;
 import net.minecraft.src.Config;
@@ -89,11 +88,10 @@ public class HttpUtils
 
             if (headers != null)
             {
-                for (Object e: headers.keySet())
+                for (Object s : headers.keySet())
                 {
-                    String s = (String) e;
                     String s1 = "" + headers.get(s);
-                    httpurlconnection.setRequestProperty(s, s1);
+                    httpurlconnection.setRequestProperty((String) s, s1);
                 }
             }
 
@@ -108,7 +106,7 @@ public class HttpUtils
             outputstream.flush();
             outputstream.close();
             InputStream inputstream = httpurlconnection.getInputStream();
-            InputStreamReader inputstreamreader = new InputStreamReader(inputstream, StandardCharsets.US_ASCII);
+            InputStreamReader inputstreamreader = new InputStreamReader(inputstream, "ASCII");
             BufferedReader bufferedreader = new BufferedReader(inputstreamreader);
             StringBuffer stringbuffer = new StringBuffer();
             String s2;

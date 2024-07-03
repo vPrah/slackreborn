@@ -157,11 +157,11 @@ public class HttpPipelineConnection
 
         if (remove)
         {
-            return list.remove(0);
+            return (HttpPipelineRequest)list.remove(0);
         }
         else
         {
-            return list.get(0);
+            return (HttpPipelineRequest)list.get(0);
         }
     }
 
@@ -171,7 +171,7 @@ public class HttpPipelineConnection
         {
             long i = this.keepaliveTimeoutMs;
 
-            if (!this.listRequests.isEmpty())
+            if (this.listRequests.size() > 0)
             {
                 i = 5000L;
             }
@@ -205,7 +205,7 @@ public class HttpPipelineConnection
             this.responseReceived = true;
             this.onActivity();
 
-            if (!this.listRequests.isEmpty() && this.listRequests.get(0) == pr)
+            if (this.listRequests.size() > 0 && this.listRequests.get(0) == pr)
             {
                 this.listRequests.remove(0);
                 pr.setClosed(true);
@@ -301,7 +301,7 @@ public class HttpPipelineConnection
 
                         if (j > 0)
                         {
-                            this.keepaliveTimeoutMs = j * 1000;
+                            this.keepaliveTimeoutMs = (long)(j * 1000);
                         }
                     }
 
@@ -382,18 +382,18 @@ public class HttpPipelineConnection
 
     private void terminateRequests(Exception e)
     {
-        if (!this.listRequests.isEmpty())
+        if (this.listRequests.size() > 0)
         {
             if (!this.responseReceived)
             {
-                HttpPipelineRequest httppipelinerequest = this.listRequests.remove(0);
+                HttpPipelineRequest httppipelinerequest = (HttpPipelineRequest)this.listRequests.remove(0);
                 httppipelinerequest.getHttpListener().failed(httppipelinerequest.getHttpRequest(), e);
                 httppipelinerequest.setClosed(true);
             }
 
-            while (!this.listRequests.isEmpty())
+            while (this.listRequests.size() > 0)
             {
-                HttpPipelineRequest httppipelinerequest1 = this.listRequests.remove(0);
+                HttpPipelineRequest httppipelinerequest1 = (HttpPipelineRequest)this.listRequests.remove(0);
                 HttpPipeline.addRequest(httppipelinerequest1);
             }
         }
@@ -411,7 +411,7 @@ public class HttpPipelineConnection
 
     public synchronized boolean hasActiveRequests()
     {
-        return !this.listRequests.isEmpty();
+        return this.listRequests.size() > 0;
     }
 
     public String getHost()

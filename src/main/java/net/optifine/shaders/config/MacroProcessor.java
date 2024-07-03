@@ -5,7 +5,6 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.StringReader;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
@@ -39,7 +38,7 @@ public class MacroProcessor
             Shaders.saveShader(s3, s);
         }
 
-        byte[] abyte = s.getBytes(StandardCharsets.US_ASCII);
+        byte[] abyte = s.getBytes("ASCII");
         ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(abyte);
         return bytearrayinputstream;
     }

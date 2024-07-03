@@ -21,7 +21,7 @@ public class Json
 
     public static String getString(JsonObject jsonObj, String field)
     {
-        return getString(jsonObj, field, null);
+        return getString(jsonObj, field, (String)null);
     }
 
     public static String getString(JsonObject jsonObj, String field, String def)
@@ -32,7 +32,7 @@ public class Json
 
     public static float[] parseFloatArray(JsonElement jsonElement, int len)
     {
-        return parseFloatArray(jsonElement, len, null);
+        return parseFloatArray(jsonElement, len, (float[])null);
     }
 
     public static float[] parseFloatArray(JsonElement jsonElement, int len, float[] def)
@@ -65,7 +65,7 @@ public class Json
 
     public static int[] parseIntArray(JsonElement jsonElement, int len)
     {
-        return parseIntArray(jsonElement, len, null);
+        return parseIntArray(jsonElement, len, (int[])null);
     }
 
     public static int[] parseIntArray(JsonElement jsonElement, int len, int[] def)

@@ -10,6 +10,7 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.src.Config;
 import net.optifine.Lang;
+import net.optifine.gui.GuiScreenOF;
 import net.optifine.gui.TooltipManager;
 import net.optifine.gui.TooltipProviderEnumShaderOptions;
 import net.optifine.shaders.Shaders;
@@ -17,7 +18,7 @@ import net.optifine.shaders.ShadersTex;
 import net.optifine.shaders.config.EnumShaderOption;
 import org.lwjgl.Sys;
 
-public class GuiShaders extends GuiScreen
+public class GuiShaders extends GuiScreenOF
 {
     protected GuiScreen parentGui;
     protected String screenTitle = "Shaders";
@@ -25,10 +26,12 @@ public class GuiShaders extends GuiScreen
     private int updateTimer = -1;
     private GuiSlotShaders shaderList;
     private boolean saved = false;
-    private static float[] QUALITY_MULTIPLIERS = new float[] {0.5F, 0.70710677F, 1.0F, 1.4142135F, 2.0F};
-    private static String[] QUALITY_MULTIPLIER_NAMES = new String[] {"0.5x", "0.7x", "1x", "1.5x", "2x"};
+    private static float[] QUALITY_MULTIPLIERS = new float[] {0.5F, 0.6F, 0.6666667F, 0.75F, 0.8333333F, 0.9F, 1.0F, 1.1666666F, 1.3333334F, 1.5F, 1.6666666F, 1.8F, 2.0F};
+    private static String[] QUALITY_MULTIPLIER_NAMES = new String[] {"0.5x", "0.6x", "0.66x", "0.75x", "0.83x", "0.9x", "1x", "1.16x", "1.33x", "1.5x", "1.66x", "1.8x", "2x"};
+    private static float QUALITY_MULTIPLIER_DEFAULT = 1.0F;
     private static float[] HAND_DEPTH_VALUES = new float[] {0.0625F, 0.125F, 0.25F};
     private static String[] HAND_DEPTH_NAMES = new String[] {"0.5x", "1x", "2x"};
+    private static float HAND_DEPTH_DEFAULT = 0.125F;
     public static final int EnumOS_UNKNOWN = 0;
     public static final int EnumOS_WINDOWS = 1;
     public static final int EnumOS_OSX = 2;
@@ -46,7 +49,7 @@ public class GuiShaders extends GuiScreen
      */
     public void initGui()
     {
-        this.screenTitle = I18n.format("of.options.shadersTitle");
+        this.screenTitle = I18n.format("of.options.shadersTitle", new Object[0]);
 
         if (Shaders.shadersConfig == null)
         {
@@ -61,8 +64,8 @@ public class GuiShaders extends GuiScreen
         int j1 = this.width - i - 20;
         this.shaderList = new GuiSlotShaders(this, j1, this.height, l, this.height - 50, 16);
         this.shaderList.registerScrollButtons(7, 8);
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, k, 0 + l, i, j));
-        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, k, i1 + l, i, j));
+        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.ANTIALIASING, k, 0 * i1 + l, i, j));
+        this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.NORMAL_MAP, k, 1 * i1 + l, i, j));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SPECULAR_MAP, k, 2 * i1 + l, i, j));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.RENDER_RES_MUL, k, 3 * i1 + l, i, j));
         this.buttonList.add(new GuiButtonEnumShaderOption(EnumShaderOption.SHADOW_RES_MUL, k, 4 * i1 + l, i, j));
@@ -74,7 +77,7 @@ public class GuiShaders extends GuiScreen
         int i2 = this.height - 25;
         this.buttonList.add(new GuiButton(201, l1, i2, k1 - 22 + 1, j, Lang.get("of.options.shaders.shadersFolder")));
         this.buttonList.add(new GuiButtonDownloadShaders(210, l1 + k1 - 22 - 1, i2));
-        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done")));
+        this.buttonList.add(new GuiButton(202, j1 / 4 * 3 - k1 / 2, this.height - 25, k1, j, I18n.format("gui.done", new Object[0])));
         this.buttonList.add(new GuiButton(203, k, this.height - 25, i, j, Lang.get("of.options.shaders.shaderOptions")));
         this.updateButtons();
     }
@@ -106,127 +109,186 @@ public class GuiShaders extends GuiScreen
      */
     protected void actionPerformed(GuiButton button)
     {
+        this.actionPerformed(button, false);
+    }
+
+    protected void actionPerformedRightClick(GuiButton button)
+    {
+        this.actionPerformed(button, true);
+    }
+
+    private void actionPerformed(GuiButton button, boolean rightClick)
+    {
         if (button.enabled)
         {
-            if (button instanceof GuiButtonEnumShaderOption)
+            if (!(button instanceof GuiButtonEnumShaderOption))
+            {
+                if (!rightClick)
+                {
+                    switch (button.id)
+                    {
+                        case 201:
+                            switch (getOSType())
+                            {
+                                case 1:
+                                    String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {Shaders.shaderPacksDir.getAbsolutePath()});
+
+                                    try
+                                    {
+                                        Runtime.getRuntime().exec(s);
+                                        return;
+                                    }
+                                    catch (IOException ioexception)
+                                    {
+                                        ioexception.printStackTrace();
+                                        break;
+                                    }
+
+                                case 2:
+                                    try
+                                    {
+                                        Runtime.getRuntime().exec(new String[] {"/usr/bin/open", Shaders.shaderPacksDir.getAbsolutePath()});
+                                        return;
+                                    }
+                                    catch (IOException ioexception1)
+                                    {
+                                        ioexception1.printStackTrace();
+                                    }
+                            }
+
+                            boolean flag = false;
+
+                            try
+                            {
+                                Class oclass1 = Class.forName("java.awt.Desktop");
+                                Object object1 = oclass1.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+                                oclass1.getMethod("browse", new Class[] {URI.class}).invoke(object1, new Object[] {(new File(this.mc.mcDataDir, "shaderpacks")).toURI()});
+                            }
+                            catch (Throwable throwable1)
+                            {
+                                throwable1.printStackTrace();
+                                flag = true;
+                            }
+
+                            if (flag)
+                            {
+                                Config.dbg("Opening via system class!");
+                                Sys.openURL("file://" + Shaders.shaderPacksDir.getAbsolutePath());
+                            }
+
+                            break;
+
+                        case 202:
+                            Shaders.storeConfig();
+                            this.saved = true;
+                            this.mc.displayGuiScreen(this.parentGui);
+                            break;
+
+                        case 203:
+                            GuiShaderOptions guishaderoptions = new GuiShaderOptions(this, Config.getGameSettings());
+                            Config.getMinecraft().displayGuiScreen(guishaderoptions);
+                            break;
+
+                        case 210:
+                            try
+                            {
+                                Class<?> oclass = Class.forName("java.awt.Desktop");
+                                Object object = oclass.getMethod("getDesktop", new Class[0]).invoke((Object)null, new Object[0]);
+                                oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {new URI("http://optifine.net/shaderPacks")});
+                            }
+                            catch (Throwable throwable)
+                            {
+                                throwable.printStackTrace();
+                            }
+
+                        case 204:
+                        case 205:
+                        case 206:
+                        case 207:
+                        case 208:
+                        case 209:
+                        default:
+                            this.shaderList.actionPerformed(button);
+                    }
+                }
+            }
+            else
             {
                 GuiButtonEnumShaderOption guibuttonenumshaderoption = (GuiButtonEnumShaderOption)button;
 
                 switch (guibuttonenumshaderoption.getEnumShaderOption())
                 {
                     case ANTIALIASING:
-                        Shaders.nextAntialiasingLevel();
+                        Shaders.nextAntialiasingLevel(!rightClick);
+
+                        if (this.hasShiftDown())
+                        {
+                            Shaders.configAntialiasingLevel = 0;
+                        }
+
                         Shaders.uninit();
                         break;
 
                     case NORMAL_MAP:
                         Shaders.configNormalMap = !Shaders.configNormalMap;
+
+                        if (this.hasShiftDown())
+                        {
+                            Shaders.configNormalMap = true;
+                        }
+
                         Shaders.uninit();
                         this.mc.scheduleResourcesRefresh();
                         break;
 
                     case SPECULAR_MAP:
                         Shaders.configSpecularMap = !Shaders.configSpecularMap;
+
+                        if (this.hasShiftDown())
+                        {
+                            Shaders.configSpecularMap = true;
+                        }
+
                         Shaders.uninit();
                         this.mc.scheduleResourcesRefresh();
                         break;
 
                     case RENDER_RES_MUL:
-                        float f2 = Shaders.configRenderResMul;
-                        float[] afloat2 = QUALITY_MULTIPLIERS;
-                        String[] astring2 = QUALITY_MULTIPLIER_NAMES;
-                        int k = getValueIndex(f2, afloat2);
-
-                        if (isShiftKeyDown())
-                        {
-                            --k;
-
-                            if (k < 0)
-                            {
-                                k = afloat2.length - 1;
-                            }
-                        }
-                        else
-                        {
-                            ++k;
-
-                            if (k >= afloat2.length)
-                            {
-                                k = 0;
-                            }
-                        }
-
-                        Shaders.configRenderResMul = afloat2[k];
+                        Shaders.configRenderResMul = this.getNextValue(Shaders.configRenderResMul, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_DEFAULT, !rightClick, this.hasShiftDown());
                         Shaders.uninit();
                         Shaders.scheduleResize();
                         break;
 
                     case SHADOW_RES_MUL:
-                        float f1 = Shaders.configShadowResMul;
-                        float[] afloat1 = QUALITY_MULTIPLIERS;
-                        String[] astring1 = QUALITY_MULTIPLIER_NAMES;
-                        int j = getValueIndex(f1, afloat1);
-
-                        if (isShiftKeyDown())
-                        {
-                            --j;
-
-                            if (j < 0)
-                            {
-                                j = afloat1.length - 1;
-                            }
-                        }
-                        else
-                        {
-                            ++j;
-
-                            if (j >= afloat1.length)
-                            {
-                                j = 0;
-                            }
-                        }
-
-                        Shaders.configShadowResMul = afloat1[j];
+                        Shaders.configShadowResMul = this.getNextValue(Shaders.configShadowResMul, QUALITY_MULTIPLIERS, QUALITY_MULTIPLIER_DEFAULT, !rightClick, this.hasShiftDown());
                         Shaders.uninit();
                         Shaders.scheduleResizeShadow();
                         break;
 
                     case HAND_DEPTH_MUL:
-                        float f = Shaders.configHandDepthMul;
-                        float[] afloat = HAND_DEPTH_VALUES;
-                        String[] astring = HAND_DEPTH_NAMES;
-                        int i = getValueIndex(f, afloat);
-
-                        if (isShiftKeyDown())
-                        {
-                            --i;
-
-                            if (i < 0)
-                            {
-                                i = afloat.length - 1;
-                            }
-                        }
-                        else
-                        {
-                            ++i;
-
-                            if (i >= afloat.length)
-                            {
-                                i = 0;
-                            }
-                        }
-
-                        Shaders.configHandDepthMul = afloat[i];
+                        Shaders.configHandDepthMul = this.getNextValue(Shaders.configHandDepthMul, HAND_DEPTH_VALUES, HAND_DEPTH_DEFAULT, !rightClick, this.hasShiftDown());
                         Shaders.uninit();
                         break;
 
                     case OLD_HAND_LIGHT:
-                        Shaders.configOldHandLight.nextValue();
+                        Shaders.configOldHandLight.nextValue(!rightClick);
+
+                        if (this.hasShiftDown())
+                        {
+                            Shaders.configOldHandLight.resetValue();
+                        }
+
                         Shaders.uninit();
                         break;
 
                     case OLD_LIGHTING:
-                        Shaders.configOldLighting.nextValue();
+                        Shaders.configOldLighting.nextValue(!rightClick);
+
+                        if (this.hasShiftDown())
+                        {
+                            Shaders.configOldLighting.resetValue();
+                        }
+
                         Shaders.updateBlockLightLevel();
                         Shaders.uninit();
                         this.mc.scheduleResourcesRefresh();
@@ -266,94 +328,6 @@ public class GuiShaders extends GuiScreen
                 }
 
                 guibuttonenumshaderoption.updateButtonText();
-            }
-            else
-            {
-                switch (button.id)
-                {
-                    case 201:
-                        switch (getOSType())
-                        {
-                            case 1:
-                                String s = String.format("cmd.exe /C start \"Open file\" \"%s\"", new Object[] {Shaders.shaderPacksDir.getAbsolutePath()});
-
-                                try
-                                {
-                                    Runtime.getRuntime().exec(s);
-                                    return;
-                                }
-                                catch (IOException ioexception)
-                                {
-                                    ioexception.printStackTrace();
-                                    break;
-                                }
-
-                            case 2:
-                                try
-                                {
-                                    Runtime.getRuntime().exec(new String[] {"/usr/bin/open", Shaders.shaderPacksDir.getAbsolutePath()});
-                                    return;
-                                }
-                                catch (IOException ioexception1)
-                                {
-                                    ioexception1.printStackTrace();
-                                }
-                        }
-
-                        boolean flag = false;
-
-                        try
-                        {
-                            Class oclass1 = Class.forName("java.awt.Desktop");
-                            Object object1 = oclass1.getMethod("getDesktop", new Class[0]).invoke(null);
-                            oclass1.getMethod("browse", new Class[] {URI.class}).invoke(object1, new Object[] {(new File(this.mc.mcDataDir, "shaderpacks")).toURI()});
-                        }
-                        catch (Throwable throwable1)
-                        {
-                            throwable1.printStackTrace();
-                            flag = true;
-                        }
-
-                        if (flag)
-                        {
-                            Config.dbg("Opening via system class!");
-                            Sys.openURL("file://" + Shaders.shaderPacksDir.getAbsolutePath());
-                        }
-
-                        break;
-
-                    case 202:
-                        Shaders.storeConfig();
-                        this.saved = true;
-                        this.mc.displayGuiScreen(this.parentGui);
-                        break;
-
-                    case 203:
-                        GuiShaderOptions guishaderoptions = new GuiShaderOptions(this, Config.getGameSettings());
-                        Config.getMinecraft().displayGuiScreen(guishaderoptions);
-                        break;
-
-                    case 210:
-                        try
-                        {
-                            Class<?> oclass = Class.forName("java.awt.Desktop");
-                            Object object = oclass.getMethod("getDesktop", new Class[0]).invoke(null);
-                            oclass.getMethod("browse", new Class[] {URI.class}).invoke(object, new Object[] {new URI("http://optifine.net/shaderPacks")});
-                        }
-                        catch (Throwable throwable)
-                        {
-                            throwable.printStackTrace();
-                        }
-
-                    case 204:
-                    case 205:
-                    case 206:
-                    case 207:
-                    case 208:
-                    case 209:
-                    default:
-                        this.shaderList.actionPerformed(button);
-                }
             }
         }
     }
@@ -439,6 +413,39 @@ public class GuiShaders extends GuiScreen
         return names[i];
     }
 
+    private float getNextValue(float val, float[] values, float valDef, boolean forward, boolean reset)
+    {
+        if (reset)
+        {
+            return valDef;
+        }
+        else
+        {
+            int i = getValueIndex(val, values);
+
+            if (forward)
+            {
+                ++i;
+
+                if (i >= values.length)
+                {
+                    i = 0;
+                }
+            }
+            else
+            {
+                --i;
+
+                if (i < 0)
+                {
+                    i = values.length - 1;
+                }
+            }
+
+            return values[i];
+        }
+    }
+
     public static int getValueIndex(float val, float[] values)
     {
         for (int i = 0; i < values.length; ++i)
@@ -468,5 +475,10 @@ public class GuiShaders extends GuiScreen
     {
         String s = System.getProperty("os.name").toLowerCase();
         return s.contains("win") ? 1 : (s.contains("mac") ? 2 : (s.contains("solaris") ? 3 : (s.contains("sunos") ? 3 : (s.contains("linux") ? 4 : (s.contains("unix") ? 4 : 0)))));
+    }
+
+    public boolean hasShiftDown()
+    {
+        return isShiftKeyDown();
     }
 }

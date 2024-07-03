@@ -8,7 +8,9 @@ public class MathUtilsTest
     {
         MathUtilsTest.OPER[] amathutilstest$oper = MathUtilsTest.OPER.values();
 
-        for (OPER mathutilstest$oper : amathutilstest$oper) {
+        for (int i = 0; i < amathutilstest$oper.length; ++i)
+        {
+            MathUtilsTest.OPER mathutilstest$oper = amathutilstest$oper[i];
             dbg("******** " + mathutilstest$oper + " ***********");
             test(mathutilstest$oper, false);
         }
@@ -24,8 +26,8 @@ public class MathUtilsTest
         {
             case SIN:
             case COS:
-                d0 = -MathHelper.PI;
-                d1 = MathHelper.PI;
+                d0 = (double)(-MathHelper.PI);
+                d1 = (double)MathHelper.PI;
                 break;
 
             case ASIN:
@@ -72,7 +74,7 @@ public class MathUtilsTest
                     return;
             }
 
-            dbg(String.format("%.2f, Math: %f, Helper: %f, diff: %f", d2, f, f1, Math.abs(f - f1)));
+            dbg(String.format("%.2f, Math: %f, Helper: %f, diff: %f", new Object[] {Double.valueOf(d2), Float.valueOf(f), Float.valueOf(f1), Float.valueOf(Math.abs(f - f1))}));
         }
     }
 
@@ -81,7 +83,7 @@ public class MathUtilsTest
         System.out.println(str);
     }
 
-    private enum OPER
+    private static enum OPER
     {
         SIN,
         COS,

@@ -1,6 +1,5 @@
 package net.optifine;
 
-import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiIngame;
 import net.minecraft.client.gui.ScaledResolution;
@@ -11,6 +10,7 @@ import net.minecraft.client.renderer.vertex.DefaultVertexFormats;
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.profiler.Profiler;
 import net.minecraft.src.Config;
+import net.optifine.util.MemoryMonitor;
 import org.lwjgl.opengl.GL11;
 
 public class Lagometer
@@ -38,53 +38,6 @@ public class Lagometer
     private static int numRecordedFrameTimes = 0;
     private static long prevFrameTimeNano = -1L;
     private static long renderTimeNano = 0L;
-    private static long memTimeStartMs = System.currentTimeMillis();
-    private static long memStart = getMemoryUsed();
-    private static long memTimeLast = memTimeStartMs;
-    private static long memLast = memStart;
-    private static long memTimeDiffMs = 1L;
-    private static long memDiff = 0L;
-    private static int memMbSec = 0;
-
-    public static boolean updateMemoryAllocation()
-    {
-        long i = System.currentTimeMillis();
-        long j = getMemoryUsed();
-        boolean flag = false;
-
-        if (j < memLast)
-        {
-            double d0 = memDiff / 1000000.0D;
-            double d1 = memTimeDiffMs / 1000.0D;
-            int k = (int)(d0 / d1);
-
-            if (k > 0)
-            {
-                memMbSec = k;
-            }
-
-            memTimeStartMs = i;
-            memStart = j;
-            memTimeDiffMs = 0L;
-            memDiff = 0L;
-            flag = true;
-        }
-        else
-        {
-            memTimeDiffMs = i - memTimeStartMs;
-            memDiff = j - memStart;
-        }
-
-        memTimeLast = i;
-        memLast = j;
-        return flag;
-    }
-
-    private static long getMemoryUsed()
-    {
-        Runtime runtime = Runtime.getRuntime();
-        return runtime.totalMemory() - runtime.freeMemory();
-    }
 
     public static void updateLagometer()
     {
@@ -95,7 +48,7 @@ public class Lagometer
             profiler = mc.mcProfiler;
         }
 
-        if (gameSettings.showDebugInfo && (gameSettings.ofLagometer || gameSettings.field_181657_aC))
+        if (gameSettings.showDebugProfilerChart && (gameSettings.ofLagometer || gameSettings.field_181657_aC))
         {
             active = true;
             long timeNowNano = System.nanoTime();
@@ -108,7 +61,7 @@ public class Lagometer
             {
                 int j = numRecordedFrameTimes & timesFrame.length - 1;
                 ++numRecordedFrameTimes;
-                boolean flag = updateMemoryAllocation();
+                boolean flag = MemoryMonitor.isGcEvent();
                 timesFrame[j] = timeNowNano - prevFrameTimeNano - renderTimeNano;
                 timesTick[j] = timerTick.timeNano;
                 timesScheduledExecutables[j] = timerScheduledExecutables.timeNano;
@@ -147,7 +100,7 @@ public class Lagometer
                 GlStateManager.pushMatrix();
                 GlStateManager.enableColorMaterial();
                 GlStateManager.loadIdentity();
-                GlStateManager.ortho(0.0D, mc.displayWidth, mc.displayHeight, 0.0D, 1000.0D, 3000.0D);
+                GlStateManager.ortho(0.0D, (double)mc.displayWidth, (double)mc.displayHeight, 0.0D, 1000.0D, 3000.0D);
                 GlStateManager.matrixMode(5888);
                 GlStateManager.pushMatrix();
                 GlStateManager.loadIdentity();
@@ -162,7 +115,7 @@ public class Lagometer
                 {
                     int k = (j - numRecordedFrameTimes & timesFrame.length - 1) * 100 / timesFrame.length;
                     k = k + 155;
-                    float f = mc.displayHeight;
+                    float f = (float)mc.displayHeight;
                     long l = 0L;
 
                     if (gcs[j])
@@ -172,18 +125,18 @@ public class Lagometer
                     else
                     {
                         renderTime(j, timesFrame[j], k, k, k, f, worldrenderer);
-                        f = f - renderTime(j, timesServer[j], k / 2, k / 2, k / 2, f, worldrenderer);
-                        f = f - renderTime(j, timesTerrain[j], 0, k, 0, f, worldrenderer);
-                        f = f - renderTime(j, timesVisibility[j], k, k, 0, f, worldrenderer);
-                        f = f - renderTime(j, timesChunkUpdate[j], k, 0, 0, f, worldrenderer);
-                        f = f - renderTime(j, timesChunkUpload[j], k, 0, k, f, worldrenderer);
-                        f = f - renderTime(j, timesScheduledExecutables[j], 0, 0, k, f, worldrenderer);
-                        float f2 = f - renderTime(j, timesTick[j], 0, k, k, f, worldrenderer);
+                        f = f - (float)renderTime(j, timesServer[j], k / 2, k / 2, k / 2, f, worldrenderer);
+                        f = f - (float)renderTime(j, timesTerrain[j], 0, k, 0, f, worldrenderer);
+                        f = f - (float)renderTime(j, timesVisibility[j], k, k, 0, f, worldrenderer);
+                        f = f - (float)renderTime(j, timesChunkUpdate[j], k, 0, 0, f, worldrenderer);
+                        f = f - (float)renderTime(j, timesChunkUpload[j], k, 0, k, f, worldrenderer);
+                        f = f - (float)renderTime(j, timesScheduledExecutables[j], 0, 0, k, f, worldrenderer);
+                        float f2 = f - (float)renderTime(j, timesTick[j], 0, k, k, f, worldrenderer);
                     }
                 }
 
-                renderTimeDivider(0, timesFrame.length, 33333333L, 196, 196, 196, mc.displayHeight, worldrenderer);
-                renderTimeDivider(0, timesFrame.length, 16666666L, 196, 196, 196, mc.displayHeight, worldrenderer);
+                renderTimeDivider(0, timesFrame.length, 33333333L, 196, 196, 196, (float)mc.displayHeight, worldrenderer);
+                renderTimeDivider(0, timesFrame.length, 16666666L, 196, 196, 196, (float)mc.displayHeight, worldrenderer);
                 tessellator.draw();
                 GlStateManager.enableTexture2D();
                 int j2 = mc.displayHeight - 80;
@@ -197,7 +150,7 @@ public class Lagometer
                 GlStateManager.matrixMode(5888);
                 GlStateManager.popMatrix();
                 GlStateManager.enableTexture2D();
-                float f1 = 1.0F - (float)((System.currentTimeMillis() - memTimeStartMs) / 1000.0D);
+                float f1 = 1.0F - (float)((double)(System.currentTimeMillis() - MemoryMonitor.getStartTimeMs()) / 1000.0D);
                 f1 = Config.limit(f1, 0.0F, 1.0F);
                 int l2 = (int)(170.0F + f1 * 85.0F);
                 int i1 = (int)(100.0F + f1 * 55.0F);
@@ -205,8 +158,9 @@ public class Lagometer
                 int k1 = l2 << 16 | i1 << 8 | j1;
                 int l1 = 512 / scaledResolution.getScaleFactor() + 2;
                 int i2 = mc.displayHeight / scaledResolution.getScaleFactor() - 8;
-                RenderUtil.drawRect(l1 - 1, i2 - 1, l1 + 50, i2 + 10, -1605349296);
-                mc.MCfontRenderer.drawString(" " + memMbSec + " MB/s", l1, i2, k1);
+                GuiIngame guiingame = mc.ingameGUI;
+                GuiIngame.drawRect(l1 - 1, i2 - 1, l1 + 50, i2 + 10, -1605349296);
+                mc.MCfontRenderer.drawString(" " + MemoryMonitor.getAllocationRateMb() + " MB/s", l1, i2, k1);
                 renderTimeNano = System.nanoTime() - i;
             }
         }
@@ -222,8 +176,8 @@ public class Lagometer
         }
         else
         {
-            tessellator.pos(frameNum + 0.5F, baseHeight - i + 0.5F, 0.0D).func_181669_b(r, g, b, 255).endVertex();
-            tessellator.pos(frameNum + 0.5F, baseHeight + 0.5F, 0.0D).func_181669_b(r, g, b, 255).endVertex();
+            tessellator.pos((double)((float)frameNum + 0.5F), (double)(baseHeight - (float)i + 0.5F), 0.0D).func_181669_b(r, g, b, 255).endVertex();
+            tessellator.pos((double)((float)frameNum + 0.5F), (double)(baseHeight + 0.5F), 0.0D).func_181669_b(r, g, b, 255).endVertex();
             return i;
         }
     }
@@ -238,8 +192,8 @@ public class Lagometer
         }
         else
         {
-            tessellator.pos(frameStart + 0.5F, baseHeight - i + 0.5F, 0.0D).func_181669_b(r, g, b, 255).endVertex();
-            tessellator.pos(frameEnd + 0.5F, baseHeight - i + 0.5F, 0.0D).func_181669_b(r, g, b, 255).endVertex();
+            tessellator.pos((double)((float)frameStart + 0.5F), (double)(baseHeight - (float)i + 0.5F), 0.0D).func_181669_b(r, g, b, 255).endVertex();
+            tessellator.pos((double)((float)frameEnd + 0.5F), (double)(baseHeight - (float)i + 0.5F), 0.0D).func_181669_b(r, g, b, 255).endVertex();
             return i;
         }
     }

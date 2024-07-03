@@ -51,7 +51,7 @@ class GuiSlotShaders extends GuiSlot
 
         for (int j = this.shaderslist.size(); i < j; ++i)
         {
-            if (this.shaderslist.get(i).equals(Shaders.currentShaderName))
+            if (((String)this.shaderslist.get(i)).equals(Shaders.currentShaderName))
             {
                 this.selectedIndex = i;
                 break;
@@ -117,7 +117,7 @@ class GuiSlotShaders extends GuiSlot
                 else
                 {
                     s1 = s1.trim();
-                    String s2 = "L5";
+                    String s2 = "M5";
                     int i = Config.compareRelease(s2, s1);
 
                     if (i >= 0)
@@ -128,7 +128,7 @@ class GuiSlotShaders extends GuiSlot
                     {
                         String s3 = ("HD_U_" + s1).replace('_', ' ');
                         String s4 = I18n.format("of.message.shaders.nv1", new Object[] {s3});
-                        String s5 = I18n.format("of.message.shaders.nv2");
+                        String s5 = I18n.format("of.message.shaders.nv2", new Object[0]);
                         GuiYesNoCallback guiyesnocallback = new GuiYesNoCallback()
                         {
                             public void confirmClicked(boolean result, int id)

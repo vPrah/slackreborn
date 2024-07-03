@@ -27,10 +27,10 @@ public class IteratorAxis implements Iterator<BlockPos>
         this.zDelta = zDelta;
         this.xStart = posStart.getX();
         this.xEnd = posEnd.getX();
-        this.yStart = posStart.getY();
-        this.yEnd = posEnd.getY() - 0.5D;
-        this.zStart = posStart.getZ();
-        this.zEnd = posEnd.getZ() - 0.5D;
+        this.yStart = (double)posStart.getY();
+        this.yEnd = (double)posEnd.getY() - 0.5D;
+        this.zStart = (double)posStart.getZ();
+        this.zEnd = (double)posEnd.getZ() - 0.5D;
         this.xNext = this.xStart;
         this.yNext = this.yStart;
         this.zNext = this.zStart;
@@ -50,7 +50,7 @@ public class IteratorAxis implements Iterator<BlockPos>
         }
         else
         {
-            this.pos.setXyz(this.xNext, this.yNext, this.zNext);
+            this.pos.setXyz((double)this.xNext, this.yNext, this.zNext);
             this.nextPos();
             this.hasNext = this.xNext < this.xEnd && this.yNext < this.yEnd && this.zNext < this.zEnd;
             return this.pos;
