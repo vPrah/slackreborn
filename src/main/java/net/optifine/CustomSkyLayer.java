@@ -86,7 +86,7 @@ public class CustomSkyLayer
 
     private List<String> parseWeatherList(String str)
     {
-        List<String> list = Arrays.asList(new String[] {"clear", "rain", "thunder"});
+        List<String> list = Arrays.<String>asList(new String[] {"clear", "rain", "thunder"});
         List<String> list1 = new ArrayList();
         String[] astring = Config.tokenize(str, " ");
 
@@ -138,7 +138,7 @@ public class CustomSkyLayer
                         i += 24;
                     }
 
-                    int k = i * 1000 + (int)(j / 60.0D * 1000.0D);
+                    int k = i * 1000 + (int)((double)j / 60.0D * 1000.0D);
                     return k;
                 }
                 else
@@ -338,11 +338,11 @@ public class CustomSkyLayer
             {
                 float f4 = 0.0F;
 
-                if (this.speed != Math.round(this.speed))
+                if (this.speed != (float)Math.round(this.speed))
                 {
                     long i = (world.getWorldTime() + 18000L) / 24000L;
-                    double d0 = this.speed % 1.0F;
-                    double d1 = i * d0;
+                    double d0 = (double)(this.speed % 1.0F);
+                    double d1 = (double)i * d0;
                     f4 = (float)(d1 % 1.0D);
                 }
 
@@ -453,7 +453,7 @@ public class CustomSkyLayer
         {
             int k = this.normalizeTime(this.endFadeIn - this.startFadeIn);
             int l = this.normalizeTime(timeOfDay - this.startFadeIn);
-            return (float)l / k;
+            return (float)l / (float)k;
         }
         else if (this.timeBetween(timeOfDay, this.endFadeIn, this.startFadeOut))
         {
@@ -463,7 +463,7 @@ public class CustomSkyLayer
         {
             int i = this.normalizeTime(this.endFadeOut - this.startFadeOut);
             int j = this.normalizeTime(timeOfDay - this.startFadeOut);
-            return 1.0F - (float)j / i;
+            return 1.0F - (float)j / (float)i;
         }
         else
         {
@@ -474,8 +474,8 @@ public class CustomSkyLayer
     private void renderSide(Tessellator tess, int side)
     {
         WorldRenderer worldrenderer = tess.getWorldRenderer();
-        double d0 = (side % 3) / 3.0D;
-        double d1 = (side / 3) / 2.0D;
+        double d0 = (double)(side % 3) / 3.0D;
+        double d1 = (double)(side / 3) / 2.0D;
         worldrenderer.begin(7, DefaultVertexFormats.POSITION_TEX);
         worldrenderer.pos(-100.0D, -100.0D, -100.0D).tex(d0, d1).endVertex();
         worldrenderer.pos(-100.0D, -100.0D, 100.0D).tex(d0, d1 + 0.5D).endVertex();
@@ -503,7 +503,7 @@ public class CustomSkyLayer
                 long i = world.getWorldTime();
                 long j;
 
-                for (j = i - this.startFadeIn; j < 0L; j += 24000 * this.daysLoop)
+                for (j = i - (long)this.startFadeIn; j < 0L; j += (long)(24000 * this.daysLoop))
                 {
                     ;
                 }

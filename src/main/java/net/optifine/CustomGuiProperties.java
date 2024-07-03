@@ -90,7 +90,7 @@ public class CustomGuiProperties
         this.levels = connectedparser.parseRangeListInt(props.getProperty("levels"));
         this.professions = connectedparser.parseProfessions(props.getProperty("professions"));
         CustomGuiProperties.EnumVariant[] acustomguiproperties$enumvariant = getContainerVariants(this.container);
-        this.variants = (CustomGuiProperties.EnumVariant[]) connectedparser.parseEnums(props.getProperty("variants"), acustomguiproperties$enumvariant, "variants", VARIANTS_INVALID);
+        this.variants = (CustomGuiProperties.EnumVariant[])((CustomGuiProperties.EnumVariant[])connectedparser.parseEnums(props.getProperty("variants"), acustomguiproperties$enumvariant, "variants", VARIANTS_INVALID));
         this.colors = parseEnumDyeColors(props.getProperty("colors"));
     }
 
@@ -196,9 +196,9 @@ public class CustomGuiProperties
 
         String s5 = property + ".";
 
-        for (Object e : props.keySet())
+        for (Object s10 : props.keySet())
         {
-            String s1 = (String) e;
+            String s1 = (String) s10;
             if (s1.startsWith(s5))
             {
                 String s2 = s1.substring(s5.length());
@@ -217,58 +217,65 @@ public class CustomGuiProperties
 
     private static ResourceLocation getGuiTextureLocation(CustomGuiProperties.EnumContainer container)
     {
-        switch (container)
+        if (container == null)
         {
-            case ANVIL:
-                return ANVIL_GUI_TEXTURE;
+            return null;
+        }
+        else
+        {
+            switch (container)
+            {
+                case ANVIL:
+                    return ANVIL_GUI_TEXTURE;
 
-            case BEACON:
-                return BEACON_GUI_TEXTURE;
+                case BEACON:
+                    return BEACON_GUI_TEXTURE;
 
-            case BREWING_STAND:
-                return BREWING_STAND_GUI_TEXTURE;
+                case BREWING_STAND:
+                    return BREWING_STAND_GUI_TEXTURE;
 
-            case CHEST:
-                return CHEST_GUI_TEXTURE;
+                case CHEST:
+                    return CHEST_GUI_TEXTURE;
 
-            case CRAFTING:
-                return CRAFTING_TABLE_GUI_TEXTURE;
+                case CRAFTING:
+                    return CRAFTING_TABLE_GUI_TEXTURE;
 
-            case CREATIVE:
-                return null;
+                case CREATIVE:
+                    return null;
 
-            case DISPENSER:
-                return DISPENSER_GUI_TEXTURE;
+                case DISPENSER:
+                    return DISPENSER_GUI_TEXTURE;
 
-            case ENCHANTMENT:
-                return ENCHANTMENT_TABLE_GUI_TEXTURE;
+                case ENCHANTMENT:
+                    return ENCHANTMENT_TABLE_GUI_TEXTURE;
 
-            case FURNACE:
-                return FURNACE_GUI_TEXTURE;
+                case FURNACE:
+                    return FURNACE_GUI_TEXTURE;
 
-            case HOPPER:
-                return HOPPER_GUI_TEXTURE;
+                case HOPPER:
+                    return HOPPER_GUI_TEXTURE;
 
-            case HORSE:
-                return HORSE_GUI_TEXTURE;
+                case HORSE:
+                    return HORSE_GUI_TEXTURE;
 
-            case INVENTORY:
-                return INVENTORY_GUI_TEXTURE;
+                case INVENTORY:
+                    return INVENTORY_GUI_TEXTURE;
 
-            case SHULKER_BOX:
-                return SHULKER_BOX_GUI_TEXTURE;
+                case SHULKER_BOX:
+                    return SHULKER_BOX_GUI_TEXTURE;
 
-            case VILLAGER:
-                return VILLAGER_GUI_TEXTURE;
+                case VILLAGER:
+                    return VILLAGER_GUI_TEXTURE;
 
-            default:
-                return null;
+                default:
+                    return null;
+            }
         }
     }
 
     public boolean isValid(String path)
     {
-        if (this.fileName != null && !this.fileName.isEmpty())
+        if (this.fileName != null && this.fileName.length() > 0)
         {
             if (this.basePath == null)
             {
@@ -382,7 +389,7 @@ public class CustomGuiProperties
 
     private static IWorldNameable getWorldNameable(GuiScreen screen)
     {
-        return screen instanceof GuiBeacon ? getWorldNameable(screen, Reflector.GuiBeacon_tileBeacon) : (screen instanceof GuiBrewingStand ? getWorldNameable(screen, Reflector.GuiBrewingStand_tileBrewingStand) : (screen instanceof GuiChest ? getWorldNameable(screen, Reflector.GuiChest_lowerChestInventory) : (screen instanceof GuiDispenser ? ((GuiDispenser)screen).dispenserInventory : (screen instanceof GuiEnchantment ? getWorldNameable(screen, Reflector.GuiEnchantment_nameable) : (screen instanceof GuiFurnace ? getWorldNameable(screen, Reflector.GuiFurnace_tileFurnace) : (screen instanceof GuiHopper ? getWorldNameable(screen, Reflector.GuiHopper_hopperInventory) : null))))));
+        return (IWorldNameable)(screen instanceof GuiBeacon ? getWorldNameable(screen, Reflector.GuiBeacon_tileBeacon) : (screen instanceof GuiBrewingStand ? getWorldNameable(screen, Reflector.GuiBrewingStand_tileBrewingStand) : (screen instanceof GuiChest ? getWorldNameable(screen, Reflector.GuiChest_lowerChestInventory) : (screen instanceof GuiDispenser ? ((GuiDispenser)screen).dispenserInventory : (screen instanceof GuiEnchantment ? getWorldNameable(screen, Reflector.GuiEnchantment_nameable) : (screen instanceof GuiFurnace ? getWorldNameable(screen, Reflector.GuiFurnace_tileFurnace) : (screen instanceof GuiHopper ? getWorldNameable(screen, Reflector.GuiHopper_hopperInventory) : null)))))));
     }
 
     private static IWorldNameable getWorldNameable(GuiScreen screen, ReflectorField fieldInventory)
@@ -455,7 +462,7 @@ public class CustomGuiProperties
 
     private boolean matchesChest(boolean isLarge, boolean isTrapped, boolean isChristmas, boolean isEnder)
     {
-        return this.large != null && this.large != isLarge ? false : (this.trapped != null && this.trapped != isTrapped ? false : (this.christmas != null && this.christmas != isChristmas ? false : this.ender == null || this.ender == isEnder));
+        return this.large != null && this.large.booleanValue() != isLarge ? false : (this.trapped != null && this.trapped.booleanValue() != isTrapped ? false : (this.christmas != null && this.christmas.booleanValue() != isChristmas ? false : this.ender == null || this.ender.booleanValue() == isEnder));
     }
 
     private boolean matchesDispenser(BlockPos pos, IBlockAccess blockAccess)
@@ -615,7 +622,7 @@ public class CustomGuiProperties
 
     public ResourceLocation getTextureLocation(ResourceLocation loc)
     {
-        ResourceLocation resourcelocation = this.textureLocations.get(loc);
+        ResourceLocation resourcelocation = (ResourceLocation)this.textureLocations.get(loc);
         return resourcelocation == null ? loc : resourcelocation;
     }
 

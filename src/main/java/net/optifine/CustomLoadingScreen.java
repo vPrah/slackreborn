@@ -121,36 +121,36 @@ public class CustomLoadingScreen
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();
         Config.getTextureManager().bindTexture(this.locationTexture);
         GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-        double d0 = 16 * this.scale;
-        double d1 = width / d0;
-        double d2 = height / d0;
+        double d0 = (double)(16 * this.scale);
+        double d1 = (double)width / d0;
+        double d2 = (double)height / d0;
         double d3 = 0.0D;
         double d4 = 0.0D;
 
         if (this.center)
         {
-            d3 = (d0 - width) / (d0 * 2.0D);
-            d4 = (d0 - height) / (d0 * 2.0D);
+            d3 = (d0 - (double)width) / (d0 * 2.0D);
+            d4 = (d0 - (double)height) / (d0 * 2.0D);
         }
 
         switch (this.scaleMode)
         {
             case 1:
-                d0 = Math.max(width, height);
-                d1 = (this.scale * width) / d0;
-                d2 = (this.scale * height) / d0;
+                d0 = (double)Math.max(width, height);
+                d1 = (double)(this.scale * width) / d0;
+                d2 = (double)(this.scale * height) / d0;
 
                 if (this.center)
                 {
-                    d3 = this.scale * (d0 - width) / (d0 * 2.0D);
-                    d4 = this.scale * (d0 - height) / (d0 * 2.0D);
+                    d3 = (double)this.scale * (d0 - (double)width) / (d0 * 2.0D);
+                    d4 = (double)this.scale * (d0 - (double)height) / (d0 * 2.0D);
                 }
 
                 break;
 
             case 2:
-                d1 = this.scale;
-                d2 = this.scale;
+                d1 = (double)this.scale;
+                d2 = (double)this.scale;
                 d3 = 0.0D;
                 d4 = 0.0D;
         }
