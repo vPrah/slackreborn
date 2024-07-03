@@ -90,7 +90,7 @@ public class DynamicLights
 
                     for (int j = 0; j < list.size(); ++j)
                     {
-                        DynamicLight dynamiclight = list.get(j);
+                        DynamicLight dynamiclight = (DynamicLight)list.get(j);
                         dynamiclight.update(renderGlobal);
                     }
                 }
@@ -121,12 +121,12 @@ public class DynamicLights
             }
         }
 
-        if (!mapEntityLightLevels.isEmpty())
+        if (mapEntityLightLevels.size() > 0)
         {
             Config.dbg("DynamicLights entities: " + mapEntityLightLevels.size());
         }
 
-        if (!mapItemLightLevels.isEmpty())
+        if (mapItemLightLevels.size() > 0)
         {
             Config.dbg("DynamicLights items: " + mapItemLightLevels.size());
         }
@@ -242,7 +242,7 @@ public class DynamicLights
 
     public static int getCombinedLight(Entity entity, int combinedLight)
     {
-        double d0 = getLightLevel(entity);
+        double d0 = (double)getLightLevel(entity);
         combinedLight = getCombinedLight(d0, combinedLight);
         return combinedLight;
     }
@@ -271,25 +271,26 @@ public class DynamicLights
         synchronized (mapDynamicLights)
         {
             List<DynamicLight> list = mapDynamicLights.valueList();
+            int i = list.size();
 
-            for (int i = 0; i < list.size(); ++i)
+            for (int j = 0; j < i; ++j)
             {
-                DynamicLight dynamiclight = list.get(i);
-                int j = dynamiclight.getLastLightLevel();
+                DynamicLight dynamiclight = (DynamicLight)list.get(j);
+                int k = dynamiclight.getLastLightLevel();
 
-                if (j > 0)
+                if (k > 0)
                 {
                     double d1 = dynamiclight.getLastPosX();
                     double d2 = dynamiclight.getLastPosY();
                     double d3 = dynamiclight.getLastPosZ();
-                    double d4 = pos.getX() - d1;
-                    double d5 = pos.getY() - d2;
-                    double d6 = pos.getZ() - d3;
+                    double d4 = (double)pos.getX() - d1;
+                    double d5 = (double)pos.getY() - d2;
+                    double d6 = (double)pos.getZ() - d3;
                     double d7 = d4 * d4 + d5 * d5 + d6 * d6;
 
                     if (dynamiclight.isUnderwater() && !Config.isClearWater())
                     {
-                        j = Config.limit(j - 2, 0, 15);
+                        k = Config.limit(k - 2, 0, 15);
                         d7 *= 2.0D;
                     }
 
@@ -297,7 +298,7 @@ public class DynamicLights
                     {
                         double d8 = Math.sqrt(d7);
                         double d9 = 1.0D - d8 / 7.5D;
-                        double d10 = d9 * j;
+                        double d10 = d9 * (double)k;
 
                         if (d10 > d0)
                         {
@@ -359,11 +360,11 @@ public class DynamicLights
                 {
                     if (!mapItemLightLevels.isEmpty())
                     {
-                        Integer integer = mapItemLightLevels.get(item);
+                        Integer integer = (Integer)mapItemLightLevels.get(item);
 
                         if (integer != null)
                         {
-                            return integer;
+                            return integer.intValue();
                         }
                     }
 
@@ -403,11 +404,11 @@ public class DynamicLights
             {
                 if (!mapEntityLightLevels.isEmpty())
                 {
-                    Integer integer = mapEntityLightLevels.get(entity.getClass());
+                    Integer integer = (Integer)mapEntityLightLevels.get(entity.getClass());
 
                     if (integer != null)
                     {
-                        return integer;
+                        return integer.intValue();
                     }
                 }
 
@@ -427,7 +428,7 @@ public class DynamicLights
                 else if (entity instanceof EntityMagmaCube)
                 {
                     EntityMagmaCube entitymagmacube = (EntityMagmaCube)entity;
-                    return entitymagmacube.squishFactor > 0.6D ? 13 : 8;
+                    return (double)entitymagmacube.squishFactor > 0.6D ? 13 : 8;
                 }
                 else
                 {
@@ -435,7 +436,7 @@ public class DynamicLights
                     {
                         EntityCreeper entitycreeper = (EntityCreeper)entity;
 
-                        if (entitycreeper.getCreeperFlashIntensity(0.0F) > 0.001D)
+                        if ((double)entitycreeper.getCreeperFlashIntensity(0.0F) > 0.001D)
                         {
                             return 15;
                         }
@@ -473,7 +474,7 @@ public class DynamicLights
 
             for (int i = 0; i < list.size(); ++i)
             {
-                DynamicLight dynamiclight = list.get(i);
+                DynamicLight dynamiclight = (DynamicLight)list.get(i);
                 dynamiclight.updateLitChunks(renderGlobal);
             }
 

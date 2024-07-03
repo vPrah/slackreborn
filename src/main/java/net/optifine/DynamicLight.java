@@ -31,7 +31,7 @@ public class DynamicLight
     public DynamicLight(Entity entity)
     {
         this.entity = entity;
-        this.offsetY = entity.getEyeHeight();
+        this.offsetY = (double)entity.getEyeHeight();
     }
 
     public void update(RenderGlobal renderGlobal)
@@ -147,7 +147,7 @@ public class DynamicLight
         for (BlockPos blockpos : this.setLitChunkPos)
         {
             RenderChunk renderchunk = renderGlobal.getRenderChunk(blockpos);
-            this.updateChunkLight(renderchunk, null, null);
+            this.updateChunkLight(renderchunk, (Set<BlockPos>)null, (Set<BlockPos>)null);
         }
     }
 
