@@ -46,9 +46,9 @@ public class ConnectedTextures
 {
     private static Map[] spriteQuadMaps = null;
     private static Map[] spriteQuadFullMaps = null;
-    private static Map[][] spriteQuadCompactMaps = null;
-    private static ConnectedProperties[][] blockProperties = null;
-    private static ConnectedProperties[][] tileProperties = null;
+    private static Map[][] spriteQuadCompactMaps = (Map[][])null;
+    private static ConnectedProperties[][] blockProperties = (ConnectedProperties[][])null;
+    private static ConnectedProperties[][] tileProperties = (ConnectedProperties[][])null;
     private static boolean multipass = false;
     protected static final int UNKNOWN = -1;
     protected static final int Y_NEG_DOWN = 0;
@@ -149,18 +149,18 @@ public class ConnectedTextures
             }
 
             iblockstate = iblockstate.getBlock().getActualState(iblockstate, blockAccess, blockpos);
-            double d0 = quad.getMidX();
+            double d0 = (double)quad.getMidX();
 
             if (d0 < 0.4D)
             {
-                if (iblockstate.getValue(BlockPane.WEST))
+                if (((Boolean)iblockstate.getValue(BlockPane.WEST)).booleanValue())
                 {
                     return true;
                 }
             }
             else if (d0 > 0.6D)
             {
-                if (iblockstate.getValue(BlockPane.EAST))
+                if (((Boolean)iblockstate.getValue(BlockPane.EAST)).booleanValue())
                 {
                     return true;
                 }
@@ -171,7 +171,7 @@ public class ConnectedTextures
 
                 if (d1 < 0.4D)
                 {
-                    if (iblockstate.getValue(BlockPane.NORTH))
+                    if (((Boolean)iblockstate.getValue(BlockPane.NORTH)).booleanValue())
                     {
                         return true;
                     }
@@ -183,7 +183,7 @@ public class ConnectedTextures
                         return true;
                     }
 
-                    if (iblockstate.getValue(BlockPane.SOUTH))
+                    if (((Boolean)iblockstate.getValue(BlockPane.SOUTH)).booleanValue())
                     {
                         return true;
                     }
@@ -293,7 +293,7 @@ public class ConnectedTextures
 
     private static BakedQuad makeSpriteQuad(BakedQuad quad, TextureAtlasSprite sprite)
     {
-        int[] aint = quad.getVertexData().clone();
+        int[] aint = (int[])quad.getVertexData().clone();
         TextureAtlasSprite textureatlassprite = quad.getSprite();
 
         for (int i = 0; i < 4; ++i)
@@ -335,7 +335,7 @@ public class ConnectedTextures
 
             for (int i = 0; i < list.size(); ++i)
             {
-                BakedQuad bakedquad = list.get(i);
+                BakedQuad bakedquad = (BakedQuad)list.get(i);
                 BakedQuad bakedquad1 = bakedquad;
 
                 for (int j = 0; j < 3; ++j)
@@ -355,7 +355,7 @@ public class ConnectedTextures
 
             for (int k = 0; k < abakedquad.length; ++k)
             {
-                abakedquad[k] = list.get(k);
+                abakedquad[k] = (BakedQuad)list.get(k);
             }
 
             return abakedquad;
@@ -1853,7 +1853,7 @@ public class ConnectedTextures
                     list = BetterGrass.getFaceQuads(iblockaccess, neighbourState, blockPos, enumfacing, list);
                 }
 
-                if (!list.isEmpty())
+                if (list.size() > 0)
                 {
                     BakedQuad bakedquad1 = (BakedQuad)list.get(0);
                     return bakedquad1.getSprite();
@@ -2191,10 +2191,10 @@ public class ConnectedTextures
 
     public static void updateIcons(TextureMap textureMap)
     {
-        blockProperties = null;
-        tileProperties = null;
+        blockProperties = (ConnectedProperties[][])null;
+        tileProperties = (ConnectedProperties[][])null;
         spriteQuadMaps = null;
-        spriteQuadCompactMaps = null;
+        spriteQuadCompactMaps = (Map[][])null;
 
         if (Config.isConnectedTextures())
         {
@@ -2215,12 +2215,12 @@ public class ConnectedTextures
 
             if (blockProperties.length <= 0)
             {
-                blockProperties = null;
+                blockProperties = (ConnectedProperties[][])null;
             }
 
             if (tileProperties.length <= 0)
             {
-                tileProperties = null;
+                tileProperties = (ConnectedProperties[][])null;
             }
         }
     }
@@ -2232,7 +2232,7 @@ public class ConnectedTextures
     public static void updateIcons(TextureMap textureMap, IResourcePack rp)
     {
         String[] astring = ResUtils.collectFiles(rp, "mcpatcher/ctm/", ".properties", getDefaultCtmPaths());
-        Arrays.sort(astring);
+        Arrays.sort((Object[])astring);
         List list = makePropertyList(tileProperties);
         List list1 = makePropertyList(blockProperties);
 
@@ -2254,6 +2254,7 @@ public class ConnectedTextures
                 {
                     Properties properties = new PropertiesOrdered();
                     properties.load(inputstream);
+                    inputstream.close();
                     ConnectedProperties connectedproperties = new ConnectedProperties(properties, s);
 
                     if (connectedproperties.isValid(s))
@@ -2327,7 +2328,7 @@ public class ConnectedTextures
             }
         }
 
-        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[]) list.toArray(new ConnectedProperties[list.size()]);
+        ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[])((ConnectedProperties[])list.toArray(new ConnectedProperties[list.size()]));
         Set set1 = new HashSet();
         Set set = new HashSet();
 
@@ -2350,16 +2351,22 @@ public class ConnectedTextures
         return !set1.isEmpty();
     }
 
-    private static ConnectedProperties[][] propertyListToArray(final List list) {
-        final ConnectedProperties[][] propArr = new ConnectedProperties[list.size()][];
-        for (int i = 0; i < list.size(); ++i) {
-            final List subList = (List) list.get(i);
-            if (subList != null) {
-                final ConnectedProperties[] subArr = (ConnectedProperties[]) subList.toArray(new ConnectedProperties[subList.size()]);
-                propArr[i] = subArr;
+    private static ConnectedProperties[][] propertyListToArray(List list)
+    {
+        ConnectedProperties[][] aconnectedproperties = new ConnectedProperties[list.size()][];
+
+        for (int i = 0; i < list.size(); ++i)
+        {
+            List list2 = (List)list.get(i);
+
+            if (list2 != null)
+            {
+                ConnectedProperties[] aconnectedproperties1 = (ConnectedProperties[])((ConnectedProperties[])list2.toArray(new ConnectedProperties[list2.size()]));
+                aconnectedproperties[i] = aconnectedproperties1;
             }
         }
-        return propArr;
+
+        return aconnectedproperties;
     }
 
     private static void addToTileList(ConnectedProperties cp, List tileList)
@@ -2418,15 +2425,15 @@ public class ConnectedTextures
             list.add(null);
         }
 
-        List l = (List)list.get(id);
+        List list1 = (List)list.get(id);
 
-        if (l == null)
+        if (list1 == null)
         {
-            l = new ArrayList();
-            list.set(id, l);
+            list1 = new ArrayList();
+            list.set(id, list1);
         }
 
-        l.add(cp);
+        list1.add(cp);
     }
 
     private static String[] getDefaultCtmPaths()
@@ -2463,7 +2470,7 @@ public class ConnectedTextures
             }
         }
 
-        String[] astring1 = (String[]) list.toArray(new String[list.size()]);
+        String[] astring1 = (String[])((String[])list.toArray(new String[list.size()]));
         return astring1;
     }
 }

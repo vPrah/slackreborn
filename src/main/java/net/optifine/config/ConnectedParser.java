@@ -100,7 +100,7 @@ public class ConnectedParser
                 }
             }
 
-            MatchBlock[] amatchblock1 = (MatchBlock[]) list.toArray(new MatchBlock[list.size()]);
+            MatchBlock[] amatchblock1 = (MatchBlock[])((MatchBlock[])list.toArray(new MatchBlock[list.size()]));
             return amatchblock1;
         }
     }
@@ -158,7 +158,7 @@ public class ConnectedParser
                 }
 
                 String s1 = astring[i];
-                String[] astring1 = Arrays.copyOfRange(astring, i + 1, astring.length);
+                String[] astring1 = (String[])Arrays.copyOfRange(astring, i + 1, astring.length);
                 Block[] ablock = this.parseBlockPart(s, s1);
 
                 if (ablock == null)
@@ -204,7 +204,7 @@ public class ConnectedParser
         else
         {
             String s = parts[1];
-            return s.isEmpty() ? false : (this.startsWithDigit(s) ? false : !s.contains("="));
+            return s.length() < 1 ? false : (this.startsWithDigit(s) ? false : !s.contains("="));
         }
     }
 
@@ -214,7 +214,7 @@ public class ConnectedParser
         {
             return false;
         }
-        else if (str.isEmpty())
+        else if (str.length() < 1)
         {
             return false;
         }
@@ -299,7 +299,7 @@ public class ConnectedParser
                 {
                     String s1 = params[i];
 
-                    if (!s1.isEmpty())
+                    if (s1.length() > 0)
                     {
                         String[] astring = Config.tokenize(s1, "=");
 
@@ -319,7 +319,7 @@ public class ConnectedParser
                             return null;
                         }
 
-                        List<Comparable> list = map.get(s2);
+                        List<Comparable> list = (List)map.get(s2);
 
                         if (list == null)
                         {
@@ -363,7 +363,7 @@ public class ConnectedParser
 
                             if (this.matchState(iblockstate1, map))
                             {
-                                list1.add(l);
+                                list1.add(Integer.valueOf(l));
                             }
                         }
                         catch (IllegalArgumentException var18)
@@ -382,7 +382,7 @@ public class ConnectedParser
 
                         for (int i1 = 0; i1 < aint1.length; ++i1)
                         {
-                            aint1[i1] = list1.get(i1);
+                            aint1[i1] = ((Integer)list1.get(i1)).intValue();
                         }
 
                         return aint1;
@@ -428,9 +428,9 @@ public class ConnectedParser
 
     public static Comparable getPropertyValue(String value, Collection propertyValues)
     {
-        for (Object e : propertyValues)
+        for (Object comparable0 : propertyValues)
         {
-            Comparable comparable = (Comparable) e;
+            Comparable comparable = (Comparable) comparable0;
             if (getValueName(comparable).equals(value))
             {
                 return comparable;
@@ -455,14 +455,37 @@ public class ConnectedParser
 
     public static Comparable parseValue(String str, Class cls)
     {
-        return cls == String.class ? str : (cls == Boolean.class ? Boolean.valueOf(str) : (cls == Float.class ? Float.parseFloat(str) : (cls == Double.class ? Double.parseDouble(str) : (cls == Integer.class ? Integer.parseInt(str) : (cls == Long.class ? Long.valueOf(str) : null)))));
+        if (cls == String.class)
+        {
+            return str;
+        }
+        else if (cls == Boolean.class)
+        {
+            return Boolean.valueOf(str);
+        }
+        else if (cls == Float.class)
+        {
+            return Float.valueOf(str);
+        }
+        else if (cls == Double.class)
+        {
+            return Double.valueOf(str);
+        }
+        else if (cls == Integer.class)
+        {
+            return Integer.valueOf(str);
+        }
+        else
+        {
+            return cls == Long.class ? Long.valueOf(str) : null;
+        }
     }
 
     public boolean matchState(IBlockState bs, Map<IProperty, List<Comparable>> mapPropValues)
     {
         for (IProperty iproperty : mapPropValues.keySet())
         {
-            List<Comparable> list = mapPropValues.get(iproperty);
+            List<Comparable> list = (List)mapPropValues.get(iproperty);
             Comparable comparable = bs.getValue(iproperty);
 
             if (comparable == null)
@@ -521,7 +544,7 @@ public class ConnectedParser
                 list = list1;
             }
 
-            BiomeGenBase[] abiomegenbase = (BiomeGenBase[]) list.toArray(new BiomeGenBase[list.size()]);
+            BiomeGenBase[] abiomegenbase = (BiomeGenBase[])((BiomeGenBase[])list.toArray(new BiomeGenBase[list.size()]));
             return abiomegenbase;
         }
     }
@@ -612,7 +635,7 @@ public class ConnectedParser
                         {
                             for (int i1 = k; i1 <= l; ++i1)
                             {
-                                list.add(i1);
+                                list.add(Integer.valueOf(i1));
                             }
                         }
                         else
@@ -631,7 +654,7 @@ public class ConnectedParser
                     }
                     else
                     {
-                        list.add(j);
+                        list.add(Integer.valueOf(j));
                     }
                 }
             }
@@ -640,7 +663,7 @@ public class ConnectedParser
 
             for (int j1 = 0; j1 < aint.length; ++j1)
             {
-                aint[j1] = list.get(j1);
+                aint[j1] = ((Integer)list.get(j1)).intValue();
             }
 
             return aint;
@@ -946,7 +969,7 @@ public class ConnectedParser
     {
         if (str == null)
         {
-            return null;
+            return (T)null;
         }
         else
         {
@@ -964,7 +987,7 @@ public class ConnectedParser
             }
 
             this.warn("Invalid " + property + ": " + str);
-            return null;
+            return (T)null;
         }
     }
 
@@ -987,7 +1010,7 @@ public class ConnectedParser
 
                 if (t == null)
                 {
-                    return errValue;
+                    return (T[])errValue;
                 }
 
                 at[i] = t;
@@ -999,22 +1022,22 @@ public class ConnectedParser
 
     public Enum parseEnum(String str, Enum[] enums, String property)
     {
-        return this.parseObject(str, enums, NAME_GETTER_ENUM, property);
+        return (Enum)this.parseObject(str, enums, NAME_GETTER_ENUM, property);
     }
 
     public Enum[] parseEnums(String str, Enum[] enums, String property, Enum[] errValue)
     {
-        return this.parseObjects(str, enums, NAME_GETTER_ENUM, property, errValue);
+        return (Enum[])this.parseObjects(str, enums, NAME_GETTER_ENUM, property, errValue);
     }
 
     public EnumDyeColor[] parseDyeColors(String str, String property, EnumDyeColor[] errValue)
     {
-        return this.parseObjects(str, EnumDyeColor.values(), NAME_GETTER_DYE_COLOR, property, errValue);
+        return (EnumDyeColor[])this.parseObjects(str, EnumDyeColor.values(), NAME_GETTER_DYE_COLOR, property, errValue);
     }
 
     public Weather[] parseWeather(String str, String property, Weather[] errValue)
     {
-        return this.parseObjects(str, Weather.values(), NAME_GETTER_ENUM, property, errValue);
+        return (Weather[])this.parseObjects(str, Weather.values(), NAME_GETTER_ENUM, property, errValue);
     }
 
     public NbtTagValue parseNbtTagValue(String path, String value)
@@ -1053,7 +1076,7 @@ public class ConnectedParser
             }
             else
             {
-                VillagerProfession[] avillagerprofession = list.toArray(new VillagerProfession[list.size()]);
+                VillagerProfession[] avillagerprofession = (VillagerProfession[])((VillagerProfession[])list.toArray(new VillagerProfession[list.size()]));
                 return avillagerprofession;
             }
         }
@@ -1124,15 +1147,15 @@ public class ConnectedParser
                 return null;
             }
 
-            set.add(j);
+            set.add(Integer.valueOf(j));
         }
 
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
+        Integer[] ainteger = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
         int[] aint = new int[ainteger.length];
 
         for (int k = 0; k < aint.length; ++k)
         {
-            aint[k] = ainteger[k];
+            aint[k] = ainteger[k].intValue();
         }
 
         return aint;
@@ -1236,7 +1259,7 @@ public class ConnectedParser
         {
             String s = astring[i];
             ResourceLocation resourcelocation = new ResourceLocation(s);
-            Item item = Item.itemRegistry.getObject(resourcelocation);
+            Item item = (Item)Item.itemRegistry.getObject(resourcelocation);
 
             if (item == null)
             {
@@ -1252,12 +1275,12 @@ public class ConnectedParser
                 }
                 else
                 {
-                    set.add(j);
+                    set.add(new Integer(j));
                 }
             }
         }
 
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
+        Integer[] ainteger = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
         int[] aint = Config.toPrimitive(ainteger);
         return aint;
     }
@@ -1279,11 +1302,11 @@ public class ConnectedParser
             }
             else
             {
-                set.add(j);
+                set.add(new Integer(j));
             }
         }
 
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
+        Integer[] ainteger = (Integer[])((Integer[])set.toArray(new Integer[set.size()]));
         int[] aint = Config.toPrimitive(ainteger);
         return aint;
     }

@@ -171,7 +171,7 @@ public class ConnectedProperties
 
                                 if (j >= 0 && j < this.tiles.length)
                                 {
-                                    map.put(i, j);
+                                    map.put(Integer.valueOf(i), Integer.valueOf(j));
                                 }
                                 else
                                 {
@@ -199,9 +199,9 @@ public class ConnectedProperties
                 {
                     aint[k] = -1;
 
-                    if (map.containsKey(k))
+                    if (map.containsKey(Integer.valueOf(k)))
                     {
-                        aint[k] = map.get(k);
+                        aint[k] = ((Integer)map.get(Integer.valueOf(k))).intValue();
                     }
                 }
 
@@ -315,7 +315,7 @@ public class ConnectedProperties
                 list.add(s);
             }
 
-            String[] astring2 = (String[]) list.toArray(new String[list.size()]);
+            String[] astring2 = (String[])((String[])list.toArray(new String[list.size()]));
 
             for (int i1 = 0; i1 < astring2.length; ++i1)
             {
@@ -473,9 +473,9 @@ public class ConnectedProperties
 
     public static IProperty getProperty(String key, Collection properties)
     {
-        for (Object e : properties)
+        for (Object iproperty0 : properties)
         {
-            IProperty iproperty = (IProperty) e;
+            IProperty iproperty = (IProperty) iproperty0;
             if (key.equals(iproperty.getName()))
             {
                 return iproperty;
@@ -577,7 +577,7 @@ public class ConnectedProperties
 
     public boolean isValid(String path)
     {
-        if (this.name != null && !this.name.isEmpty())
+        if (this.name != null && this.name.length() > 0)
         {
             if (this.basePath == null)
             {
@@ -1201,7 +1201,7 @@ public class ConnectedProperties
                 }
             }
 
-            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[]) list.toArray(new TextureAtlasSprite[list.size()]);
+            TextureAtlasSprite[] atextureatlassprite = (TextureAtlasSprite[])((TextureAtlasSprite[])list.toArray(new TextureAtlasSprite[list.size()]));
             return atextureatlassprite;
         }
     }
@@ -1223,7 +1223,7 @@ public class ConnectedProperties
 
     public String toString()
     {
-        return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: " + Config.arrayToString(this.matchBlocks) + ", matchTiles: " + Config.arrayToString(this.matchTiles);
+        return "CTM name: " + this.name + ", basePath: " + this.basePath + ", matchBlocks: " + Config.arrayToString((Object[])this.matchBlocks) + ", matchTiles: " + Config.arrayToString((Object[])this.matchTiles);
     }
 
     public boolean matchesBiome(BiomeGenBase biome)
