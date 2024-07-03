@@ -18,7 +18,7 @@ import net.optifine.util.StrUtils;
 
 public class BlockAliases
 {
-    private static BlockAlias[][] blockAliases = null;
+    private static BlockAlias[][] blockAliases = (BlockAlias[][])null;
     private static PropertiesOrdered blockLayerPropertes = null;
     private static boolean updateOnResourcesReloaded;
 
@@ -90,7 +90,7 @@ public class BlockAliases
 
                 loadModBlockAliases(list);
 
-                if (!list.isEmpty())
+                if (((List)list).size() > 0)
                 {
                     blockAliases = toArrays(list);
                 }
@@ -132,9 +132,9 @@ public class BlockAliases
                 Config.dbg("[Shaders] Parsing block mappings: " + path);
                 ConnectedParser connectedparser = new ConnectedParser("Shaders");
 
-                for (Object e : properties.keySet())
+                for (Object s0 : properties.keySet())
                 {
-                    String s = (String) e;
+                    String s = (String) s0;
                     String s1 = properties.getProperty(s);
 
                     if (s.startsWith("layer."))
@@ -201,7 +201,7 @@ public class BlockAliases
                 blocksAliases.add(null);
             }
 
-            List<BlockAlias> list = blocksAliases.get(j);
+            List<BlockAlias> list = (List)blocksAliases.get(j);
 
             if (list == null)
             {
@@ -220,11 +220,11 @@ public class BlockAliases
 
         for (int i = 0; i < ablockalias.length; ++i)
         {
-            List<BlockAlias> list = listBlocksAliases.get(i);
+            List<BlockAlias> list = (List)listBlocksAliases.get(i);
 
             if (list != null)
             {
-                ablockalias[i] = list.toArray(new BlockAlias[list.size()]);
+                ablockalias[i] = (BlockAlias[])((BlockAlias[])list.toArray(new BlockAlias[list.size()]));
             }
         }
 
@@ -238,7 +238,7 @@ public class BlockAliases
 
     public static void reset()
     {
-        blockAliases = null;
+        blockAliases = (BlockAlias[][])null;
         blockLayerPropertes = null;
     }
 }

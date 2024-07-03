@@ -46,10 +46,10 @@ public class BlockAlias
         {
             MatchBlock matchblock = this.matchBlocks[i];
             int j = matchblock.getBlockId();
-            set.add(j);
+            set.add(Integer.valueOf(j));
         }
 
-        Integer[] ainteger = set.toArray(new Integer[set.size()]);
+        Integer[] ainteger = (Integer[])set.toArray(new Integer[set.size()]);
         int[] aint = Config.toPrimitive(ainteger);
         return aint;
     }
@@ -68,12 +68,12 @@ public class BlockAlias
             }
         }
 
-        MatchBlock[] amatchblock = list.toArray(new MatchBlock[list.size()]);
+        MatchBlock[] amatchblock = (MatchBlock[])((MatchBlock[])list.toArray(new MatchBlock[list.size()]));
         return amatchblock;
     }
 
     public String toString()
     {
-        return "block." + this.blockAliasId + "=" + Config.arrayToString(this.matchBlocks);
+        return "block." + this.blockAliasId + "=" + Config.arrayToString((Object[])this.matchBlocks);
     }
 }
