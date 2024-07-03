@@ -67,14 +67,14 @@ public class ShaderOptionVariable extends ShaderOption
             String s2 = matcher.group(3);
             String s3 = StrUtils.getSegment(s2, "[", "]");
 
-            if (s3 != null && !s3.isEmpty())
+            if (s3 != null && s3.length() > 0)
             {
                 s2 = s2.replace(s3, "").trim();
             }
 
             String[] astring = parseValues(s1, s3);
 
-            if (s != null && !s.isEmpty())
+            if (s != null && s.length() > 0)
             {
                 path = StrUtils.removePrefix(path, "/shaders/");
                 ShaderOption shaderoption = new ShaderOptionVariable(s, s2, s1, astring, path);
@@ -118,7 +118,7 @@ public class ShaderOptionVariable extends ShaderOption
                 {
                     if (!Arrays.asList(astring1).contains(value))
                     {
-                        astring1 = (String[]) Config.addObjectToArray(astring1, value, 0);
+                        astring1 = (String[])((String[])Config.addObjectToArray(astring1, value, 0));
                     }
 
                     return astring1;

@@ -6,7 +6,7 @@ public class ShaderOptionScreen extends ShaderOption
 {
     public ShaderOptionScreen(String name)
     {
-        super(name, null, null, new String[0], null, null);
+        super(name, (String)null, (String)null, new String[0], (String)null, (String)null);
     }
 
     public String getNameText()
@@ -16,6 +16,6 @@ public class ShaderOptionScreen extends ShaderOption
 
     public String getDescriptionText()
     {
-        return Shaders.translate("screen." + this.getName() + ".comment", null);
+        return Shaders.translate("screen." + this.getName() + ".comment", (String)null);
     }
 }

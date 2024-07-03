@@ -46,12 +46,13 @@ public class ShaderOptionSwitch extends ShaderOption
             String s1 = matcher.group(2);
             String s2 = matcher.group(3);
 
-            if (s1 != null && !s1.isEmpty())
+            if (s1 != null && s1.length() > 0)
             {
                 boolean flag = Config.equals(s, "//");
                 boolean flag1 = !flag;
                 path = StrUtils.removePrefix(path, "/shaders/");
-                return new ShaderOptionSwitch(s1, s2, String.valueOf(flag1), path);
+                ShaderOption shaderoption = new ShaderOptionSwitch(s1, s2, String.valueOf(flag1), path);
+                return shaderoption;
             }
             else
             {
@@ -99,6 +100,6 @@ public class ShaderOptionSwitch extends ShaderOption
 
     public static boolean isTrue(String val)
     {
-        return Boolean.parseBoolean(val);
+        return Boolean.valueOf(val).booleanValue();
     }
 }
