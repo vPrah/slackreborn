@@ -9,42 +9,60 @@ import io.github.nevalackin.radbus.Listen;
 import net.minecraft.potion.Potion;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
 import java.util.List;
+import java.util.Map;
 
 @ModuleInfo(
         name = "RemoveEffect",
         category = Category.OTHER
 )
+
 public class RemoveEffect extends Module {
 
-    private final BooleanValue shouldRemoveSlowness = new BooleanValue("Slowness", false);
-    private final BooleanValue shouldRemoveMiningFatigue = new BooleanValue("MiningFatigue", false);
-    private final BooleanValue shouldRemoveBlindness = new BooleanValue("Blindness", false);
-    private final BooleanValue shouldRemoveWeakness = new BooleanValue("Weakness", false);
-    private final BooleanValue shouldRemoveWither = new BooleanValue("Wither", false);
-    private final BooleanValue shouldRemovePoison = new BooleanValue("Poison", false);
-    private final BooleanValue shouldRemoveWaterBreathing = new BooleanValue("WaterBreathing", false);
+    private enum Effect {
+        SLOWNESS(Potion.moveSlowdown.id, "Slowness"),
+        MINING_FATIGUE(Potion.digSlowdown.id, "MiningFatigue"),
+        BLINDNESS(Potion.blindness.id, "Blindness"),
+        WEAKNESS(Potion.weakness.id, "Weakness"),
+        WITHER(Potion.wither.id, "Wither"),
+        POISON(Potion.poison.id, "Poison"),
+        WATER_BREATHING(Potion.waterBreathing.id, "WaterBreathing");
 
+        private final int potionId;
+        private final String name;
+
+        Effect(int potionId, String name) {
+            this.potionId = potionId;
+            this.name = name;
+        }
+
+        public int getPotionId() {
+            return potionId;
+        }
+
+        public String getName() {
+            return name;
+        }
+    }
+
+    private final Map<Effect, BooleanValue> effectSettings = new EnumMap<>(Effect.class);
 
     public RemoveEffect() {
-        addSettings(shouldRemoveSlowness, shouldRemoveMiningFatigue, shouldRemoveBlindness, shouldRemoveWeakness, shouldRemoveWither, shouldRemovePoison, shouldRemoveWaterBreathing);
+        for (Effect effect : Effect.values()) {
+            effectSettings.put(effect, new BooleanValue(effect.getName(), false));
+        }
+        addSettings(effectSettings.values().toArray(new BooleanValue[0]));
     }
 
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer != null) {
-            List<Integer> effectIdsToRemove = new ArrayList<>();
-            if (shouldRemoveSlowness.getValue()) mc.thePlayer.removePotionEffectClient(Potion.moveSlowdown.id);
-            if (shouldRemoveMiningFatigue.getValue()) mc.thePlayer.removePotionEffectClient(Potion.digSlowdown.id);
-            if (shouldRemoveBlindness.getValue()) mc.thePlayer.removePotionEffectClient(Potion.blindness.id);
-            if (shouldRemoveWeakness.getValue()) mc.thePlayer.removePotionEffectClient(Potion.weakness.id);
-            if (shouldRemoveWither.getValue()) effectIdsToRemove.add(Potion.wither.id);
-            if (shouldRemovePoison.getValue()) effectIdsToRemove.add(Potion.poison.id);
-            if (shouldRemoveWaterBreathing.getValue()) effectIdsToRemove.add(Potion.waterBreathing.id);
-
-            for (Integer effectId : effectIdsToRemove) {
-                mc.thePlayer.removePotionEffectClient(effectId);
+            for (Map.Entry<Effect, BooleanValue> entry : effectSettings.entrySet()) {
+                if (entry.getValue().getValue()) {
+                    mc.thePlayer.removePotionEffectClient(entry.getKey().getPotionId());
+                }
             }
         }
     }
