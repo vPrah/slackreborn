@@ -71,7 +71,7 @@ public class ScoreboardModule extends Module {
 		if (roundedValue.getValue()) {
 			RenderUtil.drawRoundedRect((float) pos[0], (float) pos[1], (float) (pos[0] + width + 5), (float) (pos[1] + height + 5), 8F, 1342177280);
 		} else {
-		Gui.drawRect(pos[0], pos[1], (pos[0] + width + 5), pos[1] + height, 1342177280);
+		Gui.drawRect(pos[0], pos[1], (pos[0] + width + 10), pos[1] + height, 1342177280);
 		}
 
 		mc.getFontRenderer().drawStringWithShadow(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - mc.getFontRenderer().getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1);

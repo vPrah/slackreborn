@@ -42,7 +42,7 @@ public class LegitNofall extends Module {
     @Listen
     public void onMotion (MotionEvent e) {
         if(e.getState() == State.PRE) {
-            MovingObjectPosition rayCast = wrayCast(mc.getPlayerController().getBlockReachDistance(), e.getYaw(), 90);
+            MovingObjectPosition rayCast = wrayCast(mc.playerController.getBlockReachDistance(), e.getYaw(), 90);
             if (inPosition() && rayCast != null && rayCast.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && holdWaterBucket(switchToItem.getValue()) || inPosition() && rayCast != null && rayCast.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK && holdSpiderweb(switchToItem.getValue())) {
                 if (silentAim.getValue()) {
                     e.setPitch(90);
@@ -125,7 +125,7 @@ public class LegitNofall extends Module {
         final float sin = MathHelper.sin(n4 - 3.1415927f);
         final float n6 = -MathHelper.cos(n5);
         final Vec3 vec3 = new Vec3((double)(sin * n6), (double)MathHelper.sin(n5), (double)(cos * n6));
-        return mc.getWorld().rayTraceBlocks(getPositionEyes, getPositionEyes.addVector(vec3.xCoord * n, vec3.yCoord * n, vec3.zCoord * n), false, false, false);
+        return mc.theWorld.rayTraceBlocks(getPositionEyes, getPositionEyes.addVector(vec3.xCoord * n, vec3.yCoord * n, vec3.zCoord * n), false, false, false);
     }
 
 

@@ -147,7 +147,7 @@ public class PearlAntiVoid extends Module {
                     }
             }
         } catch (NullPointerException ex) {
-
+            ex.printStackTrace();
         }
     }
 

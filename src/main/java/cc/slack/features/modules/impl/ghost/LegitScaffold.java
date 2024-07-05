@@ -32,22 +32,22 @@ public class LegitScaffold extends Module {
 
     @Override
     public void onDisable() {
-        mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak);
+        mc.gameSettings.keyBindSneak.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindSneak);
     }
 
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (mc.getCurrentScreen() != null) return;
+        if (mc.currentScreen != null) return;
         shouldSneak = !sneakTimer.hasReached((long) sneakTime.getValue());
         if (PlayerUtil.isOverAir() && (!onlyGround.getValue() || mc.thePlayer.onGround) && mc.thePlayer.motionY < 0.1) {
             shouldSneak = true;
         }
 
         if (holdSneak.getValue()) {
-            mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak) && shouldSneak;
+            mc.gameSettings.keyBindSneak.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindSneak) && shouldSneak;
         } else {
-            mc.getGameSettings().keyBindSneak.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSneak) || shouldSneak;
+            mc.gameSettings.keyBindSneak.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindSneak) || shouldSneak;
         }
     }
 }
