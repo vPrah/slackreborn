@@ -12,6 +12,8 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.combat.criticals.ICriticals;
 import cc.slack.features.modules.impl.combat.criticals.impl.*;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.network.play.server.S37PacketStatistics;
+import net.minecraft.network.play.server.S40PacketDisconnect;
 
 @ModuleInfo(
         name = "Criticals",
@@ -47,12 +49,18 @@ public class Criticals extends Module {
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+
         mode.getValue().onUpdate(event);
     }
 
     @Listen
     public void onPacket(PacketEvent event) {
         if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
+
+        if (event.getPacket() instanceof S37PacketStatistics || event.getPacket() instanceof S40PacketDisconnect) {
+            toggle();
+        }
+
         mode.getValue().onPacket(event);
     }
 
