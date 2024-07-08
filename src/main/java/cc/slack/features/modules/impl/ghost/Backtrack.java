@@ -70,7 +70,6 @@ public class Backtrack extends Module {
             if (ticksSinceAttack < maxDelay.getValue()) {
                 ticksSinceAttack ++;
             } else {
-                PrintUtil.message("release");
                 releaseFirst();
             }
         }
@@ -133,5 +132,11 @@ public class Backtrack extends Module {
         }
         releasing = false;
         packetCache.remove(0);
+    }
+
+    @Override
+    public void onDisable() {
+        packetCache.clear();
+        currentTick.clear();
     }
 }
