@@ -48,7 +48,7 @@ public class Performance extends Module {
     }
 
     private void configureGSettings(String mode) {
-        GameSettings settings = mc.getMinecraft().gameSettings;
+        GameSettings settings = mc.gameSettings;
 
         settings.ofChunkUpdates = chunkupdates.getValue();
 
