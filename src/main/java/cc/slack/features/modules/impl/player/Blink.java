@@ -2,11 +2,14 @@
 
 package cc.slack.features.modules.impl.player;
 
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.player.BlinkUtil;
+import io.github.nevalackin.radbus.Listen;
 
 
 @ModuleInfo(
@@ -18,15 +21,23 @@ public class Blink extends Module {
 
     private final BooleanValue outbound = new BooleanValue("Outbound", true);
     private final BooleanValue inbound = new BooleanValue("Inbound", false);
+    private final NumberValue<Integer> delayValue = new NumberValue<>("Delay", 5, 0, 20, 1);
+
+    private int delay;
 
     public Blink() {
         super();
-        addSettings(outbound, inbound);
+        addSettings(outbound, inbound, delayValue);
     }
 
-    @Override
-    public void onEnable() {
+    @Listen
+    public void onUpdate(UpdateEvent event) {
         BlinkUtil.enable(inbound.getValue(), outbound.getValue());
+
+        if (++delay > delayValue.getValue()) {
+            BlinkUtil.disable();
+            delay = 0;
+        }
     }
 
     @Override
