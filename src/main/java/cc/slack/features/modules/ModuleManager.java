@@ -156,6 +156,7 @@ public class ModuleManager {
                     new AntiCactus(), // Recoded
                     new AntiHunger(), // Recoded
                     new AntiAfk(), // Recoded
+                    new AutoCrafter(),
                     new FakePlayer(), // Recoded
                     new NameProtect(), // Recoded
                     new TNTHelper(), // Recoded
