@@ -67,7 +67,7 @@ public class KillAura extends Module {
 
 
     // tools
-    private final BooleanValue moveFix = new BooleanValue("Move Fix", false);
+    private final ModeValue<String> moveFix = new ModeValue<>("Move Fix", new String[]{"Silent", "Strict", "None"});
     private final BooleanValue keepSprint = new BooleanValue("Keep Sprint", true);
     private final BooleanValue rayCast = new BooleanValue("Ray Cast", true);
 
@@ -186,7 +186,18 @@ public class KillAura extends Module {
         rotations = calculateRotations(target);
 
         RotationUtil.setClientRotation(rotations, 1);
-        RotationUtil.setStrafeFix(moveFix.getValue(), false);
+
+        switch (moveFix.getValue()) {
+            case "None":
+                RotationUtil.setStrafeFix(false, false);
+                break;
+            case "Silent":
+                RotationUtil.setStrafeFix(true, false);
+                break;
+            case "Strict":
+                RotationUtil.setStrafeFix(true, true);
+                break;
+        }
 
         sword1 = -1;
         sword2 = -1;
