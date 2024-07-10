@@ -26,12 +26,11 @@ public class bindCMD extends CMD {
                 bindMessage();
             } else {
                 PrintUtil.message("§cUsage: .bind [module] [key] or .bind list");
-
             }
         }
 
         if (args.length == 2) {
-            String module_name = args[0].replace('_', ' ');
+            String module_name = toTitleCase(args[0].replace('_', ' '));
             Module module;
             try {
                 module = Slack.getInstance().getModuleManager().getModuleByName(module_name);
@@ -41,7 +40,7 @@ public class bindCMD extends CMD {
             }
 
             try {
-                String key = args[1].toUpperCase();
+                String key = args[1].toUpperCase(); // Convert the key to uppercase
                 module.setKey(Keyboard.getKeyIndex(key));
                 PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + key + "§f.");
             } catch (Exception e) {
@@ -54,7 +53,6 @@ public class bindCMD extends CMD {
             PrintUtil.message("§cUsage: .bind [module] [key] or .bind list");
             PrintUtil.message("§cPlease replace spaces with underscores in the module name.");
         }
-
     }
 
     private void bindMessage() {
@@ -66,4 +64,23 @@ public class bindCMD extends CMD {
         }
     }
 
+    private String toTitleCase(String input) {
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            } else {
+                c = Character.toLowerCase(c);
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
+    }
 }
