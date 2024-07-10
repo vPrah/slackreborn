@@ -104,10 +104,10 @@ public class KillAura extends Module {
         super();
         addSettings(
                 aimRange, attackRange, // range
-                swingMode, attackPattern, cps, randomization, // autoclicker
+                swingMode, moveFix, attackPattern, cps, randomization, // Issues
                 autoBlock, blinkMode, blockRange, interactAutoblock, renderBlocking, // autoblock
                 rotationMode, rotationRand, minRotationSpeed, maxRotationSpeed, checkHitable, // rotations
-                moveFix, keepSprint, rayCast, // fixes
+                keepSprint, rayCast, // fixes
                 noScaffold, noFlight, noEat, noBlock, // Checks
                 sortMode,
                 markMode);
