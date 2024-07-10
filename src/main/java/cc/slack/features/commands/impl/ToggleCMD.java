@@ -22,7 +22,7 @@ public class ToggleCMD extends CMD {
                 return;
             }
 
-            moduleName = args[0];
+            moduleName = toTitleCase(args[0]); // Convert the module name to Title Case
             Module module = Slack.getInstance().getModuleManager().getModuleByName(moduleName);
             if (module == null) {
                 PrintUtil.message("§cCould not find module named: " + moduleName);
@@ -30,9 +30,29 @@ public class ToggleCMD extends CMD {
             }
 
             module.toggle();
-            PrintUtil.message("§b"+moduleName + " " + "§fenabled.");
+            PrintUtil.message("§b" + moduleName + " " + "§fenabled.");
         } catch (Exception e) {
             PrintUtil.message("§cCould not find module named: " + moduleName);
         }
+    }
+
+    private String toTitleCase(String input) {
+        StringBuilder titleCase = new StringBuilder();
+        boolean nextTitleCase = true;
+
+        for (char c : input.toCharArray()) {
+            if (Character.isSpaceChar(c)) {
+                nextTitleCase = true;
+            } else if (nextTitleCase) {
+                c = Character.toTitleCase(c);
+                nextTitleCase = false;
+            } else {
+                c = Character.toLowerCase(c);
+            }
+
+            titleCase.append(c);
+        }
+
+        return titleCase.toString();
     }
 }
