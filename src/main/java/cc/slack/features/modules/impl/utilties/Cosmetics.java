@@ -20,6 +20,7 @@ public class Cosmetics extends Module {
     private final ModeValue<String> particlemode = new ModeValue<>("Particle", new String[]{"Portal", "Redstone", "Critical", "Heart"});
     private final NumberValue<Integer> particlesSpeed = new NumberValue<>("Particles Speed", 10, 1, 20, 1);
     public Cosmetics() {
+        super();
         addSettings(cosmeticMode, particlePosMode, particlemode);
     }
 
