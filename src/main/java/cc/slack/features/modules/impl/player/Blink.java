@@ -21,7 +21,7 @@ public class Blink extends Module {
 
     private final BooleanValue outbound = new BooleanValue("Outbound", true);
     private final BooleanValue inbound = new BooleanValue("Inbound", false);
-    private final NumberValue<Integer> delayValue = new NumberValue<>("Delay", 5, 0, 20, 1);
+    private final NumberValue<Integer> delayValue = new NumberValue<>("Delay (ms)", 50, 0, 200, 1);
 
     private int delay;
 
@@ -34,7 +34,7 @@ public class Blink extends Module {
     public void onUpdate(UpdateEvent event) {
         BlinkUtil.enable(inbound.getValue(), outbound.getValue());
 
-        if (++delay > delayValue.getValue()) {
+        if (++delay > delayValue.getValue() / 10) {
             BlinkUtil.disable();
             delay = 0;
         }
