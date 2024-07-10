@@ -23,7 +23,6 @@ import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
@@ -249,7 +248,7 @@ public class Scaffold extends Module {
 
     private void updatePlayerRotations() {
 
-        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
             mc.getMinecraft().shutdown();
         }
 

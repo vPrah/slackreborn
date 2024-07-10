@@ -52,7 +52,7 @@ public class RotationUtil implements IMinecraft {
             clientRotation = targetRotation;
         }
 
-        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
             mc.getMinecraft().shutdown();
         }
     }

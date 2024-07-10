@@ -37,7 +37,7 @@ public class AutoPlay extends Module {
 
     @Override
     public void onEnable() {
-        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
             mc.getMinecraft().shutdown();
         }
         mode.getValue().onEnable();

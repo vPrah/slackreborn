@@ -135,7 +135,7 @@ public class MovementUtil implements IMinecraft {
         else if (moveStrafing < 0)
             rotationYaw += strafingYaw;
 
-        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
             mc.getMinecraft().shutdown();
         }
 

@@ -24,7 +24,7 @@ public class Cape extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
             mc.getMinecraft().shutdown();
         }
         switch (capes.getValue()) {

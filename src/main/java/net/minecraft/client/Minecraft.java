@@ -227,7 +227,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public WorldClient theWorld;
     public RenderGlobal renderGlobal;
     private RenderManager renderManager;
-    public static boolean cacheChunkReloader = false;
+    public static boolean renderChunksCache = false;
     private RenderItem renderItem;
     private ItemRenderer itemRenderer;
     public EntityPlayerSP thePlayer;
@@ -236,7 +236,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
     public EffectRenderer effectRenderer;
     public Session session;
     private boolean isGamePaused;
-    public boolean i34 = cacheChunkReloader;
+    public boolean pointedEffectRenderer = renderChunksCache;
     /** The font renderer used for displaying and measuring text */
     public FontRenderer MCfontRenderer;
     public FontRenderer standardGalacticFontRenderer;

@@ -40,7 +40,7 @@ public class MainMenu extends GuiScreen {
         mc.getTextureManager().bindTexture(new ResourceLocation("slack/menu/mainmenu.jpg"));
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
-        if (!Minecraft.cacheChunkReloader || !Minecraft.getMinecraft().i34) {
+        if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
             RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 50).getRGB());
             GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
@@ -100,7 +100,7 @@ public class MainMenu extends GuiScreen {
             particles.add(new Particle(this.width, this.height));
         }
 
-        if (Minecraft.cacheChunkReloader) {
+        if (Minecraft.renderChunksCache) {
             addButtons();
         } else {
 
@@ -184,8 +184,8 @@ public class MainMenu extends GuiScreen {
             }
 
             this.menuList.clear();
-            this.mc.i34 = true;
-            Minecraft.cacheChunkReloader = true;
+            this.mc.pointedEffectRenderer = true;
+            Minecraft.renderChunksCache = true;
 
             animTimer.reset();
 
