@@ -5,7 +5,6 @@ import cc.slack.features.commands.api.CMD;
 import cc.slack.features.commands.api.CMDInfo;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.features.modules.api.Module;
-import net.minecraft.util.ChatFormatting;
 import org.lwjgl.input.Keyboard;
 
 @CMDInfo(
@@ -42,12 +41,12 @@ public class bindCMD extends CMD {
             }
 
             try {
-                module.setKey(Keyboard.getKeyIndex(args[1]));
-                PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + args[1] + "§f.");
+                String key = args[1].toUpperCase();
+                module.setKey(Keyboard.getKeyIndex(key));
+                PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + key + "§f.");
             } catch (Exception e) {
                 PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + "NONE" + "§f.");
                 module.setKey(0);
-
             }
         }
 
