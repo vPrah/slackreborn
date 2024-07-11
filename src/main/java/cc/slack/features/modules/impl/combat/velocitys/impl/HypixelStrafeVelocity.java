@@ -9,7 +9,7 @@ public class HypixelStrafeVelocity implements IVelocity {
     @Override
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.hurtTime == 9) {
-            MovementUtil.strafe(MovementUtil.getSpeed() * 0.8f);
+            MovementUtil.strafe(MovementUtil.getSpeed() * 0.9f);
         }
     }
 

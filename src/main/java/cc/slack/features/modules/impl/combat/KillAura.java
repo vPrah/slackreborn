@@ -53,7 +53,7 @@ public class KillAura extends Module {
 
     // autoblock
     private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock", "Double Sword", "Legit"});
-    private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant"});
+    private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant", "Blatant Switch"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 6.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
     private final BooleanValue renderBlocking = new BooleanValue("Render Blocking", true);
@@ -131,7 +131,7 @@ public class KillAura extends Module {
         if(isBlocking) unblock();
         if(wasBlink) BlinkUtil.disable();
         if (inInv) PacketUtil.send(new C0DPacketCloseWindow());
-        if (!hasDouble && currentSlot != mc.thePlayer.inventory.currentItem && autoBlock.getValue().equalsIgnoreCase("double sword")) {
+        if (currentSlot != mc.thePlayer.inventory.currentItem) {
             PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             currentSlot = mc.thePlayer.inventory.currentItem;
         }
@@ -333,6 +333,22 @@ public class KillAura extends Module {
                                 return false;
                         }
                         break;
+                    case "blatant switch":
+                        switch (mc.thePlayer.ticksExisted % 2) {
+                            case 0:
+                                if (currentSlot != mc.thePlayer.inventory.currentItem % 8 + 1) {
+                                    PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                                    currentSlot = mc.thePlayer.inventory.currentItem % 8 + 1;
+                                }
+                                return true;
+                            case 1:
+                                if (currentSlot != mc.thePlayer.inventory.currentItem) {
+                                    PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                                    currentSlot = mc.thePlayer.inventory.currentItem;
+                                }
+                                return false;
+                        }
+                        break;
                 }
                 break;
             default:
@@ -430,6 +446,13 @@ public class KillAura extends Module {
                 break;
             case "blink":
                 if (blinkMode.getValue().equals("Blatant")) {
+                    block();
+                    if (!BlinkUtil.isEnabled)
+                        BlinkUtil.enable(false, true);
+                    BlinkUtil.setConfig(false, true);
+                    BlinkUtil.releasePackets();
+                    wasBlink = true;
+                } else if (blinkMode.getValue().equalsIgnoreCase("Blatant Switch")) {
                     block();
                     if (!BlinkUtil.isEnabled)
                         BlinkUtil.enable(false, true);

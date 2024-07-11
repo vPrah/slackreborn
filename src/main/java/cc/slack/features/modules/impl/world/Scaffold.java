@@ -408,7 +408,7 @@ public class Scaffold extends Module {
                             break;
                         case 1:
                             mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
-                            MovementUtil.spoofNextC03(true);
+                            //MovementUtil.spoofNextC03(true);
                             break;
                         case 2:
                             mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
