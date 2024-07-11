@@ -90,7 +90,7 @@ public class MainMenuButton extends Gui
                 j = 10526880;
             }
 
-            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 8) / 2 + MainMenu.animY, j);
+            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 6) / 2 + MainMenu.animY, j);
         }
     }
 

@@ -348,6 +348,7 @@ public class KillAura extends Module {
                                 if (currentSlot != mc.thePlayer.inventory.currentItem) {
                                     PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                                     currentSlot = mc.thePlayer.inventory.currentItem;
+                                    isBlocking = false;
                                 }
                                 return false;
                         }
@@ -421,8 +422,7 @@ public class KillAura extends Module {
                     block(true);
                 break;
             case "hypixel":
-                if (mc.thePlayer.hurtTime < 4 && target.hurtTime > 1)
-                    block(true);
+                block(true);
                 break;
             case "vanilla reblock":
                 isBlocking = false;

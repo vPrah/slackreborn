@@ -233,7 +233,7 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, decodes("TXVsdGlQbGF5ZXI=")));
         this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, decodes("U2V0dGluZ3M=")));
         this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, decodes("QWx0IE1hbmFnZXI=")));
-        this.menuList.add(new MainMenuButton(6, 55, height - 15, decodes("U2h1dGRvd24=")));
+        this.menuList.add(new MainMenuButton(6, 55, height - 30, decodes("U2h1dGRvd24=")));
         this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
     }
 

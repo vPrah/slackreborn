@@ -49,7 +49,7 @@ public class Slack {
 
     public void start() {
         PrintUtil.print("Initializing " + info.getName());
-        Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build" + " " + "Cracked by Cedo");
+        Display.setTitle(info.getName() + " " + info.getVersion() + " | " + info.getType() + " Build" + " " + "Cracked by Dg636");
 
         EventUtil.register(this);
         moduleManager.initialize();
