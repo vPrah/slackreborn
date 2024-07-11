@@ -275,7 +275,10 @@ public class KillAura extends Module {
                         block(false);
                     }
                 } else {
-                    if (isBlocking) unblock();
+                    if (isBlocking) {
+                        unblock();
+                        return true;
+                    }
                 }
                 return isBlocking;
             case "basic":
@@ -398,7 +401,10 @@ public class KillAura extends Module {
                 break;
             case "hypixel":
                 if (isBlocking) {
-                    PacketUtil.send(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
+                    if (inInv) {
+                        PacketUtil.send(new C0DPacketCloseWindow());
+                    }
+                    PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
                     isBlocking = false;
                     return false;
                 }

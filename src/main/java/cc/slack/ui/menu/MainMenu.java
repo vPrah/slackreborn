@@ -61,7 +61,7 @@ public class MainMenu extends GuiScreen {
         }
 
         if (!animTimer.hasReached(1000)) {
-            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 1000.0), 5) * this.height * 0.7);
+            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 1000.0), 3) * this.height * 0.7);
         } else {
             animY = 0;
         }
@@ -104,11 +104,11 @@ public class MainMenu extends GuiScreen {
             addButtons();
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 58, 200, 25, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
-            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 29, 200, 25, decodes("Q29weSBId2lk")));
-            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 25, decodes("TG9nIElu")));
-            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 42, 200, 25, decodes("T3BlbiBXZWJzaXRlCg==")));
-            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 71, 200, 25, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
+            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 58, 200, 23, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
+            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 29, 200, 23, decodes("Q29weSBId2lk")));
+            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 23, decodes("TG9nIElu")));
+            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 42, 200, 23, decodes("T3BlbiBXZWJzaXRlCg==")));
+            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 71, 200, 23, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
 
         }
 
@@ -233,7 +233,7 @@ public class MainMenu extends GuiScreen {
         this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, decodes("TXVsdGlQbGF5ZXI=")));
         this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, decodes("U2V0dGluZ3M=")));
         this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, decodes("QWx0IE1hbmFnZXI=")));
-        this.menuList.add(new MainMenuButton(6, width + 55, height - 15, decodes("U2h1dGRvd24=")));
+        this.menuList.add(new MainMenuButton(6, 55, height - 15, decodes("U2h1dGRvd24=")));
         this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
     }
 

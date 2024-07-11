@@ -6,6 +6,7 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.Velocity;
 import cc.slack.features.modules.impl.combat.velocitys.IVelocity;
 import cc.slack.utils.player.BlinkUtil;
+import cc.slack.utils.player.MovementUtil;
 import net.minecraft.network.play.server.S12PacketEntityVelocity;
 
 public class HypixelAirVelocity implements IVelocity {
@@ -19,8 +20,13 @@ public class HypixelAirVelocity implements IVelocity {
                 double verticalValue = velocityModule.vertical.getValue().doubleValue();
 
                 event.cancel();
-                if (mc.thePlayer.onGround)
+                if (mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = packet.getMotionY() * verticalValue / 100 / 8000.0;
+                    if (MovementUtil.isMoving()) {
+                        mc.thePlayer.jump();
+                        MovementUtil.strafe(0.48f);
+                    }
+                }
             }
         }
     }
