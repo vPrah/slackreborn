@@ -3,6 +3,8 @@ package cc.slack.ui.clickgui.component.components.sub;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.ui.clickgui.component.Component;
 import cc.slack.ui.clickgui.component.components.Button;
+import cc.slack.utils.render.ColorUtil;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -33,9 +35,10 @@ public class Checkbox extends Component {
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         Minecraft.getFontRenderer().drawStringWithShadow(this.op.getName(), (parent.parent.getX() + 10 + 4) * 2 + 5, (parent.parent.getY() + offset + 2) * 2 + 4, -1);
         GL11.glPopMatrix();
-        Gui.drawRect(parent.parent.getX() + 3 + 4, parent.parent.getY() + offset + 3, parent.parent.getX() + 9 + 4, parent.parent.getY() + offset + 9, 0xFF999999);
+        RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 3, 0xFF999999);
         if (this.op.getValue())
-            Gui.drawRect(parent.parent.getX() + 4 + 4, parent.parent.getY() + offset + 4, parent.parent.getX() + 8 + 4, parent.parent.getY() + offset + 8, 0xFF666666);
+            RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 2, ColorUtil.getColor().getRGB());
+
     }
 
     @Override

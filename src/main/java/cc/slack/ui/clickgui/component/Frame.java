@@ -3,6 +3,7 @@ package cc.slack.ui.clickgui.component;
 import java.util.ArrayList;
 
 import cc.slack.Slack;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.util.MathHelper;
@@ -73,7 +74,7 @@ public class Frame {
     }
 
     public void renderFrame(FontRenderer fontRenderer) {
-        Gui.drawRect(this.x, this.y, this.x + this.width, this.y + this.height, category.getColorRGB());
+        RenderUtil.drawRoundedRect(this.x, this.y, this.x + this.width, this.y + this.height, 3, category.getColorRGB());
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         fontRenderer.drawStringWithShadow(this.category.name(), (this.x + 2) * 2 + 5, (this.y + 2.5f) * 2 + 5, 0xFFFFFFFF);

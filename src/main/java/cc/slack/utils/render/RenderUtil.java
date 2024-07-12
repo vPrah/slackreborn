@@ -614,6 +614,7 @@ public final class RenderUtil implements IMinecraft {
 
     public static void drawRoundedRect(double x, double y, double x1, double y1, double radius, int color) {
         int i;
+        GL11.glPushMatrix();
         GL11.glPushAttrib(0);
         GL11.glScaled(0.5, 0.5, 0.5);
         x *= 2.0;
@@ -651,6 +652,7 @@ public final class RenderUtil implements IMinecraft {
         GL11.glPopAttrib();
         GlStateManager.enableTexture2D();
         GlStateManager.disableBlend();
+        GL11.glPopMatrix();
 
         GlStateManager.color(1, 1, 1, 1);
     }
@@ -1232,6 +1234,10 @@ public final class RenderUtil implements IMinecraft {
 
     public static void endStencil(){
         GL11.glDisable(GL11.GL_STENCIL_TEST);
+    }
+
+    public static void drawCircle(float x, float y, float radius, int color) {
+        drawRoundedRect(x - radius, y - radius, x + radius, y + radius, radius, color);
     }
 
     public static void resetCaps() {

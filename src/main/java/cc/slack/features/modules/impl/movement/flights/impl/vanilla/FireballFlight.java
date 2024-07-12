@@ -58,7 +58,7 @@ public class FireballFlight implements IFlight {
                 mc.thePlayer.jump();
                 MovementUtil.strafe(0.47f);
                 started = true;
-                RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 80f}, 2);
+                RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 70f}, 2);
 
             } else if (started) {
                 BlinkUtil.enable(false, true);
@@ -76,7 +76,7 @@ public class FireballFlight implements IFlight {
             }
 
             if (gotVelo && mc.thePlayer.hurtTime == 9) {
-                MovementUtil.strafe(MovementUtil.getSpeed() * 1.02f);
+                MovementUtil.strafe(MovementUtil.getSpeed() * 1.04f);
             }
 
         }
