@@ -78,7 +78,8 @@ public class Scaffold extends Module {
 
     boolean isTowering = false;
 
-    double expand = 0.0;
+    double startExpand = 0.0;
+    double endExpand = 0.0;
 
     boolean hasBlock = false;
     float[] blockRotation = new float[] {0f, 0f};
@@ -180,8 +181,12 @@ public class Scaffold extends Module {
         updatePlayerRotations();
         setMovementCorrection();
 
-        expand = expandAmount.getValue();
-        if (isTowering) expand = towerExpandAmount.getValue();
+        startExpand = Math.min(0, expandAmount.getValue());
+        if (isTowering) startExpand = Math.min(0, towerExpandAmount.getValue());
+
+        endExpand = Math.max(0, expandAmount.getValue());
+        if (isTowering) endExpand = Math.max(0, towerExpandAmount.getValue());
+
 
         runTowerMove();
         if (placeTiming.getValue() == "Legit") placeBlock();
@@ -390,6 +395,8 @@ public class Scaffold extends Module {
                         mc.timer.timerSpeed = 1f;
 
                     }
+                    MovementUtil.resetMotion();
+
                     if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
                         mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));
                     } else {
@@ -415,11 +422,14 @@ public class Scaffold extends Module {
                             MovementUtil.spoofNextC03(true);
                             break;
                     }
+                    MovementUtil.resetMotion();
                     if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
                         mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));
                     } else {
                         mc.thePlayer.motionZ = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posZ)- mc.thePlayer.posZ));
                     }
+                    startExpand = -0.2;
+                    endExpand = 0.2;
                     break;
                 case "off":
                     if (mc.thePlayer.onGround) {
@@ -459,20 +469,11 @@ public class Scaffold extends Module {
 
     private void runFindBlock() {
 
-        if (expand > 0) {
-            for (double x = 0.0; x <= expand; x += 0.1) {
-                placeX = mc.thePlayer.posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
-                placeZ = mc.thePlayer.posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
-                if (startSearch()) return;
+        for (double x = startExpand; x <= endExpand; x += 0.1) {
+            placeX = mc.thePlayer.posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
+            placeZ = mc.thePlayer.posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
+            if (startSearch()) return;
 
-            }
-        } else {
-            for (double x = 0.0; x >= expand; x -= 0.1) {
-                placeX = mc.thePlayer.posX - (MathHelper.sin((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
-                placeZ = mc.thePlayer.posZ + (MathHelper.cos((float) Math.toRadians(MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw))) * x);
-                if (startSearch()) return;
-
-            }
         }
     }
 
@@ -554,7 +555,9 @@ public class Scaffold extends Module {
                 if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
                     canContinue = false;
                 } else {
-                    canContinue = raytraced.getBlockPos() == blockPlace;
+                    canContinue = raytraced.getBlockPos().getX() == blockPlace.getX()
+                    && raytraced.getBlockPos().getY() == blockPlace.getY()
+                    && raytraced.getBlockPos().getZ() == blockPlace.getZ();
                 }
                 break;
             case "strict":
@@ -563,7 +566,9 @@ public class Scaffold extends Module {
                     break;
                 }
                 if (raytraced.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-                    canContinue = raytraced.getBlockPos() == blockPlace && raytraced.sideHit == blockPlacementFace;
+                    canContinue = raytraced.getBlockPos().getX() == blockPlace.getX()
+                            && raytraced.getBlockPos().getY() == blockPlace.getY()
+                            && raytraced.getBlockPos().getZ() == blockPlace.getZ() && raytraced.sideHit == blockPlacementFace;
                 }
                 break;
             default:

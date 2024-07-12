@@ -34,7 +34,7 @@ public class Blink extends Module {
     public void onUpdate(UpdateEvent event) {
         BlinkUtil.enable(inbound.getValue(), outbound.getValue());
 
-        if (++delay > delayValue.getValue() / 10) {
+        if (++delay > delayValue.getValue() / 50) {
             BlinkUtil.disable();
             delay = 0;
         }

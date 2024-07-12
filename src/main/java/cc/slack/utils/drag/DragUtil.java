@@ -24,26 +24,18 @@ public class DragUtil {
 		x = (int) scaled[0];
 		y = (int) scaled[1];
 
-		double width = sr.getScaledWidth();
-		double height = sr.getScaledHeight_double();
-		return x > getX() && y > getY() && x < getX() + width / 1000F * getWidth() && y < getY() + height / 1000F * getHeight();
+		return x > getX() && y > getY() && x < getX() + getWidth() && y < getY() + getHeight();
 	}
 
 	public static double[] setScaledPosition(double x, double y) {
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-		double width = sr.getScaledWidth();
-		double height = sr.getScaledHeight_double();
-
-		return new double[] { width / 1000F * x, height / 1000F * y };
+		return new double[] { x,  y };
 	}
 
 	public static double[] setPosition(double x, double y) {
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 
-		double width = sr.getScaledWidth();
-		double height = sr.getScaledHeight_double();
-
-		return new double[] { x * 1000F / width, y * 1000F / height };
+		return new double[] { x, y  };
 	}
 }

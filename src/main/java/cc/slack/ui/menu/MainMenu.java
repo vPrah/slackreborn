@@ -45,11 +45,12 @@ public class MainMenu extends GuiScreen {
             GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
 
-            Fonts.poppins18.drawString("Slack Client", width / 2 - 25, height / 2 - 95, new Color(255, 255, 255).getRGB());
+            Fonts.poppins18.drawString("Slack Client", width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
+            Fonts.poppins18.drawString("Slack Client", width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
 
             GlStateManager.pushMatrix();
             mc.getTextureManager().bindTexture(imageResource);
-            drawModalRectWithCustomSizedTexture(width / 2 - 51, height / 2 - 100, 0, 0, 27, 27, 26, 26);
+            drawModalRectWithCustomSizedTexture(width / 2 - 45, height / 2 - 100, 0, 0, 27, 27, 26, 26);
             GlStateManager.popMatrix();
 
             if (!dmTimer.hasReached(10000))
@@ -60,8 +61,8 @@ public class MainMenu extends GuiScreen {
             return;
         }
 
-        if (!animTimer.hasReached(1000)) {
-            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 1000.0), 3) * this.height * 0.7);
+        if (!animTimer.hasReached(500)) {
+            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 500.0), 7) * this.height * 0.7);
         } else {
             animY = 0;
         }

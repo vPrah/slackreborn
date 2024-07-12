@@ -37,7 +37,7 @@ public class UniversalAntiVoid implements IAntiVoid {
                 BlinkUtil.disable();
                 universalStarted = false;
                 universalFlag = false;
-            } else if (mc.thePlayer.fallDistance > 4f && !universalFlag) {
+            } else if (mc.thePlayer.fallDistance > 6f && !universalFlag) {
                 universalFlag = true;
                 PacketUtil.sendNoEvent(new C03PacketPlayer.C04PacketPlayerPosition(groundX, groundY + 1, groundZ, false));
             }

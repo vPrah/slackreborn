@@ -10,6 +10,8 @@ import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.Gui;
 
+import java.awt.*;
+
 public class Checkbox extends Component {
 
     private boolean hovered;
@@ -18,6 +20,7 @@ public class Checkbox extends Component {
     private int offset;
     private int x;
     private int y;
+    private double alpha = 0.0;
 
     public Checkbox(BooleanValue option, Button button, int offset) {
         this.op = option;
@@ -25,6 +28,7 @@ public class Checkbox extends Component {
         this.x = button.parent.getX() + button.parent.getWidth();
         this.y = button.parent.getY() + button.offset;
         this.offset = offset;
+        this.alpha = 0.0;
     }
 
     @Override
@@ -36,9 +40,14 @@ public class Checkbox extends Component {
         Minecraft.getFontRenderer().drawStringWithShadow(this.op.getName(), (parent.parent.getX() + 10 + 4) * 2 + 5, (parent.parent.getY() + offset + 2) * 2 + 4, -1);
         GL11.glPopMatrix();
         RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 3, 0xFF999999);
-        if (this.op.getValue())
-            RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 2, ColorUtil.getColor().getRGB());
-
+        Color c = ColorUtil.getColor();
+        c = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (alpha * 255));
+        if (this.op.getValue()) {
+            alpha += (1 - alpha) / 4;
+            RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 2, c.getRGB());
+        } else {
+            alpha += (0 - alpha) / 4;
+        }
     }
 
     @Override

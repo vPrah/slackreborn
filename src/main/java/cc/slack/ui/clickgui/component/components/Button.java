@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.ui.clickgui.component.components.sub.Checkbox;
 import cc.slack.ui.clickgui.component.components.sub.Slider;
+import cc.slack.utils.render.ColorUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 
@@ -44,7 +45,7 @@ public class Button extends Component {
                 }
                 if (value instanceof NumberValue) {
                     this.subcomponents.add(new Slider((NumberValue) value, this, opY));
-                    opY += 12;
+                    opY += 17;
                 }
                 if (value instanceof BooleanValue) {
                     this.subcomponents.add(new Checkbox((BooleanValue) value, this, opY));
@@ -67,10 +68,10 @@ public class Button extends Component {
 
     @Override
     public void renderComponent() {
-        Gui.drawRect(parent.getX(), this.parent.getY() + this.offset, parent.getX() + parent.getWidth(), this.parent.getY() + 12 + this.offset, this.isHovered ? (this.mod.isToggle() ? new Color(0xFF222222).darker().getRGB() : 0xFF222222) : (this.mod.isToggle() ? new Color(14, 14, 14).getRGB() : 0xFF111111));
+        Gui.drawRect(parent.getX(), this.parent.getY() + this.offset, parent.getX() + parent.getWidth(), this.parent.getY() + 12 + this.offset, this.isHovered ? (this.mod.isToggle() ? ColorUtil.getColor(offset).darker().darker().getRGB() : 0xFF222222) : (this.mod.isToggle() ? ColorUtil.getColor(offset).getRGB() : 0xFF111111));
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
-        Minecraft.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, this.mod.isToggle() ? 0x999999 : -1);
+        Minecraft.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
         if (this.subcomponents.size() > 1)
             Minecraft.getFontRenderer().drawStringWithShadow(this.open ? "-" : "+", (parent.getX() + parent.getWidth() - 10) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
         GL11.glPopMatrix();

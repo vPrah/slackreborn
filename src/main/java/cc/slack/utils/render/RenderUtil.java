@@ -1237,7 +1237,7 @@ public final class RenderUtil implements IMinecraft {
     }
 
     public static void drawCircle(float x, float y, float radius, int color) {
-        drawRoundedRect(x - radius, y - radius, x + radius, y + radius, radius, color);
+        drawRoundedRect(x - radius, y - radius, x + radius, y + radius, radius * 2, color);
     }
 
     public static void resetCaps() {

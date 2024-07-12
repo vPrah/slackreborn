@@ -91,7 +91,7 @@ public class CPoppinsArrayList implements IArraylist {
 
             drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
             Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
-            y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.pow((ease + 0.2) / 1.2, 0.0));
+            y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
             c += 0.15;
         }
     }

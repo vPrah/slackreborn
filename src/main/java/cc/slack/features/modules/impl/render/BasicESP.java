@@ -100,10 +100,10 @@ public class BasicESP extends Module {
             }
 
             glPushMatrix();
+            glTranslated(x, y, z);
             if (rotateYaw.getValue()) {
                 glRotated(entity.rotationYaw, 0, 1, 0);
             }
-            glTranslated(x, y, z);
             RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
             glPopMatrix();
         }
