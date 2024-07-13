@@ -32,12 +32,12 @@ import javax.vecmath.Vector4d;
 @ModuleInfo(name = "TargetHUD", category = Category.RENDER)
 public class TargetHUD extends Module {
 
-	private final ModeValue<String> mode = new ModeValue<>(new String[] {"Classic", "Classic2", "New" });
+	private final ModeValue<String> mode = new ModeValue<>(new String[] {"New", "Classic", "Classic2"});
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 	private final BooleanValue followTarget = new BooleanValue("Follow Target", false);
 
-	private double posX = 300.0D;
-	private double posY = 100.0D;
+	private double posX = -1D;
+	private double posY = -1D;
 
 //	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
 //	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
@@ -86,6 +86,10 @@ public class TargetHUD extends Module {
 		if (event.getState() != RenderEvent.State.RENDER_2D) return;
 
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+		if (posX == -1 || posY == -1) {
+			posX = sr.getScaledWidth() / 2.0 + 50;
+			posY = sr.getScaledHeight() / 2.0 - 20;
+		}
 		int x = (int) (posX), y = (int) (posY);
 
 		if (target == null)

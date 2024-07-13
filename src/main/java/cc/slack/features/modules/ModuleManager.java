@@ -33,16 +33,16 @@ public class ModuleManager {
                     new ClientSpoofer(), // Dont remove
                     new AutoRod(), // Recoded
                     new AimAssist(), // Need Recode
-                    new CustomESP(), // Need Recode
+                    // new CustomESP(), // Need Recode
 
                     new FreeLook(), // Need Recode
 
 
                     // Combat
-                    new Criticals(), // Recoded
                     new KillAura(),
                     new Velocity(), // Recoded
                     new Hitbox(),
+                    new Criticals(), // Recoded
                     new AntiFireball(), // Made by dg636
                     new TickBase(),
 
@@ -57,6 +57,7 @@ public class ModuleManager {
                     new Sprint(),
                     new Glide(), // Recoded
                     new Jesus(), // Recoded
+                    new Spider(),
                     new NoWeb(), // Recoded
                     new VClip(), // Recoded
 
@@ -66,6 +67,8 @@ public class ModuleManager {
                     new RemoveEffect(),
                     new RichPresence(),
                     new LightningDetector(),
+                    new HealthWarn(),
+                    new FakePlayer(), // Recoded
                     new Killsults(),
                     new Targets(),
                     new Tweaks(),
@@ -84,10 +87,9 @@ public class ModuleManager {
                     new Breaker(),
                     new Stealer(),
                     new InvManager(),
-                    new ChestAura(),
+                    new ChestAura(), // Recoded
                     new SpeedMine(),
                     new FastPlace(),
-                    new ChestAura(), // Recoded
 
                     // Exploit
                     new Disabler(),
@@ -118,7 +120,6 @@ public class ModuleManager {
                     new ChestESP(), // Recoded
                     new Camera(), // Recoded
                     new ItemPhysics(), // Recoded
-                    new Spider(),
                     new Bobbing(), // Recoded
                     new Tracers(), // Recoded
                     new Projectiles(), // Recoded
@@ -152,16 +153,10 @@ public class ModuleManager {
                     new AutoPot(),
                     new AutoSword(),
                     new AntiStaff(),
-                    new AntiLava(), // Recoded
-                    new AntiCactus(), // Recoded
-                    new AntiHunger(), // Recoded
-                    new AntiAfk(), // Recoded
+                    new AntiHarm(), // Recoded
                     new AutoCrafter(),
-                    new FakePlayer(), // Recoded
                     new NameProtect(), // Recoded
                     new TNTHelper(), // Recoded
-                    new HealthWarn(),
-                    new LegitMode(),
                     new LagbackChecker()
 
             );

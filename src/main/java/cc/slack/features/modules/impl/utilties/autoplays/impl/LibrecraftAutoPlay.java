@@ -21,4 +21,9 @@ public class LibrecraftAutoPlay implements IAutoPlay {
             Slack.getInstance().getModuleManager().getInstance(AutoPlay.class).iscorrectjoin();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Librecraft";
+    }
 }

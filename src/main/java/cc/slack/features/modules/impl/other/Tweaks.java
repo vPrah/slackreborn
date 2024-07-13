@@ -19,23 +19,22 @@ import io.github.nevalackin.radbus.Listen;
         category = Category.OTHER
 )
 public class Tweaks extends Module {
-
-
-    public final BooleanValue noachievement = new BooleanValue("No Achievement", true);
-    public final BooleanValue noblockhitdelay = new BooleanValue("No Block Hit Delay", false);
-    public final BooleanValue noclickdelay = new BooleanValue("No Click Delay", true);
+    
     public final BooleanValue nojumpdelay = new BooleanValue("No Jump Delay", false);
     public final NumberValue<Integer> noJumpDelayTicks = new NumberValue<>("Jump Delay Ticks", 0, 0, 10, 1);
-    public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
-    public BooleanValue noSkinValue = new BooleanValue("No Render Skins", false);
-    public BooleanValue noTickInvisValue = new BooleanValue("Don't Tick invisibles", false);
-    public final BooleanValue noExpBar = new BooleanValue("No XP Bar", false);
+    private final BooleanValue fullbright = new BooleanValue("FullBright", true);
+    public final BooleanValue noclickdelay = new BooleanValue("No Click Delay", true);
+    public final BooleanValue noachievement = new BooleanValue("No Achievement", true);
+    public final BooleanValue noblockhitdelay = new BooleanValue("No Block Hit Delay", false);
+    private final BooleanValue exitGUIFix = new BooleanValue("Exit Gui Fix", true);
+    public final BooleanValue customTitle = new BooleanValue("Custom Title", false);
+    public final BooleanValue noPumpkin = new BooleanValue("No Pumpkin", true);
     public final BooleanValue noChatBack = new BooleanValue("No Chat Background", false);
     public final BooleanValue infinitechat = new BooleanValue("Infinite Chat", false);
-    private final BooleanValue fullbright = new BooleanValue("FullBright", true);
-    private final BooleanValue exitGUIFix = new BooleanValue("Exit Gui Fix", true);
-    public final BooleanValue noPumpkin = new BooleanValue("No Pumpkin", true);
-    public final BooleanValue customTitle = new BooleanValue("Custom Title", false);
+    public final BooleanValue nobosshealth = new BooleanValue("No Boss Health", false);
+    public final BooleanValue noSkinValue = new BooleanValue("No Render Skins", false);
+    public final BooleanValue noTickInvisValue = new BooleanValue("Don't Tick invisibles", false);
+    public final BooleanValue noExpBar = new BooleanValue("No XP Bar", false);
 
     float prevGamma = -1F;
     boolean wasGUI = false;
@@ -48,16 +47,16 @@ public class Tweaks extends Module {
     }
 
     @Override
-    public void onEnable() {prevGamma = mc.getGameSettings().gammaSetting;}
+    public void onEnable() {prevGamma = mc.gameSettings.gammaSetting;}
 
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
 
         if (fullbright.getValue()) {
-            if (mc.getGameSettings().gammaSetting <= 100f) mc.getGameSettings().gammaSetting++;
+            if (mc.gameSettings.gammaSetting <= 100f) mc.gameSettings.gammaSetting++;
         } else if (prevGamma != -1f) {
-            mc.getGameSettings().gammaSetting = prevGamma;
+            mc.gameSettings.gammaSetting = prevGamma;
             prevGamma = -1f;
         }
 
@@ -92,7 +91,7 @@ public class Tweaks extends Module {
     @Override
     public void onDisable() {
         if (prevGamma == -1f) return;
-        mc.getGameSettings().gammaSetting = prevGamma;
+        mc.gameSettings.gammaSetting = prevGamma;
         prevGamma = -1f;
     }
 }

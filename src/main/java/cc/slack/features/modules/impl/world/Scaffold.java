@@ -221,7 +221,7 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 mc.thePlayer.setSprinting(false);
-                MovementUtil.move(0.02f);
+                MovementUtil.move(0.008f);
                 mc.thePlayer.motionX *= 1.004;
                 mc.thePlayer.motionZ *= 1.004;
                 if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
@@ -346,22 +346,18 @@ public class Scaffold extends Module {
                 case "vanilla":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
+                        mc.thePlayer.motionY = 0.41985 + Math.random() * 0.000095;
                     }
 
                     switch (mc.thePlayer.offGroundTicks % 3) {
                         case 0:
-                            mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
-                            break;
-                        case 1:
-                            mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
-                            MovementUtil.spoofNextC03(true);
+                            mc.thePlayer.motionY = 0.41985 + Math.random() * 0.000095;
                             break;
                         case 2:
                             mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
-                            MovementUtil.spoofNextC03(true);
                             break;
                     }
+                    break;
                 case "vulcan":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;

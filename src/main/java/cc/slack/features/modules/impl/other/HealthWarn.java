@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.utilties;
+package cc.slack.features.modules.impl.other;
 
 import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
@@ -11,7 +11,7 @@ import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
         name = "HealthWarn",
-        category = Category.UTILITIES
+        category = Category.OTHER
 )
 public class HealthWarn extends Module {
 

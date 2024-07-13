@@ -47,4 +47,9 @@ public class HypixelAutoPlay implements IAutoPlay {
             timer.reset();
         }
     }
+
+    @Override
+    public String toString() {
+        return "Hypixel";
+    }
 }

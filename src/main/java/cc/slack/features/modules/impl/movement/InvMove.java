@@ -41,6 +41,7 @@ public class InvMove extends Module {
         if (mc.currentScreen instanceof GuiInventory && hypixelTest.getValue()) {
             if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 3 : 4) == 0) {
                 PacketUtil.send(new C0DPacketCloseWindow());
+            } else if (mc.thePlayer.ticksExisted % (mc.thePlayer.isPotionActive(Potion.moveSpeed) ? 3 : 4) == 1) {
                 PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
             }
         }
