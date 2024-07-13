@@ -32,6 +32,8 @@ public class MainMenu extends GuiScreen {
     public static String discordId = "";
     public static String idid = "";
 
+    private static boolean lgi = false;
+
     public static int animY;
     private TimeUtil animTimer = new TimeUtil();
 
@@ -46,41 +48,94 @@ public class MainMenu extends GuiScreen {
             GlStateManager.color(1, 1, 1, 1);
 
             Fonts.poppins18.drawString("Slack Client", width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
-            Fonts.poppins18.drawString("Slack Client", width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
 
-            GlStateManager.pushMatrix();
-            mc.getTextureManager().bindTexture(imageResource);
-            drawModalRectWithCustomSizedTexture(width / 2 - 45, height / 2 - 100, 0, 0, 27, 27, 26, 26);
-            GlStateManager.popMatrix();
+            GlStateManager.enableAlpha();
+            GlStateManager.enableBlend();
+            RenderUtil.drawImage(imageResource, width / 2 - 45, height / 2 - 100, 15, 27);
+            GlStateManager.disableAlpha();
+            GlStateManager.disableBlend();
 
             if (!dmTimer.hasReached(10000))
                 Fonts.apple18.drawStringWithShadow(debugMessage, 5, 5, new Color(255, 50, 50).getRGB());
 
             super.drawScreen(mouseX, mouseY, partialTicks);
-            animTimer.reset();
+
+            if (lgi) {
+                if (animTimer.hasReached(400)) {
+                    Fonts.apple45.drawCenteredStringWithShadow("Logging in...", width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
+                    Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 3))).getRGB());
+                    String hwid = FileUtil.fetchHwid();
+
+                    if (hwid == "f") {
+                        setMsg("Could not grab Hwid to verify. Please open a ticket.");
+                        return;
+                    }
+
+                    if (discordId.length() < 16 || discordId.length() > 20) {
+                        setMsg("Invalid Discord id");
+                        return;
+                    }
+
+                    OkHttpClient client = new OkHttpClient();
+                    Request request = Login.sendReq(client, hwid, discordId);
+
+
+                    // Execute the request
+                    try {
+                        Response response = client.newCall(request).execute();
+                        if (response.isSuccessful()) {
+
+                            String resp = response.body().string();
+
+                            if (Login.isSuccess(discordId, resp, hwid)) {
+                                idid = hwid;
+                                setMsg(decodes("TG9naW4gU3VjY2Vzc2Z1bA=="));
+                            } else {
+                                setMsg(decodes("Q3JlZGVudGlhbHMgZGlkbid0IG1hdGNoLg=="));
+                                return;
+                            }
+                        } else {
+                            setMsg(decodes("RmFpbGVkIHRvIGdldCByZXNwb25zZSBmcm9tIHNlcnZlci4="));
+                            return;
+                        }
+                    } catch (IOException e) {
+                        setMsg(decodes("RmFpbGVkIHRvIGNvbnRhY3Qgc2VydmVyLg=="));
+                        return;
+                    }
+
+                    this.menuList.clear();
+                    this.mc.pointedEffectRenderer = true;
+                    Minecraft.renderChunksCache = true;
+
+                    animTimer.reset();
+
+                    addButtons();
+                    lgi = false;
+                } else {
+                    Fonts.apple45.drawCenteredStringWithShadow("Logging in...", width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
+                    Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 3))).getRGB());
+                }
+            } else {
+                animTimer.reset();
+            }
             return;
         }
 
-        if (!animTimer.hasReached(500)) {
-            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 500.0), 7) * this.height * 0.7);
+        if (!animTimer.hasReached(700)) {
+            animY = (int) (Math.pow(1 - (animTimer.elapsed() / 700.0), 4) * this.height * 0.7);
         } else {
             animY = 0;
         }
 
-        RenderUtil.drawRoundedRect(width / 2 - 70, height / 2 - 80 + animY, width / 2 + 70, height / 2 + 120 + animY, 10, new Color(0, 0, 0, 110).getRGB());
+        Fonts.apple20.drawString("Made by Dg636, Vprah, and others with <3", width - 7 - Fonts.apple20.getStringWidth("Made by Dg636, Vprah, and others with <3"),  height - 13, -1);
         GlStateManager.color(1, 1, 1, 1);
 
-        GlStateManager.color(1, 1, 1, 1);
+        GlStateManager.enableAlpha();
+        GlStateManager.enableBlend();
+        RenderUtil.drawImage(imageResource, width / 2 - 28, height / 2 - 95 + animY, 57, 100);
+        GlStateManager.disableAlpha();
+        GlStateManager.disableBlend();
 
-        Fonts.apple20.drawString("Made by Slack Team", 10,  height - 20, -1);
-        GlStateManager.color(1, 1, 1, 1);
-
-
-        GlStateManager.pushMatrix();
-        GlStateManager.scale(0.35 , 0.35, 0.35);
-        mc.getTextureManager().bindTexture(imageResource);
-        drawModalRectWithCustomSizedTexture((int) ((width/2) / 0.35) - 50, (int) ((height / 2 - 75) / 0.35), 0, 0, 100, 100, 100, 100);
-        GlStateManager.popMatrix();
         for (Particle particle : particles) {
             particle.update();
             particle.render(mc);
@@ -105,11 +160,11 @@ public class MainMenu extends GuiScreen {
             addButtons();
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 58, 200, 23, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
-            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 29, 200, 23, decodes("Q29weSBId2lk")));
-            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 23, decodes("TG9nIElu")));
-            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 42, 200, 23, decodes("T3BlbiBXZWJzaXRlCg==")));
-            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 71, 200, 23, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
+            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 48, 200, 19, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
+            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 24, 200, 19, decodes("Q29weSBId2lk")));
+            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 19, decodes("TG9nIElu")));
+            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 40, 200, 19, decodes("T3BlbiBXZWJzaXRlCg==")));
+            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 64, 200, 19, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
 
         }
 
@@ -118,6 +173,7 @@ public class MainMenu extends GuiScreen {
 
     @Override
     protected void actionPerformedMenu(MainMenuButton buttonMenu) throws IOException {
+        if (lgi) return;
         super.actionPerformedMenu(buttonMenu);
 
         if (buttonMenu.id == 12) {
@@ -144,53 +200,10 @@ public class MainMenu extends GuiScreen {
         }
 
         if (buttonMenu.id == 951) {
-
-            String hwid = FileUtil.fetchHwid();
-
-            if (hwid == "f") {
-                setMsg("Could not grab Hwid to verify. Please open a ticket.");
-                return;
-            }
-
-            if (discordId.length() < 16 || discordId.length() > 20) {
-                setMsg("Invalid Discord id");
-                return;
-            }
-
-            OkHttpClient client = new OkHttpClient();
-            Request request = Login.sendReq(client, hwid, discordId);
-
-
-            // Execute the request
-            try {
-                Response response = client.newCall(request).execute();
-                if (response.isSuccessful()) {
-
-                    String resp = response.body().string();
-
-                    if (Login.isSuccess(discordId, resp, hwid)) {
-                        idid = hwid;
-                        setMsg(decodes("TG9naW4gU3VjY2Vzc2Z1bA=="));
-                    } else {
-                        setMsg(decodes("Q3JlZGVudGlhbHMgZGlkbid0IG1hdGNoLg=="));
-                        return;
-                    }
-                } else {
-                    setMsg(decodes("RmFpbGVkIHRvIGdldCByZXNwb25zZSBmcm9tIHNlcnZlci4="));
-                    return;
-                }
-            } catch (IOException e) {
-                setMsg(decodes("RmFpbGVkIHRvIGNvbnRhY3Qgc2VydmVyLg=="));
-                return;
-            }
-
-            this.menuList.clear();
-            this.mc.pointedEffectRenderer = true;
-            Minecraft.renderChunksCache = true;
-
+            lgi = true;
             animTimer.reset();
-
-            addButtons();
+        } else {
+            lgi = false;
         }
 
         if(buttonMenu.id == 1) {
@@ -230,12 +243,12 @@ public class MainMenu extends GuiScreen {
     }
 
     private void addButtons() {
-        this.menuList.add(new MainMenuButton(1, width/2, height / 2 - 40, decodes("U2luZ2xlUGxheWVy")));
-        this.menuList.add(new MainMenuButton(2, width/2, height / 2 - 15, decodes("TXVsdGlQbGF5ZXI=")));
-        this.menuList.add(new MainMenuButton(3, width/2, height / 2 + 10, decodes("U2V0dGluZ3M=")));
-        this.menuList.add(new MainMenuButton(4, width/2, height / 2 + 35, decodes("QWx0IE1hbmFnZXI=")));
-        this.menuList.add(new MainMenuButton(6, 55, height - 30, decodes("U2h1dGRvd24=")));
-        this.menuList.add(new MainMenuButton(7, width/2, height / 2 + 85, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
+        this.menuList.add(new MainMenuButton(1, width/2 - 120, height / 2 + 10, 240, 20, decodes("U2luZ2xlUGxheWVy")));
+        this.menuList.add(new MainMenuButton(2, width/2 - 120, height / 2 + 35, 240, 20, decodes("TXVsdGlQbGF5ZXI=")));
+        this.menuList.add(new MainMenuButton(3, width/2 - 120, height / 2 + 60, 117, 20, decodes("U2V0dGluZ3M=")));
+        this.menuList.add(new MainMenuButton(4, width/2 + 3, height / 2 + 60, 117, 20, decodes("QWx0IE1hbmFnZXI=")));
+        this.menuList.add(new MainMenuButton(6, 5, height - 25, 60, 20, decodes("U2h1dGRvd24=")));
+        this.menuList.add(new MainMenuButton(7, 70, height - 25, 100, 20, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
     }
 
 }

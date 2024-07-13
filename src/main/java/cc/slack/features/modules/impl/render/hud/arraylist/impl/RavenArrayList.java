@@ -35,7 +35,7 @@ public class RavenArrayList implements IArraylist {
                 if (mode != null && !mode.isEmpty()) {
                     displayName += "§7 - " + mode;
                 }
-                if (!key.contains("NONE")) {
+                if (!key.contains("NONE")  && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
                     displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
@@ -72,7 +72,7 @@ public class RavenArrayList implements IArraylist {
             ease = 1 - 1.2 * ease;
 
             Minecraft.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
-            y += (int) ((Minecraft.getFontRenderer().FONT_HEIGHT + 3) * Math.max(0, (ease + 0.2)/1.2));
+            y += (int) ((Minecraft.getFontRenderer().FONT_HEIGHT + 2) * Math.max(0, (ease + 0.2)/1.2));
             c += 0.15;
         }
     }

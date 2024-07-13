@@ -910,20 +910,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         GlStateManager.enableTexture2D();
         InputStream inputstream = null;
 
-        try
-        {
-            inputstream = this.mcDefaultResourcePack.getInputStream(locationMojangPng);
-            this.mojangLogo = textureManagerInstance.getDynamicTextureLocation("logo", new DynamicTexture(ImageIO.read(inputstream)));
-            textureManagerInstance.bindTexture(this.mojangLogo);
-        }
-        catch (IOException ioexception)
-        {
-            logger.error("Unable to load logo: " + locationMojangPng, ioexception);
-        }
-        finally
-        {
-            IOUtils.closeQuietly(inputstream);
-        }
+        textureManagerInstance.bindTexture(locationMojangPng);
 
         Tessellator tessellator = Tessellator.getInstance();
         WorldRenderer worldrenderer = tessellator.getWorldRenderer();

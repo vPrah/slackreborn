@@ -37,7 +37,7 @@ public class CPoppinsArrayList implements IArraylist {
                 if (mode != null && !mode.isEmpty()) {
                     displayName += "§7 - " + mode;
                 }
-                if (!key.contains("NONE")) {
+                if (!key.contains("NONE")  && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
                     displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
                 }
 
