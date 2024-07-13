@@ -221,6 +221,7 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 mc.thePlayer.setSprinting(false);
+                MovementUtil.move(0.02f);
                 mc.thePlayer.motionX *= 1.004;
                 mc.thePlayer.motionZ *= 1.004;
                 if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
@@ -404,6 +405,9 @@ public class Scaffold extends Module {
                     }
                     break;
                 case "watchdog2":
+                    if (MovementUtil.isBindsMoving()) {
+                        break;
+                    }
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
                         mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;

@@ -32,7 +32,7 @@ public class Slider extends Component {
     @Override
     public void renderComponent() {
         Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 17, this.hovered ? 0xFF222222 : 0xFF111111);
-        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 12, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 17, hovered ? 0xFF555555 : 0xFF444444);
+        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 12, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 16, hovered ? 0xFF555555 : 0xFF444444);
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);

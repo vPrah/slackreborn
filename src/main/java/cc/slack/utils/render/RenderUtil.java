@@ -627,7 +627,7 @@ public final class RenderUtil implements IMinecraft {
         float r = (float)(color >> 16 & 0xFF) / 255.0f;
         float g = (float)(color >> 8 & 0xFF) / 255.0f;
         float b = (float)(color & 0xFF) / 255.0f;
-        GL11.glColor4f(r, g, b, a);
+        GlStateManager.color(r, g, b, a);
         GL11.glEnable(2848);
         GL11.glBegin(9);
         for (i = 0; i <= 90; i += 3) {
