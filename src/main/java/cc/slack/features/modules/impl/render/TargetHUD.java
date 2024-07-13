@@ -39,6 +39,9 @@ public class TargetHUD extends Module {
 	private double posX = -1D;
 	private double posY = -1D;
 
+	private int x = 0;
+	private int y = 0;
+
 //	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
 //	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
 
@@ -90,8 +93,6 @@ public class TargetHUD extends Module {
 			posX = sr.getScaledWidth() / 2.0 + 50;
 			posY = sr.getScaledHeight() / 2.0 - 20;
 		}
-		int x = (int) (posX), y = (int) (posY);
-
 		if (target == null)
 			return;
 
@@ -106,6 +107,9 @@ public class TargetHUD extends Module {
 			} catch (Exception ignored) {
 				// entity is missing
 			}
+		} else {
+			x = (int) (posX);
+			y = (int) (posY);
 		}
 
 		String targetName = target.getCommandSenderName();
