@@ -43,7 +43,9 @@ public class HUD extends Module {
 
 
 	// Watermark
-	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "Classic", "Backgrounded", "BackgroundedRound", "Logo", "Test" });
+	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "BackgroundedRound", "Backgrounded", "Classic", "Logo"});
+	private final ModeValue<String> watermodedraw = new ModeValue<>("WaterMark Draw", new String[]{"Rounded", "Normal", "Custom Round"});
+	private final NumberValue<Float> customroundValue = new NumberValue<>("Custom Round Radius", 8F, 0F, 20F, 0.1F);
 	private final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins"});
 
 
@@ -387,5 +389,5 @@ public class HUD extends Module {
 
 
 	@Override
-	public String getMode() { return watermarksmodes.getValue(); }
+	public String getMode() { return arraylistFont.getValue().toString(); }
 }
