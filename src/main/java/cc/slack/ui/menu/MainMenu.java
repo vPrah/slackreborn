@@ -61,7 +61,7 @@ public class MainMenu extends GuiScreen {
             super.drawScreen(mouseX, mouseY, partialTicks);
 
             if (lgi) {
-                if (animTimer.hasReached(400)) {
+                if (animTimer.hasReached(800)) {
                     Fonts.apple45.drawCenteredStringWithShadow("Logging in...", width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
                     Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 3))).getRGB());
                     String hwid = FileUtil.fetchHwid();
@@ -113,7 +113,7 @@ public class MainMenu extends GuiScreen {
                     lgi = false;
                 } else {
                     Fonts.apple45.drawCenteredStringWithShadow("Logging in...", width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
-                    Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 3))).getRGB());
+                    Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 5))).getRGB());
                 }
             } else {
                 animTimer.reset();
@@ -132,7 +132,7 @@ public class MainMenu extends GuiScreen {
 
         GlStateManager.enableAlpha();
         GlStateManager.enableBlend();
-        RenderUtil.drawImage(imageResource, width / 2 - 28, height / 2 - 95 + animY, 57, 100);
+        RenderUtil.drawImage(imageResource, width / 2 - 28, height / 2 - 95 + animY, 46, 80);
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
 

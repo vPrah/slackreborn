@@ -4,6 +4,8 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.ui.clickgui.component.Component;
 import cc.slack.ui.clickgui.component.components.Button;
 import cc.slack.utils.other.MathUtil;
+import cc.slack.utils.render.ColorUtil;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
@@ -32,7 +34,8 @@ public class Slider extends Component {
     @Override
     public void renderComponent() {
         Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 17, this.hovered ? 0xFF222222 : 0xFF111111);
-        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 12, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 16, hovered ? 0xFF555555 : 0xFF444444);
+        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 13, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 15, hovered ? ColorUtil.getColor(40).darker().darker().getRGB() : ColorUtil.getColor(40).darker().darker().darker().getRGB());
+        RenderUtil.drawCircle(parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 14, 2, hovered ? ColorUtil.getColor(40).darker().darker().getRGB() : ColorUtil.getColor(40).darker().darker().darker().getRGB());
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
