@@ -62,13 +62,15 @@ public class Button extends Component {
         int opY = offset + 12;
         for (Component comp : this.subcomponents) {
             comp.setOff(opY);
+            if (comp instanceof Slider)
+                opY += 5;
             opY += 12;
         }
     }
 
     @Override
     public void renderComponent() {
-        Gui.drawRect(parent.getX(), this.parent.getY() + this.offset, parent.getX() + parent.getWidth(), this.parent.getY() + 12 + this.offset, this.isHovered ? (this.mod.isToggle() ? ColorUtil.getColor(offset).darker().darker().getRGB() : 0xFF222222) : (this.mod.isToggle() ? ColorUtil.getColor(offset).getRGB() : 0xFF111111));
+        Gui.drawRect(parent.getX(), this.parent.getY() + this.offset, parent.getX() + parent.getWidth(), this.parent.getY() + 12 + this.offset, this.isHovered ? (this.mod.isToggle() ? ColorUtil.getColor(this.parent.getY() + this.offset).darker().darker().getRGB() : 0xFF222222) : (this.mod.isToggle() ? ColorUtil.getColor(this.parent.getY() + this.offset).getRGB() : 0xFF111111));
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
         Minecraft.getFontRenderer().drawStringWithShadow(this.mod.getName(), (parent.getX() + 2) * 2, (parent.getY() + offset + 2) * 2 + 4, -1);
@@ -78,7 +80,7 @@ public class Button extends Component {
         if (this.open) {
             if (!this.subcomponents.isEmpty()) {
                 this.subcomponents.forEach(Component::renderComponent);
-                Gui.drawRect(parent.getX() + 2, parent.getY() + this.offset + 12, parent.getX() + 3, parent.getY() + this.offset + ((this.subcomponents.size() + 1) * 12), -379081); //TODO: Get Cat Color
+                Gui.drawRect(parent.getX(), parent.getY() + this.offset + 12, parent.getX() + 1, parent.getY() + this.offset +  getHeight() , -379081); //TODO: Get Cat Color
             }
         }
     }
@@ -86,7 +88,13 @@ public class Button extends Component {
     @Override
     public int getHeight() {
         if (this.open) {
-            return (12 * (this.subcomponents.size() + 1));
+            int a = 12;
+            for (Component comp : this.subcomponents) {
+                if (comp instanceof Slider)
+                    a += 5;
+                a += 12;
+            }
+            return a;
         }
         return 12;
     }

@@ -36,8 +36,8 @@ public class TargetHUD extends Module {
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 	private final BooleanValue followTarget = new BooleanValue("Follow Target", false);
 
-	private double posX = 100.0D;
-	private double posY = 10.0D;
+	private double posX = 300.0D;
+	private double posY = 100.0D;
 
 //	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
 //	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
@@ -85,8 +85,7 @@ public class TargetHUD extends Module {
 	public void onRender(RenderEvent event) {
 		if (event.getState() != RenderEvent.State.RENDER_2D) return;
 
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		int x = (int) ((sr.getScaledWidth() / 2) + posX), y = (int) ((sr.getScaledHeight() / 2) + posY);
+		int x = (int) (posX), y = (int) (posY);
 
 		if (target == null)
 			return;

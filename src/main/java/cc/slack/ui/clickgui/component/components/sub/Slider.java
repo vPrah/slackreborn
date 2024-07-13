@@ -31,8 +31,8 @@ public class Slider extends Component {
 
     @Override
     public void renderComponent() {
-        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
-        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 14, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 17, hovered ? 0xFF555555 : 0xFF444444);
+        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 17, this.hovered ? 0xFF222222 : 0xFF111111);
+        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 12, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 17, hovered ? 0xFF555555 : 0xFF444444);
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
         GL11.glScalef(0.5f, 0.5f, 0.5f);
@@ -92,14 +92,14 @@ public class Slider extends Component {
     }
 
     public boolean isMouseOnButtonD(int x, int y) {
-        if (x > this.x && x < this.x + (parent.parent.getWidth() / 2 + 1) && y > this.y && y < this.y + 12) {
+        if (x > this.x && x < this.x + (parent.parent.getWidth() / 2 + 1) && y > this.y && y < this.y + 17) {
             return true;
         }
         return false;
     }
 
     public boolean isMouseOnButtonI(int x, int y) {
-        if (x > this.x + parent.parent.getWidth() / 2 && x < this.x + parent.parent.getWidth() && y > this.y && y < this.y + 12) {
+        if (x > this.x + parent.parent.getWidth() / 2 && x < this.x + parent.parent.getWidth() && y > this.y && y < this.y + 17) {
             return true;
         }
         return false;

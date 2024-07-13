@@ -43,11 +43,13 @@ public class Checkbox extends Component {
         Color c = ColorUtil.getColor();
         c = new Color(c.getRed(), c.getGreen(), c.getBlue(), (int) (alpha * 255));
         if (this.op.getValue()) {
-            alpha += (1 - alpha) / 4;
-            RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 2, c.getRGB());
+            alpha += (1 - alpha) / 15;
         } else {
-            alpha += (0 - alpha) / 4;
+            alpha += (0 - alpha) / 15;
         }
+
+        RenderUtil.drawCircle(parent.parent.getX() + 6 + 4, parent.parent.getY() + offset + 6, 2, c.getRGB());
+
     }
 
     @Override

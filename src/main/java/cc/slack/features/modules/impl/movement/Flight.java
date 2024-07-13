@@ -9,6 +9,7 @@ import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -50,9 +51,12 @@ public class Flight extends Module {
             new AirJumpFlight()
     });
 
+    public final NumberValue<Float> fbpitch = new NumberValue<>("Fireball Fly Pitch", 70f, 30f,90f, 3f);
+
+
     public Flight() {
         super();
-        addSettings(mode);
+        addSettings(mode, fbpitch);
     }
 
     @Override

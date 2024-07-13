@@ -6,6 +6,7 @@ import cc.slack.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.utils.network.PacketUtil;
@@ -22,6 +23,9 @@ public class FireballFlight implements IFlight {
     private boolean sent = false;
     private boolean reset = false;
     private boolean gotVelo = false;
+
+    private float speed = 0f;
+    private float yaw = 0f;
 
     private int fireballSlot = 0;
 
@@ -58,7 +62,7 @@ public class FireballFlight implements IFlight {
                 mc.thePlayer.jump();
                 MovementUtil.strafe(0.47f);
                 started = true;
-                RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, 70f}, 2);
+                RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, Slack.getInstance().getModuleManager().getInstance(Flight.class).fbpitch.getValue()}, 2);
 
             } else if (started) {
                 BlinkUtil.enable(false, true);
@@ -77,6 +81,11 @@ public class FireballFlight implements IFlight {
 
             if (gotVelo && mc.thePlayer.hurtTime == 9) {
                 MovementUtil.strafe(MovementUtil.getSpeed() * 1.04f);
+                speed = MovementUtil.getSpeed();
+                yaw = MovementUtil.getDirection();
+            } else if (mc.thePlayer.hurtTime > 5) {
+                speed *= 0.99f;
+                MovementUtil.strafe(speed, yaw);
             }
 
         }

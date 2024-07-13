@@ -62,7 +62,10 @@ public class MovementUtil implements IMinecraft {
     }
 
     public static void strafe(float speed) {
-        final float yaw = getDirection();
+        strafe(speed, getDirection());
+    }
+
+    public static void strafe(float speed, float yaw) {
         onStrafe = true;
 
         mc.thePlayer.motionX = Math.cos(Math.toRadians(yaw + 90.0f)) * speed;

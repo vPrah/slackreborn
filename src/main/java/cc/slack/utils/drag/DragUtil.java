@@ -19,10 +19,6 @@ public class DragUtil {
 	private float scale;
 
 	public boolean isInside(int x, int y) {
-		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
-		double[] scaled = setScaledPosition(x, y);
-		x = (int) scaled[0];
-		y = (int) scaled[1];
 
 		return x > getX() && y > getY() && x < getX() + getWidth() && y < getY() + getHeight();
 	}
