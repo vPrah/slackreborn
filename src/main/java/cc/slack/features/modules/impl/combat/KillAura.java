@@ -255,6 +255,10 @@ public class KillAura extends Module {
         } else {
             mc.getPlayerController().attackEntity(mc.thePlayer, rayCastedEntity == null ? target : rayCastedEntity);
         }
+
+        AttackUtil.inCombat = true;
+        AttackUtil.combatTarget = rayCastedEntity == null ? target : rayCastedEntity;
+        AttackUtil.combatTimer.reset();
     }
 
     private boolean preTickBlock() {

@@ -92,14 +92,17 @@ public class MainMenu extends GuiScreen {
                                 setMsg(decodes("TG9naW4gU3VjY2Vzc2Z1bA=="));
                             } else {
                                 setMsg(decodes("Q3JlZGVudGlhbHMgZGlkbid0IG1hdGNoLg=="));
+                                lgi = false;
                                 return;
                             }
                         } else {
                             setMsg(decodes("RmFpbGVkIHRvIGdldCByZXNwb25zZSBmcm9tIHNlcnZlci4="));
+                            lgi = false;
                             return;
                         }
                     } catch (IOException e) {
                         setMsg(decodes("RmFpbGVkIHRvIGNvbnRhY3Qgc2VydmVyLg=="));
+                        lgi = false;
                         return;
                     }
 

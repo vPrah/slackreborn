@@ -8,15 +8,15 @@ import java.awt.*;
 
 @Getter
 public enum Category {
-    COMBAT(new Color(213, 35, 106)),
-    MOVEMENT(new Color(213, 106, 35)),
-    PLAYER(new Color(35, 213, 106)),
-    WORLD(new Color(106, 213, 35)),
-    EXPLOIT(new Color(213, 35, 35)),
-    RENDER(new Color(106, 35, 213)),
-    GHOST(new Color(0,0,0)),
-    UTILITIES(new Color(0, 128, 128)),
-    OTHER(new Color(102, 30, 200));
+    COMBAT(new Color(55, 55, 55)),
+    MOVEMENT(new Color(55, 55, 55)),
+    PLAYER(new Color(55, 55, 55)),
+    WORLD(new Color(55, 55, 55)),
+    EXPLOIT(new Color(55, 55, 55)),
+    RENDER(new Color(55, 55, 55)),
+    GHOST(new Color(55, 55, 55)),
+    UTILITIES(new Color(55, 55, 55)),
+    OTHER(new Color(55, 55, 55));
 
     final String name;
     final String icon;
