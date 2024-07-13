@@ -87,7 +87,7 @@ public class GuiButton extends Gui
         if (this.visible)
         {
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition + MainMenu.animY && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height + MainMenu.animY;
+            this.hovered = mouseX >= this.xPosition && mouseY >= this.yPosition && mouseX < this.xPosition + this.width && mouseY < this.yPosition + this.height;
             if(this.hovered) {
                 hoverPercent += (1 - hoverPercent) / 4;
             }else{
@@ -96,7 +96,7 @@ public class GuiButton extends Gui
 
             RenderUtil.drawRoundedRect(this.xPosition, this.yPosition, this.xPosition + width, this.yPosition + this.height, 5, new Color(255, 255, 255, 20 + (int) (hoverPercent * 30)).getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
-            RenderUtil.drawRoundedRectBorder(this.xPosition - 1, this.yPosition + MainMenu.animY - 1, this.xPosition + width + 1, this.yPosition + this.height + MainMenu.animY + 1, 5,  new Color(10, 10, 10, 120 ).getRGB(), 2);
+            RenderUtil.drawRoundedRectBorder(this.xPosition - 1, this.yPosition - 1, this.xPosition + width + 1, this.yPosition + this.height + 1, 5,  new Color(10, 10, 10, 120 ).getRGB(), 2);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             RenderUtil.drawRoundedRectBorder(this.xPosition, this.yPosition, this.xPosition + width, this.yPosition + this.height, 5,  new Color(255, 255, 255, 120 ).getRGB(), 1);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
@@ -109,7 +109,7 @@ public class GuiButton extends Gui
                 j = 10526880;
             }
 
-            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 6) / 2 + MainMenu.animY, j);
+            Fonts.apple18.drawCenteredStringWithShadow(this.displayString, this.xPosition + this.width / 2, this.yPosition + (this.height - 6) / 2, j);
         }
     }
 
