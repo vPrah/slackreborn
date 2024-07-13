@@ -85,6 +85,7 @@ public class TargetHUD extends Module {
 	public void onRender(RenderEvent event) {
 		if (event.getState() != RenderEvent.State.RENDER_2D) return;
 
+		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
 		int x = (int) (posX), y = (int) (posY);
 
 		if (target == null)
