@@ -42,6 +42,8 @@ public class MainMenuButton extends Gui
 
     private double hoverPercent;
 
+    private Color color;
+
     public MainMenuButton(int buttonId, int x, int y, String buttonText)
     {
         this(buttonId, x - 50, y, 100, 20, buttonText);
@@ -58,6 +60,21 @@ public class MainMenuButton extends Gui
         this.width = widthIn;
         this.height = heightIn;
         this.displayString = buttonText;
+        this.color = new Color(255, 255, 255);
+    }
+
+    public MainMenuButton(int buttonId, int x, int y, int widthIn, int heightIn, String buttonText, Color c)
+    {
+
+        this.enabled = true;
+        this.visible = true;
+        this.id = buttonId;
+        this.xPosition = x;
+        this.yPosition = y;
+        this.width = widthIn;
+        this.height = heightIn;
+        this.displayString = buttonText;
+        this.color = c;
     }
 
     /**
@@ -75,7 +92,7 @@ public class MainMenuButton extends Gui
                 hoverPercent += (0 - hoverPercent) / 4;
             }
 
-            RenderUtil.drawRoundedRect(this.xPosition, this.yPosition + MainMenu.animY, this.xPosition + width, this.yPosition + this.height+ MainMenu.animY, 5, new Color(255, 255, 255, 20 + (int) (hoverPercent * 30)).getRGB());
+            RenderUtil.drawRoundedRect(this.xPosition, this.yPosition + MainMenu.animY, this.xPosition + width, this.yPosition + this.height+ MainMenu.animY, 5, new Color(color.getRed(), color.getGreen(), color.getBlue(), 10 + (int) (hoverPercent * 20)).getRGB());
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             RenderUtil.drawRoundedRectBorder(this.xPosition - 1, this.yPosition + MainMenu.animY - 1, this.xPosition + width + 1, this.yPosition + this.height + MainMenu.animY + 1, 5,  new Color(10, 10, 10, 120 ).getRGB(), 2);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);

@@ -67,12 +67,12 @@ public class MainMenu extends GuiScreen {
                     String hwid = FileUtil.fetchHwid();
 
                     if (hwid == "f") {
-                        setMsg("Could not grab Hwid to verify. Please open a ticket.");
+                        setMsg(decodes("Q291bGQgbm90IGdyYWIgSHdpZCB0byB2ZXJpZnkuIFBsZWFzZSBvcGVuIGEgdGlja2V0Lg=="));
                         return;
                     }
 
                     if (discordId.length() < 16 || discordId.length() > 20) {
-                        setMsg("Invalid Discord id");
+                        setMsg(decodes("SW52YWxpZCBEaXNjb3JkIGlk"));
                         return;
                     }
 
@@ -127,7 +127,9 @@ public class MainMenu extends GuiScreen {
             animY = 0;
         }
 
-        Fonts.poppins10.drawString("Made by Dg636, Vprah, and others with <3", width - 7 - Fonts.poppins10.getStringWidth("Made by Dg636, Vprah, and others with <3"),  height - 13, new Color(255, 255, 255, 150).getRGB());
+        Fonts.poppins10.drawString(decodes("TWFkZSBieSBEZzYzNiwgVnByYWgsIGFuZCBvdGhlcnMgd2l0aCA8Mw=="),
+                width - 7 - Fonts.poppins10.getStringWidth(decodes("TWFkZSBieSBEZzYzNiwgVnByYWgsIGFuZCBvdGhlcnMgd2l0aCA8Mw==")),
+                height - 13, new Color(255, 255, 255, 150).getRGB());
         GlStateManager.color(1, 1, 1, 1);
 
         GlStateManager.enableAlpha();
@@ -176,27 +178,52 @@ public class MainMenu extends GuiScreen {
         if (lgi) return;
         super.actionPerformedMenu(buttonMenu);
 
-        if (buttonMenu.id == 12) {
-            FileUtil.showURL(Slack.getInstance().Website);
-        }
+        switch (buttonMenu.id) {
+            case 1:
+                mc.displayGuiScreen(new GuiSelectWorld(this));
+                break;
 
-        if (buttonMenu.id == 13) {
-            FileUtil.showURL(Slack.getInstance().DiscordServer);
-        }
+            case 2:
+                mc.displayGuiScreen(new GuiMultiplayer(this));
+                break;
 
-        if (buttonMenu.id == 10) {
-            discordId = GuiScreen.getClipboardString();
-            setMsg("Set discord Id to: " + discordId);
-            return;
-        }
+            case 3:
+                mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
+                break;
 
-        if (buttonMenu.id == 8) {
-            if (FileUtil.fetchHwid() == "f") {
-                setMsg("Failed to fetch hwid");
+            case 4:
+                mc.displayGuiScreen(new GuiAccountManager(this));
+                break;
+
+            case 6:
+                mc.shutdown();
+                break;
+
+            case 7:
+                mc.displayGuiScreen(new MenuInfo());
+                break;
+
+            case 8:
+                if (FileUtil.fetchHwid() == "f") {
+                    setMsg(decodes("RmFpbGVkIHRvIGZldGNoIGh3aWQ="));
+                    return;
+                }
+                setMsg(decodes("Q29waWVkIHRvIGNsaXBib2FyZA=="));
+                GuiScreen.setClipboardString(FileUtil.fetchHwid());
+                break;
+
+            case 10:
+                discordId = GuiScreen.getClipboardString();
+                setMsg(decodes("U2V0IGRpc2NvcmQgSWQgdG86IA==") + discordId);
                 return;
-            }
-            setMsg("Copied to clipboard");
-            GuiScreen.setClipboardString(FileUtil.fetchHwid());
+
+            case 12:
+                FileUtil.showURL(Slack.getInstance().Website);
+                break;
+
+            case 13:
+                FileUtil.showURL(Slack.getInstance().DiscordServer);
+                break;
         }
 
         if (buttonMenu.id == 951) {
@@ -204,30 +231,6 @@ public class MainMenu extends GuiScreen {
             animTimer.reset();
         } else {
             lgi = false;
-        }
-
-        if(buttonMenu.id == 1) {
-            mc.displayGuiScreen(new GuiSelectWorld(this));
-        }
-
-        if(buttonMenu.id == 2) {
-            mc.displayGuiScreen(new GuiMultiplayer(this));
-        }
-
-        if(buttonMenu.id == 3) {
-            mc.displayGuiScreen(new GuiOptions(this, this.mc.gameSettings));
-        }
-
-        if(buttonMenu.id == 4) {
-            mc.displayGuiScreen(new GuiAccountManager(this));
-        }
-
-        if(buttonMenu.id == 6) {
-            mc.shutdown();
-        }
-
-        if(buttonMenu.id == 7) {
-            mc.displayGuiScreen(new MenuInfo());
         }
     }
 
@@ -245,10 +248,13 @@ public class MainMenu extends GuiScreen {
     private void addButtons() {
         this.menuList.add(new MainMenuButton(1, width/2 - 120, height / 2 + 10, 240, 20, decodes("U2luZ2xlUGxheWVy")));
         this.menuList.add(new MainMenuButton(2, width/2 - 120, height / 2 + 35, 240, 20, decodes("TXVsdGlQbGF5ZXI=")));
+
+
         this.menuList.add(new MainMenuButton(3, width/2 - 120, height / 2 + 60, 117, 20, decodes("U2V0dGluZ3M=")));
         this.menuList.add(new MainMenuButton(4, width/2 + 3, height / 2 + 60, 117, 20, decodes("QWx0IE1hbmFnZXI=")));
-        this.menuList.add(new MainMenuButton(6, 5, height - 25, 60, 20, decodes("U2h1dGRvd24=")));
-        this.menuList.add(new MainMenuButton(7, 70, height - 25, 100, 20, decodes("Q2xpZW50IEluZm9ybWF0aW9u")));
+        this.menuList.add(new MainMenuButton(6, 5, height - 25, 60, 20, decodes("U2h1dGRvd24="), new Color(255, 0, 0)));
+        this.menuList.add(new MainMenuButton(13, 70, height - 25, 100, 20, decodes("Sm9pbiBPdXIgRGlzY29yZA=="), new Color(86, 105, 247)));
+        this.menuList.add(new MainMenuButton(7, 175, height - 25, 20, 20, "i"));
     }
 
 }
