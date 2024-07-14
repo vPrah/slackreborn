@@ -34,8 +34,27 @@ public class CPoppinsArrayList implements IArraylist {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
                 String key =  Keyboard.getKeyName(module.getKey());
-                if (mode != null && !mode.isEmpty()) {
-                    displayName += "§7 - " + mode;
+                if (mode != null && !mode.isEmpty() && Slack.getInstance().getModuleManager().getInstance(HUD.class).tags.getValue()) {
+                    switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).tagsMode.getValue()) {
+                        case "(Mode)":
+                            displayName += "§7 (" + mode + ")";
+                            break;
+                        case "[Mode]":
+                            displayName += "§7 [" + mode + "]";
+                            break;
+                        case "<Mode>":
+                            displayName += "§7 <" + mode + ">";
+                            break;
+                        case "| Mode":
+                            displayName += "§7 | " + mode;
+                            break;
+                        case "-> Mode":
+                            displayName += "§7 -> " + mode;
+                            break;
+                        case "- Mode":
+                            displayName += "§7 - " + mode;
+                            break;
+                    }
                 }
                 if (!key.contains("NONE")  && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
                     displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
