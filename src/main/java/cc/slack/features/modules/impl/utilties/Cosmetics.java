@@ -66,7 +66,7 @@ public class Cosmetics extends Module {
                                     break;
                                 case "Heart":
                                     for (int k = 0; k < particlesSpeed.getValue(); ++k)
-                                        mc.theWorld.spawnParticle(EnumParticleTypes.HEART, mc.thePlayer.posX + mc.thePlayer.motionX * (double) k / 4.0D, 2 + mc.thePlayer.posY + mc.thePlayer.motionY * (double) k / 4.0D, mc.thePlayer.posZ + mc.thePlayer.motionZ * (double) k / 4.0D, -mc.thePlayer.motionX, -mc.thePlayer.motionY + 0.2D, -mc.thePlayer.motionZ);
+                                        mc.theWorld.spawnParticle(EnumParticleTypes.HEART, mc.thePlayer.posX + mc.thePlayer.motionX * (double) k / 4.0D, mc.thePlayer.posY + mc.thePlayer.motionY * (double) k / 4.0D, mc.thePlayer.posZ + mc.thePlayer.motionZ * (double) k / 4.0D, -mc.thePlayer.motionX, -mc.thePlayer.motionY + 0.2D, -mc.thePlayer.motionZ);
                                     break;
                             }
                         break;

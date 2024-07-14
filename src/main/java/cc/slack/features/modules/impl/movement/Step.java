@@ -12,10 +12,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.steps.IStep;
-import cc.slack.features.modules.impl.movement.steps.impl.NCPStep;
-import cc.slack.features.modules.impl.movement.steps.impl.VanillaStep;
-import cc.slack.features.modules.impl.movement.steps.impl.VerusStep;
-import cc.slack.features.modules.impl.movement.steps.impl.VulcanStep;
+import cc.slack.features.modules.impl.movement.steps.impl.*;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(
@@ -24,7 +21,7 @@ import io.github.nevalackin.radbus.Listen;
 )
 public class Step extends Module {
 
-    private final ModeValue<IStep> mode = new ModeValue<>(new IStep[]{new VanillaStep(), new NCPStep(), new VerusStep(), new VulcanStep()});
+    private final ModeValue<IStep> mode = new ModeValue<>(new IStep[]{new VanillaStep(), new NCPStep(), new VerusStep(), new VulcanStep(), new TestStep()});
     private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0f, 2f, 0.05f);
 
 
