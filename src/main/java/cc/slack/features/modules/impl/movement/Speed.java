@@ -62,6 +62,8 @@ public class Speed extends Module {
             new VulcanLowSpeed(),
             new VulcanPortSpeed(),
             new VulcanHopSpeed(),
+
+            new FakeStrafeSpeed()
     });
 
     public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla Speed", 1.0F, 0.0F, 3.0F, 0.01F);

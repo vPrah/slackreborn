@@ -8,6 +8,7 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
@@ -36,6 +37,7 @@ public class NoSlow extends Module {
 
     public final NumberValue<Float> forwardMultiplier = new NumberValue<>("Forward Multiplier", 1f, 0.2f,1f, 0.05f);
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
+    private final BooleanValue sprint = new BooleanValue("Sprint", true);
 
 
     public float fMultiplier = 0F;
@@ -44,7 +46,7 @@ public class NoSlow extends Module {
 
     public NoSlow() {
         addSettings(blockmode, eatmode, potionmode, bowmode
-                , forwardMultiplier, strafeMultiplier);
+                , forwardMultiplier, strafeMultiplier, sprint);
     }
 
     private boolean badC07 = false;
@@ -127,6 +129,7 @@ public class NoSlow extends Module {
                     switch (mc.thePlayer.ticksExisted % 4) {
                         case 0:
                             sprinting = false;
+                            mc.thePlayer.setSprinting(false);
                             break;
                         case 1:
                             sprinting = true;
@@ -243,7 +246,7 @@ public class NoSlow extends Module {
     private void setMultipliers(float forward, float strafe) {
         fMultiplier = forward;
         sMultiplier = strafe;
-        sprinting = true;
+        sprinting = sprint.getValue();
     }
 
     @Listen
