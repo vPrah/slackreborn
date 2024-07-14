@@ -17,10 +17,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.PacketDirection;
 import net.minecraft.network.login.server.S00PacketDisconnect;
 import net.minecraft.network.play.client.C02PacketUseEntity;
-import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.network.play.server.S19PacketEntityStatus;
-import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
-import net.minecraft.network.play.server.S3EPacketTeams;
+import net.minecraft.network.play.server.*;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 
 import java.util.ArrayList;
@@ -39,6 +36,9 @@ public class Backtrack extends Module {
     private boolean enabled = false;
     private boolean releasing = false;
     public EntityPlayer player;
+
+    private int comboCounter = 0;
+    private boolean sentHit = false;
 
     ArrayList<TimedPacket> packetCache = new ArrayList<>();
 
@@ -93,10 +93,18 @@ public class Backtrack extends Module {
             if (event.getPacket() instanceof C02PacketUseEntity) {
                 C02PacketUseEntity wrapper = (C02PacketUseEntity) packet;
                 if (wrapper.getEntityFromWorld(mc.getWorld()) instanceof EntityPlayer && wrapper.getAction() == C02PacketUseEntity.Action.ATTACK) {
-                    if (backtrackTicks == 0) ticksSinceAttack = 0;
-                    backtrackTicks = backtrackTime.getValue();
-                    enabled = true;
-                    player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
+                    if (mc.thePlayer.ticksSinceLastDamage > 20 && comboCounter > 1) {
+                        if (backtrackTicks == 0) ticksSinceAttack = 0;
+                        backtrackTicks = backtrackTime.getValue();
+                        enabled = true;
+                        player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
+                    }
+                    if (((C02PacketUseEntity) packet).getEntityFromWorld(mc.theWorld).hurtResistantTime == 0 && !sentHit) {
+                        sentHit = true;
+                        comboCounter += 1;
+                    } else if (((C02PacketUseEntity) packet).getEntityFromWorld(mc.theWorld).hurtResistantTime > 2) {
+                        sentHit = false;
+                    }
                 }
             }
         } else {
@@ -107,6 +115,18 @@ public class Backtrack extends Module {
                 if (enabled && !releasing) {
                     packetCache.add(new TimedPacket(packet));
                     event.cancel();
+
+                    if (packet instanceof S12PacketEntityVelocity) {
+                        if (((S12PacketEntityVelocity) packet).getEntityID() == mc.thePlayer.getEntityId()) {
+                            int cacheSize = packetCache.size();
+                            for (int i = 0; i < cacheSize; i ++ ) {
+                                PacketUtil.receiveNoEvent(packetCache.remove(0).getPacket());
+                            }
+                            enabled = false;
+                            packetCache.clear();
+                            comboCounter = 0;
+                        }
+                    }
                 }
             }
         }
