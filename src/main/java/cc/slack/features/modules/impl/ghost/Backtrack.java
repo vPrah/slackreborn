@@ -9,6 +9,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.network.PingSpoofUtil;
 import cc.slack.utils.network.TimedPacket;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -34,14 +35,11 @@ public class Backtrack extends Module {
     private int ticksSinceAttack = 0;
     private int backtrackTicks = 0;
     private boolean enabled = false;
-    private boolean releasing = false;
     public EntityPlayer player;
 
     private int comboCounter = 0;
     private boolean sentHit = false;
-
-    ArrayList<TimedPacket> packetCache = new ArrayList<>();
-
+    
     public Backtrack() {
         addSettings(maxDelay, backtrackTime);
     }
@@ -51,7 +49,6 @@ public class Backtrack extends Module {
         ticksSinceAttack = 0;
         backtrackTicks = 0;
         enabled = false;
-        packetCache.clear();
     }
 
     @SuppressWarnings("unused")
@@ -59,28 +56,20 @@ public class Backtrack extends Module {
     public void onUpdate (UpdateEvent event) {
         if (mc.thePlayer == null || mc.getWorld() == null) {
             enabled = false;
-            packetCache.clear();
+            PingSpoofUtil.disable();
         }
 
         if (enabled) {
-            if (ticksSinceAttack < maxDelay.getValue()) {
+            if (ticksSinceAttack < maxDelay.getValue() * 3) {
                 ticksSinceAttack ++;
-            } else {
-                while (!packetCache.isEmpty() && packetCache.get(0).elapsed(maxDelay.getValue() * 50)) {
-                    PacketUtil.receiveNoEvent(packetCache.remove(0).getPacket());
-                }
             }
         }
         if (backtrackTicks > 0) {
             backtrackTicks --;
         } else {
             if (enabled) {
-                int cacheSize = packetCache.size();
-                for (int i = 0; i < cacheSize; i ++ ) {
-                    PacketUtil.receiveNoEvent(packetCache.remove(0).getPacket());
-                }
+                PingSpoofUtil.disable();
                 enabled = false;
-                packetCache.clear();
             }
         }
     }
@@ -97,6 +86,7 @@ public class Backtrack extends Module {
                         if (backtrackTicks == 0) ticksSinceAttack = 0;
                         backtrackTicks = backtrackTime.getValue();
                         enabled = true;
+                        PingSpoofUtil.enableInbound(true, ticksSinceAttack * 17);
                         player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
                     }
                     if (((C02PacketUseEntity) packet).getEntityFromWorld(mc.theWorld).hurtResistantTime == 0 && !sentHit) {
@@ -108,26 +98,9 @@ public class Backtrack extends Module {
                 }
             }
         } else {
-            if (!(packet instanceof S00PacketDisconnect ||
-                    packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
-                    packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
-                    packet instanceof S3BPacketScoreboardObjective) && mc.thePlayer.ticksExisted > 4) {
-                if (enabled && !releasing) {
-                    packetCache.add(new TimedPacket(packet));
-                    event.cancel();
-
-                    if (packet instanceof S12PacketEntityVelocity) {
-                        if (((S12PacketEntityVelocity) packet).getEntityID() == mc.thePlayer.getEntityId()) {
-                            int cacheSize = packetCache.size();
-                            for (int i = 0; i < cacheSize; i ++ ) {
-                                PacketUtil.receiveNoEvent(packetCache.remove(0).getPacket());
-                            }
-                            enabled = false;
-                            packetCache.clear();
-                            comboCounter = 0;
-                        }
-                    }
-                }
+            if (packet instanceof S12PacketEntityVelocity) {
+                if (((S12PacketEntityVelocity) packet).getEntityID() == mc.thePlayer.getEntityId())
+                    PingSpoofUtil.disable(true, false);
             }
         }
     }
@@ -135,6 +108,6 @@ public class Backtrack extends Module {
 
     @Override
     public void onDisable() {
-        packetCache.clear();
+        PingSpoofUtil.disable(true, false);
     }
 }

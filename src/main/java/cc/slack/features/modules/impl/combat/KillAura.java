@@ -16,6 +16,7 @@ import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.InventoryUtil;
+import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import cc.slack.utils.rotations.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
@@ -24,6 +25,8 @@ import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.gui.inventory.GuiInventory;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.item.*;
@@ -32,7 +35,11 @@ import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 
+import java.awt.*;
 import java.security.SecureRandom;
+
+import static org.lwjgl.opengl.GL11.*;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 @ModuleInfo(
         name = "KillAura",
@@ -78,7 +85,7 @@ public class KillAura extends Module {
     private final BooleanValue noBlock = new BooleanValue("Disable on Block", true);
 
     private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Priority", "FOV", "Distance", "Health", "Hurt Ticks"});
-    private final ModeValue<String> markMode = new ModeValue<>("Killaura Mark Mode", new String[]{"None", "Tracer"});
+    private final ModeValue<String> markMode = new ModeValue<>("Killaura Mark Mode", new String[]{"None", "Tracer", "Slack"});
 
 
     private final TimeUtil timer = new TimeUtil();
@@ -150,6 +157,48 @@ public class KillAura extends Module {
             switch (markMode.getValue().toLowerCase()) {
                 case "tracer":
                     RenderUtil.drawTracer(target, 250, 250, 250, 130);
+                    break;
+                case "slack":
+                    final RenderManager renderManager = mc.getRenderManager();
+                    final Timer timer = mc.timer;
+
+                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                    RenderUtil.enableGlCap(GL_BLEND);
+                    RenderUtil.disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
+                    glDepthMask(false);
+
+                    double renderPosX = renderManager.renderPosX;
+                    double renderPosY = renderManager.renderPosY;
+                    double renderPosZ = renderManager.renderPosZ;
+
+                    double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer.renderPartialTicks - renderPosX;
+                    double y = target.lastTickPosY + (target.posY - target.lastTickPosY) * timer.renderPartialTicks - renderPosY;
+                    double z = target.lastTickPosZ + (target.posZ - target.lastTickPosZ) * timer.renderPartialTicks - renderPosZ;
+
+                    AxisAlignedBB targetBox = target.getEntityBoundingBox();
+                    AxisAlignedBB axisAlignedBB = new AxisAlignedBB(
+                            targetBox.minX - target.posX - 0.05D,
+                            targetBox.minY - target.posY,
+                            targetBox.minZ - target.posZ - 0.05D,
+                            targetBox.maxX - target.posX + 0.05D,
+                            targetBox.maxY - target.posY + 0.15D,
+                            targetBox.maxZ - target.posZ + 0.05D
+                    );
+
+                    GlStateManager.color(255, 255, 255, 150);
+
+                    glPushMatrix();
+                    glTranslated(x, y, z);
+                    for (int i = 0; i < 360; i += 45) {
+                        glRotated(System.currentTimeMillis() * 0.2 + i, 0, 1, 0);
+                        RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
+                    }
+                    glPopMatrix();
+
+                    GlStateManager.resetColor();
+                    glDepthMask(true);
+                    RenderUtil.resetCaps();
+
                     break;
                 default:
                     break;
