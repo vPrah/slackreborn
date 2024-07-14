@@ -7,6 +7,7 @@ import cc.slack.events.State;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.player.nofalls.INoFall;
+import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 
 public class HypixelNofall implements INoFall {
@@ -15,7 +16,7 @@ public class HypixelNofall implements INoFall {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.thePlayer.fallDistance > 4) {
+        if (mc.thePlayer.fallDistance > 4 && mc.thePlayer.ticksSinceLastTeleport > 3) {
             dmgFall = true;
         }
     }
@@ -27,6 +28,9 @@ public class HypixelNofall implements INoFall {
         if (mc.thePlayer.onGround && dmgFall) {
             event.setGround(false);
             mc.thePlayer.fallDistance = 0;
+            if (MovementUtil.isBindsMoving()) {
+                MovementUtil.strafe(0.45f);
+            }
             mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
             dmgFall = false;
         }

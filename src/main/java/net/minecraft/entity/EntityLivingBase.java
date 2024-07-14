@@ -80,6 +80,8 @@ public abstract class EntityLivingBase extends Entity
     public int hurtTime;
     public int ticksSinceLastDamage;
 
+    public int ticksSinceLastTeleport;
+
     /** What the hurt time was max set to last. */
     public int maxHurtTime;
 
@@ -350,6 +352,8 @@ public abstract class EntityLivingBase extends Entity
             --this.hurtTime;
         }
         ++this.ticksSinceLastDamage;
+
+        ++this.ticksSinceLastTeleport;
 
         if (this.hurtResistantTime > 0 && !(this instanceof EntityPlayerMP))
         {

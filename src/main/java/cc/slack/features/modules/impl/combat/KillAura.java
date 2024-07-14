@@ -247,13 +247,13 @@ public class KillAura extends Module {
         if (checkHitable.getValue() && !RaycastUtil.itHitable(attackRange.getValue() + 0.5, rotations, target)) return;
 
         if (keepSprint.getValue()) {
-            mc.getPlayerController().syncCurrentPlayItem();
+            mc.playerController.syncCurrentPlayItem();
             PacketUtil.send(new C02PacketUseEntity(rayCastedEntity == null ? target : rayCastedEntity, C02PacketUseEntity.Action.ATTACK));
             if (mc.thePlayer.fallDistance > 0 && !mc.thePlayer.onGround) {
                 mc.thePlayer.onCriticalHit(rayCastedEntity == null ? target : rayCastedEntity);
             }
         } else {
-            mc.getPlayerController().attackEntity(mc.thePlayer, rayCastedEntity == null ? target : rayCastedEntity);
+            mc.playerController.attackEntity(mc.thePlayer, rayCastedEntity == null ? target : rayCastedEntity);
         }
 
         AttackUtil.inCombat = true;

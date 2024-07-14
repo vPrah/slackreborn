@@ -2777,7 +2777,7 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         return getMinecraft().MCfontRenderer;
     }
 
-    public static PlayerControllerMP getPlayerController() {
+    public static PlayerControllerMP playerController {
         return getMinecraft().playerController;
     }
 

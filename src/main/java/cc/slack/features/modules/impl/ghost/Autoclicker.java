@@ -47,7 +47,7 @@ public class Autoclicker extends Module {
         if (
                 (GameSettings.isKeyDown(mc.gameSettings.keyBindAttack) || (triggerBot.getValue() && mc.getMinecraft().objectMouseOver.entityHit != null))
                 && (!onlySword.getValue() || (mc.thePlayer.getHeldItem() != null? mc.thePlayer.getHeldItem().getItem() instanceof ItemSword : false))
-                && !mc.getPlayerController().isHittingBlock
+                && !mc.playerController.isHittingBlock
         ) {
             if (leftClickTimer.hasReached(leftClickDelay)) {
                 leftClickTimer.reset();

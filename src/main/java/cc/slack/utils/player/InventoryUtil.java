@@ -121,7 +121,7 @@ public final class InventoryUtil implements IMinecraft {
     }
 
     public static void swap(int slot1, int hotbarSlot){
-        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slot1, hotbarSlot, 2, mc.thePlayer);
+        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slot1, hotbarSlot, 2, mc.thePlayer);
     }
 
 

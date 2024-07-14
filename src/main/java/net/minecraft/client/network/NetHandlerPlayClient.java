@@ -705,6 +705,7 @@ public class NetHandlerPlayClient implements INetHandlerPlayClient
 
         entityplayer.setPositionAndRotation(d0, d1, d2, f, f1);
         this.netManager.sendPacket(new C03PacketPlayer.C06PacketPlayerPosLook(entityplayer.posX, entityplayer.getEntityBoundingBox().minY, entityplayer.posZ, entityplayer.rotationYaw, entityplayer.rotationPitch, false));
+        this.gameController.thePlayer.ticksSinceLastTeleport = 0;
 
         if (!this.doneLoadingTerrain)
         {

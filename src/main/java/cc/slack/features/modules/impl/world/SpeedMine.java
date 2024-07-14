@@ -31,24 +31,24 @@ public class SpeedMine extends Module {
                         mc.getMinecraft().objectMouseOver.getBlockPos() != null);
         switch (mode.getValue()) {
             case "Vanilla":
-                if (mc.getPlayerController().curBlockDamageMP * speed.getValue() > 1) {
-                    mc.getPlayerController().curBlockDamageMP = 1f;
+                if (mc.playerController.curBlockDamageMP * speed.getValue() > 1) {
+                    mc.playerController.curBlockDamageMP = 1f;
                 }
                 break;
             case "Instant":
                 if (isValid) {
-                    mc.getPlayerController().curBlockDamageMP = 1f;
+                    mc.playerController.curBlockDamageMP = 1f;
                 }
                 break;
             case "Percent":
-                if (mc.getPlayerController().curBlockDamageMP >= percent.getValue()) {
-                    mc.getPlayerController().curBlockDamageMP = 1f;
+                if (mc.playerController.curBlockDamageMP >= percent.getValue()) {
+                    mc.playerController.curBlockDamageMP = 1f;
                 }
                 break;
             case "NCP":
                 if (isValid) {
-                    if (mc.getPlayerController().curBlockDamageMP >= 0.5f && !mc.thePlayer.isDead) {
-                        mc.getPlayerController().curBlockDamageMP += (MathUtil.getDifference(mc.getPlayerController().curBlockDamageMP, 1.0f) * 0.7f);
+                    if (mc.playerController.curBlockDamageMP >= 0.5f && !mc.thePlayer.isDead) {
+                        mc.playerController.curBlockDamageMP += (MathUtil.getDifference(mc.playerController.curBlockDamageMP, 1.0f) * 0.7f);
                     }
                 }
                 break;

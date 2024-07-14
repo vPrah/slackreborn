@@ -577,7 +577,7 @@ public class Scaffold extends Module {
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
-        if (mc.getPlayerController().onPlayerRightClick(mc.thePlayer, mc.getWorld(), mc.thePlayer.getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
+        if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.getWorld(), mc.thePlayer.getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
 
             if (swingMode.getValue().contains("Normal")) {
                 mc.thePlayer.swingItem();

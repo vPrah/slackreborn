@@ -86,7 +86,7 @@ public class Tweaks extends Module {
 
     @SuppressWarnings("unused")
     @Listen
-    public void onMotion (MotionEvent event) { if (noblockhitdelay.getValue()) { mc.getPlayerController().blockHitDelay = 0; } }
+    public void onMotion (MotionEvent event) { if (noblockhitdelay.getValue()) { mc.playerController.blockHitDelay = 0; } }
 
     @Override
     public void onDisable() {

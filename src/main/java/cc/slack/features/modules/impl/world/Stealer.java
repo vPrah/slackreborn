@@ -173,6 +173,6 @@ public class Stealer extends Module {
             System.exit(1);
         }
 
-        mc.getPlayerController().windowClick(mc.thePlayer.openContainer.windowId, x, 0, 1, mc.thePlayer);
+        mc.playerController.windowClick(mc.thePlayer.openContainer.windowId, x, 0, 1, mc.thePlayer);
     }
 }

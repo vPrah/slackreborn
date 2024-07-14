@@ -90,17 +90,17 @@ public class InvManager extends Module {
     }
 
     private void hotbarExchange(int hotbarNumber, int slotId) {
-        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, hotbarNumber, 2, mc.thePlayer);
+        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, hotbarNumber, 2, mc.thePlayer);
         delay = 0;
     }
 
     private void shiftClick(int slotId) {
-        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, 1, 1, mc.thePlayer);
+        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, 1, 1, mc.thePlayer);
         delay = 0;
     }
 
     private void drop(int slotId) {
-        mc.getPlayerController().windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, 1, 4, mc.thePlayer);
+        mc.playerController.windowClick(mc.thePlayer.inventoryContainer.windowId, slotId, 1, 4, mc.thePlayer);
         delay = 0;
     }
 

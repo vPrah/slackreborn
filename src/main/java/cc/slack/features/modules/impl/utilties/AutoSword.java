@@ -33,7 +33,7 @@ public class AutoSword extends Module {
                 }
                 if (slot != -1) {
                     mc.thePlayer.inventory.currentItem = slot - 36;
-                    mc.getPlayerController().updateController();
+                    mc.playerController.updateController();
                 }
             }
         }
