@@ -74,7 +74,7 @@ public class PingSpoofUtil implements IMinecraft {
         if (releaseOutgoing) {
             clientPackets.forEach(timedPacket -> {
                 if (!outboundCheck || timedPacket.elapsed(outboundDelay)) {
-                    PacketUtil.receiveNoEvent(timedPacket.getPacket());
+                    PacketUtil.sendNoEvent(timedPacket.getPacket());
                     clientPackets.remove(timedPacket);
                 }
             });
