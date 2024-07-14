@@ -39,7 +39,7 @@ public class Backtrack extends Module {
 
     private int comboCounter = 0;
     private boolean sentHit = false;
-    
+
     public Backtrack() {
         addSettings(maxDelay, backtrackTime);
     }

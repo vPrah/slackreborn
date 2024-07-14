@@ -49,16 +49,16 @@ public class HypixelHopSpeed implements ISpeed {
                         mc.timer.timerSpeed = 1f;
                     }
                 } else {
-                    mc.timer.timerSpeed = 0.94f;
+                    mc.timer.timerSpeed = 0.95f;
                 }
             } else {
                 mc.timer.timerSpeed = 1f;
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (mc.thePlayer.offGroundTicks == 3) {
+                if (mc.thePlayer.motionY == 0 && !mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
-                    mc.timer.timerSpeed = 0.65f;
+                    PacketUtil.send(new C03PacketPlayer(false));
                 }
             }
 
@@ -72,18 +72,18 @@ public class HypixelHopSpeed implements ISpeed {
                         MovementUtil.strafe(MovementUtil.getSpeed() * 0.86f);
                     }
                 }
-                return;
-//                if (wasSlow) {
-//                    MovementUtil.strafe(0.2f);
-//                    wasSlow = false;
-//                }
-//                if (Math.abs(MathHelper.wrapAngleTo180_float(
-//                        MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
-//                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]
-//                )) > 135) {
-//                    MovementUtil.resetMotion(false);
-//                    wasSlow = true;
-//                }
+
+                if (wasSlow) {
+                    MovementUtil.strafe(0.14f);
+                    wasSlow = false;
+                }
+                if (Math.abs(MathHelper.wrapAngleTo180_float(
+                        MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
+                                RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]
+                )) > 135) {
+                    MovementUtil.resetMotion(false);
+                    wasSlow = true;
+                }
             }
         }
 
