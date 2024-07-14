@@ -13,6 +13,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.player.BlinkUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
@@ -30,7 +31,7 @@ public class NoSlow extends Module {
 
     // Slow Modes
     public final ModeValue<String> blockmode = new ModeValue<>("Block", new String[]{"None", "Vanilla", "NCP Latest", "Hypixel", "Hypixel Spoof", "Switch", "Place", "C08 Tick"});
-    public final ModeValue<String> eatmode = new ModeValue<>("Eat", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> eatmode = new ModeValue<>("Eat", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick", "Blink"});
     public final ModeValue<String> potionmode = new ModeValue<>("Potion", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
     public final ModeValue<String> bowmode = new ModeValue<>("Bow", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
@@ -44,6 +45,8 @@ public class NoSlow extends Module {
     public float sMultiplier = 0F;
     public boolean sprinting = true;
 
+    private boolean blink = false;
+
     public NoSlow() {
         addSettings(blockmode, eatmode, potionmode, bowmode
                 , forwardMultiplier, strafeMultiplier, sprint);
@@ -51,6 +54,13 @@ public class NoSlow extends Module {
 
     private boolean badC07 = false;
 
+    @Override
+    public void onDisable() {
+        if (blink) {
+            blink = false;
+            BlinkUtil.disable();
+        }
+    }
 
     @SuppressWarnings("unused")
     @Listen
@@ -70,6 +80,9 @@ public class NoSlow extends Module {
         if (mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem().item instanceof ItemFood) {
             String mode = eatmode.getValue().toLowerCase();
             processModeEat(mode);
+        } else if (!mc.thePlayer.isUsingItem() && blink) {
+            blink = false;
+            BlinkUtil.disable();
         }
 
         if (mc.thePlayer.isUsingItem() && mc.thePlayer.getHeldItem().item instanceof ItemPotion) {
@@ -172,6 +185,16 @@ public class NoSlow extends Module {
                 }
                 setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
                 break;
+            case "blink":
+                if (mc.thePlayer.getItemInUseDuration() == 3) {
+                    blink = true;
+                    BlinkUtil.enable(false, true);
+                } else if (mc.thePlayer.getItemInUseDuration() == 27 && blink) {
+                    PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(mc.thePlayer.getItemInUse()));
+                } else if (mc.thePlayer.getItemInUseDuration() == 29) {
+                    blink = false;
+                    BlinkUtil.disable();
+                }
         }
     }
 

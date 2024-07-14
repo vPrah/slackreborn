@@ -14,6 +14,7 @@ import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
 import net.minecraft.network.play.server.S3EPacketTeams;
 import net.minecraft.network.status.server.S00PacketServerInfo;
+import net.minecraft.network.status.server.S01PacketPong;
 
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -126,7 +127,7 @@ public class BlinkUtil implements IMinecraft {
 
         if (isBlinking()) {
             if (event.getDirection() == PacketDirection.INCOMING && BLINK_INBOUND) {
-                if (!(packet instanceof S00PacketDisconnect ||
+                if (!(packet instanceof S00PacketDisconnect || packet instanceof S01PacketPong ||
                         packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                         packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
                         packet instanceof S3BPacketScoreboardObjective)) {
