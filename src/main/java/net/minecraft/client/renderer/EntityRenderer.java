@@ -782,8 +782,16 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     GlStateManager.rotate((float)(j * 90), 0.0F, 1.0F, 0.0F);
                 }
 
-                GlStateManager.rotate(entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F, 0.0F, -1.0F, 0.0F);
-                GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, -1.0F, 0.0F, 0.0F);
+                float tickedYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
+                float tickedPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
+
+                if (FreeLookUtil.freelooking) {
+                    tickedYaw = FreeLookUtil.cameraYaw;
+                    tickedPitch = FreeLookUtil.cameraPitch;
+                }
+
+                GlStateManager.rotate(tickedYaw + 180.0F, 0.0F, -1.0F, 0.0F);
+                GlStateManager.rotate(tickedPitch, -1.0F, 0.0F, 0.0F);
             }
         }
         else if (this.mc.gameSettings.thirdPersonView > 0)
@@ -834,11 +842,19 @@ public class EntityRenderer implements IResourceManagerReloadListener
                     GlStateManager.rotate(180.0F, 0.0F, 1.0F, 0.0F);
                 }
 
-                GlStateManager.rotate(entity.rotationPitch - f2, 1.0F, 0.0F, 0.0F);
-                GlStateManager.rotate(entity.rotationYaw - f1, 0.0F, 1.0F, 0.0F);
+                float tickedYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
+                float tickedPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
+
+                if (FreeLookUtil.freelooking) {
+                    tickedYaw = FreeLookUtil.cameraYaw;
+                    tickedPitch = FreeLookUtil.cameraPitch;
+                }
+
+                GlStateManager.rotate(tickedPitch - f2, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(tickedYaw - f1, 0.0F, 1.0F, 0.0F);
                 GlStateManager.translate(0.0F, 0.0F, (float)(-d3));
-                GlStateManager.rotate(f1 - entity.rotationYaw, 0.0F, 1.0F, 0.0F);
-                GlStateManager.rotate(f2 - entity.rotationPitch, 1.0F, 0.0F, 0.0F);
+                GlStateManager.rotate(f1 - tickedYaw, 0.0F, 1.0F, 0.0F);
+                GlStateManager.rotate(f2 - tickedPitch, 1.0F, 0.0F, 0.0F);
             }
         }
         else
@@ -850,6 +866,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
         {
             if (!this.mc.gameSettings.debugCamEnable)
             {
+                // TODO: impl more?!
                 float f6 = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks + 180.0F;
                 float f7 = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
                 float f8 = 0.0F;
