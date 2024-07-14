@@ -38,21 +38,21 @@ public class ChestESP extends Module {
     }
 
     @Listen
-    public void onRender (RenderEvent event) {
+    public void onRender(RenderEvent event) {
         Color ct = ColorUtil.getColor();
+        int color = colormodes.getValue().equals("Client Theme") ? ct.getRGB() :
+                colormodes.getValue().equals("Rainbow") ? ColorUtil.rainbow(-100, 1.0f, 0.47f).getRGB() :
+                        new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()).getRGB();
+
         for (TileEntity tileEntity : mc.theWorld.loadedTileEntityList) {
-            if(tileEntity instanceof TileEntityChest) {
+            if (tileEntity instanceof TileEntityChest) {
                 RenderUtil.renderOne(lineWidth.getValue());
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
                 RenderUtil.renderTwo();
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
                 RenderUtil.renderThree();
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
-                if (colormodes.getValue().equals("Client Theme")) {
-                    RenderUtil.renderFour(ct);
-                } else {
-                    RenderUtil.renderFour((!colormodes.getValue().equals("Rainbow")) ? new Color(redValue.getValue(), greenValue.getValue(), blueValue.getValue(), alphaValue.getValue()) : ColorUtil.rainbow(-100, 1.0f, 0.47f));
-                }
+                RenderUtil.renderFour(new Color(color));
                 TileEntityRendererDispatcher.instance.renderTileEntity(tileEntity, event.getPartialTicks(), -1);
                 RenderUtil.renderFive();
                 GL11.glColor4f(1, 1, 1, 1);
