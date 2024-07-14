@@ -117,8 +117,8 @@ public class KeyStrokes extends Module {
 
     @Override
     public void setXYPosition(double x, double y) {
-        posX = x;
-        posY = y;
+        posX = x + 50;
+        posY = y + 50;
     }
 
     private void litteSquare(int x, int y, float scale) {
