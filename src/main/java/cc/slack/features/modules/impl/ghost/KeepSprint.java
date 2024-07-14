@@ -30,7 +30,7 @@ public class KeepSprint extends Module {
             }
         }
 
-        if (mc.thePlayer.hurtTime > 0) {
+        if (mc.thePlayer.hurtTime > 3) {
             e.setSlowDown(defensiveValue.getValue());
             e.setSprint(false);
         } else {

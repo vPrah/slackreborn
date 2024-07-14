@@ -28,7 +28,7 @@ public class VerusJumpFlight implements IFlight {
         if (mc.thePlayer.onGround) {
             mc.thePlayer.jump();
         }
-        mc.getGameSettings().keyBindJump.pressed = false;
+        mc.gameSettings.keyBindJump.pressed = false;
     }
 
     @Override

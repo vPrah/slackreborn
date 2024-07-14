@@ -26,7 +26,7 @@ public class SpeedMine extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        boolean isValid = mc.getGameSettings().keyBindAttack.pressed && (mc.getMinecraft().objectMouseOver != null &&
+        boolean isValid = mc.gameSettings.keyBindAttack.pressed && (mc.getMinecraft().objectMouseOver != null &&
                         mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK &&
                         mc.getMinecraft().objectMouseOver.getBlockPos() != null);
         switch (mode.getValue()) {

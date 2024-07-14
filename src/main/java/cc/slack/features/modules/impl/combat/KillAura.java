@@ -509,10 +509,10 @@ public class KillAura extends Module {
 
     private void unblock() {
         if (!isBlocking) return;
-        if (!mc.getGameSettings().keyBindUseItem.isKeyDown())
+        if (!mc.gameSettings.keyBindUseItem.isKeyDown())
             PacketUtil.send(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.RELEASE_USE_ITEM, BlockPos.ORIGIN, EnumFacing.DOWN));
         else
-            if (canAutoBlock()) mc.getGameSettings().keyBindUseItem.setPressed(false);
+            if (canAutoBlock()) mc.gameSettings.keyBindUseItem.setPressed(false);
         isBlocking = false;
     }
 

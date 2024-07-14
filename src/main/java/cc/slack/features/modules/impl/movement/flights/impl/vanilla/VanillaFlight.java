@@ -15,8 +15,8 @@ public class VanillaFlight implements IFlight {
 
     @Override
     public void onMove(MoveEvent event) {
-        event.setY((mc.getGameSettings().keyBindJump.isKeyDown() ? 1 * 3.32 :
-                mc.getGameSettings().keyBindSneak.isKeyDown() ? -1 * 3.32 : 0));
+        event.setY((mc.gameSettings.keyBindJump.isKeyDown() ? 1 * 3.32 :
+                mc.gameSettings.keyBindSneak.isKeyDown() ? -1 * 3.32 : 0));
         MovementUtil.setSpeed(event, 3.5);
     }
 

@@ -18,16 +18,16 @@ public class XRay extends Module {
 
     @Override
     public void onEnable() {
-        oldgammavalue = mc.getGameSettings().gammaSetting;
-        mc.getGameSettings().gammaSetting = 10.0f;
-        mc.getGameSettings().ambientOcclusion = 0;
+        oldgammavalue = mc.gameSettings.gammaSetting;
+        mc.gameSettings.gammaSetting = 10.0f;
+        mc.gameSettings.ambientOcclusion = 0;
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
     }
 
     @Override
     public void onDisable() {
-        mc.getGameSettings().gammaSetting = oldgammavalue;
-        mc.getGameSettings().ambientOcclusion = 1;
+        mc.gameSettings.gammaSetting = oldgammavalue;
+        mc.gameSettings.ambientOcclusion = 1;
         Minecraft.getMinecraft().renderGlobal.loadRenderers();
     }
 

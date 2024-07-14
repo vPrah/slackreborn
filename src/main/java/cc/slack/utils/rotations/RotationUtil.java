@@ -81,15 +81,15 @@ public class RotationUtil implements IMinecraft {
                         if (strafeYaw < -4) {
                             strafeYaw += 8;
                         }
-                        mc.getGameSettings().keyBindForward.pressed = abs(strafeYaw) <= 1;
-                        mc.getGameSettings().keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
-                        mc.getGameSettings().keyBindBack.pressed = abs(strafeYaw) >= 3;
-                        mc.getGameSettings().keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
+                        mc.gameSettings.keyBindForward.pressed = abs(strafeYaw) <= 1;
+                        mc.gameSettings.keyBindLeft.pressed = strafeYaw >= 1 && strafeYaw <= 3;
+                        mc.gameSettings.keyBindBack.pressed = abs(strafeYaw) >= 3;
+                        mc.gameSettings.keyBindRight.pressed = strafeYaw >= -3 && strafeYaw <= -1;
                     } else {
-                        mc.getGameSettings().keyBindForward.pressed = false;
-                        mc.getGameSettings().keyBindRight.pressed = false;
-                        mc.getGameSettings().keyBindBack.pressed = false;
-                        mc.getGameSettings().keyBindLeft.pressed = false;
+                        mc.gameSettings.keyBindForward.pressed = false;
+                        mc.gameSettings.keyBindRight.pressed = false;
+                        mc.gameSettings.keyBindBack.pressed = false;
+                        mc.gameSettings.keyBindLeft.pressed = false;
                     }
                 }
             }
@@ -267,7 +267,7 @@ public class RotationUtil implements IMinecraft {
     }
 
     public static float[] applyGCD(final float[] rotations, final float[] prevRots) {
-        final float mouseSensitivity = (float) (mc.getGameSettings().mouseSensitivity * (1 + Math.random() / 10000000) * 0.6F + 0.2F);
+        final float mouseSensitivity = (float) (mc.gameSettings.mouseSensitivity * (1 + Math.random() / 10000000) * 0.6F + 0.2F);
         final double multiplier = mouseSensitivity * mouseSensitivity * mouseSensitivity * 8.0F * 0.15D;
         final float yaw = prevRots[0] + (float) (Math.round((rotations[0] - prevRots[0]) / multiplier) * multiplier);
         final float pitch = prevRots[1] + (float) (Math.round((rotations[1] - prevRots[1]) / multiplier) * multiplier);

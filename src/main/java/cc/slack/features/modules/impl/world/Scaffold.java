@@ -153,7 +153,7 @@ public class Scaffold extends Module {
                 event.safewalk = true;
                 break;
             case "sneak":
-                mc.getGameSettings().keyBindSneak.pressed = PlayerUtil.isOverAir();
+                mc.gameSettings.keyBindSneak.pressed = PlayerUtil.isOverAir();
                 break;
             default:
                 break;
@@ -337,7 +337,7 @@ public class Scaffold extends Module {
 
     private void runTowerMove() {
         isTowering = false;
-        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving()) && mc.getCurrentScreen() == null) {
+        if (GameSettings.isKeyDown(mc.gameSettings.keyBindJump) && !(towerNoMove.getValue() && MovementUtil.isMoving()) && mc.getCurrentScreen() == null) {
             isTowering = true;
             switch (towerMode.getValue().toLowerCase()) {
                 case "static":

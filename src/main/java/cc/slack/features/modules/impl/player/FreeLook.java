@@ -31,7 +31,7 @@ public class FreeLook extends Module {
             if (!freeLookingactivated) {
                 freeLookingactivated = true;
                 FreeLookUtil.enable();
-                mc.getGameSettings().thirdPersonView = 1;
+                mc.gameSettings.thirdPersonView = 1;
             }
         } else if (freeLookingactivated) {
             stop();
@@ -42,6 +42,6 @@ public class FreeLook extends Module {
         toggle();
         FreeLookUtil.setFreelooking(false);
         freeLookingactivated = false;
-        mc.getGameSettings().thirdPersonView = 0;
+        mc.gameSettings.thirdPersonView = 0;
     }
 }

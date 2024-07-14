@@ -43,7 +43,7 @@ public class AutoTool extends Module {
     @Listen
     public void onRender (RenderEvent event) {
         if(event.getState() != RenderEvent.State.RENDER_3D) return;
-        if (!mc.getGameSettings().keyBindUseItem.isKeyDown() && mc.getGameSettings().keyBindAttack.isKeyDown()
+        if (!mc.gameSettings.keyBindUseItem.isKeyDown() && mc.gameSettings.keyBindAttack.isKeyDown()
                 && mc.getMinecraft().objectMouseOver != null
                 && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
                 && !(AttackUtil.inCombat && noCombat.getValue())) {

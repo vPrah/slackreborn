@@ -38,7 +38,7 @@ public class AimAssist extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onUpdate (UpdateEvent event) {
-        gameSens = mc.getGameSettings().mouseSensitivity;
+        gameSens = mc.gameSettings.mouseSensitivity;
         sens = gameSens;
         if (lowerSens.getValue()) {
             if (mc.getMinecraft().objectMouseOver.entityHit != null) {
@@ -77,7 +77,7 @@ public class AimAssist extends Module {
         if (isToggle()) {
             return sens;
         } else {
-            return mc.getGameSettings().mouseSensitivity;
+            return mc.gameSettings.mouseSensitivity;
         }
     }
 }

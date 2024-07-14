@@ -28,7 +28,7 @@ public class VerusGroundSpeed implements ISpeed {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        mc.getGameSettings().keyBindJump.pressed = false;
+        mc.gameSettings.keyBindJump.pressed = false;
     }
 
     @Override

@@ -93,7 +93,7 @@ public class Speed extends Module {
     @Override
     public void onDisable() {
         mc.timer.timerSpeed = 1f;
-        if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump); }
+        if (jumpFix.getValue()) { mc.gameSettings.keyBindJump.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindJump); }
         mode.getValue().onDisable();
     }
 
@@ -106,7 +106,7 @@ public class Speed extends Module {
     @Listen
     public void onUpdate(UpdateEvent event) {
         if (!nosloweat.getValue() && mc.thePlayer.isUsingItem() && (mc.thePlayer.getHeldItem().item instanceof ItemFood)) { return; }
-        if (jumpFix.getValue()) { mc.getGameSettings().keyBindJump.pressed = false; }
+        if (jumpFix.getValue()) { mc.gameSettings.keyBindJump.pressed = false; }
         mode.getValue().onUpdate(event);
     }
 

@@ -34,11 +34,11 @@ public class Wtap extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (ticks) {
             case 2:
-                mc.getGameSettings().keyBindForward.pressed = false;
+                mc.gameSettings.keyBindForward.pressed = false;
                 ticks--;
                 break;
             case 1:
-                mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
+                mc.gameSettings.keyBindForward.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindForward);
                 ticks--;
                 break;
         }

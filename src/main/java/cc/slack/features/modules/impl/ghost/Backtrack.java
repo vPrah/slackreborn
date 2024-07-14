@@ -8,6 +8,8 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.network.TimedPacket;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.player.EntityPlayer;
@@ -38,8 +40,7 @@ public class Backtrack extends Module {
     private boolean releasing = false;
     public EntityPlayer player;
 
-    ArrayList<ArrayList<Packet>> packetCache = new ArrayList<>();
-    ArrayList<Packet> currentTick = new ArrayList<>();
+    ArrayList<TimedPacket> packetCache = new ArrayList<>();
 
     public Backtrack() {
         addSettings(maxDelay, backtrackTime);
@@ -51,7 +52,6 @@ public class Backtrack extends Module {
         backtrackTicks = 0;
         enabled = false;
         packetCache.clear();
-        currentTick.clear();
     }
 
     @SuppressWarnings("unused")
@@ -59,18 +59,16 @@ public class Backtrack extends Module {
     public void onUpdate (UpdateEvent event) {
         if (mc.thePlayer == null || mc.getWorld() == null) {
             enabled = false;
-            currentTick.clear();
             packetCache.clear();
         }
-        if (!currentTick.isEmpty()) {
-            packetCache.add(currentTick);
-            currentTick.clear();
-        }
+
         if (enabled) {
             if (ticksSinceAttack < maxDelay.getValue()) {
                 ticksSinceAttack ++;
             } else {
-                releaseFirst();
+                while (!packetCache.isEmpty() && packetCache.get(0).elapsed(maxDelay.getValue() * 50)) {
+                    PacketUtil.receiveNoEvent(packetCache.remove(0).getPacket());
+                }
             }
         }
         if (backtrackTicks > 0) {
@@ -79,10 +77,9 @@ public class Backtrack extends Module {
             if (enabled) {
                 int cacheSize = packetCache.size();
                 for (int i = 0; i < cacheSize; i ++ ) {
-                    releaseFirst();
+                    PacketUtil.receiveNoEvent(packetCache.remove(0).getPacket());
                 }
                 enabled = false;
-                currentTick.clear();
                 packetCache.clear();
             }
         }
@@ -108,35 +105,16 @@ public class Backtrack extends Module {
                     packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
                     packet instanceof S3BPacketScoreboardObjective) && mc.thePlayer.ticksExisted > 4) {
                 if (enabled && !releasing) {
-                    currentTick.add(packet);
+                    packetCache.add(new TimedPacket(packet));
                     event.cancel();
                 }
             }
         }
     }
 
-    private void releaseFirst() {
-        if (packetCache.isEmpty()) {
-            PrintUtil.message("empty");
-            return;
-        }
-        releasing = true;
-        ArrayList<Packet> first = packetCache.get(0);
-        for (Packet packet : first) {
-            try {
-                PrintUtil.message("release" + packet.toString());
-                packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
-            } catch ( Exception e) {
-                PrintUtil.message("Failed to process packet: " + packet.toString());
-            }
-        }
-        releasing = false;
-        packetCache.remove(0);
-    }
 
     @Override
     public void onDisable() {
         packetCache.clear();
-        currentTick.clear();
     }
 }

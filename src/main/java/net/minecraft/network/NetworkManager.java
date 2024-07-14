@@ -91,7 +91,7 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
     private SocketAddress socketAddress;
 
     /** The INetHandler instance responsible for processing received packets */
-    private INetHandler packetListener;
+    public INetHandler packetListener;
 
     /** A String indicating why the network has shutdown. */
     private IChatComponent terminationReason;

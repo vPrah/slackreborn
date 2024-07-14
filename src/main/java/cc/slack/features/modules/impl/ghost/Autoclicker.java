@@ -45,17 +45,17 @@ public class Autoclicker extends Module {
     @Listen
     public void onRender(RenderEvent event) {
         if (
-                (GameSettings.isKeyDown(mc.getGameSettings().keyBindAttack) || (triggerBot.getValue() && mc.getMinecraft().objectMouseOver.entityHit != null))
+                (GameSettings.isKeyDown(mc.gameSettings.keyBindAttack) || (triggerBot.getValue() && mc.getMinecraft().objectMouseOver.entityHit != null))
                 && (!onlySword.getValue() || (mc.thePlayer.getHeldItem() != null? mc.thePlayer.getHeldItem().getItem() instanceof ItemSword : false))
                 && !mc.getPlayerController().isHittingBlock
         ) {
             if (leftClickTimer.hasReached(leftClickDelay)) {
                 leftClickTimer.reset();
                 leftClickDelay = updateDelay(targetCPS.getValue(), randomizeAmount.getValue());
-                KeyBinding.onTick(mc.getGameSettings().keyBindAttack.getKeyCode());
-                if (autoblockMode.getValue().equals("Click") && (!autoblockOnClick.getValue() || GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem))) KeyBinding.onTick(mc.getGameSettings().keyBindUseItem.getKeyCode());
+                KeyBinding.onTick(mc.gameSettings.keyBindAttack.getKeyCode());
+                if (autoblockMode.getValue().equals("Click") && (!autoblockOnClick.getValue() || GameSettings.isKeyDown(mc.gameSettings.keyBindUseItem))) KeyBinding.onTick(mc.gameSettings.keyBindUseItem.getKeyCode());
             }
-            boolean rightMouseDown = GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem);
+            boolean rightMouseDown = GameSettings.isKeyDown(mc.gameSettings.keyBindUseItem);
             switch (autoblockMode.getValue().toLowerCase()) {
                 case "off":
                     break;
@@ -69,7 +69,7 @@ public class Autoclicker extends Module {
                     rightMouseDown = leftClickTimer.elapsed() < 0.4 * leftClickDelay;
                     break;
             }
-            mc.getGameSettings().keyBindUseItem.pressed = rightMouseDown && (!autoblockOnClick.getValue() || GameSettings.isKeyDown(mc.getGameSettings().keyBindUseItem));
+            mc.gameSettings.keyBindUseItem.pressed = rightMouseDown && (!autoblockOnClick.getValue() || GameSettings.isKeyDown(mc.gameSettings.keyBindUseItem));
         }
     }
 

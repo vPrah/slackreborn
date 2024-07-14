@@ -882,7 +882,7 @@ public class EntityPlayerSP extends AbstractClientPlayer
             if (Slack.getInstance().getModuleManager().getInstance(NoSlow.class).isToggle()) {
                 this.movementInput.moveStrafe *= Slack.getInstance().getModuleManager().getInstance(NoSlow.class).sMultiplier;
                 this.movementInput.moveForward *= Slack.getInstance().getModuleManager().getInstance(NoSlow.class).fMultiplier;
-                setSprinting(true);
+                setSprinting(Slack.getInstance().getModuleManager().getInstance(NoSlow.class).sprinting);
             } else {
                 this.movementInput.moveStrafe *= 0.2F;
                 this.movementInput.moveForward *= 0.2F;

@@ -27,6 +27,8 @@ public class AntiHarm extends Module {
     private final BooleanValue antiLava = new BooleanValue("AntiLava", false);
     private final BooleanValue antiAfk = new BooleanValue("AntiAfk", false);
 
+    public AntiHarm() { addSettings(antiCactus, antiLava, antiAfk);}
+
     @Listen
     public void onCollide (CollideEvent event) {
         if (event.getBlock() instanceof BlockCactus && antiCactus.getValue()) {

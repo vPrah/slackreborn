@@ -21,7 +21,7 @@ public class CollideFlight implements IFlight {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        mc.getGameSettings().keyBindJump.pressed = false;
+        mc.gameSettings.keyBindJump.pressed = false;
     }
 
     @Override

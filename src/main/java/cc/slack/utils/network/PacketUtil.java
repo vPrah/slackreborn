@@ -1,7 +1,10 @@
 package cc.slack.utils.network;
 
+import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.utils.client.IMinecraft;
+import cc.slack.utils.player.BlinkUtil;
 import net.minecraft.network.Packet;
+import net.minecraft.network.PacketDirection;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
@@ -23,6 +26,19 @@ public final class PacketUtil implements IMinecraft {
     }
     public static void sendNoEvent(Packet<?> packet, int iterations) {
         for (int i = 0; i < iterations; i++) sendNoEvent(packet);
+    }
+
+    public static void receive(Packet<?> packet) {
+        PacketEvent packetEvent = new PacketEvent(packet, PacketDirection.INCOMING);
+        if (packetEvent.call().isCanceled()) return;
+        if (BlinkUtil.handlePacket(packetEvent)) return;
+
+        packetEvent.getPacket().processPacket(mc.getNetHandler().getNetworkManager().packetListener);
+    }
+
+    public static void receiveNoEvent(Packet<?> packet) {
+        PacketEvent packetEvent = new PacketEvent(packet, PacketDirection.INCOMING);
+        packetEvent.getPacket().processPacket(mc.getNetHandler().getNetworkManager().packetListener);
     }
 
     public static void sendBlocking(boolean callEvent, boolean place) {
@@ -47,6 +63,4 @@ public final class PacketUtil implements IMinecraft {
             PacketUtil.sendNoEvent(packet);
         }
     }
-
-
 }

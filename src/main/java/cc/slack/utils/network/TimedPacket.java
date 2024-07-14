@@ -2,7 +2,6 @@ package cc.slack.utils.network;
 
 import net.minecraft.network.Packet;
 
-@Deprecated // Create Timed Packet In Packet Utils Make Use TimeUil
 public class TimedPacket {
 
     private Packet<?> packet;
@@ -11,6 +10,11 @@ public class TimedPacket {
     public TimedPacket(Packet<?> packet, long ms) {
         this.packet = packet;
         this.ms = ms;
+    }
+
+    public TimedPacket(Packet<?> packet) {
+        this.packet = packet;
+        this.ms = System.currentTimeMillis();
     }
 
     public Packet<?> getPacket() {

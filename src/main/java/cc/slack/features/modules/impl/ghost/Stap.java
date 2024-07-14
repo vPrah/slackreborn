@@ -34,13 +34,13 @@ public class Stap extends Module {
     public void onUpdate(UpdateEvent event) {
         switch (ticks) {
             case 2:
-                mc.getGameSettings().keyBindForward.pressed = false;
-                mc.getGameSettings().keyBindBack.pressed = true;
+                mc.gameSettings.keyBindForward.pressed = false;
+                mc.gameSettings.keyBindBack.pressed = true;
                 ticks--;
                 break;
             case 1:
-                mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
-                mc.getGameSettings().keyBindBack.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindBack);
+                mc.gameSettings.keyBindForward.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindForward);
+                mc.gameSettings.keyBindBack.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindBack);
                 ticks--;
                 break;
         }

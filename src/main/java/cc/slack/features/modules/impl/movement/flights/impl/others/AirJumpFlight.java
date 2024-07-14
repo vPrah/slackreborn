@@ -27,7 +27,7 @@ public class AirJumpFlight implements IFlight {
 
     @Override
     public void onMove(MoveEvent event) {
-        if (mc.getGameSettings().keyBindJump.isPressed() && mc.thePlayer.onGround) {
+        if (mc.gameSettings.keyBindJump.isPressed() && mc.thePlayer.onGround) {
             event.setY(0.42F);
         }
     }

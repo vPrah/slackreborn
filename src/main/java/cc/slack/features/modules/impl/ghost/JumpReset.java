@@ -36,28 +36,28 @@ public class JumpReset extends Module {
         }
         if (!enable) return;
         if (mc.thePlayer.hurtTime >= 8) {
-            mc.getGameSettings().keyBindJump.pressed = true;
+            mc.gameSettings.keyBindJump.pressed = true;
         }
         if (mc.thePlayer.hurtTime >= 7) {
-            mc.getGameSettings().keyBindForward.pressed = true;
+            mc.gameSettings.keyBindForward.pressed = true;
         } else if (mc.thePlayer.hurtTime >= 4) {
-            mc.getGameSettings().keyBindJump.pressed = false;
-            mc.getGameSettings().keyBindForward.pressed = false;
+            mc.gameSettings.keyBindJump.pressed = false;
+            mc.gameSettings.keyBindForward.pressed = false;
         } else if (mc.thePlayer.hurtTime > 1){
-            mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
-            mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
+            mc.gameSettings.keyBindForward.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindForward);
+            mc.gameSettings.keyBindJump.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindJump);
         }
     }
 
     @Listen
     public void onWorld (WorldEvent event) {
-        mc.getGameSettings().keyBindJump.pressed = false;
-        mc.getGameSettings().keyBindForward.pressed = false;
+        mc.gameSettings.keyBindJump.pressed = false;
+        mc.gameSettings.keyBindForward.pressed = false;
     }
 
     @Override
     public void onDisable() {
-        mc.getGameSettings().keyBindJump.pressed = false;
-        mc.getGameSettings().keyBindForward.pressed = false;
+        mc.gameSettings.keyBindJump.pressed = false;
+        mc.gameSettings.keyBindForward.pressed = false;
     }
 }

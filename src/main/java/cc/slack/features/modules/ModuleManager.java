@@ -139,6 +139,7 @@ public class ModuleManager {
                     new AutoTool(),
                     new Backtrack(),
                     new KeepSprint(),
+                    new RealLag(),
                     new LegitNofall(),
                     new PearlAntiVoid(),
                     new Stap(),

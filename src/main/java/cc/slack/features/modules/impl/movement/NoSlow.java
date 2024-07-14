@@ -11,11 +11,13 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
+import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
+import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.BlockPos;
 
 @ModuleInfo(
@@ -26,7 +28,7 @@ import net.minecraft.util.BlockPos;
 public class NoSlow extends Module {
 
     // Slow Modes
-    public final ModeValue<String> blockmode = new ModeValue<>("Block", new String[]{"None", "Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
+    public final ModeValue<String> blockmode = new ModeValue<>("Block", new String[]{"None", "Vanilla", "NCP Latest", "Hypixel", "Hypixel Spoof", "Switch", "Place", "C08 Tick"});
     public final ModeValue<String> eatmode = new ModeValue<>("Eat", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
     public final ModeValue<String> potionmode = new ModeValue<>("Potion", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
     public final ModeValue<String> bowmode = new ModeValue<>("Bow", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
@@ -38,6 +40,7 @@ public class NoSlow extends Module {
 
     public float fMultiplier = 0F;
     public float sMultiplier = 0F;
+    public boolean sprinting = true;
 
     public NoSlow() {
         addSettings(blockmode, eatmode, potionmode, bowmode
@@ -105,11 +108,31 @@ public class NoSlow extends Module {
                     mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(mc.thePlayer.getHeldItem()));
                 }
                 break;
-            case "hypixel":
-                if (mc.thePlayer.ticksExisted % 3 == 0 && !badC07 && !(mc.thePlayer.getHeldItem().item instanceof ItemSword)) {
-                    mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
+            case "hypixel spoof":
+                setMultipliers(1, 1);
+                if (mc.thePlayer.isSprinting()) {
+                    switch (mc.thePlayer.ticksExisted % 4) {
+                        case 0:
+                            PacketUtil.send(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
+                            break;
+                        case 1:
+                            PacketUtil.send(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
+                            break;
+                    }
                 }
-                setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
+                break;
+            case "hypixel":
+                setMultipliers(1, 1);
+                if (mc.thePlayer.isSprinting()) {
+                    switch (mc.thePlayer.ticksExisted % 4) {
+                        case 0:
+                            sprinting = false;
+                            break;
+                        case 1:
+                            sprinting = true;
+                            break;
+                    }
+                }
                 break;
         }
     }
@@ -220,6 +243,7 @@ public class NoSlow extends Module {
     private void setMultipliers(float forward, float strafe) {
         fMultiplier = forward;
         sMultiplier = strafe;
+        sprinting = true;
     }
 
     @Listen

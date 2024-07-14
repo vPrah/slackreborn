@@ -93,7 +93,7 @@ public class BlinkUtil implements IMinecraft {
     public static void releasePackets(boolean releaseInbound, boolean releaseOutgoing) {
         if (releaseInbound) {
             serverPackets.forEach(packet -> {
-                packet.processPacket(mc.getMinecraft().getNetHandler().getNetworkManager().getNetHandler());
+                PacketUtil.receiveNoEvent(packet);
                 serverPackets.remove(packet);
             });
         }

@@ -21,6 +21,7 @@ public class CMDManager {
                     new ConfigCMD(),
                     new setCMD(),
                     new ToggleCMD(),
+                    new ignCMD(),
                     new HelpCMD()
             );
         } catch (Exception e) {

@@ -69,7 +69,7 @@ public class TickBase extends Module {
 
         if (target != null) {
             float distance = mc.thePlayer.getDistanceToEntity(target);
-            if (distance < range.getValue() && distance > 3 && mc.getGameSettings().keyBindForward.pressed) {
+            if (distance < range.getValue() && distance > 3 && mc.gameSettings.keyBindForward.pressed) {
                 if (delayTicks > 0) {
                 } else {
                     waitTicks = freeze.getValue() * 2;

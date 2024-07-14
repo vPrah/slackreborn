@@ -119,10 +119,10 @@ public class MovementUtil implements IMinecraft {
 
     public static boolean isBindsMoving() {
         return mc.thePlayer != null && (
-                GameSettings.isKeyDown(mc.getGameSettings().keyBindForward) ||
-                GameSettings.isKeyDown(mc.getGameSettings().keyBindRight) ||
-                GameSettings.isKeyDown(mc.getGameSettings().keyBindBack) ||
-                GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft)
+                GameSettings.isKeyDown(mc.gameSettings.keyBindForward) ||
+                GameSettings.isKeyDown(mc.gameSettings.keyBindRight) ||
+                GameSettings.isKeyDown(mc.gameSettings.keyBindBack) ||
+                GameSettings.isKeyDown(mc.gameSettings.keyBindLeft)
         );
     }
 
@@ -153,12 +153,12 @@ public class MovementUtil implements IMinecraft {
 
     public static float getBindsDirection(float rotationYaw) {
         int moveForward = 0;
-        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindForward)) moveForward++;
-        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindBack)) moveForward--;
+        if (GameSettings.isKeyDown(mc.gameSettings.keyBindForward)) moveForward++;
+        if (GameSettings.isKeyDown(mc.gameSettings.keyBindBack)) moveForward--;
 
         int moveStrafing = 0;
-        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindRight)) moveStrafing++;
-        if (GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft)) moveStrafing--;
+        if (GameSettings.isKeyDown(mc.gameSettings.keyBindRight)) moveStrafing++;
+        if (GameSettings.isKeyDown(mc.gameSettings.keyBindLeft)) moveStrafing--;
 
         boolean reversed = moveForward < 0;
         double strafingYaw = 90 * (moveForward > 0 ? .5 : reversed ? -.5 : 1);
@@ -236,12 +236,12 @@ public class MovementUtil implements IMinecraft {
 
     public static void updateBinds(boolean checkGui) {
         if (checkGui && mc.getCurrentScreen() != null) return;
-        mc.getGameSettings().keyBindJump.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindJump);
-        mc.getGameSettings().keyBindSprint.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindSprint);
-        mc.getGameSettings().keyBindForward.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindForward);
-        mc.getGameSettings().keyBindRight.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindRight);
-        mc.getGameSettings().keyBindBack.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindBack);
-        mc.getGameSettings().keyBindLeft.pressed = GameSettings.isKeyDown(mc.getGameSettings().keyBindLeft);
+        mc.gameSettings.keyBindJump.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindJump);
+        mc.gameSettings.keyBindSprint.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindSprint);
+        mc.gameSettings.keyBindForward.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindForward);
+        mc.gameSettings.keyBindRight.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindRight);
+        mc.gameSettings.keyBindBack.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindBack);
+        mc.gameSettings.keyBindLeft.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindLeft);
     }
 
     public static void spoofNextC03(boolean spoof) {
