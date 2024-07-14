@@ -32,6 +32,7 @@ import net.minecraft.util.MathHelper;
 import java.awt.*;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 public class PlayerUtil implements IMinecraft {
 
@@ -324,6 +325,14 @@ public class PlayerUtil implements IMinecraft {
 
     public static void switchBack() {
         mc.thePlayer.inventory.currentItem = bestWeapon(mc.thePlayer);
+    }
+
+    public static void lag(long MS) {
+        try {
+            TimeUnit.MILLISECONDS.sleep(MS);
+        } catch (Exception ignored) {
+
+        }
     }
 
 }

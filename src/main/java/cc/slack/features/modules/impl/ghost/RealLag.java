@@ -6,6 +6,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
 
 import java.util.concurrent.TimeUnit;
@@ -25,11 +26,7 @@ public class RealLag extends Module {
 
     @Override
     public void onEnable() {
-        try {
-            TimeUnit.MILLISECONDS.sleep(duration.getValue());
-        } catch (Exception ignored) {
-
-        }
+        PlayerUtil.lag(duration.getValue());
         toggle();
     }
 

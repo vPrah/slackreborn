@@ -9,6 +9,7 @@ import cc.slack.features.modules.impl.exploit.MultiAction;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.world.FastPlace;
 import cc.slack.ui.menu.MainMenu;
+import cc.slack.utils.network.PingSpoofUtil;
 import cc.slack.utils.player.ItemSpoofUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import com.google.common.collect.Lists;
@@ -1721,6 +1722,8 @@ public class Minecraft implements IThreadListener, IPlayerUsage
         TickEvent tickEvent = new TickEvent();
         if(thePlayer != null && theWorld != null)
             tickEvent.call();
+
+        PingSpoofUtil.releasePackets();
 
         if (this.rightClickDelayTimer > 0)
         {

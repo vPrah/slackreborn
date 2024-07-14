@@ -368,35 +368,36 @@ public class Scaffold extends Module {
                     }
                     break;
                 case "watchdog":
-                    if (MovementUtil.isBindsMoving()) break;
-                    MovementUtil.resetMotion(false);
+                    if (MovementUtil.isBindsMoving()) {
+                        break;
+                    }
+                    if (mc.thePlayer.onGround) {
+                        jumpGround = mc.thePlayer.posY;
+                        mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
+                    }
 
-                    if (mc.theWorld.getBlockState(new BlockPos(mc.thePlayer).down()).getBlock() != Blocks.air) {
-                        mc.thePlayer.motionY = 0;
-                        if (mc.thePlayer.ticksExisted % 4 == 0) {
-                            mc.timer.timerSpeed = 0.18f;
-                            wasTimer = true;
-                            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-                                    mc.thePlayer.posY + 0.42f, mc.thePlayer.posZ, false));
-                            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-                                    mc.thePlayer.posY + 0.75f, mc.thePlayer.posZ, false));
-                            PacketUtil.send(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX,
-                                    mc.thePlayer.posY + 1f, mc.thePlayer.posZ, false));
-                            mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + 1f, mc.thePlayer.posZ);
-                        } else {
-                            mc.timer.timerSpeed = 1f;
-                        }
-                    } else {
-                        mc.timer.timerSpeed = 1f;
-
+                    switch (mc.thePlayer.offGroundTicks % 3) {
+                        case 0:
+                            PlayerUtil.lag(140);
+                            mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
+                            break;
+                        case 1:
+                            mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
+                            //MovementUtil.spoofNextC03(true);
+                            break;
+                        case 2:
+                            mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
+                            MovementUtil.spoofNextC03(true);
+                            break;
                     }
                     MovementUtil.resetMotion();
-
                     if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
                         mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));
                     } else {
                         mc.thePlayer.motionZ = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posZ)- mc.thePlayer.posZ));
                     }
+                    startExpand = -0.2;
+                    endExpand = 0.2;
                     break;
                 case "watchdog2":
                     if (MovementUtil.isBindsMoving()) {

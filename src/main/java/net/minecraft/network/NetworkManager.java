@@ -1,6 +1,7 @@
 package net.minecraft.network;
 
 import cc.slack.events.impl.network.PacketEvent;
+import cc.slack.utils.network.PingSpoofUtil;
 import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import com.google.common.collect.Queues;
@@ -162,6 +163,8 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
 
                 if (BlinkUtil.handlePacket(packetEvent)) return;
 
+                if (PingSpoofUtil.handlePacket(packetEvent)) return;
+
                 packetEvent.getPacket().processPacket(this.packetListener);
             }
             catch (ThreadQuickExitException var4)
@@ -254,6 +257,9 @@ public class NetworkManager extends SimpleChannelInboundHandler<Packet>
         if(packetEvent.call().isCanceled()) return;
 
         if (BlinkUtil.handlePacket(packetEvent)) return;
+
+        if (PingSpoofUtil.handlePacket(packetEvent)) return;
+
 
         final Packet packet = packetEvent.getPacket();
 
