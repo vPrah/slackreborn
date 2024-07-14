@@ -74,7 +74,7 @@ public class Speed extends Module {
 
 
 
-    public final BooleanValue nosloweat = new BooleanValue("NoSlow when Speed", false);
+    public final BooleanValue nosloweat = new BooleanValue("NoSlow when Speed", true);
     public final BooleanValue jumpFix = new BooleanValue("Jump Fix", true);
 
     public Speed() {
