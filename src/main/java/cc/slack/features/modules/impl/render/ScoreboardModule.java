@@ -28,14 +28,15 @@ public class ScoreboardModule extends Module {
 	private final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 	private final BooleanValue textShadow = new BooleanValue("Text Shadow", false);
-	public final ModeValue<String> scoreboardFont = new ModeValue<>("Scoreboard Font", new String[]{"Minecraft", "Apple", "Poppins"});
+	private final ModeValue<String> scoreboardFont = new ModeValue<>("Scoreboard Font", new String[]{"Minecraft", "Apple", "Poppins"});
+	private final ModeValue<String> scoreboardFontScale = new ModeValue<>("Font Scale", new String[]{"18","20", "24"});
 
 	double posX = 0.0D;
 	double posY = 30.0D;
 
 
 	public ScoreboardModule() {
-		addSettings(noscoreboard, roundedValue, textShadow, scoreboardFont);
+		addSettings(noscoreboard, roundedValue, textShadow, scoreboardFont, scoreboardFontScale);
 	}
 
 	@Listen
@@ -86,10 +87,30 @@ public class ScoreboardModule extends Module {
 				mc.MCfontRenderer.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - mc.MCfontRenderer.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
 				break;
 			case "Apple":
-				Fonts.apple18.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.apple18.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+				switch (scoreboardFontScale.getValue()) {
+					case "18":
+						Fonts.apple18.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.apple18.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+					case "20":
+						Fonts.apple20.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.apple20.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+					case "24":
+						Fonts.apple24.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.apple24.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+				}
 				break;
 			case "Poppins":
-				Fonts.poppins18.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.poppins18.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+				switch (scoreboardFontScale.getValue()) {
+					case "18":
+						Fonts.poppins18.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.poppins18.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+					case "20":
+						Fonts.poppins20.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.poppins20.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+					case "24":
+						Fonts.poppins24.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.poppins24.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+				}
 				break;
 		}
 		int j = 0;
@@ -104,12 +125,30 @@ public class ScoreboardModule extends Module {
 					mc.MCfontRenderer.drawString(s2, (float) (pos[0] + width - mc.MCfontRenderer.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());
 					break;
 				case "Apple":
-					Fonts.apple18.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
-					Fonts.apple18.drawString(s2, (float) (pos[0] + width - Fonts.apple18.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());
+					switch (scoreboardFontScale.getValue()) {
+						case "18":
+							Fonts.apple18.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.apple18.drawString(s2, (float) (pos[0] + width - Fonts.apple18.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+						case "20":
+							Fonts.apple20.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.apple20.drawString(s2, (float) (pos[0] + width - Fonts.apple20.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+						case "24":
+							Fonts.apple24.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.apple24.drawString(s2, (float) (pos[0] + width - Fonts.apple24.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+					}
 					break;
 				case "Poppins":
-					Fonts.poppins18.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
-					Fonts.poppins18.drawString(s2, (float) (pos[0] + width - Fonts.poppins18.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());
+					switch (scoreboardFontScale.getValue()) {
+						case "18":
+							Fonts.poppins18.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.poppins18.drawString(s2, (float) (pos[0] + width - Fonts.poppins18.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+						case "20":
+							Fonts.poppins20.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.poppins20.drawString(s2, (float) (pos[0] + width - Fonts.poppins20.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+						case "24":
+							Fonts.poppins24.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.poppins24.drawString(s2, (float) (pos[0] + width - Fonts.poppins24.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+					}
 					break;
 			}
 		}
