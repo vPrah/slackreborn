@@ -36,12 +36,13 @@ import static net.minecraft.client.gui.Gui.drawRect;
 public class HUD extends Module {
 
 	// Arraylist
-	private final ModeValue<String> arraylistModes = new ModeValue<>("Arraylist", new String[] {"Classic"});
-	private final ModeValue<IArraylist> arraylistFont = new ModeValue<>("Arraylist Font", new IArraylist[] {new CAppleArrayList(), new CPoppinsArrayList(), new RavenArrayList() }); // Only display if Basic arraylist is enabled atm
+	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {new ClassicArrayList(), new RavenArrayList() });
+	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins"});
 	public final BooleanValue tags = new BooleanValue("Tags", true);
 	public final ModeValue<String> tagsMode = new ModeValue<>("TagsStyle", new String[]{"(Mode)", "[Mode]", "<Mode>", "| Mode", "-> Mode", "- Mode"});
 
 	public final BooleanValue binds = new BooleanValue("Binds", false);
+	public final BooleanValue showRenderModules = new BooleanValue("Show Render Modules", true);
 
 
 	// Watermark
@@ -92,19 +93,19 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistModes, arraylistFont, tags, tagsMode, watermarksmodes, watermarkFont, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, sound, binds, theme, r1, g1, b1, r2, g2, b2);
+		addSettings(arraylistMode, arraylistFont,tags, tagsMode, watermarksmodes, watermarkFont, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, sound, binds, theme, r1, g1, b1, r2, g2, b2);
 	}
 
 	@Listen
 	public void onUpdate(UpdateEvent e) {
-		arraylistFont.getValue().onUpdate(e);
+		arraylistMode.getValue().onUpdate(e);
 	}
 
 	@Listen
 	public void onRender(RenderEvent e) {
 		if (e.state != RenderEvent.State.RENDER_2D) return;
 
-		arraylistFont.getValue().onRender(e);
+		arraylistMode.getValue().onRender(e);
 
 		HUD hud = Slack.getInstance().getModuleManager().getInstance(HUD.class);
 		int themeColor = ColorUtil.getColor(hud.theme.getValue(), 0.15).getRGB();
@@ -391,5 +392,5 @@ public class HUD extends Module {
 
 
 	@Override
-	public String getMode() { return arraylistFont.getValue().toString(); }
+	public String getMode() { return arraylistMode.getValue().toString(); }
 }

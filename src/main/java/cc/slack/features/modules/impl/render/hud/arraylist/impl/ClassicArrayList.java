@@ -5,9 +5,7 @@ package cc.slack.features.modules.impl.render.hud.arraylist.impl;
 import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
-import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
@@ -20,7 +18,7 @@ import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import org.lwjgl.input.Keyboard;
 
-public class CAppleArrayList implements IArraylist {
+public class ClassicArrayList implements IArraylist {
 
     private class Pair {
         String first;
@@ -77,7 +75,14 @@ public class CAppleArrayList implements IArraylist {
                 modules.add(pair);
             }
         }
-        modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b.first), Fonts.apple18.getStringWidth(a.first)));
+        switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
+            case "Apple":
+                modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b.first), Fonts.apple18.getStringWidth(a.first)));
+                break;
+            case "Poppins":
+                modules.sort((a, b) -> Integer.compare(Fonts.poppins18.getStringWidth(b.first), Fonts.poppins18.getStringWidth(a.first)));
+                break;
+        }
     }
 
 
@@ -85,9 +90,17 @@ public class CAppleArrayList implements IArraylist {
     public void onRender(RenderEvent event) {
         int y = 3;
         double c = 0;
+        int stringLength = 0;
 
         for (Pair module : modules) {
-            int stringLength = Fonts.apple18.getStringWidth(module.first);
+            switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
+                case "Apple":
+                    stringLength = Fonts.apple18.getStringWidth(module.first);
+                    break;
+                case "Poppins":
+                    stringLength = Fonts.poppins18.getStringWidth(module.first);
+                    break;
+            }
             Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
             double ease;
 
@@ -103,19 +116,20 @@ public class CAppleArrayList implements IArraylist {
 
             ease = 1 - 1.2 * ease;
 
-            /*
-            drawRect(
-                    (int) (event.getWidth() - stringLength * ease - 5),
-                    y - 2,
-                    (int) (event.getWidth() - stringLength * ease + stringLength + 3),
-                    y + Fonts.apple18.getHeight() + 1,
-                    0x80000000
-            );
-             */
-            drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
-            Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
-            y += (int) ((Fonts.apple18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
-            c += 0.13;
+            switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
+                case "Apple":
+                    drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
+                    Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+                    y += (int) ((Fonts.apple18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
+                    c += 0.13;
+                    break;
+                case "Poppins":
+                    drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
+                    Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+                    y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
+                    c += 0.15;
+                    break;
+            }
         }
     }
 
@@ -123,7 +137,7 @@ public class CAppleArrayList implements IArraylist {
 
     @Override
     public String toString() {
-        return "Apple";
+        return "Classic";
     }
 
     private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
