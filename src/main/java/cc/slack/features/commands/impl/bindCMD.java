@@ -42,9 +42,9 @@ public class bindCMD extends CMD {
             try {
                 String key = args[1].toUpperCase(); // Convert the key to uppercase
                 module.setKey(Keyboard.getKeyIndex(key));
-                PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + key + "§f.");
+                PrintUtil.message("§f Bound §c" + module.getName() + "§f to §c" + key + "§f.");
             } catch (Exception e) {
-                PrintUtil.message("§f Bound §c" + module_name + "§f to §c" + "NONE" + "§f.");
+                PrintUtil.message("§f Bound §c" + module.getName() + "§f to §c" + "NONE" + "§f.");
                 module.setKey(0);
             }
         }
