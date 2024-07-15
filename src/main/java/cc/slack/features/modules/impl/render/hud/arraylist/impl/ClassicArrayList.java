@@ -65,7 +65,24 @@ public class ClassicArrayList implements IArraylist {
                     }
                 }
                 if (!key.contains("NONE") && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
-                    displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";
+                    switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).bindsMode.getValue()) {
+                        case "(Mode)":
+                            displayName += "§7 (" + Keyboard.getKeyName(module.getKey()) + ")";                            break;
+                        case "[Mode]":
+                            displayName += "§7 [" + Keyboard.getKeyName(module.getKey()) + "]";                            break;
+                        case "<Mode>":
+                            displayName += "§7 <" + Keyboard.getKeyName(module.getKey()) + ">";
+                            break;
+                        case "| Mode":
+                            displayName += "§7 | " + Keyboard.getKeyName(module.getKey());
+                            break;
+                        case "-> Mode":
+                            displayName += "§7 -> " + Keyboard.getKeyName(module.getKey());
+                            break;
+                        case "- Mode":
+                            displayName += "§7 - " + Keyboard.getKeyName(module.getKey());
+                            break;
+                    }
                 }
 
                 Pair pair = new Pair();
