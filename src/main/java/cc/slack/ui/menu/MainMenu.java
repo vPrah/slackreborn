@@ -44,15 +44,15 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
-            RenderUtil.drawRoundedRect(width / 2 - 115, height / 2 - 115, width / 2 + 115 , this.height / 2 + 115, 15, new Color(44, 43, 43, 50).getRGB());
+            RenderUtil.drawRoundedRect(width / 2 - 110, height / 2 - 115, width / 2 + 110 , this.height / 2 + 100, 15, new Color(20, 20, 20, 90).getRGB());
             GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
 
-            Fonts.poppins18.drawString(decodes("U2xhY2sgQ2xpZW50"), width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
+            Fonts.poppins18.drawString(decodes("U2xhY2sgQ2xpZW50"), width / 2 - 10, height / 2 - 90, new Color(255, 255, 255).getRGB());
 
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
-            RenderUtil.drawImage(imageResource, width / 2 - 45, height / 2 - 100, 15, 27);
+            RenderUtil.drawImage(imageResource, width / 2 - 35, height / 2 - 100, 15, 27);
             GlStateManager.disableAlpha();
             GlStateManager.disableBlend();
 
@@ -138,7 +138,7 @@ public class MainMenu extends GuiScreen {
 
         GlStateManager.enableAlpha();
         GlStateManager.enableBlend();
-        RenderUtil.drawImage(imageResource, width / 2 - 28, height / 2 - 95 + animY, 46, 80);
+        RenderUtil.drawImage(imageResource, width / 2 - 23, height / 2 - 95 + animY, 46, 80);
         GlStateManager.disableAlpha();
         GlStateManager.disableBlend();
 

@@ -51,7 +51,7 @@ public class FakeStrafeSpeed implements ISpeed {
             if (blink) {
                 totalDist = Math.sqrt(Math.pow(mc.thePlayer.posX - lastPos.xCoord, 2) + Math.pow(mc.thePlayer.posZ - lastPos.zCoord, 2));
                 for (Packet p : packetBuffer) {
-                    if (p instanceof C03PacketPlayer) {
+                    if (p instanceof C03PacketPlayer && !speeds.isEmpty()) {
                         currDist += speeds.remove(0);
                         if (currDist > totalDist) currDist = totalDist;
 
@@ -78,6 +78,7 @@ public class FakeStrafeSpeed implements ISpeed {
             speeds.clear();
             packetBuffer.clear();
         }
+
         MovementUtil.strafe();
         speeds.add(MovementUtil.getSpeed());
     }

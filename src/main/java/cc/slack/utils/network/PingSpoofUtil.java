@@ -96,8 +96,8 @@ public class PingSpoofUtil implements IMinecraft {
                     serverPackets.add(new TimedPacket(packet));
                     return true;
                 }
-            } else if (event.getDirection() == PacketDirection.OUTGOING && DELAY_OUTBOUND) {
-                if (!(packet instanceof C00PacketKeepAlive || packet instanceof C00Handshake ||
+            } else if (event.getDirection() == PacketDirection.OUTGOING && DELAY_OUTBOUND && mc.thePlayer.ticksExisted > 3) {
+                if (!(packet instanceof C00Handshake ||
                         packet instanceof C00PacketLoginStart)) {
                     clientPackets.add(new TimedPacket(packet));
                     return true;

@@ -21,23 +21,33 @@ public class HypixelHopSpeed implements ISpeed {
     int jumpTick = 0;
     boolean wasSlow = false;
 
+    float yaw = 0f;
+
     @Override
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.onGround) {
             if (MovementUtil.isMoving()) {
                 wasSlow = false;
-                if (jumpTick > 6) jumpTick = 4;
+                if (jumpTick > 6) jumpTick = 5;
                 mc.thePlayer.jump();
                 MovementUtil.strafe(0.465f + jumpTick * 0.008f);
                 if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                     float amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
                     MovementUtil.strafe(0.46f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
                 }
+                yaw = MovementUtil.getDirection();
                 mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
             } else {
                 jumpTick = 0;
             }
         } else {
+            if (mc.thePlayer.offGroundTicks == 1) {
+                MovementUtil.strafe(0.34125f, yaw);
+                if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+                    MovementUtil.strafe(0.37f, yaw);
+                }
+                return;
+            }
             mc.thePlayer.motionX *= 1.0005;
             mc.thePlayer.motionZ *= 1.0005;
 
@@ -56,7 +66,7 @@ public class HypixelHopSpeed implements ISpeed {
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (mc.thePlayer.motionY == 0 && !mc.thePlayer.onGround) {
+                if (Math.abs(mc.thePlayer.motionY) <= 0.01 && !mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
                     PacketUtil.send(new C03PacketPlayer(false));
                 }

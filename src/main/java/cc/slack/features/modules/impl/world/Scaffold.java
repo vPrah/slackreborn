@@ -378,7 +378,7 @@ public class Scaffold extends Module {
 
                     switch (mc.thePlayer.offGroundTicks % 3) {
                         case 0:
-                            PlayerUtil.lag(140);
+                            PlayerUtil.lag(100);
                             mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
                             break;
                         case 1:
