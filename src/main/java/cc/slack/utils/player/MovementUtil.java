@@ -59,6 +59,7 @@ public class MovementUtil implements IMinecraft {
 
     public static void strafe(){
         strafe(getSpeed());
+        onStrafe = false;
     }
 
     public static void strafe(float speed) {

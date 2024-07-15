@@ -185,11 +185,11 @@ public class KillAura extends Module {
                             targetBox.maxZ - target.posZ + 0.05D
                     );
 
-                    GlStateManager.color(255, 255, 255, 150);
+                    GlStateManager.color(255, 255, 255, 70);
 
                     glPushMatrix();
                     glTranslated(x, y, z);
-                    for (int i = 0; i < 360; i += 45) {
+                    for (int i = 0; i < 90; i += 6) {
                         glRotated(System.currentTimeMillis() * 0.2 + i, 0, 1, 0);
                         RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
                     }

@@ -56,7 +56,7 @@ public class HypixelHopSpeed implements ISpeed {
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (mc.thePlayer.motionY == 0 && !mc.thePlayer.onGround) {
+                if (Math.abs(mc.thePlayer.motionY) <= 0.01 && !mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
                     PacketUtil.send(new C03PacketPlayer(false));
                 }
