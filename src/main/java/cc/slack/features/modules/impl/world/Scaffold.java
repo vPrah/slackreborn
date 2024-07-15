@@ -63,9 +63,9 @@ public class Scaffold extends Module {
 
     private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0.2f, 2f, 0.05f);
 
-    private final BooleanValue strafeFix = new BooleanValue("Movement Correction", true);
+    private final BooleanValue strafeFix = new BooleanValue("Movement Correction", false);
 
-    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Vanilla", "Vulcan", "Watchdog", "Watchdog2", "Static", "Off", "Watchdog Lowhop"});
+    private final ModeValue<String> towerMode = new ModeValue<>("Tower Mode", new String[] {"Off", "Vanilla", "Vulcan", "Watchdog", "Watchdog2", "Static", "Watchdog Lowhop"});
     private final BooleanValue towerNoMove = new BooleanValue("Tower No Move", false);
 
     private final ModeValue<String> pickMode = new ModeValue<>("Block Pick Mode", new String[] {"Biggest Stack", "First Stack"});
