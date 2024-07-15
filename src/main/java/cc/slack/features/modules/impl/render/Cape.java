@@ -25,7 +25,7 @@ public class Cape extends Module {
     @Listen
     public void onUpdate (UpdateEvent event) {
         if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
-            mc.getMinecraft().shutdown();
+            mc.shutdown();
         }
         switch (capes.getValue()) {
             case "Slack":

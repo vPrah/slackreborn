@@ -71,7 +71,7 @@ public class Tweaks extends Module {
             }
         }
 
-        if (noclickdelay.getValue()) mc.getMinecraft().leftClickCounter = 0;
+        if (noclickdelay.getValue()) mc.leftClickCounter = 0;
     }
 
     @SuppressWarnings("unused")

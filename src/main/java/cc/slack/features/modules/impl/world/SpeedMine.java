@@ -26,9 +26,9 @@ public class SpeedMine extends Module {
 
     @Listen
     public void onUpdate (UpdateEvent event) {
-        boolean isValid = mc.gameSettings.keyBindAttack.pressed && (mc.getMinecraft().objectMouseOver != null &&
-                        mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK &&
-                        mc.getMinecraft().objectMouseOver.getBlockPos() != null);
+        boolean isValid = mc.gameSettings.keyBindAttack.pressed && (mc.objectMouseOver != null &&
+                        mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK &&
+                        mc.objectMouseOver.getBlockPos() != null);
         switch (mode.getValue()) {
             case "Vanilla":
                 if (mc.playerController.curBlockDamageMP * speed.getValue() > 1) {

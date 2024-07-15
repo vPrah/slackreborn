@@ -53,7 +53,7 @@ public class RotationUtil implements IMinecraft {
         }
 
         if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
-            mc.getMinecraft().shutdown();
+            mc.shutdown();
         }
     }
 
@@ -67,6 +67,10 @@ public class RotationUtil implements IMinecraft {
         targetRotation = applyGCD(targetRotation, new float[] {mc.thePlayer.prevRotationYaw, mc.thePlayer.prevRotationPitch} );
         mc.thePlayer.rotationYaw = targetRotation[0];
         mc.thePlayer.rotationPitch = targetRotation[1];
+    }
+
+    public static float[] getPlayerRotation() {
+        return new float[] { mc.thePlayer.rotationYaw, mc.thePlayer.rotationPitch };
     }
     
     public static void updateStrafeFixBinds() {

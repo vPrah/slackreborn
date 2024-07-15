@@ -253,7 +253,7 @@ public class Scaffold extends Module {
     private void updatePlayerRotations() {
 
         if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
-            mc.getMinecraft().shutdown();
+            mc.shutdown();
         }
 
 
