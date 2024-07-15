@@ -5,7 +5,9 @@ package cc.slack.features.modules.impl.render.hud.arraylist.impl;
 import cc.slack.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
+import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
@@ -32,7 +34,7 @@ public class CAppleArrayList implements IArraylist {
     @Override
     public void onUpdate(UpdateEvent event) {
         modules.clear();
-        for (Module module : Slack.getInstance().getModuleManager().getModules()) {
+        for (Module module : Slack.getInstance().getModuleManager().getModules() ) {
             boolean wasEnabled = moduleStates.getOrDefault(module, false);
             boolean isEnabled = module.isToggle();
 

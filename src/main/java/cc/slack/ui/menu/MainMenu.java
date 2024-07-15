@@ -19,6 +19,7 @@ import java.util.Base64;
 import java.util.List;
 
 import okhttp3.*;
+import org.lwjgl.opengl.GL20;
 
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();
@@ -47,7 +48,7 @@ public class MainMenu extends GuiScreen {
             GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
 
-            Fonts.poppins18.drawString("Slack Client", width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
+            Fonts.poppins18.drawString(decodes("U2xhY2sgQ2xpZW50"), width / 2 - 20, height / 2 - 90, new Color(255, 255, 255).getRGB());
 
             GlStateManager.enableAlpha();
             GlStateManager.enableBlend();
@@ -62,7 +63,7 @@ public class MainMenu extends GuiScreen {
 
             if (lgi) {
                 if (animTimer.hasReached(800)) {
-                    Fonts.apple45.drawCenteredStringWithShadow("Logging in...", width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
+                    Fonts.apple45.drawCenteredStringWithShadow(decodes("TG9nZ2luZyBpbi4uLg=="), width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
                     Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 3))).getRGB());
                     String hwid = FileUtil.fetchHwid();
 
@@ -115,7 +116,7 @@ public class MainMenu extends GuiScreen {
                     addButtons();
                     lgi = false;
                 } else {
-                    Fonts.apple45.drawCenteredStringWithShadow("Logging in...", width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
+                    Fonts.apple45.drawCenteredStringWithShadow(decodes("TG9nZ2luZyBpbi4uLg=="), width / 2f, height / 2f - 20, new Color(255, 255, 255).getRGB());
                     Gui.drawRect(0, 0, width, height, new Color (0, 0, 0, Math.min(100, (int) (animTimer.elapsed() / 5))).getRGB());
                 }
             } else {
@@ -165,11 +166,11 @@ public class MainMenu extends GuiScreen {
             addButtons();
         } else {
 
-            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 48, 200, 19, decodes("RmV0Y2ggRGlzY29yZCBpZCBmcm9tIGNsaXBib2FyZA==")));
-            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2 - 24, 200, 19, decodes("Q29weSBId2lk")));
-            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2, 200, 19, decodes("TG9nIElu")));
-            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 40, 200, 19, decodes("T3BlbiBXZWJzaXRlCg==")));
-            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 64, 200, 19, decodes("Sm9pbiBPdXIgRGlzY29yZA==")));
+            this.menuList.add(new MainMenuButton(10, width/2 - 100, height / 2 - 48, 200, 19, decodes("RmV0Y2ggRGlzY29yZCBJRA==")));
+            this.menuList.add(new MainMenuButton(8, width/2 - 100, height / 2, 200, 19, decodes("Q29weSBId2lk")));
+            this.menuList.add(new MainMenuButton(951, width/2 - 100, height / 2 - 24, 200, 19, decodes("TG9nLUlu")));
+            this.menuList.add(new MainMenuButton(12, width/2 - 100, height / 2 + 40, 200, 19, decodes("T3VyIFdlYnNpdGU=")));
+            this.menuList.add(new MainMenuButton(13, width/2 - 100, height / 2 + 64, 200, 19, decodes("Sm9pbiBvdXIgRGlzY29yZCE=")));
 
         }
 
