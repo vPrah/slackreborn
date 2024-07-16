@@ -18,7 +18,6 @@ public class Fonts {
     private static final Map<String, String> fontFiles = new HashMap<>();
 
     static {
-        // Registrar las fuentes con su archivo correspondiente
         fontFiles.put("Poppins", "poppins-Light.ttf");
         fontFiles.put("IconFont", "guiicons.ttf");
         fontFiles.put("SFBold", "sfsemibold.ttf");
@@ -26,7 +25,7 @@ public class Fonts {
         fontFiles.put("Axi", "axi.ttf");
         fontFiles.put("Apple", "apple.ttf");
         fontFiles.put("Roboto", "roboto.ttf");
-        fontFiles.put("Arial", "Arial"); // Asume que Arial es una fuente del sistema
+        fontFiles.put("Arial", "Arial");
         fontFiles.put("Checkmark", "checkmark.ttf");
     }
 
@@ -52,17 +51,16 @@ public class Fonts {
     private static Font loadFont(String fontFileName) {
         try {
             if (fontFileName.equals("Arial")) {
-                return new Font("Arial", Font.PLAIN, 24); // Tamaño arbitrario, se cambiará más adelante
+                return new Font("Arial", Font.PLAIN, 24);
             }
             InputStream is = Minecraft.getMinecraft().getResourceManager().getResource(new ResourceLocation("slack/fonts/" + fontFileName)).getInputStream();
             return Font.createFont(Font.TRUETYPE_FONT, is);
         } catch (FontFormatException | IOException e) {
             e.printStackTrace();
-            return new Font("Arial", Font.PLAIN, 24); // Fallback a Arial si hay un error
+            return new Font("Arial", Font.PLAIN, 24);
         }
     }
 
-    // Ejemplo de uso
     public static final MCFontRenderer poppins10 = getFontRenderer("Poppins", 10);
     public static final MCFontRenderer poppins18 = getFontRenderer("Poppins", 18);
     public static final MCFontRenderer poppins20 = getFontRenderer("Poppins", 20);
