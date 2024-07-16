@@ -1,6 +1,7 @@
 package cc.slack.ui.clickgui.component.components.sub;
 
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.utils.render.ColorUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
@@ -47,6 +48,8 @@ public class ModeButton extends Component {
         offset = parent.ryo;
         parent.ryo += getHeight();
         Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + getHeight(), 0xFF111111);
+        Gui.drawRect(parent.parent.getX() + 3, parent.parent.getY() + offset, parent.parent.getX() + 4, parent.parent.getY() + offset + getHeight(), ColorUtil.getColor().darker().getRGB());
+
         Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth()), parent.parent.getY() + offset + 12, this.hovered ? 0xFF2a2a2a : 0xFF1a1a1a);
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
@@ -68,9 +71,9 @@ public class ModeButton extends Component {
                 }
                 if (mset.equalsIgnoreCase(set.getValue().toString())) {
                     Gui.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset + 12 + i - 10) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + 12 + i) * 2, 0x2727227);
-                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 6) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
+                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 4 + 6) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
                 } else {
-                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
+                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 4) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
                 }
                 i += 10;
             }

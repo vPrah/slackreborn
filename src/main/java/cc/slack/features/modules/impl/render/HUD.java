@@ -159,11 +159,11 @@ public class HUD extends Module {
 				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
 					int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
 					RenderUtil.drawRoundedRect(
-							((sr.getScaledWidth() -  Fonts.apple18.getStringWidth(displayString)) / 2f) - 4,
-							sr.getScaledHeight() * 3f / 4F - 4f - y,
-							((sr.getScaledWidth() +  Fonts.apple18.getStringWidth(displayString)) / 2f) + 4,
-							sr.getScaledHeight() * 3f / 4F + Fonts.apple18.getHeight() + 3.5f - y,
-							2, 0x80000000);
+							((sr.getScaledWidth() -  Fonts.apple18.getStringWidth(displayString)) / 2f) - 5,
+							sr.getScaledHeight() * 3f / 4F - 5f - y,
+							((sr.getScaledWidth() +  Fonts.apple18.getStringWidth(displayString)) / 2f) + 5,
+							sr.getScaledHeight() * 3f / 4F + Fonts.apple18.getHeight() + 5f - y,
+							3, 0x80000000);
 					Fonts.apple18.drawStringWithShadow(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
 				}
 			}
