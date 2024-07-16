@@ -15,9 +15,6 @@ import cc.slack.utils.font.Fonts;
 import cc.slack.utils.font.MCFontRenderer;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.scoreboard.Score;
 import net.minecraft.scoreboard.ScoreObjective;
@@ -33,9 +30,9 @@ public class ScoreboardModule extends Module {
 	private final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 	private final BooleanValue textShadow = new BooleanValue("Text Shadow", false);
+	private final BooleanValue lineNumbersValue = new BooleanValue("Line Numbers", true);
 	private final ModeValue<String> scoreboardFont = new ModeValue<>("Font", new String[]{"Minecraft", "Apple", "Poppins", "Roboto"});
 	private static final NumberValue<Integer> scoreboardFontScale = new NumberValue<>("Font Scale", 18, 1, 30, 1);
-//	private final ModeValue<String> scoreboardFontScale = new ModeValue<>("Font Scale", new String[]{"18","20", "24"});
 
 	double posX = 0.0D;
 	double posY = 30.0D;
@@ -48,7 +45,7 @@ public class ScoreboardModule extends Module {
 
 
 	public ScoreboardModule() {
-		addSettings(noscoreboard, roundedValue, textShadow, scoreboardFont, scoreboardFontScale);
+		addSettings(noscoreboard, roundedValue, textShadow, lineNumbersValue, scoreboardFont, scoreboardFontScale);
 	}
 
 	@Listen
@@ -126,7 +123,7 @@ public class ScoreboardModule extends Module {
 			++j;
 			ScorePlayerTeam scoreplayerteam1 = scoreboard.getPlayersTeam(score1.getPlayerName());
 			String s1 = ScorePlayerTeam.formatPlayerName(scoreplayerteam1, score1.getPlayerName());
-			String s2 = ChatFormatting.RED + "" + score1.getScorePoints();
+			String s2 = (lineNumbersValue.getValue() ? ChatFormatting.RED + "" + score1.getScorePoints() : "");
 
 			switch (scoreboardFont.getValue()) {
 				case "Minecraft":
