@@ -6,14 +6,18 @@ import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
 import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.MovementUtil;
+import net.minecraft.client.settings.GameSettings;
 
 public class LegitSpeed implements ISpeed {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
-            mc.thePlayer.jump();
-        }
+        mc.gameSettings.keyBindJump.pressed = true;
+    }
+
+    @Override
+    public void onDisable() {
+        mc.gameSettings.keyBindJump.pressed = GameSettings.isKeyDown(mc.gameSettings.keyBindJump);
     }
 
     @Override

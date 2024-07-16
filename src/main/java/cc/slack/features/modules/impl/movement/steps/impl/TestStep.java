@@ -15,7 +15,7 @@ public class TestStep implements IStep {
         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX + x * 0.0049, mc.thePlayer.posY + 0.4196f + Math.random() * 0.000095f, mc.thePlayer.posZ + z * 0.0049, mc.thePlayer.onGround));
         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX + x * 0.0049, mc.thePlayer.posY + 0.4196f + 0.3328 + Math.random() * 0.000095, mc.thePlayer.posZ + z * 0.0049, mc.thePlayer.onGround));
         mc.getNetHandler().addToSendQueue(new C03PacketPlayer.C04PacketPlayerPosition(mc.thePlayer.posX  + x * 0.1, mc.thePlayer.posY + 1f, mc.thePlayer.posZ + z * 0.1, mc.thePlayer.onGround));
-
+        MovementUtil.setHClip(0.1);
         mc.thePlayer.stepHeight = 1f;
     }
 
