@@ -1334,10 +1334,23 @@ public class EntityRenderer implements IResourceManagerReloadListener
         if (this.mc.inGameHasFocus && flag)
         {
             this.mc.mouseHelper.mouseXYChange();
+            float dx = (float)this.mc.mouseHelper.deltaX;
+            float dy = (float)this.mc.mouseHelper.deltaY;
+
             float f = Slack.getInstance().getModuleManager().getInstance(AimAssist.class).getSens() * 0.6F + 0.2F;
             float f1 = f * f * f * 8.0F;
-            float f2 = (float)this.mc.mouseHelper.deltaX * f1;
-            float f3 = (float)this.mc.mouseHelper.deltaY * f1;
+
+            if (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).isToggle()) {
+                dx += (float) (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).yawNudge / f1 / 0.15);
+                dy += (float) (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).pitchNudge / f1 / 0.15);
+
+                Slack.getInstance().getModuleManager().getInstance(AimAssist.class).yawNudge = 0f;
+                Slack.getInstance().getModuleManager().getInstance(AimAssist.class).pitchNudge = 0f;
+            }
+
+
+            float f2 = dx * f1;
+            float f3 = dy * f1;
             int i = 1;
 
             if (this.mc.gameSettings.invertMouse)

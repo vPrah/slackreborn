@@ -16,7 +16,7 @@ public class FakePlayer extends Module {
 
     @Override
     public void onEnable() {
-        EntityOtherPlayerMP fakePlayer = new EntityOtherPlayerMP(mc.getWorld(), new GameProfile(UUID.fromString("4f7700aa-93d0-4c6a-b58a-d99b1c7287fd"), mc.getMinecraft().getSession().getUsername()));
+        EntityOtherPlayerMP fakePlayer = new EntityOtherPlayerMP(mc.getWorld(), new GameProfile(UUID.fromString("4f7700aa-93d0-4c6a-b58a-d99b1c7287fd"), mc.getSession().getUsername()));
         fakePlayer.copyLocationAndAnglesFrom(mc.thePlayer);
         mc.getWorld().addEntityToWorld(69420, fakePlayer);
     }

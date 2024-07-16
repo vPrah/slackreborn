@@ -42,8 +42,8 @@ public class BlockOverlay extends Module {
 
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
 
-        if (mc.getMinecraft().objectMouseOver != null && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
-            final BlockPos pos = mc.getMinecraft().objectMouseOver.getBlockPos();
+        if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
+            final BlockPos pos = mc.objectMouseOver.getBlockPos();
             final Block block = mc.getWorld().getBlockState(pos).getBlock();
             final RenderManager renderManager = mc.getRenderManager();
             final String s = block.getLocalizedName();

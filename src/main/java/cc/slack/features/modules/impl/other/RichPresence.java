@@ -59,7 +59,7 @@ public class RichPresence extends Module {
                 startDiscordThread();
                 break;
             case "ShowNickame":
-                String playerName = mc.thePlayer != null ? mc.thePlayer.getNameClear() : mc.getMinecraft().session.getUsername();
+                String playerName = mc.thePlayer != null ? mc.thePlayer.getNameClear() : mc.session.getUsername();
                 str2.setLength(0);
                 str2.append("IGN: ").append(playerName).append("\n");
                 startDiscordThread();

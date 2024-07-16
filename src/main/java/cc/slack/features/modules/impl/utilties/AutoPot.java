@@ -88,7 +88,7 @@ public class AutoPot extends Module {
         if((event.getState() == State.PRE) && !mc.thePlayer.capabilities.allowFlying) {
             if(healthPotion == null || !timer.hasReached(delayValue.getValue()))
                 return;
-            if(mc.getMinecraft().getCurrentServerData() != null && mc.getMinecraft().getCurrentServerData().serverIP.toLowerCase().contains("hypixel")) {
+            if(mc.getCurrentServerData() != null && mc.getCurrentServerData().serverIP.toLowerCase().contains("hypixel")) {
                 PacketUtil.sendNoEvent(new C03PacketPlayer.C05PacketPlayerLook(event.getYaw(), 90, event.isGround()));
             } else {
                 event.setPitch(90);

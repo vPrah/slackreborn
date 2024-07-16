@@ -23,8 +23,8 @@ public class MCF extends Module {
     
     @Listen
     public void onUpdate (UpdateEvent event) {
-        if(timer.hasReached(500) && Mouse.isButtonDown(2) && mc.getMinecraft().objectMouseOver != null && mc.getMinecraft().objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
-            Entity entity = mc.getMinecraft().objectMouseOver.entityHit;
+        if(timer.hasReached(500) && Mouse.isButtonDown(2) && mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.ENTITY) {
+            Entity entity = mc.objectMouseOver.entityHit;
             if(Slack.getInstance().getFriendManager().isFriend(entity)) {
                 Slack.getInstance().getFriendManager().removeFriend(entity.getCommandSenderName());
                 PrintUtil.message("Removed §a" + entity.getCommandSenderName() + " §f as friend");

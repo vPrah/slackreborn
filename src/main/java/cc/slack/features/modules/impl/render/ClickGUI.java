@@ -42,7 +42,7 @@ public class ClickGUI<ClickGUIType extends GuiScreen> extends Module {
 
         //isOpen = !isOpen;
 
-        mc.getMinecraft().displayGuiScreen(/*isOpen ? null : */clickgui);
+        mc.displayGuiScreen(/*isOpen ? null : */clickgui);
         toggle();
     }
 
