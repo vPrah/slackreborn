@@ -28,7 +28,7 @@ public class ScoreboardModule extends Module {
 	private final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
 	private final BooleanValue textShadow = new BooleanValue("Text Shadow", false);
-	private final ModeValue<String> scoreboardFont = new ModeValue<>("Scoreboard Font", new String[]{"Minecraft", "Apple", "Poppins"});
+	private final ModeValue<String> scoreboardFont = new ModeValue<>("Scoreboard Font", new String[]{"Minecraft", "Apple", "Poppins", "Roboto"});
 	private final ModeValue<String> scoreboardFontScale = new ModeValue<>("Font Scale", new String[]{"18","20", "24"});
 
 	double posX = 0.0D;
@@ -112,6 +112,19 @@ public class ScoreboardModule extends Module {
 						break;
 				}
 				break;
+			case "Roboto":
+				switch (scoreboardFontScale.getValue()) {
+					case "18":
+						Fonts.roboto18.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.roboto18.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+					case "20":
+						Fonts.roboto20.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.roboto20.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+					case "24":
+						Fonts.roboto24.drawString(objective.getDisplayName(), (float) ((float) pos[0] + width / 2 - Fonts.roboto24.getStringWidth(objective.getDisplayName()) / 2), (float) pos[1] + 4, -1, textShadow.getValue());
+						break;
+				}
+				break;
 		}
 		int j = 0;
 		for (Score score1 : collection) {
@@ -148,6 +161,19 @@ public class ScoreboardModule extends Module {
 						case "24":
 							Fonts.poppins24.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
 							Fonts.poppins24.drawString(s2, (float) (pos[0] + width - Fonts.poppins24.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+					}
+					break;
+				case "Roboto":
+					switch (scoreboardFontScale.getValue()) {
+						case "18":
+							Fonts.roboto18.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.roboto18.drawString(s2, (float) (pos[0] + width - Fonts.roboto18.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+						case "20":
+							Fonts.roboto20.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.roboto20.drawString(s2, (float) (pos[0] + width - Fonts.roboto20.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
+						case "24":
+							Fonts.roboto24.drawString(s1, (float) pos[0] + 3, (float) ((float) pos[1] + height - 9.2 * j), -1, textShadow.getValue());
+							Fonts.roboto24.drawString(s2, (float) (pos[0] + width - Fonts.roboto24.getStringWidth(s2)), (float) (pos[1] + height - 9 * j), -1, textShadow.getValue());							break;
 					}
 					break;
 			}
