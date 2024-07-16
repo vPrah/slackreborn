@@ -32,12 +32,15 @@ public class Blink extends Module {
 
     @Listen
     public void onUpdate(UpdateEvent event) {
-        BlinkUtil.enable(inbound.getValue(), outbound.getValue());
-
         if (++delay > delayValue.getValue() / 50) {
-            BlinkUtil.disable();
+            BlinkUtil.releasePackets();
             delay = 0;
         }
+    }
+
+    @Override
+    public void onEnable() {
+        BlinkUtil.enable(inbound.getValue(), outbound.getValue());
     }
 
     @Override
