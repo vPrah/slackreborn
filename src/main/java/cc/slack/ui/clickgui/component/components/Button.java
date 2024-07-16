@@ -81,7 +81,7 @@ public class Button extends Component {
             if (!this.subcomponents.isEmpty()) {
                 this.ryo = this.offset + 12;
                 this.subcomponents.forEach(Component::renderComponent);
-                Gui.drawRect(parent.getX(), parent.getY() + this.offset + 12, parent.getX() + 1, parent.getY() + this.offset +  getHeight() , -379081); //TODO: Get Cat Color
+                Gui.drawRect(parent.getX(), parent.getY() + this.offset + 12, parent.getX() + 1, parent.getY() + this.offset +  getHeight() , ColorUtil.getColor().darker().getRGB()); //TODO: Get Cat Color
             }
         }
     }

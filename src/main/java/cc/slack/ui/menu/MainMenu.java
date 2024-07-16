@@ -44,7 +44,7 @@ public class MainMenu extends GuiScreen {
         drawModalRectWithCustomSizedTexture(0, 0,0,0, this.width, this.height, this.width, this.height);
 
         if (!Minecraft.renderChunksCache || !Minecraft.getMinecraft().pointedEffectRenderer) {
-            RenderUtil.drawRoundedRect(width / 2 - 110, height / 2 - 115, width / 2 + 110 , this.height / 2 + 100, 15, new Color(20, 20, 20, 90).getRGB());
+            RenderUtil.drawRoundedRect(width / 2 - 110, height / 2 - 115, width / 2 + 110 , this.height / 2 + 95, 15, new Color(20, 20, 20, 110).getRGB());
             GlStateManager.color(1, 1, 1, 1);
             GlStateManager.color(1, 1, 1, 1);
 
