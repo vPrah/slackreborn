@@ -548,8 +548,6 @@ public class Scaffold extends Module {
                     canContinue = false;
                     break;
                 }
-                PrintUtil.message(raytraced.toString());
-                PrintUtil.message(blockPlace.toString());
 
                 if (raytraced.typeOfHit != MovingObjectPosition.MovingObjectType.BLOCK) {
                     canContinue = false;

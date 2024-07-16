@@ -30,6 +30,8 @@ public class Button extends Component {
     private final ArrayList<Component> subcomponents;
     public boolean open;
 
+    public int ryo;
+
     public Button(Module mod, Frame parent, int offset) {
         this.mod = mod;
         this.parent = parent;
@@ -62,9 +64,7 @@ public class Button extends Component {
         int opY = offset + 12;
         for (Component comp : this.subcomponents) {
             comp.setOff(opY);
-            if (comp instanceof Slider)
-                opY += 5;
-            opY += 12;
+            opY += comp.getHeight();
         }
     }
 
@@ -79,6 +79,7 @@ public class Button extends Component {
         GL11.glPopMatrix();
         if (this.open) {
             if (!this.subcomponents.isEmpty()) {
+                this.ryo = this.offset + 12;
                 this.subcomponents.forEach(Component::renderComponent);
                 Gui.drawRect(parent.getX(), parent.getY() + this.offset + 12, parent.getX() + 1, parent.getY() + this.offset +  getHeight() , -379081); //TODO: Get Cat Color
             }
@@ -90,9 +91,7 @@ public class Button extends Component {
         if (this.open) {
             int a = 12;
             for (Component comp : this.subcomponents) {
-                if (comp instanceof Slider)
-                    a += 5;
-                a += 12;
+                a += comp.getHeight();
             }
             return a;
         }

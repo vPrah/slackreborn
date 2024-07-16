@@ -31,6 +31,8 @@ public class Keybind extends Component {
 
     @Override
     public void renderComponent() {
+        offset = parent.ryo;
+        parent.ryo += getHeight();
         Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + (parent.parent.getWidth() * 1), parent.parent.getY() + offset + 12, this.hovered ? 0xFF222222 : 0xFF111111);
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
@@ -70,5 +72,10 @@ public class Keybind extends Component {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public int getHeight() {
+        return 12;
     }
 }

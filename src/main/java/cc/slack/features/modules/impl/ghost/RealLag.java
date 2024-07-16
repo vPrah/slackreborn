@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 )
 public class RealLag extends Module {
 
-    private final NumberValue<Integer> duration = new NumberValue<>("Chance", 200, 0, 1000, 20);
+    private final NumberValue<Integer> duration = new NumberValue<>("Lag Duration", 200, 0, 1000, 20);
 
 
     public RealLag() {

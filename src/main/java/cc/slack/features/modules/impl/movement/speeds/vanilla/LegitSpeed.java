@@ -13,9 +13,6 @@ public class LegitSpeed implements ISpeed {
     public void onUpdate(UpdateEvent event) {
         if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
             mc.thePlayer.jump();
-            PrintUtil.message(Float.toString(MovementUtil.getSpeed()));
-        } else if (mc.thePlayer.offGroundTicks == 1) {
-            PrintUtil.message(Float.toString(MovementUtil.getSpeed()));
         }
     }
 
