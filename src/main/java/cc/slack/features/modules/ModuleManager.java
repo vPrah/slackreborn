@@ -96,6 +96,7 @@ public class ModuleManager {
                     new Regen(),
                     new FastBow(),
                     new Phase(), // Recoded
+                    new PingSpoof(),
                     new ChatBypass(),
                     new RageQuit(),
                     new MultiAction(),
