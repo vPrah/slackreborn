@@ -60,8 +60,8 @@ public class AimAssist extends Module {
                         (float) 100 / Minecraft.getDebugFPS()
                 );
 
-                yawNudge = nudge[0];
-                pitchNudge = nudge[1];
+                yawNudge = nudge[0] - RotationUtil.getPlayerRotation()[0];
+                pitchNudge = nudge[1] - RotationUtil.getPlayerRotation()[1];
             }
         }
         if (accelSens.getValue()) {
