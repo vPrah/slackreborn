@@ -890,12 +890,19 @@ public class EntityRenderer implements IResourceManagerReloadListener
         }
         else if (!this.mc.gameSettings.debugCamEnable)
         {
-            GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
+            if (FreeLookUtil.freelooking) {
+                GlStateManager.rotate(FreeLookUtil.cameraPitch, 1f, 0f, 0f);
+            } else {
+                GlStateManager.rotate(entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks, 1.0F, 0.0F, 0.0F);
+            }
 
             if (entity instanceof EntityAnimal)
             {
                 EntityAnimal entityanimal = (EntityAnimal)entity;
                 GlStateManager.rotate(entityanimal.prevRotationYawHead + (entityanimal.rotationYawHead - entityanimal.prevRotationYawHead) * partialTicks + 180.0F, 0.0F, 1.0F, 0.0F);
+            }
+            else if (FreeLookUtil.freelooking) {
+                GlStateManager.rotate(FreeLookUtil.cameraYaw, 0f, 1f, 0f);
             }
             else
             {

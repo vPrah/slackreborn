@@ -86,14 +86,14 @@ public class Scaffold extends Module {
     BlockPos blockPlace = new BlockPos(0,0,0);
     BlockPos blockPlacement = new BlockPos(0,0,0);
     EnumFacing blockPlacementFace = EnumFacing.DOWN;
-    double jumpGround = 0.0;
 
+    double jumpGround = 0.0;
+    int jumpCounter = 0;
     boolean firstJump = false;
+
+
     boolean hasPlaced = false;
 
-    int sprintTicks;
-    double realX;
-    double realZ;
 
     boolean wasTimer = false;
 
@@ -220,17 +220,18 @@ public class Scaffold extends Module {
                 }
                 break;
             case "hypixel jump":
-                mc.thePlayer.setSprinting(false);
-                MovementUtil.move(0.008f);
+                mc.thePlayer.setSprinting(!mc.thePlayer.onGround);
                 if (mc.thePlayer.onGround && MovementUtil.isMoving()) {
                     mc.thePlayer.jump();
                     hasPlaced = false;
                     if (!firstJump) {
-                        MovementUtil.strafe(0.48f);
+                        MovementUtil.strafe(0.47f);
                     } else {
                         MovementUtil.strafe(0.35f);
                         groundY = mc.thePlayer.posY;
+                        jumpCounter = 0 ;
                     }
+                    jumpCounter ++;
                 }
                 break;
             case "hypixel":
@@ -311,9 +312,14 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 if (mc.thePlayer.onGround && mc.thePlayer.posY - groundY != 1) groundY = mc.thePlayer.posY;
-                if (PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 || firstJump) {
+                if ((PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 &&  mc.thePlayer.posY - groundY > 0.7) || firstJump) {
                     firstJump = false;
                     placeY = mc.thePlayer.posY;
+
+                    if (jumpCounter % 2 == 1 && !isTowering) {
+                        startExpand = -1.5;
+                        endExpand = -1.4;
+                    }
                 } else {
                     placeY = groundY;
                 }

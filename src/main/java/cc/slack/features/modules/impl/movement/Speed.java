@@ -69,9 +69,8 @@ public class Speed extends Module {
     public final NumberValue<Float> vanillaspeed = new NumberValue<>("Vanilla Speed", 1.0F, 0.0F, 3.0F, 0.01F);
     public final BooleanValue vanillaGround = new BooleanValue("Vanilla Only Ground", false);
     public final BooleanValue hypixelSemiStrafe = new BooleanValue("Hypixel Semi Strafe", false);
-    public final BooleanValue hypixelTest = new BooleanValue("HypixelTest", false);
-
-
+    public final BooleanValue hypixelTest = new BooleanValue("Hypixel Test", false);
+    public final BooleanValue hypixelGlide = new BooleanValue("Hypixel Glide", true);
 
 
     public final BooleanValue nosloweat = new BooleanValue("NoSlow when Speed", true);
@@ -79,7 +78,7 @@ public class Speed extends Module {
 
     public Speed() {
         super();
-        addSettings(mode, vanillaspeed, vanillaGround, hypixelSemiStrafe, hypixelTest, nosloweat, jumpFix);
+        addSettings(mode, vanillaspeed, vanillaGround, hypixelSemiStrafe, hypixelTest, hypixelGlide, nosloweat, jumpFix);
     }
 
     @Override

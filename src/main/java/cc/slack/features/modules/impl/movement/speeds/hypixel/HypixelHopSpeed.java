@@ -11,6 +11,7 @@ import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.rotations.RotationUtil;
+import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
@@ -22,6 +23,7 @@ public class HypixelHopSpeed implements ISpeed {
     boolean wasSlow = false;
 
     float yaw = 0f;
+    float speed = 0f;
 
     @Override
     public void onUpdate(UpdateEvent event) {
@@ -66,12 +68,30 @@ public class HypixelHopSpeed implements ISpeed {
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (Math.abs(mc.thePlayer.motionY) <= 0.01 && !mc.thePlayer.onGround) {
-                    mc.thePlayer.motionY = PlayerUtil.HEAD_HITTER_MOTIONY;
-                    PacketUtil.send(new C03PacketPlayer(false));
+                if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posX + mc.thePlayer.motionY + 1, mc.thePlayer.posZ) && mc.thePlayer.offGroundTicks > 2) {
+                    MovementUtil.strafe();
                 }
             }
 
+            if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelGlide.getValue()) {
+                if (mc.thePlayer.onGround) {
+                    speed = 1F;
+                }
+
+                final int[] allowedAirTicks = new int[]{10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29};
+
+                if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posX - 0.25 + 1, mc.thePlayer.posZ)) {
+                    for (final int allowedAirTick : allowedAirTicks) {
+                        if (mc.thePlayer.offGroundTicks == allowedAirTick && allowedAirTick <= 9 + 6) {
+                            mc.thePlayer.motionY = 0;
+                            MovementUtil.strafe(0.24f * speed);
+
+                            speed *= 0.98F;
+
+                        }
+                    }
+                }
+            }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelSemiStrafe.getValue()) {
                 if (mc.thePlayer.offGroundTicks == 6 && Slack.getInstance().getModuleManager().getInstance(KillAura.class).target == null) {
@@ -79,7 +99,7 @@ public class HypixelHopSpeed implements ISpeed {
                             MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) -
                                     RotationUtil.getRotations(new Vec3(0, 0, 0), new Vec3(mc.thePlayer.motionX, 0, mc.thePlayer.motionZ))[0]
                     )) > 30) {
-                        MovementUtil.strafe(MovementUtil.getSpeed() * 0.86f);
+                        MovementUtil.strafe(MovementUtil.getSpeed() * 0.90f);
                     }
                 }
 
