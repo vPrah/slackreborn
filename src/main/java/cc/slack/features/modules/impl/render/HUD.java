@@ -37,7 +37,7 @@ public class HUD extends Module {
 
 	// Arraylist
 	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {new ClassicArrayList(), new RavenArrayList() });
-	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins"});
+	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
 	public final BooleanValue tags = new BooleanValue("Tags", true);
 	public final ModeValue<String> tagsMode = new ModeValue<>("Tags Style", new String[]{"(Mode)", "[Mode]", "<Mode>", "| Mode", "-> Mode", "- Mode"});
 
@@ -50,7 +50,7 @@ public class HUD extends Module {
 	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "BackgroundedRound", "Backgrounded", "Classic", "Logo"});
 	private final ModeValue<String> watermodedraw = new ModeValue<>("WaterMark Draw", new String[]{"Rounded", "Normal", "Custom Round"});
 	private final NumberValue<Float> customroundValue = new NumberValue<>("Custom Round Radius", 8F, 0F, 20F, 0.1F);
-	private final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins"});
+	private final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins", "Roboto"});
 
 
 	// Notifications
@@ -276,6 +276,10 @@ public class HUD extends Module {
 				Fonts.poppins24.drawStringWithShadow("S", 3.8, 3.8, themeColor);
 				Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
 				break;
+			case "Roboto":
+				Fonts.roboto24.drawStringWithShadow("S", 3.8, 3.8, themeColor);
+				Fonts.roboto24.drawStringWithShadow("lack", 11, 4, -1);
+				break;
 		}
 	}
 
@@ -286,6 +290,9 @@ public class HUD extends Module {
 				break;
 			case "Poppins":
 				drawBackgroundedPoppinsText(themeColor, whiteColor, backgroundColor);
+				break;
+			case "Roboto":
+				drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor);
 				break;
 		}
 	}
@@ -298,6 +305,9 @@ public class HUD extends Module {
 			case "Poppins":
 				drawBackgroundedPoppinsText(themeColor, whiteColor, backgroundColor, true);
 				break;
+			case "Roboto":
+				drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor, true);
+				break;
 		}
 	}
 
@@ -307,6 +317,28 @@ public class HUD extends Module {
 		RenderUtil.drawImage(new ResourceLocation("slack/menu/hud.png"), 4, 4, 20, 33);
 		GlStateManager.disableAlpha();
 		GlStateManager.disableBlend();
+	}
+
+	private void drawBackgroundedRobotoText(int themeColor, int whiteColor, int backgroundColor) {
+		drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor, false);
+	}
+
+	private void drawBackgroundedRobotoText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
+		int[] positions = calculateRobotoTextPositions();
+		int width = positions[positions.length - 1] + 4;
+
+		if (rounded) {
+			RenderUtil.drawRoundedRect(2, 2, width + 32, 15, 4.0f, backgroundColor);
+		} else {
+			drawRect(2, 2, width + 32, 15, backgroundColor);
+		}
+
+		Fonts.roboto20.drawStringWithShadow("S", positions[0], 5, themeColor);
+		Fonts.roboto20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
+		Fonts.roboto18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
+		Fonts.roboto18.drawStringWithShadow((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp(), positions[3], 5, whiteColor);
+		Fonts.roboto18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
+		Fonts.roboto18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
 	}
 
 	private void drawBackgroundedAppleText(int themeColor, int whiteColor, int backgroundColor) {
@@ -351,6 +383,25 @@ public class HUD extends Module {
 		Fonts.poppins18.drawStringWithShadow("build 022390", positions[3], 5, whiteColor);
 		Fonts.poppins18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
 		Fonts.poppins18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
+	}
+
+	private int[] calculateRobotoTextPositions() {
+		int x = 4;
+		int[] positions = new int[6];
+
+		positions[0] = x;
+		x += Fonts.roboto20.getStringWidth("S") + 1;
+		positions[1] = x;
+		x += Fonts.roboto20.getStringWidth("lack ") + 1;
+		positions[2] = x;
+		x += Fonts.roboto18.getStringWidth(" | ") + 1;
+		positions[3] = x;
+		x += Fonts.roboto18.getStringWidth((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 1;
+		positions[4] = x;
+		x += Fonts.roboto18.getStringWidth(" | ") + 1;
+		positions[5] = x;
+
+		return positions;
 	}
 
 	private int[] calculateAppleTextPositions() {
