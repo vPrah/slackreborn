@@ -33,6 +33,7 @@ public class ClassicArrayList implements IArraylist {
     public void onUpdate(UpdateEvent event) {
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules() ) {
+            if (!module.render) continue;
             boolean wasEnabled = moduleStates.getOrDefault(module, false);
             boolean isEnabled = module.isToggle();
 

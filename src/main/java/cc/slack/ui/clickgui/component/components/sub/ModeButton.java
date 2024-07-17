@@ -1,13 +1,17 @@
 package cc.slack.ui.clickgui.component.components.sub;
 
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.render.ColorUtil;
+import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.opengl.GL11;
 import net.minecraft.client.gui.Gui;
 import cc.slack.ui.clickgui.component.Component;
 import cc.slack.ui.clickgui.component.components.Button;
 import cc.slack.features.modules.api.Module;
+
+import java.awt.*;
 
 public class ModeButton extends Component {
 
@@ -21,6 +25,7 @@ public class ModeButton extends Component {
     private boolean open;
     private int mousePosX;
     private int mousePosY;
+    private TimeUtil animTimer = new TimeUtil();
 
     private String hoveredMode;
     
@@ -60,6 +65,10 @@ public class ModeButton extends Component {
             Minecraft.getFontRenderer().drawStringWithShadow(prefix, (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
             Minecraft.getFontRenderer().drawStringWithShadow("-", (parent.parent.getX() + parent.parent.getWidth() - 10) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
 
+            RenderUtil.startStencil();
+            RenderUtil.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + getHeight()) * 2, new Color(0, 0, 0, 0).getRGB());
+            RenderUtil.startRenderInStencil(false);
+
             int i = 10;
             this.hoveredMode = null;
 
@@ -77,6 +86,8 @@ public class ModeButton extends Component {
                 }
                 i += 10;
             }
+
+            RenderUtil.endStencil();
                 
         } else {
             Minecraft.getFontRenderer().drawStringWithShadow("+", (parent.parent.getX() + parent.parent.getWidth() - 10) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
@@ -101,6 +112,7 @@ public class ModeButton extends Component {
         if (this.hovered) {
             if (button == 0 || button == 1) {
                 this.open = !this.open;
+                animTimer.reset();
             }
         }
 
@@ -122,6 +134,8 @@ public class ModeButton extends Component {
 
     @Override
     public int getHeight() {
-        return 12 + (this.open ? this.set.getModes().length * 10 : 0);
+        return 12 + (int) (this.open ?
+                (1 - Math.pow(1 - (Math.min(400, animTimer.elapsed()) / 400.0), 3)) * this.set.getModes().length * 10 :
+                Math.pow(1 - (Math.min(400, animTimer.elapsed()) / 400.0), 3) * this.set.getModes().length * 10);
     }
 }

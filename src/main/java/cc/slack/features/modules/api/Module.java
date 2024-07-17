@@ -31,6 +31,7 @@ public abstract class Module implements IMinecraft {
     public final Category category = moduleInfo.category();
     private int key = moduleInfo.key();
     private boolean toggle;
+    public boolean render = true;
 
     public TimeUtil enabledTime = new TimeUtil();
     public TimeUtil disabledTime = new TimeUtil();
