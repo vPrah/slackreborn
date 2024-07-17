@@ -28,9 +28,6 @@ public class HypixelNofall implements INoFall {
         if (mc.thePlayer.onGround && dmgFall) {
             event.setGround(false);
             mc.thePlayer.fallDistance = 0;
-            if (MovementUtil.isBindsMoving()) {
-                MovementUtil.strafe(0.45f);
-            }
             mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
             dmgFall = false;
         }

@@ -36,6 +36,7 @@ public class Config implements IMinecraft {
 
             moduleJson.addProperty("state", module.isToggle());
             moduleJson.addProperty("bind", module.getKey());
+            moduleJson.addProperty("render", module.render);
 
             JsonObject valueJson = new JsonObject();
 
@@ -92,6 +93,7 @@ public class Config implements IMinecraft {
 
                     module.setToggle(json.get("state").getAsBoolean());
                     module.setKey(json.get("bind").getAsInt());
+                    module.render = json.get("render").getAsBoolean();
 
                     JsonObject values = json.get("values").getAsJsonObject();
                     for (Map.Entry<String, JsonElement> value : values.entrySet()) {
