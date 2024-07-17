@@ -370,7 +370,7 @@ public class Scaffold extends Module {
                     }
 
                     if (!MovementUtil.isMoving()) {
-                        if (mc.thePlayer.ticksExisted % 3 == 0) {
+                        if (mc.thePlayer.ticksExisted % 7 == 0) {
                             endExpand = 2;
                         }
                     }

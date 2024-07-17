@@ -31,6 +31,7 @@ public class FreeLook extends Module {
             if (!freeLookingactivated) {
                 freeLookingactivated = true;
                 FreeLookUtil.enable();
+                FreeLookUtil.cameraYaw += 180;
                 mc.gameSettings.thirdPersonView = 1;
             }
         } else if (freeLookingactivated) {
