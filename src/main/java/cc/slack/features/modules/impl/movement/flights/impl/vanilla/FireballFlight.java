@@ -84,17 +84,16 @@ public class FireballFlight implements IFlight {
                 speed = MovementUtil.getSpeed();
                 yaw = MovementUtil.getDirection();
             } else if (gotVelo && mc.thePlayer.hurtTime > 4 && mc.thePlayer.hurtTime < 9) {
-                speed *= 0.985f;
+                speed *= 0.988f;
                 MovementUtil.strafe(speed, yaw);
             }
 
             if (gotVelo && mc.thePlayer.ticksSinceLastDamage == 9) {
-                MovementUtil.strafe(MovementUtil.getSpeed() * 1.04f);
+                MovementUtil.strafe(MovementUtil.getSpeed() * 1.02f);
                 speed = MovementUtil.getSpeed();
                 yaw = MovementUtil.getDirection();
             } else if (gotVelo && mc.thePlayer.ticksSinceLastDamage > 9 && mc.thePlayer.ticksSinceLastDamage < 14) {
-                speed *= 0.95f;
-                speed += 0.01f;
+                speed *= 0.97f;
                 MovementUtil.strafe(speed, yaw);
             }
 

@@ -68,28 +68,8 @@ public class HypixelHopSpeed implements ISpeed {
             }
 
             if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelTest.getValue()) {
-                if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posX + mc.thePlayer.motionY + 1, mc.thePlayer.posZ) && mc.thePlayer.offGroundTicks > 2) {
+                if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posY + mc.thePlayer.motionY + 1, mc.thePlayer.posZ) && mc.thePlayer.offGroundTicks > 2) {
                     MovementUtil.strafe();
-                }
-            }
-
-            if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelGlide.getValue()) {
-                if (mc.thePlayer.onGround) {
-                    speed = 1F;
-                }
-
-                final int[] allowedAirTicks = new int[]{10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29};
-
-                if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posX - 0.25 + 1, mc.thePlayer.posZ)) {
-                    for (final int allowedAirTick : allowedAirTicks) {
-                        if (mc.thePlayer.offGroundTicks == allowedAirTick && allowedAirTick <= 9 + 6) {
-                            mc.thePlayer.motionY = 0;
-                            MovementUtil.strafe(0.24f * speed);
-
-                            speed *= 0.98F;
-
-                        }
-                    }
                 }
             }
 
@@ -113,6 +93,26 @@ public class HypixelHopSpeed implements ISpeed {
                 )) > 135) {
                     MovementUtil.resetMotion(false);
                     wasSlow = true;
+                }
+            }
+        }
+
+        if (Slack.getInstance().getModuleManager().getInstance(Speed.class).hypixelGlide.getValue()) {
+            if (mc.thePlayer.onGround) {
+                speed = 1F;
+            }
+
+            final int[] allowedAirTicks = new int[]{10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29};
+
+            if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posY - 0.35 + 1, mc.thePlayer.posZ)) {
+                for (final int allowedAirTick : allowedAirTicks) {
+                    if (mc.thePlayer.offGroundTicks == allowedAirTick && allowedAirTick <= 9 + 15) {
+                        mc.thePlayer.motionY = 0;
+                        MovementUtil.strafe(0.2873f * speed);
+
+                        speed *= 0.98F;
+
+                    }
                 }
             }
         }

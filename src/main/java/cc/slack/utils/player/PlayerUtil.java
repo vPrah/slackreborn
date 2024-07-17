@@ -46,7 +46,19 @@ public class PlayerUtil implements IMinecraft {
     public static final double MOVE_FRICTION = 0.9800000190734863;
 
     public static final double BASE_JUMP_HEIGHT = 0.41999998688698;
-    public static final double HEAD_HITTER_MOTIONY = -0.07840000152;
+    public static final double HEAD_HITTER_MOTIONY = -0.0784000015258789;
+    public static final double UNLOADED_CHUNK_MOTION = -0.09800000190735147;
+
+
+    public static final double WALK_SPEED = 0.221;
+    public static final double MOD_SPRINTING = 1.3;
+    public static final double MOD_SNEAK = 0.3;
+    public static final double MOD_BLOCK = 0.2;
+    public static final double Y_ON_GROUND_MIN = 0.00001;
+    public static final double Y_ON_GROUND_MAX = 0.0626;
+
+    public static final double WATER_FRICTION = 0.800000011920929;
+    public static final double LAVA_FRICTION = 0.5;
 
     public static double getJumpHeight() {
         return getJumpHeight(BASE_JUMP_HEIGHT);

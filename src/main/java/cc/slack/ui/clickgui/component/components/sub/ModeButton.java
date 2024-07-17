@@ -71,9 +71,9 @@ public class ModeButton extends Component {
                 }
                 if (mset.equalsIgnoreCase(set.getValue().toString())) {
                     Gui.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset + 12 + i - 10) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + 12 + i) * 2, 0x2727227);
-                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 4 + 6) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
+                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 2 + 6) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
                 } else {
-                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 4) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
+                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 2) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
                 }
                 i += 10;
             }

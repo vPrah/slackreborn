@@ -106,7 +106,7 @@ public class TargetStrafe extends Module {
 
     public List<Point> getPoints(EntityLivingBase entity) {
         List<Point> points = new ArrayList<>();
-        for (int i = 0; i < 360; i++) {
+        for (int i = 0; i <= 360; i++) {
             Point point = new Point((entity.posX + (entity.posX - entity.lastTickPosX)) + -Math.sin(Math.toRadians(i)) * distance.getValue(), entity.posY, (entity.posZ + (entity.posZ - entity.lastTickPosZ)) + Math.cos(Math.toRadians(i)) * distance.getValue(), true);
 
             Block block = new BlockPos(point.getX(), point.getY(), point.getZ()).getBlock();

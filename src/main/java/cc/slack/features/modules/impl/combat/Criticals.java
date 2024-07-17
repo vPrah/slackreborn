@@ -55,6 +55,7 @@ public class Criticals extends Module {
 
     @Listen
     public void onPacket(PacketEvent event) {
+        if (mc.thePlayer == null) return;
         if (onlyGround.getValue() && !mc.thePlayer.onGround) return;
 
         if (event.getPacket() instanceof S37PacketStatistics || event.getPacket() instanceof S40PacketDisconnect) {

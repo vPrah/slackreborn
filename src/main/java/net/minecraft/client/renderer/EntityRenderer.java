@@ -785,11 +785,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
                 float tickedYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
                 float tickedPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
 
-                if (FreeLookUtil.freelooking) {
-                    tickedYaw = FreeLookUtil.cameraYaw;
-                    tickedPitch = FreeLookUtil.cameraPitch;
-                }
-
                 GlStateManager.rotate(tickedYaw + 180.0F, 0.0F, -1.0F, 0.0F);
                 GlStateManager.rotate(tickedPitch, -1.0F, 0.0F, 0.0F);
             }
@@ -844,11 +839,6 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
                 float tickedYaw = entity.prevRotationYaw + (entity.rotationYaw - entity.prevRotationYaw) * partialTicks;
                 float tickedPitch = entity.prevRotationPitch + (entity.rotationPitch - entity.prevRotationPitch) * partialTicks;
-
-                if (FreeLookUtil.freelooking) {
-                    tickedYaw = FreeLookUtil.cameraYaw;
-                    tickedPitch = FreeLookUtil.cameraPitch;
-                }
 
                 GlStateManager.rotate(tickedPitch - f2, 1.0F, 0.0F, 0.0F);
                 GlStateManager.rotate(tickedYaw - f1, 0.0F, 1.0F, 0.0F);

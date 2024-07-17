@@ -100,7 +100,7 @@ public class Backtrack extends Module {
         } else {
             if (packet instanceof S12PacketEntityVelocity) {
                 if (((S12PacketEntityVelocity) packet).getEntityID() == mc.thePlayer.getEntityId())
-                    PingSpoofUtil.disable(true, false);
+                    ticksSinceAttack /= 3;
             }
         }
     }

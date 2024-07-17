@@ -44,7 +44,7 @@ import static java.lang.Math.round;
 )
 public class Scaffold extends Module {
 
-    private final ModeValue<String> rotationMode = new ModeValue<>("Rotation Mode", new String[] {"Vanilla", "Vanilla Center", "Hypixel", "Hypixel Ground"});
+    private final ModeValue<String> rotationMode = new ModeValue<>("Rotation Mode", new String[] {"Vanilla", "Vanilla Center", "Hypixel", "Hypixel Ground", "Vulcan"});
     private final NumberValue<Integer> keepRotationTicks = new NumberValue<>("Keep Rotation Length", 1, 0, 10, 1);
     private final ModeValue<String> swingMode = new ModeValue<>("Swing", new String[]{"Normal", "Packet", "None"});
 
@@ -271,9 +271,9 @@ public class Scaffold extends Module {
                 break;
             case "hypixel ground":
                 if (mc.thePlayer.onGround) {
-                    RotationUtil.setClientRotation(new float[] {mc.thePlayer.rotationYaw + 180, 77.5f}, keepRotationTicks.getValue());
+                    RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, 77.5f}, keepRotationTicks.getValue());
                 } else {
-                    RotationUtil.setClientRotation(new float[] {mc.thePlayer.rotationYaw + 180, BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[1]}, keepRotationTicks.getValue());
+                    RotationUtil.setClientRotation(new float[] {MovementUtil.getDirection() + 180, BlockUtils.getFaceRotation(blockPlacementFace, blockPlace)[1]}, keepRotationTicks.getValue());
                 }
                 if (towerMode.getValue().toLowerCase().contains("watchdog")  && isTowering) {
                     RotationUtil.overrideRotation(new float[] {MovementUtil.getDirection() + 180, 90f});
@@ -284,6 +284,9 @@ public class Scaffold extends Module {
                 break;
             case "vanilla center":
                 RotationUtil.setClientRotation(BlockUtils.getCenterRotation(blockPlace), keepRotationTicks.getValue());
+                break;
+            case "vulcan":
+                RotationUtil.setClientRotation(new float[] {MovementUtil.getBindsDirection(mc.thePlayer.rotationYaw) + 180, 77.5f}, keepRotationTicks.getValue());
                 break;
         }
 
@@ -312,14 +315,13 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 if (mc.thePlayer.onGround && mc.thePlayer.posY - groundY != 1) groundY = mc.thePlayer.posY;
-                if ((PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 &&  mc.thePlayer.posY - groundY > 0.7) || firstJump) {
+                if ((PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 &&  mc.thePlayer.posY - groundY > 0.7 && jumpCounter % 2 == 0) || firstJump) {
                     firstJump = false;
                     placeY = mc.thePlayer.posY;
-
-                    if (jumpCounter % 2 == 1 && !isTowering) {
-                        startExpand = -1.5;
-                        endExpand = -1.4;
-                    }
+                } else if (jumpCounter % 2 == 1 && mc.thePlayer.offGroundTicks == 6) {
+                    placeY = mc.thePlayer.posY - 1;
+                    startExpand = -0.6;
+                    endExpand = -0.5;
                 } else {
                     placeY = groundY;
                 }
@@ -364,13 +366,21 @@ public class Scaffold extends Module {
                     break;
                 case "vulcan":
                     if (mc.thePlayer.onGround) {
-                        jumpGround = mc.thePlayer.posY;
                         mc.thePlayer.motionY = PlayerUtil.getJumpHeight();
-                    } else {
-                        if (mc.thePlayer.posY > jumpGround + 0.65 && MovementUtil.isMoving()) {
-                            mc.thePlayer.motionY = 0.36;
-                            jumpGround = mc.thePlayer.posY;
+                    }
+
+                    if (!MovementUtil.isMoving()) {
+                        if (mc.thePlayer.ticksExisted % 3 == 0) {
+                            endExpand = 2;
                         }
+                    }
+                    switch (mc.thePlayer.offGroundTicks % 3) {
+                        case 0:
+                            mc.thePlayer.motionY = 0.41985 + Math.random() * 0.000095;
+                            break;
+                        case 2:
+                            mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
+                            break;
                     }
                     break;
                 case "watchdog":

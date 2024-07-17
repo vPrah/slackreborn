@@ -36,8 +36,8 @@ public class Slider extends Component {
         offset = parent.ryo;
         parent.ryo += getHeight();
         Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset, parent.parent.getX() + parent.parent.getWidth(), parent.parent.getY() + offset + 17, this.hovered ? 0xFF222222 : 0xFF111111);
-        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 13, parent.parent.getX() + + parent.parent.getWidth(), parent.parent.getY() + offset + 15, ColorUtil.getColor(40).darker().darker().darker().getRGB());
-        Gui.drawRect(parent.parent.getX() + 2, parent.parent.getY() + offset + 13, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 15, hovered ? ColorUtil.getColor(40).darker().getRGB() : ColorUtil.getColor(40).darker().darker().getRGB());
+        Gui.drawRect(parent.parent.getX() + 4, parent.parent.getY() + offset + 13, parent.parent.getX() + + parent.parent.getWidth(), parent.parent.getY() + offset + 15, ColorUtil.getColor(40).darker().darker().darker().getRGB());
+        Gui.drawRect(parent.parent.getX() + 4, parent.parent.getY() + offset + 13, parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 15, hovered ? ColorUtil.getColor(40).darker().getRGB() : ColorUtil.getColor(40).darker().darker().getRGB());
         RenderUtil.drawCircle(parent.parent.getX() + (int) renderWidth, parent.parent.getY() + offset + 14, 2, hovered ? ColorUtil.getColor(40).darker().getRGB() : ColorUtil.getColor(40).darker().darker().getRGB());
         Gui.drawRect(parent.parent.getX(), parent.parent.getY() + offset, parent.parent.getX() + 2, parent.parent.getY() + offset + 12, 0xFF111111);
         GL11.glPushMatrix();
