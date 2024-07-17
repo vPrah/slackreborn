@@ -47,15 +47,14 @@ public class setCMD extends CMD {
         }
 
         if (setting instanceof BooleanValue) {
-            if (value == "true" || value == "on" || value == "1" || value == "t") {
+            if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("on") || value.equalsIgnoreCase("1") || value.equalsIgnoreCase("t")) {
                 module.getValueByName(setting_name).setValue(true);
                 PrintUtil.message("§dSet " + setting_name + " to True.");
-            } else if (value == "false" || value == "off" || value == "0" || value == "f") {
+            } else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("off") || value.equalsIgnoreCase("0") || value.equalsIgnoreCase("f")) {
                 module.getValueByName(setting_name).setValue(false);
                 PrintUtil.message("§dSet " + setting_name + " to False.");
             } else {
                 PrintUtil.message("§cCould not turn " + value + " into boolean.");
-                return;
             }
         } else if (setting instanceof ModeValue) {
             if (Arrays.asList(((ModeValue<?>) setting).getModes()).contains(value)) {
