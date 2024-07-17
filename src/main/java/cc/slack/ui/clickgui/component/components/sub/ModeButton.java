@@ -65,9 +65,10 @@ public class ModeButton extends Component {
             Minecraft.getFontRenderer().drawStringWithShadow(prefix, (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
             Minecraft.getFontRenderer().drawStringWithShadow("-", (parent.parent.getX() + parent.parent.getWidth() - 10) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
 
+            GL11.glPushMatrix();
             RenderUtil.startStencil();
             RenderUtil.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + getHeight()) * 2, new Color(0, 0, 0, 0).getRGB());
-            RenderUtil.startRenderInStencil(false);
+            RenderUtil.startRenderInStencil(true);
 
             int i = 10;
             this.hoveredMode = null;
@@ -88,6 +89,7 @@ public class ModeButton extends Component {
             }
 
             RenderUtil.endStencil();
+            GL11.glPopMatrix();
                 
         } else {
             Minecraft.getFontRenderer().drawStringWithShadow("+", (parent.parent.getX() + parent.parent.getWidth() - 10) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
