@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class FriendManager {
-    private final ArrayList<String> friends;
+    public final ArrayList<String> friends;
     public final List<String> targetList = new ArrayList();
 
 
