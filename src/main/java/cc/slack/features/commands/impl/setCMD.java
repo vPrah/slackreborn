@@ -10,6 +10,7 @@ import cc.slack.utils.other.PrintUtil;
 import net.minecraft.util.ChatFormatting;
 
 import java.util.Arrays;
+import java.util.List;
 
 @CMDInfo(
         name = "Set",
@@ -25,8 +26,8 @@ public class setCMD extends CMD {
             return;
         }
 
-        String module_name = args[0].replace('_', ' ');
-        String setting_name = args[1].replace('_', ' ');
+        String module_name = args[0].replace('_', ' ').toLowerCase();
+        String setting_name = args[1].replace('_', ' ').toLowerCase();
         String value = args[2].toLowerCase();
 
         Module module;
@@ -39,19 +40,23 @@ public class setCMD extends CMD {
             return;
         }
 
-        try {
-            setting = module.getValueByName(setting_name);
-        } catch (Exception e) {
+        List<Value> settings = module.getSetting();
+        setting = settings.stream()
+                .filter(s -> s.getName().toLowerCase().equals(setting_name))
+                .findFirst()
+                .orElse(null);
+
+        if (setting == null) {
             PrintUtil.message("§cCould not find setting in " + module_name + " named: " + setting_name);
             return;
         }
 
         if (setting instanceof BooleanValue) {
             if (value.equalsIgnoreCase("true") || value.equalsIgnoreCase("on") || value.equalsIgnoreCase("1") || value.equalsIgnoreCase("t")) {
-                module.getValueByName(setting_name).setValue(true);
+                setting.setValue(true);
                 PrintUtil.message("§dSet " + setting_name + " to True.");
             } else if (value.equalsIgnoreCase("false") || value.equalsIgnoreCase("off") || value.equalsIgnoreCase("0") || value.equalsIgnoreCase("f")) {
-                module.getValueByName(setting_name).setValue(false);
+                setting.setValue(false);
                 PrintUtil.message("§dSet " + setting_name + " to False.");
             } else {
                 PrintUtil.message("§cCould not turn " + value + " into boolean.");
