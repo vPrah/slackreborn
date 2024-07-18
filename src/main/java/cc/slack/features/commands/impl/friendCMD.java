@@ -33,7 +33,7 @@ public class friendCMD extends CMD {
                 }
                 String friend = args[1].replace('_', ' ');
                 friendManager.addFriend(friend);
-                PrintUtil.message("§aSuccessfully added " + friend + " as a friend.");
+                PrintUtil.message("§fSuccessfully added §a" + friend + " §fas a friend.");
             } else if (action.equals("remove")) {
                 if (args.length != 2) {
                     PrintUtil.message("§cInvalid use of arguments. Format: .friend remove <name>");
@@ -41,7 +41,7 @@ public class friendCMD extends CMD {
                 }
                 String friend = args[1].replace('_', ' ');
                 friendManager.removeFriend(friend);
-                PrintUtil.message("§aSuccessfully removed " + friend + " from friends.");
+                PrintUtil.message("§fSuccessfully removed §c" + friend + " §ffrom friends.");
             } else if (action.equals("list")) {
                 if (args.length != 1) {
                     PrintUtil.message("§cInvalid use of arguments. Format: .friend list");
