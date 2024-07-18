@@ -31,7 +31,11 @@ public class friendCMD extends CMD {
                     PrintUtil.message("§cInvalid use of arguments. Format: .friend add <name>");
                     return;
                 }
-                String friend = args[1].replace('_', ' ');
+                String friend = args[1].replace('_', ' '); // Use the original case of the friend's name
+                if (friendManager.getFriends().contains(friend)) {
+                    PrintUtil.message("§c" + friend + " §fis already your friend.");
+                    return;
+                }
                 friendManager.addFriend(friend);
                 PrintUtil.message("§fSuccessfully added §a" + friend + " §fas a friend.");
             } else if (action.equals("remove")) {
@@ -39,7 +43,7 @@ public class friendCMD extends CMD {
                     PrintUtil.message("§cInvalid use of arguments. Format: .friend remove <name>");
                     return;
                 }
-                String friend = args[1].replace('_', ' ');
+                String friend = args[1].replace('_', ' '); // Use the original case of the friend's name
                 friendManager.removeFriend(friend);
                 PrintUtil.message("§fSuccessfully removed §c" + friend + " §ffrom friends.");
             } else if (action.equals("list")) {
