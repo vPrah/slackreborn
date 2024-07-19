@@ -24,6 +24,7 @@ public class CMDManager {
                     new ignCMD(),
                     new showCMD(),
                     new hideCMD(),
+                    new friendCMD(),
                     new HelpCMD()
             );
         } catch (Exception e) {
