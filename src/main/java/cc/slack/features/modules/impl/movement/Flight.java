@@ -17,9 +17,11 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.impl.movement.flights.impl.others.AirJumpFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.others.ChunkFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.others.CollideFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.vanilla.CreativeFly;
 import cc.slack.features.modules.impl.movement.flights.impl.vanilla.FireballFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.vanilla.VanillaFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusDamageFlight;
+import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusFloatFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusJumpFlight;
 import cc.slack.features.modules.impl.movement.flights.impl.verus.VerusPortFlight;
 import io.github.nevalackin.radbus.Listen;
@@ -39,11 +41,13 @@ public class Flight extends Module {
             // Vanilla
             new VanillaFlight(),
             new FireballFlight(),
+            new CreativeFly(),
 
             // Verus
             new VerusJumpFlight(),
             new VerusDamageFlight(),
             new VerusPortFlight(),
+            new VerusFloatFlight(),
 
             // Others
             new ChunkFlight(),
@@ -51,12 +55,14 @@ public class Flight extends Module {
             new AirJumpFlight()
     });
 
+
+    public final NumberValue<Float> vanillaspeed = new NumberValue<>("Fly Vanilla Speed", 3F, 1F, 30F, 1F);
     public final NumberValue<Float> fbpitch = new NumberValue<>("Fireball Fly Pitch", 70f, 30f,90f, 3f);
 
 
     public Flight() {
         super();
-        addSettings(mode, fbpitch);
+        addSettings(mode, vanillaspeed,fbpitch);
     }
 
     @Override
