@@ -131,8 +131,8 @@ public class MainMenu extends GuiScreen {
             animY = 0;
         }
 
-        Fonts.poppins10.drawString(decodes("TWFkZSBieSBEZzYzNiwgVnByYWgsIGFuZCBvdGhlcnMgd2l0aCA8Mw=="),
-                width - 7 - Fonts.poppins10.getStringWidth(decodes("TWFkZSBieSBEZzYzNiwgVnByYWgsIGFuZCBvdGhlcnMgd2l0aCA8Mw==")),
+        Fonts.poppins18.drawString(decodes("TWFkZSBieSBEZzYzNiwgVnByYWgsIGFuZCBvdGhlcnMgd2l0aCA8Mw=="),
+                width - 7 - Fonts.poppins18.getStringWidth(decodes("TWFkZSBieSBEZzYzNiwgVnByYWgsIGFuZCBvdGhlcnMgd2l0aCA8Mw==")),
                 height - 13, new Color(255, 255, 255, 150).getRGB());
         GlStateManager.color(1, 1, 1, 1);
 
@@ -204,7 +204,7 @@ public class MainMenu extends GuiScreen {
                 break;
 
             case 7:
-                mc.displayGuiScreen(new MenuInfo());
+//                mc.displayGuiScreen(new MenuInfo());
                 break;
 
             case 8:
