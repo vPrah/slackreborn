@@ -1,4 +1,5 @@
 package cc.slack.features.modules.impl.utilties;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.api.settings.impl.StringValue;
 
 import cc.slack.events.impl.game.TickEvent;
@@ -20,12 +21,15 @@ import org.apache.commons.lang3.StringUtils;
 )
 public class AutoLogin extends Module {
 
+    private final NumberValue<Long> delay = new NumberValue<>("Delay (s)", 2L, 0L, 20L, 1L);
     private final StringValue password = new StringValue("Password", "Aethermariconkj23");
+
 
     private String text;
     private final TimeUtil timeUtil;
 
     public AutoLogin() {
+        addSettings(delay);
         timeUtil = new TimeUtil();
     }
 
@@ -49,7 +53,7 @@ public class AutoLogin extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onTick (TickEvent event) {
-        if (timeUtil.hasReached(1500L) && text != null && !text.isEmpty()) {
+        if (timeUtil.hasReached(delay.getValue() * 1000) && text != null && !text.isEmpty()) {
             mc.thePlayer.sendChatMessage(text);
             System.out.println(text);
             text = "";
