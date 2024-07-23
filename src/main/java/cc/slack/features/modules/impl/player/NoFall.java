@@ -28,6 +28,7 @@ public class NoFall extends Module {
             new VanillaNofall(),
             new SpoofGroundNofall(),
             new NoGroundNofall(),
+            new PlaceNofall(),
 
             // special nofalls
             new HypixelNofall(),
