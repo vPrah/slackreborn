@@ -36,6 +36,7 @@ import static net.minecraft.client.gui.Gui.drawRect;
 public class HUD extends Module {
 
 	// Arraylist
+	private final BooleanValue arraylist = new BooleanValue("Arraylist", true);
 	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {new ClassicArrayList(), new RavenArrayList() });
 	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
 	public final BooleanValue tags = new BooleanValue("Tags", true);
@@ -43,11 +44,11 @@ public class HUD extends Module {
 
 	public final BooleanValue binds = new BooleanValue("Binds", false);
 	public final ModeValue<String> bindsMode = new ModeValue<>("Binds Style", new String[]{"(Key)", "[Key]", "<Key>", "| Key", "-> Key", "- Key"});
-	public final BooleanValue showRenderModules = new BooleanValue("Show Render Modules", true);
 
 
 	// Watermark
-	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark", new String[] { "BackgroundedRound", "Backgrounded", "Classic", "Logo"});
+	private final BooleanValue watermark = new BooleanValue("Watermark", true);
+	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark Mode", new String[] { "BackgroundedRound", "Backgrounded", "Classic", "Logo"});
 	private final ModeValue<String> watermodedraw = new ModeValue<>("WaterMark Draw", new String[]{"Rounded", "Normal", "Custom Round"});
 	private final NumberValue<Float> customroundValue = new NumberValue<>("Custom Round Radius", 8F, 0F, 20F, 0.1F);
 	private final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins", "Roboto"});
@@ -94,7 +95,13 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylistMode, arraylistFont, tags, tagsMode, binds, bindsMode,watermarksmodes, watermarkFont, notification, roundednotification, fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, sound, theme, r1, g1, b1, r2, g2, b2);
+		addSettings(arraylist,arraylistMode, arraylistFont, tags, tagsMode, binds, bindsMode, // arraylist
+				watermark,watermarksmodes, watermarkFont, // watermark
+				notification, roundednotification, // notification
+				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
+				sound, // things
+				theme, r1, g1, b1, r2, g2, b2 // client theme
+		);
 	}
 
 	@Listen
@@ -106,7 +113,9 @@ public class HUD extends Module {
 	public void onRender(RenderEvent e) {
 		if (e.state != RenderEvent.State.RENDER_2D) return;
 
-		arraylistMode.getValue().onRender(e);
+		if (arraylist.getValue()) {
+			arraylistMode.getValue().onRender(e);
+		}
 
 		HUD hud = Slack.getInstance().getModuleManager().getInstance(HUD.class);
 		int themeColor = ColorUtil.getColor(hud.theme.getValue(), 0.15).getRGB();
@@ -114,19 +123,21 @@ public class HUD extends Module {
 		int blackColor = new Color(1, 1, 1, 100).getRGB();
 		int semiTransparentBlack = 0x80000000;
 
-		switch (watermarksmodes.getValue()) {
-			case "Classic":
-				renderClassic(themeColor);
-				break;
-			case "Backgrounded":
-				renderBackgrounded(themeColor, whiteColor, blackColor);
-				break;
-			case "BackgroundedRound":
-				renderBackgroundedRound(themeColor, whiteColor, semiTransparentBlack);
-				break;
-			case "Logo":
-				renderLogo();
-				break;
+		if (watermark.getValue()) {
+			switch (watermarksmodes.getValue()) {
+				case "Classic":
+					renderClassic(themeColor);
+					break;
+				case "Backgrounded":
+					renderBackgrounded(themeColor, whiteColor, blackColor);
+					break;
+				case "BackgroundedRound":
+					renderBackgroundedRound(themeColor, whiteColor, semiTransparentBlack);
+					break;
+				case "Logo":
+					renderLogo();
+					break;
+			}
 		}
 
 		if (fpsdraw.getValue()) {
