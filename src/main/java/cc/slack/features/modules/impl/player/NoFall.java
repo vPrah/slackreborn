@@ -33,6 +33,7 @@ public class NoFall extends Module {
             new HypixelNofall(),
             new HypixelBlinkNofall(),
             new VulcanNofall(),
+            new VulcanFlagNofall(),
             new VerusNofall()
     });
 
