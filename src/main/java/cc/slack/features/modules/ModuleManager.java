@@ -66,8 +66,7 @@ public class ModuleManager {
                     new Performance(),
                     new RemoveEffect(),
                     new RichPresence(),
-                    new LightningDetector(),
-                    new HealthWarn(),
+                    new Warns(), // Recoded
                     new FakePlayer(), // Recoded
                     new Killsults(),
                     new Targets(),
