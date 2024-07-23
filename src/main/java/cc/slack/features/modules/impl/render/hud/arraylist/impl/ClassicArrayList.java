@@ -142,19 +142,25 @@ public class ClassicArrayList implements IArraylist {
 
             switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
                 case "Apple":
-                    drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
+                    if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistBackground.getValue()) {
+                        drawRoundedRect((int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
+                    }
                     Fonts.apple18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
                     y += (int) ((Fonts.apple18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
                     c += 0.13;
                     break;
                 case "Poppins":
-                    drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
+                    if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistBackground.getValue()) {
+                        drawRoundedRect((int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y + 2, 1.0f, 0x80000000);
+                    }
                     Fonts.poppins18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
                     y += (int) ((Fonts.poppins18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
                     c += 0.15;
                     break;
                 case "Roboto":
+                    if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistBackground.getValue()) {
                     drawRoundedRect( (int) (event.getWidth() - stringLength * ease - 5), y - 2, (int) (event.getWidth() - stringLength * ease + stringLength + 3) - (int) (event.getWidth() - stringLength * ease - 5), y + Fonts.poppins18.getHeight() + 1 - y - 1, 1.0f, 0x80000000);
+                    }
                     Fonts.roboto18.drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
                     y += (int) ((Fonts.roboto18.getHeight() + 3) * Math.max(0, (ease + 0.2)/1.2));
                     c += 0.13;

@@ -39,6 +39,7 @@ public class HUD extends Module {
 	private final BooleanValue arraylist = new BooleanValue("Arraylist", true);
 	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {new ClassicArrayList(), new RavenArrayList() });
 	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
+	public final BooleanValue arraylistBackground = new BooleanValue("Arraylist Background", true);
 	public final BooleanValue tags = new BooleanValue("Tags", true);
 	public final ModeValue<String> tagsMode = new ModeValue<>("Tags Style", new String[]{"(Mode)", "[Mode]", "<Mode>", "| Mode", "-> Mode", "- Mode"});
 
@@ -95,7 +96,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylist,arraylistMode, arraylistFont, tags, tagsMode, binds, bindsMode, // arraylist
+		addSettings(arraylist, arraylistMode,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
 				watermark,watermarksmodes, watermarkFont, // watermark
 				notification, roundednotification, // notification
 				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
