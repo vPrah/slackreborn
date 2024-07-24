@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.Setter;
 import net.minecraft.block.Block;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 
 @Getter
 @Setter
@@ -13,5 +14,6 @@ import net.minecraft.util.AxisAlignedBB;
 public class CollideEvent extends Event {
     public Block block;
     public AxisAlignedBB boundingBox;
+    private final BlockPos blockPos;
     public double x, y, z;
 }
