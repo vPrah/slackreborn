@@ -1,10 +1,8 @@
 package cc.slack.features.modules.impl.player.antivoids;
 
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.CollideEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.*;
+import cc.slack.features.modules.impl.movement.Strafe;
 import net.minecraft.client.Minecraft;
 
 public interface IAntiVoid {
@@ -41,6 +39,21 @@ public interface IAntiVoid {
     ;
 
     default void onMotion(MotionEvent event) {
+    }
+
+    ;
+
+    default void onStrafe(StrafeEvent event) {
+    }
+
+    ;
+
+    default void onWorld(WorldEvent event) {
+    }
+
+    ;
+
+    default void onJump(JumpEvent event) {
     }
 
     ;

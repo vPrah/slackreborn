@@ -10,4 +10,5 @@ import lombok.Setter;
 @AllArgsConstructor
 public class JumpEvent extends Event {
     private float yaw;
+    private float jumpMotion;
 }

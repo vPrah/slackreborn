@@ -3,18 +3,17 @@
 package cc.slack.features.modules.impl.player;
 
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.CollideEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.*;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.player.antivoids.IAntiVoid;
 import cc.slack.features.modules.impl.player.antivoids.impl.PolarAntiVoid;
 import cc.slack.features.modules.impl.player.antivoids.impl.SelfTPAntiVoid;
 import cc.slack.features.modules.impl.player.antivoids.impl.UniversalAntiVoid;
+import cc.slack.features.modules.impl.player.antivoids.impl.VulcanAntiVoid;
 import cc.slack.utils.player.BlinkUtil;
 import cc.slack.utils.network.PacketUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -31,12 +30,29 @@ import net.minecraft.util.Vec3;
 public class AntiVoid extends Module {
 
 
-    private final ModeValue<IAntiVoid> mode = new ModeValue<>(new IAntiVoid[] {new UniversalAntiVoid(), new SelfTPAntiVoid(), new PolarAntiVoid()});
+    private final ModeValue<IAntiVoid> mode = new ModeValue<>(new IAntiVoid[] {
+
+            // Normal
+
+            new UniversalAntiVoid(),
+            new SelfTPAntiVoid(),
+            new PolarAntiVoid(),
+
+            // Vulcan
+            new VulcanAntiVoid()
+
+
+    });
+
+
+    // Vulcan Antivoid
+    public final NumberValue<Float> vulcandistance = new NumberValue<>("Vulcan Distance", 2.6F, 0F, 15F, 0.1F);
+
 
 
     public AntiVoid() {
         super();
-        addSettings(mode);
+        addSettings(mode, vulcandistance);
     }
 
     @Override
@@ -73,6 +89,21 @@ public class AntiVoid extends Module {
     @Listen
     public void onMotion(MotionEvent event) {
         mode.getValue().onMotion(event);
+    }
+
+    @Listen
+    public void onStrafe(StrafeEvent event) {
+        mode.getValue().onStrafe(event);
+    }
+
+    @Listen
+    public void onWorld(WorldEvent event) {
+        mode.getValue().onWorld(event);
+    }
+
+    @Listen
+    public void onJump(JumpEvent event) {
+        mode.getValue().onJump(event);
     }
 
     @Override
