@@ -1585,13 +1585,15 @@ public abstract class EntityLivingBase extends Entity
     protected void jump()
     {
         float jumpYaw = this.rotationYaw;
+        float jumpMotion = this.getJumpUpwardsMotion();
         if (RotationUtil.isEnabled && RotationUtil.strafeFix) {
             jumpYaw = RotationUtil.clientRotation[0];
         }
-        JumpEvent event = new JumpEvent(jumpYaw);
+        JumpEvent event = new JumpEvent(jumpYaw, jumpMotion);
         if(this == Minecraft.getMinecraft().thePlayer && event.call().isCanceled()) return;
 
-        this.motionY = this.getJumpUpwardsMotion();
+        jumpMotion = event.getJumpMotion();
+        this.motionY = jumpMotion;
 
         if (this.isPotionActive(Potion.jump))
         {
