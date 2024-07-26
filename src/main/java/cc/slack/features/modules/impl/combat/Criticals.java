@@ -22,11 +22,13 @@ import net.minecraft.network.play.server.S40PacketDisconnect;
 public class Criticals extends Module {
 
     public final ModeValue<ICriticals> mode = new ModeValue<>(new ICriticals[] {new EditCriticals(), new VulcanCriticals(), new JumpCriticals(), new PacketCriticals(), new MiniCriticals()});
+
+    public final BooleanValue vulcanTimer = new BooleanValue("Vulcan Timer", true);
     public final BooleanValue onlyGround = new BooleanValue("Only Ground", true);
     
     public Criticals() {
         super();
-        addSettings(mode, onlyGround);
+        addSettings(mode, vulcanTimer,onlyGround);
     }
 
     @Override
