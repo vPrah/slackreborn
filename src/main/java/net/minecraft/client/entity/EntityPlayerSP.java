@@ -2,7 +2,7 @@ package net.minecraft.client.entity;
 
 import java.util.Random;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.game.ChatEvent;
 import cc.slack.events.impl.player.MotionEvent;

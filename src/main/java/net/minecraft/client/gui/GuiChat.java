@@ -12,7 +12,7 @@ import org.lwjgl.input.Mouse;
 
 import com.google.common.collect.Lists;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.api.Module;
 import cc.slack.utils.drag.DragUtil;
 import net.minecraft.network.play.client.C14PacketTabComplete;

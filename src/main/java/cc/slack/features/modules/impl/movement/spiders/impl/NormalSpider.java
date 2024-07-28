@@ -1,6 +1,6 @@
 package cc.slack.features.modules.impl.movement.spiders.impl;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.MotionEvent;
 
 import cc.slack.features.modules.impl.movement.Spider;

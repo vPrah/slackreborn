@@ -40,6 +40,7 @@ public class Stealer extends Module {
     private final BooleanValue autoClose = new BooleanValue("Auto Close", true);
     private final NumberValue<Double> autocloseDelaymax = new NumberValue<>("Auto Close Delay Max", 0D, 0D, 500D, 1D);
     private NumberValue<Double> autocloseDelaymin = new NumberValue<>("Auto Close Delay Min", 0D, 0D, 500D, 1D);
+    private final BooleanValue collectAll = new BooleanValue("Collect all items", false);
 
 
     private final AtomicReference<ArrayList<Slot>> sortedSlots = new AtomicReference<>();
@@ -51,7 +52,7 @@ public class Stealer extends Module {
             Items.ender_pearl, Items.water_bucket, Items.arrow, Items.bow);
 
     public Stealer() {
-        addSettings(openDelaymax, openDelaymin, stealDelaymax, stealDelaymin, autoClose, autocloseDelaymax, autocloseDelaymin);
+        addSettings(openDelaymax, openDelaymin, stealDelaymax, stealDelaymin, autoClose, autocloseDelaymax, autocloseDelaymin, collectAll);
     }
 
     @SuppressWarnings("unused")
@@ -103,17 +104,22 @@ public class Stealer extends Module {
         ArrayList<Slot> slots = IntStream.range(0, chest.getLowerChestInventory().getSizeInventory()).mapToObj(i -> {
             ItemStack itemStack = chest.getInventory().get(i);
             if (itemStack != null) {
-                Predicate<ItemStack> stealCondition = (stack) -> {
-                    Item item = stack.getItem();
-                    return (item instanceof ItemSword && (PlayerUtil.getBestSword() == null
-                            || PlayerUtil.isBetterSword(stack, PlayerUtil.getBestSword())))
-                            || (item instanceof ItemAxe && (PlayerUtil.getBestAxe() == null
-                            || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.planks)))
-                            || (item instanceof ItemPickaxe && (PlayerUtil.getBestAxe() == null
-                            || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.stone)))
-                            || (item instanceof ItemBlock || item instanceof ItemArmor
-                            || whiteListedItems.contains(item));
-                };
+                Predicate<ItemStack> stealCondition;
+                if (collectAll.getValue()) {
+                    stealCondition = stack -> true;
+                } else {
+                    stealCondition = stack -> {
+                        Item item = stack.getItem();
+                        return (item instanceof ItemSword && (PlayerUtil.getBestSword() == null
+                                || PlayerUtil.isBetterSword(stack, PlayerUtil.getBestSword())))
+                                || (item instanceof ItemAxe && (PlayerUtil.getBestAxe() == null
+                                || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.planks)))
+                                || (item instanceof ItemPickaxe && (PlayerUtil.getBestAxe() == null
+                                || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.stone)))
+                                || (item instanceof ItemBlock || item instanceof ItemArmor
+                                || whiteListedItems.contains(item));
+                    };
+                }
 
                 if (stealCondition.test(itemStack)) {
                     return new Slot(i);

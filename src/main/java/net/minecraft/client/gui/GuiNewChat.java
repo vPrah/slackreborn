@@ -1,6 +1,6 @@
 package net.minecraft.client.gui;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.collect.Lists;
 import java.util.Iterator;

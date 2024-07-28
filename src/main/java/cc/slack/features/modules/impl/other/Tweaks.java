@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.other;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.UpdateEvent;

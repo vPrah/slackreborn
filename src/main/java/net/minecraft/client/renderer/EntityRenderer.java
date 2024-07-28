@@ -1,10 +1,9 @@
 package net.minecraft.client.renderer;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.impl.ghost.AimAssist;
 import cc.slack.features.modules.impl.ghost.Reach;
-import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Camera;
 import cc.slack.ui.menu.MainMenu;
 import cc.slack.utils.render.FreeLookUtil;
@@ -26,7 +25,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.GuiDownloadTerrain;
-import net.minecraft.client.gui.GuiMainMenu;
 import net.minecraft.client.gui.MapItemRenderer;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.particle.EffectRenderer;

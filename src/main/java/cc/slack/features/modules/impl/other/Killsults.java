@@ -29,15 +29,8 @@ public class Killsults extends Module {
         if (event.getPacket() instanceof S02PacketChat) {
             final S02PacketChat packet = event.getPacket();
             final String message = packet.getChatComponent().getUnformattedText();
-            switch (mode.getValue()){
-                case "Universocraft":
-                    if (message.contains(mc.thePlayer.getNameClear()) && message.contains("fue brutalmente asesinado por") || message.contains(mc.thePlayer.getNameClear()) && message.contains("fue empujado al vacío por") || message.contains(mc.thePlayer.getNameClear()) && message.contains("no resistió los ataques de") || message.contains(mc.thePlayer.getNameClear()) && message.contains("pensó que era un buen momento de morir a manos de") || message.contains(mc.thePlayer.getNameClear()) && message.contains("ha sido asesinado por")) {
-                        sendInsult();
-                        break;
-                    }
-                    break;
-                case "":
-                break;
+            if (message.contains(mc.thePlayer.getNameClear()) && message.contains("fue brutalmente asesinado por") || message.contains(mc.thePlayer.getNameClear()) && message.contains("fue empujado al vacío por") || message.contains(mc.thePlayer.getNameClear()) && message.contains("no resistió los ataques de") || message.contains(mc.thePlayer.getNameClear()) && message.contains("pensó que era un buen momento de morir a manos de") || message.contains(mc.thePlayer.getNameClear()) && message.contains("ha sido asesinado por")) {
+                sendInsult();
             }
         }
     }

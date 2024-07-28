@@ -1,6 +1,6 @@
 package net.minecraft.client.network;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.base.Objects;
 import com.mojang.authlib.GameProfile;

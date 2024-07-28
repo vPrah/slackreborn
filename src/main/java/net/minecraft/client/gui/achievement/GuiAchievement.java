@@ -1,6 +1,6 @@
 package net.minecraft.client.gui.achievement;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.other.Tweaks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;

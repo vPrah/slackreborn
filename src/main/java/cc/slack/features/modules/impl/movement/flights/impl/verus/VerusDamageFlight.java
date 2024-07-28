@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.movement.flights.impl.verus;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;

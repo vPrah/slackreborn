@@ -1,13 +1,12 @@
 package cc.slack.features.commands.impl;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.commands.api.CMDInfo;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.api.settings.impl.*;
 import cc.slack.utils.other.PrintUtil;
-import net.minecraft.util.ChatFormatting;
 
 import java.util.Arrays;
 import java.util.List;

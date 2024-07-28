@@ -1,6 +1,6 @@
 package cc.slack.ui.menu;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.ui.clickgui.ClickGui;
 import cc.slack.utils.font.Fonts;

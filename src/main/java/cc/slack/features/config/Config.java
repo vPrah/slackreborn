@@ -1,6 +1,6 @@
 package cc.slack.features.config;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.api.settings.impl.*;
 import cc.slack.utils.client.IMinecraft;

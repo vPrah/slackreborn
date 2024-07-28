@@ -1,6 +1,6 @@
 package cc.slack.utils.render;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.render.PointerESP;
 import cc.slack.features.modules.impl.render.Tracers;
 import cc.slack.utils.client.IMinecraft;

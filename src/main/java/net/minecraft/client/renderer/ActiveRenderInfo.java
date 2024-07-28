@@ -3,8 +3,6 @@ package net.minecraft.client.renderer;
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
 
-import cc.slack.Slack;
-import cc.slack.utils.render.FreeLookUtil;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockLiquid;
 import net.minecraft.block.state.IBlockState;

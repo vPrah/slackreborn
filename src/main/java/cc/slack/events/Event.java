@@ -1,6 +1,6 @@
 package cc.slack.events;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 
 public class Event {
     private boolean cancel;

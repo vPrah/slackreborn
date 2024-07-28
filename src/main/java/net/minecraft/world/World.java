@@ -1,6 +1,6 @@
 package net.minecraft.world;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.combat.TickBase;
 import cc.slack.features.modules.impl.other.Tweaks;
 import com.google.common.base.Predicate;

@@ -1,11 +1,10 @@
 package net.minecraft.client.gui;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.events.impl.render.RenderScoreboard;
 import cc.slack.features.modules.impl.other.Tweaks;
-import cc.slack.features.modules.impl.render.ScoreboardModule;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.ItemSpoofUtil;
 import com.google.common.base.Predicate;

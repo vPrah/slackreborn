@@ -1,6 +1,6 @@
 package cc.slack.features.modules.impl.movement.longjumps.impl.vulcan;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;

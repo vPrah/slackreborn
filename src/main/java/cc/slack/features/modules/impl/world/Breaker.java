@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.world;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.render.RenderEvent;
@@ -16,8 +16,6 @@ import cc.slack.features.modules.impl.ghost.AutoTool;
 import cc.slack.utils.other.BlockUtils;
 import cc.slack.utils.other.TimeUtil;
 import cc.slack.utils.player.AttackUtil;
-import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.rotations.RotationUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;

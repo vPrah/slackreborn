@@ -1,7 +1,7 @@
 package cc.slack.features.modules.impl.world;
 
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.events.impl.render.RenderEvent;

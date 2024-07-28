@@ -1,13 +1,13 @@
 package net.minecraft.client.network;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.network.DisconnectEvent;
 import cc.slack.features.modules.impl.exploit.ClientSpoofer;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.FutureCallback;
 import com.google.common.util.concurrent.Futures;
 import com.mojang.authlib.GameProfile;
-import io.netty.buffer.Unpooled;
+
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
@@ -22,7 +22,6 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.Map.Entry;
 import net.minecraft.block.Block;
-import net.minecraft.client.ClientBrandRetriever;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.audio.GuardianSound;
 import net.minecraft.client.entity.EntityOtherPlayerMP;
@@ -93,7 +92,6 @@ import net.minecraft.network.play.INetHandlerPlayClient;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0FPacketConfirmTransaction;
-import net.minecraft.network.play.client.C17PacketCustomPayload;
 import net.minecraft.network.play.client.C19PacketResourcePackStatus;
 import net.minecraft.network.play.server.S00PacketKeepAlive;
 import net.minecraft.network.play.server.S01PacketJoinGame;

@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.movement.flights.impl.vanilla;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.flights.IFlight;

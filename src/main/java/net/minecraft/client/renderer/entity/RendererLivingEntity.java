@@ -1,9 +1,8 @@
 package net.minecraft.client.renderer.entity;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.ModuleManager;
 import cc.slack.features.modules.impl.render.Chams;
-import cc.slack.features.modules.impl.render.NameTags;
 import cc.slack.utils.render.ColorUtil;
 import com.google.common.collect.Lists;
 

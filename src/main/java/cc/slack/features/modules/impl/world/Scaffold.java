@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.world;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
@@ -17,13 +17,11 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.BlockUtils;
-import cc.slack.utils.other.PrintUtil;
 import cc.slack.utils.player.*;
 import cc.slack.utils.rotations.RotationUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.GameSettings;
-import net.minecraft.init.Blocks;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;

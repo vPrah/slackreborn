@@ -1,9 +1,6 @@
 package net.minecraft.entity.player;
 
-import cc.slack.Slack;
 import cc.slack.events.impl.player.HitSlowDownEvent;
-import cc.slack.features.modules.impl.ghost.KeepSprint;
-import cc.slack.utils.EventUtil;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Lists;
 import com.mojang.authlib.GameProfile;

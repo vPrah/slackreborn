@@ -1,4 +1,4 @@
-package cc.slack;
+package cc.slack.start;
 
 import cc.slack.events.Event;
 import cc.slack.events.impl.game.ChatEvent;

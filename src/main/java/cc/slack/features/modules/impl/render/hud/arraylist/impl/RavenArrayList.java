@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.render.hud.arraylist.impl;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;

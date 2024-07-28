@@ -3,10 +3,9 @@ package net.minecraft.block;
 import java.util.List;
 import java.util.Random;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.features.modules.impl.render.XRay;
-import cc.slack.features.modules.impl.render.ChestESP;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.IProperty;

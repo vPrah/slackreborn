@@ -1,6 +1,6 @@
 package cc.slack.features.modules.impl.player;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;

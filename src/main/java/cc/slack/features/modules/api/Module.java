@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.api.settings.Value;
 import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.utils.EventUtil;

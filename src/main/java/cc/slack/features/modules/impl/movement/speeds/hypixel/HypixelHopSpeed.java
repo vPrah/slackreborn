@@ -2,17 +2,14 @@
 
 package cc.slack.features.modules.impl.movement.speeds.hypixel;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;
-import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.rotations.RotationUtil;
-import net.minecraft.init.Blocks;
-import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.potion.Potion;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;

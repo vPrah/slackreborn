@@ -1,10 +1,9 @@
 package cc.slack.features.modules.impl.player.antivoids.impl;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.State;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.*;
-import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.movement.LongJump;
 import cc.slack.features.modules.impl.movement.Speed;

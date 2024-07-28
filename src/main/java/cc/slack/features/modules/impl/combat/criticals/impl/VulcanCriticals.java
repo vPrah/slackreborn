@@ -1,6 +1,6 @@
 package cc.slack.features.modules.impl.combat.criticals.impl;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.AttackEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.combat.Criticals;

@@ -1,6 +1,6 @@
 package net.minecraft.client.renderer;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.features.modules.impl.render.Camera;

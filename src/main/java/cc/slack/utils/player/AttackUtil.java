@@ -1,6 +1,6 @@
 package cc.slack.utils.player;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.other.AntiBot;
 import cc.slack.features.modules.impl.other.Targets;
 import cc.slack.utils.client.IMinecraft;

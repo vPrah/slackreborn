@@ -1,6 +1,6 @@
 package cc.slack.utils;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.Event;
 
 public final class EventUtil {

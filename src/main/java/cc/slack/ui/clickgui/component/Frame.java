@@ -2,7 +2,7 @@ package cc.slack.ui.clickgui.component;
 
 import java.util.ArrayList;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -10,7 +10,6 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import net.minecraft.client.gui.FontRenderer;
-import net.minecraft.client.gui.Gui;
 
 //Your Imports
 import cc.slack.ui.clickgui.component.components.Button;

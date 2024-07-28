@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.utilties;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;

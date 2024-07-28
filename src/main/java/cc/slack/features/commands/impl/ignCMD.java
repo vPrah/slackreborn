@@ -1,12 +1,9 @@
 package cc.slack.features.commands.impl;
 
-import cc.slack.Slack;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.commands.api.CMDInfo;
-import cc.slack.utils.other.FileUtil;
 import cc.slack.utils.other.PrintUtil;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.util.ChatFormatting;
 
 import cc.slack.utils.client.IMinecraft;
 

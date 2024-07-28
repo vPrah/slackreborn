@@ -5,7 +5,7 @@ import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.Callable;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.features.modules.impl.combat.Hitbox;
 import cc.slack.utils.player.MovementUtil;

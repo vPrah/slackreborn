@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.combat;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Category;
@@ -16,7 +16,6 @@ import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.InventoryUtil;
-import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import cc.slack.utils.rotations.RaycastUtil;
 import cc.slack.utils.other.TimeUtil;
@@ -35,7 +34,6 @@ import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 
-import java.awt.*;
 import java.security.SecureRandom;
 
 import static org.lwjgl.opengl.GL11.*;

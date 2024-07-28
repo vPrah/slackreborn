@@ -221,7 +221,11 @@ public class MovementUtil implements IMinecraft {
 
         return motionY;
     }
-    
+    public static double getSpeedPotAMP(final double amp) {
+        return mc.thePlayer.isPotionActive(Potion.moveSpeed) ? ((mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier() + 1) * amp) : 0;
+    }
+
+
 
     public static void setVClip(double number) {
         mc.thePlayer.setPosition(mc.thePlayer.posX, mc.thePlayer.posY + number, mc.thePlayer.posZ);

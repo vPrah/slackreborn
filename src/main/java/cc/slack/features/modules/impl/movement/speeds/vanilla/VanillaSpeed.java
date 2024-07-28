@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.movement.speeds.vanilla;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.impl.movement.Speed;
 import cc.slack.features.modules.impl.movement.speeds.ISpeed;

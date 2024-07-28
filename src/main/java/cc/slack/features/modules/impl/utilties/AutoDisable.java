@@ -1,6 +1,6 @@
 package cc.slack.features.modules.impl.utilties;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;

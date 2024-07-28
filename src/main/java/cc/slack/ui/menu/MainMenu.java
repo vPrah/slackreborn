@@ -1,6 +1,6 @@
 package cc.slack.ui.menu;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.ui.altmanager.gui.GuiAccountManager;
 import cc.slack.utils.client.Login;
 import cc.slack.utils.font.Fonts;
@@ -19,7 +19,6 @@ import java.util.Base64;
 import java.util.List;
 
 import okhttp3.*;
-import org.lwjgl.opengl.GL20;
 
 public class MainMenu extends GuiScreen {
     private List<Particle> particles = new ArrayList<>();

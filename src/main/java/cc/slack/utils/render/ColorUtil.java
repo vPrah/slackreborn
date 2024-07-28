@@ -1,7 +1,7 @@
 package cc.slack.utils.render;
 
 import cc.slack.utils.client.IMinecraft;
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.render.HUD;
 
 import java.awt.*;

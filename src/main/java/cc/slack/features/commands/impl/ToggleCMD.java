@@ -1,6 +1,6 @@
 package cc.slack.features.commands.impl;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.commands.api.CMD;
 import cc.slack.features.commands.api.CMDInfo;
 import cc.slack.utils.other.PrintUtil;

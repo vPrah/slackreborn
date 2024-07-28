@@ -2,7 +2,7 @@
 
 package cc.slack.features.modules.impl.combat;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.game.TickEvent;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.CollideEvent;
@@ -18,7 +18,6 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.velocitys.IVelocity;
 import cc.slack.features.modules.impl.combat.velocitys.impl.*;
 import cc.slack.features.modules.impl.movement.Flight;
-import cc.slack.features.modules.impl.movement.flights.impl.vanilla.FireballFlight;
 import io.github.nevalackin.radbus.Listen;
 
 @ModuleInfo(

@@ -1,10 +1,7 @@
 package cc.slack.utils.font;
 
-import cc.slack.Slack;
-import cc.slack.utils.other.PrintUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.ResourceLocation;
-import sun.font.FontManager;
 
 import java.awt.*;
 import java.io.IOException;

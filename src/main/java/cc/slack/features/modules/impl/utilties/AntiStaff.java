@@ -1,6 +1,6 @@
 package cc.slack.features.modules.impl.utilties;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.WorldEvent;
 import cc.slack.features.modules.api.Category;
@@ -30,7 +30,7 @@ public class AntiStaff extends Module {
     private final BooleanValue leaveValue = new BooleanValue("Leave on Detect", false);
 
     // Staffs Names
-    private String universocraftStaff = "0edx_ 0_Lily 1Kao denila  fxrchus  haaaaaaaaaaax_ iBlackSoulz iMxon_ JuliCarles kvvwro Tauchet wSilv6r _JuPo_";
+    private final String universocraftStaff = "0edx_ 0_Lily 1Kao denila  fxrchus  haaaaaaaaaaax_ iBlackSoulz iMxon_ JuliCarles kvvwro Tauchet wSilv6r _JuPo_";
 
     // Variables
     private boolean detected = false;
@@ -40,6 +40,7 @@ public class AntiStaff extends Module {
         addSettings(serverMode, notifyValue, chatnotifyValue, leaveValue);
     }
 
+    @SuppressWarnings("unused")
     @Listen
     public void onWorld (WorldEvent event) {
         staffs = "";
@@ -48,6 +49,8 @@ public class AntiStaff extends Module {
             case "Universocraft":
                 staffs = staffs + " " + universocraftStaff;
                 break;
+            case "BlocksMC":
+                break;
         }
 
         detected = false;
@@ -55,12 +58,12 @@ public class AntiStaff extends Module {
 
     @Listen
     public void onPacket (PacketEvent event) {
-        if (mc.getWorld() == null || mc.thePlayer == null) return;
+        if (mc.theWorld == null || mc.thePlayer == null) return;
 
         final Packet<?> packet = event.getPacket();
 
         if (packet instanceof S1DPacketEntityEffect) {
-            Entity entity = mc.getWorld().getEntityByID(((S1DPacketEntityEffect) packet).getEntityId());
+            Entity entity = mc.theWorld.getEntityByID(((S1DPacketEntityEffect) packet).getEntityId());
             if (entity != null && (staffs.contains(entity.getCommandSenderName()) || staffs.contains(entity.getDisplayName().getUnformattedText()))) {
                 if (!detected) {
                     if (notifyValue.getValue()){
@@ -75,6 +78,8 @@ public class AntiStaff extends Module {
                             case "Universocraft":
                                 mc.thePlayer.sendChatMessage("/hub");
                                 break;
+                            case "BlocksMC":
+                                break;
                         }
                     }
 
@@ -83,7 +88,7 @@ public class AntiStaff extends Module {
             }
         }
         if (packet instanceof S14PacketEntity) {
-            Entity entity = ((S14PacketEntity) packet).getEntity(mc.getWorld());
+            Entity entity = ((S14PacketEntity) packet).getEntity(mc.theWorld);
 
             if (entity != null && (staffs.contains(entity.getCommandSenderName()) || staffs.contains(entity.getDisplayName().getUnformattedText()))) {
                 if (!detected) {
@@ -99,6 +104,8 @@ public class AntiStaff extends Module {
                         switch (serverMode.getValue()) {
                             case "Universocraft":
                                 mc.thePlayer.sendChatMessage("/hub");
+                                break;
+                            case "BlocksMC":
                                 break;
                         }
                     }

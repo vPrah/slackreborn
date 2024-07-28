@@ -2,7 +2,7 @@ package net.minecraft.client.renderer.entity;
 
 import java.util.Random;
 
-import cc.slack.Slack;
+import cc.slack.start.Slack;
 import cc.slack.features.modules.impl.render.ItemPhysics;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.renderer.GlStateManager;
