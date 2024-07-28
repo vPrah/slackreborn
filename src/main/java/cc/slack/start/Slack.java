@@ -41,7 +41,7 @@ public class Slack {
     private final CMDManager cmdManager = new CMDManager();
     private FriendManager friendManager;
 
-    public final String[] changelog = new String[]{"Release v2.0:", "-Added all modules (56)", "-Added SexModule"};
+    public final String[] changelog = new String[]{""};
 
     public final String DiscordServer = "https://discord.gg/nwR9AyjnK8";
     public final String Website = "https://slackclient.github.io/";
