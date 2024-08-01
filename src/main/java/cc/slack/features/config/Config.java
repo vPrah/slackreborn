@@ -93,7 +93,11 @@ public class Config implements IMinecraft {
 
                     module.setToggle(json.get("state").getAsBoolean());
                     module.setKey(json.get("bind").getAsInt());
-                    module.render = json.get("render").getAsBoolean();
+                    try {
+                        module.render = json.get("render").getAsBoolean();
+                    } catch (Exception e) {
+                        module.render = true;
+                    }
 
                     JsonObject values = json.get("values").getAsJsonObject();
                     for (Map.Entry<String, JsonElement> value : values.entrySet()) {

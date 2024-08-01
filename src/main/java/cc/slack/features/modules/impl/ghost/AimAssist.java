@@ -57,7 +57,7 @@ public class AimAssist extends Module {
                 float[] nudge = RotationUtil.getLimitedRotation(
                         RotationUtil.getPlayerRotation(),
                         RotationUtil.getTargetRotations(mc.objectMouseOver.entityHit.getEntityBoundingBox(), RotationUtil.TargetRotation.MIDDLE, 0.01),
-                        (float) 100 / Minecraft.getDebugFPS()
+                        (float) 130 / Minecraft.getDebugFPS()
                 );
 
                 yawNudge = nudge[0] - RotationUtil.getPlayerRotation()[0];

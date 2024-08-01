@@ -414,9 +414,6 @@ public class Scaffold extends Module {
                     endExpand = 0.2;
                     break;
                 case "watchdog2":
-                    if (MovementUtil.isBindsMoving()) {
-                        break;
-                    }
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
                         mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
@@ -424,7 +421,7 @@ public class Scaffold extends Module {
 
                     switch (mc.thePlayer.offGroundTicks % 3) {
                         case 0:
-                            mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
+                            mc.thePlayer.motionY = 0.4184 + Math.random() * 0.000095;
                             break;
                         case 1:
                             mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
@@ -432,14 +429,7 @@ public class Scaffold extends Module {
                             break;
                         case 2:
                             mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
-                            MovementUtil.spoofNextC03(true);
                             break;
-                    }
-                    MovementUtil.resetMotion();
-                    if (mc.thePlayer.getHorizontalFacing() == EnumFacing.EAST || mc.thePlayer.getHorizontalFacing() == EnumFacing.WEST) {
-                        mc.thePlayer.motionX = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posX) - mc.thePlayer.posX));
-                    } else {
-                        mc.thePlayer.motionZ = Math.max(-0.2, Math.min(0.2, Math.round(mc.thePlayer.posZ)- mc.thePlayer.posZ));
                     }
                     startExpand = -0.2;
                     endExpand = 0.2;
@@ -455,7 +445,7 @@ public class Scaffold extends Module {
                         if (mc.thePlayer.onGround) {
                             mc.thePlayer.motionY = 0.4196;
                         } else {
-                            switch (mc.thePlayer.offGroundTicks - 1) {
+                            switch (mc.thePlayer.offGroundTicks) {
                                 case 3:
                                 case 4:
                                     mc.thePlayer.motionY = 0;
