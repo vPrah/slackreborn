@@ -68,7 +68,7 @@ public class KillAura extends Module {
     private final BooleanValue rotationRand = new BooleanValue("Rotation Randomization", false);
     private final NumberValue<Double> minRotationSpeed = new NumberValue<>("Min Rotation Speed", 65.0, 0.0, 180.0, 5.0);
     private final NumberValue<Double> maxRotationSpeed = new NumberValue<>("Max Rotation Speed", 85.0, 0.0, 180.0, 5.0);
-    private final BooleanValue checkHitable = new BooleanValue("Check Hitable", false);
+    private final BooleanValue checkHitable = new BooleanValue("Check Hittable", false);
 
 
     // tools
@@ -165,9 +165,9 @@ public class KillAura extends Module {
                     RenderUtil.disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
                     glDepthMask(false);
 
-                    double renderPosX = renderManager.renderPosX;
-                    double renderPosY = renderManager.renderPosY;
-                    double renderPosZ = renderManager.renderPosZ;
+                    double renderPosX = RenderManager.renderPosX;
+                    double renderPosY = RenderManager.renderPosY;
+                    double renderPosZ = RenderManager.renderPosZ;
 
                     double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer.renderPartialTicks - renderPosX;
                     double y = target.lastTickPosY + (target.posY - target.lastTickPosY) * timer.renderPartialTicks - renderPosY;
