@@ -203,7 +203,7 @@ public class MainMenu extends GuiScreen {
                 break;
 
             case 7:
-//                mc.displayGuiScreen(new MenuInfo());
+                mc.displayGuiScreen(new MenuInfo());
                 break;
 
             case 8:
