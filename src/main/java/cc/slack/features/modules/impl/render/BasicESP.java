@@ -30,7 +30,7 @@ import static org.lwjgl.opengl.GL11.*;
         name = "BasicESP",
         category = Category.RENDER
 )
-public class BasicESP extends Module {
+public class  BasicESP extends Module {
 
     private final BooleanValue itemESP = new BooleanValue("Item ESP", true);
     private final NumberValue<Float> lineWidth = new NumberValue<>("Line Width", 1f, 1f, 5f, 0.1f);

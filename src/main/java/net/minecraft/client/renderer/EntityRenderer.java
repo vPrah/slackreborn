@@ -1337,7 +1337,7 @@ public class EntityRenderer implements IResourceManagerReloadListener
 
             if (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).isToggle()) {
                 dx += (float) (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).yawNudge / 0.15);
-                dy += (float) (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).pitchNudge / 0.15);
+                dy -= (float) (Slack.getInstance().getModuleManager().getInstance(AimAssist.class).pitchNudge / 0.15);
 
                 Slack.getInstance().getModuleManager().getInstance(AimAssist.class).yawNudge = 0f;
                 Slack.getInstance().getModuleManager().getInstance(AimAssist.class).pitchNudge = 0f;

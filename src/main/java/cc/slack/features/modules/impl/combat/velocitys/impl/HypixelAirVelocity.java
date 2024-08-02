@@ -1,5 +1,6 @@
 package cc.slack.features.modules.impl.combat.velocitys.impl;
 
+import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.start.Slack;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.features.modules.impl.combat.Velocity;
@@ -20,17 +21,20 @@ public class HypixelAirVelocity implements IVelocity {
                 event.cancel();
                 if (mc.thePlayer.onGround) {
                     mc.thePlayer.motionY = packet.getMotionY() * verticalValue / 100 / 8000.0;
-                    if (MovementUtil.isMoving()) {
-                        mc.thePlayer.jump();
-                        MovementUtil.strafe(0.48f);
-                    }
                 }
             }
         }
     }
 
     @Override
+    public void onUpdate(UpdateEvent event) {
+        if (mc.thePlayer.hurtTime <= 9 && mc.thePlayer.hurtTime > 6) {
+            MovementUtil.strafe(MovementUtil.getSpeed() * 0.95f);
+        }
+    }
+
+    @Override
     public String toString() {
-        return "Hypixel Air";
+        return "Hypixel";
     }
 }
