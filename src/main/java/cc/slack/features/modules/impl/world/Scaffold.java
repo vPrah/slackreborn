@@ -25,6 +25,7 @@ import net.minecraft.client.settings.GameSettings;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.client.C03PacketPlayer;
 import net.minecraft.network.play.client.C0APacketAnimation;
+import net.minecraft.potion.Potion;
 import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
@@ -133,7 +134,6 @@ public class Scaffold extends Module {
         Packet packet = p.getPacket();
         if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.thePlayer.onGround && MovementUtil.isMoving()) {
             if (mc.thePlayer.ticksExisted % 2 == 0) {
-                    ((C03PacketPlayer) packet).y += 0.0001;
                     ((C03PacketPlayer) packet).onGround = false;
             }
             p.setPacket(packet);
@@ -223,11 +223,15 @@ public class Scaffold extends Module {
                     mc.thePlayer.jump();
                     hasPlaced = false;
                     if (!firstJump) {
-                        MovementUtil.strafe(0.47f);
+                        MovementUtil.strafe(0.48f );
+                        if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
+                            float amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
+                            MovementUtil.strafe(0.47f + 0.024f * (amplifier + 1));
+                        }
                     } else {
-                        MovementUtil.strafe(0.35f);
+                        MovementUtil.strafe(0.3f);
                         groundY = mc.thePlayer.posY;
-                        jumpCounter = 0 ;
+                        jumpCounter = 1 ;
                     }
                     jumpCounter ++;
                 }
@@ -316,10 +320,6 @@ public class Scaffold extends Module {
                 if ((PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 &&  mc.thePlayer.posY - groundY > 0.7 && jumpCounter % 2 == 0) || firstJump) {
                     firstJump = false;
                     placeY = mc.thePlayer.posY;
-                } else if (jumpCounter % 2 == 1 && mc.thePlayer.offGroundTicks == 6) {
-                    placeY = mc.thePlayer.posY - 1;
-                    startExpand = -0.6;
-                    endExpand = -0.5;
                 } else {
                     placeY = groundY;
                 }
@@ -387,13 +387,12 @@ public class Scaffold extends Module {
                     }
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
+                        mc.thePlayer.motionY = 0.4197 + Math.random() * 0.000095;
                     }
 
                     switch (mc.thePlayer.offGroundTicks % 3) {
                         case 0:
-                            PlayerUtil.lag(100);
-                            mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
+                            mc.thePlayer.motionY = 0.419 + Math.random() * 0.000095;
                             break;
                         case 1:
                             mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
@@ -416,23 +415,20 @@ public class Scaffold extends Module {
                 case "watchdog2":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.4196 + Math.random() * 0.000095;
-                    }
+                        mc.thePlayer.motionY = 0.419848;
+                        MovementUtil.strafe(0.29f);
+                    } else {
 
-                    switch (mc.thePlayer.offGroundTicks % 3) {
-                        case 0:
-                            mc.thePlayer.motionY = 0.4184 + Math.random() * 0.000095;
-                            break;
-                        case 1:
-                            mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
-                            //MovementUtil.spoofNextC03(true);
-                            break;
-                        case 2:
-                            mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
-                            break;
+                        switch (mc.thePlayer.offGroundTicks % 3) {
+                            case 0:
+                                mc.thePlayer.motionY = 0.41845 + Math.random() * 0.000045;
+                                MovementUtil.strafe(0.29f);
+                                break;
+                            case 2:
+                                mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
+                                break;
+                        }
                     }
-                    startExpand = -0.2;
-                    endExpand = 0.2;
                     break;
                 case "off":
                     if (mc.thePlayer.onGround) {

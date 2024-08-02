@@ -29,8 +29,8 @@ public class AntiFireball extends Module {
             if (entity instanceof EntityFireball) {
                 if (mc.thePlayer.getDistanceSqToEntity(entity) < 5) {
                     RotationUtil.setClientRotation(RotationUtil.getRotations(entity));
-                    PacketUtil.send(new C0APacketAnimation());
                     PacketUtil.send(new C02PacketUseEntity(entity, C02PacketUseEntity.Action.ATTACK));
+                    PacketUtil.send(new C0APacketAnimation());
                 }
             }
         }

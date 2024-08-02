@@ -101,7 +101,7 @@ public class HypixelHopSpeed implements ISpeed {
 
             final int[] allowedAirTicks = new int[]{10, 11, 13, 14, 16, 17, 19, 20, 22, 23, 25, 26, 28, 29};
 
-            if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posY - 0.55 + 1, mc.thePlayer.posZ)) {
+            if (!PlayerUtil.isOverAir(mc.thePlayer.posX, mc.thePlayer.posY - 0.4 + 1, mc.thePlayer.posZ)) {
                 for (final int allowedAirTick : allowedAirTicks) {
                     if (mc.thePlayer.offGroundTicks == allowedAirTick && allowedAirTick <= 9 + 15 && MovementUtil.isMoving()) {
                         mc.thePlayer.motionY = 0;

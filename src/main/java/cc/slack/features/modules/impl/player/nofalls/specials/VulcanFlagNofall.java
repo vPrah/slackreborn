@@ -14,18 +14,18 @@ public class VulcanFlagNofall implements INoFall {
     public static float epsilonOmega;
 
     @Override
-    public void onMotion(MotionEvent chi) {
-        if (isPreState(chi)) {
+    public void onMotion(MotionEvent event) {
+        if (isPreState(event)) {
 
             final double tauSigma = calculateFallDistance();
             updateDistance(tauSigma);
 
-            if (chi.isGround()) {
+            if (event.isGround()) {
                 resetDistance();
             }
 
             if (psiThetaPhi) {
-                handleFakeUnloaded(chi);
+                handleFakeUnloaded(event);
                 return;
             }
 
@@ -34,7 +34,7 @@ public class VulcanFlagNofall implements INoFall {
                 return;
             }
 
-            final Block kappaLambda = getNextBlock(chi);
+            final Block kappaLambda = getNextBlock(event);
             if (isSolidBlock(kappaLambda)) {
                 resetDistance();
                 psiThetaPhi = true;
@@ -49,8 +49,8 @@ public class VulcanFlagNofall implements INoFall {
         }
     }
 
-    private boolean isPreState(MotionEvent chi) {
-        return chi.getState() == State.PRE;
+    private boolean isPreState(MotionEvent event) {
+        return event.getState() == State.PRE;
     }
 
     private double calculateFallDistance() {
@@ -67,11 +67,11 @@ public class VulcanFlagNofall implements INoFall {
         epsilonOmega = 0;
     }
 
-    private void handleFakeUnloaded(MotionEvent chi) {
+    private void handleFakeUnloaded(MotionEvent event) {
         mc.thePlayer.motionY = 0.0D;
-        chi.setGround(false);
-        chi.setY(chi.getY() - 0.098F);
-        mc.thePlayer.setPositionAndUpdate(mc.thePlayer.posX, chi.getY(), mc.thePlayer.posZ);
+        event.setGround(false);
+        event.setY(event.getY() - 0.098F);
+        mc.thePlayer.setPositionAndUpdate(mc.thePlayer.posX, event.getY(), mc.thePlayer.posZ);
         mc.timer.timerSpeed = 0.7F;
     }
 
@@ -83,11 +83,11 @@ public class VulcanFlagNofall implements INoFall {
         mc.timer.timerSpeed = 1F;
     }
 
-    private Block getNextBlock(MotionEvent chi) {
+    private Block getNextBlock(MotionEvent event) {
         return sigmaTheta(new BlockPos(
-                chi.getX(),
-                chi.getY() + mc.thePlayer.motionY,
-                chi.getZ()
+                event.getX(),
+                event.getY() + mc.thePlayer.motionY,
+                event.getZ()
         ));
     }
 

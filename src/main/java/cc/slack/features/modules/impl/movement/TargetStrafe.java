@@ -31,13 +31,14 @@ public class TargetStrafe extends Module {
     private final BooleanValue fallCheck = new BooleanValue("Fall Check", true);
     private final BooleanValue wallCheck = new BooleanValue("Wall Check", true);
     private final BooleanValue speedOnly = new BooleanValue("Speed Only", true);
+    private final BooleanValue onStrafe = new BooleanValue("Only On Strafe", true);
 
 
     private static int direction = -1;
     private static int index = 0, ticks = 0;
 
     public TargetStrafe() {
-        addSettings(distance,holdSpace,fallCheck,wallCheck,speedOnly);
+        addSettings(distance,holdSpace,fallCheck,wallCheck,speedOnly,onStrafe);
     }
 
     @Override
@@ -49,12 +50,14 @@ public class TargetStrafe extends Module {
 
     @Listen
     public void onMove (MoveEvent event) {
+        if (!MovementUtil.onStrafe && onStrafe.getValue())
+            return;
+
         setSpeed(event, MovementUtil.getSpeed());
     }
 
 
     public static void setSpeed(MoveEvent e, double speed) {
-
         Minecraft mc = Minecraft.getMinecraft();
         TargetStrafe ts = Slack.getInstance().getModuleManager().getInstance(TargetStrafe.class);
         if(Slack.getInstance().getModuleManager().getInstance(KillAura.class).target == null) {

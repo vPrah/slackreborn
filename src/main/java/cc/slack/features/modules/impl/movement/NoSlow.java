@@ -20,6 +20,7 @@ import net.minecraft.network.play.client.C07PacketPlayerDigging;
 import net.minecraft.network.play.client.C08PacketPlayerBlockPlacement;
 import net.minecraft.network.play.client.C09PacketHeldItemChange;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
+import net.minecraft.network.play.server.S30PacketWindowItems;
 import net.minecraft.util.BlockPos;
 
 @ModuleInfo(
@@ -31,7 +32,7 @@ public class NoSlow extends Module {
 
     // Slow Modes
     public final ModeValue<String> blockmode = new ModeValue<>("Block", new String[]{"None", "Vanilla", "NCP Latest", "Hypixel", "Hypixel Spoof", "Switch", "Place", "C08 Tick"});
-    public final ModeValue<String> eatmode = new ModeValue<>("Eat", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick", "Blink"});
+    public final ModeValue<String> eatmode = new ModeValue<>("Eat", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick", "Blink", "Slowed"});
     public final ModeValue<String> potionmode = new ModeValue<>("Potion", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
     public final ModeValue<String> bowmode = new ModeValue<>("Bow", new String[]{"None","Vanilla", "NCP Latest", "Hypixel", "Switch", "Place", "C08 Tick"});
 
@@ -186,15 +187,21 @@ public class NoSlow extends Module {
                 setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
                 break;
             case "blink":
-                if (mc.thePlayer.getItemInUseDuration() == 3) {
+                if (mc.thePlayer.getItemInUseDuration() == 2) {
                     blink = true;
                     BlinkUtil.enable(false, true);
-                } else if (mc.thePlayer.getItemInUseDuration() == 27 && blink) {
+                } else if (mc.thePlayer.getItemInUseDuration() == 10 && blink) {
                     PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(mc.thePlayer.getItemInUse()));
                 } else if (mc.thePlayer.getItemInUseDuration() == 29) {
+                    PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
                     blink = false;
                     BlinkUtil.disable();
                 }
+                break;
+            case "slowed":
+                setMultipliers(0.7f, 0.8f);
+                break;
+
         }
     }
 
@@ -274,10 +281,11 @@ public class NoSlow extends Module {
 
     @Listen
     public void onPacket(PacketEvent e) {
+
         if (e.getPacket() instanceof C07PacketPlayerDigging) badC07 = true;
     }
 
     @Override
-    public String getMode() { return blockmode.getValue() + ", "  + eatmode.getValue(); }
+    public String getMode() { return blockmode.getValue(); }
 
 }

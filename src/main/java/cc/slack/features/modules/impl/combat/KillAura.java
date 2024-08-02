@@ -320,6 +320,23 @@ public class KillAura extends Module {
                     currentSlot = mc.thePlayer.inventory.currentItem;
                 }
                 break;
+            case "hypixel":
+                switch (mc.thePlayer.ticksExisted % 2) {
+                    case 0:
+                        if (currentSlot != mc.thePlayer.inventory.currentItem % 8 + 1) {
+                            PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                            currentSlot = mc.thePlayer.inventory.currentItem % 8 + 1;
+                        }
+                        return true;
+                    case 1:
+                        if (currentSlot != mc.thePlayer.inventory.currentItem) {
+                            PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                            currentSlot = mc.thePlayer.inventory.currentItem;
+                            isBlocking = false;
+                        }
+                        return false;
+                }
+                break;
             case "legit":
                 if (mc.thePlayer.hurtTime < 3) {
                     if (!isBlocking) {
@@ -451,15 +468,6 @@ public class KillAura extends Module {
                     return false;
                 }
                 break;
-            case "hypixel":
-                if (isBlocking) {
-                    if (inInv) {
-                        PacketUtil.send(new C0DPacketCloseWindow());
-                    }
-                    PacketUtil.send(new C16PacketClientStatus(C16PacketClientStatus.EnumState.OPEN_INVENTORY_ACHIEVEMENT));
-                    isBlocking = false;
-                    return false;
-                }
             default:
                 break;
         }
@@ -474,6 +482,11 @@ public class KillAura extends Module {
                 break;
             case "hypixel":
                 block(true);
+                if (!BlinkUtil.isEnabled)
+                    BlinkUtil.enable(false, true);
+                BlinkUtil.setConfig(false, true);
+                BlinkUtil.releasePackets();
+                wasBlink = true;
                 break;
             case "vanilla reblock":
                 isBlocking = false;

@@ -74,6 +74,6 @@ public class UniversalAntiVoid implements IAntiVoid {
 
     @Override
     public String toString() {
-        return "Universal";
+        return "Hypixel";
     }
 }
