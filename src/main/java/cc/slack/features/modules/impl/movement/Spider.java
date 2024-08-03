@@ -26,7 +26,6 @@ public class Spider extends Module {
 
             new NormalSpider(),
             new JumpSpider(),
-            new CollideSpider(),
             new VulcanSpider(),
             new VerusSpider()
 
