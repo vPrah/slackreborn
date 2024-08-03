@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MotionEvent;
@@ -102,6 +103,11 @@ public class Flight extends Module {
     @Listen
     public void onMotion(MotionEvent event) {
         mode.getValue().onMotion(event);
+    }
+
+    @Listen
+    public void onMoveInput(onMoveInputEvent event) {
+        mode.getValue().onMoveInput(event);
     }
 
     @Override

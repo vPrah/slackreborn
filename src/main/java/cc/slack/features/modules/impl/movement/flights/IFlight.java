@@ -2,6 +2,7 @@
 
 package cc.slack.features.modules.impl.movement.flights;
 
+import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MotionEvent;
@@ -43,6 +44,12 @@ public interface IFlight {
     ;
 
     default void onMotion(MotionEvent event) {
+    }
+
+    ;
+
+    default void onMoveInput(onMoveInputEvent event) {
+
     }
 
     ;
