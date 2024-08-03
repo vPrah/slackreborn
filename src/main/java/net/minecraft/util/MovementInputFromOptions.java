@@ -1,5 +1,6 @@
 package net.minecraft.util;
 
+import cc.slack.events.impl.input.onMoveInputEvent;
 import net.minecraft.client.settings.GameSettings;
 
 public class MovementInputFromOptions extends MovementInput
@@ -39,10 +40,19 @@ public class MovementInputFromOptions extends MovementInput
         this.jump = this.gameSettings.keyBindJump.isKeyDown();
         this.sneak = this.gameSettings.keyBindSneak.isKeyDown();
 
-        if (this.sneak)
-        {
-            this.moveStrafe = (float)((double)this.moveStrafe * 0.3D);
-            this.moveForward = (float)((double)this.moveForward * 0.3D);
+        onMoveInputEvent onMoveInputEvent = new onMoveInputEvent(moveForward, moveStrafe, jump, sneak, 0.3D);
+        onMoveInputEvent.call();
+
+
+        final double sneakMultiplier = onMoveInputEvent.sneakSlowDownMultiplier;
+        this.moveForward = onMoveInputEvent.forward;
+        this.moveStrafe = onMoveInputEvent.strafe;
+        this.jump = onMoveInputEvent.jump;
+        this.sneak = onMoveInputEvent.sneak;
+
+        if (this.sneak) {
+            this.moveStrafe = (float) ((double) this.moveStrafe * sneakMultiplier);
+            this.moveForward = (float) ((double) this.moveForward * sneakMultiplier);
         }
     }
 }
