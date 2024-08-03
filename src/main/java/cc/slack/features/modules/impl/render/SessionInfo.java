@@ -14,8 +14,11 @@ import cc.slack.utils.font.Fonts;
 import cc.slack.utils.font.MCFontRenderer;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.network.play.server.S40PacketDisconnect;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
@@ -31,6 +34,8 @@ public class SessionInfo extends Module {
     private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
     private final ModeValue<String> fontValue = new ModeValue<>("Font", new String[]{"Apple", "Poppins"});
 
+    private boolean dragging = false;
+    private float dragX = 0, dragY = 0;
 
     public long gameJoined;
     public long killAmount;
@@ -40,7 +45,6 @@ public class SessionInfo extends Module {
     public SessionInfo() {
         addSettings(xValue, yValue, alphaValue, roundedValue, fontValue);
     }
-
 
     @Override
     public void onEnable() {
@@ -59,22 +63,18 @@ public class SessionInfo extends Module {
             if (event.getPacket() instanceof S02PacketChat) {
                 S02PacketChat packet = event.getPacket();
                 String message = packet.getChatComponent().getUnformattedText();
-                if (
-                        message.contains(mc.getSession().getUsername() + " wants to fight!") ||
-                                message.contains(mc.getSession().getUsername() + " has joined") ||
-                                message.contains(mc.getSession().getUsername() + " se ha unido") ||
-                                message.contains(mc.getSession().getUsername() + " ha entrado")
-                ) {
+                if (message.contains(mc.getSession().getUsername() + " wants to fight!") ||
+                        message.contains(mc.getSession().getUsername() + " has joined") ||
+                        message.contains(mc.getSession().getUsername() + " se ha unido") ||
+                        message.contains(mc.getSession().getUsername() + " ha entrado")) {
                     ++gameJoined;
                 }
-                if (
-                        message.contains("by " + mc.getSession().getUsername()) ||
-                                (message.contains(mc.thePlayer.getNameClear()) && message.contains("fue brutalmente asesinado por") ||
-                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("fue empujado al vacío por") ||
-                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("no resistió los ataques de") ||
-                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("pensó que era un buen momento de morir a manos de") ||
-                                        message.contains(mc.thePlayer.getNameClear()) && message.contains("ha sido asesinado por"))
-                ) {
+                if (message.contains("by " + mc.getSession().getUsername()) ||
+                        (message.contains(mc.thePlayer.getNameClear()) && message.contains("fue brutalmente asesinado por") ||
+                                message.contains(mc.thePlayer.getNameClear()) && message.contains("fue empujado al vacío por") ||
+                                message.contains(mc.thePlayer.getNameClear()) && message.contains("no resistió los ataques de") ||
+                                message.contains(mc.thePlayer.getNameClear()) && message.contains("pensó que era un buen momento de morir a manos de") ||
+                                message.contains(mc.thePlayer.getNameClear()) && message.contains("ha sido asesinado por"))) {
                     ++killAmount;
                 }
             }
@@ -104,6 +104,16 @@ public class SessionInfo extends Module {
 
         int x = xValue.getValue().intValue();
         int y = yValue.getValue().intValue();
+
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        int mouseX = Mouse.getX() * sr.getScaledWidth() / mc.displayWidth;
+        int mouseY = sr.getScaledHeight() - Mouse.getY() * sr.getScaledHeight() / mc.displayHeight - 1;
+
+        if (dragging) {
+            xValue.setValue((float) (mouseX - dragX));
+            yValue.setValue((float) (mouseY - dragY));
+        }
+
         String username = Slack.getInstance().getModuleManager().getInstance(NameProtect.class).isToggle() ? "Slack User" : mc.getSession().getUsername();
         int alpha = new Color(0, 0, 0, alphaValue.getValue()).getRGB();
 
@@ -136,6 +146,21 @@ public class SessionInfo extends Module {
         fontRenderer.drawStringWithShadow(ign, x + xOffset, y + yOffset[2], -1);
         fontRenderer.drawStringWithShadow(kills, x + xOffset, y + yOffset[3], -1);
 
+        handleMouseInput(mouseX, mouseY, x, y, 170, 58);
+    }
 
+    private void handleMouseInput(int mouseX, int mouseY, int rectX, int rectY, int rectWidth, int rectHeight) {
+        if (Mouse.isButtonDown(0)) {
+            if (!dragging) {
+                if (mouseX >= rectX && mouseX <= rectX + rectWidth &&
+                        mouseY >= rectY && mouseY <= rectY + rectHeight) {
+                    dragging = true;
+                    dragX = mouseX - xValue.getValue();
+                    dragY = mouseY - yValue.getValue();
+                }
+            }
+        } else {
+            dragging = false;
+        }
     }
 }
