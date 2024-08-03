@@ -8,7 +8,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
-import cc.slack.features.modules.impl.player.SessionInfo;
+import cc.slack.features.modules.impl.render.SessionInfo;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.handshake.client.C00Handshake;
 
