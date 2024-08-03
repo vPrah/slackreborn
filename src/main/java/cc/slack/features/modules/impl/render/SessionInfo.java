@@ -1,4 +1,4 @@
-package cc.slack.features.modules.impl.player;
+package cc.slack.features.modules.impl.render;
 
 import cc.slack.start.Slack;
 import cc.slack.events.impl.network.PacketEvent;
