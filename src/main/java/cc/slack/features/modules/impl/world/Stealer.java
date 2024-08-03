@@ -42,7 +42,6 @@ public class Stealer extends Module {
     private NumberValue<Double> autocloseDelaymin = new NumberValue<>("Auto Close Delay Min", 0D, 0D, 500D, 1D);
     private final BooleanValue collectAll = new BooleanValue("Collect all items", false);
 
-
     private final AtomicReference<ArrayList<Slot>> sortedSlots = new AtomicReference<>();
     private final AtomicReference<ContainerChest> chest = new AtomicReference<>();
     private final AtomicBoolean inChest = new AtomicBoolean(false);
@@ -61,7 +60,7 @@ public class Stealer extends Module {
 
         if (openDelaymin.getValue() > openDelaymax.getValue()) { openDelaymin = openDelaymax; }
         if (stealDelaymin.getValue() > stealDelaymax.getValue()) { stealDelaymin = stealDelaymax; }
-        if (autocloseDelaymin.getValue() > autocloseDelaymax.getValue()) { autocloseDelaymin= autocloseDelaymax; }
+        if (autocloseDelaymin.getValue() > autocloseDelaymax.getValue()) { autocloseDelaymin = autocloseDelaymax; }
 
         if ((mc.getCurrentScreen() != null) && (mc.thePlayer.inventoryContainer != null)
                 && (mc.thePlayer.inventoryContainer instanceof ContainerPlayer)
@@ -86,6 +85,10 @@ public class Stealer extends Module {
             }
 
             if (sortedSlots.get() != null && sortedSlots.get().isEmpty() && autoClose.getValue()) {
+                if (collectAll.getValue() && !isChestEmpty(chest.get())) {
+                    generatePath(chest.get()); // Regenerar el camino si el cofre no está vacío
+                    return;
+                }
                 if (closeTimer.firstFinish()) {
                     mc.thePlayer.closeScreen();
                     inChest.set(false);
@@ -104,24 +107,7 @@ public class Stealer extends Module {
         ArrayList<Slot> slots = IntStream.range(0, chest.getLowerChestInventory().getSizeInventory()).mapToObj(i -> {
             ItemStack itemStack = chest.getInventory().get(i);
             if (itemStack != null) {
-                Predicate<ItemStack> stealCondition;
-                if (collectAll.getValue()) {
-                    stealCondition = stack -> true;
-                } else {
-                    stealCondition = stack -> {
-                        Item item = stack.getItem();
-                        return (item instanceof ItemSword && (PlayerUtil.getBestSword() == null
-                                || PlayerUtil.isBetterSword(stack, PlayerUtil.getBestSword())))
-                                || (item instanceof ItemAxe && (PlayerUtil.getBestAxe() == null
-                                || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.planks)))
-                                || (item instanceof ItemPickaxe && (PlayerUtil.getBestAxe() == null
-                                || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.stone)))
-                                || (item instanceof ItemBlock || item instanceof ItemArmor
-                                || whiteListedItems.contains(item));
-                    };
-                }
-
-                if (stealCondition.test(itemStack)) {
+                if (collectAll.getValue() || shouldStealItem(itemStack)) {
                     return new Slot(i);
                 }
             }
@@ -130,6 +116,18 @@ public class Stealer extends Module {
 
         Slot[] sorted = sort(slots.toArray(new Slot[0]));
         sortedSlots.set(new ArrayList<>(Arrays.asList(sorted)));
+    }
+
+    private boolean shouldStealItem(ItemStack stack) {
+        Item item = stack.getItem();
+        return (item instanceof ItemSword && (PlayerUtil.getBestSword() == null
+                || PlayerUtil.isBetterSword(stack, PlayerUtil.getBestSword())))
+                || (item instanceof ItemAxe && (PlayerUtil.getBestAxe() == null
+                || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.planks)))
+                || (item instanceof ItemPickaxe && (PlayerUtil.getBestAxe() == null
+                || PlayerUtil.isBetterTool(stack, PlayerUtil.getBestAxe(), Blocks.stone)))
+                || (item instanceof ItemBlock || item instanceof ItemArmor
+                || whiteListedItems.contains(item));
     }
 
     private Slot[] sort(Slot[] in) {
@@ -172,6 +170,15 @@ public class Stealer extends Module {
         public void visit() {
             visited = true;
         }
+    }
+
+    private boolean isChestEmpty(ContainerChest chest) {
+        for (int i = 0; i < chest.getLowerChestInventory().getSizeInventory(); i++) {
+            if (chest.getLowerChestInventory().getStackInSlot(i) != null) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private void clickSlot(int x) {
