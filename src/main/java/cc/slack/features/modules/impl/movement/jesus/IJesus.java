@@ -3,6 +3,7 @@ package cc.slack.features.modules.impl.movement.jesus;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import net.minecraft.client.Minecraft;
 
@@ -36,6 +37,12 @@ public interface IJesus {
     ;
 
     default void onMotion(MotionEvent event) {
+    }
+
+    ;
+
+    default void onStrafe(StrafeEvent event) {
+
     }
 
     ;

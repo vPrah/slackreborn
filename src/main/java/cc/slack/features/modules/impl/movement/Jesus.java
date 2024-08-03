@@ -5,6 +5,7 @@ package cc.slack.features.modules.impl.movement;
 import cc.slack.events.impl.network.PacketEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.StrafeEvent;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
@@ -61,6 +62,11 @@ public class Jesus extends Module {
         if (!mc.thePlayer.isInWater()) return;
 
         mode.getValue().onMove(event);
+    }
+
+    @Listen
+    public void onStrafe(StrafeEvent event) {
+        mode.getValue().onStrafe(event);
     }
 
     @Override
