@@ -14,6 +14,7 @@ import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.impl.movement.jesus.IJesus;
 import cc.slack.features.modules.impl.movement.jesus.impl.VanillaJesus;
 import cc.slack.features.modules.impl.movement.jesus.impl.VerusJesus;
+import cc.slack.features.modules.impl.movement.jesus.impl.VulcanJumpJesus;
 import io.github.nevalackin.radbus.Listen;
 
 
@@ -24,7 +25,16 @@ import io.github.nevalackin.radbus.Listen;
 
 public class Jesus extends Module {
 
-    private final ModeValue<IJesus> mode = new ModeValue<>(new IJesus[]{new VanillaJesus(), new VerusJesus()});
+    private final ModeValue<IJesus> mode = new ModeValue<>(new IJesus[]{
+            // Vanilla
+            new VanillaJesus(),
+
+            // Vulcan
+            new VulcanJumpJesus(),
+
+            // Verus
+            new VerusJesus()
+    });
 
     public Jesus() {
         super();
