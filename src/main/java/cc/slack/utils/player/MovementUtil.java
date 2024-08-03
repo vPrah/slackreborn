@@ -73,6 +73,19 @@ public class MovementUtil implements IMinecraft {
         mc.thePlayer.motionZ = Math.cos(Math.toRadians(yaw)) * speed;
     }
 
+    public static void customStrafeStrength(double strength) {
+        strength /= 100;
+        strength = Math.min(1, Math.max(0, strength));
+
+        double motionX = mc.thePlayer.motionX;
+        double motionZ = mc.thePlayer.motionZ;
+
+        MovementUtil.strafe();
+
+        mc.thePlayer.motionX = motionX + (mc.thePlayer.motionX - motionX) * strength;
+        mc.thePlayer.motionZ = motionZ + (mc.thePlayer.motionZ - motionZ) * strength;
+    }
+
     public static void move(float speed) {
         float yaw = getDirection();
         mc.thePlayer.motionX += Math.cos(Math.toRadians(yaw + 90.0f)) * speed;
