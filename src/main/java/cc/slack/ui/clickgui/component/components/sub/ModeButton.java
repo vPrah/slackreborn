@@ -64,36 +64,27 @@ public class ModeButton extends Component {
         if (this.open) {
             Minecraft.getFontRenderer().drawStringWithShadow(prefix, (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
             Minecraft.getFontRenderer().drawStringWithShadow("-", (parent.parent.getX() + parent.parent.getWidth() - 10) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
-
-            GL11.glPushMatrix();
-            //RenderUtil.startStencil();
-            //RenderUtil.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + getHeight()) * 2, new Color(0, 0, 0, 0).getRGB());
-           // RenderUtil.startRenderInStencil(true);
-
-            int i = 10;
-            this.hoveredMode = null;
-
-            for (Object mode : set.getModes()) {
-                String mset = mode.toString();
-                if (isMouseOnButton(mousePosX, mousePosY - i)) {
-                    this.hoveredMode = mset;
-                    Gui.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset + 12 + i - 10) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + 12 + i) * 2, 0x2222222);
-                }
-                if (mset.equalsIgnoreCase(set.getValue().toString())) {
-                    Gui.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset + 12 + i - 10) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + 12 + i) * 2, 0x2727227);
-                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 2 + 6) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
-                } else {
-                    Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 2) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
-                }
-                i += 10;
-            }
-
-            ///RenderUtil.endStencil();
-            GL11.glPopMatrix();
-                
         } else {
             Minecraft.getFontRenderer().drawStringWithShadow("+", (parent.parent.getX() + parent.parent.getWidth() - 10) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
             Minecraft.getFontRenderer().drawStringWithShadow(prefix + set.getValue().toString(), (parent.parent.getX() + 7) * 2, (parent.parent.getY() + offset + 2) * 2 + 5, -1);
+        }
+        int i = 10;
+        this.hoveredMode = null;
+
+        for (Object mode : set.getModes()) {
+            if (i > getHeight() - 12) break;
+            String mset = mode.toString();
+            if (isMouseOnButton(mousePosX, mousePosY - i)) {
+                this.hoveredMode = mset;
+                Gui.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset + 12 + i - 10) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + 12 + i) * 2, 0x2222222);
+            }
+            if (mset.equalsIgnoreCase(set.getValue().toString())) {
+                Gui.drawRect((parent.parent.getX() + 2) * 2, (parent.parent.getY() + offset + 12 + i - 10) * 2, (parent.parent.getX() + (parent.parent.getWidth())) * 2, (parent.parent.getY() + offset + 12 + i) * 2, 0x2727227);
+                Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 2 + 6) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
+            } else {
+                Minecraft.getFontRenderer().drawStringWithShadow(mset, (parent.parent.getX() + 7 + 2) * 2, (parent.parent.getY() + offset + 2 + i) * 2 + 5, -1);
+            }
+            i += 10;
         }
         GL11.glPopMatrix();
     }
