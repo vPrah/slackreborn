@@ -1,11 +1,13 @@
 package cc.slack.features.modules.impl.movement.flights.impl.verus;
 
 import cc.slack.events.State;
+import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.player.CollideEvent;
 import cc.slack.events.impl.player.MotionEvent;
 import cc.slack.events.impl.player.MoveEvent;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.player.PlayerUtil;
 import net.minecraft.block.BlockAir;
@@ -34,23 +36,22 @@ public class VerusFloatFlight implements IFlight {
     public void onMove(MoveEvent event) {
             if (mc.thePlayer.onGround && ticks % 14 == 0) {
                 event.setY(0.42F);
-                MovementUtil.strafe(0.69F);
+                MovementUtil.strafe((float) MathUtil.getRandomInRange(0.69, 0.75));
                 mc.thePlayer.motionY = -(mc.thePlayer.posY - Math.floor(mc.thePlayer.posY));
             } else {
                 if (mc.thePlayer.onGround) {
-                    MovementUtil.strafe((float) (1.01 + MovementUtil.getSpeedPotAMP(0.15)));
-                    // Slows Down To Not Flag Speed11A.
+                    MovementUtil.strafe((float) (MathUtil.getRandomInRange(1.05, 1.1) + MovementUtil.getSpeedPotAMP(0.15)));
                 } else MovementUtil.strafe((float) (0.41 + MovementUtil.getSpeedPotAMP(0.05)));
             }
             mc.thePlayer.setSprinting(true);
-            PacketUtil.sendNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
+            PacketUtil.send(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
         ticks++;
     }
 
     @Override
     public void onCollide(CollideEvent event) {
         if (event.getBlock() instanceof BlockAir && !mc.gameSettings.keyBindSneak.isKeyDown() || mc.gameSettings.keyBindJump.isKeyDown()) {
-            final double x = event.getX(), y = event.getY(), z = event.getZ();
+            final double x = event.getBlockPos().getX(), y = event.getBlockPos().getY(), z = event.getBlockPos().getZ();
 
             if (y < mc.thePlayer.posY) {
                 event.setBoundingBox(AxisAlignedBB.fromBounds(
@@ -69,6 +70,11 @@ public class VerusFloatFlight implements IFlight {
     public void onDisable() {
         MovementUtil.resetMotion();
         PacketUtil.sendNoEvent(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SNEAKING));
+    }
+
+    @Override
+    public void onMoveInput(onMoveInputEvent event) {
+        event.sneak = false;
     }
 
     @Override
