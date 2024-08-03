@@ -27,13 +27,11 @@ public class ModuleManager {
         try {
             addModules(
                     // DEV
-                    new Strafe(),
-                    new TargetStrafe(),
-                    new MCF(),
+                    new BPSCounter(),
+                    new FPSCounter(),
+                    new XYZCounter(),
                     new ClientSpoofer(), // Dont remove
-                    new AutoRod(), // Recoded
-                    new AimAssist(), // Need Recode
-                    // new CustomESP(), // Need Recode
+                    new AutoRod(), // Recoded// new CustomESP(), // Need Recode
 
                     new FreeLook(), // Need Recode
 
@@ -55,9 +53,11 @@ public class ModuleManager {
                     new LongJump(), // Recoded
                     new Step(), // Recoded
                     new Sprint(),
+                    new Strafe(),
                     new Glide(), // Recoded
                     new Jesus(), // Recoded
                     new Spider(),
+                    new TargetStrafe(),
                     new NoWeb(), // Recoded
                     new VClip(), // Recoded
 
@@ -79,6 +79,7 @@ public class ModuleManager {
                     new FastEat(),
                     new FreeLook(),
                     new FreeCam(),
+                    new MCF(),
                     new TimerModule(),
 
                     // World
@@ -131,6 +132,7 @@ public class ModuleManager {
 
                     // Ghost
                     new AimBot(),
+                    new AimAssist(),
                     new Autoclicker(),
                     new Reach(),
                     new LegitScaffold(),
