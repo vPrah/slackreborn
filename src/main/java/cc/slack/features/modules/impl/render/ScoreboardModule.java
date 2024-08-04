@@ -10,6 +10,7 @@ import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.start.Slack;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.font.MCFontRenderer;
@@ -29,6 +30,8 @@ public class ScoreboardModule extends Module {
 
 	private final BooleanValue noscoreboard = new BooleanValue("No Scoreboard", false);
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
+	public final BooleanValue resetPos = new BooleanValue("Reset Position", false);
+
 	private final BooleanValue textShadow = new BooleanValue("Text Shadow", false);
 	private final BooleanValue lineNumbersValue = new BooleanValue("Line Numbers", true);
 	private final ModeValue<String> scoreboardFont = new ModeValue<>("Font", new String[]{"Minecraft", "Apple", "Poppins", "Roboto"});
@@ -45,7 +48,7 @@ public class ScoreboardModule extends Module {
 
 
 	public ScoreboardModule() {
-		addSettings(noscoreboard, roundedValue, textShadow, lineNumbersValue, scoreboardFont, scoreboardFontScale);
+		addSettings(noscoreboard, roundedValue, resetPos,textShadow, lineNumbersValue, scoreboardFont, scoreboardFontScale);
 	}
 
 	@Listen
@@ -65,10 +68,16 @@ public class ScoreboardModule extends Module {
 
 	@Listen
 	public void onRender(RenderEvent event) {
+		if (resetPos.getValue()) {
+			posX = 0D;
+			posY = 30D;
+			Slack.getInstance().getModuleManager().getInstance(ScoreboardModule.class).resetPos.setValue(false);
+		}
+
 		if (event.getState() != RenderEvent.State.RENDER_2D) return;
 		if (noscoreboard.getValue()) return;
 
-		updateFontRenderers(); // Actualiza las fuentes si es necesario
+		updateFontRenderers();
 
 		ScaledResolution scaledRes = new ScaledResolution(mc);
 		Scoreboard scoreboard = mc.theWorld.getScoreboard();
