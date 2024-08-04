@@ -47,12 +47,14 @@ public class AntiVoid extends Module {
 
     // Vulcan Antivoid
     public final NumberValue<Float> vulcandistance = new NumberValue<>("Vulcan Distance", 2.6F, 0F, 15F, 0.1F);
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
 
 
 
     public AntiVoid() {
         super();
-        addSettings(mode, vulcandistance);
+        addSettings(mode, vulcandistance, displayMode);
     }
 
     @Override
@@ -107,6 +109,11 @@ public class AntiVoid extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
-
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }
