@@ -221,8 +221,12 @@ public class PlayerUtil implements IMinecraft {
         return lastAxe;
     }
 
-    public static Block getBlockRelativeToPlayer(final double offsetX, final double offsetY, final double offsetZ) {
-        return mc.getWorld().getBlockState(new BlockPos(mc.thePlayer.posX + offsetX, mc.thePlayer.posY + offsetY, mc.thePlayer.posZ + offsetZ)).getBlock();
+    public static Block blockRelativeToPlayer(final double offsetX, final double offsetY, final double offsetZ) {
+        return block(mc.thePlayer.posX + offsetX, mc.thePlayer.posY + offsetY, mc.thePlayer.posZ + offsetZ);
+    }
+
+    public static Block block(final double x, final double y, final double z) {
+        return mc.theWorld.getBlockState(new BlockPos(x, y, z)).getBlock();
     }
 
     public static int getBestHotbarTool(Block target) {

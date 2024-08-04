@@ -92,6 +92,17 @@ public class MovementUtil implements IMinecraft {
         mc.thePlayer.motionZ += Math.cos(Math.toRadians(yaw)) * speed;
     }
 
+    public static double predictedMotion(final double motion, final int ticks) {
+        if (ticks == 0) return motion;
+        double predicted = motion;
+
+        for (int i = 0; i < ticks; i++) {
+            predicted = (predicted - 0.08) * 0.98F;
+        }
+
+        return predicted;
+    }
+
     private static void setBaseSpeed(MoveEvent event, double speed, float yaw, double forward, double strafing) {
         if (mc.thePlayer != null && mc.theWorld != null) {
             final boolean reversed = forward < 0.0f;
