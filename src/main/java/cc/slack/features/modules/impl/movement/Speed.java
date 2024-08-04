@@ -2,10 +2,9 @@
 
 package cc.slack.features.modules.impl.movement;
 
+import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.*;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.Category;
@@ -61,6 +60,7 @@ public class Speed extends Module {
             // Vulcan
             new VulcanLowSpeed(),
             new VulcanPortSpeed(),
+//            new Vulcan2PortSpeed(),
             new VulcanHopSpeed(),
 
             new FakeStrafeSpeed()
@@ -121,6 +121,21 @@ public class Speed extends Module {
     public void onPacket(PacketEvent event) {
 
         mode.getValue().onPacket(event);
+    }
+
+    @Listen
+    public void onMoveInput(onMoveInputEvent event) {
+        mode.getValue().onMoveInput(event);
+    }
+
+    @Listen
+    public void onStrafe(StrafeEvent event) {
+        mode.getValue().onStrafe(event);
+    }
+
+    @Listen
+    public void onJump(JumpEvent event) {
+        mode.getValue().onJump(event);
     }
 
     @Override

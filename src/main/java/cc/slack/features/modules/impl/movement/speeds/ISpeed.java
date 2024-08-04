@@ -2,10 +2,9 @@
 
 package cc.slack.features.modules.impl.movement.speeds;
 
+import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.*;
 import net.minecraft.client.Minecraft;
 
 public interface ISpeed {
@@ -38,6 +37,23 @@ public interface ISpeed {
     ;
 
     default void onMotion(MotionEvent event) {
+    }
+
+    ;
+
+    default void onMoveInput(onMoveInputEvent event) {
+    }
+
+    ;
+
+    default void onStrafe(StrafeEvent event) {
+
+    }
+
+    ;
+
+    default void onJump(JumpEvent event) {
+
     }
 
     ;
