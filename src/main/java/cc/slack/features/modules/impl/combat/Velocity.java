@@ -53,10 +53,13 @@ public class Velocity extends Module {
     private final BooleanValue onlyground = new BooleanValue("Only Ground", false);
     private final BooleanValue noFire = new BooleanValue("No Fire", false);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
     public Velocity() {
         super();
-        addSettings(mode, vertical, horizontal, velocityTick, onlyground, noFire);
+        addSettings(mode, vertical, horizontal, velocityTick, onlyground, noFire, displayMode);
     }
 
     @Override
@@ -117,6 +120,12 @@ public class Velocity extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 
 }
