@@ -4,10 +4,7 @@ package cc.slack.features.modules.impl.movement.flights;
 
 import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.CollideEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.*;
 import net.minecraft.client.Minecraft;
 
 public interface IFlight {
@@ -49,6 +46,12 @@ public interface IFlight {
     ;
 
     default void onMoveInput(onMoveInputEvent event) {
+
+    }
+
+    ;
+
+    default void onAttack(AttackEvent event) {
 
     }
 

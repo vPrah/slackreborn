@@ -4,10 +4,7 @@ package cc.slack.features.modules.impl.movement;
 
 import cc.slack.events.impl.input.onMoveInputEvent;
 import cc.slack.events.impl.network.PacketEvent;
-import cc.slack.events.impl.player.CollideEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
-import cc.slack.events.impl.player.UpdateEvent;
+import cc.slack.events.impl.player.*;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
@@ -108,6 +105,11 @@ public class Flight extends Module {
     @Listen
     public void onMoveInput(onMoveInputEvent event) {
         mode.getValue().onMoveInput(event);
+    }
+
+    @Listen
+    public void onAttack(AttackEvent event) {
+        mode.getValue().onAttack(event);
     }
 
     @Override
