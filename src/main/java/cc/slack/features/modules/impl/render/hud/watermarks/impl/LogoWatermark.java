@@ -11,8 +11,8 @@ import net.minecraft.util.ResourceLocation;
 import org.lwjgl.input.Mouse;
 
 public class LogoWatermark implements IWatermarks {
-    private double posX = 10D; // Default to top-left corner
-    private double posY = 10D; // Default to top-left corner
+    private double posX = 10D;
+    private double posY = 10D;
     private boolean dragging = false;
     private double dragX = 0, dragY = 0;
 
@@ -23,7 +23,6 @@ public class LogoWatermark implements IWatermarks {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-        // No implementation needed
     }
 
     private void renderLogo() {
