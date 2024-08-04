@@ -42,6 +42,12 @@ public class BackgroundedWatermark implements IWatermarks {
 
     @Override
     public void onRender(RenderEvent event) {
+        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkResetPos.getValue()) {
+            posX = -1D;
+            posY = -1D;
+            Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkResetPos.setValue(false);
+        }
+
         updateFontRenderers();
         renderBackgroundedRound(
                 ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB(),
@@ -52,7 +58,6 @@ public class BackgroundedWatermark implements IWatermarks {
 
     @Override
     public void onUpdate(UpdateEvent event) {
-
     }
 
     private void renderBackgroundedRound(int themeColor, int whiteColor, int backgroundColor) {
