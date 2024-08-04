@@ -12,6 +12,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
+import cc.slack.start.Slack;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.render.ColorUtil;
@@ -34,6 +35,8 @@ public class TargetHUD extends Module {
 
 	private final ModeValue<String> mode = new ModeValue<>(new String[] {"New", "Classic", "Classic2"});
 	private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
+	public final BooleanValue resetPos = new BooleanValue("Reset Position", false);
+
 	private final BooleanValue followTarget = new BooleanValue("Follow Target", false);
 
 	private double posX = -1D;
@@ -42,12 +45,9 @@ public class TargetHUD extends Module {
 	private int x = 0;
 	private int y = 0;
 
-//	private final NumberValue<Double> posX = new NumberValue<>("PosX", 100.0D, -1000.0D, 1000.0D, 0.1D);
-//	private final NumberValue<Double> posY = new NumberValue<>("PosY", 10.0D, -1000.0D, 1000.0D, 0.1D);
-
 
 	public TargetHUD() {
-		addSettings(mode, roundedValue, followTarget);
+		addSettings(mode, roundedValue, resetPos,followTarget);
 	}
 
 	private EntityPlayer target;
@@ -86,6 +86,12 @@ public class TargetHUD extends Module {
 
 	@Listen
 	public void onRender(RenderEvent event) {
+		if (resetPos.getValue()) {
+			posX = -1D;
+			posY = -1D;
+			Slack.getInstance().getModuleManager().getInstance(TargetHUD.class).resetPos.setValue(false);
+		}
+
 		if (event.getState() != RenderEvent.State.RENDER_2D) return;
 
 		ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
