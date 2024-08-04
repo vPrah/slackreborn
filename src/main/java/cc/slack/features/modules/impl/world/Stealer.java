@@ -40,7 +40,7 @@ public class Stealer extends Module {
     private final BooleanValue autoClose = new BooleanValue("Auto Close", true);
     private final NumberValue<Double> autocloseDelaymax = new NumberValue<>("Auto Close Delay Max", 0D, 0D, 500D, 1D);
     private NumberValue<Double> autocloseDelaymin = new NumberValue<>("Auto Close Delay Min", 0D, 0D, 500D, 1D);
-    private final BooleanValue collectAll = new BooleanValue("Collect all items", false);
+    private final BooleanValue collectAll = new BooleanValue("No Filter", false);
 
     private final AtomicReference<ArrayList<Slot>> sortedSlots = new AtomicReference<>();
     private final AtomicReference<ContainerChest> chest = new AtomicReference<>();
