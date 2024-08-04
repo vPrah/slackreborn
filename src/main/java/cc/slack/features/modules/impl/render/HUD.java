@@ -2,6 +2,10 @@
 
 package cc.slack.features.modules.impl.render;
 
+import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
+import cc.slack.features.modules.impl.render.hud.watermarks.impl.BackgroundedWatermark;
+import cc.slack.features.modules.impl.render.hud.watermarks.impl.ClassicWatermark;
+import cc.slack.features.modules.impl.render.hud.watermarks.impl.LogoWatermark;
 import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
@@ -16,14 +20,11 @@ import cc.slack.features.modules.impl.render.hud.arraylist.impl.*;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
-import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.util.ResourceLocation;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -48,11 +49,18 @@ public class HUD extends Module {
 
 
 	// Watermark
-	private final BooleanValue watermark = new BooleanValue("Watermark", true);
-	private final ModeValue<String> watermarksmodes = new ModeValue<>("WaterMark Mode", new String[] { "BackgroundedRound", "Backgrounded", "Classic", "Logo"});
-	private final ModeValue<String> watermodedraw = new ModeValue<>("WaterMark Draw", new String[]{"Rounded", "Normal", "Custom Round"});
-	private final NumberValue<Float> customroundValue = new NumberValue<>("Custom Round Radius", 8F, 0F, 20F, 0.1F);
-	private final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins", "Roboto"});
+	public final BooleanValue watermark = new BooleanValue("Watermark", true);
+	public final ModeValue<IWatermarks> watermarksmodes = new ModeValue<>("WaterMark", new IWatermarks[] {
+
+			new BackgroundedWatermark(),
+			new ClassicWatermark(),
+			new LogoWatermark()
+
+	});
+
+	public final BooleanValue watermarkroundValue = new BooleanValue("Background Round", true);
+	public final NumberValue<Float> customroundValue = new NumberValue<>("Custom Round Radius", 4F, 0F, 20F, 0.1F);
+	public final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins", "Roboto"});
 
 
 	// Notifications
@@ -97,7 +105,7 @@ public class HUD extends Module {
 
 	public HUD() {
 		addSettings(arraylist, arraylistMode,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
-				watermark,watermarksmodes, watermarkFont, // watermark
+				watermark,watermarksmodes, watermarkroundValue, customroundValue  ,watermarkFont, // watermark
 				notification, roundednotification, // notification
 				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
 				sound, // things
@@ -118,27 +126,8 @@ public class HUD extends Module {
 			arraylistMode.getValue().onRender(e);
 		}
 
-		HUD hud = Slack.getInstance().getModuleManager().getInstance(HUD.class);
-		int themeColor = ColorUtil.getColor(hud.theme.getValue(), 0.15).getRGB();
-		int whiteColor = new Color(255, 255, 255, 255).getRGB();
-		int blackColor = new Color(1, 1, 1, 100).getRGB();
-		int semiTransparentBlack = 0x80000000;
-
 		if (watermark.getValue()) {
-			switch (watermarksmodes.getValue()) {
-				case "Classic":
-					renderClassic(themeColor);
-					break;
-				case "Backgrounded":
-					renderBackgrounded(themeColor, whiteColor, blackColor);
-					break;
-				case "BackgroundedRound":
-					renderBackgroundedRound(themeColor, whiteColor, semiTransparentBlack);
-					break;
-				case "Logo":
-					renderLogo();
-					break;
-			}
+			watermarksmodes.getValue().onRender(e);
 		}
 
 		if (fpsdraw.getValue()) {
@@ -275,184 +264,6 @@ public class HUD extends Module {
 		notStyle.add(style);
 	}
 
-
-	// HUD Watermarks
-
-	private void renderClassic(int themeColor) {
-		switch (watermarkFont.getValue()) {
-			case "Apple":
-				Fonts.apple24.drawStringWithShadow("S", 3.4, 4, themeColor);
-				Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);
-				break;
-			case "Poppins":
-				Fonts.poppins24.drawStringWithShadow("S", 3.8, 3.8, themeColor);
-				Fonts.poppins24.drawStringWithShadow("lack", 11, 4, -1);
-				break;
-			case "Roboto":
-				Fonts.roboto24.drawStringWithShadow("S", 3.8, 3.8, themeColor);
-				Fonts.roboto24.drawStringWithShadow("lack", 11, 4, -1);
-				break;
-		}
-	}
-
-	private void renderBackgrounded(int themeColor, int whiteColor, int backgroundColor) {
-		switch (watermarkFont.getValue()) {
-			case "Apple":
-				drawBackgroundedAppleText(themeColor, whiteColor, backgroundColor);
-				break;
-			case "Poppins":
-				drawBackgroundedPoppinsText(themeColor, whiteColor, backgroundColor);
-				break;
-			case "Roboto":
-				drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor);
-				break;
-		}
-	}
-
-	private void renderBackgroundedRound(int themeColor, int whiteColor, int backgroundColor) {
-		switch (watermarkFont.getValue()) {
-			case "Apple":
-				drawBackgroundedAppleText(themeColor, whiteColor, backgroundColor, true);
-				break;
-			case "Poppins":
-				drawBackgroundedPoppinsText(themeColor, whiteColor, backgroundColor, true);
-				break;
-			case "Roboto":
-				drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor, true);
-				break;
-		}
-	}
-
-	private void renderLogo() {
-		GlStateManager.enableAlpha();
-		GlStateManager.enableBlend();
-		RenderUtil.drawImage(new ResourceLocation("slack/menu/hud.png"), 4, 4, 20, 33);
-		GlStateManager.disableAlpha();
-		GlStateManager.disableBlend();
-	}
-
-	private void drawBackgroundedRobotoText(int themeColor, int whiteColor, int backgroundColor) {
-		drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor, false);
-	}
-
-	private void drawBackgroundedRobotoText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
-		int[] positions = calculateRobotoTextPositions();
-		int width = positions[positions.length - 1] + 4;
-
-		if (rounded) {
-			RenderUtil.drawRoundedRect(2, 2, width + 32, 15, 4.0f, backgroundColor);
-		} else {
-			drawRect(2, 2, width + 32, 15, backgroundColor);
-		}
-
-		Fonts.roboto20.drawStringWithShadow("S", positions[0], 5, themeColor);
-		Fonts.roboto20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
-		Fonts.roboto18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
-		Fonts.roboto18.drawStringWithShadow((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp(), positions[3], 5, whiteColor);
-		Fonts.roboto18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
-		Fonts.roboto18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
-	}
-
-	private void drawBackgroundedAppleText(int themeColor, int whiteColor, int backgroundColor) {
-		drawBackgroundedAppleText(themeColor, whiteColor, backgroundColor, false);
-	}
-
-	private void drawBackgroundedAppleText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
-		int[] positions = calculateAppleTextPositions();
-		int width = positions[positions.length - 1] + 4;
-
-		if (rounded) {
-			RenderUtil.drawRoundedRect(2, 2, width + 32, 15, 4.0f, backgroundColor);
-		} else {
-			drawRect(2, 2, width + 32, 15, backgroundColor);
-		}
-
-		Fonts.apple20.drawStringWithShadow("S", positions[0], 5, themeColor);
-		Fonts.apple20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
-		Fonts.apple18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
-		Fonts.apple18.drawStringWithShadow((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp(), positions[3], 5, whiteColor);
-		Fonts.apple18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
-		Fonts.apple18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
-	}
-
-	private void drawBackgroundedPoppinsText(int themeColor, int whiteColor, int backgroundColor) {
-		drawBackgroundedPoppinsText(themeColor, whiteColor, backgroundColor, false);
-	}
-
-	private void drawBackgroundedPoppinsText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
-		int[] positions = calculatePoppinsTextPositions();
-		int width = positions[positions.length - 1] + 4;
-
-		if (rounded) {
-			RenderUtil.drawRoundedRect(2, 2, width, 15, 4.0f, backgroundColor);
-		} else {
-			drawRect(2, 2, width, 15, backgroundColor);
-		}
-
-		Fonts.poppins20.drawStringWithShadow("S", positions[0], 5, themeColor);
-		Fonts.poppins20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
-		Fonts.poppins18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
-		Fonts.poppins18.drawStringWithShadow("build 022390", positions[3], 5, whiteColor);
-		Fonts.poppins18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
-		Fonts.poppins18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
-	}
-
-	private int[] calculateRobotoTextPositions() {
-		int x = 4;
-		int[] positions = new int[6];
-
-		positions[0] = x;
-		x += Fonts.roboto20.getStringWidth("S") + 1;
-		positions[1] = x;
-		x += Fonts.roboto20.getStringWidth("lack ") + 1;
-		positions[2] = x;
-		x += Fonts.roboto18.getStringWidth(" | ") + 1;
-		positions[3] = x;
-		x += Fonts.roboto18.getStringWidth((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 1;
-		positions[4] = x;
-		x += Fonts.roboto18.getStringWidth(" | ") + 1;
-		positions[5] = x;
-
-		return positions;
-	}
-
-	private int[] calculateAppleTextPositions() {
-		int x = 4;
-		int[] positions = new int[6];
-
-		positions[0] = x;
-		x += Fonts.apple20.getStringWidth("S") + 1;
-		positions[1] = x;
-		x += Fonts.apple20.getStringWidth("lack ") + 1;
-		positions[2] = x;
-		x += Fonts.apple18.getStringWidth(" | ") + 1;
-		positions[3] = x;
-		x += Fonts.apple18.getStringWidth((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 1;
-		positions[4] = x;
-		x += Fonts.apple18.getStringWidth(" | ") + 1;
-		positions[5] = x;
-
-		return positions;
-	}
-
-	private int[] calculatePoppinsTextPositions() {
-		int x = 4;
-		int[] positions = new int[6];
-
-		positions[0] = x; // Position for "S"
-		x += Fonts.poppins20.getStringWidth("S") + 2;
-		positions[1] = x; // Position for "lack "
-		x += Fonts.poppins20.getStringWidth("lack ") + 2;
-		positions[2] = x; // Position for " | "
-		x += Fonts.poppins18.getStringWidth(" | ") + 2;
-		positions[3] = x; // Position for "build 022390"
-		x += Fonts.poppins18.getStringWidth((mc.isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 2;
-		positions[4] = x; // Position for " | "
-		x += Fonts.poppins18.getStringWidth(" | ") + 2;
-		positions[5] = x; // Position for "Minecraft.getDebugFPS() + " FPS""
-
-		return positions;
-	}
 
 
 	@Override
