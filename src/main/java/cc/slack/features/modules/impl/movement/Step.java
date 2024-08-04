@@ -24,10 +24,13 @@ public class Step extends Module {
     private final ModeValue<IStep> mode = new ModeValue<>(new IStep[]{new VanillaStep(), new NCPStep(), new VerusStep(), new VulcanStep(), new TestStep()});
     private final NumberValue<Float> timerSpeed = new NumberValue<>("Timer", 1f, 0f, 2f, 0.05f);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
     public Step() {
         super();
-        addSettings(mode, timerSpeed);
+        addSettings(mode, timerSpeed, displayMode);
     }
 
 
@@ -69,5 +72,11 @@ public class Step extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }
