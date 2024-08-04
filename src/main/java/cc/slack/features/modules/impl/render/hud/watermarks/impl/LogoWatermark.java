@@ -2,7 +2,9 @@ package cc.slack.features.modules.impl.render.hud.watermarks.impl;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
+import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
+import cc.slack.start.Slack;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
@@ -18,6 +20,11 @@ public class LogoWatermark implements IWatermarks {
 
     @Override
     public void onRender(RenderEvent event) {
+        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkResetPos.getValue()) {
+            posX = 10D;
+            posY = -10D;
+            Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkResetPos.setValue(false);
+        }
         renderLogo();
     }
 
