@@ -85,6 +85,9 @@ public class KillAura extends Module {
     private final ModeValue<String> sortMode = new ModeValue<>("Sort", new String[]{"Priority", "FOV", "Distance", "Health", "Hurt Ticks"});
     private final ModeValue<String> markMode = new ModeValue<>("Killaura Mark Mode", new String[]{"None", "Tracer", "Slack"});
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Advanced", "Simple", "Off"});
+
 
     private final TimeUtil timer = new TimeUtil();
     private final TimeUtil rotationCenter = new TimeUtil();
@@ -115,7 +118,8 @@ public class KillAura extends Module {
                 keepSprint, rayCast, // fixes
                 noScaffold, noFlight, noEat, noBlock, // Checks
                 sortMode,
-                markMode);
+                markMode,
+                displayMode);
     }
 
     @Override
@@ -581,5 +585,15 @@ public class KillAura extends Module {
     }
 
     @Override
-    public String getMode() { return cps.getValue() + " cps" + ", " + autoBlock.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Advanced":
+                return cps.getValue() + " cps" + ", " + autoBlock.getValue() + ", " + sortMode.getValue();
+            case "Simple":
+                return sortMode.getValue();
+            case "None":
+                return "";
+        }
+        return null;
+    }
 }
