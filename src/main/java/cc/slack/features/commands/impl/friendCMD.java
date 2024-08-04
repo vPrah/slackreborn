@@ -67,7 +67,7 @@ public class friendCMD extends CMD {
         } else {
             PrintUtil.message("§fShowing Friends list:");
             for (String friend : friends) {
-                PrintUtil.message("§c> §a" + friend);
+                PrintUtil.msgNoPrefix("§c> §a" + friend);
             }
         }
     }
