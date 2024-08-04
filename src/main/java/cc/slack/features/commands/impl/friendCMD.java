@@ -18,7 +18,7 @@ public class friendCMD extends CMD {
     @Override
     public void onCommand(String[] args, String cmd) {
         if (args.length == 0) {
-            PrintUtil.message("§cInvalid use of arguments. Format: .friend <add/remove/list> <name>");
+            PrintUtil.message("§fInvalid use of arguments. §cFormat: .friend <add/remove/list> <name>");
             return;
         }
 
@@ -28,7 +28,7 @@ public class friendCMD extends CMD {
         try {
             if (action.equals("add")) {
                 if (args.length != 2) {
-                    PrintUtil.message("§cInvalid use of arguments. Format: .friend add <name>");
+                    PrintUtil.message("§fInvalid use of arguments. §cFormat: .friend add <name>");
                     return;
                 }
                 String friend = args[1].replace('_', ' ');
@@ -40,7 +40,7 @@ public class friendCMD extends CMD {
                 PrintUtil.message("§fSuccessfully added §a" + friend + " §fas a friend.");
             } else if (action.equals("remove")) {
                 if (args.length != 2) {
-                    PrintUtil.message("§cInvalid use of arguments. Format: .friend remove <name>");
+                    PrintUtil.message("§fInvalid use of arguments. §cFormat: .friend remove <name>");
                     return;
                 }
                 String friend = args[1].replace('_', ' ');
@@ -48,15 +48,15 @@ public class friendCMD extends CMD {
                 PrintUtil.message("§fSuccessfully removed §c" + friend + " §ffrom friends.");
             } else if (action.equals("list")) {
                 if (args.length != 1) {
-                    PrintUtil.message("§cInvalid use of arguments. Format: .friend list");
+                    PrintUtil.message("§fInvalid use of arguments. §cFormat: .friend list");
                     return;
                 }
                 listFriends(friendManager);
             } else {
-                PrintUtil.message("§cInvalid action. Use 'add', 'remove', or 'list'.");
+                PrintUtil.message("§fInvalid action. §cUse 'add', 'remove', or 'list'§f.");
             }
         } catch (Exception e) {
-            PrintUtil.message("§cAn error occurred while processing the command.");
+            PrintUtil.message("§4An error occurred while processing the command§f.");
         }
     }
 
@@ -65,9 +65,9 @@ public class friendCMD extends CMD {
         if (friends.isEmpty()) {
             PrintUtil.message("§cYou have no friends added.");
         } else {
-            PrintUtil.message("§fFriends list:");
+            PrintUtil.message("§fShowing Friends list:");
             for (String friend : friends) {
-                PrintUtil.message("§f- §a" + friend);
+                PrintUtil.message("§c> §a" + friend);
             }
         }
     }
