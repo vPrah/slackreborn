@@ -59,7 +59,7 @@ public class AimAssist extends Module {
             if (insideNudge.getValue()) {
                 float[] nudge = RotationUtil.getLimitedRotation(
                         RotationUtil.getPlayerRotation(),
-                        RotationUtil.getTargetRotations(mc.objectMouseOver.entityHit.getEntityBoundingBox(), RotationUtil.TargetRotation.MIDDLE, 0.01),
+                        RotationUtil.getTargetRotations(mc.objectMouseOver.entityHit.getEntityBoundingBox(), RotationUtil.TargetRotation.OPTIMAL, 0.01),
                         (float) ((float) 20 * RotationUtil.getRotationDifference(RotationUtil.getTargetRotations(mc.objectMouseOver.entityHit.getEntityBoundingBox(), RotationUtil.TargetRotation.MIDDLE, 0.01)) / 3 / Minecraft.getDebugFPS())
                 );
 
