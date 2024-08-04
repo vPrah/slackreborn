@@ -29,10 +29,15 @@ public class ToggleCMD extends CMD {
                 return;
             }
 
+            boolean wasActive = module.isToggle();
             module.toggle();
-            PrintUtil.message("§b" + moduleName + " " + "§fenabled.");
+            if (wasActive) {
+                PrintUtil.message("§b" + moduleName + " §fis now " + "§cdisabled§f.");
+            } else {
+                PrintUtil.message("§b" + moduleName + " §fis now " + "§aenabled§f.");
+            }
         } catch (Exception e) {
-            PrintUtil.message("§cCould not find module named: " + moduleName);
+            PrintUtil.message("§cCould not find module named: §b" + moduleName);
         }
     }
 
