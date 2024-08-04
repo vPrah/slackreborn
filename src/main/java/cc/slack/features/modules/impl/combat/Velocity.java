@@ -28,11 +28,20 @@ import io.github.nevalackin.radbus.Listen;
 public class Velocity extends Module {
 
     private final ModeValue<IVelocity> mode = new ModeValue<>(new IVelocity[]{
+
+            // Vanilla
             new CancelVelocity(),
             new MotionVelocity(),
+
+            // Hypixel
             new HypixelAirVelocity(),
             new HypixelVelocity(),
             new HypixelStrafeVelocity(),
+
+            // Vulcan
+            new VulcanVelocity(),
+
+            // Special
             new ReverseVelocity(),
             new ConditionalVelocity(),
             new TickVelocity()
