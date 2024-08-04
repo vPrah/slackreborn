@@ -6,6 +6,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
+import cc.slack.start.Slack;
 import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.TimeUtil;
@@ -26,9 +27,11 @@ public class KeyStrokes extends Module {
 
     private final BooleanValue clientTheme = new BooleanValue("Client Theme", true);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 90,0,255,1);
+    public final BooleanValue resetPos = new BooleanValue("Reset Position", false);
+
 
     public KeyStrokes() {
-        addSettings(clientTheme, alphaValue);
+        addSettings(clientTheme, alphaValue, resetPos);
     }
 
     private double posX = 80.0D;
@@ -43,6 +46,11 @@ public class KeyStrokes extends Module {
 
     @Listen
     public void onRender(RenderEvent event) {
+        if (resetPos.getValue()) {
+            posX = 80D;
+            posY = 140D;
+            Slack.getInstance().getModuleManager().getInstance(KeyStrokes.class).resetPos.setValue(false);
+        }
         if (event.getState() != RenderEvent.State.RENDER_2D) return;
         if (enabled.size() < 5) {
             for (int i = enabled.size(); i < 5; i++) {
