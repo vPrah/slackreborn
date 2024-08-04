@@ -6,10 +6,10 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.start.Slack;
 import cc.slack.utils.font.Fonts;
-import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -20,18 +20,17 @@ import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-import static java.lang.Math.round;
 
 @ModuleInfo(
         name = "XYZCounter",
         category = Category.RENDER
 )
 public class XYZCounter extends Module {
+    private final ModeValue<String> backgroundMode = new ModeValue<>("Background", new String[]{"Smart", "Custom"});
     private final BooleanValue rounded = new BooleanValue("Rounded", true);
     private final NumberValue<Integer> widthValue = new NumberValue<>("Background Width", 110, 10, 200, 1);
     private final NumberValue<Integer> heightValue = new NumberValue<>("Background Height", 18, 5, 200, 1);
     private final NumberValue<Integer> radiusValue = new NumberValue<>("Background Rounded Radius", 6, 0, 20, 1);
-
 
     private double posX = -1D;
     private double posY = -1D;
@@ -43,7 +42,7 @@ public class XYZCounter extends Module {
     private double dragX = 0, dragY = 0;
 
     public XYZCounter() {
-        addSettings(rounded, widthValue, heightValue, radiusValue);
+        addSettings(backgroundMode, rounded, widthValue, heightValue, radiusValue);
     }
 
     @SuppressWarnings("unused")
@@ -70,10 +69,31 @@ public class XYZCounter extends Module {
         x = (int) posX;
         y = (int) posY;
 
+        String xyzText = "XYZ: ";
+        String xyzValue = "" + coordinates;
+
+        int xyzTextWidth = Fonts.apple20.getStringWidth(xyzText);
+        int xyzValueWidth = Fonts.apple20.getStringWidth(xyzValue);
+        int totalTextWidth = xyzTextWidth + xyzValueWidth;
+        int textHeight = Fonts.apple20.getHeight();
+
+        int rectWidth, rectHeight;
+        int textX, textY;
+
+        if (backgroundMode.getValue().equals("Smart")) {
+            rectWidth = totalTextWidth + 10;
+            rectHeight = textHeight + 12;
+        } else {
+            rectWidth = widthValue.getValue();
+            rectHeight = heightValue.getValue();
+        }
+
         int rectX = x + 170;
         int rectY = y + 58;
-        int rectWidth = widthValue.getValue();
-        int rectHeight = heightValue.getValue();
+
+        textX = rectX + (rectWidth - totalTextWidth) / 2;
+        textY = rectY + (rectHeight - textHeight) / 2;
+
         int cornerRadius = radiusValue.getValue();
 
         if (rounded.getValue()) {
@@ -82,24 +102,14 @@ public class XYZCounter extends Module {
             drawRect(rectX, rectY, rectWidth, rectHeight, new Color(0, 0, 0, 150).getRGB());
         }
 
-        String fpsText = "XYZ: ";
-        String fpsValue = "" + coordinates;
-
-        int fpsTextWidth = Fonts.apple20.getStringWidth(fpsText);
-        int fpsValueWidth = Fonts.apple20.getStringWidth(fpsValue);
-        int totalTextWidth = fpsTextWidth + fpsValueWidth;
-
-        int textX = rectX + (rectWidth - totalTextWidth) / 2;
-        int textY = rectY + (rectHeight - Fonts.apple20.getHeight()) / 2;
-
-        Fonts.apple20.drawStringWithShadow(fpsText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
-        Fonts.apple20.drawStringWithShadow(fpsValue, textX + fpsTextWidth, textY, -1);
+        Fonts.apple20.drawStringWithShadow(xyzText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+        Fonts.apple20.drawStringWithShadow(xyzValue, textX + xyzTextWidth, textY, -1);
 
         handleMouseInput(mouseX, mouseY, rectX, rectY, rectWidth, rectHeight);
     }
 
     @Listen
-    public void onTick (TickEvent event) {
+    public void onTick(TickEvent event) {
         coordinates = (int) mc.thePlayer.posX + ", " + (int) mc.thePlayer.posY + ", " + (int) mc.thePlayer.posZ;
     }
 
@@ -124,10 +134,5 @@ public class XYZCounter extends Module {
 
     private void drawRect(int x, int y, int width, int height, int color) {
         Gui.drawRect(x, y, x + width, y + height, color);
-    }
-
-    private String getXYZ() {
-        double currentBPS = ((double) round((MovementUtil.getSpeed() * 20) * 100)) / 100;
-        return String.format("%.2f", currentBPS);
     }
 }
