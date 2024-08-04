@@ -44,8 +44,11 @@ public class Breaker extends Module {
     public final BooleanValue spoofGround = new BooleanValue("Hypixel Faster", false);
     public final BooleanValue noCombat = new BooleanValue("No Combat", true);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public Breaker() {
-        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay, breakPercent, spoofGround, noCombat);
+        addSettings(mode, radiusDist, sortMode, switchDelay, targetSwitchDelay, breakPercent, spoofGround, noCombat, displayMode);
     }
 
     private BlockPos targetBlock;
@@ -208,5 +211,11 @@ public class Breaker extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }
