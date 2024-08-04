@@ -17,8 +17,11 @@ public class Cape extends Module {
 
     private final ModeValue<String> capes = new ModeValue<>("Cape", new String[]{"Slack", "ShitClient", "Clown"});
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public Cape() {
-        addSettings(capes);
+        addSettings(capes, displayMode);
     }
 
     @SuppressWarnings("unused")
@@ -46,5 +49,11 @@ public class Cape extends Module {
     }
 
     @Override
-    public String getMode() { return capes.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return capes.getValue().toString();
+        }
+        return null;
+    }
 }
