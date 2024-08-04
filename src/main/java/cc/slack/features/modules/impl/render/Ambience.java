@@ -25,11 +25,14 @@ public class Ambience extends Module {
     public ModeValue<String> weathermode = new ModeValue<>("Weather", new String[]{"None", "Clear", "Rain", "Thunder"});
     private final NumberValue<Float> weatherstrength = new NumberValue<>("Weather Strength", 1F, 0F, 1F,  0.01F);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
 
     public Ambience() {
         super();
-        addSettings(timemode, customtime, weathermode, weatherstrength);
+        addSettings(timemode, customtime, weathermode, weatherstrength, displayMode);
     }
 
     @Listen
@@ -74,5 +77,11 @@ public class Ambience extends Module {
     }
 
     @Override
-    public String getMode() { return timemode.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return timemode.getValue();
+        }
+        return null;
+    }
 }
