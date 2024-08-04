@@ -5,9 +5,9 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
+import cc.slack.features.modules.api.settings.impl.ModeValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.start.Slack;
-import cc.slack.utils.drag.DragUtil;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.player.MovementUtil;
 import cc.slack.utils.render.ColorUtil;
@@ -27,11 +27,12 @@ import static java.lang.Math.round;
         category = Category.RENDER
 )
 public class BPSCounter extends Module {
-    private final BooleanValue rounded = new BooleanValue("Rounded", true);
-    private final NumberValue<Integer> widthValue = new NumberValue<>("Background Width", 50, 10, 100, 1);
-    private final NumberValue<Integer> heightValue = new NumberValue<>("Background Height", 18, 5, 100, 1);
-    private final NumberValue<Integer> radiusValue = new NumberValue<>("Background Rounded Radius", 6, 0 , 20, 1);
 
+    private final ModeValue<String> backgroundMode = new ModeValue<>("Background", new String[]{"Smart", "Custom"});
+    private final BooleanValue rounded = new BooleanValue("Rounded", true);
+    private final NumberValue<Integer> widthValue = new NumberValue<>("Custom Background Width", 50, 10, 100, 1);
+    private final NumberValue<Integer> heightValue = new NumberValue<>("Custom Background Height", 18, 5, 100, 1);
+    private final NumberValue<Integer> radiusValue = new NumberValue<>("Custom Background Rounded Radius", 6, 0 , 20, 1);
 
     private double posX = -1D;
     private double posY = -1D;
@@ -41,8 +42,8 @@ public class BPSCounter extends Module {
     private boolean dragging = false;
     private double dragX = 0, dragY = 0;
 
-    public BPSCounter () {
-        addSettings(rounded, widthValue, heightValue, radiusValue);
+    public BPSCounter() {
+        addSettings(backgroundMode, rounded, widthValue, heightValue, radiusValue);
     }
 
     @SuppressWarnings("unused")
@@ -69,10 +70,31 @@ public class BPSCounter extends Module {
         x = (int) posX;
         y = (int) posY;
 
+        String fpsText = "BPS: ";
+        String fpsValue = "" + getBPS();
+
+        int fpsTextWidth = Fonts.apple20.getStringWidth(fpsText);
+        int fpsValueWidth = Fonts.apple20.getStringWidth(fpsValue);
+        int totalTextWidth = fpsTextWidth + fpsValueWidth;
+        int textHeight = Fonts.apple20.getHeight();
+
+        int rectWidth, rectHeight;
+        int textX, textY;
+
+        if (backgroundMode.getValue().equals("Smart")) {
+            rectWidth = totalTextWidth + 10;
+            rectHeight = textHeight + 12;
+        } else {
+            rectWidth = widthValue.getValue();
+            rectHeight = heightValue.getValue();
+        }
+
         int rectX = x + 170;
         int rectY = y + 58;
-        int rectWidth = widthValue.getValue();
-        int rectHeight = heightValue.getValue();
+
+        textX = rectX + (rectWidth - totalTextWidth) / 2;
+        textY = rectY + (rectHeight - textHeight) / 2;
+
         int cornerRadius = radiusValue.getValue();
 
         if (rounded.getValue()) {
@@ -80,16 +102,6 @@ public class BPSCounter extends Module {
         } else {
             drawRect(rectX, rectY, rectWidth, rectHeight, new Color(0, 0, 0, 150).getRGB());
         }
-
-        String fpsText = "BPS: ";
-        String fpsValue = "" + getBPS();
-
-        int fpsTextWidth = Fonts.apple20.getStringWidth(fpsText);
-        int fpsValueWidth = Fonts.apple20.getStringWidth(fpsValue);
-        int totalTextWidth = fpsTextWidth + fpsValueWidth;
-
-        int textX = rectX + (rectWidth - totalTextWidth) / 2;
-        int textY = rectY + (rectHeight - Fonts.apple20.getHeight()) / 2;
 
         Fonts.apple20.drawStringWithShadow(fpsText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
         Fonts.apple20.drawStringWithShadow(fpsValue, textX + fpsTextWidth, textY, -1);
@@ -111,6 +123,7 @@ public class BPSCounter extends Module {
             dragging = false;
         }
     }
+
     private void drawRoundedRect(float x, float y, float width, float height, float radius, int color) {
         RenderUtil.drawRoundedRect(x, y, x + width, y + height, radius, color);
     }
