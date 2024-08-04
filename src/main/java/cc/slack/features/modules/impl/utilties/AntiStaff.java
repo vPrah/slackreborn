@@ -32,12 +32,15 @@ public class AntiStaff extends Module {
     // Staffs Names
     private final String universocraftStaff = "0edx_ 0_Lily 1Kao denila  fxrchus  haaaaaaaaaaax_ iBlackSoulz iMxon_ JuliCarles kvvwro Tauchet wSilv6r _JuPo_";
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     // Variables
     private boolean detected = false;
     private String staffs = "";
 
     public AntiStaff() {
-        addSettings(serverMode, notifyValue, chatnotifyValue, leaveValue);
+        addSettings(serverMode, notifyValue, chatnotifyValue, leaveValue, displayMode);
     }
 
     @SuppressWarnings("unused")
@@ -117,6 +120,12 @@ public class AntiStaff extends Module {
     }
 
     @Override
-    public String getMode() { return serverMode.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return serverMode.getValue().toString();
+        }
+        return null;
+    }
 
 }
