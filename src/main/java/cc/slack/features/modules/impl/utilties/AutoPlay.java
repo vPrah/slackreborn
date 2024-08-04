@@ -30,9 +30,12 @@ public class AutoPlay extends Module {
     // Hypixel Only
     public final ModeValue<String> hypixelmode = new ModeValue<>("Hypixel", new String[]{"Solo normal", "Solo insane"});
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public AutoPlay() {
         super();
-        addSettings(mode, hypixelmode);
+        addSettings(mode, hypixelmode, displayMode);
     }
 
     @Override
@@ -63,6 +66,12 @@ public class AutoPlay extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 
 }
