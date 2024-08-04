@@ -2,14 +2,10 @@ package cc.slack.features.modules.impl.movement.flights.impl.verus;
 
 import cc.slack.events.State;
 import cc.slack.events.impl.input.onMoveInputEvent;
-import cc.slack.events.impl.player.CollideEvent;
-import cc.slack.events.impl.player.MotionEvent;
-import cc.slack.events.impl.player.MoveEvent;
+import cc.slack.events.impl.player.*;
 import cc.slack.features.modules.impl.movement.flights.IFlight;
 import cc.slack.utils.network.PacketUtil;
-import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.MovementUtil;
-import cc.slack.utils.player.PlayerUtil;
 import net.minecraft.block.BlockAir;
 import net.minecraft.network.play.client.C0BPacketEntityAction;
 import net.minecraft.util.AxisAlignedBB;
@@ -18,6 +14,7 @@ public class VerusFloatFlight implements IFlight {
 
 
     private int ticks = 0;
+
 
 
     @Override
@@ -31,6 +28,7 @@ public class VerusFloatFlight implements IFlight {
             ++ticks;
         }
     }
+
 
     @Override
     public void onMove(MoveEvent event) {
