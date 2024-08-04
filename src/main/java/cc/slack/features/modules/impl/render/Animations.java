@@ -22,13 +22,22 @@ public class Animations extends Module {
     public  final NumberValue<Double> yValue = new NumberValue<>("Y", 0.0D, -1.0D, 1.0D, 0.05D);
     public  final NumberValue<Double> zValue = new NumberValue<>("Z", 0.0D, -1.0D, 1.0D, 0.05D);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
     public Animations() {
-        addSettings(blockStyle, animationSpeedValue, spinSpeed, xValue, yValue, zValue);
+        addSettings(blockStyle, animationSpeedValue, spinSpeed, xValue, yValue, zValue, displayMode);
     }
 
 
     @Override
-    public String getMode() { return blockStyle.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return blockStyle.getValue().toString();
+        }
+        return null;
+    }
 
 }
