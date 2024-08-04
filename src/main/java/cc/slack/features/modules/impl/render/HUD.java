@@ -39,6 +39,7 @@ public class HUD extends Module {
 	// Arraylist
 	private final BooleanValue arraylist = new BooleanValue("Arraylist", true);
 	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {new ClassicArrayList(), new RavenArrayList() });
+	public final BooleanValue arraylistResetPos = new BooleanValue("Array Reset Position", false);
 	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
 	public final BooleanValue arraylistBackground = new BooleanValue("Arraylist Background", true);
 	public final BooleanValue tags = new BooleanValue("Tags", true);
@@ -60,6 +61,8 @@ public class HUD extends Module {
 
 	public final BooleanValue watermarkroundValue = new BooleanValue("Background Round", true);
 	public final NumberValue<Float> customroundValue = new NumberValue<>("Custom Round Radius", 4F, 0F, 20F, 0.1F);
+	public final BooleanValue watermarkResetPos = new BooleanValue("WaterMark Reset Position", false);
+
 	public final ModeValue<String> watermarkFont = new ModeValue<>("WaterMark Font", new String[] {"Apple", "Poppins", "Roboto"});
 
 
@@ -104,8 +107,8 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylist, arraylistMode,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
-				watermark,watermarksmodes, watermarkroundValue, customroundValue  ,watermarkFont, // watermark
+		addSettings(arraylist, arraylistMode, arraylistResetPos,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
+				watermark,watermarksmodes, watermarkroundValue, customroundValue, watermarkResetPos  ,watermarkFont, // watermark
 				notification, roundednotification, // notification
 				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
 				sound, // things
@@ -115,6 +118,7 @@ public class HUD extends Module {
 
 	@Listen
 	public void onUpdate(UpdateEvent e) {
+
 		arraylistMode.getValue().onUpdate(e);
 	}
 
