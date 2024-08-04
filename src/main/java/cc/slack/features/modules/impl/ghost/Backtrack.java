@@ -87,6 +87,8 @@ public class Backtrack extends Module {
                         backtrackTicks = backtrackTime.getValue();
                         enabled = true;
                         PingSpoofUtil.enableInbound(true, ticksSinceAttack * 17);
+                        PingSpoofUtil.enableOutbound(true, ticksSinceAttack * 10);
+
                         player = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
                     }
                     if (((C02PacketUseEntity) packet).getEntityFromWorld(mc.theWorld).hurtResistantTime == 0 && !sentHit) {
@@ -108,6 +110,6 @@ public class Backtrack extends Module {
 
     @Override
     public void onDisable() {
-        PingSpoofUtil.disable(true, false);
+        PingSpoofUtil.disable(true, true);
     }
 }
