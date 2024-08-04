@@ -36,12 +36,12 @@ public class VerusFloatFlight implements IFlight {
     public void onMove(MoveEvent event) {
             if (mc.thePlayer.onGround && ticks % 14 == 0) {
                 event.setY(0.42F);
-                MovementUtil.strafe((float) MathUtil.getRandomInRange(0.69, 0.75));
+                MovementUtil.strafe(0.69F);
                 mc.thePlayer.motionY = -(mc.thePlayer.posY - Math.floor(mc.thePlayer.posY));
             } else {
                 if (mc.thePlayer.onGround) {
-                    MovementUtil.strafe((float) (MathUtil.getRandomInRange(1.05, 1.1) + MovementUtil.getSpeedPotAMP(0.15)));
-                } else MovementUtil.strafe((float) (0.41 + MovementUtil.getSpeedPotAMP(0.05)));
+                    MovementUtil.strafe((float) (1.1F + MovementUtil.getSpeedPotAMP(0.15)));
+                } else MovementUtil.strafe((float) (0.43 + MovementUtil.getSpeedPotAMP(0.05)));
             }
             mc.thePlayer.setSprinting(true);
             PacketUtil.send(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SNEAKING));
