@@ -14,6 +14,10 @@ public final class PrintUtil implements IMinecraft {
     }
 
     public static void message(String message) {
-        mc.thePlayer.addChatMessage(new ChatComponentText("§cSlack §e» §f" + message));
+        mc.thePlayer.addChatMessage(new ChatComponentText("§cSlack » §f" + message));
+    }
+
+    public static void msgNoPrefix(String message) {
+        mc.thePlayer.addChatMessage(new ChatComponentText("§f" + message));
     }
 }

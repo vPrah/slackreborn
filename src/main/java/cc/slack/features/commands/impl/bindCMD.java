@@ -17,15 +17,17 @@ public class bindCMD extends CMD {
     @Override
     public void onCommand(String[] args, String command) {
         if (args.length == 0) {
-            PrintUtil.message("§cUsage: .bind [module] [key] or .bind list");
+            PrintUtil.message("§cUsage: .bind [module] [key], .bind list, or .bind clear");
             return;
         }
 
         if (args.length == 1) {
             if (args[0].equalsIgnoreCase("list")) {
                 bindMessage();
+            } else if (args[0].equalsIgnoreCase("clear")) {
+                clearAllBinds();
             } else {
-                PrintUtil.message("§cUsage: .bind [module] [key] or .bind list");
+                PrintUtil.message("§cUsage: .bind [module] [key], .bind list, or .bind clear");
             }
         }
 
@@ -50,16 +52,23 @@ public class bindCMD extends CMD {
         }
 
         if (args.length > 2) {
-            PrintUtil.message("§cUsage: .bind [module] [key] or .bind list");
+            PrintUtil.message("§cUsage: .bind [module] [key], .bind list, or .bind clear");
             PrintUtil.message("§cPlease replace spaces with underscores in the module name.");
         }
     }
 
+    private void clearAllBinds() {
+        for (Module module : Slack.getInstance().getModuleManager().getModules()) {
+            module.setKey(0);
+        }
+        PrintUtil.message("§f All module key binds have been cleared.");
+    }
+
     private void bindMessage() {
-        PrintUtil.message("§f§lModule binds:");
+        PrintUtil.message("§fDisplaying Module binds:");
         for (Module m : Slack.getInstance().getModuleManager().getModules()) {
             if (m.getKey() != 0) {
-                PrintUtil.message("§f §l" + m.getName() + "§l [§c" + Keyboard.getKeyName(m.getKey()) + "§f]");
+                PrintUtil.msgNoPrefix("§c> " + m.getName() + " §7- §c" + Keyboard.getKeyName(m.getKey()));
             }
         }
     }
