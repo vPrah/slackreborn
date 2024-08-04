@@ -30,6 +30,7 @@ public class BPSCounter extends Module {
 
     private final ModeValue<String> backgroundMode = new ModeValue<>("Background", new String[]{"Smart", "Custom"});
     private final BooleanValue rounded = new BooleanValue("Rounded", true);
+    public final BooleanValue resetPos = new BooleanValue("Reset Position", false);
     private final NumberValue<Integer> widthValue = new NumberValue<>("Custom Background Width", 50, 10, 100, 1);
     private final NumberValue<Integer> heightValue = new NumberValue<>("Custom Background Height", 18, 5, 100, 1);
     private final NumberValue<Integer> radiusValue = new NumberValue<>("Custom Background Rounded Radius", 6, 0 , 20, 1);
@@ -43,12 +44,18 @@ public class BPSCounter extends Module {
     private double dragX = 0, dragY = 0;
 
     public BPSCounter() {
-        addSettings(backgroundMode, rounded, widthValue, heightValue, radiusValue);
+        addSettings(backgroundMode, rounded, resetPos, widthValue, heightValue, radiusValue);
     }
 
     @SuppressWarnings("unused")
     @Listen
     public void onRender(RenderEvent event) {
+        if (resetPos.getValue()) {
+            posX = -1D;
+            posY = -1D;
+            Slack.getInstance().getModuleManager().getInstance(BPSCounter.class).resetPos.setValue(false);
+        }
+
         if (mc.gameSettings.showDebugInfo) {
             return;
         }
