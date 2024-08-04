@@ -6,19 +6,48 @@ import cc.slack.features.modules.impl.render.HUD;
 import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
 import cc.slack.start.Slack;
 import cc.slack.utils.font.Fonts;
+import cc.slack.utils.font.MCFontRenderer;
 import cc.slack.utils.player.PlayerUtil;
 import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.ScaledResolution;
+import org.lwjgl.input.Mouse;
 
 import java.awt.*;
 
-import static net.minecraft.client.gui.Gui.drawRect;
-
 public class BackgroundedWatermark implements IWatermarks {
+    private double posX = -1D;
+    private double posY = -1D;
+    private int x = 0;
+    private int y = 0;
+
+    private boolean dragging = false;
+    private double dragX = 0, dragY = 0;
+
+    private String cachedFontName;
+    private MCFontRenderer fontRenderer20;
+    private MCFontRenderer fontRenderer18;
+
+
+    private void updateFontRenderers() {
+        String currentFontName = Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkFont.getValue();
+        if (!currentFontName.equals(cachedFontName)) {
+            cachedFontName = currentFontName;
+            fontRenderer20 = Fonts.getFontRenderer(currentFontName, 20);
+            fontRenderer18 = Fonts.getFontRenderer(currentFontName, 18);
+        }
+    }
+
     @Override
     public void onRender(RenderEvent event) {
-        renderBackgroundedRound(ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB(), new Color(255, 255, 255, 255).getRGB(), new Color(1, 1, 1, 100).getRGB());
+        updateFontRenderers();
+        renderBackgroundedRound(
+                ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB(),
+                new Color(255, 255, 255, 255).getRGB(),
+                new Color(1, 1, 1, 100).getRGB()
+        );
     }
 
     @Override
@@ -27,134 +56,94 @@ public class BackgroundedWatermark implements IWatermarks {
     }
 
     private void renderBackgroundedRound(int themeColor, int whiteColor, int backgroundColor) {
-        switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkFont.getValue()) {
-            case "Apple":
-                drawBackgroundedAppleText(themeColor, whiteColor, backgroundColor, Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkroundValue.getValue());
-                break;
-            case "Poppins":
-                drawBackgroundedPoppinsText(themeColor, whiteColor, backgroundColor, Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkroundValue.getValue());
-                break;
-            case "Roboto":
-                drawBackgroundedRobotoText(themeColor, whiteColor, backgroundColor, Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkroundValue.getValue());
-                break;
-        }
+        String fontName = Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkFont.getValue();
+        boolean rounded = Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkroundValue.getValue();
+        drawBackgroundedText(fontName, themeColor, whiteColor, backgroundColor, rounded);
     }
 
+    private void drawBackgroundedText(String fontName, int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
+        ScaledResolution sr = new ScaledResolution(Minecraft.getMinecraft());
+        if (posX == -1 || posY == -1) {
+            posX = 2;
+            posY = 2;
+        }
 
-    private void drawBackgroundedRobotoText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
-        int[] positions = calculateRobotoTextPositions();
-        int width = positions[positions.length - 1] + 4;
+        int mouseX = Mouse.getX() * sr.getScaledWidth() / Minecraft.getMinecraft().displayWidth;
+        int mouseY = sr.getScaledHeight() - Mouse.getY() * sr.getScaledHeight() / Minecraft.getMinecraft().displayHeight - 1;
+
+        if (dragging) {
+            posX = mouseX - dragX;
+            posY = mouseY - dragY;
+        }
+
+        x = (int) posX;
+        y = (int) posY;
+
+        String text1 = "S";
+        String text2 = "lack ";
+        String text3 = " | ";
+        String text4 = (Minecraft.getMinecraft().isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp();
+        String text5 = " | ";
+        String text6 = Minecraft.getDebugFPS() + " FPS";
+
+        int width1 = fontRenderer20.getStringWidth(text1);
+        int width2 = fontRenderer20.getStringWidth(text2);
+        int width3 = fontRenderer18.getStringWidth(text3);
+        int width4 = fontRenderer18.getStringWidth(text4);
+        int width5 = fontRenderer18.getStringWidth(text5);
+        int width6 = fontRenderer18.getStringWidth(text6);
+
+        int totalWidth = width1 + width2 + width3 + width4 + width5 + width6 + 4;
+
+        int rectWidth = totalWidth + 10;
+        int rectHeight = 15;
+
+        int rectX = x;
+        int rectY = y;
 
         if (rounded) {
-            RenderUtil.drawRoundedRect(2, 2, width + 32, 15, Slack.getInstance().getModuleManager().getInstance(HUD.class).customroundValue.getValue(), backgroundColor);
+            RenderUtil.drawRoundedRect(rectX, rectY, rectX + rectWidth, rectY + rectHeight , Slack.getInstance().getModuleManager().getInstance(HUD.class).customroundValue.getValue(), backgroundColor);
         } else {
-            drawRect(2, 2, width + 32, 15, backgroundColor);
+            drawRect(rectX, rectY, rectX + rectWidth, rectY + rectHeight, backgroundColor);
         }
 
-        Fonts.roboto20.drawStringWithShadow("S", positions[0], 5, themeColor);
-        Fonts.roboto20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
-        Fonts.roboto18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
-        Fonts.roboto18.drawStringWithShadow((Minecraft.getMinecraft().isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp(), positions[3], 5, whiteColor);
-        Fonts.roboto18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
-        Fonts.roboto18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
+        int textX = rectX + 4;
+        int textY = rectY + 5;
+        fontRenderer20.drawStringWithShadow(text1, textX, textY, themeColor);
+        textX += width1 + 1;
+        fontRenderer20.drawStringWithShadow(text2, textX, textY, whiteColor);
+        textX += width2 + 1;
+        fontRenderer18.drawStringWithShadow(text3, textX, textY, whiteColor);
+        textX += width3 + 1;
+        fontRenderer18.drawStringWithShadow(text4, textX, textY, whiteColor);
+        textX += width4 + 1;
+        fontRenderer18.drawStringWithShadow(text5, textX, textY, whiteColor);
+        textX += width5 + 1;
+        fontRenderer18.drawStringWithShadow(text6, textX, textY, whiteColor);
+
+        handleMouseInput(mouseX, mouseY, rectX, rectY, rectWidth, rectHeight);
     }
 
-    private void drawBackgroundedAppleText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
-        int[] positions = calculateAppleTextPositions();
-        int width = positions[positions.length - 1] + 4;
-
-        if (rounded) {
-            RenderUtil.drawRoundedRect(2, 2, width + 32, 15, 4.0f, backgroundColor);
+    private void handleMouseInput(int mouseX, int mouseY, int rectX, int rectY, int rectWidth, int rectHeight) {
+        if (Mouse.isButtonDown(0)) {
+            if (!dragging) {
+                if (mouseX >= rectX && mouseX <= rectX + rectWidth &&
+                        mouseY >= rectY && mouseY <= rectY + rectHeight) {
+                    dragging = true;
+                    dragX = mouseX - posX;
+                    dragY = mouseY - posY;
+                }
+            }
         } else {
-            drawRect(2, 2, width + 32, 15, backgroundColor);
+            dragging = false;
         }
-
-        Fonts.apple20.drawStringWithShadow("S", positions[0], 5, themeColor);
-        Fonts.apple20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
-        Fonts.apple18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
-        Fonts.apple18.drawStringWithShadow((Minecraft.getMinecraft().isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp(), positions[3], 5, whiteColor);
-        Fonts.apple18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
-        Fonts.apple18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
     }
 
-    private void drawBackgroundedPoppinsText(int themeColor, int whiteColor, int backgroundColor, boolean rounded) {
-        int[] positions = calculatePoppinsTextPositions();
-        int width = positions[positions.length - 1] + 4;
-
-        if (rounded) {
-            RenderUtil.drawRoundedRect(2, 2, width, 15, 4.0f, backgroundColor);
-        } else {
-            drawRect(2, 2, width, 15, backgroundColor);
-        }
-
-        Fonts.poppins20.drawStringWithShadow("S", positions[0], 5, themeColor);
-        Fonts.poppins20.drawStringWithShadow("lack ", positions[1], 5, whiteColor);
-        Fonts.poppins18.drawStringWithShadow(" | ", positions[2], 5, whiteColor);
-        Fonts.poppins18.drawStringWithShadow("build 022390", positions[3], 5, whiteColor);
-        Fonts.poppins18.drawStringWithShadow(" | ", positions[4], 5, whiteColor);
-        Fonts.poppins18.drawStringWithShadow(Minecraft.getDebugFPS() + " FPS", positions[5], 5, whiteColor);
+    private void drawRect(int x, int y, int width, int height, int color) {
+        Gui.drawRect(x, y, x + width, y + height, color);
     }
-
-    private int[] calculateRobotoTextPositions() {
-        int x = 4;
-        int[] positions = new int[6];
-
-        positions[0] = x;
-        x += Fonts.roboto20.getStringWidth("S") + 1;
-        positions[1] = x;
-        x += Fonts.roboto20.getStringWidth("lack ") + 1;
-        positions[2] = x;
-        x += Fonts.roboto18.getStringWidth(" | ") + 1;
-        positions[3] = x;
-        x += Fonts.roboto18.getStringWidth((Minecraft.getMinecraft().isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 1;
-        positions[4] = x;
-        x += Fonts.roboto18.getStringWidth(" | ") + 1;
-        positions[5] = x;
-
-        return positions;
-    }
-
-    private int[] calculateAppleTextPositions() {
-        int x = 4;
-        int[] positions = new int[6];
-
-        positions[0] = x;
-        x += Fonts.apple20.getStringWidth("S") + 1;
-        positions[1] = x;
-        x += Fonts.apple20.getStringWidth("lack ") + 1;
-        positions[2] = x;
-        x += Fonts.apple18.getStringWidth(" | ") + 1;
-        positions[3] = x;
-        x += Fonts.apple18.getStringWidth((Minecraft.getMinecraft().isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 1;
-        positions[4] = x;
-        x += Fonts.apple18.getStringWidth(" | ") + 1;
-        positions[5] = x;
-
-        return positions;
-    }
-
-    private int[] calculatePoppinsTextPositions() {
-        int x = 4;
-        int[] positions = new int[6];
-
-        positions[0] = x; // Position for "S"
-        x += Fonts.poppins20.getStringWidth("S") + 2;
-        positions[1] = x; // Position for "lack "
-        x += Fonts.poppins20.getStringWidth("lack ") + 2;
-        positions[2] = x; // Position for " | "
-        x += Fonts.poppins18.getStringWidth(" | ") + 2;
-        positions[3] = x; // Position for "build 022390"
-        x += Fonts.poppins18.getStringWidth((Minecraft.getMinecraft().isIntegratedServerRunning()) ? "SinglePlayer" : PlayerUtil.getRemoteIp()) + 2;
-        positions[4] = x; // Position for " | "
-        x += Fonts.poppins18.getStringWidth(" | ") + 2;
-        positions[5] = x;
-
-        return positions;
-
-    }
-
     @Override
     public String toString() {
-        return "Background";
+        return "Backgrounded";
     }
 }
