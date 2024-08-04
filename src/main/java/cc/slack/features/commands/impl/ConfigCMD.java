@@ -74,11 +74,11 @@ public class ConfigCMD extends CMD {
 
     private void commandsMessage() {
         PrintUtil.message("§fConfig commands:");
-        PrintUtil.message("§c> §f.config save [config name]");
-        PrintUtil.message("§c> §f.config load [config name]");
-        PrintUtil.message("§c> §f.config delete [config name]");
-        PrintUtil.message("§c> §f.config list");
-        PrintUtil.message("§c> §f.config folder");
+        PrintUtil.msgNoPrefix("§c> §f.config save [config name]");
+        PrintUtil.msgNoPrefix("§c> §f.config load [config name]");
+        PrintUtil.msgNoPrefix("§c> §f.config delete [config name]");
+        PrintUtil.msgNoPrefix("§c> §f.config list");
+        PrintUtil.msgNoPrefix("§c> §f.config folder");
     }
 
 }
