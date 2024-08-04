@@ -38,10 +38,13 @@ public class NoFall extends Module {
             new VerusNofall()
     });
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
     public NoFall() {
         super();
-        addSettings(mode);
+        addSettings(mode, displayMode);
     }
 
     @Override
@@ -86,5 +89,11 @@ public class NoFall extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }

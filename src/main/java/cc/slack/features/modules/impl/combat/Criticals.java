@@ -25,10 +25,12 @@ public class Criticals extends Module {
 
     public final BooleanValue vulcanTimer = new BooleanValue("Vulcan Timer", true);
     public final BooleanValue onlyGround = new BooleanValue("Only Ground", true);
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
     
     public Criticals() {
         super();
-        addSettings(mode, vulcanTimer,onlyGround);
+        addSettings(mode, vulcanTimer,onlyGround, displayMode);
     }
 
     @Override
@@ -87,6 +89,12 @@ public class Criticals extends Module {
 
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 
 }

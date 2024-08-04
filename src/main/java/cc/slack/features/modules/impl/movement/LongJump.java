@@ -37,9 +37,12 @@ public class LongJump extends Module {
 
     public final NumberValue<Double> speedValue = new NumberValue<>("Speed", 5.0D,1.0D,9.0D,0.5D);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public LongJump() {
         super();
-        addSettings(mode, speedValue);
+        addSettings(mode, speedValue, displayMode);
     }
 
     @Override
@@ -81,6 +84,12 @@ public class LongJump extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 
 }

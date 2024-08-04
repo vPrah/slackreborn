@@ -31,9 +31,12 @@ public class Glide extends Module {
     });
     public final BooleanValue vulcanClipValue = new BooleanValue("Vulcan Clip", true);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public Glide() {
         super();
-        addSettings(mode, vulcanClipValue);
+        addSettings(mode, vulcanClipValue, displayMode);
     }
 
     @Override
@@ -73,5 +76,11 @@ public class Glide extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }

@@ -36,9 +36,12 @@ public class Jesus extends Module {
             new VerusJesus()
     });
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public Jesus() {
         super();
-        addSettings(mode);
+        addSettings(mode, displayMode);
     }
 
     @Override
@@ -80,5 +83,11 @@ public class Jesus extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }

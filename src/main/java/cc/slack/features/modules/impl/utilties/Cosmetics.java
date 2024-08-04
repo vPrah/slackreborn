@@ -19,9 +19,12 @@ public class Cosmetics extends Module {
     private final ModeValue<String> particlePosMode = new ModeValue<>("Particle Pos", new String[]{"Head", "Foot"});
     private final ModeValue<String> particlemode = new ModeValue<>("Particle", new String[]{"Portal", "Redstone", "Critical", "Heart"});
     private final NumberValue<Integer> particlesSpeed = new NumberValue<>("Particles Speed", 10, 1, 20, 1);
+
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
     public Cosmetics() {
         super();
-        addSettings(cosmeticMode, particlePosMode, particlemode);
+        addSettings(cosmeticMode, particlePosMode, particlemode, displayMode);
     }
 
     @SuppressWarnings("unused")
@@ -77,7 +80,13 @@ public class Cosmetics extends Module {
     }
 
     @Override
-    public String getMode() { return cosmeticMode.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return cosmeticMode.getValue().toString();
+        }
+        return null;
+    }
 }
 
 

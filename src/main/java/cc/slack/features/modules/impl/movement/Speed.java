@@ -76,9 +76,12 @@ public class Speed extends Module {
     public final BooleanValue nosloweat = new BooleanValue("NoSlow when Speed", true);
     public final BooleanValue jumpFix = new BooleanValue("Jump Fix", true);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public Speed() {
         super();
-        addSettings(mode, vanillaspeed, vanillaGround, hypixelSemiStrafe, hypixelTest, hypixelGlide, nosloweat, jumpFix);
+        addSettings(mode, vanillaspeed, vanillaGround, hypixelSemiStrafe, hypixelTest, hypixelGlide, nosloweat, jumpFix, displayMode);
     }
 
     @Override

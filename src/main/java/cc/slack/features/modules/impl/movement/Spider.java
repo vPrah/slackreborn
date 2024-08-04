@@ -33,10 +33,13 @@ public class Spider extends Module {
 
     public final NumberValue<Double> spiderSpeedValue = new NumberValue<>("Speed", 0.2D, 0.0D, 5.0D, 0.1D);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
     public Spider() {
         super();
-        addSettings(mode, spiderSpeedValue);
+        addSettings(mode, spiderSpeedValue, displayMode);
     }
 
 
@@ -80,7 +83,13 @@ public class Spider extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 
 
 

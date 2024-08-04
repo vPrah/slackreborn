@@ -57,10 +57,13 @@ public class Flight extends Module {
     public final NumberValue<Float> vanillaspeed = new NumberValue<>("Fly Vanilla Speed", 3F, 1F, 30F, 1F);
     public final NumberValue<Float> fbpitch = new NumberValue<>("Fireball Fly Pitch", 70f, 30f,90f, 3f);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 
     public Flight() {
         super();
-        addSettings(mode, vanillaspeed,fbpitch);
+        addSettings(mode, vanillaspeed,fbpitch, displayMode);
     }
 
     @Override
@@ -113,6 +116,12 @@ public class Flight extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 
 }

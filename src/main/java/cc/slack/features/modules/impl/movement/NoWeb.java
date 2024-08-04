@@ -26,9 +26,12 @@ public class NoWeb extends Module {
 
     private final ModeValue<INoWeb> mode = new ModeValue<>(new INoWeb[]{new VanillaNoWeb(), new FastFallNoWeb(), new VerusNoWeb()});
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     public NoWeb() {
         super();
-        addSettings(mode);
+        addSettings(mode, displayMode);
     }
 
     @Override
@@ -73,6 +76,11 @@ public class NoWeb extends Module {
     }
 
     @Override
-    public String getMode() { return mode.getValue().toString(); }
-
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return mode.getValue().toString();
+        }
+        return null;
+    }
 }

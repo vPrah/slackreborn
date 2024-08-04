@@ -73,6 +73,9 @@ public class ESP extends Module {
     private final NumberValue<Integer> blueValue = new NumberValue<>("Blue", 255, 0, 255, 1);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 200, 0, 255, 1);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
     // Variables
 
     public final java.util.List<Entity> collectedEntities;
@@ -90,7 +93,7 @@ public class ESP extends Module {
                 boxMode,healthBar,
                 you,players,invisibles,mobs,animals,items,
                 skeleton, width,
-                shadow, colormodes, redValue, greenValue, blueValue, alphaValue
+                shadow, colormodes, redValue, greenValue, blueValue, alphaValue, displayMode
         );
         collectedEntities = new ArrayList<>();
         viewport = GLAllocation.createDirectIntBuffer(16);
@@ -474,6 +477,15 @@ public class ESP extends Module {
     public static double interpolateDB(double now, double old, double scale) {
 
         return old + (now - old) * scale;
+    }
+
+    @Override
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Simple":
+                return boxMode.getValue().toString();
+        }
+        return null;
     }
 
 }

@@ -70,6 +70,9 @@ public class Scaffold extends Module {
     private final ModeValue<String> pickMode = new ModeValue<>("Block Pick Mode", new String[] {"Biggest Stack", "First Stack"});
     private final BooleanValue spoofSlot = new BooleanValue("Spoof Item Slot", false);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Advanced","Simple", "Off"});
+
     double groundY;
     double placeX;
     double placeY;
@@ -103,7 +106,7 @@ public class Scaffold extends Module {
                 raycastMode, placeTiming, searchDistance, expandAmount, towerExpandAmount, // placements
                 sprintMode, sameY, speedModifier, timerSpeed, safewalkMode, strafeFix, // movements
                 towerMode, towerNoMove, // tower
-                pickMode, spoofSlot // slots
+                pickMode, spoofSlot, displayMode // slots
         );
     }
 
@@ -592,5 +595,13 @@ public class Scaffold extends Module {
     }
 
     @Override
-    public String getMode() { return rotationMode.getValue() + " , " + sprintMode.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Advanced":
+                return rotationMode.getValue() + ", " + sprintMode.getValue() + ", " + sameY.getValue() + ", " + safewalkMode;
+            case "Simple":
+                return rotationMode.getValue().toString();
+        }
+        return null;
+    }
 }

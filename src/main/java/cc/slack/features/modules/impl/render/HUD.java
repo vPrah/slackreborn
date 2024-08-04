@@ -85,6 +85,9 @@ public class HUD extends Module {
 
 	public final BooleanValue sound = new BooleanValue("Toggle Sound", false);
 
+	// Display
+	private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Simple", "Off"});
+
 	// Client Theme
 
 	public final ModeValue<ColorUtil.themeStyles> theme = new ModeValue<>("Client Theme", ColorUtil.themeStyles.values());
@@ -111,7 +114,7 @@ public class HUD extends Module {
 				watermark,watermarksmodes, watermarkroundValue, customroundValue, watermarkResetPos  ,watermarkFont, // watermark
 				notification, roundednotification, // notification
 				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
-				sound, // things
+				sound, displayMode, // things
 				theme, r1, g1, b1, r2, g2, b2 // client theme
 		);
 	}
@@ -271,5 +274,11 @@ public class HUD extends Module {
 
 
 	@Override
-	public String getMode() { return arraylistMode.getValue().toString(); }
+	public String getMode() {
+		switch (displayMode.getValue()) {
+			case "Simple":
+				return arraylistMode.getValue().toString();
+		}
+		return null;
+	}
 }

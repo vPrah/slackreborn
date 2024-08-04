@@ -27,12 +27,15 @@ public class ModuleManager {
         try {
             addModules(
                     // DEV
+                    new UniversalFont(),
                     new BPSCounter(),
                     new FPSCounter(),
                     new XYZCounter(),
+
+
+
                     new ClientSpoofer(), // Dont remove
                     new AutoRod(), // Recoded// new CustomESP(), // Need Recode
-
                     new FreeLook(), // Need Recode
 
 

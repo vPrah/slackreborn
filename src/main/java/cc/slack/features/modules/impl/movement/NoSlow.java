@@ -41,6 +41,9 @@ public class NoSlow extends Module {
     public final NumberValue<Float> strafeMultiplier = new NumberValue<>("Strafe Multiplier", 1f, 0.2f,1f, 0.05f);
     private final BooleanValue sprint = new BooleanValue("Sprint", true);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Advanced","Simple", "Off"});
+
 
     public float fMultiplier = 0F;
     public float sMultiplier = 0F;
@@ -286,6 +289,14 @@ public class NoSlow extends Module {
     }
 
     @Override
-    public String getMode() { return blockmode.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Advanced":
+                return blockmode.getValue() + ", " + eatmode.getValue() + ", " + potionmode.getValue() + ", " + bowmode.getValue();
+            case "Simple":
+                return blockmode.getValue();
+        }
+        return null;
+    }
 
 }
