@@ -33,9 +33,12 @@ public class Autoclicker extends Module {
     public final BooleanValue autoblockOnClick = new BooleanValue("Block On Mouse Down", true);
     public final BooleanValue triggerBot = new BooleanValue("Trigger Bot", false);
 
+    // Display
+    private final ModeValue<String> displayMode = new ModeValue<>("Display", new String[]{"Advanced", "Simple", "Off"});
+
     public Autoclicker() {
         super();
-        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode, autoblockOnClick, triggerBot);
+        addSettings(targetCPS, randomizeAmount, randomizeMode, onlySword, autoblockMode, autoblockOnClick, triggerBot, displayMode);
     }
 
     private final TimeUtil leftClickTimer = new TimeUtil();
@@ -93,6 +96,16 @@ public class Autoclicker extends Module {
     }
 
     @Override
-    public String getMode() { return targetCPS.getValue() + " " + randomizeAmount.getValue(); }
+    public String getMode() {
+        switch (displayMode.getValue()) {
+            case "Advanced":
+                 return targetCPS.getValue() + ", " + randomizeAmount.getValue() + ", " + randomizeMode;
+            case "Simple":
+                return targetCPS.getValue().toString();
+        }
+        return null;
+    }
+
+
 
 }
