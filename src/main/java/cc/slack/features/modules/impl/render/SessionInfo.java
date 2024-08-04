@@ -32,6 +32,8 @@ public class SessionInfo extends Module {
     private final NumberValue<Float> yValue = new NumberValue<>("Pos Y", 160F, 1.0F, 300.0F, 1F);
     private final NumberValue<Integer> alphaValue = new NumberValue<>("Alpha", 170, 0, 255, 1);
     private final BooleanValue roundedValue = new BooleanValue("Rounded", false);
+    public final BooleanValue resetPos = new BooleanValue("Reset Position", false);
+
     private final ModeValue<String> fontValue = new ModeValue<>("Font", new String[]{"Apple", "Poppins"});
 
     private boolean dragging = false;
@@ -43,7 +45,7 @@ public class SessionInfo extends Module {
     public long timeJoined;
 
     public SessionInfo() {
-        addSettings(xValue, yValue, alphaValue, roundedValue, fontValue);
+        addSettings(xValue, yValue, alphaValue, roundedValue, resetPos,fontValue);
     }
 
     @Override
@@ -98,6 +100,12 @@ public class SessionInfo extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onRender(RenderEvent event) {
+        if (resetPos.getValue()) {
+            xValue.setValue(8F);
+            yValue.setValue(160F);
+            Slack.getInstance().getModuleManager().getInstance(SessionInfo.class).resetPos.setValue(false);
+        }
+
         if (mc.gameSettings.showDebugInfo) {
             return;
         }
