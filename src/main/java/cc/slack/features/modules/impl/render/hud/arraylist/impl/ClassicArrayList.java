@@ -39,12 +39,6 @@ public class ClassicArrayList implements IArraylist {
     @Override
     public void onUpdate(UpdateEvent event) {
 
-        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistResetPos.getValue()) {
-            x = 0;
-            y = 3;
-            Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistResetPos.setValue(false);
-        }
-
         modules.clear();
         for (Module module : Slack.getInstance().getModuleManager().getModules()) {
             if (!module.render) continue;
@@ -124,6 +118,12 @@ public class ClassicArrayList implements IArraylist {
 
     @Override
     public void onRender(RenderEvent event) {
+        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistResetPos.getValue()) {
+            x = 0;
+            y = 3;
+            Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistResetPos.setValue(false);
+        }
+
         int currentY = (int) y;
         double c = 0;
         int stringLength = 0;
