@@ -26,6 +26,7 @@ public class CMDManager {
                     new hideCMD(),
                     new friendCMD(),
                     new panicCMD(),
+                    new sneakCMD(),
                     new HelpCMD()
             );
         } catch (Exception e) {
