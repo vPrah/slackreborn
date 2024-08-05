@@ -34,6 +34,7 @@ import net.minecraft.util.*;
 import org.lwjgl.input.Keyboard;
 
 
+import java.awt.*;
 import java.security.SecureRandom;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -161,46 +162,7 @@ public class KillAura extends Module {
                     RenderUtil.drawTracer(target, 250, 250, 250, 130);
                     break;
                 case "slack":
-                    final RenderManager renderManager = mc.getRenderManager();
-                    final Timer timer = mc.timer;
-
-                    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-                    RenderUtil.enableGlCap(GL_BLEND);
-                    RenderUtil.disableGlCap(GL_TEXTURE_2D, GL_DEPTH_TEST);
-                    glDepthMask(false);
-
-                    double renderPosX = RenderManager.renderPosX;
-                    double renderPosY = RenderManager.renderPosY;
-                    double renderPosZ = RenderManager.renderPosZ;
-
-                    double x = target.lastTickPosX + (target.posX - target.lastTickPosX) * timer.renderPartialTicks - renderPosX;
-                    double y = target.lastTickPosY + (target.posY - target.lastTickPosY) * timer.renderPartialTicks - renderPosY;
-                    double z = target.lastTickPosZ + (target.posZ - target.lastTickPosZ) * timer.renderPartialTicks - renderPosZ;
-
-                    AxisAlignedBB targetBox = target.getEntityBoundingBox();
-                    AxisAlignedBB axisAlignedBB = new AxisAlignedBB(
-                            targetBox.minX - target.posX - 0.05D,
-                            targetBox.minY - target.posY,
-                            targetBox.minZ - target.posZ - 0.05D,
-                            targetBox.maxX - target.posX + 0.05D,
-                            targetBox.maxY - target.posY + 0.15D,
-                            targetBox.maxZ - target.posZ + 0.05D
-                    );
-
-                    GlStateManager.color(255, 255, 255, 70);
-
-                    glPushMatrix();
-                    glTranslated(x, y, z);
-                    for (int i = 0; i < 90; i += 6) {
-                        glRotated(System.currentTimeMillis() * 0.2 + i, 0, 1, 0);
-                        RenderUtil.drawSelectionBoundingBox(axisAlignedBB);
-                    }
-                    glPopMatrix();
-
-                    GlStateManager.resetColor();
-                    glDepthMask(true);
-                    RenderUtil.resetCaps();
-
+                    RenderUtil.drawFilledAABB(target.getEntityBoundingBox().expand(0.1, 0.1, 0.1), (target.hurtTime > 1) ? new Color(255, 0, 0, 90).getRGB() : new Color(0, 255, 0, 90).getRGB());
                     break;
                 default:
                     break;

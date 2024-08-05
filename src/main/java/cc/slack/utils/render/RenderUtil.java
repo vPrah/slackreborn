@@ -864,7 +864,7 @@ public final class RenderUtil implements IMinecraft {
         GL11.glDisable(3553);
         GL11.glDisable(2929);
         GL11.glDepthMask(false);
-        GL11.glColor4d(ct.getRed(), ct.getGreen(), ct.getBlue(), ct.getAlpha());
+        GL11.glColor4d(ct.getRed(), ct.getGreen(), ct.getBlue(), 100);
 
         AxisAlignedBB axisAlignedBB;
         if (array[0].getX() != array[1].getX()) {
@@ -882,6 +882,29 @@ public final class RenderUtil implements IMinecraft {
         float[] colors = getColorForTileEntity();
         RenderHelper.drawCompleteBoxFilled(axisAlignedBB, 1.0F, toRGBAHex(colors[0] / 255.0F, colors[1] / 255.0F, colors[2] / 255.0F, 0.2F));
 
+        GL11.glEnable(3553);
+        GL11.glEnable(2929);
+        GL11.glDepthMask(true);
+        GL11.glDisable(3042);
+    }
+
+    public static void drawFilledBlock(BlockPos blockPos, int color) {
+        double deltaX = blockPos.getX();
+        double deltaY = blockPos.getY();
+        double deltaZ = blockPos.getZ();
+        drawFilledAABB(new AxisAlignedBB(deltaX, deltaY, deltaZ, deltaX + 1.0, deltaY + 1.0, deltaZ + 1.0), color);
+    }
+
+    public static void drawFilledAABB(AxisAlignedBB aabb, int color) {
+        aabb = aabb.offset(- mc.getRenderManager().viewerPosX, - mc.getRenderManager().viewerPosY, - mc.getRenderManager().viewerPosZ);
+
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(3042);
+        GL11.glLineWidth(2.0F);
+        GL11.glDisable(3553);
+        GL11.glDisable(2929);
+        GL11.glDepthMask(false);
+        RenderHelper.drawCompleteBoxFilled(aabb, 1.0F, color);
         GL11.glEnable(3553);
         GL11.glEnable(2929);
         GL11.glDepthMask(true);

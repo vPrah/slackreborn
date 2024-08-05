@@ -57,6 +57,13 @@ public class SilentHitbox extends Module {
             return;
         }
 
+        float[] tempRotation = RotationUtil.getPlayerRotation();
+
+        if (enabled) {
+            mc.thePlayer.rotationYaw = FreeLookUtil.cameraYaw;
+            mc.thePlayer.rotationPitch = FreeLookUtil.cameraPitch;
+        }
+
         if (RotationUtil.getRotationDifference(
                 RotationUtil.getTargetRotations(
                         target.getEntityBoundingBox(),
@@ -70,6 +77,7 @@ public class SilentHitbox extends Module {
                 new float[]{FreeLookUtil.getYaw(), FreeLookUtil.getPitch()},
                 target,
                 expand.getValue())) {
+            RotationUtil.setPlayerRotation(tempRotation);
             if (!enabled) {
                 FreeLookUtil.enable();
                 enabled = true;
@@ -81,6 +89,7 @@ public class SilentHitbox extends Module {
                             (float) MathUtil.getRandomInRange(7.8f, 12.3f))
             );
         } else {
+            RotationUtil.setPlayerRotation(tempRotation);
             disable();
         }
     }

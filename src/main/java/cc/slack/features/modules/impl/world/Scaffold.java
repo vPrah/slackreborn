@@ -320,7 +320,7 @@ public class Scaffold extends Module {
                 break;
             case "hypixel jump":
                 if (mc.thePlayer.onGround && mc.thePlayer.posY - groundY != 1) groundY = mc.thePlayer.posY;
-                if ((PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 &&  mc.thePlayer.posY - groundY > 0.7 && jumpCounter % 2 == 0) || firstJump) {
+                if ((PlayerUtil.isOverAir() && mc.thePlayer.motionY < -0.1 && mc.thePlayer.posY - groundY < 1.3 &&  mc.thePlayer.posY - groundY > 0.7) || firstJump) {
                     firstJump = false;
                     placeY = mc.thePlayer.posY;
                 } else {
@@ -598,7 +598,7 @@ public class Scaffold extends Module {
     public String getMode() {
         switch (displayMode.getValue()) {
             case "Advanced":
-                return rotationMode.getValue() + ", " + sprintMode.getValue() + ", " + sameY.getValue() + ", " + safewalkMode;
+                return rotationMode.getValue() + ", " + sprintMode.getValue() + ", " + sameY.getValue() + ", " + safewalkMode.getValue();
             case "Simple":
                 return rotationMode.getValue().toString();
         }

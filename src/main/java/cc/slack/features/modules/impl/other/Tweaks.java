@@ -54,7 +54,7 @@ public class Tweaks extends Module {
     public void onUpdate (UpdateEvent event) {
 
         if (fullbright.getValue()) {
-            if (mc.gameSettings.gammaSetting <= 100f) mc.gameSettings.gammaSetting++;
+            if (mc.gameSettings.gammaSetting <= 1000f) mc.gameSettings.gammaSetting++;
         } else if (prevGamma != -1f) {
             mc.gameSettings.gammaSetting = prevGamma;
             prevGamma = -1f;
