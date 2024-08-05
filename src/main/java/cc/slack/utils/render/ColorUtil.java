@@ -8,7 +8,7 @@ import java.awt.*;
 
 public class ColorUtil implements IMinecraft {
     public enum themeStyles {
-        SLACK, RAINBOW, SLACK_STATIC, ASTOLFO, CHRISTMAS, CUSTOM
+        ASTOLFO, SLACK, RAINBOW, SLACK_STATIC, CHRISTMAS, CUSTOM
     }
 
 

@@ -11,6 +11,7 @@ import cc.slack.utils.render.ColorUtil;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
@@ -115,7 +116,7 @@ public class ModernWatermark implements IWatermarks {
     }
 
     private void handleMouseInput(int mouseX, int mouseY, int rectX, int rectY, int rectWidth, int rectHeight) {
-        if (Mouse.isButtonDown(0)) {
+        if (Mouse.isButtonDown(0) && Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
             if (!dragging) {
                 if (mouseX >= rectX && mouseX <= rectX + rectWidth &&
                         mouseY >= rectY && mouseY <= rectY + rectHeight) {

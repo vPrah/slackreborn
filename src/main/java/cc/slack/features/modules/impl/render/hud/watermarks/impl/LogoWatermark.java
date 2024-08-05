@@ -7,6 +7,7 @@ import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
 import cc.slack.start.Slack;
 import cc.slack.utils.render.RenderUtil;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.util.ResourceLocation;
@@ -57,7 +58,7 @@ public class LogoWatermark implements IWatermarks {
     }
 
     private void handleMouseInput(int mouseX, int mouseY, int rectX, int rectY, int rectWidth, int rectHeight) {
-        if (Mouse.isButtonDown(0)) {
+        if (Mouse.isButtonDown(0) && Minecraft.getMinecraft().currentScreen instanceof GuiChat) {
             if (!dragging) {
                 if (mouseX >= rectX && mouseX <= rectX + rectWidth &&
                         mouseY >= rectY && mouseY <= rectY + rectHeight) {
