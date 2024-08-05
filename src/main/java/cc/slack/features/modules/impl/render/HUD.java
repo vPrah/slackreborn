@@ -6,6 +6,7 @@ import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
 import cc.slack.features.modules.impl.render.hud.watermarks.impl.BackgroundedWatermark;
 import cc.slack.features.modules.impl.render.hud.watermarks.impl.ClassicWatermark;
 import cc.slack.features.modules.impl.render.hud.watermarks.impl.LogoWatermark;
+import cc.slack.features.modules.impl.render.hud.watermarks.impl.ModernWatermark;
 import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
@@ -46,7 +47,7 @@ public class HUD extends Module {
 
 	});
 	public final BooleanValue arraylistResetPos = new BooleanValue("Array Reset Position", false);
-	public final ModeValue<String> arraylistsidebar = new ModeValue<>("Sidebar", new String[]{"Modern", "Classic", "Off"});
+	public final ModeValue<String> arraylistsidebar = new ModeValue<>("Sidebar", new String[]{"Classic", "Modern", "Off"});
 	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
 	public final BooleanValue arraylistBackground = new BooleanValue("Arraylist Background", true);
 	public final BooleanValue tags = new BooleanValue("Tags", true);
@@ -60,6 +61,7 @@ public class HUD extends Module {
 	public final BooleanValue watermark = new BooleanValue("Watermark", true);
 	public final ModeValue<IWatermarks> watermarksmodes = new ModeValue<>("WaterMark", new IWatermarks[] {
 
+			new ModernWatermark(),
 			new BackgroundedWatermark(),
 			new ClassicWatermark(),
 			new LogoWatermark()
