@@ -14,6 +14,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.utils.network.PacketUtil;
+import cc.slack.utils.network.PingSpoofUtil;
 import cc.slack.utils.other.MathUtil;
 import cc.slack.utils.player.InventoryUtil;
 import cc.slack.utils.render.RenderUtil;
@@ -58,7 +59,7 @@ public class KillAura extends Module {
     private final NumberValue<Double> randomization = new NumberValue<>("Randomization", 1.50D, 0D, 4D, 0.01D);
 
     // autoblock
-    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock", "Double Sword", "Legit"});
+    private final ModeValue<String> autoBlock = new ModeValue<>("Autoblock", new String[]{"None", "Fake", "Blatant", "Vanilla", "Basic", "Interact", "Blink", "Switch", "Hypixel", "Vanilla Reblock", "Double Sword", "Legit", "Test"});
     private final ModeValue<String> blinkMode = new ModeValue<>("Blink Autoblock Mode", new String[]{"Legit", "Legit HVH", "Blatant", "Blatant Switch"});
     private final NumberValue<Double> blockRange = new NumberValue<>("Block Range", 3.0D, 0.0D, 6.0D, 0.01D);
     private final BooleanValue interactAutoblock = new BooleanValue("Interact", false);
@@ -145,6 +146,7 @@ public class KillAura extends Module {
             PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
             currentSlot = mc.thePlayer.inventory.currentItem;
         }
+        PingSpoofUtil.disable(false, true);
     }
 
     @Listen
@@ -284,6 +286,25 @@ public class KillAura extends Module {
                 if (hasDouble && currentSlot != mc.thePlayer.inventory.currentItem) {
                     PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                     currentSlot = mc.thePlayer.inventory.currentItem;
+                }
+                break;
+            case "test":
+                switch (mc.thePlayer.ticksExisted % 2) {
+                    case 0:
+                        if (currentSlot != mc.thePlayer.inventory.currentItem % 8 + 1) {
+                            PingSpoofUtil.enableOutbound(true, 20);
+                            PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                            currentSlot = mc.thePlayer.inventory.currentItem % 8 + 1;
+                        }
+                        return true;
+                    case 1:
+                        if (currentSlot != mc.thePlayer.inventory.currentItem) {
+                            PingSpoofUtil.enableOutbound(true, 10);
+                            PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
+                            currentSlot = mc.thePlayer.inventory.currentItem;
+                            isBlocking = false;
+                        }
+                        return false;
                 }
                 break;
             case "hypixel":
@@ -426,14 +447,6 @@ public class KillAura extends Module {
                 }
                 isBlocking = false;
                 break;
-            case "test":
-                if (isBlocking) {
-                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
-                    BlinkUtil.disable();
-                    isBlocking = false;
-                    return false;
-                }
-                break;
             default:
                 break;
         }
@@ -460,8 +473,6 @@ public class KillAura extends Module {
                 break;
             case "test":
                 block();
-                BlinkUtil.enable(false, true);
-                mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
                 break;
             case "double sword":
                 if (hasDouble) {

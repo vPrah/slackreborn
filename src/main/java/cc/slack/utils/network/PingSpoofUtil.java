@@ -8,10 +8,7 @@ import net.minecraft.network.handshake.client.C00Handshake;
 import net.minecraft.network.login.client.C00PacketLoginStart;
 import net.minecraft.network.login.server.S00PacketDisconnect;
 import net.minecraft.network.play.client.C00PacketKeepAlive;
-import net.minecraft.network.play.server.S02PacketChat;
-import net.minecraft.network.play.server.S19PacketEntityStatus;
-import net.minecraft.network.play.server.S3BPacketScoreboardObjective;
-import net.minecraft.network.play.server.S3EPacketTeams;
+import net.minecraft.network.play.server.*;
 import net.minecraft.network.status.server.S00PacketServerInfo;
 import net.minecraft.network.status.server.S01PacketPong;
 
@@ -51,8 +48,8 @@ public class PingSpoofUtil implements IMinecraft {
     }
 
     public static void disable(boolean inbound, boolean outbound) {
-        DELAY_INBOUND = !inbound;
-        DELAY_OUTBOUND = !outbound;
+        DELAY_INBOUND = !inbound && DELAY_INBOUND;
+        DELAY_OUTBOUND = !outbound  && DELAY_OUTBOUND;
         isEnabled = DELAY_INBOUND || DELAY_OUTBOUND;
         releasePackets(inbound, false, outbound, false);
     }
@@ -91,7 +88,7 @@ public class PingSpoofUtil implements IMinecraft {
                 if (!(packet instanceof S00PacketDisconnect || packet instanceof S01PacketPong ||
                         packet instanceof S00PacketServerInfo || packet instanceof S3EPacketTeams ||
                         packet instanceof S19PacketEntityStatus || packet instanceof S02PacketChat ||
-                        packet instanceof S3BPacketScoreboardObjective)) {
+                        packet instanceof S3BPacketScoreboardObjective || packet instanceof S0CPacketSpawnPlayer)) {
 
                     serverPackets.add(new TimedPacket(packet));
                     return true;
