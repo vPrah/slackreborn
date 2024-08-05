@@ -277,7 +277,7 @@ public class RenderManager
         else
         {
             if (FreeLookUtil.freelooking) {
-                this.playerViewY = FreeLookUtil.cameraYaw;
+                this.playerViewY = FreeLookUtil.cameraYaw + 180;
                 this.playerViewX = FreeLookUtil.cameraPitch;
             } else {
                 this.playerViewY = livingPlayerIn.prevRotationYaw + (livingPlayerIn.rotationYaw - livingPlayerIn.prevRotationYaw) * partialTicks;

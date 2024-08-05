@@ -74,7 +74,7 @@ public class SilentHitbox extends Module {
         ) < fov.getValue() ||
             RaycastUtil.isHitable(
                 range.getValue() + 1,
-                new float[]{FreeLookUtil.getYaw(), FreeLookUtil.getPitch()},
+                RotationUtil.getPlayerRotation(),
                 target,
                 expand.getValue())) {
             RotationUtil.setPlayerRotation(tempRotation);
