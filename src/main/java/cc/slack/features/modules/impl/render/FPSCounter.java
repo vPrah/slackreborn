@@ -27,6 +27,7 @@ import java.awt.*;
 public class FPSCounter extends Module {
 
     private final ModeValue<String> backgroundMode = new ModeValue<>("Background", new String[]{"Smart", "Custom"});
+    private final ModeValue<String> fontMode = new ModeValue<>("Font", new String[]{"Modern", "Apple", "Roboto", "Poppins"});
     private final BooleanValue rounded = new BooleanValue("Rounded", true);
     public final BooleanValue resetPos = new BooleanValue("Reset Position", false);
 
@@ -79,10 +80,10 @@ public class FPSCounter extends Module {
         String fpsText = "FPS: ";
         String fpsValue = "" + Minecraft.getDebugFPS();
 
-        int fpsTextWidth = Fonts.apple20.getStringWidth(fpsText);
-        int fpsValueWidth = Fonts.apple20.getStringWidth(fpsValue);
+        int fpsTextWidth = Fonts.sfRoundedBold20.getStringWidth(fpsText);
+        int fpsValueWidth = Fonts.sfRoundedRegular20.getStringWidth(fpsValue);
         int totalTextWidth = fpsTextWidth + fpsValueWidth;
-        int textHeight = Fonts.apple20.getHeight();
+        int textHeight = Fonts.sfRoundedBold20.getHeight();
 
         int rectWidth, rectHeight;
         int textX, textY;
@@ -109,8 +110,8 @@ public class FPSCounter extends Module {
             drawRect(rectX, rectY, rectWidth, rectHeight, new Color(0, 0, 0, 150).getRGB());
         }
 
-        Fonts.apple20.drawStringWithShadow(fpsText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
-        Fonts.apple20.drawStringWithShadow(fpsValue, textX + fpsTextWidth, textY, -1);
+        Fonts.sfRoundedBold20.drawStringWithShadow(fpsText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+        Fonts.sfRoundedRegular20.drawStringWithShadow(fpsValue, textX + fpsTextWidth, textY, -1);
 
         handleMouseInput(mouseX, mouseY, rectX, rectY, rectWidth, rectHeight);
     }

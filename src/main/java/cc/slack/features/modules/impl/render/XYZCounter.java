@@ -81,10 +81,10 @@ public class XYZCounter extends Module {
         String xyzText = "XYZ: ";
         String xyzValue = "" + coordinates;
 
-        int xyzTextWidth = Fonts.apple20.getStringWidth(xyzText);
-        int xyzValueWidth = Fonts.apple20.getStringWidth(xyzValue);
+        int xyzTextWidth = Fonts.sfRoundedBold20.getStringWidth(xyzText);
+        int xyzValueWidth = Fonts.sfRoundedRegular20.getStringWidth(xyzValue);
         int totalTextWidth = xyzTextWidth + xyzValueWidth;
-        int textHeight = Fonts.apple20.getHeight();
+        int textHeight = Fonts.sfRoundedBold20.getHeight();
 
         int rectWidth, rectHeight;
         int textX, textY;
@@ -111,8 +111,8 @@ public class XYZCounter extends Module {
             drawRect(rectX, rectY, rectWidth, rectHeight, new Color(0, 0, 0, 150).getRGB());
         }
 
-        Fonts.apple20.drawStringWithShadow(xyzText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
-        Fonts.apple20.drawStringWithShadow(xyzValue, textX + xyzTextWidth, textY, -1);
+        Fonts.sfRoundedBold20.drawStringWithShadow(xyzText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+        Fonts.sfRoundedRegular20.drawStringWithShadow(xyzValue, textX + xyzTextWidth, textY, -1);
 
         handleMouseInput(mouseX, mouseY, rectX, rectY, rectWidth, rectHeight);
     }

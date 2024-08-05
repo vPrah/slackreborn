@@ -81,10 +81,10 @@ public class BPSCounter extends Module {
         String fpsText = "BPS: ";
         String fpsValue = "" + getBPS();
 
-        int fpsTextWidth = Fonts.apple20.getStringWidth(fpsText);
-        int fpsValueWidth = Fonts.apple20.getStringWidth(fpsValue);
+        int fpsTextWidth = Fonts.sfRoundedBold20.getStringWidth(fpsText);
+        int fpsValueWidth = Fonts.sfRoundedRegular20.getStringWidth(fpsValue);
         int totalTextWidth = fpsTextWidth + fpsValueWidth;
-        int textHeight = Fonts.apple20.getHeight();
+        int textHeight = Fonts.sfRoundedBold20.getHeight();
 
         int rectWidth, rectHeight;
         int textX, textY;
@@ -111,8 +111,8 @@ public class BPSCounter extends Module {
             drawRect(rectX, rectY, rectWidth, rectHeight, new Color(0, 0, 0, 150).getRGB());
         }
 
-        Fonts.apple20.drawStringWithShadow(fpsText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
-        Fonts.apple20.drawStringWithShadow(fpsValue, textX + fpsTextWidth, textY, -1);
+        Fonts.sfRoundedBold18.drawStringWithShadow(fpsText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+        Fonts.sfRoundedRegular20.drawStringWithShadow(fpsValue, textX + fpsTextWidth, textY, -1);
 
         handleMouseInput(mouseX, mouseY, rectX, rectY, rectWidth, rectHeight);
     }
