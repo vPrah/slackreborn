@@ -38,12 +38,19 @@ public class HUD extends Module {
 
 	// Arraylist
 	private final BooleanValue arraylist = new BooleanValue("Arraylist", true);
-	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {new ClassicArrayList(), new RavenArrayList() });
+	private final ModeValue<IArraylist> arraylistMode = new ModeValue<>("Arraylist", new IArraylist[] {
+
+			new ModernArraylist(),
+			new ClassicArrayList(),
+			new RavenArrayList()
+
+	});
 	public final BooleanValue arraylistResetPos = new BooleanValue("Array Reset Position", false);
+	public final ModeValue<String> arraylistsidebar = new ModeValue<>("Sidebar", new String[]{"Modern", "Classic", "Off"});
 	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
 	public final BooleanValue arraylistBackground = new BooleanValue("Arraylist Background", true);
 	public final BooleanValue tags = new BooleanValue("Tags", true);
-	public final ModeValue<String> tagsMode = new ModeValue<>("Tags Style", new String[]{"(Mode)", "[Mode]", "<Mode>", "| Mode", "-> Mode", "- Mode"});
+	public final ModeValue<String> tagsMode = new ModeValue<>("Tags Style", new String[]{"[Mode]","(Mode)", "<Mode>", "| Mode", "-> Mode", "- Mode"});
 
 	public final BooleanValue binds = new BooleanValue("Binds", false);
 	public final ModeValue<String> bindsMode = new ModeValue<>("Binds Style", new String[]{"(Key)", "[Key]", "<Key>", "| Key", "-> Key", "- Key"});
@@ -110,7 +117,7 @@ public class HUD extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public HUD() {
-		addSettings(arraylist, arraylistMode, arraylistResetPos,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
+		addSettings(arraylist, arraylistMode, arraylistResetPos, arraylistsidebar,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
 				watermark,watermarksmodes, watermarkroundValue, customroundValue, watermarkResetPos  ,watermarkFont, // watermark
 				notification, roundednotification, // notification
 				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
