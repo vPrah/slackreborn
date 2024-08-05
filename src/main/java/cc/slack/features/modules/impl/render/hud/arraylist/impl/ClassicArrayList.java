@@ -196,7 +196,7 @@ public class ClassicArrayList implements IArraylist {
             }
         }
 
-        handleMouseInput(mouseX, mouseY, x, y, longest - x, currentY - y);
+        handleMouseInput(mouseX, mouseY, event.getWidth() - longest - x, y, longest, currentY - y);
     }
 
     private void handleMouseInput(int mouseX, int mouseY, float rectX, float rectY, float rectWidth, float rectHeight) {

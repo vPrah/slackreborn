@@ -864,7 +864,7 @@ public final class RenderUtil implements IMinecraft {
         GL11.glDisable(3553);
         GL11.glDisable(2929);
         GL11.glDepthMask(false);
-        GL11.glColor4d(ct.getRed(), ct.getGreen(), ct.getBlue(), ct.getAlpha());
+        GL11.glColor4d(ct.getRed(), ct.getGreen(), ct.getBlue(), 160);
 
         AxisAlignedBB axisAlignedBB;
         if (array[0].getX() != array[1].getX()) {
@@ -886,6 +886,26 @@ public final class RenderUtil implements IMinecraft {
         GL11.glEnable(2929);
         GL11.glDepthMask(true);
         GL11.glDisable(3042);
+    }
+
+    public static void drawFilledBlock(BlockPos blockPos, int color) {
+        double deltaX = (double) blockPos.getX() - mc.getRenderManager().viewerPosX;
+        double deltaY = (double) blockPos.getY() - mc.getRenderManager().viewerPosY;
+        double deltaZ = (double) blockPos.getZ() - mc.getRenderManager().viewerPosZ;
+
+        GL11.glBlendFunc(770, 771);
+        GL11.glEnable(3042);
+        GL11.glLineWidth(2.0F);
+        GL11.glDisable(3553);
+        GL11.glDisable(2929);
+        GL11.glDepthMask(false);
+        RenderHelper.drawCompleteBoxFilled(new AxisAlignedBB(deltaX, deltaY, deltaZ, deltaX + 1.0, deltaY + 1.0, deltaZ + 1.0), 1.0F, color);
+
+        GL11.glEnable(3553);
+        GL11.glEnable(2929);
+        GL11.glDepthMask(true);
+        GL11.glDisable(3042);
+
     }
 
     public static void enable(final boolean disableDepth) {
