@@ -90,7 +90,9 @@ public class SilentHitbox extends Module {
             );
         } else {
             RotationUtil.setPlayerRotation(tempRotation);
-            disable();
+            if (enabled) {
+                disable();
+            }
         }
     }
 

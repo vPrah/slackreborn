@@ -418,14 +418,14 @@ public class Scaffold extends Module {
                 case "watchdog2":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.419848;
-                        MovementUtil.strafe(0.29f);
+                        mc.thePlayer.motionY = 0.4198499917984009;
+                        MovementUtil.strafe(0.21f);
                     } else {
 
                         switch (mc.thePlayer.offGroundTicks % 3) {
                             case 0:
-                                mc.thePlayer.motionY = 0.41845 + Math.random() * 0.000045;
-                                MovementUtil.strafe(0.29f);
+                                mc.thePlayer.motionY = 0.4198499917984009;
+                                MovementUtil.strafe(0.21f);
                                 break;
                             case 2:
                                 mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
