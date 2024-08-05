@@ -13,7 +13,7 @@ import cc.slack.features.modules.impl.other.RichPresence;
 import cc.slack.features.modules.impl.other.Targets;
 import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Animations;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.render.TargetHUD;
 import cc.slack.ui.altmanager.AccountManager;
 import cc.slack.utils.client.ClientInfo;
@@ -62,7 +62,7 @@ public class Slack {
         // Default Modules
         moduleManager.getInstance(RichPresence.class).toggle();
         moduleManager.getInstance(Animations.class).toggle();
-        moduleManager.getInstance(HUD.class).toggle();
+        moduleManager.getInstance(Interface.class).toggle();
         moduleManager.getInstance(Sprint.class).toggle();
         moduleManager.getInstance(Tweaks.class).toggle();
         moduleManager.getInstance(TargetHUD.class).toggle();
@@ -129,6 +129,6 @@ public class Slack {
     }
 
     public void addNotification(String bigText, String smallText, Long duration, NotificationStyle style) {
-        instance.getModuleManager().getInstance(HUD.class).addNotification(bigText, smallText, duration, style);
+        instance.getModuleManager().getInstance(Interface.class).addNotification(bigText, smallText, duration, style);
     }
 }

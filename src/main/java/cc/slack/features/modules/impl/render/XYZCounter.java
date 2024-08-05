@@ -111,7 +111,7 @@ public class XYZCounter extends Module {
             drawRect(rectX, rectY, rectWidth, rectHeight, new Color(0, 0, 0, 150).getRGB());
         }
 
-        Fonts.sfRoundedBold20.drawStringWithShadow(xyzText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+        Fonts.sfRoundedBold20.drawStringWithShadow(xyzText, textX, textY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
         Fonts.sfRoundedRegular20.drawStringWithShadow(xyzValue, textX + xyzTextWidth, textY, -1);
 
         handleMouseInput(mouseX, mouseY, rectX, rectY, rectWidth, rectHeight);

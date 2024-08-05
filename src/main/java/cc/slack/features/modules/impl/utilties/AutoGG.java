@@ -6,7 +6,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.StringValue;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.play.server.S02PacketChat;
 import net.minecraft.util.IChatComponent;
@@ -45,7 +45,7 @@ public class AutoGG extends Module {
     }
 
     public void iscorrectjoin() {
-        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoGG:  Sending GG message!", "", 1500L, Slack.NotificationStyle.SUCCESS);
+        Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("AutoGG:  Sending GG message!", "", 1500L, Slack.NotificationStyle.SUCCESS);
     }
 
 }

@@ -2,7 +2,7 @@ package cc.slack.features.modules.impl.render.hud.watermarks.impl;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
 import cc.slack.start.Slack;
 import cc.slack.utils.font.Fonts;
@@ -33,7 +33,7 @@ public class BackgroundedWatermark implements IWatermarks {
 
 
     private void updateFontRenderers() {
-        String currentFontName = Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkFont.getValue();
+        String currentFontName = Slack.getInstance().getModuleManager().getInstance(Interface.class).watermarkFont.getValue();
         if (!currentFontName.equals(cachedFontName)) {
             cachedFontName = currentFontName;
             fontRenderer20 = Fonts.getFontRenderer(currentFontName, 20);
@@ -43,15 +43,15 @@ public class BackgroundedWatermark implements IWatermarks {
 
     @Override
     public void onRender(RenderEvent event) {
-        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkResetPos.getValue()) {
+        if (Slack.getInstance().getModuleManager().getInstance(Interface.class).watermarkResetPos.getValue()) {
             posX = -1D;
             posY = -1D;
-            Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkResetPos.setValue(false);
+            Slack.getInstance().getModuleManager().getInstance(Interface.class).watermarkResetPos.setValue(false);
         }
 
         updateFontRenderers();
         renderBackgroundedRound(
-                ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB(),
+                ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB(),
                 new Color(255, 255, 255, 255).getRGB(),
                 new Color(1, 1, 1, 100).getRGB()
         );
@@ -62,8 +62,8 @@ public class BackgroundedWatermark implements IWatermarks {
     }
 
     private void renderBackgroundedRound(int themeColor, int whiteColor, int backgroundColor) {
-        String fontName = Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkFont.getValue();
-        boolean rounded = Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkroundValue.getValue();
+        String fontName = Slack.getInstance().getModuleManager().getInstance(Interface.class).watermarkFont.getValue();
+        boolean rounded = Slack.getInstance().getModuleManager().getInstance(Interface.class).watermarkroundValue.getValue();
         drawBackgroundedText(fontName, themeColor, whiteColor, backgroundColor, rounded);
     }
 
@@ -108,7 +108,7 @@ public class BackgroundedWatermark implements IWatermarks {
         int rectY = y;
 
         if (rounded) {
-            RenderUtil.drawRoundedRect(rectX, rectY, rectX + rectWidth, rectY + rectHeight , Slack.getInstance().getModuleManager().getInstance(HUD.class).customroundValue.getValue(), backgroundColor);
+            RenderUtil.drawRoundedRect(rectX, rectY, rectX + rectWidth, rectY + rectHeight , Slack.getInstance().getModuleManager().getInstance(Interface.class).customroundValue.getValue(), backgroundColor);
         } else {
             drawRect(rectX, rectY, rectX + rectWidth, rectY + rectHeight, backgroundColor);
         }

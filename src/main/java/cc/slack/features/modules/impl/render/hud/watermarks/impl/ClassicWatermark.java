@@ -2,7 +2,7 @@ package cc.slack.features.modules.impl.render.hud.watermarks.impl;
 
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.render.hud.watermarks.IWatermarks;
 import cc.slack.start.Slack;
 import cc.slack.utils.font.Fonts;
@@ -11,7 +11,7 @@ import cc.slack.utils.render.ColorUtil;
 public class ClassicWatermark implements IWatermarks {
     @Override
     public void onRender(RenderEvent event) {
-        renderClassic(ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+        renderClassic(ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
     }
 
     @Override
@@ -20,7 +20,7 @@ public class ClassicWatermark implements IWatermarks {
     }
 
     private void renderClassic(int themeColor) {
-        switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).watermarkFont.getValue()) {
+        switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).watermarkFont.getValue()) {
             case "Apple":
                 Fonts.apple24.drawStringWithShadow("S", 3.4, 4, themeColor);
                 Fonts.apple24.drawStringWithShadow("lack", 11, 4, -1);

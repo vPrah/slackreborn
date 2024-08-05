@@ -34,8 +34,8 @@ import java.util.Collections;
 import static java.lang.Math.round;
 import static net.minecraft.client.gui.Gui.drawRect;
 
-@ModuleInfo(name = "HUD", category = Category.RENDER)
-public class HUD extends Module {
+@ModuleInfo(name = "Interface", category = Category.RENDER)
+public class Interface extends Module {
 
 	// Arraylist
 	private final BooleanValue arraylist = new BooleanValue("Arraylist", true);
@@ -118,7 +118,7 @@ public class HUD extends Module {
 	private ArrayList<String> notDetailed = new ArrayList<>();
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
-	public HUD() {
+	public Interface() {
 		addSettings(arraylist, arraylistMode, arraylistResetPos, arraylistsidebar,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
 				watermark,watermarksmodes, watermarkroundValue, customroundValue, watermarkResetPos  ,watermarkFont, // watermark
 				notification, roundednotification, // notification
@@ -147,12 +147,12 @@ public class HUD extends Module {
 		}
 
 		if (fpsdraw.getValue()) {
-			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
 			Fonts.apple18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
 		}
 
 		if (bpsdraw.getValue()) {
-			Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), 0.15).getRGB());
+			Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
 			Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
 
 		}

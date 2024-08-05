@@ -2,7 +2,7 @@ package cc.slack.utils.render;
 
 import cc.slack.utils.client.IMinecraft;
 import cc.slack.start.Slack;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 
 import java.awt.*;
 
@@ -18,7 +18,7 @@ public class ColorUtil implements IMinecraft {
     }
 
     public static Color getThemeColor(themeStyles t, boolean start) {
-        HUD hud = Slack.getInstance().getModuleManager().getInstance(HUD.class);
+        Interface hud = Slack.getInstance().getModuleManager().getInstance(Interface.class);
         if (start) {
             switch (t) {
                 case SLACK_STATIC:
@@ -62,7 +62,7 @@ public class ColorUtil implements IMinecraft {
     }
 
     public static Color getColor(double r, boolean timeMove) {
-        return getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), r, timeMove);
+        return getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), r, timeMove);
     }
 
     public static Color getColor(themeStyles t, double r) {

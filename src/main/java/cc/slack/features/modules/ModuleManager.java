@@ -105,7 +105,7 @@ public class ModuleManager {
                     new MultiAction(),
 
                     // Render
-                    new HUD(),
+                    new Interface(),
                     new ESP(),
                     new BasicESP(), // Recoded
                     new BedESP(), // Recoded

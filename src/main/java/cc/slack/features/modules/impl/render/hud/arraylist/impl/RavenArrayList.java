@@ -6,7 +6,7 @@ import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.render.ColorUtil;
 import net.minecraft.client.Minecraft;
@@ -32,8 +32,8 @@ public class RavenArrayList implements IArraylist {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
                 String key =  Keyboard.getKeyName(module.getKey());
-                if (mode != null && !mode.isEmpty() && Slack.getInstance().getModuleManager().getInstance(HUD.class).tags.getValue()) {
-                    switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).tagsMode.getValue()) {
+                if (mode != null && !mode.isEmpty() && Slack.getInstance().getModuleManager().getInstance(Interface.class).tags.getValue()) {
+                    switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).tagsMode.getValue()) {
                         case "(Mode)":
                             displayName += "§7 (" + mode + ")";
                             break;
@@ -54,8 +54,8 @@ public class RavenArrayList implements IArraylist {
                             break;
                     }
                 }
-                if (!key.contains("NONE")  && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
-                    switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).bindsMode.getValue()) {
+                if (!key.contains("NONE")  && Slack.getInstance().getModuleManager().getInstance(Interface.class).binds.getValue()) {
+                    switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).bindsMode.getValue()) {
                         case "(Mode)":
                             displayName += "§7 (" + Keyboard.getKeyName(module.getKey()) + ")";
                             break;
@@ -109,7 +109,7 @@ public class RavenArrayList implements IArraylist {
 
             ease = 1 - 1.2 * ease;
 
-            Minecraft.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+            Minecraft.getFontRenderer().drawStringWithShadow(module.first, event.getWidth() - stringLength * ease - 3, y,  ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
             y += (int) ((Minecraft.getFontRenderer().FONT_HEIGHT + 2) * Math.max(0, (ease + 0.2)/1.2));
             c += 0.15;
         }

@@ -9,7 +9,7 @@ import cc.slack.features.modules.api.Category;
 import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.utilties.autoplays.IAutoPlay;
 import cc.slack.features.modules.impl.utilties.autoplays.impl.HypixelAutoPlay;
 import cc.slack.features.modules.impl.utilties.autoplays.impl.LibrecraftAutoPlay;
@@ -62,7 +62,7 @@ public class AutoPlay extends Module {
     }
 
     public void iscorrectjoin() {
-        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoPlay:  You joined in the new game", "", 1500L, Slack.NotificationStyle.WARN);
+        Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("AutoPlay:  You joined in the new game", "", 1500L, Slack.NotificationStyle.WARN);
     }
 
     @Override

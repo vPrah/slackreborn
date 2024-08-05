@@ -6,7 +6,7 @@ import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
 import cc.slack.features.modules.api.Module;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.render.hud.arraylist.IArraylist;
 import cc.slack.utils.font.Fonts;
 import java.util.ArrayList;
@@ -52,8 +52,8 @@ public class ClassicArrayList implements IArraylist {
                 String displayName = module.getDisplayName();
                 String mode = module.getMode();
                 String key = Keyboard.getKeyName(module.getKey());
-                if (mode != null && !mode.isEmpty() && Slack.getInstance().getModuleManager().getInstance(HUD.class).tags.getValue()) {
-                    switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).tagsMode.getValue()) {
+                if (mode != null && !mode.isEmpty() && Slack.getInstance().getModuleManager().getInstance(Interface.class).tags.getValue()) {
+                    switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).tagsMode.getValue()) {
                         case "(Mode)":
                             displayName += "§7 (" + mode + ")";
                             break;
@@ -74,8 +74,8 @@ public class ClassicArrayList implements IArraylist {
                             break;
                     }
                 }
-                if (!key.contains("NONE") && Slack.getInstance().getModuleManager().getInstance(HUD.class).binds.getValue()) {
-                    switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).bindsMode.getValue()) {
+                if (!key.contains("NONE") && Slack.getInstance().getModuleManager().getInstance(Interface.class).binds.getValue()) {
+                    switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).bindsMode.getValue()) {
                         case "(Mode)":
                             displayName += "§7 (" + Keyboard.getKeyName(module.getKey()) + ")";
                             break;
@@ -104,7 +104,7 @@ public class ClassicArrayList implements IArraylist {
                 modules.add(pair);
             }
         }
-        switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
+        switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistFont.getValue()) {
             case "Apple":
                 modules.sort((a, b) -> Integer.compare(Fonts.apple18.getStringWidth(b.first), Fonts.apple18.getStringWidth(a.first)));
                 break;
@@ -119,10 +119,10 @@ public class ClassicArrayList implements IArraylist {
 
     @Override
     public void onRender(RenderEvent event) {
-        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistResetPos.getValue()) {
+        if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistResetPos.getValue()) {
             x = 0;
             y = 3;
-            Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistResetPos.setValue(false);
+            Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistResetPos.setValue(false);
         }
 
         int currentY = (int) y;
@@ -141,7 +141,7 @@ public class ClassicArrayList implements IArraylist {
         int longest = 0;
 
         for (Pair module : modules) {
-            switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
+            switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistFont.getValue()) {
                 case "Apple":
                     stringLength = Fonts.apple18.getStringWidth(module.first);
                     break;
@@ -168,28 +168,28 @@ public class ClassicArrayList implements IArraylist {
 
             ease = 1 - 1.2 * ease;
 
-            switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
+            switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistFont.getValue()) {
                 case "Apple":
-                    if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistBackground.getValue()) {
+                    if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistBackground.getValue()) {
                         drawRoundedRect((float) (x + event.getWidth() - stringLength * ease - 5), currentY - 2, stringLength + 5, Fonts.poppins18.getHeight(), 1.0f, 0x80000000);
                     }
-                    Fonts.apple18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+                    Fonts.apple18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
                     currentY += (int) ((Fonts.apple18.getHeight() + 3) * Math.max(0, (ease + 0.2) / 1.2));
                     c += 0.13;
                     break;
                 case "Poppins":
-                    if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistBackground.getValue()) {
+                    if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistBackground.getValue()) {
                         drawRoundedRect((float) (x + event.getWidth() - stringLength * ease - 5), currentY - 2, stringLength + 5, Fonts.poppins18.getHeight() + 3, 1.0f, 0x80000000);
                     }
-                    Fonts.poppins18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+                    Fonts.poppins18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
                     currentY += (int) ((Fonts.poppins18.getHeight() + 3) * Math.max(0, (ease + 0.2) / 1.2));
                     c += 0.15;
                     break;
                 case "Roboto":
-                    if (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistBackground.getValue()) {
+                    if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistBackground.getValue()) {
                         drawRoundedRect((float) (x + event.getWidth() - stringLength * ease - 5), currentY - 2, stringLength + 5, Fonts.roboto18.getHeight() + 3, 1.0f, 0x80000000);
                     }
-                    Fonts.roboto18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(HUD.class).theme.getValue(), c).getRGB());
+                    Fonts.roboto18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
                     currentY += (int) ((Fonts.roboto18.getHeight() + 3) * Math.max(0, (ease + 0.2) / 1.2));
                     c += 0.13;
                     break;

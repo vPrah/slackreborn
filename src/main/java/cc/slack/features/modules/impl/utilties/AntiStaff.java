@@ -8,7 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.ModeValue;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.entity.Entity;
 import net.minecraft.network.Packet;
@@ -70,7 +70,7 @@ public class AntiStaff extends Module {
             if (entity != null && (staffs.contains(entity.getCommandSenderName()) || staffs.contains(entity.getDisplayName().getUnformattedText()))) {
                 if (!detected) {
                     if (notifyValue.getValue()){
-                        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AntiStaff:  Staff Detected!", "", 7500L, Slack.NotificationStyle.WARN);
+                        Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("AntiStaff:  Staff Detected!", "", 7500L, Slack.NotificationStyle.WARN);
                     }
 
                     if (chatnotifyValue.getValue()) {
@@ -96,7 +96,7 @@ public class AntiStaff extends Module {
             if (entity != null && (staffs.contains(entity.getCommandSenderName()) || staffs.contains(entity.getDisplayName().getUnformattedText()))) {
                 if (!detected) {
                     if (notifyValue.getValue()){
-                        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AntiStaff:  Staff Detected!", "", 1500L, Slack.NotificationStyle.WARN);
+                        Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("AntiStaff:  Staff Detected!", "", 1500L, Slack.NotificationStyle.WARN);
                     }
 
                     if (chatnotifyValue.getValue()) {

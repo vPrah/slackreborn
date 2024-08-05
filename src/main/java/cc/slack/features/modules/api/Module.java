@@ -8,7 +8,7 @@ import java.util.List;
 
 import cc.slack.start.Slack;
 import cc.slack.features.modules.api.settings.Value;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.utils.EventUtil;
 import cc.slack.utils.client.IMinecraft;
 import cc.slack.utils.drag.DragUtil;
@@ -58,7 +58,7 @@ public abstract class Module implements IMinecraft {
     public void setToggle(boolean toggle) {
         if (this.toggle == toggle) return;
 
-        if (Slack.getInstance().getModuleManager().getInstance(HUD.class).sound.getValue())
+        if (Slack.getInstance().getModuleManager().getInstance(Interface.class).sound.getValue())
             PlaySound();
 
         this.toggle = toggle;

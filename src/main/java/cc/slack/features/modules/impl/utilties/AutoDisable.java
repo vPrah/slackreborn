@@ -9,7 +9,7 @@ import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.features.modules.impl.movement.Flight;
 import cc.slack.features.modules.impl.player.TimerModule;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.world.InvManager;
 import cc.slack.features.modules.impl.world.Scaffold;
 import cc.slack.features.modules.impl.world.Stealer;
@@ -37,7 +37,7 @@ public class AutoDisable extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onWorldChange (WorldEvent event) {
-        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("AutoDisable:  Disabled modules on world change", "", 1500L, Slack.NotificationStyle.WARN);
+        Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("AutoDisable:  Disabled modules on world change", "", 1500L, Slack.NotificationStyle.WARN);
         if (disableKA.getValue() && Slack.getInstance().getModuleManager().getInstance(KillAura.class).isToggle()) Slack.getInstance().getModuleManager().getInstance(KillAura.class).toggle();
         if (disableInvManager.getValue() && Slack.getInstance().getModuleManager().getInstance(InvManager.class).isToggle()) Slack.getInstance().getModuleManager().getInstance(InvManager.class).toggle();
         if (disableStealer.getValue() && Slack.getInstance().getModuleManager().getInstance(Stealer.class).isToggle()) Slack.getInstance().getModuleManager().getInstance(Stealer.class).toggle();

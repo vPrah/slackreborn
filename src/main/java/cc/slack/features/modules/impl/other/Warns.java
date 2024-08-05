@@ -8,7 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.features.modules.impl.render.HUD;
+import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.utils.other.PrintUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.network.PacketDirection;
@@ -50,7 +50,7 @@ public class Warns extends Module {
         if (healthWarn.getValue()) {
             if (mc.thePlayer.getHealth() < healthValue.getValue()) {
                 if (!isHealthLow) {
-                    Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("HealthWarn:  YOU ARE AT LOW HP!", "", 4500L, Slack.NotificationStyle.WARN);
+                    Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("HealthWarn:  YOU ARE AT LOW HP!", "", 4500L, Slack.NotificationStyle.WARN);
                     isHealthLow = true;
                 }
             } else {
@@ -69,7 +69,7 @@ public class Warns extends Module {
                         double d1 = (double) S2C.func_149050_e() / 32.0D;
                         double d2 = (double) S2C.func_149049_f() / 32.0D;
                         PrintUtil.message("Detected lightning strike at " + d0 + ", " + d1 + ", " + d2);
-                        Slack.getInstance().getModuleManager().getInstance(HUD.class).addNotification("Lightning Detector:  Detected lightning strike at " + d0 + ", " + d1 + ", " + d2, "", 4500L, Slack.NotificationStyle.WARN);
+                        Slack.getInstance().getModuleManager().getInstance(Interface.class).addNotification("Lightning Detector:  Detected lightning strike at " + d0 + ", " + d1 + ", " + d2, "", 4500L, Slack.NotificationStyle.WARN);
                     }
                 }
             }
