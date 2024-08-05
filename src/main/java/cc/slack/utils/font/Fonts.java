@@ -24,6 +24,7 @@ public class Fonts {
         fontFiles.put("Roboto", "roboto.ttf");
         fontFiles.put("Arial", "Arial");
         fontFiles.put("Checkmark", "checkmark.ttf");
+        fontFiles.put("SF-Pro-Rounded-Bold", "SF-Pro-Rounded-Bold.otf");
     }
 
     public static MCFontRenderer getFontRenderer(String fontName, int fontSize, boolean antiAlias, boolean fractionalMetrics) {
@@ -62,6 +63,11 @@ public class Fonts {
     public static final MCFontRenderer poppins18 = getFontRenderer("Poppins", 18);
     public static final MCFontRenderer poppins20 = getFontRenderer("Poppins", 20);
     public static final MCFontRenderer poppins24 = getFontRenderer("Poppins", 24);
+
+    // SF-Pro-Rounded-Bold
+    public static final MCFontRenderer sfRoundedBold18 = getFontRenderer("SF-Pro-Rounded-Bold", 18);
+    public static final MCFontRenderer sfRoundedBold20 = getFontRenderer("SF-Pro-Rounded-Bold", 20);
+    public static final MCFontRenderer sfRoundedBold24 = getFontRenderer("SF-Pro-Rounded-Bold", 24);
 
     public static final MCFontRenderer iconFont24 = getFontRenderer("IconFont", 24, true, true);
     public static final MCFontRenderer iconFont38 = getFontRenderer("IconFont", 38, true, true);
