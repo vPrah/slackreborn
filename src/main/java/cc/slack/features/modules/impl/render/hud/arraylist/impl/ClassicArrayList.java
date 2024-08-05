@@ -196,16 +196,16 @@ public class ClassicArrayList implements IArraylist {
             }
         }
 
-        handleMouseInput(mouseX, mouseY, event.getWidth() - longest - x, y, longest, currentY - y);
+        handleMouseInput(mouseX, mouseY, event.getWidth() - longest - x, y, longest, currentY - y, event.getWidth() - longest);
     }
 
-    private void handleMouseInput(int mouseX, int mouseY, float rectX, float rectY, float rectWidth, float rectHeight) {
+    private void handleMouseInput(int mouseX, int mouseY, float rectX, float rectY, float rectWidth, float rectHeight, float e) {
         if (Mouse.isButtonDown(0) && mc.currentScreen instanceof GuiChat) {
             if (!dragging) {
                 if (mouseX >= rectX && mouseX <= rectX + rectWidth &&
                         mouseY >= rectY && mouseY <= rectY + rectHeight) {
                     dragging = true;
-                    dragX = mouseX - rectX;
+                    dragX = mouseX + rectX - e;
                     dragY = mouseY - rectY;
                 }
             }

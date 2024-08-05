@@ -35,7 +35,7 @@ public class FreeLookUtil implements IMinecraft {
 
     public static void enable() {
         setFreelooking(true);
-        cameraYaw = mc.thePlayer.rotationYaw;
+        cameraYaw = mc.thePlayer.rotationYaw + 180;
         cameraPitch = mc.thePlayer.rotationPitch;
     }
 
