@@ -22,8 +22,8 @@ public class BlockUtils implements IMinecraft {
         return getBlock(new BlockPos(vec3));
     }
     public static Block getBlock(BlockPos blockPos) {
-        if (mc.getWorld() != null && blockPos != null) {
-            return mc.getWorld().getBlockState(blockPos).getBlock();
+        if (mc.theWorld != null && blockPos != null) {
+            return mc.theWorld.getBlockState(blockPos).getBlock();
         }
         return null;
     }
@@ -37,7 +37,7 @@ public class BlockUtils implements IMinecraft {
     }
 
     public static float getHardness(BlockPos blockPos) {
-        return getBlock(blockPos).getPlayerRelativeBlockHardness(mc.thePlayer, mc.getWorld(), blockPos);
+        return getBlock(blockPos).getPlayerRelativeBlockHardness(mc.thePlayer, mc.theWorld, blockPos);
     }
 
     public static boolean isReplaceable(BlockPos blockPos) {
@@ -62,7 +62,7 @@ public class BlockUtils implements IMinecraft {
 
     public static boolean canBeClicked(BlockPos blockPos) {
         return (getBlock(blockPos) != null && Objects.requireNonNull(getBlock(blockPos)).canCollideCheck(getState(blockPos), false)) &&
-                mc.getWorld().getWorldBorder().contains(blockPos);
+                mc.theWorld.getWorldBorder().contains(blockPos);
     }
 
     public static String getBlockName(int id) {
@@ -70,7 +70,7 @@ public class BlockUtils implements IMinecraft {
     }
 
     public static boolean isFullBlock(BlockPos blockPos) {
-        AxisAlignedBB axisAlignedBB = getBlock(blockPos) != null ? getBlock(blockPos).getCollisionBoundingBox(mc.getWorld(), blockPos, getState(blockPos)) : null;
+        AxisAlignedBB axisAlignedBB = getBlock(blockPos) != null ? getBlock(blockPos).getCollisionBoundingBox(mc.theWorld, blockPos, getState(blockPos)) : null;
         if (axisAlignedBB == null) return false;
         return axisAlignedBB.maxX - axisAlignedBB.minX == 1.0 && axisAlignedBB.maxY - axisAlignedBB.minY == 1.0 && axisAlignedBB.maxZ - axisAlignedBB.minZ == 1.0;
     }
@@ -169,7 +169,7 @@ public class BlockUtils implements IMinecraft {
                 Block block = getBlock(blockPos);
 
                 if (collide.test(block)) {
-                    AxisAlignedBB boundingBox = block != null ? block.getCollisionBoundingBox(mc.getWorld(), blockPos, getState(blockPos)) : null;
+                    AxisAlignedBB boundingBox = block != null ? block.getCollisionBoundingBox(mc.theWorld, blockPos, getState(blockPos)) : null;
                     if (boundingBox == null) continue;
 
                     if (mc.thePlayer.getEntityBoundingBox().intersectsWith(boundingBox)) {

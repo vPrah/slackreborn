@@ -275,7 +275,7 @@ public final class RenderUtil implements IMinecraft {
                         double d9 = mc.thePlayer.posZ - tnt.posY;
                         double d13 = MathHelper.sqrt_double(d5 * d5 + d7 * d7 + d9 * d9);
                         if (d13 != 0) {
-                            double d14 = mc.getWorld().getBlockDensity(vec3, mc.thePlayer.getEntityBoundingBox());
+                            double d14 = mc.theWorld.getBlockDensity(vec3, mc.thePlayer.getEntityBoundingBox());
                             double d10 = (1.0D - d12) * d14;
                             damage += (float) ((int) ((d10 * d10 + d10) / 2.0D * 8.0D * (double) f3 + 1.0D));
                         }

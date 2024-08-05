@@ -14,6 +14,7 @@ import cc.slack.features.modules.api.settings.impl.NumberValue;
 import cc.slack.features.modules.impl.combat.KillAura;
 import cc.slack.utils.network.PacketUtil;
 import cc.slack.utils.player.BlinkUtil;
+import cc.slack.utils.player.MovementUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.item.*;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
@@ -187,14 +188,13 @@ public class NoSlow extends Module {
                 if (mc.thePlayer.ticksExisted % 3 == 0 && !badC07 && !(mc.thePlayer.getHeldItem().item instanceof ItemSword)) {
                     mc.getNetHandler().addToSendQueue(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
                 }
+                MovementUtil.spoofNextC03(false);
                 setMultipliers(forwardMultiplier.getValue(), strafeMultiplier.getValue());
                 break;
             case "blink":
                 if (mc.thePlayer.getItemInUseDuration() == 2) {
                     blink = true;
                     BlinkUtil.enable(false, true);
-                } else if (mc.thePlayer.getItemInUseDuration() == 10 && blink) {
-                    PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(mc.thePlayer.getItemInUse()));
                 } else if (mc.thePlayer.getItemInUseDuration() == 29) {
                     PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(new BlockPos(-1, -1, -1), 1, null, 0.0f, 0.0f, 0.0f));
                     blink = false;

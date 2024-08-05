@@ -99,7 +99,7 @@ public class Autoclicker extends Module {
     public String getMode() {
         switch (displayMode.getValue()) {
             case "Advanced":
-                 return targetCPS.getValue() + ", " + randomizeAmount.getValue() + ", " + randomizeMode;
+                 return targetCPS.getValue() + ", " + randomizeAmount.getValue() + ", " + randomizeMode.getValue();
             case "Simple":
                 return targetCPS.getValue().toString();
         }

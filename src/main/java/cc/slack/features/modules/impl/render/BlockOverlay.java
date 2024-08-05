@@ -44,7 +44,7 @@ public class BlockOverlay extends Module {
 
         if (mc.objectMouseOver != null && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK) {
             final BlockPos pos = mc.objectMouseOver.getBlockPos();
-            final Block block = mc.getWorld().getBlockState(pos).getBlock();
+            final Block block = mc.theWorld.getBlockState(pos).getBlock();
             final RenderManager renderManager = mc.getRenderManager();
             final String s = block.getLocalizedName();
             mc.getRenderManager();

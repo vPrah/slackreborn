@@ -33,7 +33,7 @@ public class SafeWalk extends Module {
     }
 
     private boolean isOverEdge() {
-        return mc.getWorld().rayTraceBlocks(
+        return mc.theWorld.rayTraceBlocks(
                 new Vec3(mc.thePlayer.posX, mc.thePlayer.posY, mc.thePlayer.posZ),
                 new Vec3(mc.thePlayer.posX, mc.thePlayer.posY - 2, mc.thePlayer.posZ),
                 true, true, false) == null;

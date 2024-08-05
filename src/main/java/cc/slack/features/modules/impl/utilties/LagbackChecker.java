@@ -29,7 +29,7 @@ public class LagbackChecker extends Module {
 
     @Listen
     public void onPacket (PacketEvent event) {
-        if(event.getPacket() instanceof S08PacketPlayerPosLook && mc.thePlayer != null && mc.getWorld() != null) {
+        if(event.getPacket() instanceof S08PacketPlayerPosLook && mc.thePlayer != null && mc.theWorld != null) {
             S08PacketPlayerPosLook packet = event.getPacket();
 
             double diffX  = Math.abs(mc.thePlayer.posX - packet.getX());

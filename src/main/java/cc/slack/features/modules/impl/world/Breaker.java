@@ -99,7 +99,7 @@ public class Breaker extends Module {
 
                 if (!mc.thePlayer.onGround && spoofGround.getValue()) breakingProgress += 4 * BlockUtils.getHardness(currentBlock);
                 breakingProgress += BlockUtils.getHardness(currentBlock);
-                mc.getWorld().sendBlockBreakProgress(mc.thePlayer.getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
+                mc.theWorld.sendBlockBreakProgress(mc.thePlayer.getEntityId(), currentBlock, (int) (breakingProgress * 10) - 1);
 
                 RotationUtil.setClientRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
 
@@ -109,7 +109,7 @@ public class Breaker extends Module {
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
                     Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
 
-                    mc.getWorld().setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
+                    mc.theWorld.setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
                     if (currentBlock == targetBlock) {
                         targetBlock = null;
                     }

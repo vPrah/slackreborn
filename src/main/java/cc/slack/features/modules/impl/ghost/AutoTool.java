@@ -47,7 +47,7 @@ public class AutoTool extends Module {
                 && mc.objectMouseOver != null
                 && mc.objectMouseOver.typeOfHit == MovingObjectPosition.MovingObjectType.BLOCK
                 && !(AttackUtil.inCombat && noCombat.getValue())) {
-            getTool(true, mc.getWorld().getBlockState(mc.objectMouseOver.getBlockPos()).getBlock(), delay.getValue(), spoof.getValue());
+            getTool(true, mc.theWorld.getBlockState(mc.objectMouseOver.getBlockPos()).getBlock(), delay.getValue(), spoof.getValue());
         } else {
             getTool(false, null, 0, spoof.getValue());
         }
