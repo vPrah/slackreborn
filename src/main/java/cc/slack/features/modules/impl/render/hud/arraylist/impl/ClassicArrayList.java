@@ -138,8 +138,6 @@ public class ClassicArrayList implements IArraylist {
             y = (float) (mouseY - dragY);
         }
 
-        int longest = 0;
-
         for (Pair module : modules) {
             switch (Slack.getInstance().getModuleManager().getInstance(HUD.class).arraylistFont.getValue()) {
                 case "Apple":
@@ -152,7 +150,6 @@ public class ClassicArrayList implements IArraylist {
                     stringLength = Fonts.roboto18.getStringWidth(module.first);
                     break;
             }
-            if (stringLength > longest) longest = stringLength;
             Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
             double ease;
 
@@ -196,7 +193,7 @@ public class ClassicArrayList implements IArraylist {
             }
         }
 
-        handleMouseInput(mouseX, mouseY, x, y, longest - x, currentY - y);
+        handleMouseInput(mouseX, mouseY, x, y, event.getWidth() - x, currentY - y);
     }
 
     private void handleMouseInput(int mouseX, int mouseY, float rectX, float rectY, float rectWidth, float rectHeight) {
