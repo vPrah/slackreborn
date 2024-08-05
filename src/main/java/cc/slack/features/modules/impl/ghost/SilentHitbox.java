@@ -60,7 +60,7 @@ public class SilentHitbox extends Module {
         float[] tempRotation = RotationUtil.getPlayerRotation();
 
         if (enabled) {
-            mc.thePlayer.rotationYaw = FreeLookUtil.cameraYaw;
+            mc.thePlayer.rotationYaw = FreeLookUtil.cameraYaw + 180;
             mc.thePlayer.rotationPitch = FreeLookUtil.cameraPitch;
         }
 
@@ -80,6 +80,7 @@ public class SilentHitbox extends Module {
             RotationUtil.setPlayerRotation(tempRotation);
             if (!enabled) {
                 FreeLookUtil.enable();
+                FreeLookUtil.cameraYaw += 180;
                 enabled = true;
             }
             RotationUtil.setPlayerRotation(
@@ -108,7 +109,7 @@ public class SilentHitbox extends Module {
     }
 
     private void disable() {
-        mc.thePlayer.rotationYaw = FreeLookUtil.cameraYaw;
+        mc.thePlayer.rotationYaw = FreeLookUtil.cameraYaw + 180;
         mc.thePlayer.rotationPitch = FreeLookUtil.cameraPitch;
         FreeLookUtil.setFreelooking(false);
         enabled = false;

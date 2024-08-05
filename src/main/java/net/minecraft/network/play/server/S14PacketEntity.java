@@ -96,6 +96,21 @@ public class S14PacketEntity implements Packet<INetHandlerPlayClient>
         return this.onGround;
     }
 
+    public byte getPosX()
+    {
+        return this.posX;
+    }
+
+    public byte getPosY()
+    {
+        return this.posY;
+    }
+
+    public byte getPosZ()
+    {
+        return this.posZ;
+    }
+
     public static class S15PacketEntityRelMove extends S14PacketEntity
     {
         public S15PacketEntityRelMove()

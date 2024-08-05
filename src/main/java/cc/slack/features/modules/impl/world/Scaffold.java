@@ -418,7 +418,7 @@ public class Scaffold extends Module {
                 case "watchdog2":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
-                        mc.thePlayer.motionY = 0.4198499917984009;
+                        mc.thePlayer.motionY = 0.4197 + Math.random() * 0.000095;
                         MovementUtil.strafe(0.21f);
                     } else {
 
@@ -541,7 +541,7 @@ public class Scaffold extends Module {
     private void placeBlock() {
         if (!hasBlock) return;
         boolean canContinue = true;
-        MovingObjectPosition raytraced = mc.getWorld().rayTraceBlocks(
+        MovingObjectPosition raytraced = mc.theWorld.rayTraceBlocks(
                 mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks),
                 mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks).add(mc.thePlayer.getVectorForRotation(RotationUtil.clientRotation[1], RotationUtil.clientRotation[0]).multiply(4)),
                 false, true, false);
@@ -578,7 +578,7 @@ public class Scaffold extends Module {
 
         Vec3 hitVec = (new Vec3(blockPlacementFace.getDirectionVec())).multiply(0.5).add(new Vec3(0.5, 0.5, 0.5)).add(blockPlace);
 
-        if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.getWorld(), mc.thePlayer.getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
+        if (mc.playerController.onPlayerRightClick(mc.thePlayer, mc.theWorld, mc.thePlayer.getHeldItem(), blockPlace, blockPlacementFace, hitVec)) {
 
             if (swingMode.getValue().contains("Normal")) {
                 mc.thePlayer.swingItem();

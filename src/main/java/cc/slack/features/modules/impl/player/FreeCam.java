@@ -20,17 +20,17 @@ public class FreeCam extends Module {
 
     @Override
     public void onEnable() {
-        entity = new EntityOtherPlayerMP(mc.getWorld(), mc.thePlayer.getGameProfile());
+        entity = new EntityOtherPlayerMP(mc.theWorld, mc.thePlayer.getGameProfile());
         entity.rotationYawHead = mc.thePlayer.rotationYawHead;
         entity.renderYawOffset = mc.thePlayer.renderYawOffset;
         entity.copyLocationAndAnglesFrom(mc.thePlayer);
-        mc.getWorld().addEntityToWorld(-6969, entity);
+        mc.theWorld.addEntityToWorld(-6969, entity);
     }
 
     @Override
     public void onDisable() {
         mc.thePlayer.setPosition(entity.posX, entity.posY, entity.posZ);
-        mc.getWorld().removeEntity(entity);
+        mc.theWorld.removeEntity(entity);
     }
 
     @Listen

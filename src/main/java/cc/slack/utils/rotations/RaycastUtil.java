@@ -21,7 +21,7 @@ public class RaycastUtil implements IMinecraft {
         Vec3 eyes = mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks);
         Vec3 look = mc.thePlayer.getVectorForRotation(rotations[1], rotations[0]);
         Vec3 vec = eyes.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
-        List<Entity> entities = mc.getWorld().getEntitiesInAABBexcluding(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().addCoord(
+        List<Entity> entities = mc.theWorld.getEntitiesInAABBexcluding(mc.thePlayer, mc.thePlayer.getEntityBoundingBox().addCoord(
                         look.xCoord * range, look.yCoord * range, look.zCoord * range).expand(1, 1, 1),
                 Predicates.and(EntitySelectors.NOT_SPECTATING, Entity::canBeCollidedWith));
         EntityLivingBase raycastedEntity = null;

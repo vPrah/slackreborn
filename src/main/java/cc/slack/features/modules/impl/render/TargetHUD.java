@@ -76,10 +76,10 @@ public class TargetHUD extends Module {
 	public void onPacket(PacketEvent event) {
 		if (event.getPacket() instanceof C02PacketUseEntity) {
 			C02PacketUseEntity wrapper = event.getPacket();
-			if (wrapper.getEntityFromWorld(mc.getWorld()) instanceof EntityPlayer
+			if (wrapper.getEntityFromWorld(mc.theWorld) instanceof EntityPlayer
 					&& wrapper.getAction() == C02PacketUseEntity.Action.ATTACK) {
 				ticksSinceAttack = 0;
-				target = (EntityPlayer) wrapper.getEntityFromWorld(mc.getWorld());
+				target = (EntityPlayer) wrapper.getEntityFromWorld(mc.theWorld);
 			}
 		}
 	}

@@ -44,7 +44,7 @@ public class TickBase extends Module {
     @SuppressWarnings("unused")
     @Listen
     public void onTick(TickEvent event) {
-        if (mc.thePlayer == null || mc.getWorld() == null)
+        if (mc.thePlayer == null || mc.theWorld == null)
             return;
 
         publicFreeze = false;
@@ -53,7 +53,7 @@ public class TickBase extends Module {
             waitTicks--;
             ignoreUpdate = true;
             for (int i = 0; i < freeze.getValue() * timer.getValue(); i++) {
-                mc.getWorld().updateEntities();
+                mc.theWorld.updateEntities();
             }
             ignoreUpdate = false;
         }
