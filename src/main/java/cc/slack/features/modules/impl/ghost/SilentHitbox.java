@@ -97,9 +97,9 @@ public class SilentHitbox extends Module {
     }
 
     private void disable() {
-        FreeLookUtil.setFreelooking(false);
         mc.thePlayer.rotationYaw = FreeLookUtil.cameraYaw;
         mc.thePlayer.rotationPitch = FreeLookUtil.cameraPitch;
+        FreeLookUtil.setFreelooking(false);
         enabled = false;
     }
 

@@ -15,6 +15,7 @@ import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
+import net.minecraft.client.gui.GuiChat;
 import net.minecraft.client.gui.ScaledResolution;
 import org.lwjgl.input.Mouse;
 
@@ -122,7 +123,7 @@ public class XYZCounter extends Module {
     }
 
     private void handleMouseInput(int mouseX, int mouseY, int rectX, int rectY, int rectWidth, int rectHeight) {
-        if (Mouse.isButtonDown(0)) {
+        if (Mouse.isButtonDown(0) && mc.currentScreen instanceof GuiChat) {
             if (!dragging) {
                 if (mouseX >= rectX && mouseX <= rectX + rectWidth &&
                         mouseY >= rectY && mouseY <= rectY + rectHeight) {
