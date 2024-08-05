@@ -71,6 +71,21 @@ public class RaycastUtil implements IMinecraft {
         return movingobjectposition != null;
     }
 
+    public static boolean isHitable(double range, float[] rotations, Entity ent, float expand) {
+        Vec3 eyes = mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks);
+        Vec3 look = mc.thePlayer.getVectorForRotation(rotations[1], rotations[0]);
+        Vec3 vec = eyes.addVector(look.xCoord * range, look.yCoord * range, look.zCoord * range);
+
+        if (!(ent instanceof EntityLivingBase)) return false;
+        EntityLivingBase entity = (EntityLivingBase) ent;
+        if (entity == mc.thePlayer) return true;
+        final float borderSize = entity.getCollisionBorderSize() + expand;
+        final AxisAlignedBB axisalignedbb = entity.getEntityBoundingBox().expand(borderSize, borderSize, borderSize);
+        final MovingObjectPosition movingobjectposition = axisalignedbb.calculateIntercept(eyes, vec);
+
+        return movingobjectposition != null;
+    }
+
     public static Vec3 rayCastHitVec(EntityLivingBase entity, double range, float[] rotations) {
         Vec3 eyes = mc.thePlayer.getPositionEyes(mc.timer.renderPartialTicks);
         Vec3 look = mc.thePlayer.getVectorForRotation(rotations[1], rotations[0]);

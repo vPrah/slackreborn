@@ -27,7 +27,7 @@ public class ModuleManager {
         try {
             addModules(
                     // DEV
-                    new UniversalFont(),
+                    //new UniversalFont(),
                     new BPSCounter(),
                     new FPSCounter(),
                     new XYZCounter(),
@@ -134,7 +134,7 @@ public class ModuleManager {
                     new XRay(),
 
                     // Ghost
-                    new AimBot(),
+                    new SilentHitbox(),
                     new AimAssist(),
                     new Autoclicker(),
                     new Reach(),
@@ -147,7 +147,6 @@ public class ModuleManager {
                     new RealLag(),
                     new LegitNofall(),
                     new PearlAntiVoid(),
-                    new Stap(),
 
                     // Utilities
                     new AutoDisable(),

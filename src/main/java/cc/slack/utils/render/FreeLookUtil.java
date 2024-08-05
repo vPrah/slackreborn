@@ -13,12 +13,12 @@ public class FreeLookUtil implements IMinecraft {
         cameraPitch = Math.max(-90.0f, Math.min(90.0f, cameraPitch));
     }
 
-    public float getYaw() {
-        return freelooking ? this.cameraYaw : mc.thePlayer.rotationYaw;
+    public static float getYaw() {
+        return freelooking ? cameraYaw : mc.thePlayer.rotationYaw;
     }
 
-    public float getPitch() {
-        return freelooking ? this.cameraPitch : mc.thePlayer.rotationPitch;
+    public static float getPitch() {
+        return freelooking ? cameraPitch : mc.thePlayer.rotationPitch;
     }
 
     public float getPrevYaw() {
