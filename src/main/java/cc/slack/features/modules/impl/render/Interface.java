@@ -47,8 +47,10 @@ public class Interface extends Module {
 
 	});
 	public final BooleanValue arraylistResetPos = new BooleanValue("Array Reset Position", false);
-	public final ModeValue<String> arraylistsidebar = new ModeValue<>("Sidebar", new String[]{"Classic", "Modern", "Off"});
-	public final ModeValue<String> arraylistFont = new ModeValue<>("Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
+	public final ModeValue<String> modernArraylistMode = new ModeValue<>("Modern Style", new String[]{"Normal", "Minimalist"});
+	public final ModeValue<String> arraylistsidebar = new ModeValue<>("Modern Sidebar", new String[]{"Classic", "Modern", "Off"});
+	public final BooleanValue lowercase = new BooleanValue("Modern Lowercase", false);
+	public final ModeValue<String> arraylistFont = new ModeValue<>("Classic Arraylist Font", new String[]{"Apple", "Poppins", "Roboto"});
 	public final BooleanValue arraylistBackground = new BooleanValue("Arraylist Background", true);
 	public final BooleanValue tags = new BooleanValue("Tags", true);
 	public final ModeValue<String> tagsMode = new ModeValue<>("Tags Style", new String[]{"[Mode]","(Mode)", "<Mode>", "| Mode", "-> Mode", "- Mode"});
@@ -119,7 +121,7 @@ public class Interface extends Module {
 	private ArrayList<Slack.NotificationStyle> notStyle = new ArrayList<>();
 
 	public Interface() {
-		addSettings(arraylist, arraylistMode, arraylistResetPos, arraylistsidebar,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
+		addSettings(arraylist, arraylistMode, arraylistResetPos, modernArraylistMode,arraylistsidebar, lowercase,arraylistFont, arraylistBackground ,tags, tagsMode, binds, bindsMode, // arraylist
 				watermark,watermarksmodes, watermarkroundValue, customroundValue, watermarkResetPos  ,watermarkFont, // watermark
 				notification, roundednotification, // notification
 				fpsdraw, bpsdraw, scaffoldDraw, itemSpoofDraw, // draws
@@ -147,13 +149,13 @@ public class Interface extends Module {
 		}
 
 		if (fpsdraw.getValue()) {
-			Fonts.apple18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
-			Fonts.apple18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
+			Fonts.sfRoundedRegular18.drawStringWithShadow("FPS:  ", 4, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
+			Fonts.sfRoundedRegular18.drawStringWithShadow("" + Minecraft.getDebugFPS(), 25, mc.getScaledResolution().getScaledHeight() - 10, -1);
 		}
 
 		if (bpsdraw.getValue()) {
-			Fonts.apple18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
-			Fonts.apple18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
+			Fonts.sfRoundedRegular18.drawStringWithShadow("BPS:  ", 50, mc.getScaledResolution().getScaledHeight() - 10, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
+			Fonts.sfRoundedRegular18.drawStringWithShadow(getBPS(), 71, mc.getScaledResolution().getScaledHeight() - 10, -1);
 
 		}
 
