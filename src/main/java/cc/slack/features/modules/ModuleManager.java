@@ -28,9 +28,6 @@ public class ModuleManager {
             addModules(
                     // DEV
                     //new UniversalFont(),
-                    new BPSCounter(),
-                    new FPSCounter(),
-                    new XYZCounter(),
 
 
 
@@ -132,6 +129,9 @@ public class ModuleManager {
                     new SessionInfo(), // Recoded
                     new Zoom(), // Recoded
                     new XRay(),
+                    new BPSCounter(),
+                    new FPSCounter(),
+                    new XYZCounter(),
 
                     // Ghost
                     new SilentHitbox(),
