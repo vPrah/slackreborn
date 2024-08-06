@@ -295,6 +295,7 @@ public class KillAura extends Module {
                             PingSpoofUtil.enableOutbound(true, 10);
                             PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
                             currentSlot = mc.thePlayer.inventory.currentItem % 8 + 1;
+                            isBlocking = false;
                         }
                         return true;
                     case 1:
@@ -325,7 +326,7 @@ public class KillAura extends Module {
                 }
                 break;
             case "hypixel2":
-                if (mc.thePlayer.ticksExisted % 7 == 0) {
+                if (mc.thePlayer.ticksExisted % 5 == 0) {
                     BlinkUtil.enable(false, true);
                     wasBlink = true;
                     unblock();
@@ -480,6 +481,7 @@ public class KillAura extends Module {
                 block();
                 break;
             case "hypixel2":
+                isBlocking = false;
                 BlinkUtil.disable();
                 block(true);
                 break;

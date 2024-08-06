@@ -93,6 +93,8 @@ public class Scaffold extends Module {
     int jumpCounter = 0;
     boolean firstJump = false;
 
+    int towerTicks = 0;
+
 
     boolean hasPlaced = false;
 
@@ -395,6 +397,13 @@ public class Scaffold extends Module {
 
                     switch (mc.thePlayer.offGroundTicks % 3) {
                         case 0:
+                            towerTicks++;
+                            if (towerTicks > 10) {
+                                towerTicks = 0;
+                            } else if (towerTicks > 6) {
+                                mc.thePlayer.motionY = 0;
+                                break;
+                            }
                             mc.thePlayer.motionY = 0.419 + Math.random() * 0.000095;
                             break;
                         case 1:
@@ -424,8 +433,11 @@ public class Scaffold extends Module {
 
                         switch (mc.thePlayer.offGroundTicks % 3) {
                             case 0:
-                                mc.thePlayer.motionY = 0.4198499917984009;
-                                MovementUtil.strafe(0.21f);
+                                mc.thePlayer.motionY = 0.41965 + Math.random() * 0.00005;
+                                break;
+                            case 1:
+                                mc.thePlayer.motionY = 0.3329;
+                                //MovementUtil.spoofNextC03(true);
                                 break;
                             case 2:
                                 mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
