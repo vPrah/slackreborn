@@ -1,5 +1,6 @@
 package cc.slack.features.modules.impl.render.hud.arraylist.impl;
 
+import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.start.Slack;
 import cc.slack.events.impl.player.UpdateEvent;
 import cc.slack.events.impl.render.RenderEvent;
@@ -26,6 +27,7 @@ public class ModernArraylist implements IArraylist {
         String first;
         String second;
     }
+
 
     private final Map<Module, Boolean> moduleStates = new HashMap<>();
     List<ModernArraylist.Pair> modules = new ArrayList<>();
@@ -103,7 +105,15 @@ public class ModernArraylist implements IArraylist {
             }
         }
 
-        modules.sort((a, b) -> Integer.compare(Fonts.sfRoundedBold18.getStringWidth(b.first), Fonts.sfRoundedBold18.getStringWidth(a.first)));
+        switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).modernArraylistMode.getValue()) {
+            case "Normal":
+                modules.sort((a, b) -> Integer.compare(Fonts.sfRoundedBold18.getStringWidth(b.first), Fonts.sfRoundedBold18.getStringWidth(a.first)));
+                break;
+            case "Minimalist":
+                modules.sort((a, b) -> Integer.compare(Fonts.sfRoundedRegular18.getStringWidth(b.first), Fonts.sfRoundedRegular18.getStringWidth(a.first)));
+                break;
+        }
+
     }
 
     @Override
@@ -131,7 +141,23 @@ public class ModernArraylist implements IArraylist {
 
         for (ModernArraylist.Pair module : modules) {
 
-            stringLength = Fonts.sfRoundedBold18.getStringWidth(module.first);
+            String displayName = module.first;
+
+            if (Slack.getInstance().getModuleManager().getInstance(Interface.class).lowercase.getValue()) {
+                displayName = displayName.toLowerCase();
+            }
+
+
+
+            switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).modernArraylistMode.getValue()) {
+                case "Normal":
+                    stringLength = Fonts.sfRoundedBold18.getStringWidth(displayName);
+                    break;
+                case "Minimalist":
+                    stringLength = Fonts.sfRoundedRegular18.getStringWidth(displayName);
+                    break;
+            }
+
 
             if (stringLength > longest) longest = stringLength;
             Module m = Slack.getInstance().getModuleManager().getModuleByName(module.second);
@@ -149,21 +175,42 @@ public class ModernArraylist implements IArraylist {
 
             ease = 1 - 1.2 * ease;
 
-            if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistBackground.getValue()) {
-                drawRoundedRect((float) (x + event.getWidth() - stringLength * ease - 5), currentY - 2, stringLength + 7, Fonts.sfRoundedBold18.getHeight() + 3, 1.0f, 0x80000000);
-            }
+            switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).modernArraylistMode.getValue()) {
+                case "Normal":
+                    if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistBackground.getValue()) {
+                        drawRoundedRect((float) (x + event.getWidth() - stringLength * ease - 5), currentY - 2, stringLength + 7, Fonts.sfRoundedBold18.getHeight() + 3, 1.0f, 0x80000000);
+                    }
 
-            switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistsidebar.getValue()) {
-                case "Modern":
-                    drawSidebar((float) (x + event.getWidth() - stringLength * ease - 0 + stringLength ), currentY, 1.5F, Fonts.sfRoundedBold18.getHeight(), 1.0f, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
+                    switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistsidebar.getValue()) {
+                        case "Modern":
+                            drawSidebar((float) (x + event.getWidth() - stringLength * ease - 0 + stringLength ), currentY, 1.5F, Fonts.sfRoundedBold18.getHeight(), 1.0f, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
+                            break;
+                        case "Classic":
+                            drawSidebar((float) (x + event.getWidth() - stringLength * ease - 0 + stringLength ), currentY -2, 1.5F, Fonts.sfRoundedBold18.getHeight() + 3, 1.0f, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());                    break;
+                        default:
+                    }
+                    Fonts.sfRoundedBold18.drawStringWithShadow(displayName, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
+                    currentY += (int) ((Fonts.sfRoundedBold18.getHeight() + 3) * Math.max(0, (ease + 0.2) / 1.2));
+                    c += 0.13;
                     break;
-                case "Classic":
-                    drawSidebar((float) (x + event.getWidth() - stringLength * ease - 0 + stringLength ), currentY -2, 1.5F, Fonts.sfRoundedBold18.getHeight() + 3, 1.0f, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());                    break;
-                default:
+                case "Minimalist":
+                    if (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistBackground.getValue()) {
+                        drawRoundedRect((float) (x + event.getWidth() - stringLength * ease - 5), currentY - 2, stringLength + 7, Fonts.sfRoundedRegular18.getHeight() + 3, 1.0f, 0x80000000);
+                    }
+
+                    switch (Slack.getInstance().getModuleManager().getInstance(Interface.class).arraylistsidebar.getValue()) {
+                        case "Modern":
+                            drawSidebar((float) (x + event.getWidth() - stringLength * ease - 0 + stringLength ), currentY, 1.5F, Fonts.sfRoundedRegular18.getHeight(), 1.0f, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
+                            break;
+                        case "Classic":
+                            drawSidebar((float) (x + event.getWidth() - stringLength * ease - 0 + stringLength ), currentY -2, 1.5F, Fonts.sfRoundedRegular18.getHeight() + 3, 1.0f, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());                    break;
+                        default:
+                    }
+                    Fonts.sfRoundedRegular18.drawStringWithShadow(displayName, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
+                    currentY += (int) ((Fonts.sfRoundedBold18.getHeight() + 3) * Math.max(0, (ease + 0.2) / 1.2));
+                    c += 0.13;
+                    break;
             }
-            Fonts.sfRoundedBold18.drawStringWithShadow(module.first, x + event.getWidth() - stringLength * ease - 3, currentY, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), c).getRGB());
-            currentY += (int) ((Fonts.sfRoundedBold18.getHeight() + 3) * Math.max(0, (ease + 0.2) / 1.2));
-            c += 0.13;
 
             handleMouseInput(mouseX, mouseY, event.getWidth() - longest - x, y, longest, currentY - y, event.getWidth() - longest);
         }
