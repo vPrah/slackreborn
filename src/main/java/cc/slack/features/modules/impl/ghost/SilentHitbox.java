@@ -64,7 +64,7 @@ public class SilentHitbox extends Module {
             mc.thePlayer.rotationPitch = FreeLookUtil.cameraPitch;
         }
 
-        if (RotationUtil.getRotationDifference(
+        if ((RotationUtil.getRotationDifference(
                 RotationUtil.getTargetRotations(
                         target.getEntityBoundingBox(),
                         RotationUtil.TargetRotation.EDGE,
@@ -76,7 +76,12 @@ public class SilentHitbox extends Module {
                 range.getValue() + 1,
                 RotationUtil.getPlayerRotation(),
                 target,
-                expand.getValue())) {
+                expand.getValue()))
+        && !(RaycastUtil.isHitable(
+                range.getValue() + 1,
+                RotationUtil.getPlayerRotation(),
+                target,
+                0))) {
             RotationUtil.setPlayerRotation(tempRotation);
             if (!enabled) {
                 FreeLookUtil.enable();

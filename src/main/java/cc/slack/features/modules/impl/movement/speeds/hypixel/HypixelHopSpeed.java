@@ -29,7 +29,7 @@ public class HypixelHopSpeed implements ISpeed {
                 wasSlow = false;
                 if (jumpTick > 6) jumpTick = 5;
                 mc.thePlayer.jump();
-                MovementUtil.strafe(0.465f + jumpTick * 0.008f);
+                MovementUtil.strafe(0.475f + jumpTick * 0.007f);
                 if (mc.thePlayer.isPotionActive(Potion.moveSpeed)) {
                     float amplifier = mc.thePlayer.getActivePotionEffect(Potion.moveSpeed).getAmplifier();
                     MovementUtil.strafe(0.46f + jumpTick * 0.008f + 0.023f * (amplifier + 1));
@@ -51,7 +51,7 @@ public class HypixelHopSpeed implements ISpeed {
             mc.thePlayer.motionZ *= 1.0005;
 
             if (mc.thePlayer.offGroundTicks < 13) {
-                if (mc.thePlayer.motionY > 0) {
+                if (mc.thePlayer.motionY < 0) {
                     if (jumpTick < 5 && !Slack.getInstance().getModuleManager().getInstance(Speed.class).enabledTime.hasReached(7000)) {
                         mc.timer.timerSpeed = 1.07f + (float) Math.random() * 0.07f;
                     } else {

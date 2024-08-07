@@ -456,6 +456,12 @@ public class KillAura extends Module {
                 }
                 isBlocking = false;
                 break;
+            case "interact":
+                if (isBlocking) {
+                    unblock();
+                    return true;
+                }
+                break;
             default:
                 break;
         }
@@ -465,8 +471,7 @@ public class KillAura extends Module {
     private void postAttack() {
         switch (autoBlock.getValue().toLowerCase()) {
             case "interact":
-                if (mc.thePlayer.hurtTime < 4)
-                    block(true);
+                block(true);
                 break;
             case "hypixel":
                 block(true);

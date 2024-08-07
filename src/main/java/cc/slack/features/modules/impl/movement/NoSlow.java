@@ -130,15 +130,10 @@ public class NoSlow extends Module {
                 break;
             case "hypixel spoof":
                 setMultipliers(1, 1);
-                if (mc.thePlayer.isSprinting()) {
-                    switch (mc.thePlayer.ticksExisted % 4) {
-                        case 0:
-                            PacketUtil.send(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.STOP_SPRINTING));
-                            break;
-                        case 1:
-                            PacketUtil.send(new C0BPacketEntityAction(mc.thePlayer, C0BPacketEntityAction.Action.START_SPRINTING));
-                            break;
-                    }
+                if (mc.thePlayer.ticksExisted % 2 == 0) {
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem % 8 + 1));
+                } else {
+                    mc.getNetHandler().addToSendQueue(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                 }
                 break;
             case "hypixel":
