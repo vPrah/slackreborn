@@ -392,6 +392,13 @@ public class Scaffold extends Module {
                     }
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
+                        towerTicks++;
+                        if (towerTicks > 10) {
+                            towerTicks = 0;
+                        } else if (towerTicks > 5) {
+                            mc.thePlayer.motionY = 0;
+                            break;
+                        }
                         mc.thePlayer.motionY = 0.4197 + Math.random() * 0.000095;
                     }
 
@@ -400,17 +407,20 @@ public class Scaffold extends Module {
                             towerTicks++;
                             if (towerTicks > 10) {
                                 towerTicks = 0;
-                            } else if (towerTicks > 6) {
+                            } else if (towerTicks > 5) {
                                 mc.thePlayer.motionY = 0;
                                 break;
                             }
                             mc.thePlayer.motionY = 0.419 + Math.random() * 0.000095;
                             break;
                         case 1:
+                            if (towerTicks > 5) break;
                             mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
                             //MovementUtil.spoofNextC03(true);
                             break;
                         case 2:
+                            if (towerTicks > 5) break;
+
                             mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
                             MovementUtil.spoofNextC03(true);
                             break;
@@ -427,19 +437,36 @@ public class Scaffold extends Module {
                 case "watchdog2":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
+                        towerTicks++;
+                        if (towerTicks > 15) {
+                            towerTicks = 0;
+                        } else if (towerTicks > 5) {
+                            mc.thePlayer.motionY = 0;
+                            break;
+                        }
                         mc.thePlayer.motionY = 0.4197 + Math.random() * 0.000095;
-                        MovementUtil.strafe(0.21f);
                     } else {
 
                         switch (mc.thePlayer.offGroundTicks % 3) {
                             case 0:
+                                towerTicks++;
+                                if (towerTicks > 15) {
+                                    towerTicks = 0;
+                                } else if (towerTicks > 5) {
+                                    mc.thePlayer.motionY = 0;
+                                    break;
+                                }
                                 mc.thePlayer.motionY = 0.41965 + Math.random() * 0.00005;
                                 break;
                             case 1:
+                                if (towerTicks > 5) break;
+
                                 mc.thePlayer.motionY = 0.3329;
                                 //MovementUtil.spoofNextC03(true);
                                 break;
                             case 2:
+                                if (towerTicks > 5) break;
+
                                 mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
                                 break;
                         }
