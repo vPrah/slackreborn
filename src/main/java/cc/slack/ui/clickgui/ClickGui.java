@@ -3,7 +3,7 @@ package cc.slack.ui.clickgui;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import cc.slack.utils.client.Login;
+import cc.slack.utils.altmanager.Login;
 import net.minecraft.client.gui.GuiScreen;
 import cc.slack.ui.clickgui.component.Frame;
 import cc.slack.features.modules.api.Category;

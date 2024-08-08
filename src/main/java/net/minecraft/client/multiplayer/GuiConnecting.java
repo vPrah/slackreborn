@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import cc.slack.ui.menu.MainMenu;
-import cc.slack.utils.client.Login;
+import cc.slack.utils.altmanager.Login;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiDisconnected;

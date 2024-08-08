@@ -8,7 +8,7 @@ import cc.slack.features.modules.api.Module;
 import cc.slack.features.modules.api.ModuleInfo;
 import cc.slack.features.modules.api.settings.impl.BooleanValue;
 import cc.slack.features.modules.api.settings.impl.NumberValue;
-import cc.slack.utils.client.Login;
+import cc.slack.utils.altmanager.Login;
 import cc.slack.utils.other.MathTimerUtil;
 import cc.slack.utils.player.PlayerUtil;
 import io.github.nevalackin.radbus.Listen;
@@ -23,7 +23,6 @@ import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
