@@ -1,4 +1,4 @@
-package cc.slack.utils.client;
+package cc.slack.utils.altmanager;
 
 import net.minecraft.client.settings.KeyBinding;
 import okhttp3.MediaType;
