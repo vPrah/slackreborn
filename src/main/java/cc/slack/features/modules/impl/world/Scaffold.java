@@ -38,8 +38,7 @@ import static java.lang.Math.round;
 
 @ModuleInfo(
         name = "Scaffold",
-        category = Category.WORLD,
-        key = Keyboard.KEY_V
+        category = Category.WORLD
 )
 public class Scaffold extends Module {
 

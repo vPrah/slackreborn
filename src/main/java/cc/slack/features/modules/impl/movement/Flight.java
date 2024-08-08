@@ -29,8 +29,7 @@ import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
         name = "Flight",
-        category = Category.MOVEMENT,
-        key = Keyboard.KEY_F
+        category = Category.MOVEMENT
 )
 public class Flight extends Module {
 

@@ -43,8 +43,7 @@ import static org.lwjgl.opengl.GL11.glPopMatrix;
 
 @ModuleInfo(
         name = "KillAura",
-        category = Category.COMBAT,
-        key = Keyboard.KEY_R
+        category = Category.COMBAT
 )
 public class KillAura extends Module {
 
