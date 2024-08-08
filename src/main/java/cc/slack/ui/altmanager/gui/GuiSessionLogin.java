@@ -1,5 +1,6 @@
 package cc.slack.ui.altmanager.gui;
 import cc.slack.ui.altmanager.auth.SessionManager;
+import cc.slack.utils.font.Fonts;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import net.minecraft.client.gui.GuiButton;
@@ -14,6 +15,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.lwjgl.input.Keyboard;
 
+import java.awt.*;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.concurrent.CompletableFuture;
@@ -45,7 +47,7 @@ public class GuiSessionLogin extends GuiScreen {
         buttonList.clear();
 
         buttonList.add(cancelButton = new GuiButton(0, width / 2 - 100, height / 2 + 100, "Cancel"));
-        buttonList.add(loginButton = new GuiButton(1, width / 2 - 100, height / 2 + 150, "Log In"));
+        buttonList.add(loginButton = new GuiButton(1, width / 2 - 100, height / 2 + 25, "Log In"));
 
     }
 
@@ -63,7 +65,7 @@ public class GuiSessionLogin extends GuiScreen {
         super.drawScreen(mouseX, mouseY, partialTicks);
         sessionField.drawTextBox();
         if (status != null) {
-            fontRendererObj.drawStringWithShadow(status, width / 2, height / 2 - 100, -1);
+            fontRendererObj.drawStringWithShadow(status, width / 2 - 100, height / 2 - 20, -1);
         }
     }
 

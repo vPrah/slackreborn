@@ -138,6 +138,7 @@ public class Scaffold extends Module {
         Packet packet = p.getPacket();
         if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.thePlayer.onGround && MovementUtil.isMoving()) {
             if (mc.thePlayer.ticksExisted % 2 == 0) {
+                ((C03PacketPlayer) packet).y += 0.0001;
                     ((C03PacketPlayer) packet).onGround = false;
             }
             p.setPacket(packet);
