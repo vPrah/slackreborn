@@ -15,7 +15,7 @@ import cc.slack.features.modules.impl.other.Tweaks;
 import cc.slack.features.modules.impl.render.Animations;
 import cc.slack.features.modules.impl.render.Interface;
 import cc.slack.features.modules.impl.render.TargetHUD;
-import cc.slack.ui.altmanager.AccountManager;
+import cc.slack.ui.altguis.altmanager.AccountManager;
 import cc.slack.utils.client.ClientInfo;
 import cc.slack.utils.EventUtil;
 import cc.slack.utils.other.PrintUtil;

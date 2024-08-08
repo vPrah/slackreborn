@@ -1,4 +1,4 @@
-package cc.slack.ui.altmanager.auth;
+package cc.slack.ui.altguis.altmanager.auth;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.util.Session;

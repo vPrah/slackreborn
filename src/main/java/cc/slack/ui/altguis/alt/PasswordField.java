@@ -1,4 +1,4 @@
-package cc.slack.ui.alt;
+package cc.slack.ui.altguis.alt;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.FontRenderer;

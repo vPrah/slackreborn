@@ -1,4 +1,4 @@
-package cc.slack.ui.alt;
+package cc.slack.ui.altguis.alt;
 
 import java.io.IOException;
 
@@ -10,8 +10,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import net.minecraft.client.Minecraft;
 import org.lwjgl.input.Keyboard;
 
-import cc.slack.ui.alt.cookie.CookieUtil;
-import cc.slack.ui.alt.cookie.LoginData;
+import cc.slack.ui.altguis.alt.cookie.CookieUtil;
+import cc.slack.ui.altguis.alt.cookie.LoginData;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;

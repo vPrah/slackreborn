@@ -1,4 +1,4 @@
-package cc.slack.ui.alt.cookie;
+package cc.slack.ui.altguis.alt.cookie;
 
 import java.io.BufferedReader;
 import java.io.File;

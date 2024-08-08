@@ -1,7 +1,7 @@
-package cc.slack.ui.altmanager;
+package cc.slack.ui.altguis.altmanager;
 
 
-import cc.slack.ui.altmanager.auth.Account;
+import cc.slack.ui.altguis.altmanager.auth.Account;
 import com.google.gson.*;
 import net.minecraft.client.Minecraft;
 

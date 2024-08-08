@@ -1,6 +1,6 @@
-package cc.slack.ui.altmanager.auth;
+package cc.slack.ui.altguis.altmanager.auth;
 
-import cc.slack.ui.altmanager.utils.SystemUtils;
+import cc.slack.ui.altguis.altmanager.utils.SystemUtils;
 import com.google.gson.*;
 import com.sun.net.httpserver.HttpServer;
 import net.minecraft.util.Session;

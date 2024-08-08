@@ -1,7 +1,7 @@
 package net.minecraft.client.gui;
 
 import cc.slack.start.Slack;
-import cc.slack.ui.alt.GuiAltLogin;
+import cc.slack.ui.altguis.alt.GuiAltLogin;
 import cc.slack.ui.menu.MainMenuButton;
 import com.google.common.base.Strings;
 import com.google.common.collect.Lists;

@@ -1,4 +1,4 @@
-package cc.slack.ui.altmanager.auth;
+package cc.slack.ui.altguis.altmanager.auth;
 
 public class Account {
   private String refreshToken;

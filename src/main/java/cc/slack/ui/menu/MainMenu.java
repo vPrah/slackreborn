@@ -1,7 +1,7 @@
 package cc.slack.ui.menu;
 
 import cc.slack.start.Slack;
-import cc.slack.ui.altmanager.gui.GuiAccountManager;
+import cc.slack.ui.altguis.altmanager.gui.GuiAccountManager;
 import cc.slack.utils.client.Login;
 import cc.slack.utils.font.Fonts;
 import cc.slack.utils.other.FileUtil;

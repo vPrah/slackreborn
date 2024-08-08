@@ -1,4 +1,4 @@
-package cc.slack.ui.altmanager.utils;
+package cc.slack.ui.altguis.altmanager.utils;
 
 import java.net.URI;
 

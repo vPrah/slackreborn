@@ -1,10 +1,10 @@
-package cc.slack.ui.altmanager.gui;
+package cc.slack.ui.altguis.altmanager.gui;
 
-import cc.slack.ui.altmanager.AccountManager;
-import cc.slack.ui.altmanager.auth.Account;
-import cc.slack.ui.altmanager.auth.MicrosoftAuth;
-import cc.slack.ui.altmanager.auth.SessionManager;
-import cc.slack.ui.altmanager.utils.Notification;
+import cc.slack.ui.altguis.altmanager.AccountManager;
+import cc.slack.ui.altguis.altmanager.auth.Account;
+import cc.slack.ui.altguis.altmanager.auth.MicrosoftAuth;
+import cc.slack.ui.altguis.altmanager.auth.SessionManager;
+import cc.slack.ui.altguis.altmanager.utils.Notification;
 import net.minecraft.client.gui.Gui;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.GuiScreen;

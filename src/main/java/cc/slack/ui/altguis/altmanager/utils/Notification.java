@@ -1,4 +1,4 @@
-package cc.slack.ui.altmanager.utils;
+package cc.slack.ui.altguis.altmanager.utils;
 
 @SuppressWarnings("unused")
 public class Notification {
