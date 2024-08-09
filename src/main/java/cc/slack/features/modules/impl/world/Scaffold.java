@@ -38,8 +38,7 @@ import static java.lang.Math.round;
 
 @ModuleInfo(
         name = "Scaffold",
-        category = Category.WORLD,
-        key = Keyboard.KEY_V
+        category = Category.WORLD
 )
 public class Scaffold extends Module {
 
@@ -93,6 +92,8 @@ public class Scaffold extends Module {
     int jumpCounter = 0;
     boolean firstJump = false;
 
+    int towerTicks = 0;
+
 
     boolean hasPlaced = false;
 
@@ -137,6 +138,7 @@ public class Scaffold extends Module {
         Packet packet = p.getPacket();
         if (packet instanceof C03PacketPlayer && sprintMode.getValue() == "Hypixel" && mc.thePlayer.onGround && MovementUtil.isMoving()) {
             if (mc.thePlayer.ticksExisted % 2 == 0) {
+                ((C03PacketPlayer) packet).y += 0.0001;
                     ((C03PacketPlayer) packet).onGround = false;
             }
             p.setPacket(packet);
@@ -390,18 +392,35 @@ public class Scaffold extends Module {
                     }
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
+                        towerTicks++;
+                        if (towerTicks > 10) {
+                            towerTicks = 0;
+                        } else if (towerTicks > 5) {
+                            mc.thePlayer.motionY = 0;
+                            break;
+                        }
                         mc.thePlayer.motionY = 0.4197 + Math.random() * 0.000095;
                     }
 
                     switch (mc.thePlayer.offGroundTicks % 3) {
                         case 0:
+                            towerTicks++;
+                            if (towerTicks > 10) {
+                                towerTicks = 0;
+                            } else if (towerTicks > 5) {
+                                mc.thePlayer.motionY = 0;
+                                break;
+                            }
                             mc.thePlayer.motionY = 0.419 + Math.random() * 0.000095;
                             break;
                         case 1:
+                            if (towerTicks > 5) break;
                             mc.thePlayer.motionY = 0.3328 + Math.random() * 0.000095;
                             //MovementUtil.spoofNextC03(true);
                             break;
                         case 2:
+                            if (towerTicks > 5) break;
+
                             mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
                             MovementUtil.spoofNextC03(true);
                             break;
@@ -418,16 +437,36 @@ public class Scaffold extends Module {
                 case "watchdog2":
                     if (mc.thePlayer.onGround) {
                         jumpGround = mc.thePlayer.posY;
+                        towerTicks++;
+                        if (towerTicks > 15) {
+                            towerTicks = 0;
+                        } else if (towerTicks > 5) {
+                            mc.thePlayer.motionY = 0;
+                            break;
+                        }
                         mc.thePlayer.motionY = 0.4197 + Math.random() * 0.000095;
-                        MovementUtil.strafe(0.21f);
                     } else {
 
                         switch (mc.thePlayer.offGroundTicks % 3) {
                             case 0:
-                                mc.thePlayer.motionY = 0.4198499917984009;
-                                MovementUtil.strafe(0.21f);
+                                towerTicks++;
+                                if (towerTicks > 15) {
+                                    towerTicks = 0;
+                                } else if (towerTicks > 5) {
+                                    mc.thePlayer.motionY = 0;
+                                    break;
+                                }
+                                mc.thePlayer.motionY = 0.41965 + Math.random() * 0.00005;
+                                break;
+                            case 1:
+                                if (towerTicks > 5) break;
+
+                                mc.thePlayer.motionY = 0.3329;
+                                //MovementUtil.spoofNextC03(true);
                                 break;
                             case 2:
+                                if (towerTicks > 5) break;
+
                                 mc.thePlayer.motionY = Math.ceil(mc.thePlayer.posY) - mc.thePlayer.posY;
                                 break;
                         }

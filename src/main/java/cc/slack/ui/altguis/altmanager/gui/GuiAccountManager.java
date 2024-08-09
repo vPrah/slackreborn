@@ -55,6 +55,7 @@ public class GuiAccountManager extends GuiScreen {
     buttonList.add(loginButton = new GuiButton(0, width / 2 - 150 - 4, height - 52, 150, 20, "Login"));
     buttonList.add(new GuiButton(1, width / 2 + 4, height - 52, 150, 20, "Add (Microsoft)"));
     buttonList.add(new GuiButton(4, width / 2 + 160, height - 52, 150, 20, "Add (Cracked)"));
+    buttonList.add(new GuiButton(5, width / 2 + 160, height - 28, 150, 20, "Add (Session)"));
     buttonList.add(deleteButton = new GuiButton(2, width / 2 - 150 - 4, height - 28, 150, 20, "Delete"));
     buttonList.add(cancelButton = new GuiButton(3, width / 2 + 4, height - 28, 150, 20, "Cancel"));
 
@@ -276,6 +277,10 @@ public class GuiAccountManager extends GuiScreen {
         break;
         case 4: {
           mc.displayGuiScreen(new GuiAltLogin(this));
+        }
+        break;
+        case 5: {
+          mc.displayGuiScreen(new GuiSessionLogin(this));
         }
         break;
         default: {

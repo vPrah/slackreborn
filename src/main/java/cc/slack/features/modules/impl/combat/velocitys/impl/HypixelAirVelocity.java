@@ -27,13 +27,6 @@ public class HypixelAirVelocity implements IVelocity {
     }
 
     @Override
-    public void onUpdate(UpdateEvent event) {
-        if (mc.thePlayer.hurtTime <= 9 && mc.thePlayer.hurtTime > 6) {
-            MovementUtil.strafe(MovementUtil.getSpeed() * 0.95f);
-        }
-    }
-
-    @Override
     public String toString() {
         return "Hypixel";
     }

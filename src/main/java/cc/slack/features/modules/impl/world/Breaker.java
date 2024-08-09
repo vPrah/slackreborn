@@ -24,10 +24,12 @@ import net.minecraft.block.BlockBed;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.init.Blocks;
 import net.minecraft.network.play.client.C07PacketPlayerDigging;
+import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 @ModuleInfo(
         name = "Breaker",
@@ -81,7 +83,7 @@ public class Breaker extends Module {
                 if (switchTimer.hasReached(switchDelay.getValue())) {
                     findBreakBlock();
                     breakingProgress = 0f;
-                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, true);
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.START_DESTROY_BLOCK, currentBlock, currentFace));
                     RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                     mc.thePlayer.swingItem();
@@ -95,7 +97,7 @@ public class Breaker extends Module {
                     if (!mc.thePlayer.onGround && spoofGround.getValue()) return;
                 }
 
-                Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, true);
 
                 if (!mc.thePlayer.onGround && spoofGround.getValue()) breakingProgress += 4 * BlockUtils.getHardness(currentBlock);
                 breakingProgress += BlockUtils.getHardness(currentBlock);
@@ -107,7 +109,7 @@ public class Breaker extends Module {
                     if (!mc.thePlayer.onGround && spoofGround.getValue()) return;
                     RotationUtil.overrideRotation(BlockUtils.getFaceRotation(currentFace, currentBlock));
                     mc.getNetHandler().addToSendQueue(new C07PacketPlayerDigging(C07PacketPlayerDigging.Action.STOP_DESTROY_BLOCK, currentBlock, currentFace));
-                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
+                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, true);
 
                     mc.theWorld.setBlockState(currentBlock, Blocks.air.getDefaultState(), 11);
                     if (currentBlock == targetBlock) {
@@ -145,8 +147,11 @@ public class Breaker extends Module {
 
         if (event.getState() != RenderEvent.State.RENDER_3D) return;
         if (currentBlock == null) return;
-        RenderUtil.drawFilledBlock(currentBlock, new Color(255,255,255,100).getRGB());
-        RenderUtil.drawFilledBlock(targetBlock, new Color(255,25,25,130).getRGB());
+        double deltaX = currentBlock.getX();
+        double deltaY = currentBlock.getY();
+        double deltaZ = currentBlock.getZ();
+        RenderUtil.drawFilledAABB(new AxisAlignedBB(deltaX, deltaY, deltaZ, deltaX + 1.0, deltaY + breakingProgress, deltaZ + 1.0), new Color(255,255,255,60).getRGB());
+        RenderUtil.drawFilledBlock(targetBlock, new Color(255,25,25,60).getRGB());
 
     }
 
@@ -200,7 +205,51 @@ public class Breaker extends Module {
                     BlockUtils.isReplaceableNotBed(targetBlock.up())) {
                     currentBlock = targetBlock;
                 } else {
+                    float softest = 0f;
+                    BlockPos bestBlock;
                     currentBlock = targetBlock.up();
+                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                    softest = (BlockUtils.getHardness(currentBlock));
+                    bestBlock = currentBlock;
+
+                    currentBlock = targetBlock.north();
+                    if (!(BlockUtils.getBlock(currentBlock) instanceof BlockBed)) {
+                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                        if (BlockUtils.getHardness(currentBlock) < softest) {
+                            softest = BlockUtils.getHardness(currentBlock);
+                            bestBlock = currentBlock;
+                        }
+                    }
+
+                    currentBlock = targetBlock.west();
+                    if (!(BlockUtils.getBlock(currentBlock) instanceof BlockBed)) {
+                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                        if (BlockUtils.getHardness(currentBlock) < softest) {
+                            softest = BlockUtils.getHardness(currentBlock);
+                            bestBlock = currentBlock;
+                        }
+                    }
+
+                    currentBlock = targetBlock.east();
+                    if (!(BlockUtils.getBlock(currentBlock) instanceof BlockBed)) {
+                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                        if (BlockUtils.getHardness(currentBlock) < softest) {
+                            softest = BlockUtils.getHardness(currentBlock);
+                            bestBlock = currentBlock;
+                        }
+                    }
+
+                    currentBlock = targetBlock.south();
+                    if (!(BlockUtils.getBlock(currentBlock) instanceof BlockBed)) {
+                        Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(true, BlockUtils.getBlock(currentBlock), 0, false);
+                        if (BlockUtils.getHardness(currentBlock) < softest) {
+                            softest = BlockUtils.getHardness(currentBlock);
+                            bestBlock = currentBlock;
+                        }
+                    }
+
+                    currentBlock = bestBlock;
+                    Slack.getInstance().getModuleManager().getInstance(AutoTool.class).getTool(false, BlockUtils.getBlock(currentBlock), 0, false);
                 }
                 currentFace = EnumFacing.UP;
                 break;

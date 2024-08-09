@@ -31,8 +31,7 @@ import org.lwjgl.input.Keyboard;
 
 @ModuleInfo(
         name = "Speed",
-        category = Category.MOVEMENT,
-        key = Keyboard.KEY_B
+        category = Category.MOVEMENT
 )
 public class Speed extends Module {
 
