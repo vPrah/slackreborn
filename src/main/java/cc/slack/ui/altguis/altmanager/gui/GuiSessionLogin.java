@@ -1,5 +1,6 @@
-package cc.slack.ui.altmanager.gui;
-import cc.slack.ui.altmanager.auth.SessionManager;
+package cc.slack.ui.altguis.altmanager.gui;
+import cc.slack.ui.altguis.altmanager.gui.GuiAccountManager;
+import cc.slack.ui.altguis.altmanager.auth.SessionManager;
 import cc.slack.utils.font.Fonts;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
