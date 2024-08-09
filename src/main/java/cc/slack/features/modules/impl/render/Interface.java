@@ -114,6 +114,8 @@ public class Interface extends Module {
 	private int scaffoldTicks = 0;
 	private int itemSpoofTicks = 0;
 	private String displayString = " ";
+	private String displayStackSize = " ";
+	private String displayBlocks = " ";
 	private ArrayList<String> notText = new ArrayList<>();
 	private ArrayList<Long> notEnd = new ArrayList<>();
 	private ArrayList<Long> notStart = new ArrayList<>();
@@ -162,9 +164,14 @@ public class Interface extends Module {
 		if (scaffoldDraw.getValue()) {
 			if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
 				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
-					displayString = mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack().stackSize + " blocks";
+					int stackSize = mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack().stackSize;
+					displayString = stackSize + " block(s)";
+					displayStackSize = stackSize + " ";
+					displayBlocks = "blocks";
 				} else {
 					displayString = "No blocks";
+					displayStackSize = "No";
+					displayBlocks = "blocks";
 				}
 				if (scaffoldTicks < 10)
 					scaffoldTicks++;
@@ -177,13 +184,20 @@ public class Interface extends Module {
 				ScaledResolution sr = mc.getScaledResolution();
 				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
 					int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
+					int stackSizeWidth = Fonts.sfRoundedBold18.getStringWidth(displayStackSize);
+					int blocksWidth = Fonts.sfRoundedRegular18.getStringWidth(displayBlocks);
+					int totalWidth = stackSizeWidth + blocksWidth;
+
 					RenderUtil.drawRoundedRect(
-							((sr.getScaledWidth() -  Fonts.apple18.getStringWidth(displayString)) / 2f) - 5,
+							((sr.getScaledWidth() - totalWidth) / 2f) - 5,
 							sr.getScaledHeight() * 3f / 4F - 5f - y,
-							((sr.getScaledWidth() +  Fonts.apple18.getStringWidth(displayString)) / 2f) + 5,
-							sr.getScaledHeight() * 3f / 4F + Fonts.apple18.getHeight() + 5f - y,
+							((sr.getScaledWidth() + totalWidth) / 2f) + 5,
+							sr.getScaledHeight() * 3f / 4F + Fonts.sfRoundedBold18.getHeight() + 5f - y,
 							3, 0x80000000);
-					Fonts.apple18.drawStringWithShadow(displayString, (sr.getScaledWidth() - Fonts.apple18.getStringWidth(displayString)) / 2f, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
+
+					int xPosition = (int) ((sr.getScaledWidth() - totalWidth) / 2f);
+					Fonts.sfRoundedBold18.drawStringWithShadow(displayStackSize, xPosition, sr.getScaledHeight() * 3f / 4F - y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
+					Fonts.sfRoundedRegular18.drawStringWithShadow(displayBlocks, xPosition + stackSizeWidth, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
 				}
 			}
 		}
