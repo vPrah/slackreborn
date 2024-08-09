@@ -26,6 +26,8 @@ import cc.slack.utils.render.RenderUtil;
 import io.github.nevalackin.radbus.Listen;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.ScaledResolution;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.item.ItemStack;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -88,7 +90,7 @@ public class Interface extends Module {
 
 
 	// Scaffold HUD
-	private final BooleanValue scaffoldDraw = new BooleanValue("Scaffold Counter", true);
+	private final ModeValue<String> scaffoldDraw = new ModeValue<>("Scaffold Counter", new String[]{"Normal", "Render Block", "None"});
 
 	private final BooleanValue itemSpoofDraw = new BooleanValue("ItemSpoof indicator", true);
 
@@ -116,6 +118,8 @@ public class Interface extends Module {
 	private String displayString = " ";
 	private String displayStackSize = " ";
 	private String displayBlocks = " ";
+	private ItemStack blockItem = null;
+
 	private ArrayList<String> notText = new ArrayList<>();
 	private ArrayList<Long> notEnd = new ArrayList<>();
 	private ArrayList<Long> notStart = new ArrayList<>();
@@ -161,17 +165,59 @@ public class Interface extends Module {
 
 		}
 
-		if (scaffoldDraw.getValue()) {
+		switch (scaffoldDraw.getValue()) {
+			case "Normal":
+					if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
+						if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
+							int stackSize = mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack().stackSize;
+							displayString = stackSize + " block(s)";
+							displayStackSize = stackSize + " ";
+							displayBlocks = "block(s)";
+						} else {
+							displayString = "No blocks";
+							displayStackSize = "No";
+							displayBlocks = "blocks";
+						}
+						if (scaffoldTicks < 10)
+							scaffoldTicks++;
+					} else {
+						if (scaffoldTicks > 0)
+							scaffoldTicks--;
+					}
+
+					if (scaffoldTicks != 0) {
+						ScaledResolution sr = mc.getScaledResolution();
+						if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
+							int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
+							int stackSizeWidth = Fonts.sfRoundedBold18.getStringWidth(displayStackSize);
+							int blocksWidth = Fonts.sfRoundedRegular18.getStringWidth(displayBlocks);
+							int totalWidth = stackSizeWidth + blocksWidth;
+
+							RenderUtil.drawRoundedRect(
+									((sr.getScaledWidth() - totalWidth) / 2f) - 5,
+									sr.getScaledHeight() * 3f / 4F - 5f - y,
+									((sr.getScaledWidth() + totalWidth) / 2f) + 5,
+									sr.getScaledHeight() * 3f / 4F + Fonts.sfRoundedBold18.getHeight() + 5f - y,
+									3, 0x80000000);
+
+							int xPosition = (int) ((sr.getScaledWidth() - totalWidth) / 2f);
+							Fonts.sfRoundedBold18.drawStringWithShadow(displayStackSize, xPosition, sr.getScaledHeight() * 3f / 4F - y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
+							Fonts.apple18.drawStringWithShadow(displayBlocks, xPosition + stackSizeWidth, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
+						}
+					}
+				break;
+			case "Render Block":
 			if (Slack.getInstance().getModuleManager().getInstance(Scaffold.class).isToggle()) {
 				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
-					int stackSize = mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack().stackSize;
-					displayString = stackSize + " block(s)";
-					displayStackSize = stackSize + " ";
-					displayBlocks = "blocks";
+					ItemStack stack = mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack();
+					int stackSize = stack.stackSize;
+					displayStackSize = Integer.toString(stackSize);
+					displayBlocks = " block(s)";
+					blockItem = stack;
 				} else {
-					displayString = "No blocks";
 					displayStackSize = "No";
 					displayBlocks = "blocks";
+					blockItem = null;
 				}
 				if (scaffoldTicks < 10)
 					scaffoldTicks++;
@@ -182,24 +228,37 @@ public class Interface extends Module {
 
 			if (scaffoldTicks != 0) {
 				ScaledResolution sr = mc.getScaledResolution();
-				if (mc.thePlayer.inventoryContainer.getSlot(mc.thePlayer.inventory.currentItem + 36).getStack() != null) {
-					int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
-					int stackSizeWidth = Fonts.sfRoundedBold18.getStringWidth(displayStackSize);
-					int blocksWidth = Fonts.sfRoundedRegular18.getStringWidth(displayBlocks);
-					int totalWidth = stackSizeWidth + blocksWidth;
+				int y = (int) ((1 - Math.pow(1 - (scaffoldTicks / 10.0), 3)) * 20);
+				int xPosition = (int) ((sr.getScaledWidth() - (Fonts.sfRoundedBold18.getStringWidth(displayStackSize) + Fonts.sfRoundedBold18.getStringWidth(displayBlocks))) / 2f);
 
-					RenderUtil.drawRoundedRect(
-							((sr.getScaledWidth() - totalWidth) / 2f) - 5,
-							sr.getScaledHeight() * 3f / 4F - 5f - y,
-							((sr.getScaledWidth() + totalWidth) / 2f) + 5,
-							sr.getScaledHeight() * 3f / 4F + Fonts.sfRoundedBold18.getHeight() + 5f - y,
-							3, 0x80000000);
+				RenderUtil.drawRoundedRect(
+						xPosition - 5,
+						sr.getScaledHeight() * 3f / 4F - 5f - y,
+						xPosition + Fonts.sfRoundedBold18.getStringWidth(displayStackSize) + Fonts.sfRoundedBold18.getStringWidth(displayBlocks) + 5,
+						sr.getScaledHeight() * 3f / 4F + Fonts.sfRoundedBold18.getHeight() + 35f - y,
+						3, 0x80000000);
 
-					int xPosition = (int) ((sr.getScaledWidth() - totalWidth) / 2f);
-					Fonts.sfRoundedBold18.drawStringWithShadow(displayStackSize, xPosition, sr.getScaledHeight() * 3f / 4F - y, ColorUtil.getColor(Slack.getInstance().getModuleManager().getInstance(Interface.class).theme.getValue(), 0.15).getRGB());
-					Fonts.sfRoundedRegular18.drawStringWithShadow(displayBlocks, xPosition + stackSizeWidth, sr.getScaledHeight() * 3f / 4F - y, new Color(255,255,255).getRGB());
+
+				Fonts.sfRoundedBold18.drawStringWithShadow(displayStackSize, xPosition, sr.getScaledHeight() * 3f / 4F - y, ColorUtil.getColor(this.theme.getValue(), 0.15).getRGB());
+				Fonts.apple18.drawStringWithShadow(displayBlocks, xPosition + Fonts.sfRoundedBold18.getStringWidth(displayStackSize), sr.getScaledHeight() * 3f / 4F - y, new Color(255, 255, 255).getRGB());
+
+				if (blockItem != null) {
+					int imageX = xPosition + (Fonts.sfRoundedBold18.getStringWidth(displayStackSize) + Fonts.sfRoundedBold18.getStringWidth(displayBlocks) - 16) / 2;
+					int imageY = (int) (sr.getScaledHeight() * 3f / 4F + Fonts.sfRoundedBold18.getHeight() - y + 5);
+
+					GlStateManager.pushMatrix();
+					GlStateManager.translate(imageX - 3, imageY, 0);
+					GlStateManager.scale(1.5F, 1.5F, 1.5F);
+					GlStateManager.enableRescaleNormal();
+					GlStateManager.enableLighting();
+					mc.getRenderItem().renderItemAndEffectIntoGUI(blockItem, 0, 0);
+					GlStateManager.disableLighting();
+					GlStateManager.disableRescaleNormal();
+
+					GlStateManager.popMatrix();;
 				}
 			}
+			break;
 		}
 
 		if (notification.getValue()) {
