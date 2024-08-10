@@ -58,17 +58,18 @@ public class FireballFlight implements IFlight {
             if (!started && mc.thePlayer.onGround) {
                 PacketUtil.send(new C09PacketHeldItemChange(fireballSlot));
                 mc.thePlayer.jump();
-                MovementUtil.strafe(0.47f);
+                MovementUtil.strafe(0f);
                 started = true;
                 RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 180, Slack.getInstance().getModuleManager().getInstance(Flight.class).fbpitch.getValue()}, 2);
 
             } else if (started) {
-                BlinkUtil.enable(false, true);
                 PacketUtil.sendNoEvent(new C08PacketPlayerBlockPlacement(InventoryUtil.getSlot(fireballSlot).getStack()));
                 sent = true;
             }
         } else {
             if (!reset) {
+                RotationUtil.setClientRotation(new float[]{mc.thePlayer.rotationYaw + 80, Slack.getInstance().getModuleManager().getInstance(Flight.class).fbpitch.getValue()}, 2);
+
                 PacketUtil.send(new C09PacketHeldItemChange(mc.thePlayer.inventory.currentItem));
                 reset = true;
             }

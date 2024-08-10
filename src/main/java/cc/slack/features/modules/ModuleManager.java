@@ -26,150 +26,141 @@ public class ModuleManager {
     public void initialize() {
         try {
             addModules(
-                    // DEV
-                    //new UniversalFont(),
-
-
-
-                    new ClientSpoofer(), // Dont remove
-                    new AutoRod(), // Recoded// new CustomESP(), // Need Recode
-                    new FreeLook(), // Need Recode
-
-
                     // Combat
-                    new KillAura(),
-                    new Velocity(), // Recoded
+                    new AntiFireball(),
+                    new Criticals(),
                     new Hitbox(),
-                    new Criticals(), // Recoded
-                    new AntiFireball(), // Made by dg636
+                    new KillAura(),
                     new TickBase(),
+                    new Velocity(),
+
+                    // Exploit
+                    new ChatBypass(),
+                    new ClientSpoofer(),
+                    new Disabler(),
+                    new FastBow(),
+                    new MultiAction(),
+                    new Phase(),
+                    new PingSpoof(),
+                    new RageQuit(),
+                    new Regen(),
+
+                    // Ghost
+                    new AimAssist(),
+                    new AutoTool(),
+                    new Autoclicker(),
+                    new Backtrack(),
+                    new JumpReset(),
+                    new KeepSprint(),
+                    new LegitNofall(),
+                    new LegitScaffold(),
+                    new PearlAntiVoid(),
+                    new Reach(),
+                    new RealLag(),
+                    new SilentHitbox(),
+                    new Wtap(),
 
                     // Movement
                     new Flight(),
-                    new Speed(),
-                    new NoSlow(),
-                    new SafeWalk(),
+                    new Glide(),
                     new InvMove(),
-                    new LongJump(), // Recoded
-                    new Step(), // Recoded
-                    new Sprint(),
-                    new Strafe(),
-                    new Glide(), // Recoded
-                    new Jesus(), // Recoded
+                    new Jesus(),
+                    new LongJump(),
+                    new NoSlow(),
+                    new NoWeb(),
+                    new SafeWalk(),
+                    new Speed(),
                     new Spider(),
+                    new Sprint(),
+                    new Step(),
+                    new Strafe(),
                     new TargetStrafe(),
-                    new NoWeb(), // Recoded
-                    new VClip(), // Recoded
+                    new VClip(),
 
                     // Other
                     new AntiBot(),
+                    new FakePlayer(),
+                    new Killsults(),
                     new Performance(),
                     new RemoveEffect(),
                     new RichPresence(),
-                    new Warns(), // Recoded
-                    new FakePlayer(), // Recoded
-                    new Killsults(),
                     new Targets(),
+                    new Test(), // dev test shit
                     new Tweaks(),
+                    new Warns(),
 
                     // Player
-                    new AntiVoid(), // Recoded
-                    new NoFall(),
+                    new AntiVoid(),
                     new Blink(),
                     new FastEat(),
-                    new FreeLook(),
                     new FreeCam(),
+                    new FreeLook(),
                     new MCF(),
+                    new NoFall(),
                     new TimerModule(),
 
-                    // World
-                    new Scaffold(),
-                    new Breaker(),
-                    new Stealer(),
-                    new InvManager(),
-                    new ChestAura(), // Recoded
-                    new SpeedMine(),
-                    new FastPlace(),
-
-                    // Exploit
-                    new Disabler(),
-                    new Regen(),
-                    new FastBow(),
-                    new Phase(), // Recoded
-                    new PingSpoof(),
-                    new ChatBypass(),
-                    new RageQuit(),
-                    new MultiAction(),
-
                     // Render
-                    new Interface(),
-                    new ESP(),
-                    new BasicESP(), // Recoded
-                    new BedESP(), // Recoded
-                    new ClickGUI(),
-                    new NameTags(), // Recoded
+                    new Ambience(),
                     new Animations(),
-                    new TargetHUD(),
-                    new KeyStrokes(), // Recoded
-                    new Radar(), // Recoded
-                    new Ambience(), // Recoded
+                    new BasicESP(),
+                    new BedESP(),
                     new BlockOverlay(),
+                    new Bobbing(),
+                    new Camera(),
                     new Cape(),
+                    new Chams(),
                     new ChinaHat(),
-                    new Cosmetics(), // Recoded
-                    new Chams(), // Recoded
-                    new ChestESP(), // Recoded
-                    new Camera(), // Recoded
-                    new ItemPhysics(), // Recoded
-                    new Bobbing(), // Recoded
-                    new Tracers(), // Recoded
-                    new Projectiles(), // Recoded
-                    new PointerESP(), // Recoded
-                    new ScoreboardModule(),
-                    new SessionInfo(), // Recoded
-                    new Zoom(), // Recoded
-                    new XRay(),
-                    new BPSCounter(),
+                    new ClickGUI(),
+                    new Cosmetics(),
+                    new ChestESP(),
+                    new ESP(),
                     new FPSCounter(),
+                    new ItemPhysics(),
+                    new NameTags(),
+                    new PointerESP(),
+                    new Projectiles(),
+                    new Radar(),
+                    new ScoreboardModule(),
+                    new SessionInfo(),
+                    new TargetHUD(),
+                    new Tracers(),
+                    new XRay(),
+                    new Zoom(),
                     new XYZCounter(),
-
-                    // Ghost
-                    new SilentHitbox(),
-                    new AimAssist(),
-                    new Autoclicker(),
-                    new Reach(),
-                    new LegitScaffold(),
-                    new JumpReset(),
-                    new Wtap(),
-                    new AutoTool(),
-                    new Backtrack(),
-                    new KeepSprint(),
-                    new RealLag(),
-                    new LegitNofall(),
-                    new PearlAntiVoid(),
+                    new KeyStrokes(),
+                    new BPSCounter(),
 
                     // Utilities
+                    new AutoCrafter(),
                     new AutoDisable(),
                     new AutoGapple(),
-                    new AutoGG(), // Recoded
+                    new AutoGG(),
+                    new AutoLogin(),
                     new AutoPlay(),
-                    new AutoRespawn(),
-                    new AutoLogin(), // Recoded
                     new AutoPot(),
+                    new AutoRespawn(),
+                    new AutoRod(),// new CustomESP(), // Need Recode
                     new AutoSword(),
+                    new AntiHarm(),
                     new AntiStaff(),
-                    new AntiHarm(), // Recoded
-                    new AutoCrafter(),
-                    new NameProtect(), // Recoded
-                    new TNTHelper(), // Recoded
-                    new LagbackChecker()
+                    new LagbackChecker(),
+                    new NameProtect(),
+                    new TNTHelper(),
 
+                    // World
+                    new Breaker(),
+                    new ChestAura(),
+                    new FastPlace(),
+                    new InvManager(),
+                    new Scaffold(),
+                    new SpeedMine(),
+                    new Stealer()
             );
-            
-    		for(Module m : modules.values()) {
-    			draggable.put(m.getClass(), m);
-    		}
-    		
+
+            for(Module m : modules.values()) {
+                draggable.put(m.getClass(), m);
+            }
+
         } catch (Exception e) {
             // Shut Up Exception
         }
@@ -178,9 +169,9 @@ public class ModuleManager {
     public List<Module> getModules() {
         return new ArrayList<>(modules.values());
     }
-    
+
     public List<Module> getDraggable() {
-    	return new ArrayList<>(draggable.values());
+        return new ArrayList<>(draggable.values());
     }
 
     public <T extends Module> T getInstance(Class<T> clazz) {
