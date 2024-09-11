@@ -1,5 +1,5 @@
-# SlackMain
-Main SRC for SlackClient
+# Slack Reborn
+Main SRC for SlackClient Reborn
 
 ## DO NOT LEAK
 
@@ -7,11 +7,6 @@ Main SRC for SlackClient
 Format: Name (DiscordID - GithubAccount)
 
 ### vPrah (vprah - https://github.com/vPrah)
-### Dg636 (dg636 - https://github.com/C00LC0D35)
-### David (david1196 - https://github.com/DavidDavid1337)
-### shxp3 (\_shxp3brabra\_ - https://github.com/shxp3)
-### Zywl (opZywl - https://github.com/opZywl)
-### Kirelia (Kirelia - https://github.com/nerek23)
 
 # Discord server:
 dm
